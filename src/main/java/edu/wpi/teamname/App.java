@@ -36,6 +36,9 @@ public class App extends Application {
     return primaryStage;
   }
 
+  public static void setPrimaryStage(Stage newPrimaryStage) {
+    primaryStage = newPrimaryStage;
+  }
 
   @Override
   public void stop() {
