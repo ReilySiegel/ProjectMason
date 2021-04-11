@@ -18,11 +18,11 @@ public class App extends Application {
 
   @Override
   public void init() {
-    pagePaths.put(Pages.MEDICINE, "/edu/wpi/teamname/fxml/SR03_MedicinePage.fxml");
-    pagePaths.put(Pages.NODE, "/edu/wpi/teamname/fxml/NodePage.fxml");
-    pagePaths.put(Pages.EDGE, "/edu/wpi/teamname/fxml/EdgePage.fxml");
-    pagePaths.put(Pages.PATHFINDING, "/edu/wpi/teamname/fxml/PathfindingPage.fxml");
-    pagePaths.put(Pages.MAIN, "/edu/wpi/teamname/fxml/MainPage.fxml");
+    pagePaths.put(Pages.MEDICINE, "/edu/wpi/teamo/fxml/SR07_Medicine.fxml");
+    pagePaths.put(Pages.NODE, "/edu/wpi/teamo/fxml/NodePage.fxml");
+    pagePaths.put(Pages.EDGE, "/edu/wpi/teamo/fxml/EdgePage.fxml");
+    pagePaths.put(Pages.PATHFINDING, "/edu/wpi/teamo/fxml/PathfindingPage.fxml");
+    pagePaths.put(Pages.MAIN, "/edu/wpi/teamno/fxml/MainPage.fxml");
     System.out.println("Starting Up");
   }
 
@@ -46,6 +46,16 @@ public class App extends Application {
 
   public static void setPrimaryStage(Stage newPrimaryStage) {
     primaryStage = newPrimaryStage;
+  }
+
+  public static void switchPage(Pages page) {
+    String pagePath = pagePaths.get(page);
+    try {
+      Parent root = FXMLLoader.load(App.class.getResource(pagePath));
+      App.getPrimaryStage().getScene().setRoot(root);
+    } catch (IOException ex) {
+      ex.printStackTrace();
+    }
   }
 
   @Override

@@ -4,10 +4,11 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.MainPage">
    <top>
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Main Page" BorderPane.alignment="CENTER">
          <font>
@@ -18,9 +19,6 @@
          </BorderPane.margin>
       </Text>
    </top>
-   <center>
-      <JFXButton buttonType="RAISED" style="-fx-background-color: #808080;" text="Medicine" BorderPane.alignment="CENTER" />
-   </center>
    <bottom>
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
@@ -35,4 +33,42 @@
          </BorderPane.margin>
       </HBox>
    </bottom>
+   <center>
+      <VBox alignment="CENTER" prefHeight="226.0" prefWidth="188.0" BorderPane.alignment="CENTER">
+         <children>
+            <JFXButton minHeight="20.0" minWidth="125.0" onAction="#handleMedicine" style="-fx-background-color: #f44336;" text="Medicine" textFill="WHITE">
+               <VBox.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXButton>
+            <JFXButton minHeight="20.0" minWidth="125.0" onAction="#handleNode" style="-fx-background-color: #008CBA;" text="Node" textFill="WHITE">
+               <VBox.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXButton>
+            <JFXButton minHeight="20.0" minWidth="125.0" onAction="#handleEdge" style="-fx-background-color: #4CAF50;" text="Edge" textFill="WHITE">
+               <VBox.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXButton>
+            <JFXButton minHeight="20.0" minWidth="125.0" onAction="#handlePathfinding" style="-fx-background-color: #ff9900;" text="Pathfinding" textFill="WHITE">
+               <VBox.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </JFXButton>
+         </children>
+      </VBox>
+   </center>
 </BorderPane>
