@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Font?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
   prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141"
-  xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamname.views.Scene2">
+  xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.Scene2">
   <children>
     <Label layoutX="142.0" layoutY="141.0" text="Scene 2">
       <font>
