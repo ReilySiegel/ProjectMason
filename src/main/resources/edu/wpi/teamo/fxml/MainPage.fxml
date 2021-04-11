@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -20,4 +21,18 @@
    <center>
       <JFXButton buttonType="RAISED" style="-fx-background-color: #808080;" text="Medicine" BorderPane.alignment="CENTER" />
    </center>
+   <bottom>
+      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <JFXButton buttonType="RAISED" prefHeight="16.0" prefWidth="80.0" style="-fx-background-color: #000080;" text="Help" textFill="WHITE">
+               <HBox.margin>
+                  <Insets left="30.0" top="50.0" />
+               </HBox.margin>
+            </JFXButton>
+         </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+      </HBox>
+   </bottom>
 </BorderPane>
