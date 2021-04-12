@@ -1,5 +1,6 @@
 package edu.wpi.teamo.map.database;
 
+import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.stream.Stream;
@@ -9,7 +10,7 @@ public class MapDB implements IMapService {
     HashMap<String, Node> nodes;
     HashMap<String, Edge> edges;
 
-    public MapDB(String nodeCSVFilepath, String edgeCSVFilepath) {
+    public MapDB(String nodeCSVFilepath, String edgeCSVFilepath) throws FileNotFoundException {
 
         /* read csv files into hashmaps */
         nodes = NodeCSV.read(nodeCSVFilepath);
