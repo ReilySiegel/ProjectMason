@@ -21,28 +21,51 @@
       </Text>
    </top>
    <center>
-      <VBox prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #d4d4d4; -fx-border-radius: 300px;" styleClass="mainbox" BorderPane.alignment="CENTER">
+      <VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="500.0" style="-fx-background-color: #d4d4d4; -fx-border-radius: 300px;" styleClass="mainbox" BorderPane.alignment="CENTER">
          <children>
-            <HBox alignment="CENTER" prefHeight="44.0" prefWidth="580.0">
+            <HBox alignment="CENTER_LEFT" prefHeight="44.0" prefWidth="580.0">
                <children>
-                  <VBox alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="44.0" />
-                  <JFXTextField prefHeight="25.0" prefWidth="389.0" promptText="Medicine" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Medicine:">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="15.0" />
+                     </HBox.margin>
+                  </Text>
+                  <JFXTextField prefHeight="25.0" prefWidth="389.0" promptText="Name of Medicine" />
                </children>
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="44.0" prefWidth="580.0">
+            <HBox alignment="CENTER_LEFT" prefHeight="44.0" prefWidth="580.0">
                <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Room:">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="40.0" />
+                     </HBox.margin>
+                  </Text>
                   <JFXTextField prefHeight="25.0" prefWidth="389.0" promptText="Room #" />
                </children>
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="44.0" prefWidth="580.0">
+            <HBox alignment="CENTER_LEFT" prefHeight="44.0" prefWidth="580.0">
                <children>
-                  <JFXTextField prefHeight="25.0" prefWidth="389.0" promptText="Name" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name:">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="40.0" />
+                     </HBox.margin>
+                  </Text>
+                  <JFXTextField prefHeight="25.0" prefWidth="389.0" promptText="Your Name" />
                </children>
             </HBox>
          </children>
@@ -68,7 +91,7 @@
                   <Insets right="20.0" />
                </HBox.margin>
             </JFXButton>
-            <JFXButton style="-fx-background-color: #29c453;" text="Submit" textFill="WHITE">
+            <JFXButton style="-fx-background-color: #2dc857;" text="Submit" textFill="WHITE">
                <font>
                   <Font size="24.0" />
                </font>
