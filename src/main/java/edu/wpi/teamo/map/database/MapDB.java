@@ -1,13 +1,10 @@
 package edu.wpi.teamo.map.database;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.stream.Stream;
 
-public class MapDB implements MapStorage {
+public class MapDB implements IMapService {
     Database db;
     HashMap<String, Node> nodes;
     HashMap<String, Edge> edges;

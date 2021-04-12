@@ -2,7 +2,7 @@ package edu.wpi.teamo.map.database;
 
 import java.util.stream.Stream;
 
-public interface MapStorage {
+public interface IMapService {
 
     /* the getters */
     Stream<NodeInfo> getAllNodes();
