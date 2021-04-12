@@ -31,7 +31,7 @@ public class Edge implements EdgeInfo {
                     + "endNode varchar(255))"
             );
         } catch (SQLException e) {
-            System.out.println("ERROR - COULD NOT INIT NODE TABLE");
+            System.out.println("ERROR - COULD NOT INIT EDGE TABLE");
             e.printStackTrace();
             initialized = false;
         }
