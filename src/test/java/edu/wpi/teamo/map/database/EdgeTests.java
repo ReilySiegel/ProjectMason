@@ -20,9 +20,31 @@ public class EdgeTests {
 
     @Test
     public void testGetByID() {
-        boolean pass = true;
-        //TODO: Finish
-        assertTrue(pass);
+        String startNodeID = "testStartNodeID";
+        String endNodeID = "testEndNodeID";
+        String edgeID = "testID";
+
+        try {
+            Database db = new Database();
+            Edge.initTable(db);
+
+            /* store an edge */
+            Edge edgeToStore = new Edge(edgeID, startNodeID, endNodeID);
+            edgeToStore.update(db);
+
+            /* fetch it */
+            Edge fetchedEdge = Edge.getByID(db, edgeID);
+
+            /* check if its the same */
+            assertEquals(startNodeID, fetchedEdge.getStartNodeID());
+            assertEquals(endNodeID, fetchedEdge.getEndNodeID());
+            assertEquals(edgeID, fetchedEdge.getEdgeID());
+
+            db.close();
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+
     }
 
     @Test
