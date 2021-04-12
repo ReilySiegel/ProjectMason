@@ -22,7 +22,7 @@ public class App extends Application {
     pagePaths.put(Pages.NODE, "/edu/wpi/teamo/fxml/NodePage.fxml");
     pagePaths.put(Pages.EDGE, "/edu/wpi/teamo/fxml/EdgePage.fxml");
     pagePaths.put(Pages.PATHFINDING, "/edu/wpi/teamo/fxml/PathfindingPage.fxml");
-    pagePaths.put(Pages.MAIN, "/edu/wpi/teamno/fxml/MainPage.fxml");
+    pagePaths.put(Pages.MAIN, "/edu/wpi/teamo/fxml/MainPage.fxml");
     System.out.println("Starting Up");
   }
 

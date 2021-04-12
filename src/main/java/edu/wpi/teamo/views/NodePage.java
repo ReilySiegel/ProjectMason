@@ -11,4 +11,13 @@ import javafx.scene.Parent;
 
 public class NodePage {
 
+
+    /**
+     * event hanlder for switching to main page
+     * @param e Action Event parameter
+     */
+    @FXML
+    private void goToMain(ActionEvent e) {
+        App.switchPage(Pages.MAIN);
+    }
 }
