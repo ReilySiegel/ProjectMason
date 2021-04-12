@@ -33,7 +33,7 @@ public class Node implements NodeInfo {
      * @param db The database to create the table in.
      * @return True if the table was created successfully.
      */
-    public static boolean initNodeTable(Database db) {
+    public static boolean initTable(Database db) {
         boolean initialized = true;
         try {
             db.processUpdate("CREATE TABLE Node ("
