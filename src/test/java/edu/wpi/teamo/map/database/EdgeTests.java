@@ -11,6 +11,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class EdgeTests {
 
+    private static String generateURIFromName(String name) {
+        return "jdbc:derby:memory:" + name + ";create=true";
+    }
+
     @Test
     public void testInitTable() {
         boolean pass = true;
@@ -25,7 +29,7 @@ public class EdgeTests {
         String edgeID = "testID";
 
         try {
-            Database db = new Database();
+            Database db = new Database(generateURIFromName("GetEdgeByID"));
             Edge.initTable(db);
 
             /* store an edge */
@@ -54,7 +58,7 @@ public class EdgeTests {
         String edge3ID = "testIDTre";
 
         try {
-            Database db = new Database();
+            Database db = new Database(generateURIFromName("GetAllEdges"));
             Edge.initTable(db);
 
             /* store three edges */
@@ -97,7 +101,7 @@ public class EdgeTests {
         String edgeID = "testID";
 
         try {
-            Database db = new Database();
+            Database db = new Database(generateURIFromName("UpdateEdge"));
             Edge.initTable(db);
 
             /* store an edge */
