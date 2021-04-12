@@ -11,4 +11,9 @@ import javafx.scene.Parent;
 
 public class SR07_Medicine {
 
+    @FXML
+    private void backToMain(ActionEvent e) {
+        App.switchPage(Pages.MAIN);
+    }
+
 }

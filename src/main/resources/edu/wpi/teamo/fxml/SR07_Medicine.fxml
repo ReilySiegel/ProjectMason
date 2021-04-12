@@ -1,14 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="edu.wpi.teamo.views.SR07_Medicine"
-            prefHeight="400.0" prefWidth="600.0">
-
-</AnchorPane>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.SR07_Medicine">
+   <top>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Medicine" BorderPane.alignment="CENTER">
+         <font>
+            <Font name="Arial" size="36.0" />
+         </font>
+         <BorderPane.margin>
+            <Insets bottom="10.0" />
+         </BorderPane.margin>
+      </Text>
+   </top>
+   <center>
+      <VBox prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #d4d4d4; -fx-border-radius: 300px;" styleClass="mainbox" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER" prefHeight="44.0" prefWidth="580.0">
+               <children>
+                  <VBox alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="44.0" />
+                  <JFXTextField prefHeight="25.0" prefWidth="389.0" promptText="Medicine" />
+               </children>
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="44.0" prefWidth="580.0">
+               <children>
+                  <JFXTextField prefHeight="25.0" prefWidth="389.0" promptText="Room #" />
+               </children>
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="44.0" prefWidth="580.0">
+               <children>
+                  <JFXTextField prefHeight="25.0" prefWidth="389.0" promptText="Name" />
+               </children>
+            </HBox>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="20.0" />
+         </padding>
+         <BorderPane.margin>
+            <Insets bottom="20.0" left="30.0" right="30.0" />
+         </BorderPane.margin>
+      </VBox>
+   </center>
+   <padding>
+      <Insets top="10.0" />
+   </padding>
+   <bottom>
+      <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #bbbbbb;" BorderPane.alignment="CENTER">
+         <children>
+            <JFXButton onAction="#backToMain" style="-fx-background-color: #c42b2b;" text="Cancel" textFill="WHITE">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <HBox.margin>
+                  <Insets right="20.0" />
+               </HBox.margin>
+            </JFXButton>
+            <JFXButton style="-fx-background-color: #29c453;" text="Submit" textFill="WHITE">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </JFXButton>
+         </children>
+         <padding>
+            <Insets right="20.0" />
+         </padding>
+      </HBox>
+   </bottom>
+</BorderPane>
