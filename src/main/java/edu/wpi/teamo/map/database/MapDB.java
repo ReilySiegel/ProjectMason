@@ -14,7 +14,7 @@ public class MapDB implements MapStorage {
 
     public MapDB(String nodeCSVFilepath, String edgeCSVFilepath) {
 
-        /* initialize hash maps */
+        /* read csv files into hashmaps */
         nodes = NodeCSV.read(nodeCSVFilepath);
         edges = EdgeCSV.read(edgeCSVFilepath);
 
@@ -133,6 +133,18 @@ public class MapDB implements MapStorage {
             wasUpdated = false;
         }
         return wasUpdated;
+    }
+
+    @Override
+    public Stream<NodeInfo> getAllNodes() {
+        //TODO: Finish
+        return null;
+    }
+
+    @Override
+    public Stream<EdgeInfo> getAllEdges() {
+        //TODO: Finish
+        return null;
     }
 
     public NodeInfo getNode(String id) {

@@ -1,8 +1,12 @@
 package edu.wpi.teamo.map.database;
 
+import java.util.stream.Stream;
+
 public interface MapStorage {
 
     /* the getters */
+    Stream<NodeInfo> getAllNodes();
+    Stream<EdgeInfo> getAllEdges();
     NodeInfo getNode(String id);
     EdgeInfo getEdge(String id);
 
