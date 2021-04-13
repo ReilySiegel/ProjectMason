@@ -166,4 +166,33 @@ public class NodeTests {
             fail(e.getMessage());
         }
     }
+
+    @Test
+    public void testDelete() {
+
+        String nodeID = "nodeID1";
+
+        try {
+            Database db = new Database(generateURIFromName("DeleteNode"));
+            Node.initTable(db);
+
+            /* store an node */
+            Node nodeToStore = new Node(nodeID, 1, 1, "xd", "xd", "xd", "initialName", "xd");
+            nodeToStore.update(db);
+
+            /* fetch it */
+            Node nodeToModify = Node.getByID(db, nodeID);
+
+            /* delete it */
+            nodeToModify.delete(db);
+
+            /* Check that node no longer exists */
+            assertThrows(SQLException.class, () -> Node.getByID(db, nodeID));
+
+            db.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail(e.getMessage());
+        }
+    }
 }

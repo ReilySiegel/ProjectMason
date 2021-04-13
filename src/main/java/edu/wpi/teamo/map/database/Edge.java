@@ -96,6 +96,11 @@ public class Edge implements EdgeInfo {
         }
     }
 
+    public void delete(Database db) throws SQLException {
+        db.processUpdate(String.format("DELETE FROM Edge WHERE edgeID = '%s'",
+                                       this.edgeID));
+    }
+
     @Override
     public String getStartNodeID() {
         return startNodeID;

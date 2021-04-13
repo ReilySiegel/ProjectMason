@@ -135,51 +135,66 @@ public class MapDB implements IMapService {
 
     @Override
     public Stream<NodeInfo> getAllNodes() {
-        //TODO: Finish
-        return null;
+        return nodes.values().stream().map((Node n) -> (NodeInfo) n);
     }
 
     @Override
     public Stream<EdgeInfo> getAllEdges() {
-        //TODO: Finish
-        return null;
+        return edges.values().stream().map((Edge e) -> (EdgeInfo) e);
     }
 
     public NodeInfo getNode(String id) {
-        NodeInfo nodeInfo = null;
-        //TODO: Finish
+        NodeInfo nodeInfo = nodes.get(id);
         return nodeInfo;
     }
 
     public EdgeInfo getEdge(String id) {
-        EdgeInfo edgeInfo = null;
-        //TODO: Finsh
+        EdgeInfo edgeInfo = edges.get(id);
         return edgeInfo;
     }
 
     public boolean addNode(String nodeID, int xPos, int yPos, String floor,
                            String building, String nodeType, String longName, String shortName) {
-        boolean added = true;
-        //TODO: Finsh
-        return added;
+
+        Node n = new Node (nodeID, xPos, yPos, floor, building, nodeType, longName, shortName);
+        try {
+            n.update(db);
+            nodes.put(nodeID, n);
+            return true;
+        } catch (SQLException ex) {
+            return false;
+        }
     }
 
     public boolean addEdge(String edgeID, String startNodeID,  String endNodeID) {
-        boolean added = true;
-        //TODO: Finsh
-        return added;
+        Edge e = new Edge(edgeID, startNodeID, endNodeID);
+        try {
+            e.update(db);
+            edges.put(edgeID, e);
+            return true;
+        } catch (SQLException ex) {
+            return false;
+        }
     }
 
     public boolean deleteNode(String id) {
-        boolean deleted = true;
-        //TODO: Finish
-        return deleted;
+        try {
+            nodes.get(id).delete(db);
+            nodes.remove(id);
+            return true;
+        } catch (SQLException ex) {
+            return false;
+        }
     }
 
     public boolean deleteEdge(String id) {
-        boolean deleted = true;
-        //TODO: Finish
-        return deleted;
+        try {
+            edges.get(id).delete(db);
+            edges.remove(id);
+            return true;
+        } catch (SQLException ex) {
+            return false;
+        }
     }
 
 }

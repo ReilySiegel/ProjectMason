@@ -140,6 +140,30 @@ public class Node implements NodeInfo {
         }
     }
 
+    public void delete(Database db) throws SQLException {
+        db.processUpdate(String.format("DELETE FROM Node WHERE nodeID = '%s'", this.nodeID));
+    }
+
+    // TODO: Fix the update method's error detection so the set function is not needed
+    //had to add this because the try catch above was not working
+    public void set(Database db) throws SQLException {
+
+        db.processUpdate("UPDATE Node SET " +
+                String.format("nodeID = '%s', xcoord = %s, ycoord = %s, floor = '%s', " +
+                                "building = '%s', nodeType = '%s', longName = '%s', " +
+                                "shortName = '%s' ",
+                        this.nodeID,
+                        this.xPos,
+                        this.yPos,
+                        this.floor,
+                        this.building,
+                        this.nodeType,
+                        this.longName,
+                        this.shortName)
+                + "WHERE Node.nodeID = '" + this.nodeID+ "'");
+
+    }
+
     /**
      * This function updates x and y coordinate of a node object
      *
@@ -215,4 +239,3 @@ public class Node implements NodeInfo {
         this.shortName = shortName;
     }
 }
-

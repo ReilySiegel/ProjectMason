@@ -156,4 +156,33 @@ public class EdgeTests {
         }
 
     }
+
+    @Test
+    public void testDelete() {
+
+        String edgeID = "edgeID1";
+
+        try {
+            Database db = new Database(generateURIFromName("Deleteedge"));
+            Edge.initTable(db);
+
+            /* store an edge */
+            Edge edgeToStore = new Edge(edgeID, "Test", "test");
+            edgeToStore.update(db);
+
+            /* fetch it */
+            Edge edgeToModify = Edge.getByID(db, edgeID);
+
+            /* delete it */
+            edgeToModify.delete(db);
+
+            /* Check that edge no longer exists */
+            assertThrows(SQLException.class, () -> Edge.getByID(db, edgeID));
+
+            db.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail(e.getMessage());
+        }
+    }
 }
