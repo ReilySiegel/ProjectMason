@@ -49,7 +49,7 @@
                         <Insets left="11.0" top="3.0" />
                      </VBox.margin>
                   </Label>
-                  <JFXTextField promptText="Node Name" style="-fx-background-color: #B5BCBA;">
+                  <JFXTextField fx:id="addNodeID" promptText="Node Name" style="-fx-background-color: #B5BCBA;">
                      <font>
                         <Font size="12.0" />
                      </font>
@@ -59,7 +59,7 @@
                   </JFXTextField>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <JFXTextField promptText="Node X" style="-fx-background-color: #B5BCBA;">
+                        <JFXTextField fx:id="addNodeX" promptText="Node X" style="-fx-background-color: #B5BCBA;">
                            <font>
                               <Font size="12.0" />
                            </font>
@@ -67,7 +67,7 @@
                               <Insets right="5.0" />
                            </HBox.margin>
                         </JFXTextField>
-                        <JFXTextField promptText="Node Y" style="-fx-background-color: #B5BCBA;">
+                        <JFXTextField fx:id="addNodeY" promptText="Node Y" style="-fx-background-color: #B5BCBA;">
                            <font>
                               <Font size="12.0" />
                            </font>
@@ -77,7 +77,7 @@
                         <Insets left="10.0" right="10.0" />
                      </VBox.margin>
                   </HBox>
-                  <JFXButton buttonType="RAISED" style="-fx-background-color: #327ffa;" text="Confirm">
+                  <JFXButton fx:id="addSubmit" buttonType="RAISED" onAction="#handleAddSubmit" style="-fx-background-color: #327ffa;" text="Confirm">
                      <VBox.margin>
                         <Insets bottom="3.0" left="70.0" top="5.0" />
                      </VBox.margin>
@@ -94,7 +94,7 @@
                         <Insets left="11.0" top="3.0" />
                      </VBox.margin>
                   </Label>
-                  <JFXTextField style="-fx-background-color: #B5BCBA;" text="Original Node Name">
+                  <JFXTextField fx:id="origNodeID" editable="false" style="-fx-background-color: #B5BCBA;" text="Original Node Name">
                      <font>
                         <Font size="12.0" />
                      </font>
@@ -104,7 +104,7 @@
                   </JFXTextField>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <JFXTextField promptText="Original X" style="-fx-background-color: #B5BCBA;">
+                        <JFXTextField fx:id="origNodeX" editable="false" promptText="Original X" style="-fx-background-color: #B5BCBA;">
                            <font>
                               <Font size="12.0" />
                            </font>
@@ -112,7 +112,7 @@
                               <Insets right="5.0" />
                            </HBox.margin>
                         </JFXTextField>
-                        <JFXTextField promptText="Original Y" style="-fx-background-color: #B5BCBA;">
+                        <JFXTextField fx:id="origNodeY" editable="false" promptText="Original Y" style="-fx-background-color: #B5BCBA;">
                            <font>
                               <Font size="12.0" />
                            </font>
@@ -122,7 +122,7 @@
                         <Insets left="10.0" right="10.0" />
                      </VBox.margin>
                   </HBox>
-                  <JFXTextField promptText="New Node Name" style="-fx-background-color: #B5BCBA;">
+                  <JFXTextField fx:id="editNodeID" promptText="New Node Name" style="-fx-background-color: #B5BCBA;">
                      <font>
                         <Font size="12.0" />
                      </font>
@@ -132,7 +132,7 @@
                   </JFXTextField>
                   <HBox layoutX="20.0" layoutY="65.0" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <JFXTextField promptText="New X" style="-fx-background-color: #B5BCBA;">
+                        <JFXTextField fx:id="editNodeX" promptText="New X" style="-fx-background-color: #B5BCBA;">
                            <font>
                               <Font size="12.0" />
                            </font>
@@ -140,7 +140,7 @@
                               <Insets right="5.0" />
                            </HBox.margin>
                         </JFXTextField>
-                        <JFXTextField promptText="New Y" style="-fx-background-color: #B5BCBA;">
+                        <JFXTextField fx:id="editNodeY" promptText="New Y" style="-fx-background-color: #B5BCBA;">
                            <font>
                               <Font size="12.0" />
                            </font>
@@ -150,7 +150,7 @@
                         <Insets left="10.0" right="10.0" />
                      </VBox.margin>
                   </HBox>
-                  <JFXButton buttonType="RAISED" style="-fx-background-color: #327ffa;" text="Confirm">
+                  <JFXButton buttonType="RAISED" onAction="#handleEditSubmit" style="-fx-background-color: #327ffa;" text="Confirm">
                      <font>
                         <Font size="13.0" />
                      </font>
@@ -170,7 +170,7 @@
                         <Insets left="11.0" top="3.0" />
                      </VBox.margin>
                   </Label>
-                  <JFXTextField promptText="Node Name" style="-fx-background-color: #B5BCBA;">
+                  <JFXTextField fx:id="deleteNodeID" promptText="Node Name" style="-fx-background-color: #B5BCBA;">
                      <font>
                         <Font size="12.0" />
                      </font>
@@ -183,7 +183,7 @@
                         <Insets left="10.0" right="10.0" />
                      </VBox.margin>
                   </HBox>
-                  <JFXButton buttonType="RAISED" style="-fx-background-color: #327ffa;" text="Confirm">
+                  <JFXButton fx:id="deleteSubmit" buttonType="RAISED" onAction="#handleDeleteSubmit" style="-fx-background-color: #327ffa;" text="Confirm">
                      <VBox.margin>
                         <Insets bottom="3.0" left="70.0" top="5.0" />
                      </VBox.margin>
