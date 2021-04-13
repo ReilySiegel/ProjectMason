@@ -1,7 +1,8 @@
 package edu.wpi.teamo.map.database;
 
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+import java.sql.SQLException;
 
 public class NodeTests {
 
@@ -11,9 +12,35 @@ public class NodeTests {
 
     @Test
     public void testInitTable() {
-        boolean pass = true;
-        //TODO: Finish
-        assertTrue(pass);
+        Database db = null;
+
+        /* init database */
+        try {
+            db = new Database(generateURIFromName("InitNodeTable"));
+        } catch (SQLException | ClassNotFoundException e) {
+            fail(e.getMessage());
+        }
+
+        /* init node table */
+        try {
+            Node.initTable(db);
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+
+        /* verify table exists */
+        try {
+            Node.getAll(db);
+        } catch (SQLException e) {
+            fail(e.getMessage());
+        }
+
+        /* close db */
+        try {
+            db.close();
+        } catch (SQLException e) {
+            fail(e.getMessage());
+        }
     }
 
     @Test
