@@ -1,13 +1,12 @@
 package edu.wpi.teamo.map.database;
 
+import static org.junit.jupiter.api.Assertions.*;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
-
+import java.util.stream.Stream;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class EdgeTests {
 
@@ -17,9 +16,35 @@ public class EdgeTests {
 
     @Test
     public void testInitTable() {
-        boolean pass = true;
-        //TODO: Finish
-        assertTrue(pass);
+        Database db = null;
+
+        /* init database */
+        try {
+            db = new Database(generateURIFromName("InitEdgeTable"));
+        } catch (SQLException | ClassNotFoundException e) {
+            fail(e.getMessage());
+        }
+
+        /* init edge table */
+        try {
+            Edge.initTable(db);
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+
+        /* verify table exists */
+        try {
+            Edge.getAll(db);
+        } catch (SQLException e) {
+            fail(e.getMessage());
+        }
+
+        /* close db */
+        try {
+            db.close();
+        } catch (SQLException e) {
+            fail(e.getMessage());
+        }
     }
 
     @Test
