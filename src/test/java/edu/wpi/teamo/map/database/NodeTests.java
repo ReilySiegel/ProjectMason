@@ -132,8 +132,38 @@ public class NodeTests {
 
     @Test
     public void testUpdate() {
-        boolean pass = true;
-        //TODO: Finish
-        assertTrue(pass);
+        String initialName = "initialName";
+        String modifiedName = "newName";
+        String nodeID = "nodeID1";
+
+        try {
+            Database db = new Database(generateURIFromName("UpdateNode"));
+            Node.initTable(db);
+
+            /* store an node */
+            Node nodeToStore = new Node(nodeID, 1, 1, "xd", "xd", "xd", initialName, "xd");
+            nodeToStore.update(db);
+
+            /* fetch it */
+            Node nodeToModify = Node.getByID(db, nodeID);
+
+            /* modify it */
+            nodeToModify.setLongName(modifiedName);
+
+            /* store it */
+            nodeToModify.update(db);
+
+            /* fetch again */
+            Node nodeToCheck = Node.getByID(db, nodeID);
+
+            /* check if it has been modified */
+            assertEquals(modifiedName, nodeToCheck.getLongName());
+            assertEquals(nodeID, nodeToCheck.getNodeID());
+
+            db.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail(e.getMessage());
+        }
     }
 }
