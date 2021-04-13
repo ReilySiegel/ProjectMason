@@ -123,7 +123,6 @@ public class Node implements NodeInfo {
                             this.shortName));
         } catch (SQLException e) {
             // Item with this ID already exists in the DB, try insert.
-            e.printStackTrace();
             db.processUpdate("UPDATE Node SET " +
                     String.format("nodeID = '%s', xcoord = %s, ycoord = %s, floor = '%s', " +
                                     "building = '%s', nodeType = '%s', longName = '%s', " +
@@ -139,26 +138,6 @@ public class Node implements NodeInfo {
                     + "WHERE Node.nodeID = '" + this.nodeID+ "'");
 
         }
-    }
-
-    //TODO: Fix the update method's error detection so the set function is not needed
-    //had to add this because the try catch above was not working
-    public void set(Database db) throws SQLException {
-
-        db.processUpdate("UPDATE Node SET " +
-                String.format("nodeID = '%s', xcoord = %s, ycoord = %s, floor = '%s', " +
-                                "building = '%s', nodeType = '%s', longName = '%s', " +
-                                "shortName = '%s' ",
-                        this.nodeID,
-                        this.xPos,
-                        this.yPos,
-                        this.floor,
-                        this.building,
-                        this.nodeType,
-                        this.longName,
-                        this.shortName)
-                + "WHERE Node.nodeID = '" + this.nodeID+ "'");
-
     }
 
     /**

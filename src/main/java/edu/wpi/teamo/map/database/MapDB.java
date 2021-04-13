@@ -95,7 +95,7 @@ public class MapDB implements IMapService {
                 node.setYPos(newY);
 
                 /* update database */
-                node.set(db);
+                node.update(db);
 
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -120,7 +120,7 @@ public class MapDB implements IMapService {
                 node.setLongName(newName);
 
                 /* update database */
-                node.set(db);
+                node.update(db);
 
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
