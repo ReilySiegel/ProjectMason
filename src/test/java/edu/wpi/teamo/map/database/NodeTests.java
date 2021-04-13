@@ -1,8 +1,14 @@
 package edu.wpi.teamo.map.database;
 
 import static org.junit.jupiter.api.Assertions.*;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+
 
 public class NodeTests {
 
@@ -84,9 +90,44 @@ public class NodeTests {
 
     @Test
     public void testGetAll() {
-        boolean pass = true;
-        //TODO: Finish
-        assertTrue(pass);
+        String node1ID = "testIDOne";
+        String node2ID = "testIDTwo";
+        String node3ID = "testIDTre";
+
+        try {
+            Database db = new Database(generateURIFromName("GetAllNodes"));
+            Node.initTable(db);
+
+            /* store three edges */
+            Node nStoredOne = new Node(node1ID, 1, 1, "xd", "xd", "xd", "xd", "xd");
+            Node nStoredTwo = new Node(node2ID, 1, 1, "xd", "xd", "xd", "xd", "xd");
+            Node nStoredTre = new Node(node3ID, 1, 1, "xd", "xd", "xd", "xd", "xd");
+            nStoredOne.update(db);
+            nStoredTwo.update(db);
+            nStoredTre.update(db);
+
+            /* fetch all - into list */
+            Stream<Node> nodeStream = Node.getAll(db);
+            List<Node> nodeList   = nodeStream.collect(Collectors.toList());
+
+            /* list must be length 3 */
+            int size = nodeList.size();
+            assertEquals(3, size);
+            if (size == 3) {
+                /* make list of the IDs */
+                ArrayList<String> ids = new ArrayList<>();
+                for (int i = 0; i < 3; i++) ids.add(nodeList.get(i).getNodeID());
+
+                /* check if ids are the same */
+                assertTrue(ids.contains(node1ID));
+                assertTrue(ids.contains(node2ID));
+                assertTrue(ids.contains(node3ID));
+            }
+
+            db.close();
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
     }
 
     @Test
