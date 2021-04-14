@@ -170,9 +170,20 @@ public class NodePage implements Initializable{
         String newNodeID = editNodeID.getText();
         String newNodeX = editNodeX.getText();
         String newNodeY = editNodeY.getText();
+
+        try{
+            App.dbService.setNodePosition(currentNodeID, Integer.parseInt(newNodeX), Integer.parseInt(newNodeY));
+            App.dbService.setNodeLongName(currentNodeID, newNodeID);
+
+            updateDisplay();
+        }
+        catch (SQLException e){
+            return;
+        }
     }
+
     /**
-     * event hanlder for switching to main page
+     * event handler for switching to main page
      * @param e Action Event parameter
      */
     @FXML
