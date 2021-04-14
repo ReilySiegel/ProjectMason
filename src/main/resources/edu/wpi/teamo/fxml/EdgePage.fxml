@@ -19,7 +19,7 @@
                         <Insets left="5.0" top="5.0" />
                     </HBox.margin>
                 </JFXButton>
-                <JFXButton style="-fx-background-color: #B5BCBA;" text="Save .csv">
+                <JFXButton onAction="#handleSave" style="-fx-background-color: #B5BCBA;" text="Save .csv">
                     <HBox.margin>
                         <Insets left="5.0" top="5.0" />
                     </HBox.margin>

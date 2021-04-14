@@ -3,13 +3,12 @@ package edu.wpi.teamo.views;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.teamo.App;
-
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import edu.wpi.teamo.Pages;
 import edu.wpi.teamo.map.database.EdgeInfo;
 import javafx.event.ActionEvent;
@@ -17,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.stage.FileChooser;
 
 public class EdgePage {
+
     @FXML
     private JFXTextField addEdgeID;
 
@@ -32,7 +32,6 @@ public class EdgePage {
 
     @FXML
     private JFXTextArea displayEdges;
-
 
     @FXML
     private JFXTextArea currentEdge;
@@ -51,6 +50,37 @@ public class EdgePage {
     private JFXTextField deleteEdgeID;
 
     /**
+     * function that goes through database and prints out all edges
+     */
+    void updateDisplay() {
+        // list of all edges from db
+        List<EdgeInfo> edgeList = null;
+        // try/catch for calling getAllEdges from backend
+        try {
+            edgeList = App.dbService.getAllEdges().collect(Collectors.toList());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        String edgeString = "";
+        // try/catch for looping through nodes
+        try {
+            // loops through the list and prints edge, start node, and end node
+            for (int i = 0; i < edgeList.size(); i++) {
+                if (!edgeList.get(i).getEdgeID().isEmpty()) {
+                    edgeString = edgeString + edgeList.get(i).getEdgeID() + "                  ";
+                    edgeString = edgeString + edgeList.get(i).getStartNodeID() + "                  ";
+                    edgeString = edgeString + edgeList.get(i).getEndNodeID();
+                    edgeString = edgeString + "\n";
+                }
+            }
+        } catch (Exception NullPointerException) {
+            return;
+        }
+        // changing displayed list of nodes
+        displayEdges.setText(edgeString);
+    }
+
+    /**
      * handles editing a edge
      *
      * @param event clicking submit button
@@ -61,6 +91,7 @@ public class EdgePage {
         String newEdgeNode1 = addNode1.getText();
         String newEdgeNode2 = addNode2.getText();
 
+        // try/catch for SQL and adding an edge
         try {
             App.dbService.addEdge(newEdgeID, newEdgeNode1, newEdgeNode2);
         } catch (Exception SQLException) {
@@ -77,11 +108,14 @@ public class EdgePage {
     @FXML
     void handleDeleteSubmit(ActionEvent event) {
         String EdgetoDelete = deleteEdgeID.getText();
+
+        // try/catch for SQL and deleting an edge
         try {
             App.dbService.deleteEdge(EdgetoDelete);
         } catch (Exception SQLException) {
             return;
         }
+        // updating the edge display
         updateDisplay();
     }
 
@@ -104,7 +138,7 @@ public class EdgePage {
         } catch (Exception FileNotFoundException) {
             return;
         }
-
+        // updating the edge display
         updateDisplay();
     }
 
@@ -112,6 +146,8 @@ public class EdgePage {
     void handleLookup(ActionEvent event) {
         String currentEdgeID = editingEdge.getText();
         String edgeString = "";
+
+        // try/catch for SQL searching for an edge to delete
         try {
             EdgeInfo currentEdgeInfo = App.dbService.getEdge(currentEdgeID);
             edgeString = "ID: " + currentEdgeInfo.getEdgeID() + "\n";
@@ -124,7 +160,6 @@ public class EdgePage {
         currentEdge.setText(edgeString);
     }
 
-
     /**
      * handles back to main page
      *
@@ -132,6 +167,7 @@ public class EdgePage {
      */
     @FXML
     void handleBacktoMain(ActionEvent event) {
+        // switches to Main Page
         App.switchPage(Pages.MAIN);
     }
 
@@ -145,36 +181,32 @@ public class EdgePage {
         // reading in file
         FileChooser fc = new FileChooser();
         fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV FILES", "*.csv"));
-        File f = fc.showOpenDialog(null);
-        String x = f.getPath();
 
         // try catch for reading in file
         try {
-            App.dbService.loadEdgesFromFile(x);
-        } catch (Exception FileNotFoundException) {
+            File f = fc.showOpenDialog(null);
+            String path = f.getPath();
+            App.dbService.loadEdgesFromFile(path);
+        } catch (FileNotFoundException | SQLException | NullPointerException e)  {
             return;
         }
+        // updating display of all edges
         updateDisplay();
     }
-    void updateDisplay() {
-        // list of all edge from db
-        List<EdgeInfo> edgeList = null;
-        try {
-            edgeList = App.dbService.getAllEdges().collect(Collectors.toList());
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        String edgeString = "";
 
-        // loops through the list and prints edge, start node, and end node
-        for (int i = 0; i < edgeList.size(); i++) {
-            if (!edgeList.get(i).getEdgeID().isEmpty()) {
-                edgeString = edgeString + edgeList.get(i).getEdgeID() + "                  ";
-                edgeString = edgeString + edgeList.get(i).getStartNodeID() + "                  ";
-                edgeString = edgeString + edgeList.get(i).getEndNodeID();
-                edgeString = edgeString + "\n";
-            }
+    @FXML
+    void handleSave(ActionEvent event) {
+        // choosing where to save
+        FileChooser fc = new FileChooser();
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV FILES", "*.csv"));
+
+        // try catch for SQL/IO errors
+        try {
+            File f = fc.showSaveDialog(null);
+            String path = f.getPath();
+            App.dbService.writeEdgesToCSV(path);
+        } catch (IOException | SQLException | NullPointerException e ) {
+            return;
         }
-        displayEdges.setText(edgeString);
     }
 }
