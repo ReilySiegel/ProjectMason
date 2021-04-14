@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXTimePicker?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -84,14 +84,10 @@
                         </JFXTimePicker>
                         <JFXTimePicker prefHeight="32.0" prefWidth="171.0">
                            <VBox.margin>
-                              <Insets bottom="15.0" />
+                              <Insets bottom="20.0" />
                            </VBox.margin>
                         </JFXTimePicker>
-                        <ChoiceBox prefWidth="150.0">
-                           <VBox.margin>
-                              <Insets bottom="10.0" />
-                           </VBox.margin>
-                        </ChoiceBox>
+                        <JFXComboBox prefHeight="25.0" prefWidth="186.0" />
                         <JFXTextField>
                            <VBox.margin>
                               <Insets bottom="10.0" />
