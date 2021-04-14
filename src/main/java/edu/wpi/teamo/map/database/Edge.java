@@ -66,7 +66,7 @@ public class Edge implements EdgeInfo {
         while (rs.next())
             edges.add(new Edge(rs.getString("edgeID"),
                     rs.getString("startNode"),
-                    rs.getString("startNode")));
+                    rs.getString("endNode")));
         return edges.stream();
     }
 
