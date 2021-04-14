@@ -27,6 +27,13 @@ public class MapDB implements IMapService {
 
     }
 
+    public MapDB() {
+        /* initialize database */
+        initDB();
+        Node.initTable(db);
+        Edge.initTable(db);
+    }
+
     private boolean initDB() {
         boolean connected = true;
         try {
@@ -37,6 +44,20 @@ public class MapDB implements IMapService {
             connected = false;
         }
         return connected;
+    }
+
+    public void loadEdgesFromFile(String filepath) throws FileNotFoundException {
+        /* read file into hashmap */
+        edges = EdgeCSV.read(filepath);
+        /* save to the database */
+        storeEdges(db, edges);
+    }
+
+    public void loadNodesFromFile(String filepath) throws FileNotFoundException {
+        /* read file into hashmap */
+        nodes = NodeCSV.read(filepath);
+        /* save to the database */
+        storeNodes(db, nodes);
     }
 
     private static void storeNodes(Database db, HashMap<String, Node> nodes) {

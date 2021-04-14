@@ -1,5 +1,6 @@
 package edu.wpi.teamo.map.database;
 
+import java.io.FileNotFoundException;
 import java.util.stream.Stream;
 
 public interface IMapService {
@@ -11,6 +12,8 @@ public interface IMapService {
     EdgeInfo getEdge(String id);
 
     /* the setters */
+    void loadNodesFromFile(String filepath) throws FileNotFoundException;
+    void loadEdgesFromFile(String filepath) throws FileNotFoundException;
     boolean setNodePosition(String id, int newX, int newY);
     boolean setNodeLongName(String id, String name);
 
