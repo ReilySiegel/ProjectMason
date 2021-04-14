@@ -195,28 +195,18 @@ public class MapDB implements IMapService {
         return edgeInfo;
     }
 
-    public boolean addNode(String nodeID, int xPos, int yPos, String floor,
-                           String building, String nodeType, String longName, String shortName) {
+    public void addNode(String nodeID, int xPos, int yPos, String floor,
+                        String building, String nodeType, String longName, String shortName) throws SQLException {
 
         Node n = new Node (nodeID, xPos, yPos, floor, building, nodeType, longName, shortName);
-        try {
-            n.update(db);
-            nodes.put(nodeID, n);
-            return true;
-        } catch (SQLException ex) {
-            return false;
-        }
+        n.update(db);
+        nodes.put(nodeID, n);
     }
 
-    public boolean addEdge(String edgeID, String startNodeID,  String endNodeID) {
+    public void addEdge(String edgeID, String startNodeID, String endNodeID) throws SQLException {
         Edge e = new Edge(edgeID, startNodeID, endNodeID);
-        try {
-            e.update(db);
-            edges.put(edgeID, e);
-            return true;
-        } catch (SQLException ex) {
-            return false;
-        }
+        e.update(db);
+        edges.put(edgeID, e);
     }
 
     public void deleteNode(String id) throws SQLException {

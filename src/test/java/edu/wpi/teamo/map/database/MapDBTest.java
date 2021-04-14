@@ -1,17 +1,16 @@
 package edu.wpi.teamo.map.database;
 
-import java.io.File;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.BeforeAll;
 import java.io.FileNotFoundException;
+import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.stream.Stream;
+import java.io.File;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(Lifecycle.PER_CLASS)
 public class MapDBTest {
@@ -51,14 +50,14 @@ public class MapDBTest {
     }
 
     @Test
-    public void addEdge() {
+    public void addEdge() throws SQLException {
         assertNull(db.getEdge("edge1_2"));
         db.addEdge("edge1_2", "testID1", "testID2");
         assertNotNull(db.getEdge("edge1_2"));
     }
 
     @Test
-    public void addNode() {
+    public void addNode() throws SQLException {
         assertNull(db.getNode("nodeForTest"));
         db.addNode("nodeForTest", 24, 34, "ground", "main", "ROOM", "RandomTest", "RT");
         assertNotNull(db.getNode("nodeForTest"));

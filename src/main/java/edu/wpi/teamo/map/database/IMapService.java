@@ -21,9 +21,9 @@ public interface IMapService {
     /* the makers */
     boolean writeNodesToCSV(String filepath);
     boolean writeEdgesToCSV(String filepath);
-    boolean addEdge(String edgeID, String startNodeID, String endNodeID);
-    boolean addNode(String nodeID, int xPos, int yPos, String floor,
-                    String building, String nodeType, String longName, String shortNam);
+    void addEdge(String edgeID, String startNodeID, String endNodeID) throws SQLException;
+    void addNode(String nodeID, int xPos, int yPos, String floor,
+                 String building, String nodeType, String longName, String shortNam) throws SQLException;
 
     /* the takers */
     void deleteNode(String id) throws SQLException;
