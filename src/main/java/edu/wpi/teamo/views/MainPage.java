@@ -25,6 +25,15 @@ public class MainPage {
     }
 
     /**
+     * event hanlder for switching to sanitation page
+     * @param e Action Event parameter
+     */
+    @FXML
+    private void handleSanitation(ActionEvent e) {
+        App.switchPage(Pages.SANITATION);
+    }
+
+    /**
      * event hanlder for switching to node page
      * @param e Action Event parameter
      */

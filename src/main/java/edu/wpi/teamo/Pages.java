@@ -5,5 +5,6 @@ public enum Pages {
     NODE,
     EDGE,
     PATHFINDING,
-    MAIN
+    MAIN,
+    SANITATION
 }

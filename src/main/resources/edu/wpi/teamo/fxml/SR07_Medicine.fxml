@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.SR07_Medicine">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.SR07_Medicine">
    <top>
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Medicine" BorderPane.alignment="CENTER">
          <font>
@@ -83,7 +83,7 @@
    <bottom>
       <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #bbbbbb;" BorderPane.alignment="CENTER">
          <children>
-            <JFXButton onAction="#backToMain" style="-fx-background-color: #c42b2b;" text="Cancel" textFill="WHITE">
+            <JFXButton onAction="#backToMain" style="-fx-background-color: #c42b2b;" text="Back" textFill="WHITE">
                <font>
                   <Font size="24.0" />
                </font>

@@ -26,6 +26,7 @@ public class App extends Application {
     pagePaths.put(Pages.EDGE, "/edu/wpi/teamo/fxml/EdgePage.fxml");
     pagePaths.put(Pages.PATHFINDING, "/edu/wpi/teamo/fxml/PathfindingPage.fxml");
     pagePaths.put(Pages.MAIN, "/edu/wpi/teamo/fxml/MainPage.fxml");
+    pagePaths.put(Pages.SANITATION, "/edu/wpi/teamo/fxml/Sanitation.fxml");
     System.out.println("Starting Up");
 
     /* instantiate the map service, set to a static variable that can be accessed from the handlers */

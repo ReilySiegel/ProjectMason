@@ -44,6 +44,14 @@
                   <Font size="18.0" />
                </font>
             </JFXButton>
+            <JFXButton minHeight="20.0" minWidth="125.0" onAction="#handleSanitation" style="-fx-background-color: #9900dd;" text="Sanitation" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </VBox.margin>
+            </JFXButton>
             <JFXButton minHeight="20.0" minWidth="125.0" onAction="#handleNode" style="-fx-background-color: #008CBA;" text="Node" textFill="WHITE">
                <VBox.margin>
                   <Insets bottom="10.0" top="10.0" />
