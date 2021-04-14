@@ -219,7 +219,12 @@ public class NodePage implements Initializable{
 
     @FXML
     void updateDisplay(){
-        List<NodeInfo> nodeList = App.dbService.getAllNodes().collect(Collectors.toList());
+        List<NodeInfo> nodeList = null;
+        try {
+            nodeList = App.dbService.getAllNodes().collect(Collectors.toList());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         String displayString = "";
 
         //Display all Node ID, X, Y, Floor, Building, LongName, and ShortName

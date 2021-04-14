@@ -68,7 +68,12 @@ public class EdgePage {
         }
 
         // list of all edge from db
-        List<EdgeInfo> edgeList = App.dbService.getAllEdges().collect(Collectors.toList());
+        List<EdgeInfo> edgeList = null;
+        try {
+            edgeList = App.dbService.getAllEdges().collect(Collectors.toList());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         String edgeString = "";
 
         // loops through the list and prints edge, start node, and end node
@@ -99,7 +104,12 @@ public class EdgePage {
         }
 
         // list of all edge from db
-        List<EdgeInfo> edgeList = App.dbService.getAllEdges().collect(Collectors.toList());
+        List<EdgeInfo> edgeList = null;
+        try {
+            edgeList = App.dbService.getAllEdges().collect(Collectors.toList());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         String edgeString = "";
 
         // loops through the list and prints edge, start node, and end node
@@ -134,7 +144,12 @@ public class EdgePage {
         }
 
         // list of all edge from db
-        List<EdgeInfo> edgeList = App.dbService.getAllEdges().collect(Collectors.toList());
+        List<EdgeInfo> edgeList = null;
+        try {
+            edgeList = App.dbService.getAllEdges().collect(Collectors.toList());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         String edgeString = "";
 
         // loops through the list and prints edge, start node, and end node
@@ -197,7 +212,12 @@ public class EdgePage {
         }
 
         // list of all edge from db
-        List<EdgeInfo> edgeList = App.dbService.getAllEdges().collect(Collectors.toList());
+        List<EdgeInfo> edgeList = null;
+        try {
+            edgeList = App.dbService.getAllEdges().collect(Collectors.toList());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         String edgeString = "";
 
         // loops through the list and prints edge, start node, and end node

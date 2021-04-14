@@ -1,6 +1,8 @@
 package edu.wpi.teamo.algos;
 
 import edu.wpi.teamo.map.database.*;
+
+import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.*;
 
@@ -36,7 +38,7 @@ public class AStarManager implements AStarService {
      * @return The path between the starting and ending node
      */
     @Override
-    public LinkedList<AlgoNode> getPath(String startID, String endID) {
+    public LinkedList<AlgoNode> getPath(String startID, String endID) throws SQLException {
 
         List<NodeInfo> rawNodes = DBService.getAllNodes().collect(Collectors.toList());
         List<EdgeInfo> rawEdges = DBService.getAllEdges().collect(Collectors.toList());

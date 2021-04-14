@@ -51,14 +51,14 @@ public class MapDBTest {
 
     @Test
     public void addEdge() throws SQLException {
-        assertNull(db.getEdge("edge1_2"));
+        assertThrows(SQLException.class, () -> db.getEdge("edge1_2"));
         db.addEdge("edge1_2", "testID1", "testID2");
         assertNotNull(db.getEdge("edge1_2"));
     }
 
     @Test
     public void addNode() throws SQLException {
-        assertNull(db.getNode("nodeForTest"));
+        assertThrows(SQLException.class, () -> db.getNode("nodeForTest"));
         db.addNode("nodeForTest", 24, 34, "ground", "main", "ROOM", "RandomTest", "RT");
         assertNotNull(db.getNode("nodeForTest"));
     }
@@ -68,7 +68,7 @@ public class MapDBTest {
         assertThrows(SQLException.class, () -> db.deleteNode("ID that dont exist"));
         assertNotNull(db.getNode("testID1"));
         db.deleteNode("testID1");
-        assertNull(db.getNode("testID1"));
+        assertThrows(SQLException.class, () -> db.getNode("testID1"));
     }
 
     @Test
@@ -76,7 +76,7 @@ public class MapDBTest {
         assertThrows(SQLException.class, () -> db.deleteEdge("ID that dont exist"));
         assertNotNull(db.getEdge("edgeID1"));
         db.deleteEdge("edgeID1");
-        assertNull(db.getEdge("edgeID1"));
+        assertThrows(SQLException.class, () -> db.getEdge("edgeID1"));
     }
 
     @Test

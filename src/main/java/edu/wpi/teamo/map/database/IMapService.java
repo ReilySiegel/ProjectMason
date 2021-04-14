@@ -8,15 +8,15 @@ import java.io.IOException;
 public interface IMapService {
 
     /* the getters */
-    Stream<NodeInfo> getAllNodes();
-    Stream<EdgeInfo> getAllEdges();
-    NodeInfo getNode(String id);
-    EdgeInfo getEdge(String id);
+    Stream<NodeInfo> getAllNodes() throws SQLException;
+    Stream<EdgeInfo> getAllEdges() throws SQLException;
+    NodeInfo getNode(String id) throws SQLException;
+    EdgeInfo getEdge(String id) throws SQLException;
 
     /* the setters */
     void loadNodesFromFile(String filepath) throws FileNotFoundException, SQLException;
     void loadEdgesFromFile(String filepath) throws FileNotFoundException, SQLException;
-    boolean setNodePosition(String id, int newX, int newY) throws SQLException;
+    void setNodePosition(String id, int newX, int newY) throws SQLException;
     void setEdgeStartID(String edgeID, String startNodeID) throws SQLException;
     void setEdgeEndID(String edgeID, String endNodeID) throws SQLException;
     void setNodeLongName(String id, String name) throws SQLException;
