@@ -69,6 +69,11 @@ public class NodePage implements Initializable{
     @FXML
     private JFXButton deleteSubmit;
 
+    /**
+     * Set validators to insure that the x and y coordinate fields are numbers
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources){
         NumberValidator numberValidator = new NumberValidator();
@@ -217,6 +222,10 @@ public class NodePage implements Initializable{
         updateDisplay();
     }
 
+    /**
+     * Event handler for saving a csv file
+     * @param event
+     */
     @FXML
     void handleSaveCSV(ActionEvent event){
         FileChooser fc = new FileChooser();
@@ -239,6 +248,9 @@ public class NodePage implements Initializable{
         }
     }
 
+    /**
+     * Display all nodes in database in the textarea
+     */
     @FXML
     void updateDisplay(){
         List<NodeInfo> nodeList = null;

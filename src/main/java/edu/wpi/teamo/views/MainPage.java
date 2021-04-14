@@ -15,8 +15,23 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class MainPage {
+
+    @FXML
+    private javafx.scene.control.Button closeButton;
+
     /**
-     * event hanlder for switching to medicine page
+     * Event handler
+     * @param e
+     */
+    @FXML
+    private void closeWindow(ActionEvent e){
+        Stage stage = (Stage) closeButton.getScene().getWindow();
+        stage.close();
+    }
+
+
+    /**
+     * event handler for switching to medicine page
      * @param e Action Event parameter
      */
     @FXML
@@ -25,7 +40,7 @@ public class MainPage {
     }
 
     /**
-     * event hanlder for switching to sanitation page
+     * event handler for switching to sanitation page
      * @param e Action Event parameter
      */
     @FXML
@@ -34,7 +49,7 @@ public class MainPage {
     }
 
     /**
-     * event hanlder for switching to node page
+     * event handler for switching to node page
      * @param e Action Event parameter
      */
     @FXML
@@ -43,7 +58,7 @@ public class MainPage {
     }
 
     /**
-     * event hanlder for switching to edge page
+     * event handler for switching to edge page
      * @param e Action Event parameter
      */
     @FXML
@@ -52,7 +67,7 @@ public class MainPage {
     }
 
     /**
-     * event hanlder for switching to pathfinding page
+     * event handler for switching to pathfinding page
      * @param e Action Event parameter
      */
     @FXML
