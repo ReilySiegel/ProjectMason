@@ -124,25 +124,18 @@ public class MapDB implements IMapService {
         return exists;
     }
 
-    public boolean setNodePosition(String id, int newX, int newY) {
+    public boolean setNodePosition(String id, int newX, int newY) throws SQLException {
         boolean wasUpdated = true;
         if (nodeExists(id)) {
-            try {
+            /* get node object from hashtable (we could get it from database but in this case its faster) */
+            Node node = nodes.get(id);
 
-                /* get node object from hashtable (we could get it from database but in this case its faster) */
-                Node node = nodes.get(id);
+            /* update node */
+            node.setXPos(newX);
+            node.setYPos(newY);
 
-                /* update node */
-                node.setXPos(newX);
-                node.setYPos(newY);
-
-                /* update database */
-                node.update(db);
-
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-                wasUpdated = false;
-            }
+            /* update database */
+            node.update(db);
         }
         else { //if node doesnt exist
             wasUpdated = false;
@@ -150,29 +143,19 @@ public class MapDB implements IMapService {
         return wasUpdated;
     }
 
-    public boolean setNodeLongName(String id, String newName) {
-        boolean wasUpdated = true;
+    public void setNodeLongName(String id, String newName) throws SQLException {
         if (nodeExists(id)) {
-            try {
 
-                /* get node object from hashtable (we could get it from database but in this case its faster) */
-                Node node = nodes.get(id);
+            /* get node object from hashtable (we could get it from database but in this case its faster) */
+            Node node = nodes.get(id);
 
-                /* update node */
-                node.setLongName(newName);
+            /* update node */
+            node.setLongName(newName);
 
-                /* update database */
-                node.update(db);
+            /* update database */
+            node.update(db);
 
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-                wasUpdated = false;
-            }
         }
-        else { //if node doesnt exist
-            wasUpdated = false;
-        }
-        return wasUpdated;
     }
 
     @Override

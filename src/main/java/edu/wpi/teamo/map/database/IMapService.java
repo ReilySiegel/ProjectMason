@@ -1,6 +1,7 @@
 package edu.wpi.teamo.map.database;
 
 import java.io.FileNotFoundException;
+import java.sql.SQLException;
 import java.util.stream.Stream;
 import java.sql.SQLException;
 import java.io.IOException;
@@ -16,8 +17,8 @@ public interface IMapService {
     /* the setters */
     void loadNodesFromFile(String filepath) throws FileNotFoundException;
     void loadEdgesFromFile(String filepath) throws FileNotFoundException;
-    boolean setNodePosition(String id, int newX, int newY);
-    boolean setNodeLongName(String id, String name);
+    boolean setNodePosition(String id, int newX, int newY) throws SQLException;
+    void setNodeLongName(String id, String name) throws SQLException;
 
     /* the makers */
     void writeNodesToCSV(String filepath) throws SQLException, IOException;

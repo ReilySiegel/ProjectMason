@@ -1,7 +1,5 @@
 package edu.wpi.teamo.map.database;
 
-
-
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.TestInstance;
@@ -13,7 +11,6 @@ import java.sql.SQLException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.io.File;
-
 
 @TestInstance(Lifecycle.PER_CLASS)
 public class MapDBTest {
@@ -39,14 +36,14 @@ public class MapDBTest {
     }
 
     @Test
-    public void setNodePosition() {
+    public void setNodePosition() throws SQLException {
         db.setNodePosition("testID1", 1001, 1001);
         assertEquals(1001, db.getNode("testID1").getXPos());
         assertEquals(1001, db.getNode("testID1").getYPos());
     }
 
     @Test
-    public void setNodeLongName() {
+    public void setNodeLongName() throws SQLException {
         db.setNodeLongName("testID1", "The longest name there ever was");
         assertEquals("The longest name there ever was",
                      db.getNode("testID1").getLongName());
