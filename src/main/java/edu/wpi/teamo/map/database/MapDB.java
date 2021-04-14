@@ -88,6 +88,20 @@ public class MapDB implements IMapService {
         }
     }
 
+    /**
+     * Check if a specified edge exists in the database
+     * @param id Id of the edge in question
+     * @return True if edge exists
+     */
+    public boolean edgeExists(String id) {
+        try {
+            Edge.getByID(db, id);
+            return true;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
     public boolean setNodePosition(String id, int newX, int newY) throws SQLException {
         boolean wasUpdated = true;
         if (nodeExists(id)) {
@@ -120,6 +134,44 @@ public class MapDB implements IMapService {
             node.update(db);
 
         }
+    }
+
+    public void setEdgeID(String oldID, String newID) throws SQLException {
+        /* get edge object from hashtable (we could get it from database but in this case its faster) */
+        Edge edge = edges.get(oldID);
+
+        /* delete from database */
+        edge.delete(db);
+
+        /* update node */
+        edge.setEdgeID(newID);
+
+        /* update database */
+        edge.update(db);
+    }
+
+    @Override
+    public void setEdgeStartID(String edgeID, String startNodeID) throws SQLException {
+        /* get edge object from hashtable (we could get it from database but in this case its faster) */
+        Edge edge = edges.get(edgeID);
+
+        /* update node */
+        edge.setStartID(startNodeID);
+
+        /* update database */
+        edge.update(db);
+    }
+
+    @Override
+    public void setEdgeEndID(String edgeID, String endNodeID) throws SQLException {
+        /* get edge object from hashtable (we could get it from database but in this case its faster) */
+        Edge edge = edges.get(edgeID);
+
+        /* update node */
+        edge.setEndID(endNodeID);
+
+        /* update database */
+        edge.update(db);
     }
 
     @Override

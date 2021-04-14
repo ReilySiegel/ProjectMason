@@ -139,4 +139,39 @@ public class MapDBTest {
             fail("Cannot testLoadFromCSVs, file not found.");
         }
     }
+
+    @Test
+    public void testSetEdgeID() throws SQLException, ClassNotFoundException, FileNotFoundException {
+        MapDB tMDB = new MapDB("testSetEdgeID");
+        tMDB.loadEdgesFromFile(testEdgeFile);
+        assertFalse(tMDB.edgeExists("newID"));
+        assertTrue(tMDB.edgeExists("edgeID1"));
+
+        tMDB.setEdgeID("edgeID1", "newID");
+
+        assertFalse(tMDB.edgeExists("edgeID1"));
+        assertTrue(tMDB.edgeExists("newID"));
+    }
+
+    @Test
+    public void testSetEdgeStartID() throws SQLException, ClassNotFoundException, FileNotFoundException {
+        MapDB tMDB = new MapDB("testSetEdgeStartID");
+        tMDB.loadEdgesFromFile(testEdgeFile);
+        assertEquals("edge1S", tMDB.getEdge("edgeID1").getStartNodeID());
+
+        tMDB.setEdgeStartID("edgeID1", "newStartID");
+
+        assertEquals("newStartID", tMDB.getEdge("edgeID1").getStartNodeID());
+    }
+
+    @Test
+    public void testSetEdgeEndID() throws SQLException, ClassNotFoundException, FileNotFoundException {
+        MapDB tMDB = new MapDB("testSetEdgeEndID");
+        tMDB.loadEdgesFromFile(testEdgeFile);
+        assertEquals("edge1E", tMDB.getEdge("edgeID1").getEndNodeID());
+
+        tMDB.setEdgeEndID("edgeID1", "newEndID");
+
+        assertEquals("newEndID", tMDB.getEdge("edgeID1").getEndNodeID());
+    }
 }

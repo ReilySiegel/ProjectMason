@@ -107,4 +107,16 @@ public class Edge implements EdgeInfo {
     public String getEdgeID() {
         return edgeID;
     }
+
+    public void setEdgeID(String id) {
+        edgeID = id;
+    }
+
+    public void setStartID(String startNodeID) {
+        this.startNodeID = startNodeID;
+    }
+
+    public void setEndID(String endNodeID) {
+        this.endNodeID = endNodeID;
+    }
 }
