@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXNodesList?>
+<?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
@@ -17,7 +17,7 @@
          <children>
             <HBox prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #5D5A5A;">
                <children>
-                  <JFXButton buttonType="RAISED" style="-fx-background-color: #B5BCBA;" text="Load .csv">
+                  <JFXButton buttonType="RAISED" onAction="#handleLoadCSV" style="-fx-background-color: #B5BCBA;" text="Load .csv">
                      <HBox.margin>
                         <Insets left="5.0" top="5.0" />
                      </HBox.margin>
@@ -34,7 +34,7 @@
                   </JFXButton>
                </children>
             </HBox>
-            <JFXNodesList />
+            <JFXTextArea fx:id="nodeArea" VBox.vgrow="ALWAYS" />
          </children>
       </VBox>
       <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" scaleShape="false" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
