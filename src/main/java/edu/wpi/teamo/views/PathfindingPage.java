@@ -21,6 +21,9 @@ public class PathfindingPage {
     private JFXButton getDirections;
 
     @FXML
+    private JFXButton goBack;
+
+    @FXML
     private JFXComboBox startLocation;
 
     @FXML
@@ -29,6 +32,10 @@ public class PathfindingPage {
     @FXML
     private JFXTextArea locationAvailable;
 
+    /**
+     *
+     * @param event
+     */
     @FXML
     private JFXTextArea directions;
 
@@ -44,6 +51,15 @@ public class PathfindingPage {
 
         locationAvailable.setText("list of all the nodes");
         directions.setText("path");
+
+    }
+
+    /**
+     *
+     * @param event
+     */
+    @FXML
+    void handleGoBacK(ActionEvent event) {
 
     }
 }
