@@ -149,8 +149,15 @@ public class NodePage implements Initializable{
      */
     @FXML
     void handleDeleteSubmit(ActionEvent event) {
-        String deleteNode = deleteNodeID.getText();
+        String deleteNode= deleteNodeID.getText();
 
+        try{
+            App.dbService.deleteNode(deleteNode);
+            updateDisplay();
+        }
+        catch (SQLException e){
+            return;
+        }
     }
 
     /**
