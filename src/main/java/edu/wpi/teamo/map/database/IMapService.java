@@ -33,4 +33,7 @@ public interface IMapService {
     void deleteNode(String id) throws SQLException;
     void deleteEdge(String id) throws SQLException;
 
+    /* the close */
+    void closeConnection() throws SQLException;
+
 }

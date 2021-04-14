@@ -228,4 +228,8 @@ public class MapDB implements IMapService {
         NodeCSV.write(filepath, nodeStream);
     }
 
+    @Override
+    public void closeConnection() throws SQLException {
+        db.close();
+    }
 }
