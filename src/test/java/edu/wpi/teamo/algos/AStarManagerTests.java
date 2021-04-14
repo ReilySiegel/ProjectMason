@@ -1,6 +1,5 @@
 package edu.wpi.teamo.algos;
 
-import edu.wpi.teamo.map.database.Edge;
 import edu.wpi.teamo.map.database.MapDB;
 import org.junit.jupiter.api.Test;
 
@@ -8,13 +7,16 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
 
 public class AStarManagerTests {
 
+    /**
+     * Test for AStarManager conducting a search for an arbitary path
+     * @throws SQLException If there is a database error
+     * @throws ClassNotFoundException If there are any missing classes
+     */
     @Test
     public void testFindPath() throws SQLException, ClassNotFoundException {
-
 
         MapDB mdb = new MapDB("testFindPath");
         mdb.addNode("oPARK00101", 3116,1131,"F1", "b","PARK","Floor1RightParking1","F1RightP1");
@@ -50,5 +52,4 @@ public class AStarManagerTests {
         assertEquals("oPARK00501", pathP10_P5.get(5).getID());
 
     }
-
 }

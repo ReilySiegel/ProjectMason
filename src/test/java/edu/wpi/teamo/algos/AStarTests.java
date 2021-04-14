@@ -1,9 +1,14 @@
 package edu.wpi.teamo.algos;
+
 import edu.wpi.teamo.map.database.Edge;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.LinkedList;
+
 public class AStarTests {
+    /**
+     * Test for AStar finding an arbitrary path
+     */
     @Test
     public void AStarTest1()
     {
@@ -59,13 +64,5 @@ public class AStarTests {
         assertEquals(n6, pathP10_P5.get(4));
         assertEquals(n5, pathP10_P5.get(5));
     }
-
-    @Test
-    public void AStarTest2(){}
-
-
-    public void AStarTest3(){}
-
-
 
 }

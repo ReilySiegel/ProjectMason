@@ -44,13 +44,13 @@ public class AStarManager implements AStarService {
         List<EdgeInfo> rawEdges = DBService.getAllEdges().collect(Collectors.toList());
 
         //Convert Database types to Algorithm-friendly types
-        LinkedList<AlgoNode> allNodes = new LinkedList<>();;
+        LinkedList<AlgoNode> allNodes = new LinkedList<>();
         for(NodeInfo rawNode : rawNodes) {
             AlgoNode n = new AlgoNode(rawNode.getNodeID(), rawNode.getXPos(), rawNode.getYPos(), rawNode.getFloor(), NodeType.valueOf(rawNode.getNodeType()), rawNode.getLongName(), rawNode.getShortName());
             allNodes.add(n);
         }
 
-        LinkedList<Edge> allEdges = new LinkedList<>();;
+        LinkedList<Edge> allEdges = new LinkedList<>();
         for(EdgeInfo rawEdge : rawEdges) {
             Edge e = new Edge(rawEdge.getEdgeID(), rawEdge.getStartNodeID(), rawEdge.getEndNodeID());
             allEdges.add(e);
