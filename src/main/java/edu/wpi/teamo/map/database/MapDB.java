@@ -1,6 +1,7 @@
 package edu.wpi.teamo.map.database;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.stream.Stream;
@@ -234,6 +235,28 @@ public class MapDB implements IMapService {
             edges.remove(id);
             return true;
         } catch (SQLException ex) {
+            return false;
+        }
+    }
+
+    public boolean writeEdgesToCSV(String filepath) {
+        try {
+            Stream<Edge> edgeStream = Edge.getAll(db);
+            EdgeCSV.write(filepath, edgeStream);
+            return true;
+        } catch (SQLException | IOException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean writeNodesToCSV(String filepath) {
+        try {
+            Stream<Node> nodeStream = Node.getAll(db);
+            NodeCSV.write(filepath, nodeStream);
+            return true;
+        } catch (SQLException | IOException throwables) {
+            throwables.printStackTrace();
             return false;
         }
     }
