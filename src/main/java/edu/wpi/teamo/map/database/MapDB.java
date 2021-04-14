@@ -11,7 +11,7 @@ public class MapDB implements IMapService {
     HashMap<String, Node> nodes;
     HashMap<String, Edge> edges;
 
-    public MapDB(String nodeCSVFilepath, String edgeCSVFilepath) throws FileNotFoundException {
+    public MapDB(String nodeCSVFilepath, String edgeCSVFilepath) throws FileNotFoundException, SQLException {
 
         /* read csv files into hashmaps */
         nodes = NodeCSV.read(nodeCSVFilepath);
@@ -67,46 +67,32 @@ public class MapDB implements IMapService {
         return connected;
     }
 
-    public void loadEdgesFromFile(String filepath) throws FileNotFoundException {
+    public void loadEdgesFromFile(String filepath) throws FileNotFoundException, SQLException {
         /* read file into hashmap */
         edges = EdgeCSV.read(filepath);
         /* save to the database */
         storeEdges(db, edges);
     }
 
-    public void loadNodesFromFile(String filepath) throws FileNotFoundException {
+    public void loadNodesFromFile(String filepath) throws FileNotFoundException, SQLException {
         /* read file into hashmap */
         nodes = NodeCSV.read(filepath);
         /* save to the database */
         storeNodes(db, nodes);
     }
 
-    private static void storeNodes(Database db, HashMap<String, Node> nodes) {
-
+    private static void storeNodes(Database db, HashMap<String, Node> nodes) throws SQLException {
         for (String key : nodes.keySet()) {
             Node node = nodes.get(key);
-
-            try {
-                node.update(db);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            node.update(db);
         }
-
     }
 
-    private void storeEdges(Database db, HashMap<String, Edge> edges) {
-
+    private void storeEdges(Database db, HashMap<String, Edge> edges) throws SQLException {
         for (String key : edges.keySet()) {
             Edge edge = edges.get(key);
-
-            try {
-                edge.update(db);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            edge.update(db);
         }
-
     }
 
     /**

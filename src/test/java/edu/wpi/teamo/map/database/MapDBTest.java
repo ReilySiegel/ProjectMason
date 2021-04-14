@@ -78,7 +78,7 @@ public class MapDBTest {
     }
 
     @Test
-    public void testLoadFromCSVs() {
+    public void testLoadFromCSVs() throws SQLException {
         MapDB tMDB = new MapDB("testLoadFromCSVs");
         try {
 
