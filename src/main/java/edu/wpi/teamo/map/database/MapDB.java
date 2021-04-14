@@ -34,6 +34,26 @@ public class MapDB implements IMapService {
         Edge.initTable(db);
     }
 
+    public MapDB(String databaseName) {
+        /* initialize database */
+        initDB(databaseName);
+        Node.initTable(db);
+        Edge.initTable(db);
+    }
+
+    private boolean initDB(String databaseName) {
+        boolean connected = true;
+        String uri = String.format("jdbc:derby:memory:%s;create=true", databaseName);
+        try {
+            db = new Database(uri);
+        } catch (SQLException | ClassNotFoundException e) {
+            System.out.println("ERROR - COULD NOT INIT DATABASE");
+            e.printStackTrace();
+            connected = false;
+        }
+        return connected;
+    }
+
     private boolean initDB() {
         boolean connected = true;
         try {
