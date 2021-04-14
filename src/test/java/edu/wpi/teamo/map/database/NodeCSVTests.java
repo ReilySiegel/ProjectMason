@@ -41,7 +41,7 @@ public class NodeCSVTests {
             Stream<Node> nodeStream = NodeCSV.read(testCSVPath).values().stream();
             NodeCSV.write(writtenFilepath, nodeStream);
 
-            HashMap<String, Node> nodesToCheck = NodeCSV.read(testCSVPath);
+            HashMap<String, Node> nodesToCheck = NodeCSV.read(writtenFilepath);
             assertEquals(3, nodesToCheck.size());
             if (nodesToCheck.size() == 3) {
 
