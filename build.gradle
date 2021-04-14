@@ -28,7 +28,7 @@ repositories {
 //This is where you declare your dependencies and their version.s
 //You will almost DEFINITELY add more here
 dependencies {
-    implementation(
+    compile(
             'com.jfoenix:jfoenix:8.0.10',
 
             // You may comment out the database dependency you do not use
@@ -58,6 +58,10 @@ test {
 jar {
     manifest {
         attributes 'Main-Class': 'edu.wpi.teamo.Main'
+    }
+
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }
 
