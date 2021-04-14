@@ -36,6 +36,7 @@ public class App extends Application {
     } catch (SQLException | ClassNotFoundException e) {
       System.out.println("ERROR: FAILED TO INIT DATABASE");
       e.printStackTrace();
+      dbService = null;
     }
   }
 
