@@ -20,13 +20,9 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.Initializable;
 
 import edu.wpi.teamo.Pages;
-import edu.wpi.teamo.map.database.Node;
 import edu.wpi.teamo.map.database.NodeInfo;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.control.Label;
 import javafx.stage.FileChooser;
 
 public class NodePage implements Initializable{
@@ -200,12 +196,16 @@ public class NodePage implements Initializable{
 
         FileChooser fc = new FileChooser();
         fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV FILES", "*.csv"));
-        File f = fc.showOpenDialog(null);
-        String path = f.getPath();
+
 
         try{
+            File f = fc.showOpenDialog(null);
+            String path = f.getPath();
             App.dbService.loadNodesFromFile(path);
             //App.dbService.loadNodesFromFile("src/test/resources/edu/wpi/teamo/map/database/testNodes.csv");
+        }
+        catch(NullPointerException e){
+            return;
         }
         catch (FileNotFoundException e){
             return;
@@ -215,6 +215,28 @@ public class NodePage implements Initializable{
         }
 
         updateDisplay();
+    }
+
+    @FXML
+    void handleSaveCSV(ActionEvent event){
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Save CSV");
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV FILE", "*.csv"));
+
+        try{
+            File f = fc.showSaveDialog(null);
+            String path = f.getPath();
+            App.dbService.writeNodesToCSV(path);
+        }
+        catch(NullPointerException e){
+            return;
+        }
+        catch (SQLException sqlException){
+            return;
+        }
+        catch (IOException ioException){
+            return;
+        }
     }
 
     @FXML
