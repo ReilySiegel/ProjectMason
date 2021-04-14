@@ -209,12 +209,12 @@ public class MapDB implements IMapService {
     }
 
     public void deleteNode(String id) throws SQLException {
-        nodes.get(id).delete(db);
+        Node.getByID(db, id).delete(db);
         nodes.remove(id);
     }
 
     public void deleteEdge(String id) throws SQLException {
-        edges.get(id).delete(db);
+        Edge.getByID(db, id).delete(db);
         edges.remove(id);
     }
 

@@ -65,6 +65,7 @@ public class MapDBTest {
 
     @Test
     public void deleteNode() throws SQLException {
+        assertThrows(SQLException.class, () -> db.deleteNode("ID that dont exist"));
         assertNotNull(db.getNode("testID1"));
         db.deleteNode("testID1");
         assertNull(db.getNode("testID1"));
@@ -72,6 +73,7 @@ public class MapDBTest {
 
     @Test
     public void deleteEdge() throws SQLException {
+        assertThrows(SQLException.class, () -> db.deleteEdge("ID that dont exist"));
         assertNotNull(db.getEdge("edgeID1"));
         db.deleteEdge("edgeID1");
         assertNull(db.getEdge("edgeID1"));
