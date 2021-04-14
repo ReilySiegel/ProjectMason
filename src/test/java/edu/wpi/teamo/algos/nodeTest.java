@@ -2,9 +2,11 @@ package edu.wpi.teamo.algos;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import java.util.LinkedList;
 
 public class nodeTest {
+    /**
+     * Test for retrieving x coordinate of node
+     */
     @Test
     public void getXTest()
     {
@@ -20,7 +22,9 @@ public class nodeTest {
         assertEquals(1,n.getX());
     }
 
-
+    /**
+     * Test for retrieving y coordinate of node
+     */
     @Test
     public void getYTest()
     {
@@ -37,7 +41,9 @@ public class nodeTest {
 
     }
 
-
+    /**
+     * Test for retrieving node type of the node
+     */
     @Test
     public void getTypeTest()
     {
@@ -53,6 +59,9 @@ public class nodeTest {
         assertEquals(t,n.getType());
     }
 
+    /**
+     * Test for retrieving the floor identifier of the node
+     */
     @Test
     public void getFloorTest()
     {
@@ -68,7 +77,9 @@ public class nodeTest {
         assertEquals(f,n.getFloor());
     }
 
-
+    /**
+     * Test for retrieving node ID of the node
+     */
     @Test
     public void getIDTest()
     {
@@ -85,7 +96,9 @@ public class nodeTest {
 
     }
 
-
+    /**
+     * Test for retrieving node's long name attribute
+     */
     @Test
     public void getLongNameTest()
     {
@@ -102,6 +115,9 @@ public class nodeTest {
 
     }
 
+    /**
+     * Test for retrieving node's short name attribute
+     */
     @Test
     public void getshortNameTest()
     {

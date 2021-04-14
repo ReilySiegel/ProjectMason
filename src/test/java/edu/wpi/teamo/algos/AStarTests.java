@@ -59,8 +59,8 @@ public class AStarTests {
         // Test for assignNodeAdjacency logics
         for(Node n: nodes){
             for (Edge e: edges){
-                if (n.getID() == e.getStartNodeID()) n.addAdjacencyByNodeId(e.getEndNodeID());
-                else if (n.getID() == e.getEndNodeID()) n.addAdjacencyByNodeId(e.getStartNodeID());
+                if (n.getID().equals(e.getStartNodeID())) n.addAdjacencyByNodeId(e.getEndNodeID());
+                else if (n.getID().equals(e.getEndNodeID())) n.addAdjacencyByNodeId(e.getStartNodeID());
             }
         }
 
@@ -88,6 +88,7 @@ public class AStarTests {
 
 
     }
+
     @Test
     public void AStarTest2(){}
 

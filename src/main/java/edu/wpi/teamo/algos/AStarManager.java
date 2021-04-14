@@ -1,7 +1,6 @@
 package edu.wpi.teamo.algos;
 
 import edu.wpi.teamo.map.database.*;
-import javafx.util.*;
 import java.util.*;
 import java.util.stream.*;
 
@@ -25,13 +24,6 @@ public class AStarManager implements AStarService {
         allNodes = new LinkedList<>();
         allEdges = new LinkedList<>();
 
-        //Lists for allocation
-        //LinkedList<Node> nodes = new LinkedList<>();
-        //Key = edgeID, Value = pair: (key = startID, value = endID)
-        //LinkedList<Edge> edges = new LinkedList<>();
-
-        //List<Pair<String, Pair<String,String>>> edges = new LinkedList<>();
-
         //Convert Database types to Algorithm-friendly types
         for(NodeInfo rawNode : rawNodes) {
             Node n = new Node(rawNode.getNodeID(), rawNode.getXPos(), rawNode.getYPos(), rawNode.getFloor(), NodeType.valueOf(rawNode.getNodeType()), rawNode.getLongName(), rawNode.getShortName());
@@ -42,7 +34,7 @@ public class AStarManager implements AStarService {
             allEdges.add(e);
         }
 
-        // updating the adjacencies lists for nodes
+        //Updating the adjacencies lists for nodes
         assignNodeAdjacency(allNodes,allEdges);
 
         aStar.setAllTheMess(allNodes);
@@ -50,33 +42,43 @@ public class AStarManager implements AStarService {
     }
 
     /**
-     * helper function to update the adjacencies lists
-     * @param nodes
-     * @param edges
+     * Helper function to update the adjacencies lists
+     * @param nodes nodes to parse
+     * @param edges edges to parse
      */
     public void assignNodeAdjacency(LinkedList<Node> nodes,LinkedList<Edge> edges){
         for(Node n: nodes){
             for (Edge e: edges){
-                if (n.getID() == e.getStartNodeID()) n.addAdjacencyByNodeId(e.getEndNodeID());
-                else if (n.getID() == e.getEndNodeID()) n.addAdjacencyByNodeId(e.getStartNodeID());
+                if (n.getID().equals(e.getStartNodeID())) n.addAdjacencyByNodeId(e.getEndNodeID());
+                else if (n.getID().equals(e.getEndNodeID())) n.addAdjacencyByNodeId(e.getStartNodeID());
             }
         }
     }
 
+    /**
+     * TODO
+     * @return LinkedList<Object></>
+     */
     @Override
     public LinkedList<Object> getNodeIDLookUpTable() {
         return null;
     }
 
     /**
-     * TODO: convert to void function?
-     * @return AStar
+     * Returns the AStar Object
+     * @return AStar object
      */
     @Override
     public AStar loadAStar() {
         return aStar;
     }
 
+    /**
+     * Returns the path between the starting node and ending node
+     * @param startID ID of the starting node
+     * @param endID ID of the ending node
+     * @return The path between the starting and ending node
+     */
     @Override
     public LinkedList<Node> getPath(String startID, String endID) {
         return aStar.findPath(startID,endID);

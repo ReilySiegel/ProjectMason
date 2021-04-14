@@ -1,11 +1,6 @@
 package edu.wpi.teamo.algos;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.lang.Integer;
 import java.util.*;
-
 
 public class AStar {
 
@@ -20,7 +15,7 @@ public class AStar {
      * The ultimate A* pathfinding function that prints out the list in the order of Start --- End
      * @param startingNode (starting position)
      * @param endNode (destination)
-     * @return a linkedlist
+     * @return a LinkedList of the path between the starting and ending nodes
      */
     public LinkedList<Node> findPath(String startingNode, String endNode){
 
@@ -37,7 +32,7 @@ public class AStar {
      * @param start (starting position)
      * @param end (destination)
      */
-    private void findPathPreGame(String start, String end){
+    private void findPathPreGame(String start, String end) {
         Node starting = stringToNode(start);
         Node ending = stringToNode(end);
 
@@ -93,28 +88,28 @@ public class AStar {
 
 
     /**
-     *
-     * @param node
-     * @return
+     * Returns the specified node's adjacent nodes
+     * @param node the node from which to retrieve the adjacent nodes
+     * @return The list of adjacent nodes
      */
     private LinkedList<Node> adjacenciesToNodes(Node node) {
         LinkedList<Node> list = new LinkedList<>();
         for (String s : node.getAdjacencies()) {
             for (Node n : allTheMess) {
-                if (n.getID() == s) list.add(n);
+                if (n.getID().equals(s)) list.add(n);
             }
         }
         return list;
     }
 
     /**
-     *
-     * @param ID
-     * @return
+     * Returns the Node associated with the ID
+     * @param ID the ID of the node to retrieve
+     * @return the Node associated with the ID
      */
     private Node stringToNode(String ID){
         for (Node n: allTheMess) {
-            if (ID == n.getID()) {
+            if (ID.equals(n.getID())) {
                 return n;
             }
         }
@@ -122,9 +117,9 @@ public class AStar {
     }
 
     /**
-     * creates a path based using the list of nodes
-     * @param startNode
-     * @param endNode
+     * Creates a path based using the list of nodes
+     * @param startNode The starting node
+     * @param endNode The end node
      * @return a linked list of path from startNode ---> endNode
      */
     private LinkedList<Node> generatePath(String startNode, String endNode){
@@ -147,7 +142,7 @@ public class AStar {
      * Get distance between two nodes using distance formula
      * @param nodeA (starting Node)
      * @param nodeB (target Node)
-     * @return the distance between two Nodes
+     * @return The distance between the two nodes
      */
     private int getDistance(Node nodeA, Node nodeB){
         int nodeAXCoordinate = nodeA.getX();

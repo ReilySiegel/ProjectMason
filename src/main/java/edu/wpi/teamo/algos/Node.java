@@ -78,8 +78,8 @@ public class Node {
 
 
     /**
-     * adds a node to the adjacecny node ID list
-     * @param ID
+     * adds a node to the adjacency node ID list
+     * @param ID the ID of the node to add
      */
      public void addAdjacencyByNodeId(String ID) {
          //make a node based on the information received from the database
