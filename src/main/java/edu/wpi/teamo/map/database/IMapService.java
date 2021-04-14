@@ -1,6 +1,7 @@
 package edu.wpi.teamo.map.database;
 
 import java.io.FileNotFoundException;
+import java.sql.SQLException;
 import java.util.stream.Stream;
 
 public interface IMapService {
@@ -25,7 +26,7 @@ public interface IMapService {
                     String building, String nodeType, String longName, String shortNam);
 
     /* the takers */
-    boolean deleteNode(String id);
-    boolean deleteEdge(String id);
+    void deleteNode(String id) throws SQLException;
+    void deleteEdge(String id) throws SQLException;
 
 }

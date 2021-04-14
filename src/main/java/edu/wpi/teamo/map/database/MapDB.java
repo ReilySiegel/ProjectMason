@@ -219,24 +219,14 @@ public class MapDB implements IMapService {
         }
     }
 
-    public boolean deleteNode(String id) {
-        try {
-            nodes.get(id).delete(db);
-            nodes.remove(id);
-            return true;
-        } catch (SQLException ex) {
-            return false;
-        }
+    public void deleteNode(String id) throws SQLException {
+        nodes.get(id).delete(db);
+        nodes.remove(id);
     }
 
-    public boolean deleteEdge(String id) {
-        try {
-            edges.get(id).delete(db);
-            edges.remove(id);
-            return true;
-        } catch (SQLException ex) {
-            return false;
-        }
+    public void deleteEdge(String id) throws SQLException {
+        edges.get(id).delete(db);
+        edges.remove(id);
     }
 
     public boolean writeEdgesToCSV(String filepath) {

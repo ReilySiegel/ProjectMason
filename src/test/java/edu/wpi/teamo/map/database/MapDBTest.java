@@ -2,6 +2,7 @@ package edu.wpi.teamo.map.database;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.stream.Stream;
 
@@ -64,14 +65,14 @@ public class MapDBTest {
     }
 
     @Test
-    public void deleteNode() {
+    public void deleteNode() throws SQLException {
         assertNotNull(db.getNode("testID1"));
         db.deleteNode("testID1");
         assertNull(db.getNode("testID1"));
     }
 
     @Test
-    public void deleteEdge() {
+    public void deleteEdge() throws SQLException {
         assertNotNull(db.getEdge("edgeID1"));
         db.deleteEdge("edgeID1");
         assertNull(db.getEdge("edgeID1"));
