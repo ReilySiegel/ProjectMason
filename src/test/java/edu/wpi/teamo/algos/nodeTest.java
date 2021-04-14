@@ -1,10 +1,9 @@
 package edu.wpi.teamo.algos;
 
 import org.junit.jupiter.api.Test;
-
+import static org.junit.jupiter.api.Assertions.*;
 import java.util.LinkedList;
 
-import static org.junit.jupiter.api.Assertions.*;
 public class nodeTest {
     @Test
     public void getXTest()
@@ -104,7 +103,6 @@ public class nodeTest {
     }
 
     @Test
-
     public void getshortNameTest()
     {
         System.out.println(" running the short Name test for when answers are equivalent");
@@ -120,27 +118,4 @@ public class nodeTest {
 
     }
 
-
-   /* @Test
-    public void adjacenciesTest()
-    {
-        // tells you what test is running
-        System.out.println("testing the getAdjaciencies and addNodeByID MethodforSingleCase");
-        // tells you the node details
-        String ID = "n001";
-        int x = 1;
-        int y = 1;
-        String f = "floor1";
-        NodeType t = NodeType.REST;
-        String ln = "nobody out pizzas the hut";
-        String sn = "Jabba the hut";
-        Node n = new Node(ID,x,y,f,t,ln,sn);
-        //setting up the expected case
-        String ajt = "n002";
-        LinkedList<String> s = new LinkedList();
-        s.addLast(ajt);
-        n.addAdjacencyByNodeId("n002");
-        // testing
-        assertEquals(s,n.getAdjacencies());
-    }*/
 }

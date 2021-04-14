@@ -3,20 +3,16 @@ package edu.wpi.teamo.algos;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.lang.Integer;
+import java.util.*;
 
 
 public class AStar {
-    // still not quite understand how the MapSection works so I made a hashmap instead for now
-    // considering using array tho for MapSection
-    // private LinkedList<MapSection> maps;
-    private String startNodeID;
-    private String endNodeID;
-    private HashMap<String, Node> allNodes;
 
+    private LinkedList<Node> allTheMess;
 
-    // WE MIGHT NEED A CONSTRUCTOR????
-    public AStar(HashMap<String, Node> nodes){
-        allNodes = nodes;
+    public void setAllTheMess(LinkedList<Node> all){
+        allTheMess = all;
     }
 
 
@@ -26,7 +22,8 @@ public class AStar {
      * @param endNode (destination)
      * @return a linkedlist
      */
-    private LinkedList<Node> findPath(Node startingNode, Node endNode){
+    public LinkedList<Node> findPath(String startingNode, String endNode){
+
 
         findPathPreGame(startingNode, endNode);
         LinkedList<Node> path = new LinkedList<Node>();
@@ -40,7 +37,9 @@ public class AStar {
      * @param start (starting position)
      * @param end (destination)
      */
-    private void findPathPreGame(Node start, Node end){
+    private void findPathPreGame(String start, String end){
+        Node starting = stringToNode(start);
+        Node ending = stringToNode(end);
 
         // list of nodes that are open to be evaluated
         LinkedList<Node> openNodes = new LinkedList<>();
@@ -49,7 +48,7 @@ public class AStar {
         HashSet<Node> visitedNodes = new HashSet<>();
 
         // adding the starting node to the openNodes list
-        openNodes.add(start);
+        openNodes.add(starting);
 
         //HashMap<String, Node> Nodes = allNodes;
 
@@ -70,11 +69,10 @@ public class AStar {
             visitedNodes.add(currentNode);
 
             // if ture, path has been found, then return
-            if (currentNode == end){return; }
+            if (currentNode == ending){return; }
 
+            for (Node neighbor: adjacenciesToNodes(currentNode) ){ //adjacencies has to list of  nodes
 
-            for (Node s: currentNode.getAdjacencies()){ //adjacencies has to list of  nodes
-                Node neighbor = openNodes.get(openNodes.indexOf(s));
                 // we need to discuss about the conditions that make a node "walkable" - all our nodes are walkable
                 //skip to the next neighbor
                 if (visitedNodes.contains(neighbor))
@@ -84,7 +82,7 @@ public class AStar {
 
                 if (newMovementCostToNeighbor < neighbor.get_gCost() || !openNodes.contains(neighbor)){
                     neighbor.set_gCost(newMovementCostToNeighbor);
-                    neighbor.set_hCost(getDistance(neighbor,end));
+                    neighbor.set_hCost(getDistance(neighbor,ending));
                     neighbor.setParent(currentNode);
 
                     if (!openNodes.contains(neighbor)) openNodes.add(neighbor);
@@ -93,15 +91,35 @@ public class AStar {
         }
     }
 
+
     /**
-     * A temporary silly helper function waiting to be placed with conditions that determine if a node is "walkable"
-     * @param a (you need to admit that Oliver is cool by entering "absolutely" to have the Pathfinding method working!!)
-     * @return a boolean value
+     *
+     * @param node
+     * @return
      */
-    private Boolean isOliverCool (String a){
-        return a.equals("absolutely");
+    private LinkedList<Node> adjacenciesToNodes(Node node) {
+        LinkedList<Node> list = new LinkedList<>();
+        for (String s : node.getAdjacencies()) {
+            for (Node n : allTheMess) {
+                if (n.getID() == s) list.add(n);
+            }
+        }
+        return list;
     }
 
+    /**
+     *
+     * @param ID
+     * @return
+     */
+    private Node stringToNode(String ID){
+        for (Node n: allTheMess) {
+            if (ID == n.getID()) {
+                return n;
+            }
+        }
+        return null;
+    }
 
     /**
      * creates a path based using the list of nodes
@@ -109,15 +127,19 @@ public class AStar {
      * @param endNode
      * @return a linked list of path from startNode ---> endNode
      */
-    private LinkedList<Node> generatePath(Node startNode, Node endNode){
+    private LinkedList<Node> generatePath(String startNode, String endNode){
+        Node start = stringToNode(startNode);
+        Node end = stringToNode(endNode);
 
         LinkedList<Node> path = new LinkedList<Node>();
-        Node currentNode = endNode;
+        Node currentNode = end;
 
-        while(currentNode != startNode){
+        while(currentNode != start){
             path.addFirst(currentNode);
             currentNode = currentNode.getParent();
         }
+
+        path.addFirst(start);
         return path;
     }
 

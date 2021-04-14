@@ -5,7 +5,7 @@ public class Node {
     private String longName, shortName, ID, floor;
     private  int xCoordinate, yCoordinate;
     private NodeType type;
-    private  LinkedList<Node> adjacencies;
+    private  LinkedList<String> adjacencies;
 
 
     /**
@@ -24,7 +24,7 @@ public class Node {
         this.floor = Floor;
         this.longName = longName;
         this.shortName = shortName;
-        this.adjacencies = new LinkedList<Node>();
+        this.adjacencies = new LinkedList<String>();
     }
 
     /**
@@ -40,7 +40,7 @@ public class Node {
         this.type = null;
         this.longName = null;
         this.shortName = null;
-        this.adjacencies = new LinkedList<Node>();
+        this.adjacencies = new LinkedList<String>();
 
     }
 
@@ -59,7 +59,7 @@ public class Node {
     public String getLongName() {
         return longName;
     }
-    public LinkedList<Node> getAdjacencies() {return adjacencies;}
+    public LinkedList<String> getAdjacencies() {return adjacencies;}
 
 
     /**
@@ -83,10 +83,7 @@ public class Node {
      */
      public void addAdjacencyByNodeId(String ID) {
          //make a node based on the information received from the database
-         Node adjacencyNode = null;
-         adjacencyNode.ID = ID;
-
-         this.adjacencies.addLast(adjacencyNode);
+         this.adjacencies.addLast(ID);
     }
 
      public void setX(int x)
