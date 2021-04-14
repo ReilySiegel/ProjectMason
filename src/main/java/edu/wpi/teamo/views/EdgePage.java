@@ -3,6 +3,8 @@ package edu.wpi.teamo.views;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.teamo.App;
+
+import java.io.File;
 import java.io.IOException;
 
 import edu.wpi.teamo.Pages;
@@ -11,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import javafx.stage.FileChooser;
 
 public class EdgePage {
     @FXML
@@ -74,6 +77,13 @@ public class EdgePage {
     @FXML
     void handleBacktoMain(ActionEvent event) {
         App.switchPage(Pages.MAIN);
+    }
+
+    @FXML
+    void handleLoadCSV(ActionEvent event) {
+        FileChooser fc = new FileChooser();
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV FILES", "*.csv"));
+        File f = fc.showOpenDialog(null);
     }
 
 }

@@ -14,7 +14,7 @@
       <HBox prefHeight="481.0" prefWidth="549.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="446.0" prefWidth="372.0" style="-fx-background-color: #B5BCBA;" HBox.hgrow="ALWAYS">
                   <HBox prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #5D5A5A;">
-                        <JFXButton style="-fx-background-color: #B5BCBA;" text="Load .csv">
+                        <JFXButton onAction="#handleLoadCSV" style="-fx-background-color: #B5BCBA;" text="Load .csv">
                            <HBox.margin>
                               <Insets left="5.0" top="5.0" />
                            </HBox.margin>
