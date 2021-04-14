@@ -66,27 +66,7 @@ public class EdgePage {
         } catch (Exception SQLException) {
             return;
         }
-
-        // list of all edge from db
-        List<EdgeInfo> edgeList = null;
-        try {
-            edgeList = App.dbService.getAllEdges().collect(Collectors.toList());
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        String edgeString = "";
-
-        // loops through the list and prints edge, start node, and end node
-        for (int i = 0; i < edgeList.size(); i++) {
-            if (!edgeList.get(i).getEdgeID().isEmpty()) {
-                edgeString = edgeString + edgeList.get(i).getEdgeID() + "                  ";
-                edgeString = edgeString + edgeList.get(i).getStartNodeID() + "                  ";
-                edgeString = edgeString + edgeList.get(i).getEndNodeID();
-                edgeString = edgeString + "\n";
-            }
-        }
-        displayEdges.setText(edgeString);
-
+        updateDisplay();
     }
 
     /**
@@ -102,27 +82,7 @@ public class EdgePage {
         } catch (Exception SQLException) {
             return;
         }
-
-        // list of all edge from db
-        List<EdgeInfo> edgeList = null;
-        try {
-            edgeList = App.dbService.getAllEdges().collect(Collectors.toList());
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        String edgeString = "";
-
-        // loops through the list and prints edge, start node, and end node
-        for (int i = 0; i < edgeList.size(); i++) {
-            if (!edgeList.get(i).getEdgeID().isEmpty()) {
-                edgeString = edgeString + edgeList.get(i).getEdgeID() + "                  ";
-                edgeString = edgeString + edgeList.get(i).getStartNodeID() + "                  ";
-                edgeString = edgeString + edgeList.get(i).getEndNodeID();
-                edgeString = edgeString + "\n";
-            }
-        }
-        displayEdges.setText(edgeString);
-
+        updateDisplay();
     }
 
     /**
@@ -132,36 +92,20 @@ public class EdgePage {
      */
     @FXML
     void handleEditSubmit(ActionEvent event) {
-        String neweditEdgeID = editEdgeID.getText();
+        String newEditEdgeID = editEdgeID.getText();
         String editEdgeNode1 = editNode1.getText();
-        String newEdgeNode2 = editNode2.getText();
+        String editEdgeNode2 = editNode2.getText();
 
         // try catch for reading in file
         try {
-            // App.dbService.);
+            App.dbService.setEdgeID(editingEdge.getText(), newEditEdgeID);
+            App.dbService.setEdgeStartID(newEditEdgeID, editEdgeNode1);
+            App.dbService.setEdgeEndID(newEditEdgeID, editEdgeNode2);
         } catch (Exception FileNotFoundException) {
             return;
         }
 
-        // list of all edge from db
-        List<EdgeInfo> edgeList = null;
-        try {
-            edgeList = App.dbService.getAllEdges().collect(Collectors.toList());
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        String edgeString = "";
-
-        // loops through the list and prints edge, start node, and end node
-        for (int i = 0; i < edgeList.size(); i++) {
-            if (!edgeList.get(i).getEdgeID().isEmpty()) {
-                edgeString = edgeString + edgeList.get(i).getEdgeID() + "                  ";
-                edgeString = edgeString + edgeList.get(i).getStartNodeID() + "                  ";
-                edgeString = edgeString + edgeList.get(i).getEndNodeID();
-                edgeString = edgeString + "\n";
-            }
-        }
-        displayEdges.setText(edgeString);
+        updateDisplay();
     }
 
     @FXML
@@ -210,7 +154,9 @@ public class EdgePage {
         } catch (Exception FileNotFoundException) {
             return;
         }
-
+        updateDisplay();
+    }
+    void updateDisplay() {
         // list of all edge from db
         List<EdgeInfo> edgeList = null;
         try {
@@ -230,6 +176,5 @@ public class EdgePage {
             }
         }
         displayEdges.setText(edgeString);
-
     }
 }
