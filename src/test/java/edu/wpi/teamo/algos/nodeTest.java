@@ -121,7 +121,7 @@ public class nodeTest {
     }
 
 
-    @Test
+   /* @Test
     public void adjacenciesTest()
     {
         // tells you what test is running
@@ -142,5 +142,5 @@ public class nodeTest {
         n.addAdjacencyByNodeId("n002");
         // testing
         assertEquals(s,n.getAdjacencies());
-    }
+    }*/
 }
