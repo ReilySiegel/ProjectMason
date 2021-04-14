@@ -28,7 +28,7 @@ repositories {
 //This is where you declare your dependencies and their version.s
 //You will almost DEFINITELY add more here
 dependencies {
-    compile(
+    implementation(
             'com.jfoenix:jfoenix:8.0.10',
 
             // You may comment out the database dependency you do not use
@@ -61,7 +61,7 @@ jar {
     }
 
     from {
-        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }
 
