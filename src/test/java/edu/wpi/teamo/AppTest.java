@@ -30,14 +30,14 @@ public class AppTest extends FxRobot {
 
   @Test
   public void testButton() {
-    //verifyThat("Scene 1", Node::isVisible);
+    //verifyThat("Scene 1", AlgoNode::isVisible);
     //clickOn("Advance Scene");
-    //verifyThat("Scene 2", Node::isVisible);
+    //verifyThat("Scene 2", AlgoNode::isVisible);
     //clickOn("Advance Scene");
-    //verifyThat("Scene 3", Node::isVisible);
+    //verifyThat("Scene 3", AlgoNode::isVisible);
     //clickOn("Advance Scene");
-    //verifyThat("Scene 4", Node::isVisible);
+    //verifyThat("Scene 4", AlgoNode::isVisible);
     //clickOn("Advance Scene");
-    //verifyThat("Scene 1", Node::isVisible);
+    //verifyThat("Scene 1", AlgoNode::isVisible);
   }
 }

@@ -24,8 +24,8 @@ public class Scene1Test extends ApplicationTest {
 
   @Test
   public void testButton() {
-    //verifyThat("Scene 1", Node::isVisible);
+    //verifyThat("Scene 1", AlgoNode::isVisible);
     //clickOn("Advance Scene");
-    //verifyThat("Scene 2", Node::isVisible);
+    //verifyThat("Scene 2", AlgoNode::isVisible);
   }
 }

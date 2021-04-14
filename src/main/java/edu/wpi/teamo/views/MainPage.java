@@ -73,7 +73,7 @@ public class MainPage {
         label.setText("Help:\n" +
                 "Select a button to go to the corresponding page.\n" +
                 "Medicine Request Page: Order an available non-prescription drug for delivery straight to any hospital room.\n" +
-                "Node Editing Page: Load/Save a list of map nodes from a CSV file. Add, edit, or remove nodes for later use in pathfinding.\n" +
+                "AlgoNode Editing Page: Load/Save a list of map nodes from a CSV file. Add, edit, or remove nodes for later use in pathfinding.\n" +
                 "Edge Editing Page: Load/Save a list of map edges from a CSV file. Add, edit, or remove edges for later use in pathfinding.\n" +
                 "Pathfinding Page: Select a starting and ending location and have the program find the fastest route between them.\n");
         Button close = new Button("Return");

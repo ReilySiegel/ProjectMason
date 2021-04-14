@@ -1,7 +1,7 @@
 package edu.wpi.teamo.algos;
 import java.util.LinkedList;
 
-public class Node {
+public class AlgoNode {
     private String longName, shortName, ID, floor;
     private  int xCoordinate, yCoordinate;
     private NodeType type;
@@ -10,13 +10,13 @@ public class Node {
 
     /**
      * adding gCost and hCost(initialize them to 0) for the use of A* Algorithm
-     * adding parent Node to indicate the direction of the pathFinding
+     * adding parent AlgoNode to indicate the direction of the pathFinding
      */
     private int gCost = 0;
     private int hCost = 0;
-    private Node parent;
+    private AlgoNode parent;
 
-    public Node(String ID, int xCoord, int yCoord, String Floor, NodeType nodeType, String longName, String shortName) {
+    public AlgoNode(String ID, int xCoord, int yCoord, String Floor, NodeType nodeType, String longName, String shortName) {
         this.ID = ID;
         this.xCoordinate = xCoord;
         this.yCoordinate = yCoord;
@@ -29,11 +29,11 @@ public class Node {
 
     /**
      * node constructor that is essentially the barebones information a node needs to have to work in the Astar algorithim
-     * @param ID  Node ID is used as a key in the
+     * @param ID  AlgoNode ID is used as a key in the
      * @param xCoord X coordinate locational Data
      * @param yCoord Y coordinate locational data
      */
-    public Node(String ID, int xCoord, int yCoord) {
+    public AlgoNode(String ID, int xCoord, int yCoord) {
         this.ID = ID;
         this.xCoordinate = xCoord;
         this.yCoordinate = yCoord;
@@ -71,8 +71,8 @@ public class Node {
     public void set_hCost(int h){hCost = h;}
     public int get_hCost(){return hCost;}
 
-    public void setParent(Node n){parent = n;}
-    public Node getParent(){return parent;}
+    public void setParent(AlgoNode n){parent = n;}
+    public AlgoNode getParent(){return parent;}
 
     public int get_fCost(){return gCost + hCost;}
 

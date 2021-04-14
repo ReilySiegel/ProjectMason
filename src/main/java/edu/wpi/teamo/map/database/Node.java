@@ -29,12 +29,12 @@ public class Node implements NodeInfo {
     }
 
     /**
-     * Create an Node table in a database.
+     * Create an AlgoNode table in a database.
      * @param db The database to create the table in.
      * @return True if the table was created successfully.
      */
     public static void initTable(Database db) throws SQLException {
-        db.processUpdate("CREATE TABLE Node ("
+        db.processUpdate("CREATE TABLE AlgoNode ("
                 + "nodeID VARCHAR(255) PRIMARY KEY, "
                 + "xcoord INT, "
                 + "ycoord INT, "
@@ -47,14 +47,14 @@ public class Node implements NodeInfo {
     }
 
     /**
-     * Create an Node object from an existing edge in a database.
+     * Create an AlgoNode object from an existing edge in a database.
      * @param db The database object to fetch the node from.
      * @param id The id of the node to be fetched.
      * @return The node object.
      * @throws SQLException When the id is incorrect, or database is not properly initialized.
      */
     public static Node getByID (Database db, String id) throws SQLException {
-        ResultSet rs = db.processQuery("SELECT * FROM Node WHERE Node.nodeID = '" + id + "'");
+        ResultSet rs = db.processQuery("SELECT * FROM AlgoNode WHERE AlgoNode.nodeID = '" + id + "'");
         if (!rs.next())
             throw new SQLException();
 
@@ -73,12 +73,12 @@ public class Node implements NodeInfo {
     /**
      * Retrieve all nodes from a database.
      * @param db The database to retrieve the nodes from.
-     * @return A stream of Node objects.
+     * @return A stream of AlgoNode objects.
      * @throws SQLException When the database is not properly initialized.
      */
     public static Stream<Node> getAll(Database db) throws SQLException {
         ArrayList<Node> nodes = new ArrayList<>();
-        ResultSet rs = db.processQuery("SELECT * FROM Node");
+        ResultSet rs = db.processQuery("SELECT * FROM AlgoNode");
         while (rs.next())
             nodes.add(new Node(
                 rs.getString("nodeID"),
@@ -94,7 +94,7 @@ public class Node implements NodeInfo {
     }
 
     /**
-     * Update a database with the information stored in the Node object.
+     * Update a database with the information stored in the AlgoNode object.
      * @param db The database to update.
      * @throws SQLException When the database is not properly initialized,
      * or the node object's attributes are invalid.
@@ -102,7 +102,7 @@ public class Node implements NodeInfo {
     public void update(Database db) throws SQLException {
         // Apache Derby does not have upsert, so we must try both an insert and update.
         try {
-            db.processUpdate("INSERT INTO Node (nodeID, xcoord, ycoord, floor, building, nodeType, " +
+            db.processUpdate("INSERT INTO AlgoNode (nodeID, xcoord, ycoord, floor, building, nodeType, " +
                     "longName, shortName) VALUES " +
                     String.format("('%s',%s,%s,'%s','%s','%s','%s','%s')",
                             this.nodeID,
@@ -115,7 +115,7 @@ public class Node implements NodeInfo {
                             this.shortName));
         } catch (SQLException e) {
             // Item with this ID already exists in the DB, try insert.
-            db.processUpdate("UPDATE Node SET " +
+            db.processUpdate("UPDATE AlgoNode SET " +
                     String.format("nodeID = '%s', xcoord = %s, ycoord = %s, floor = '%s', " +
                                     "building = '%s', nodeType = '%s', longName = '%s', " +
                                     "shortName = '%s' ",
@@ -127,20 +127,20 @@ public class Node implements NodeInfo {
                             this.nodeType,
                             this.longName,
                             this.shortName)
-                    + "WHERE Node.nodeID = '" + this.nodeID+ "'");
+                    + "WHERE AlgoNode.nodeID = '" + this.nodeID+ "'");
 
         }
     }
 
     public void delete(Database db) throws SQLException {
-        db.processUpdate(String.format("DELETE FROM Node WHERE nodeID = '%s'", this.nodeID));
+        db.processUpdate(String.format("DELETE FROM AlgoNode WHERE nodeID = '%s'", this.nodeID));
     }
 
     // TODO: Fix the update method's error detection so the set function is not needed
     //had to add this because the try catch above was not working
     public void set(Database db) throws SQLException {
 
-        db.processUpdate("UPDATE Node SET " +
+        db.processUpdate("UPDATE AlgoNode SET " +
                 String.format("nodeID = '%s', xcoord = %s, ycoord = %s, floor = '%s', " +
                                 "building = '%s', nodeType = '%s', longName = '%s', " +
                                 "shortName = '%s' ",
@@ -152,7 +152,7 @@ public class Node implements NodeInfo {
                         this.nodeType,
                         this.longName,
                         this.shortName)
-                + "WHERE Node.nodeID = '" + this.nodeID+ "'");
+                + "WHERE AlgoNode.nodeID = '" + this.nodeID+ "'");
 
     }
 

@@ -18,7 +18,7 @@ public class nodeTest {
         NodeType t = NodeType.REST;
         String ln = "nobody out pizzas the hut";
         String sn = "Jabba the hut";
-        Node n = new Node(ID,x,y,f,t,ln,sn);
+        AlgoNode n = new AlgoNode(ID,x,y,f,t,ln,sn);
         assertEquals(1,n.getX());
     }
 
@@ -36,7 +36,7 @@ public class nodeTest {
         NodeType t = NodeType.REST;
         String ln = "nobody out pizzas the hut";
         String sn = "Jabba the hut";
-        Node n = new Node(ID,x,y,f,t,ln,sn);
+        AlgoNode n = new AlgoNode(ID,x,y,f,t,ln,sn);
         assertEquals(1,n.getY());
 
     }
@@ -55,7 +55,7 @@ public class nodeTest {
         NodeType t = NodeType.REST;
         String ln = "nobody out pizzas the hut";
         String sn = "Jabba the hut";
-        Node n = new Node(ID,x,y,f,t,ln,sn);
+        AlgoNode n = new AlgoNode(ID,x,y,f,t,ln,sn);
         assertEquals(t,n.getType());
     }
 
@@ -73,7 +73,7 @@ public class nodeTest {
         NodeType t = NodeType.REST;
         String ln = "nobody out pizzas the hut";
         String sn = "Jabba the hut";
-        Node n = new Node(ID,x,y,f,t,ln,sn);
+        AlgoNode n = new AlgoNode(ID,x,y,f,t,ln,sn);
         assertEquals(f,n.getFloor());
     }
 
@@ -91,7 +91,7 @@ public class nodeTest {
         NodeType t = NodeType.REST;
         String ln = "nobody out pizzas the hut";
         String sn = "Jabba the hut";
-        Node n = new Node(ID,x,y,f,t,ln,sn);
+        AlgoNode n = new AlgoNode(ID,x,y,f,t,ln,sn);
         assertEquals(ID,n.getID());
 
     }
@@ -110,7 +110,7 @@ public class nodeTest {
         NodeType t = NodeType.REST;
         String ln = "nobody out pizzas the hut";
         String sn = "Jabba the hut";
-        Node n = new Node(ID,x,y,f,t,ln,sn);
+        AlgoNode n = new AlgoNode(ID,x,y,f,t,ln,sn);
         assertEquals(ln,n.getLongName());
 
     }
@@ -129,7 +129,7 @@ public class nodeTest {
         NodeType t = NodeType.REST;
         String ln = "nobody out pizzas the hut";
         String sn = "Jabba the hut";
-        Node n = new Node(ID,x,y,f,t,ln,sn);
+        AlgoNode n = new AlgoNode(ID,x,y,f,t,ln,sn);
         assertEquals(sn,n.getShortName());
 
     }

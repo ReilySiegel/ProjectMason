@@ -6,10 +6,6 @@ import java.util.stream.*;
 
 public class AStarManager implements AStarService {
     private MapDB DBService;
-    private AStar aStar;
-
-    public LinkedList<Node> allNodes;
-    public LinkedList<Edge> allEdges;
 
     /**
      * Constructor for AStarManager
@@ -17,28 +13,6 @@ public class AStarManager implements AStarService {
      */
     public AStarManager(MapDB service) {
         DBService = service;
-
-        List<NodeInfo> rawNodes = DBService.getAllNodes().collect(Collectors.toList());
-        List<EdgeInfo> rawEdges = DBService.getAllEdges().collect(Collectors.toList());
-
-        allNodes = new LinkedList<>();
-        allEdges = new LinkedList<>();
-
-        //Convert Database types to Algorithm-friendly types
-        for(NodeInfo rawNode : rawNodes) {
-            Node n = new Node(rawNode.getNodeID(), rawNode.getXPos(), rawNode.getYPos(), rawNode.getFloor(), NodeType.valueOf(rawNode.getNodeType()), rawNode.getLongName(), rawNode.getShortName());
-            allNodes.add(n);
-        }
-        for(EdgeInfo rawEdge : rawEdges) {
-            Edge e = new Edge(rawEdge.getEdgeID(), rawEdge.getStartNodeID(), rawEdge.getEndNodeID());
-            allEdges.add(e);
-        }
-
-        //Updating the adjacencies lists for nodes
-        assignNodeAdjacency(allNodes,allEdges);
-
-        aStar.setAllTheMess(allNodes);
-
     }
 
     /**
@@ -46,31 +20,13 @@ public class AStarManager implements AStarService {
      * @param nodes nodes to parse
      * @param edges edges to parse
      */
-    public void assignNodeAdjacency(LinkedList<Node> nodes,LinkedList<Edge> edges){
-        for(Node n: nodes){
+    public static void assignNodeAdjacency(LinkedList<AlgoNode> nodes, LinkedList<Edge> edges){
+        for(AlgoNode n: nodes){
             for (Edge e: edges){
                 if (n.getID().equals(e.getStartNodeID())) n.addAdjacencyByNodeId(e.getEndNodeID());
                 else if (n.getID().equals(e.getEndNodeID())) n.addAdjacencyByNodeId(e.getStartNodeID());
             }
         }
-    }
-
-    /**
-     * TODO
-     * @return LinkedList<Object></>
-     */
-    @Override
-    public LinkedList<Object> getNodeIDLookUpTable() {
-        return null;
-    }
-
-    /**
-     * Returns the AStar Object
-     * @return AStar object
-     */
-    @Override
-    public AStar loadAStar() {
-        return aStar;
     }
 
     /**
@@ -80,7 +36,28 @@ public class AStarManager implements AStarService {
      * @return The path between the starting and ending node
      */
     @Override
-    public LinkedList<Node> getPath(String startID, String endID) {
+    public LinkedList<AlgoNode> getPath(String startID, String endID) {
+
+        List<NodeInfo> rawNodes = DBService.getAllNodes().collect(Collectors.toList());
+        List<EdgeInfo> rawEdges = DBService.getAllEdges().collect(Collectors.toList());
+
+        //Convert Database types to Algorithm-friendly types
+        LinkedList<AlgoNode> allNodes = new LinkedList<>();;
+        for(NodeInfo rawNode : rawNodes) {
+            AlgoNode n = new AlgoNode(rawNode.getNodeID(), rawNode.getXPos(), rawNode.getYPos(), rawNode.getFloor(), NodeType.valueOf(rawNode.getNodeType()), rawNode.getLongName(), rawNode.getShortName());
+            allNodes.add(n);
+        }
+
+        LinkedList<Edge> allEdges = new LinkedList<>();;
+        for(EdgeInfo rawEdge : rawEdges) {
+            Edge e = new Edge(rawEdge.getEdgeID(), rawEdge.getStartNodeID(), rawEdge.getEndNodeID());
+            allEdges.add(e);
+        }
+
+        assignNodeAdjacency(allNodes,allEdges);
+
+        AStar aStar = new AStar(allNodes, allEdges, startID, endID);
+        aStar.setAllTheMess(allNodes);
         return aStar.findPath(startID,endID);
     }
 }

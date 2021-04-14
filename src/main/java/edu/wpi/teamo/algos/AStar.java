@@ -1,12 +1,26 @@
 package edu.wpi.teamo.algos;
 
+import edu.wpi.teamo.map.database.Edge;
+
 import java.util.*;
 
 public class AStar {
 
-    private LinkedList<Node> allTheMess;
+    LinkedList<AlgoNode> nodes;
+    LinkedList<Edge> edges;
+    String startID;
+    String endID;
 
-    public void setAllTheMess(LinkedList<Node> all){
+    public AStar(LinkedList<AlgoNode> nodes, LinkedList<Edge> edges, String startNodeID, String endNodeID) {
+        this.startID = startNodeID;
+        this.endID = endNodeID;
+        this.nodes = nodes;
+        this.edges = edges;
+    }
+
+    private LinkedList<AlgoNode> allTheMess;
+
+    public void setAllTheMess(LinkedList<AlgoNode> all){
         allTheMess = all;
     }
 
@@ -17,43 +31,41 @@ public class AStar {
      * @param endNode (destination)
      * @return a LinkedList of the path between the starting and ending nodes
      */
-    public LinkedList<Node> findPath(String startingNode, String endNode){
-
-
-        findPathPreGame(startingNode, endNode);
-        LinkedList<Node> path = new LinkedList<Node>();
-        path = generatePath(startingNode, endNode);
+    public LinkedList<AlgoNode> findPath(String startingNode, String endNode) {
+        startID = startingNode;
+        endID = endNode;
+        findPathPreGame();
+        LinkedList<AlgoNode> path = new LinkedList<AlgoNode>();
+        path = generatePath();
         return path;
     }
 
 
     /**
      * The core of A*, setting all the gCost, hCost and direction of the path
-     * @param start (starting position)
-     * @param end (destination)
      */
-    private void findPathPreGame(String start, String end) {
-        Node starting = stringToNode(start);
-        Node ending = stringToNode(end);
+    private void findPathPreGame() {
+        AlgoNode starting = stringToNode(startID);
+        AlgoNode ending = stringToNode(endID);
 
         // list of nodes that are open to be evaluated
-        LinkedList<Node> openNodes = new LinkedList<>();
+        LinkedList<AlgoNode> openNodes = new LinkedList<>();
 
         // Hashset of nodes has already been visited and evaluated
-        HashSet<Node> visitedNodes = new HashSet<>();
+        HashSet<AlgoNode> visitedNodes = new HashSet<>();
 
         // adding the starting node to the openNodes list
         openNodes.add(starting);
 
-        //HashMap<String, Node> Nodes = allNodes;
+        //HashMap<String, AlgoNode> Nodes = allNodes;
 
         // looping
         while(!openNodes.isEmpty()){
 
-            Node currentNode = openNodes.getFirst();
+            AlgoNode currentNode = openNodes.getFirst();
 
             // traverse through the open list and find the node with the lowest fCost
-            for (Node n: openNodes){
+            for (AlgoNode n: openNodes){
                 if (n.get_fCost() < currentNode.get_fCost() ||
                         (n.get_fCost() == currentNode.get_fCost() && n.get_hCost() < currentNode.get_hCost())){
                     currentNode = n;
@@ -66,7 +78,7 @@ public class AStar {
             // if ture, path has been found, then return
             if (currentNode == ending){return; }
 
-            for (Node neighbor: adjacenciesToNodes(currentNode) ){ //adjacencies has to list of  nodes
+            for (AlgoNode neighbor: adjacenciesToNodes(currentNode) ){ //adjacencies has to list of  nodes
 
                 // we need to discuss about the conditions that make a node "walkable" - all our nodes are walkable
                 //skip to the next neighbor
@@ -92,10 +104,10 @@ public class AStar {
      * @param node the node from which to retrieve the adjacent nodes
      * @return The list of adjacent nodes
      */
-    private LinkedList<Node> adjacenciesToNodes(Node node) {
-        LinkedList<Node> list = new LinkedList<>();
+    private LinkedList<AlgoNode> adjacenciesToNodes(AlgoNode node) {
+        LinkedList<AlgoNode> list = new LinkedList<>();
         for (String s : node.getAdjacencies()) {
-            for (Node n : allTheMess) {
+            for (AlgoNode n : allTheMess) {
                 if (n.getID().equals(s)) list.add(n);
             }
         }
@@ -103,12 +115,12 @@ public class AStar {
     }
 
     /**
-     * Returns the Node associated with the ID
+     * Returns the AlgoNode associated with the ID
      * @param ID the ID of the node to retrieve
-     * @return the Node associated with the ID
+     * @return the AlgoNode associated with the ID
      */
-    private Node stringToNode(String ID){
-        for (Node n: allTheMess) {
+    private AlgoNode stringToNode(String ID){
+        for (AlgoNode n: allTheMess) {
             if (ID.equals(n.getID())) {
                 return n;
             }
@@ -118,16 +130,14 @@ public class AStar {
 
     /**
      * Creates a path based using the list of nodes
-     * @param startNode The starting node
-     * @param endNode The end node
      * @return a linked list of path from startNode ---> endNode
      */
-    private LinkedList<Node> generatePath(String startNode, String endNode){
-        Node start = stringToNode(startNode);
-        Node end = stringToNode(endNode);
+    private LinkedList<AlgoNode> generatePath(){
+        AlgoNode start = stringToNode(startID);
+        AlgoNode end = stringToNode(endID);
 
-        LinkedList<Node> path = new LinkedList<Node>();
-        Node currentNode = end;
+        LinkedList<AlgoNode> path = new LinkedList<AlgoNode>();
+        AlgoNode currentNode = end;
 
         while(currentNode != start){
             path.addFirst(currentNode);
@@ -140,11 +150,11 @@ public class AStar {
 
     /**
      * Get distance between two nodes using distance formula
-     * @param nodeA (starting Node)
-     * @param nodeB (target Node)
+     * @param nodeA (starting AlgoNode)
+     * @param nodeB (target AlgoNode)
      * @return The distance between the two nodes
      */
-    private int getDistance(Node nodeA, Node nodeB){
+    private int getDistance(AlgoNode nodeA, AlgoNode nodeB){
         int nodeAXCoordinate = nodeA.getX();
         int nodeAYCoordinate = nodeA.getY();
         int nodeBXCoordinate = nodeB.getX();
