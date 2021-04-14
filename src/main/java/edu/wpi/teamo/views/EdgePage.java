@@ -1,28 +1,19 @@
 package edu.wpi.teamo.views;
 
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.teamo.App;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import edu.wpi.teamo.Pages;
 import edu.wpi.teamo.map.database.EdgeInfo;
-import edu.wpi.teamo.map.database.NodeInfo;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.control.Label;
 import javafx.stage.FileChooser;
 
 public class EdgePage {
@@ -35,8 +26,6 @@ public class EdgePage {
     @FXML
     private JFXTextField addNode2;
 
-    @FXML
-    private JFXButton addSubmit;
 
     @FXML
     private JFXTextField editingEdge;
@@ -44,8 +33,9 @@ public class EdgePage {
     @FXML
     private JFXTextArea displayEdges;
 
+
     @FXML
-    private Label currentEdge;
+    private JFXTextArea currentEdge;
 
     @FXML
     private JFXTextField editEdgeID;
@@ -56,17 +46,13 @@ public class EdgePage {
     @FXML
     private JFXTextField editNode2;
 
-    @FXML
-    private JFXButton editSubmit;
 
     @FXML
     private JFXTextField deleteEdgeID;
 
-    @FXML
-    private JFXButton deleteSubmit;
-
     /**
      * handles editing a edge
+     *
      * @param event clicking submit button
      */
     @FXML
@@ -75,33 +61,114 @@ public class EdgePage {
         String newEdgeNode1 = addNode1.getText();
         String newEdgeNode2 = addNode2.getText();
 
+        try {
+            App.dbService.addEdge(newEdgeID, newEdgeNode1, newEdgeNode2);
+        } catch (Exception SQLException) {
+            return;
+        }
+
+        // list of all edge from db
+        List<EdgeInfo> edgeList = App.dbService.getAllEdges().collect(Collectors.toList());
+        String edgeString = "";
+
+        // loops through the list and prints edge, start node, and end node
+        for (int i = 0; i < edgeList.size(); i++) {
+            if (!edgeList.get(i).getEdgeID().isEmpty()) {
+                edgeString = edgeString + edgeList.get(i).getEdgeID() + "                  ";
+                edgeString = edgeString + edgeList.get(i).getStartNodeID() + "                  ";
+                edgeString = edgeString + edgeList.get(i).getEndNodeID();
+                edgeString = edgeString + "\n";
+            }
+        }
+        displayEdges.setText(edgeString);
+
     }
 
     /**
      * handles editing a edge
+     *
      * @param event clicking submit button
      */
     @FXML
     void handleDeleteSubmit(ActionEvent event) {
-        String deleteEdge = deleteEdgeID.getText();
+        String EdgetoDelete = deleteEdgeID.getText();
+        try {
+            App.dbService.deleteEdge(EdgetoDelete);
+        } catch (Exception SQLException) {
+            return;
+        }
 
+        // list of all edge from db
+        List<EdgeInfo> edgeList = App.dbService.getAllEdges().collect(Collectors.toList());
+        String edgeString = "";
+
+        // loops through the list and prints edge, start node, and end node
+        for (int i = 0; i < edgeList.size(); i++) {
+            if (!edgeList.get(i).getEdgeID().isEmpty()) {
+                edgeString = edgeString + edgeList.get(i).getEdgeID() + "                  ";
+                edgeString = edgeString + edgeList.get(i).getStartNodeID() + "                  ";
+                edgeString = edgeString + edgeList.get(i).getEndNodeID();
+                edgeString = edgeString + "\n";
+            }
+        }
+        displayEdges.setText(edgeString);
 
     }
 
     /**
      * handles editing a edge
+     *
      * @param event clicking submit button
      */
     @FXML
     void handleEditSubmit(ActionEvent event) {
-        String currentEdgeID = editingEdge.getText();
         String neweditEdgeID = editEdgeID.getText();
         String editEdgeNode1 = editNode1.getText();
         String newEdgeNode2 = editNode2.getText();
+
+        // try catch for reading in file
+        try {
+            // App.dbService.);
+        } catch (Exception FileNotFoundException) {
+            return;
+        }
+
+        // list of all edge from db
+        List<EdgeInfo> edgeList = App.dbService.getAllEdges().collect(Collectors.toList());
+        String edgeString = "";
+
+        // loops through the list and prints edge, start node, and end node
+        for (int i = 0; i < edgeList.size(); i++) {
+            if (!edgeList.get(i).getEdgeID().isEmpty()) {
+                edgeString = edgeString + edgeList.get(i).getEdgeID() + "                  ";
+                edgeString = edgeString + edgeList.get(i).getStartNodeID() + "                  ";
+                edgeString = edgeString + edgeList.get(i).getEndNodeID();
+                edgeString = edgeString + "\n";
+            }
+        }
+        displayEdges.setText(edgeString);
     }
+
+    @FXML
+    void handleLookup(ActionEvent event) {
+        String currentEdgeID = editingEdge.getText();
+        String edgeString = "";
+        try {
+            EdgeInfo currentEdgeInfo = App.dbService.getEdge(currentEdgeID);
+            edgeString = "ID: " + currentEdgeInfo.getEdgeID() + "\n";
+            edgeString += "Start Node: " + currentEdgeInfo.getStartNodeID() + "\n";
+            edgeString += "End Node: " + currentEdgeInfo.getEndNodeID();
+        } catch (Exception SQLException) {
+            return;
+        }
+        System.out.println(edgeString);
+        currentEdge.setText(edgeString);
+    }
+
 
     /**
      * handles back to main page
+     *
      * @param event click back button
      */
     @FXML
@@ -111,12 +178,11 @@ public class EdgePage {
 
     /**
      * handles reading in CSV from file
+     *
      * @param event click load button
-     * @throws FileNotFoundException
-     * @throws SQLException
      */
     @FXML
-    void handleLoadCSV(ActionEvent event) throws FileNotFoundException, SQLException {
+    void handleLoadCSV(ActionEvent event) {
         // reading in file
         FileChooser fc = new FileChooser();
         fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV FILES", "*.csv"));
@@ -127,7 +193,7 @@ public class EdgePage {
         try {
             App.dbService.loadEdgesFromFile(x);
         } catch (Exception FileNotFoundException) {
-            displayEdges.setText("File Nots Found");
+            return;
         }
 
         // list of all edge from db
@@ -135,10 +201,10 @@ public class EdgePage {
         String edgeString = "";
 
         // loops through the list and prints edge, start node, and end node
-        for(int i = 0; i < edgeList.size(); i++){
-            if(!edgeList.get(i).getEdgeID().isEmpty()){
+        for (int i = 0; i < edgeList.size(); i++) {
+            if (!edgeList.get(i).getEdgeID().isEmpty()) {
                 edgeString = edgeString + edgeList.get(i).getEdgeID() + "                  ";
-                edgeString = edgeString + edgeList.get(i).getStartNodeID()+ "                  ";
+                edgeString = edgeString + edgeList.get(i).getStartNodeID() + "                  ";
                 edgeString = edgeString + edgeList.get(i).getEndNodeID();
                 edgeString = edgeString + "\n";
             }
@@ -146,5 +212,4 @@ public class EdgePage {
         displayEdges.setText(edgeString);
 
     }
-
 }
