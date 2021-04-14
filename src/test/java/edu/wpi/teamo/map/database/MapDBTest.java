@@ -1,5 +1,7 @@
 package edu.wpi.teamo.map.database;
 
+
+
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.TestInstance;
@@ -8,6 +10,7 @@ import java.io.FileNotFoundException;
 import org.junit.jupiter.api.Test;
 import java.util.stream.Stream;
 import java.sql.SQLException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.io.File;
 
@@ -97,7 +100,7 @@ public class MapDBTest {
     }
 
     @Test
-    public void testWriteEdgesToCSV() {
+    public void testWriteEdgesToCSV() throws IOException, SQLException {
         final String writtenFilepath = "src/test/resources/edu/wpi/teamo/map/database/writtenEdges.csv";
         MapDB tMDB = new MapDB("testWriteEdgesToCSVs");
         try {
@@ -119,7 +122,7 @@ public class MapDBTest {
     }
 
     @Test
-    public void testWriteNodesToCSV() {
+    public void testWriteNodesToCSV() throws IOException, SQLException {
         final String writtenFilepath = "src/test/resources/edu/wpi/teamo/map/database/writtenNodes.csv";
         MapDB tMDB = new MapDB("testWriteNodesToCSVs");
         try {

@@ -219,26 +219,14 @@ public class MapDB implements IMapService {
         edges.remove(id);
     }
 
-    public boolean writeEdgesToCSV(String filepath) {
-        try {
-            Stream<Edge> edgeStream = Edge.getAll(db);
-            EdgeCSV.write(filepath, edgeStream);
-            return true;
-        } catch (SQLException | IOException throwables) {
-            throwables.printStackTrace();
-            return false;
-        }
+    public void writeEdgesToCSV(String filepath) throws SQLException, IOException {
+        Stream<Edge> edgeStream = Edge.getAll(db);
+        EdgeCSV.write(filepath, edgeStream);
     }
 
-    public boolean writeNodesToCSV(String filepath) {
-        try {
-            Stream<Node> nodeStream = Node.getAll(db);
-            NodeCSV.write(filepath, nodeStream);
-            return true;
-        } catch (SQLException | IOException throwables) {
-            throwables.printStackTrace();
-            return false;
-        }
+    public void writeNodesToCSV(String filepath) throws SQLException, IOException {
+        Stream<Node> nodeStream = Node.getAll(db);
+        NodeCSV.write(filepath, nodeStream);
     }
 
 }
