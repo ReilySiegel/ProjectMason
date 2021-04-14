@@ -31,14 +31,16 @@ public class MapDB implements IMapService {
     public MapDB(String databaseName) throws SQLException, ClassNotFoundException {
         /* derive init command from custom name */
         String uri = String.format("jdbc:derby:memory:%s;create=true", databaseName);
-        /* initialize database */
+        nodes = new HashMap<>();
+        edges = new HashMap<>();
         db = new Database(uri);
         Node.initTable(db);
         Edge.initTable(db);
     }
 
     public MapDB() throws SQLException, ClassNotFoundException {
-        /* initialize database */
+        nodes = new HashMap<>();
+        edges = new HashMap<>();
         db = new Database();
         Node.initTable(db);
         Edge.initTable(db);
@@ -78,13 +80,12 @@ public class MapDB implements IMapService {
      * @return True if node exists
      */
     public boolean nodeExists(String id) {
-        boolean exists = true;
         try {
             Node.getByID(db, id);
+            return true;
         } catch (SQLException e) {
-            exists = false;
+            return false;
         }
-        return exists;
     }
 
     public boolean setNodePosition(String id, int newX, int newY) throws SQLException {
