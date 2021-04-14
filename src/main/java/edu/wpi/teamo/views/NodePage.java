@@ -3,14 +3,21 @@ package edu.wpi.teamo.views;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.validation.NumberValidator;
 import edu.wpi.teamo.App;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.stream.Collectors;
+
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.fxml.Initializable;
 
 import edu.wpi.teamo.Pages;
 import edu.wpi.teamo.map.database.Node;
@@ -22,7 +29,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.stage.FileChooser;
 
-public class NodePage {
+public class NodePage implements Initializable{
 
     @FXML
     private JFXTextArea nodeArea;
@@ -66,6 +73,53 @@ public class NodePage {
     @FXML
     private JFXButton deleteSubmit;
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources){
+        NumberValidator numberValidator = new NumberValidator();
+
+        //Ensure that each X and Y field are numbers
+        addNodeX.getValidators().add(numberValidator);
+        //numberValidator.setMessage("Please enter a number");
+        addNodeX.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    addNodeX.validate();
+                }
+            }
+        });
+
+        addNodeY.getValidators().add(numberValidator);
+        addNodeY.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    addNodeY.validate();
+                }
+            }
+        });
+
+        editNodeX.getValidators().add(numberValidator);
+        editNodeX.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    editNodeX.validate();
+                }
+            }
+        });
+
+        editNodeY.getValidators().add(numberValidator);
+        editNodeY.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    editNodeY.validate();
+                }
+            }
+        });
+    }
+
     /**
      * Event handler for adding a Node to the database
      * @param event
@@ -75,6 +129,17 @@ public class NodePage {
         String newNodeID = addNodeID.getText();
         String newNodeX = addNodeX.getText();
         String newNodeY = addNodeY.getText();
+
+         try{
+             App.dbService.addNode(newNodeID, Integer.parseInt(newNodeX), Integer.parseInt(newNodeY),
+                     "Default Floor", "Default Building", "Default Type",
+                     newNodeID, newNodeID);
+             updateDisplay();
+
+         }
+         catch(SQLException e){
+             return;
+         }
 
     }
 
@@ -122,6 +187,7 @@ public class NodePage {
 
         try{
             App.dbService.loadNodesFromFile(path);
+            //App.dbService.loadNodesFromFile("src/test/resources/edu/wpi/teamo/map/database/testNodes.csv");
         }
         catch (FileNotFoundException e){
             return;
@@ -130,11 +196,23 @@ public class NodePage {
             return;
         }
 
+        updateDisplay();
+    }
+
+    @FXML
+    void updateDisplay(){
         List<NodeInfo> nodeList = App.dbService.getAllNodes().collect(Collectors.toList());
         String displayString = "";
 
+        //Display all Node ID, X, Y, Floor, Building, LongName, and ShortName
         for(int i = 0; i < nodeList.size(); i++){
             if(!nodeList.get(i).getNodeID().isEmpty()){
+                displayString = displayString + nodeList.get(i).getNodeID() + " ";
+                displayString = displayString + nodeList.get(i).getXPos() + " ";
+                displayString = displayString + nodeList.get(i).getYPos() + " ";
+                displayString = displayString + nodeList.get(i).getFloor() + " ";
+                displayString = displayString + nodeList.get(i).getBuilding() + " ";
+                displayString = displayString + nodeList.get(i).getLongName() + " ";
                 displayString = displayString + nodeList.get(i).getShortName();
                 displayString = displayString + "\n";
             }
