@@ -33,25 +33,17 @@ public class Node implements NodeInfo {
      * @param db The database to create the table in.
      * @return True if the table was created successfully.
      */
-    public static boolean initTable(Database db) {
-        boolean initialized = true;
-        try {
-            db.processUpdate("CREATE TABLE Node ("
-                    + "nodeID VARCHAR(255) PRIMARY KEY, "
-                    + "xcoord INT, "
-                    + "ycoord INT, "
-                    + "floor VARCHAR(255), "
-                    + "building VARCHAR(255), "
-                    + "nodeType VARCHAR(255), "
-                    + "longName VARCHAR(255), "
-                    + "shortName VARCHAR(255))"
-            );
-        } catch (SQLException e) {
-            System.out.println("ERROR - COULD NOT INIT NODE TABLE");
-            e.printStackTrace();
-            initialized = false;
-        }
-        return initialized;
+    public static void initTable(Database db) throws SQLException {
+        db.processUpdate("CREATE TABLE Node ("
+                + "nodeID VARCHAR(255) PRIMARY KEY, "
+                + "xcoord INT, "
+                + "ycoord INT, "
+                + "floor VARCHAR(255), "
+                + "building VARCHAR(255), "
+                + "nodeType VARCHAR(255), "
+                + "longName VARCHAR(255), "
+                + "shortName VARCHAR(255))"
+        );
     }
 
     /**

@@ -11,14 +11,14 @@ public class MapDB implements IMapService {
     HashMap<String, Node> nodes;
     HashMap<String, Edge> edges;
 
-    public MapDB(String nodeCSVFilepath, String edgeCSVFilepath) throws FileNotFoundException, SQLException {
+    public MapDB(String nodeCSVFilepath, String edgeCSVFilepath) throws FileNotFoundException, SQLException, ClassNotFoundException {
 
         /* read csv files into hashmaps */
         nodes = NodeCSV.read(nodeCSVFilepath);
         edges = EdgeCSV.read(edgeCSVFilepath);
 
         /* initialize database */
-        initDB();
+        db = new Database();
         Node.initTable(db);
         Edge.initTable(db);
 
@@ -28,43 +28,20 @@ public class MapDB implements IMapService {
 
     }
 
-    public MapDB() {
-        /* initialize database */
-        initDB();
-        Node.initTable(db);
-        Edge.initTable(db);
-    }
-
-    public MapDB(String databaseName) {
-        /* initialize database */
-        initDB(databaseName);
-        Node.initTable(db);
-        Edge.initTable(db);
-    }
-
-    private boolean initDB(String databaseName) {
-        boolean connected = true;
+    public MapDB(String databaseName) throws SQLException, ClassNotFoundException {
+        /* derive init command from custom name */
         String uri = String.format("jdbc:derby:memory:%s;create=true", databaseName);
-        try {
-            db = new Database(uri);
-        } catch (SQLException | ClassNotFoundException e) {
-            System.out.println("ERROR - COULD NOT INIT DATABASE");
-            e.printStackTrace();
-            connected = false;
-        }
-        return connected;
+        /* initialize database */
+        db = new Database(uri);
+        Node.initTable(db);
+        Edge.initTable(db);
     }
 
-    private boolean initDB() {
-        boolean connected = true;
-        try {
-            db = new Database();
-        } catch (SQLException | ClassNotFoundException e) {
-            System.out.println("ERROR - COULD NOT INIT DATABASE");
-            e.printStackTrace();
-            connected = false;
-        }
-        return connected;
+    public MapDB() throws SQLException, ClassNotFoundException {
+        /* initialize database */
+        db = new Database();
+        Node.initTable(db);
+        Edge.initTable(db);
     }
 
     public void loadEdgesFromFile(String filepath) throws FileNotFoundException, SQLException {

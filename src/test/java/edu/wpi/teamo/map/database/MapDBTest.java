@@ -78,7 +78,7 @@ public class MapDBTest {
     }
 
     @Test
-    public void testLoadFromCSVs() throws SQLException {
+    public void testLoadFromCSVs() throws SQLException, ClassNotFoundException {
         MapDB tMDB = new MapDB("testLoadFromCSVs");
         try {
 
@@ -97,7 +97,7 @@ public class MapDBTest {
     }
 
     @Test
-    public void testWriteEdgesToCSV() throws IOException, SQLException {
+    public void testWriteEdgesToCSV() throws IOException, SQLException, ClassNotFoundException {
         final String writtenFilepath = "src/test/resources/edu/wpi/teamo/map/database/writtenEdges.csv";
         MapDB tMDB = new MapDB("testWriteEdgesToCSVs");
         try {
@@ -119,7 +119,7 @@ public class MapDBTest {
     }
 
     @Test
-    public void testWriteNodesToCSV() throws IOException, SQLException {
+    public void testWriteNodesToCSV() throws IOException, SQLException, ClassNotFoundException {
         final String writtenFilepath = "src/test/resources/edu/wpi/teamo/map/database/writtenNodes.csv";
         MapDB tMDB = new MapDB("testWriteNodesToCSVs");
         try {
