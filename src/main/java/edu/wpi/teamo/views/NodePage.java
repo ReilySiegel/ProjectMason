@@ -119,6 +119,8 @@ public class NodePage implements Initializable{
                 }
             }
         });
+        //Update display at start so loaded database persists after switching pages
+        updateDisplay();
     }
 
     /**
