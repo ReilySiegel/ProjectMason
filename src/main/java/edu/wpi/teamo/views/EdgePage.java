@@ -6,16 +6,19 @@ import edu.wpi.teamo.App;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import edu.wpi.teamo.Pages;
 import edu.wpi.teamo.map.database.EdgeInfo;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.stage.FileChooser;
 
-public class EdgePage {
+public class EdgePage implements Initializable {
 
     @FXML
     private JFXTextField addEdgeID;
@@ -49,6 +52,15 @@ public class EdgePage {
     @FXML
     private JFXTextField deleteEdgeID;
 
+    /**
+     * keeps edges displayed when returning to the page
+     * @param location
+     * @param resources
+     */
+    @Override
+    public void initialize(URL location, ResourceBundle resources){
+        updateDisplay();
+    }
     /**
      * function that goes through database and prints out all edges
      */
