@@ -35,14 +35,12 @@ public class PathfindingPage implements Initializable {
     private JFXTextArea locationAvailable;
 
     /**
-     *
      * @param event
      */
     @FXML
     private JFXTextArea directions;
 
     /**
-     *
      * @param event
      */
     @FXML
@@ -67,7 +65,6 @@ public class PathfindingPage implements Initializable {
     }
 
     /**
-     *
      * @param event
      */
     @FXML
@@ -76,25 +73,33 @@ public class PathfindingPage implements Initializable {
     }
 
 
+    /**
+     * @param location
+     * @param resources
+     */
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
         try {
             LinkedList<String> nodeShortNames = new LinkedList<>();
             LinkedList<NodeInfo> nodes = App.dbService.getAllNodes().collect(Collectors.toCollection(LinkedList::new));
-            for (NodeInfo i: nodes ){
-                nodeShortNames.add(i.getShortName());
+            for (NodeInfo i : nodes) {
+                nodeShortNames.add(i.getNodeID());
             }
 
-            for (String nodeName: nodeShortNames){
+            for (String nodeName : nodeShortNames) {
                 startLocation.getItems().add(nodeName);
+                endLocation.getItems().add(nodeName);
+
+                String displayString = "";
+                for(String node : nodeShortNames){
+                    displayString = displayString + node + "\n";
+                }
+                locationAvailable.setText(displayString);
             }
+
         } catch (Exception SQLException) {
             return;
         }
-
-
-
-        
     }
 
     /**

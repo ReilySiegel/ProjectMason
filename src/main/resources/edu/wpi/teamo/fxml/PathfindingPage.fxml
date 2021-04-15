@@ -35,13 +35,13 @@
                         <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="390.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
                            <children>
                               <Label text="Start Location" />
-                              <JFXComboBox fx:id="startLocation" onAction="#chooseLocation" prefWidth="200.0" promptText="Choose Location" style="-fx-background-color: #C8C8C8;" />
+                              <JFXComboBox fx:id="startLocation" onAction="#chooseStartLocation" prefWidth="200.0" promptText="Choose Location" style="-fx-background-color: #C8C8C8;" />
                            </children>
                         </VBox>
                         <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="290.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
                            <children>
                               <Label text="End Location" />
-                              <JFXComboBox fx:id="endLocation" onAction="#chooseLocation" prefWidth="200.0" promptText=" Choose Location" style="-fx-background-color: #C8C8C8;" />
+                              <JFXComboBox fx:id="endLocation" onAction="#chooseEndLocation" prefWidth="200.0" promptText=" Choose Location" style="-fx-background-color: #C8C8C8;" />
                            </children>
                         </VBox>
                         <JFXButton fx:id="getDirections" buttonType="RAISED" onAction="#handleGetDirections" style="-fx-background-color: #ff9900;" text="Get Directions" AnchorPane.bottomAnchor="575.0" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="180.0" />
