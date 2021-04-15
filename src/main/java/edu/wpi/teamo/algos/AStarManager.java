@@ -7,13 +7,13 @@ import java.util.*;
 import java.util.stream.*;
 
 public class AStarManager implements AStarService {
-    private MapDB DBService;
+    private IMapService DBService;
 
     /**
      * Constructor for AStarManager
      * @param service database service for data retrieval
      */
-    public AStarManager(MapDB service) {
+    public AStarManager(IMapService service) {
         DBService = service;
     }
 

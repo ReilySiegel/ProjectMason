@@ -1,5 +1,7 @@
 package edu.wpi.teamo;
 
+import edu.wpi.teamo.algos.AStarManager;
+import edu.wpi.teamo.algos.AStarService;
 import edu.wpi.teamo.map.database.IMapService;
 import edu.wpi.teamo.map.database.MapDB;
 import javafx.application.Application;
@@ -16,6 +18,7 @@ public class App extends Application {
 
   private static final EnumMap<Pages, String> pagePaths = new EnumMap<>(Pages.class);
   public static IMapService dbService = null;
+  public static AStarService aStarService = null;
   private static Stage primaryStage;
 
 
@@ -37,6 +40,12 @@ public class App extends Application {
       System.out.println("ERROR: FAILED TO INIT DATABASE");
       e.printStackTrace();
       dbService = null;
+    }
+
+    /* instantiate the aStar service, set to a static variable that can be accessed from the handlers */
+    if (dbService != null) {
+      aStarService = new AStarManager(dbService);
+      System.out.println("Pathfinder Service Initialized");
     }
   }
 

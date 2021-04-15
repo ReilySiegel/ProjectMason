@@ -9,15 +9,15 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="458.0" prefWidth="563.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.PathfindingPage">
+<AnchorPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.PathfindingPage">
    <children>
       <HBox prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <SplitPane dividerPositions="0.6524064171122995" prefHeight="458.0" prefWidth="565.0">
+            <SplitPane dividerPositions="0.6524064171122995" prefHeight="800.0" prefWidth="1200.0">
               <items>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="456.0" prefWidth="56.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="456.0" prefWidth="0.0">
                      <children>
-                        <SplitPane dividerPositions="0.4889867841409692" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <SplitPane dividerPositions="0.5577889447236181" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <items>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="203.0" prefWidth="360.0">
                                  <children>
@@ -35,17 +35,17 @@
                         <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="390.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
                            <children>
                               <Label text="Start Location" />
-                              <JFXComboBox fx:id="startLocation" prefWidth="150.0" promptText="Choose Location" style="-fx-background-color: #C8C8C8;" />
+                              <JFXComboBox fx:id="startLocation" onAction="#chooseLocation" prefWidth="200.0" promptText="Choose Location" style="-fx-background-color: #C8C8C8;" />
                            </children>
                         </VBox>
                         <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="290.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
                            <children>
                               <Label text="End Location" />
-                              <JFXComboBox fx:id="endLocation" prefWidth="150.0" promptText=" Choose Location" style="-fx-background-color: #C8C8C8;" />
+                              <JFXComboBox fx:id="endLocation" onAction="#chooseLocation" prefWidth="200.0" promptText=" Choose Location" style="-fx-background-color: #C8C8C8;" />
                            </children>
                         </VBox>
-                        <JFXButton fx:id="getDirections" buttonType="RAISED" onAction="#handleGetDirections" style="-fx-background-color: #ff9900;" text="Get Directions" AnchorPane.bottomAnchor="270.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="160.0" />
-                        <JFXButton fx:id="goBack" buttonType="RAISED" prefHeight="31.0" prefWidth="65.0" style="-fx-background-color: #000080;" text="Back" textFill="#fffbfb" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="420.0" />
+                        <JFXButton fx:id="getDirections" buttonType="RAISED" onAction="#handleGetDirections" style="-fx-background-color: #ff9900;" text="Get Directions" AnchorPane.bottomAnchor="575.0" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="180.0" />
+                        <JFXButton fx:id="goBack" buttonType="RAISED" onAction="#handleGoBack" prefHeight="31.0" prefWidth="65.0" style="-fx-background-color: #000080;" text="Back" textFill="#fffbfb" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="730.0" />
                      </children></AnchorPane>
               </items>
             </SplitPane>
