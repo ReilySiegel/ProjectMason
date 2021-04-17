@@ -10,7 +10,7 @@ import java.io.File;
 
 public class NodeCSVTests {
 
-    static final String testCSVPath = "src/test/resources/edu/wpi/teamo/map/database/testNodes.csv";
+    static final String testCSVPath = "src/test/resources/edu/wpi/teamo/database/testNodes.csv";
 
     @Test
     public void testRead() {
@@ -35,7 +35,7 @@ public class NodeCSVTests {
 
     @Test
     public void testWrite() {
-        final String writtenFilepath = "src/test/resources/edu/wpi/teamo/map/database/writtenNodes.csv";
+        final String writtenFilepath = "src/test/resources/edu/wpi/teamo/database/writtenNodes.csv";
 
         try {
             Stream<Node> nodeStream = NodeCSV.read(testCSVPath).values().stream();

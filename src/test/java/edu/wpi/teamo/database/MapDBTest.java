@@ -15,8 +15,8 @@ import java.io.File;
 @TestInstance(Lifecycle.PER_CLASS)
 public class MapDBTest {
 
-    static final String testNodeFile = "src/test/resources/edu/wpi/teamo/map/database/testNodes.csv";
-    static final String testEdgeFile = "src/test/resources/edu/wpi/teamo/map/database/testEdges.csv";
+    static final String testNodeFile = "src/test/resources/edu/wpi/teamo/database/testNodes.csv";
+    static final String testEdgeFile = "src/test/resources/edu/wpi/teamo/database/testEdges.csv";
 
     MapDB db;
 
@@ -25,7 +25,7 @@ public class MapDBTest {
         try {
             db = new MapDB(testNodeFile, testEdgeFile);
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 
@@ -100,7 +100,7 @@ public class MapDBTest {
 
     @Test
     public void testWriteEdgesToCSV() throws IOException, SQLException, ClassNotFoundException {
-        final String writtenFilepath = "src/test/resources/edu/wpi/teamo/map/database/writtenEdges.csv";
+        final String writtenFilepath = "src/test/resources/edu/wpi/teamo/database/writtenEdges.csv";
         MapDB tMDB = new MapDB("testWriteEdgesToCSVs");
         try {
 
@@ -122,7 +122,7 @@ public class MapDBTest {
 
     @Test
     public void testWriteNodesToCSV() throws IOException, SQLException, ClassNotFoundException {
-        final String writtenFilepath = "src/test/resources/edu/wpi/teamo/map/database/writtenNodes.csv";
+        final String writtenFilepath = "src/test/resources/edu/wpi/teamo/database/writtenNodes.csv";
         MapDB tMDB = new MapDB("testWriteNodesToCSVs");
         try {
 
