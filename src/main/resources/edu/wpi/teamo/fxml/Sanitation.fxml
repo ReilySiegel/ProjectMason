@@ -6,6 +6,7 @@
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXTimePicker?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -87,7 +88,7 @@
                               <Insets bottom="20.0" />
                            </VBox.margin>
                         </JFXTimePicker>
-                        <JFXComboBox prefHeight="25.0" prefWidth="186.0" />
+                        <JFXComboBox fx:id="serviceLocation" prefHeight="25.0" prefWidth="186.0" />
                         <JFXTextField>
                            <VBox.margin>
                               <Insets bottom="10.0" />
@@ -117,23 +118,43 @@
    <bottom>
       <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #bbb;" BorderPane.alignment="CENTER">
          <children>
-            <JFXButton onAction="#backToMain" style="-fx-background-color: #c42b2b;" text="Back" textFill="WHITE">
-               <font>
-                  <Font size="24.0" />
-               </font>
-               <HBox.margin>
-                  <Insets right="20.0" />
-               </HBox.margin>
-            </JFXButton>
-            <JFXButton style="-fx-background-color: #2dc857;" text="Submit" textFill="WHITE">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </JFXButton>
+            <AnchorPane prefHeight="200.0" prefWidth="1200.0">
+               <children>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="259.0" AnchorPane.rightAnchor="0.0">
+                     <children>
+                        <JFXButton onAction="#backToMain" style="-fx-background-color: #c42b2b;" text="Back" textFill="WHITE">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets right="20.0" />
+                           </HBox.margin>
+                        </JFXButton>
+                        <JFXButton style="-fx-background-color: #2dc857;" text="Submit" textFill="WHITE">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </JFXButton>
+                     </children>
+                     <padding>
+                        <Insets right="20.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="157.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <JFXButton onAction="#handleHelp" style="-fx-background-color: #4300b8;" text="Help" textFill="WHITE">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </JFXButton>
+                     </children>
+                     <padding>
+                        <Insets left="20.0" right="20.0" />
+                     </padding>
+                  </HBox>
+               </children>
+            </AnchorPane>
          </children>
-         <padding>
-            <Insets bottom="10.0" left="10.0" right="20.0" top="10.0" />
-         </padding>
          <BorderPane.margin>
             <Insets />
          </BorderPane.margin>
