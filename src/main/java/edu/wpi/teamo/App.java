@@ -32,7 +32,7 @@ public class App extends Application {
     pagePaths.put(Pages.PATHFINDING, "/edu/wpi/teamo/fxml/PathfindingPage.fxml");
     pagePaths.put(Pages.MEDICINE, "/edu/wpi/teamo/fxml/SR07_Medicine.fxml");
     pagePaths.put(Pages.SANITATION, "/edu/wpi/teamo/fxml/Sanitation.fxml");
-    pagePaths.put(Pages.NODE, "/edu/wpi/teamo/fxml/NodePage.fxml");
+    pagePaths.put(Pages.NODE, "/edu/wpi/teamo/fxml/MapEditorPage.fxml");
     pagePaths.put(Pages.EDGE, "/edu/wpi/teamo/fxml/EdgePage.fxml");
     pagePaths.put(Pages.MAIN, "/edu/wpi/teamo/fxml/MainPage.fxml");
     System.out.println("Starting Up");

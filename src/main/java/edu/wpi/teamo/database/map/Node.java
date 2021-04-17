@@ -1,5 +1,6 @@
 package edu.wpi.teamo.database.map;
 
+import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import edu.wpi.teamo.database.Database;
 
 import java.sql.ResultSet;
@@ -7,7 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
-public class Node implements NodeInfo {
+public class Node extends RecursiveTreeObject<Node> implements NodeInfo {
 
     private int xPos;
     private int yPos;
