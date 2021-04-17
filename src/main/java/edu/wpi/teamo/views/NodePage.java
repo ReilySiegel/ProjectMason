@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
+import edu.wpi.teamo.database.map.EdgeInfo;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.Initializable;
@@ -270,5 +271,20 @@ public class NodePage extends SubPageController implements Initializable{
             }
         }
         nodeArea.setText(displayString);
+    }
+
+    @FXML
+    private JFXTextField editingEdge;
+
+    @FXML
+    private JFXTextArea displayEdges;
+
+    @FXML
+    private JFXTextArea currentEdge;
+
+
+    @FXML
+    void handleLookup(ActionEvent event) {
+
     }
 }
