@@ -2,8 +2,8 @@ package edu.wpi.teamo;
 
 import edu.wpi.teamo.algos.AStarManager;
 import edu.wpi.teamo.algos.AStarService;
-import edu.wpi.teamo.map.database.IMapService;
-import edu.wpi.teamo.map.database.MapDB;
+import edu.wpi.teamo.database.map.IMapService;
+import edu.wpi.teamo.database.map.MapDB;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;

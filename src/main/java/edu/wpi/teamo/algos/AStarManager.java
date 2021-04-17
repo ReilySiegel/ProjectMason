@@ -1,6 +1,9 @@
 package edu.wpi.teamo.algos;
 
-import edu.wpi.teamo.map.database.*;
+import edu.wpi.teamo.database.map.Edge;
+import edu.wpi.teamo.database.map.EdgeInfo;
+import edu.wpi.teamo.database.map.IMapService;
+import edu.wpi.teamo.database.map.NodeInfo;
 
 import java.sql.SQLException;
 import java.util.*;

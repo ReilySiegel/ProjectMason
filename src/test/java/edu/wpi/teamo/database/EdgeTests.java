@@ -1,7 +1,9 @@
-package edu.wpi.teamo.map.database;
+package edu.wpi.teamo.database;
 
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.stream.Collectors;
+
+import edu.wpi.teamo.database.map.Edge;
 import org.junit.jupiter.api.Test;
 import java.util.stream.Stream;
 import java.sql.SQLException;
@@ -137,7 +139,7 @@ public class EdgeTests {
             Edge edgeToModify = Edge.getByID(db, edgeID);
 
             /* modify it */
-            edgeToModify.endNodeID = modifiedEndNodeID;
+            edgeToModify.setEndID(modifiedEndNodeID);
 
             /* store it */
             edgeToModify.update(db);

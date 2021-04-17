@@ -1,7 +1,10 @@
-package edu.wpi.teamo.map.database;
+package edu.wpi.teamo.database;
 
 import static org.junit.jupiter.api.Assertions.*;
 import java.io.FileNotFoundException;
+
+import edu.wpi.teamo.database.map.Node;
+import edu.wpi.teamo.database.map.NodeCSV;
 import org.junit.jupiter.api.Test;
 import java.util.stream.Stream;
 import java.io.IOException;
@@ -10,7 +13,7 @@ import java.io.File;
 
 public class NodeCSVTests {
 
-    static final String testCSVPath = "src/test/resources/edu/wpi/teamo/map/database/testNodes.csv";
+    static final String testCSVPath = "src/test/resources/edu/wpi/teamo/database/testNodes.csv";
 
     @Test
     public void testRead() {
@@ -35,7 +38,7 @@ public class NodeCSVTests {
 
     @Test
     public void testWrite() {
-        final String writtenFilepath = "src/test/resources/edu/wpi/teamo/map/database/writtenNodes.csv";
+        final String writtenFilepath = "src/test/resources/edu/wpi/teamo/database/writtenNodes.csv";
 
         try {
             Stream<Node> nodeStream = NodeCSV.read(testCSVPath).values().stream();

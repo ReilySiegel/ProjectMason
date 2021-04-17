@@ -1,5 +1,7 @@
-package edu.wpi.teamo.map.database;
+package edu.wpi.teamo.database;
 
+import edu.wpi.teamo.database.map.Edge;
+import edu.wpi.teamo.database.map.EdgeCSV;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
@@ -11,7 +13,7 @@ import java.io.File;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class EdgeCSVTests {
-    static final String testCSVPath = "src/test/resources/edu/wpi/teamo/map/database/testEdges.csv";
+    static final String testCSVPath = "src/test/resources/edu/wpi/teamo/database/testEdges.csv";
 
     @Test
     public void testRead() {
@@ -36,7 +38,7 @@ public class EdgeCSVTests {
 
     @Test
     public void testWrite() {
-        final String writtenFilepath = "src/test/resources/edu/wpi/teamo/map/database/writtenEdges.csv";
+        final String writtenFilepath = "src/test/resources/edu/wpi/teamo/database/writtenEdges.csv";
         try {
             Stream<Edge> edgeStream = EdgeCSV.read(testCSVPath).values().stream();
             EdgeCSV.write(writtenFilepath, edgeStream);
