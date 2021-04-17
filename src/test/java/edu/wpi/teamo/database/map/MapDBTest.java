@@ -1,4 +1,4 @@
-package edu.wpi.teamo.database;
+package edu.wpi.teamo.database.map;
 
 import edu.wpi.teamo.database.map.*;
 import org.junit.jupiter.api.TestInstance.Lifecycle;

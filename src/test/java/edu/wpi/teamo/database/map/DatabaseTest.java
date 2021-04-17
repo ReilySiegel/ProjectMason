@@ -1,5 +1,6 @@
-package edu.wpi.teamo.database;
+package edu.wpi.teamo.database.map;
 
+import edu.wpi.teamo.database.Database;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

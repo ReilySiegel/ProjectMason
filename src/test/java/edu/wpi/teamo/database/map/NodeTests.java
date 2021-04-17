@@ -1,16 +1,15 @@
-package edu.wpi.teamo.database;
+package edu.wpi.teamo.database.map;
 
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.stream.Collectors;
 
+import edu.wpi.teamo.database.Database;
 import edu.wpi.teamo.database.map.Node;
 import org.junit.jupiter.api.Test;
 import java.util.stream.Stream;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-
 
 public class NodeTests {
 

@@ -1,4 +1,4 @@
-package edu.wpi.teamo.database;
+package edu.wpi.teamo.database.map;
 
 import static org.junit.jupiter.api.Assertions.*;
 import java.io.FileNotFoundException;
