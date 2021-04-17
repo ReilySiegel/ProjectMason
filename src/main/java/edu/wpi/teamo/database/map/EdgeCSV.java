@@ -1,5 +1,6 @@
-package edu.wpi.teamo.database;
+package edu.wpi.teamo.database.map;
 
+import edu.wpi.teamo.database.map.Edge;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;

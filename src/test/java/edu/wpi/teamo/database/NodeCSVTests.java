@@ -2,6 +2,9 @@ package edu.wpi.teamo.database;
 
 import static org.junit.jupiter.api.Assertions.*;
 import java.io.FileNotFoundException;
+
+import edu.wpi.teamo.database.map.Node;
+import edu.wpi.teamo.database.map.NodeCSV;
 import org.junit.jupiter.api.Test;
 import java.util.stream.Stream;
 import java.io.IOException;

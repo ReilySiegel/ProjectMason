@@ -2,6 +2,8 @@ package edu.wpi.teamo.database;
 
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.stream.Collectors;
+
+import edu.wpi.teamo.database.map.Node;
 import org.junit.jupiter.api.Test;
 import java.util.stream.Stream;
 import java.sql.SQLException;

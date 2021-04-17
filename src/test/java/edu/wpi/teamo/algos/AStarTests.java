@@ -1,6 +1,6 @@
 package edu.wpi.teamo.algos;
 
-import edu.wpi.teamo.database.Edge;
+import edu.wpi.teamo.database.map.Edge;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.LinkedList;

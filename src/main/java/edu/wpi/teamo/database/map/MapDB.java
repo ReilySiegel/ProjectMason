@@ -1,4 +1,6 @@
-package edu.wpi.teamo.database;
+package edu.wpi.teamo.database.map;
+
+import edu.wpi.teamo.database.Database;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

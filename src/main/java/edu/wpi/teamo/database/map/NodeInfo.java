@@ -1,4 +1,4 @@
-package edu.wpi.teamo.database;
+package edu.wpi.teamo.database.map;
 
 public interface NodeInfo {
     String getShortName();

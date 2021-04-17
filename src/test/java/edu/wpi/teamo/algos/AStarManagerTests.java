@@ -1,6 +1,7 @@
 package edu.wpi.teamo.algos;
 
-import edu.wpi.teamo.database.*;
+import edu.wpi.teamo.database.map.Edge;
+import edu.wpi.teamo.database.map.MapDB;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;

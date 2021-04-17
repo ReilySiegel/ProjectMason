@@ -1,5 +1,7 @@
 package edu.wpi.teamo.database;
 
+import edu.wpi.teamo.database.map.Edge;
+import edu.wpi.teamo.database.map.EdgeCSV;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
