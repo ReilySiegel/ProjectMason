@@ -52,4 +52,21 @@ public class AStarManagerTests {
         assertEquals("oPARK00501", pathP10_P5.get(5).getID());
 
     }
+    /**
+     * Test for assignNodeAdjacency
+     */
+    @Test
+    public void testAssignAdjacency() {
+        LinkedList<AlgoNode> nodes = new LinkedList<>();
+        LinkedList<Edge> edges = new LinkedList<>();
+        AlgoNode n1 = new AlgoNode("oPARK00101", 3116, 1131,"F1", NodeType.PARK,"Floor1RightParking1","F1RightP1");
+        AlgoNode n3 = new AlgoNode("oPARK00301", 3116,1181,"F1", NodeType.PARK,"Floor1RightParking3","F1RightP3");
+        nodes.add(n1);
+        nodes.add(n3);
+        Edge e = new Edge("oPARK00101_oPARK00301","oPARK00101","oPARK00301");
+        edges.add(e);
+        AStarManager.assignNodeAdjacency(nodes, edges);
+        assertEquals(n3.getID(), n1.getAdjacencies().get(0));
+        assertEquals(n1.getID(), n3.getAdjacencies().get(0));
+    }
 }
