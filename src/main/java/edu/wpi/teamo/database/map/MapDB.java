@@ -1,21 +1,20 @@
 package edu.wpi.teamo.database.map;
 
 import edu.wpi.teamo.database.Database;
-
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.HashMap;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.sql.SQLException;
+import java.io.IOException;
 
 public class MapDB implements IMapService {
     Database db;
 
     public MapDB(String nodeCSVFilepath, String edgeCSVFilepath) throws FileNotFoundException, SQLException, ClassNotFoundException {
 
-        /* read csv files into hashmaps */
-        HashMap<String, Node> nodes = NodeCSV.read(nodeCSVFilepath);
-        HashMap<String, Edge> edges = EdgeCSV.read(edgeCSVFilepath);
+        /* read csv files */
+        Stream<Node> nodeStream = NodeCSV.read(nodeCSVFilepath);
+        Stream<Edge> edgeStream = EdgeCSV.read(edgeCSVFilepath);
 
         /* initialize database */
         db = new Database();
@@ -23,8 +22,8 @@ public class MapDB implements IMapService {
         Edge.initTable(db);
 
         /* save to the database */
-        storeNodes(db, nodes);
-        storeEdges(db, edges);
+        storeNodes(db, nodeStream);
+        storeEdges(db, edgeStream);
 
     }
 
@@ -43,29 +42,27 @@ public class MapDB implements IMapService {
     }
 
     public void loadEdgesFromFile(String filepath) throws FileNotFoundException, SQLException {
-        /* read file into hashmap */
-        HashMap<String, Edge> edges = EdgeCSV.read(filepath);
+        /* read file */
+        Stream<Edge> edgeStream = EdgeCSV.read(filepath);
         /* save to the database */
-        storeEdges(db, edges);
+        storeEdges(db, edgeStream);
     }
 
     public void loadNodesFromFile(String filepath) throws FileNotFoundException, SQLException {
-        /* read file into hashmap */
-        HashMap<String, Node> nodes = NodeCSV.read(filepath);
+        /* read file */
+        Stream<Node> nodeStream = NodeCSV.read(filepath);
         /* save to the database */
-        storeNodes(db, nodes);
+        storeNodes(db, nodeStream);
     }
 
-    private static void storeNodes(Database db, HashMap<String, Node> nodes) throws SQLException {
-        for (String key : nodes.keySet()) {
-            Node node = nodes.get(key);
+    private static void storeNodes(Database db, Stream<Node> nodeStream) throws SQLException {
+        for (Node node : nodeStream.collect(Collectors.toList())) {
             node.update(db);
         }
     }
 
-    private void storeEdges(Database db, HashMap<String, Edge> edges) throws SQLException {
-        for (String key : edges.keySet()) {
-            Edge edge = edges.get(key);
+    private void storeEdges(Database db, Stream<Edge> edgeStream) throws SQLException {
+        for (Edge edge : edgeStream.collect(Collectors.toList())) {
             edge.update(db);
         }
     }

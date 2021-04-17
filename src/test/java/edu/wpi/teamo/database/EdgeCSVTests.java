@@ -19,7 +19,10 @@ public class EdgeCSVTests {
     public void testRead() {
         try {
 
-            HashMap<String, Edge> edges = EdgeCSV.read(testCSVPath);
+            HashMap<String, Edge> edges = new HashMap<>();
+            Stream<Edge> edgeStream = EdgeCSV.read(testCSVPath);
+            edgeStream.forEach((Edge edge) -> edges.put(edge.getEdgeID(), edge));
+
             assertEquals(3, edges.size());
             if (edges.size() == 3) {
 
@@ -40,10 +43,12 @@ public class EdgeCSVTests {
     public void testWrite() {
         final String writtenFilepath = "src/test/resources/edu/wpi/teamo/database/writtenEdges.csv";
         try {
-            Stream<Edge> edgeStream = EdgeCSV.read(testCSVPath).values().stream();
-            EdgeCSV.write(writtenFilepath, edgeStream);
+            EdgeCSV.write(writtenFilepath, EdgeCSV.read(testCSVPath));
 
-            HashMap<String, Edge> edges = EdgeCSV.read(writtenFilepath);
+            HashMap<String, Edge> edges = new HashMap<>();
+            Stream<Edge> edgeStream = EdgeCSV.read(writtenFilepath);
+            edgeStream.forEach((Edge edge) -> edges.put(edge.getEdgeID(), edge));
+
             assertEquals(3, edges.size());
             if (edges.size() == 3) {
 

@@ -5,6 +5,8 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.io.IOException;
@@ -14,8 +16,8 @@ import java.util.HashMap;
 
 public class EdgeCSV {
 
-    public static HashMap<String, Edge> read(String filepath) throws FileNotFoundException {
-        HashMap<String, Edge> edgeMap = new HashMap<>();
+    public static Stream<Edge> read(String filepath) throws FileNotFoundException {
+        List<Edge> edges = new ArrayList<>();
 
         try {
             CSVFormat format = CSVFormat.RFC4180.withHeader().withDelimiter(',');
@@ -27,14 +29,14 @@ public class EdgeCSV {
                         record.get("startNode"),
                         record.get("endNode")
                 );
-                edgeMap.put(record.get("edgeID"), edge);
+                edges.add(edge);
             }
             parser.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return edgeMap;
+        return edges.stream();
     }
 
     public static void write(String filepath, Stream<Edge> edgeStream) throws IOException {

@@ -19,7 +19,10 @@ public class NodeCSVTests {
     public void testRead() {
         try {
 
-            HashMap<String, Node> nodes = NodeCSV.read(testCSVPath);
+            HashMap<String, Node> nodes = new HashMap<>();
+            Stream<Node> nodeStream = NodeCSV.read(testCSVPath);
+            nodeStream.forEach((Node node) -> nodes.put(node.getNodeID(), node));
+
             assertEquals(3, nodes.size());
             if (nodes.size() == 3) {
 
@@ -41,10 +44,13 @@ public class NodeCSVTests {
         final String writtenFilepath = "src/test/resources/edu/wpi/teamo/database/writtenNodes.csv";
 
         try {
-            Stream<Node> nodeStream = NodeCSV.read(testCSVPath).values().stream();
+            Stream<Node> nodeStream = NodeCSV.read(testCSVPath);
             NodeCSV.write(writtenFilepath, nodeStream);
 
-            HashMap<String, Node> nodesToCheck = NodeCSV.read(writtenFilepath);
+            HashMap<String, Node> nodesToCheck = new HashMap<>();
+            Stream<Node> nodeCheckStream = NodeCSV.read(writtenFilepath);
+            nodeCheckStream.forEach((Node node) -> nodesToCheck.put(node.getNodeID(), node));
+
             assertEquals(3, nodesToCheck.size());
             if (nodesToCheck.size() == 3) {
 

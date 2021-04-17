@@ -1,22 +1,22 @@
 package edu.wpi.teamo.database.map;
 
-import edu.wpi.teamo.database.map.Node;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
-
 import java.io.FileNotFoundException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.ArrayList;
 import java.io.IOException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.HashMap;
+import java.util.List;
 
 public class NodeCSV {
 
-    public static HashMap<String, Node> read(String filepath) throws FileNotFoundException {
-        HashMap<String, Node> nodeMap = new HashMap<>();
+    public static Stream<Node> read(String filepath) throws FileNotFoundException {
+        List<Node> nodes = new ArrayList<>();
 
         try {
             CSVFormat format = CSVFormat.RFC4180.withHeader().withDelimiter(',');
@@ -33,14 +33,14 @@ public class NodeCSV {
                         record.get("longName"),
                         record.get("shortName")
                 );
-                nodeMap.put(record.get("nodeID"), node);
+                nodes.add(node);
             }
             parser.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return nodeMap;
+        return nodes.stream();
     }
 
     public static void write(String filepath, Stream<Node> nodeStream) throws IOException {

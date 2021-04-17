@@ -107,7 +107,10 @@ public class MapDBTest {
 
             tMDB.loadEdgesFromFile(testEdgeFile);
             tMDB.writeEdgesToCSV(writtenFilepath);
-            HashMap<String, Edge> edgesToCheck = EdgeCSV.read(writtenFilepath);
+
+            HashMap<String, Edge> edgesToCheck = new HashMap<>();
+            Stream<Edge> edgeStream = EdgeCSV.read(writtenFilepath);
+            edgeStream.forEach((Edge edge) -> edgesToCheck.put(edge.getEdgeID(), edge));
 
             assertEquals(3, edgesToCheck.size());
             assertEquals("edge1E", edgesToCheck.get("edgeID1").getEndNodeID());
@@ -129,7 +132,9 @@ public class MapDBTest {
 
             tMDB.loadNodesFromFile(testNodeFile);
             tMDB.writeNodesToCSV(writtenFilepath);
-            HashMap<String, Node> nodesToCheck = NodeCSV.read(writtenFilepath);
+            HashMap<String, Node> nodesToCheck = new HashMap<>();
+            Stream<Node> nodeStream = NodeCSV.read(writtenFilepath);
+            nodeStream.forEach((Node node) -> nodesToCheck.put(node.getNodeID(), node));
 
             assertEquals(3, nodesToCheck.size());
             assertEquals("Floor1RightParking1", nodesToCheck.get("testID1").getLongName());
