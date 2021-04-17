@@ -29,4 +29,8 @@ public class Database {
     public void close() throws SQLException {
         conn.close();
     }
+
+    public static String getURIFromName(String name) {
+        return String.format("jdbc:derby:memory:%s;create=true", name);
+    }
 }
