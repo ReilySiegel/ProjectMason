@@ -1,4 +1,4 @@
-package edu.wpi.teamo.map.database;
+package edu.wpi.teamo.map;
 
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.stream.Collectors;

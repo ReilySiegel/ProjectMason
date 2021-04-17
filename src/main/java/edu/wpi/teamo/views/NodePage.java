@@ -20,7 +20,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.Initializable;
 
 import edu.wpi.teamo.Pages;
-import edu.wpi.teamo.map.database.NodeInfo;
+import edu.wpi.teamo.map.NodeInfo;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.stage.FileChooser;

@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import edu.wpi.teamo.Pages;
-import edu.wpi.teamo.map.database.EdgeInfo;
+import edu.wpi.teamo.map.EdgeInfo;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

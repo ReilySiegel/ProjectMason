@@ -6,7 +6,7 @@ import com.jfoenix.controls.JFXTextArea;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.Pages;
 import edu.wpi.teamo.algos.AlgoNode;
-import edu.wpi.teamo.map.database.NodeInfo;
+import edu.wpi.teamo.map.NodeInfo;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
