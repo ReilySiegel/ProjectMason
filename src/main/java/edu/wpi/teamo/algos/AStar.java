@@ -6,10 +6,11 @@ import java.util.*;
 
 public class AStar {
 
-    LinkedList<AlgoNode> nodes;
-    LinkedList<Edge> edges;
-    String startID;
-    String endID;
+    private LinkedList<AlgoNode> nodes;
+    private LinkedList<Edge> edges;
+    private String startID;
+    private String endID;
+    private LinkedList<AlgoNode> allTheMess;
 
     public AStar(LinkedList<AlgoNode> nodes, LinkedList<Edge> edges, String startNodeID, String endNodeID) {
         this.startID = startNodeID;
@@ -18,7 +19,7 @@ public class AStar {
         this.edges = edges;
     }
 
-    private LinkedList<AlgoNode> allTheMess;
+
 
     public void setAllTheMess(LinkedList<AlgoNode> all){
         allTheMess = all;
@@ -66,8 +67,7 @@ public class AStar {
 
             // traverse through the open list and find the node with the lowest fCost
             for (AlgoNode n: openNodes){
-                if (n.get_fCost() < currentNode.get_fCost() ||
-                        (n.get_fCost() == currentNode.get_fCost() && n.get_hCost() < currentNode.get_hCost())){
+                if (lowerFcost(n,currentNode)){
                     currentNode = n;
                 }
             }
@@ -75,8 +75,8 @@ public class AStar {
             openNodes.remove(currentNode);
             visitedNodes.add(currentNode);
 
-            // if ture, path has been found, then return
-            if (currentNode == ending){return; }
+            // if true, path has been found, then return
+            if (isEnd(currentNode)){return; }
 
             for (AlgoNode neighbor: adjacenciesToNodes(currentNode) ){ //adjacencies has to list of  nodes
 
@@ -98,7 +98,29 @@ public class AStar {
         }
     }
 
+    /**
+     * returns true idf the end node is the same as the current id
+     * @param n
+     * @return
+     */
 
+    private boolean isEnd(AlgoNode n)
+    {
+        return n == stringToNode(endID);
+    }
+
+    /**
+     * cehcks between the two nodes passed which one has the lower f cost and
+     * if the fcost is equal it prortizes
+     * @param n
+     * @param currentNode
+     * @return
+     */
+    private boolean lowerFcost(AlgoNode n , AlgoNode currentNode)
+    {
+        return n.get_fCost() < currentNode.get_fCost() ||
+                (n.get_fCost() == currentNode.get_fCost() && n.get_hCost() < currentNode.get_hCost());
+    }
     /**
      * Returns the specified node's adjacent nodes
      * @param node the node from which to retrieve the adjacent nodes
