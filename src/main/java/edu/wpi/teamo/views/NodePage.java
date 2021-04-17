@@ -34,8 +34,6 @@ import javafx.util.Callback;
 
 public class NodePage extends SubPageController implements Initializable{
 
-    @FXML
-    private JFXTreeTableView<Node> treeView;
 
     @FXML
     private JFXTextArea nodeArea;
@@ -87,74 +85,6 @@ public class NodePage extends SubPageController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources){
         NumberValidator numberValidator = new NumberValidator();
-
-        TreeTableColumn nID = new TreeTableColumn("Node ID");
-        TreeTableColumn nX = new TreeTableColumn("X-Coord");
-        TreeTableColumn nY = new TreeTableColumn("Y-Coord");
-        TreeTableColumn nFloor = new TreeTableColumn("Floor");
-        TreeTableColumn nBuilding = new TreeTableColumn("Building");
-        TreeTableColumn nType = new TreeTableColumn("Type");
-        TreeTableColumn nLongName = new TreeTableColumn("Long Name");
-        TreeTableColumn nShortName = new TreeTableColumn("Short Name");
-
-
-        treeView.getColumns().addAll(nID,nX,nY, nFloor, nBuilding, nType, nLongName,nShortName);
-
-        List<NodeInfo> nodeList = null;
-        try {
-            nodeList = App.dbService.getAllNodes().collect(Collectors.toList());
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        ObservableList<Node> data = FXCollections.observableArrayList();
-
-
-        //Display all Node ID, X, Y, Floor, Building, LongName, and ShortName
-        for(int i = 0; i < nodeList.size(); i++){
-            if(!nodeList.get(i).getNodeID().isEmpty()){
-                data.add(new Node(nodeList.get(i).getNodeID(),nodeList.get(i).getXPos(),nodeList.get(i).getYPos(),
-                        nodeList.get(i).getFloor(), nodeList.get(i).getBuilding(), nodeList.get(i).getNodeType(), nodeList.get(i).getLongName(),
-                        nodeList.get(i).getShortName()));
-
-            }
-        }
-
-        nID.setCellValueFactory(
-                new TreeItemPropertyValueFactory<Node,String>("nodeID")
-        );
-
-        nX.setCellValueFactory(
-                new TreeItemPropertyValueFactory<Node,String>("xPos")
-        );
-
-        nY.setCellValueFactory(
-                new TreeItemPropertyValueFactory<Node,String>("yPos")
-        );
-        nFloor.setCellValueFactory(
-                new TreeItemPropertyValueFactory<Node,String>("floor")
-        );
-
-        nBuilding.setCellValueFactory(
-                new TreeItemPropertyValueFactory<Node,String>("building")
-        );
-
-        nType.setCellValueFactory(
-                new TreeItemPropertyValueFactory<Node,String>("nodeType")
-        );
-        nShortName.setCellValueFactory(
-                new TreeItemPropertyValueFactory<Node,String>("longName")
-        );
-
-        nLongName.setCellValueFactory(
-                new TreeItemPropertyValueFactory<Node,String>("shortName")
-        );
-
-        TreeItem<Node> root = new RecursiveTreeItem<>(data, RecursiveTreeObject::getChildren);
-        treeView.setRoot(root);
-        treeView.setShowRoot(false);
-
-
 
         //Ensure that each X and Y field are numbers
         addNodeX.getValidators().add(numberValidator);

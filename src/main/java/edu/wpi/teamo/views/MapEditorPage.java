@@ -1,6 +1,7 @@
 package edu.wpi.teamo.views;
 
 import com.jfoenix.controls.*;
+import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import com.jfoenix.validation.NumberValidator;
 import edu.wpi.teamo.App;
 
@@ -14,17 +15,28 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import edu.wpi.teamo.database.map.EdgeInfo;
+import edu.wpi.teamo.database.map.Node;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 
 import edu.wpi.teamo.database.map.NodeInfo;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeTableColumn;
 import javafx.stage.FileChooser;
 
 public class MapEditorPage extends SubPageController implements Initializable{
+
+
+    @FXML
+    private JFXTreeTableView<Node> treeView;
 
     @FXML
     private JFXListView<String> nodeArea;
@@ -86,6 +98,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
     @FXML
     private JFXTextField deleteEdgeID;
 
+
     /**
      * Set validators to insure that the x and y coordinate fields are numbers
      * @param location
@@ -93,6 +106,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
      */
     @Override
     public void initialize(URL location, ResourceBundle resources){
+
 
         nodeArea.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         NumberValidator numberValidator = new NumberValidator();
@@ -157,6 +171,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
                     "Default Floor", "Default Building", "Default Type",
                     newNodeID, newNodeID);
             updateDisplay();
+            updateNodeTreeDisplay();
 
         }
         catch(SQLException e){
@@ -176,6 +191,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         try{
             App.dbService.deleteNode(deleteNode);
             updateDisplay();
+            updateNodeTreeDisplay();
         }
         catch (SQLException e){
             return;
@@ -198,6 +214,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
             App.dbService.setNodeLongName(currentNodeID, newNodeID);
 
             updateDisplay();
+            updateNodeTreeDisplay();
         }
         catch (SQLException e){
             return;
@@ -290,6 +307,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         }
 
         updateDisplay();
+        updateNodeTreeDisplay();
     }
 
     /**
@@ -422,5 +440,89 @@ public class MapEditorPage extends SubPageController implements Initializable{
     @FXML
     void handleLookup(ActionEvent event) {
 
+    }
+
+    @FXML
+    void updateNodeTreeDisplay() {
+
+        JFXTreeTableColumn<Node, String> nID = new JFXTreeTableColumn<>("NodeID");
+        nID.setPrefWidth(125);
+        nID.setCellValueFactory((TreeTableColumn.CellDataFeatures<Node, String> param) -> {
+            StringProperty var = new SimpleStringProperty(param.getValue().getValue().getNodeID());
+            return var;
+        });
+
+        JFXTreeTableColumn<Node, String> nX = new JFXTreeTableColumn<>("xPos");
+        nX.setPrefWidth(125);
+        nX.setCellValueFactory((TreeTableColumn.CellDataFeatures<Node, String> param) -> {
+            StringProperty var = new SimpleStringProperty(String.valueOf(param.getValue().getValue().getXPos()));
+            return var;
+        });
+
+        JFXTreeTableColumn<Node, String> nY = new JFXTreeTableColumn<>("yPos");
+        nY.setPrefWidth(125);
+        nY.setCellValueFactory((TreeTableColumn.CellDataFeatures<Node, String> param) -> {
+            StringProperty var = new SimpleStringProperty(String.valueOf(param.getValue().getValue().getYPos()));
+            return var;
+        });
+
+        JFXTreeTableColumn<Node, String> nFloor = new JFXTreeTableColumn<>("floor");
+        nFloor.setPrefWidth(125);
+        nFloor.setCellValueFactory((TreeTableColumn.CellDataFeatures<Node, String> param) -> {
+            StringProperty var = new SimpleStringProperty(param.getValue().getValue().getFloor());
+            return var;
+        });
+
+        JFXTreeTableColumn<Node, String> nBuilding = new JFXTreeTableColumn<>("building");
+        nBuilding.setPrefWidth(125);
+        nBuilding.setCellValueFactory((TreeTableColumn.CellDataFeatures<Node, String> param) -> {
+            StringProperty var = new SimpleStringProperty(param.getValue().getValue().getBuilding());
+            return var;
+        });
+
+        JFXTreeTableColumn<Node, String> nType = new JFXTreeTableColumn<>("nodeType");
+        nType.setPrefWidth(125);
+        nType.setCellValueFactory((TreeTableColumn.CellDataFeatures<Node, String> param) -> {
+            StringProperty var = new SimpleStringProperty(param.getValue().getValue().getNodeType());
+            return var;
+        });
+
+        JFXTreeTableColumn<Node, String> nLongName = new JFXTreeTableColumn<>("longName");
+        nLongName.setPrefWidth(125);
+        nLongName.setCellValueFactory((TreeTableColumn.CellDataFeatures<Node, String> param) -> {
+            StringProperty var = new SimpleStringProperty(param.getValue().getValue().getLongName());
+            return var;
+        });
+
+        JFXTreeTableColumn<Node, String> nShortName = new JFXTreeTableColumn<>("longName");
+        nShortName.setPrefWidth(125);
+        nShortName.setCellValueFactory((TreeTableColumn.CellDataFeatures<Node, String> param) -> {
+            StringProperty var = new SimpleStringProperty(param.getValue().getValue().getShortName());
+            return var;
+        });
+
+        List<NodeInfo> nodeList = null;
+        try {
+            nodeList = App.dbService.getAllNodes().collect(Collectors.toList());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        ObservableList<Node> data = FXCollections.observableArrayList();
+
+
+        //Display all Node ID, X, Y, Floor, Building, LongName, and ShortName
+        for(int i = 0; i < nodeList.size(); i++){
+            if(!nodeList.get(i).getNodeID().isEmpty()){
+                data.add(new Node(nodeList.get(i).getNodeID(),nodeList.get(i).getXPos(),nodeList.get(i).getYPos(),
+                        nodeList.get(i).getFloor(), nodeList.get(i).getBuilding(), nodeList.get(i).getNodeType(), nodeList.get(i).getLongName(),
+                        nodeList.get(i).getShortName()));
+
+            }
+        }
+        TreeItem<Node> root = new RecursiveTreeItem<>(data, RecursiveTreeObject::getChildren);
+        treeView.getColumns().addAll(nID,nX,nY,nFloor,nBuilding,nType,nLongName,nShortName);
+        treeView.setRoot(root);
+        treeView.setShowRoot(false);
     }
 }
