@@ -1,6 +1,6 @@
 package edu.wpi.teamo.algos;
 
-import edu.wpi.teamo.map.*;
+import edu.wpi.teamo.database.*;
 
 import java.sql.SQLException;
 import java.util.*;

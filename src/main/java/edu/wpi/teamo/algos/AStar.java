@@ -1,6 +1,6 @@
 package edu.wpi.teamo.algos;
 
-import edu.wpi.teamo.map.Edge;
+import edu.wpi.teamo.database.Edge;
 
 import java.util.*;
 

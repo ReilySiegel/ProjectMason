@@ -1,4 +1,4 @@
-package edu.wpi.teamo.map;
+package edu.wpi.teamo.database;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

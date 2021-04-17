@@ -11,8 +11,8 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
-import edu.wpi.teamo.Pages;
-import edu.wpi.teamo.map.EdgeInfo;
+
+import edu.wpi.teamo.database.EdgeInfo;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
