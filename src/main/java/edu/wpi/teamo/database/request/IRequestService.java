@@ -7,6 +7,8 @@ public interface IRequestService {
     String requestSanitation(String type, String location, String employee, int requestNumber);
     Stream<ISanitationRequestInfo> getAllSanitationRequests();
     Stream<IMedicineRequestInfo> getAllMedicineRequests();
+    ISanitationRequestInfo getSanitationRequest(String id);
+    IMedicineRequestInfo getMedicineRequest(String id);
     void removeRequest(String requestID);
     void setCompleted(String requestID);
     void closeConnection();

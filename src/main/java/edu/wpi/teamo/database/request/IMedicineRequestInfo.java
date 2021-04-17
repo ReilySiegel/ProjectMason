@@ -7,4 +7,5 @@ public interface IMedicineRequestInfo {
     String getAmount();
     String getType();
     int getNumber();
+    String getID();
 }

@@ -11,6 +11,7 @@ public class MedicineRequest implements IMedicineRequestInfo {
     private String amount;
     private String type;
     private int number;
+    private String id;
 
     public MedicineRequest(String type, String amount, String locationID, String assigned) {
         this.locationID = locationID;
@@ -85,5 +86,10 @@ public class MedicineRequest implements IMedicineRequestInfo {
     @Override
     public int getNumber() {
         return number;
+    }
+
+    @Override
+    public String getID() {
+        return null;
     }
 }

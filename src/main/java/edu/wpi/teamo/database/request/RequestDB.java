@@ -38,6 +38,16 @@ public class RequestDB implements IRequestService {
     }
 
     @Override
+    public ISanitationRequestInfo getSanitationRequest(String id) {
+        return null;
+    }
+
+    @Override
+    public IMedicineRequestInfo getMedicineRequest(String id) {
+        return null;
+    }
+
+    @Override
     public void removeRequest(String requestID) {
         //TODO
     }
