@@ -35,6 +35,12 @@ public class MapDB implements IMapService {
         Edge.initTable(db);
     }
 
+    public MapDB(Database database) throws SQLException {
+        this.db = database;
+        Node.initTable(db);
+        Edge.initTable(db);
+    }
+
     public MapDB() throws SQLException, ClassNotFoundException {
         db = new Database();
         Node.initTable(db);
