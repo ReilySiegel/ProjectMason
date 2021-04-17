@@ -1,8 +1,9 @@
 package edu.wpi.teamo.database.request;
 
 public interface ISanitationRequestInfo {
-    String getLocation();
-    String getEmployee();
-    String getType();
+    String getLocationID();
+    boolean isComplete();
+    String getAssigned();
+    String getDetails();
     int getNumber();
 }
