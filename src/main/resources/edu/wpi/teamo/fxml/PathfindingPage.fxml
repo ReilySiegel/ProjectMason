@@ -57,7 +57,7 @@
                            </children>
                         </VBox>
                         <JFXButton fx:id="getDirections" buttonType="RAISED" onAction="#handleGetDirections" style="-fx-background-color: #ff9900;" text="Get Directions" AnchorPane.bottomAnchor="575.0" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="180.0" />
-                        <JFXButton fx:id="goBack" buttonType="RAISED" onAction="#handleGoBack" prefHeight="31.0" prefWidth="65.0" style="-fx-background-color: #000080;" text="Back" textFill="#fffbfb" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="730.0" />
+                        <JFXButton fx:id="goBack" buttonType="RAISED" onAction="#backToMain" prefHeight="31.0" prefWidth="65.0" style="-fx-background-color: #000080;" text="Back" textFill="#fffbfb" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="730.0" />
                      </children></AnchorPane>
               </items>
             </SplitPane>

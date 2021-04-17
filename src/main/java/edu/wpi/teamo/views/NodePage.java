@@ -25,7 +25,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.stage.FileChooser;
 
-public class NodePage implements Initializable{
+public class NodePage extends SubPageController implements Initializable{
 
     @FXML
     private JFXTextArea nodeArea;
@@ -185,14 +185,8 @@ public class NodePage implements Initializable{
         }
     }
 
-    /**
-     * event handler for switching to main page
-     * @param e Action Event parameter
-     */
-    @FXML
-    private void goToMain(ActionEvent e) {
-        App.switchPage(Pages.MAIN);
-    }
+
+
 
     /**
      * Event handler to load in and display a Node csv file

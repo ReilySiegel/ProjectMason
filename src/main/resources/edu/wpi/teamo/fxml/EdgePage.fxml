@@ -29,7 +29,7 @@
                         <Insets left="5.0" right="5.0" top="5.0" />
                     </HBox.margin>
                 </JFXTextField>
-                <JFXButton buttonType="RAISED" onAction="#handleBacktoMain" style="-fx-background-color: #ede8e8;" text="Back">
+                <JFXButton buttonType="RAISED" onAction="#backToMain" style="-fx-background-color: #ede8e8;" text="Back">
                     <HBox.margin>
                         <Insets top="5.0" />
                     </HBox.margin>

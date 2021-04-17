@@ -18,7 +18,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.stage.FileChooser;
 
-public class EdgePage implements Initializable {
+public class EdgePage extends SubPageController implements Initializable {
 
     @FXML
     private JFXTextField addEdgeID;
@@ -170,17 +170,6 @@ public class EdgePage implements Initializable {
         }
         System.out.println(edgeString);
         currentEdge.setText(edgeString);
-    }
-
-    /**
-     * handles back to main page
-     *
-     * @param event click back button
-     */
-    @FXML
-    void handleBacktoMain(ActionEvent event) {
-        // switches to Main Page
-        App.switchPage(Pages.MAIN);
     }
 
     /**

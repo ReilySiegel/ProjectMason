@@ -7,7 +7,7 @@ import edu.wpi.teamo.Pages;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
-public class SR07_Medicine {
+public class SR07_Medicine extends SubPageController{
 
     @FXML
     private JFXTextField medName;
@@ -25,9 +25,5 @@ public class SR07_Medicine {
         String name = userName.getText().replaceAll("[^a-zA-Z0-9]", "");
     }
 
-    @FXML
-    private void backToMain(ActionEvent e) {
-        App.switchPage(Pages.MAIN);
-    }
 
 }

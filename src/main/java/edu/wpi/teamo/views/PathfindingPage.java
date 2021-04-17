@@ -17,7 +17,7 @@ import java.util.LinkedList;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-public class PathfindingPage implements Initializable {
+public class PathfindingPage extends SubPageController implements Initializable {
 
     @FXML
     private JFXButton getDirections;
@@ -64,13 +64,6 @@ public class PathfindingPage implements Initializable {
 
     }
 
-    /**
-     * @param event
-     */
-    @FXML
-    void handleGoBack(ActionEvent event) {
-        App.switchPage(Pages.MAIN);
-    }
 
 
     /**
