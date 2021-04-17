@@ -1,13 +1,12 @@
 package edu.wpi.teamo.algos;
 
-import edu.wpi.teamo.database.map.Edge;
-import edu.wpi.teamo.database.map.MapDB;
+import edu.wpi.teamo.database.map.*;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
 import java.util.LinkedList;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class AStarManagerTests {
 
@@ -53,6 +52,40 @@ public class AStarManagerTests {
         assertEquals("oPARK00501", pathP10_P5.get(5).getID());
 
     }
+
+    /**
+     * Test for finding the trivial path (starting and ending nodes are the same)
+     * @throws SQLException If there is a database error
+     * @throws ClassNotFoundException If there are any missing classes
+     */
+    @Test
+    public void testFindTrivialPath() throws SQLException, ClassNotFoundException  {
+        MapDB mdb = new MapDB("testFindPath");
+        mdb.addNode("oPARK00101", 3116,1131,"F1", "b","PARK","Floor1RightParking1","F1RightP1");
+        AStarManager asm = new AStarManager(mdb);
+        LinkedList<AlgoNode> path = asm.getPath("oPARK00101","oPARK00101");
+        assertEquals(1, path.size());
+        assertEquals("oPARK00101", path.get(0).getID());
+    }
+
+    /**
+     * Test for case where there is no path (return just the starting node)
+     * @throws SQLException If there is a database error
+     * @throws ClassNotFoundException If there are any missing classes
+     * @throws NullPointerException No path present
+     */
+    @Test
+    public void testNoPath() throws SQLException, ClassNotFoundException, NullPointerException {
+        MapDB mdb = new MapDB("testFindPath");
+        mdb.addNode("oPARK00101", 3116,1131,"F1", "b","PARK","Floor1RightParking1","F1RightP1");
+        mdb.addNode("oPARK00201", 3116,1155,"F1", "b","PARK","Floor1RightParking2","F1RightP2");
+        mdb.addNode("oPARK00301", 3116,1181,"F1", "b","PARK","Floor1RightParking3","F1RightP3");
+        mdb.addEdge("oPARK00101_oPARK00301","oPARK00101","oPARK00301");
+        AStarManager asm = new AStarManager(mdb);
+        //Refactor AStar to handle exception internally?
+        assertThrows(NullPointerException.class, () -> asm.getPath("oPARK00101","oPARK00201"));
+    }
+
     /**
      * Test for assignNodeAdjacency
      */
@@ -61,13 +94,16 @@ public class AStarManagerTests {
         LinkedList<AlgoNode> nodes = new LinkedList<>();
         LinkedList<Edge> edges = new LinkedList<>();
         AlgoNode n1 = new AlgoNode("oPARK00101", 3116, 1131,"F1", NodeType.PARK,"Floor1RightParking1","F1RightP1");
+        AlgoNode n2 = new AlgoNode("oPARK00102", 3116, 1151,"F1", NodeType.PARK,"Floor1RightParking2","F1RightP2");
         AlgoNode n3 = new AlgoNode("oPARK00301", 3116,1181,"F1", NodeType.PARK,"Floor1RightParking3","F1RightP3");
         nodes.add(n1);
+        nodes.add(n2);
         nodes.add(n3);
         Edge e = new Edge("oPARK00101_oPARK00301","oPARK00101","oPARK00301");
         edges.add(e);
         AStarManager.assignNodeAdjacency(nodes, edges);
         assertEquals(n3.getID(), n1.getAdjacencies().get(0));
         assertEquals(n1.getID(), n3.getAdjacencies().get(0));
+        assertEquals(0, n2.getAdjacencies().size());
     }
 }
