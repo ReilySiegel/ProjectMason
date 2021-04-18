@@ -10,6 +10,7 @@ public class SanitationRequest implements ISanitationRequestInfo {
     private String assigned;
     private String details;
     private int number;
+    private String id;
 
     public static SanitationRequest getByID(Database db, String id) {
         //TODO
@@ -67,5 +68,10 @@ public class SanitationRequest implements ISanitationRequestInfo {
 
     public void setNumber(int number) {
         this.number = number;
+    }
+
+    @Override
+    public String getID() {
+        return id;
     }
 }

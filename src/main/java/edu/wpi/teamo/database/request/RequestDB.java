@@ -15,13 +15,13 @@ public class RequestDB implements IRequestService {
     }
 
     @Override
-    public String requestMedicine(String type, String amount, String location, String employee, int requestNumber) throws SQLException {
+    public String requestMedicine(String type, String amount, String location, String assigned, int requestNumber) throws SQLException {
         //TODO
         return null;
     }
 
     @Override
-    public String requestSanitation(String type, String location, String employee, int requestNumber) throws SQLException {
+    public String requestSanitation(String location, String assigned, String details, int number) throws SQLException {
         //TODO
         return null;
     }

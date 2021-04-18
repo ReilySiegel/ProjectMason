@@ -6,4 +6,5 @@ public interface ISanitationRequestInfo {
     String getAssigned();
     String getDetails();
     int getNumber();
+    String getID();
 }
