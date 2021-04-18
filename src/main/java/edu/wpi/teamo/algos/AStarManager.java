@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.*;
 
-public class AStarManager implements AStarService {
+public class        AStarManager implements AStarService {
     private IMapService DBService;
 
     /**

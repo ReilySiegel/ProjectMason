@@ -10,7 +10,9 @@ public class AStar {
     private LinkedList<Edge> edges;
     private String startID;
     private String endID;
-    private LinkedList<AlgoNode> allTheMess;
+
+    private LinkedList<AlgoNode> allTheNodes;
+
 
     public AStar(LinkedList<AlgoNode> nodes, LinkedList<Edge> edges, String startNodeID, String endNodeID) {
         this.startID = startNodeID;
@@ -21,8 +23,8 @@ public class AStar {
 
 
 
-    public void setAllTheMess(LinkedList<AlgoNode> all){
-        allTheMess = all;
+    public void setAllTheNodes(LinkedList<AlgoNode> all){
+        allTheNodes = all;
     }
 
 
@@ -104,9 +106,11 @@ public class AStar {
      * @return
      */
 
-    private boolean isEnd(AlgoNode n)
+
+    public boolean isEnd(AlgoNode n)
     {
-        return n == stringToNode(endID);
+        return n == stringToNode(endID)||n.getID() == endID;
+
     }
 
     /**
@@ -116,7 +120,9 @@ public class AStar {
      * @param currentNode
      * @return
      */
+
     private boolean lowerFcost(AlgoNode n , AlgoNode currentNode)
+
     {
         return n.get_fCost() < currentNode.get_fCost() ||
                 (n.get_fCost() == currentNode.get_fCost() && n.get_hCost() < currentNode.get_hCost());
@@ -129,7 +135,7 @@ public class AStar {
     private LinkedList<AlgoNode> adjacenciesToNodes(AlgoNode node) {
         LinkedList<AlgoNode> list = new LinkedList<>();
         for (String s : node.getAdjacencies()) {
-            for (AlgoNode n : allTheMess) {
+            for (AlgoNode n : allTheNodes) {
                 if (n.getID().equals(s)) list.add(n);
             }
         }
@@ -142,10 +148,15 @@ public class AStar {
      * @return the AlgoNode associated with the ID
      */
     private AlgoNode stringToNode(String ID){
-        for (AlgoNode n: allTheMess) {
-            if (ID.equals(n.getID())) {
-                return n;
+        try {
+            for (AlgoNode n : allTheNodes) {
+                if (ID.equals(n.getID())) {
+                    return n;
+                }
             }
+        }
+        catch (Exception e){
+            return null;
         }
         return null;
     }
