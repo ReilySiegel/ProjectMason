@@ -209,6 +209,11 @@ public class MapDB implements IMapService {
         Edge.getByID(db, id).delete(db);
     }
 
+    @Override
+    public void deleteMap() throws SQLException {
+        //TODO
+    }
+
     public void writeEdgesToCSV(String filepath) throws SQLException, IOException {
         Stream<Edge> edgeStream = Edge.getAll(db);
         EdgeCSV.write(filepath, edgeStream);
