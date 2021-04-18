@@ -45,6 +45,21 @@ public class MapEditorPage extends SubPageController implements Initializable{
     private JFXTextField addNodeID;
 
     @FXML
+    private JFXTextField addNodeBuilding;
+
+    @FXML
+    private JFXTextField addNodeFloor;
+
+    @FXML
+    private JFXTextField addNodeType;
+
+    @FXML
+    private JFXTextField addNodeLN;
+
+    @FXML
+    private JFXTextField addNodeSN;
+
+    @FXML
     private JFXTextField addNodeX;
 
     @FXML
@@ -60,16 +75,22 @@ public class MapEditorPage extends SubPageController implements Initializable{
     private JFXTextField origNodeY;
 
     @FXML
-    private JFXTextField editNodeID;
+    private JFXTextField origNodeBuilding;
 
     @FXML
-    private JFXTextField editNodeX;
+    private JFXTextField origNodeFloor;
 
     @FXML
-    private JFXTextField editNodeY;
+    private JFXTextField origNodeType;
 
     @FXML
-    private JFXButton editSubmit;
+    private JFXTextField origNodeLN;
+
+    @FXML
+    private JFXTextField origNodeSN;
+
+    @FXML
+    private JFXButton editNodeSubmit;
 
     @FXML
     private JFXTextField deleteNodeID;
@@ -108,6 +129,8 @@ public class MapEditorPage extends SubPageController implements Initializable{
     public void initialize(URL location, ResourceBundle resources){
         NumberValidator numberValidator = new NumberValidator();
 
+        editNodeSubmit.setDisable(true);
+
         //Ensure that each X and Y field are numbers
         addNodeX.getValidators().add(numberValidator);
         //numberValidator.setMessage("Please enter a number");
@@ -130,22 +153,22 @@ public class MapEditorPage extends SubPageController implements Initializable{
             }
         });
 
-        editNodeX.getValidators().add(numberValidator);
-        editNodeX.focusedProperty().addListener(new ChangeListener<Boolean>() {
+        origNodeX.getValidators().add(numberValidator);
+        origNodeX.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 if(!newValue){
-                    editNodeX.validate();
+                    origNodeX.validate();
                 }
             }
         });
 
-        editNodeY.getValidators().add(numberValidator);
-        editNodeY.focusedProperty().addListener(new ChangeListener<Boolean>() {
+        origNodeY.getValidators().add(numberValidator);
+        origNodeY.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 if(!newValue){
-                    editNodeY.validate();
+                    origNodeY.validate();
                 }
             }
         });
@@ -159,7 +182,13 @@ public class MapEditorPage extends SubPageController implements Initializable{
                     origNodeID.setText(newValue.getValue().getNodeID());
                     origNodeX.setText(Integer.toString(newValue.getValue().getXPos()));
                     origNodeY.setText(Integer.toString(newValue.getValue().getYPos()));
+                    origNodeBuilding.setText(newValue.getValue().getBuilding());
+                    origNodeFloor.setText(newValue.getValue().getFloor());
+                    origNodeType.setText(newValue.getValue().getNodeType());
+                    origNodeLN.setText(newValue.getValue().getLongName());
+                    origNodeSN.setText(newValue.getValue().getShortName());
                     deleteNodeID.setText(newValue.getValue().getNodeID());
+                    editNodeSubmit.setDisable(false);
                 }
             }
         });
@@ -178,6 +207,12 @@ public class MapEditorPage extends SubPageController implements Initializable{
         String newNodeID = addNodeID.getText();
         String newNodeX = addNodeX.getText();
         String newNodeY = addNodeY.getText();
+        String newNodeBuilding = addNodeBuilding.getText();
+        String newNodeFloor = addNodeFloor.getText();
+        String newNodeType = addNodeType.getText();
+        String newNodeLN = addNodeLN.getText();
+        String newNodeSN = addNodeSN.getText();
+
 
         try{
             if(newNodeX.equals("")){
@@ -187,12 +222,12 @@ public class MapEditorPage extends SubPageController implements Initializable{
                 newNodeY = "0";
             }
             App.mapService.addNode(newNodeID, Integer.parseInt(newNodeX), Integer.parseInt(newNodeY),
-                    "Default Floor", "Default Building", "Default Type",
-                    newNodeID, newNodeID);
+                    newNodeFloor, newNodeBuilding, newNodeType,
+                    newNodeLN, newNodeSN);
             updateNodeTreeDisplay();
 
         }
-        catch(SQLException e){
+        catch(SQLException | NumberFormatException e){
             return;
         }
 
@@ -225,9 +260,13 @@ public class MapEditorPage extends SubPageController implements Initializable{
     @FXML
     void handleEditSubmitNode(ActionEvent event) {
         String currentNodeID = origNodeID.getText();
-        String newNodeID = editNodeID.getText();
-        String newNodeX = editNodeX.getText();
-        String newNodeY = editNodeY.getText();
+        String newNodeX = origNodeX.getText();
+        String newNodeY = origNodeY.getText();
+        String newNodeBuild = origNodeBuilding.getText();
+        String newNodeFloor = origNodeFloor.getText();
+        String newNodeType = origNodeType.getText();
+        String newNodeLN = origNodeLN.getText();
+        String newNodeSN = origNodeSN.getText();
 
         try{
             if(newNodeX.equals("")){
@@ -237,7 +276,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
                 newNodeY = "0";
             }
             App.mapService.setNodePosition(currentNodeID, Integer.parseInt(newNodeX), Integer.parseInt(newNodeY));
-            App.mapService.setNodeLongName(currentNodeID, newNodeID);
+            App.mapService.setNodeLongName(currentNodeID, newNodeLN);
 
             updateNodeTreeDisplay();
         }
@@ -397,65 +436,6 @@ public class MapEditorPage extends SubPageController implements Initializable{
         }
     }
 
-
-    /**
-     * Display all nodes in database in the textarea
-     */
-    /*
-    @FXML
-    void updateDisplay(){
-        List<NodeInfo> nodeList = null;
-        try {
-            nodeList = App.mapService.getAllNodes().collect(Collectors.toList());
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        // list of all edges from db
-        List<EdgeInfo> edgeList = null;
-        // try/catch for calling getAllEdges from backend
-        try {
-            edgeList = App.mapService.getAllEdges().collect(Collectors.toList());
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        String displayString = "";
-
-        //Display all Node ID, X, Y, Floor, Building, LongName, and ShortName
-        for(int i = 0; i < nodeList.size(); i++){
-            displayString = "";
-            if(!nodeList.get(i).getNodeID().isEmpty()){
-                displayString = displayString + nodeList.get(i).getNodeID() + " ";
-                displayString = displayString + nodeList.get(i).getXPos() + " ";
-                displayString = displayString + nodeList.get(i).getYPos() + " ";
-                displayString = displayString + nodeList.get(i).getFloor() + " ";
-                displayString = displayString + nodeList.get(i).getBuilding() + " ";
-                displayString = displayString + nodeList.get(i).getLongName() + " ";
-                displayString = displayString + nodeList.get(i).getShortName();
-                nodeArea.getItems().add(displayString);
-            }
-        }
-
-
-        String edgeString = "";
-        // try/catch for looping through nodes
-        try {
-            // loops through the list and prints edge, start node, and end node
-            for (int i = 0; i < edgeList.size(); i++) {
-                edgeString = "";
-                if (!edgeList.get(i).getEdgeID().isEmpty()) {
-                    edgeString = edgeString + edgeList.get(i).getEdgeID() + "                  ";
-                    edgeString = edgeString + edgeList.get(i).getStartNodeID() + "                  ";
-                    edgeString = edgeString + edgeList.get(i).getEndNodeID();
-                    edgeString = edgeString + "\n";
-                    nodeArea.getItems().add(edgeString);
-                }
-            }
-        } catch (Exception NullPointerException) {
-            return;
-        }
-    } */
 
     @FXML
     private JFXTextField editingEdge;
