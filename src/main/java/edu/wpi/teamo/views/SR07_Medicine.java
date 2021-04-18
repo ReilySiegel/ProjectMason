@@ -16,7 +16,9 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -40,10 +42,25 @@ public class SR07_Medicine extends ServiceRequestPage implements Initializable {
     @FXML
     private JFXTextField assignee;
 
+    @FXML
+    private Text medErrorText;
+
+    @FXML
+    private Text amountErrorText;
+
+    @FXML
+    private Text roomErrorText;
+
+    @FXML
+    private Text assigneeErrorText;
+
+    private boolean validRequest;
+
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
         try {
+            validRequest = true;
             LinkedList<String> nodeShortNames = new LinkedList<String>();
             LinkedList<NodeInfo> nodes = App.mapService.getAllNodes().collect(Collectors.toCollection(LinkedList::new));
 
@@ -62,13 +79,56 @@ public class SR07_Medicine extends ServiceRequestPage implements Initializable {
     }
 
     @FXML
+    private void clearMedError(KeyEvent e) {
+        medErrorText.setText("");
+    }
+
+    @FXML
+    private void clearAmountError(KeyEvent e) {
+        amountErrorText.setText("");
+    }
+
+//    @FXML
+//    private void clearRoomError(ActionEvent e) {
+//        roomErrorText.setText("");
+//    }
+
+    @FXML
+    private void clearAssigneeError(KeyEvent e) {
+        assigneeErrorText.setText("");
+    }
+
+    @FXML
     private void handleSubmission(ActionEvent e) throws SQLException {
         String medicine = medName.getText();
         String amount = medAmount.getText();
         String room = loc.getValue();
         String assignName = assignee.getText();
 
-        App.requestService.requestMedicine(medicine, amount, room, assignName);
+        validRequest = true;
+
+        if (medicine.equals("")) {
+            medErrorText.setText("No medicine specified");
+            validRequest = false;
+        }
+
+        if (amount.equals("")) {
+            amountErrorText.setText("No amount specified");
+            validRequest = false;
+        }
+        if (room == null) {
+            roomErrorText.setText("No room specified");
+            validRequest = false;
+        }
+        if (assignName.equals("")) {
+            assigneeErrorText.setText("No assignee specified");
+            validRequest = false;
+        }
+
+        if (validRequest) {
+            App.requestService.requestMedicine(medicine, amount, room, assignName);
+            System.out.println("request successful");
+        }
     }
 
     @FXML
@@ -99,6 +159,8 @@ public class SR07_Medicine extends ServiceRequestPage implements Initializable {
         helpWindow.setScene(scene);
         helpWindow.showAndWait();
     }
+
+
 
 
 }

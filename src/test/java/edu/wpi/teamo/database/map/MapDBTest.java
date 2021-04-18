@@ -6,11 +6,14 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.BeforeAll;
 import java.io.FileNotFoundException;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 import java.util.stream.Stream;
 import java.sql.SQLException;
 import java.io.IOException;
 import java.util.HashMap;
+import javafx.util.Pair;
+import java.util.List;
 import java.io.File;
 
 @TestInstance(Lifecycle.PER_CLASS)
@@ -18,6 +21,7 @@ public class MapDBTest {
 
     static final String testNodeFile = "src/test/resources/edu/wpi/teamo/database/testNodes.csv";
     static final String testEdgeFile = "src/test/resources/edu/wpi/teamo/database/testEdges.csv";
+    static final String testMapFile = "src/test/resources/edu/wpi/teamo/database/testMap.csv";
 
     MapDB db;
 
@@ -83,6 +87,27 @@ public class MapDBTest {
     }
 
     @Test
+    public void testDeleteMap() throws SQLException, ClassNotFoundException, IOException {
+        MapDB tMDB = new MapDB("testDeleteMap");
+
+        /* load map, assert that it has been loaded */
+        tMDB.loadMapFromCSV(testMapFile);
+        Stream<NodeInfo> fullNodeStreamToCheck = tMDB.getAllNodes();
+        assertEquals(3, fullNodeStreamToCheck.count());
+        Stream<EdgeInfo> fullEdgeStreamToCheck = tMDB.getAllEdges();
+        assertEquals(3, fullEdgeStreamToCheck.count());
+
+        /* delete map, assert that it is gone */
+        tMDB.deleteMap();
+        Stream<NodeInfo> emptyNodeStreamToCheck = tMDB.getAllNodes();
+        assertEquals(0, emptyNodeStreamToCheck.count());
+        Stream<EdgeInfo> emptyEdgeStreamToCheck = tMDB.getAllEdges();
+        assertEquals(0, emptyEdgeStreamToCheck.count());
+
+        tMDB.closeConnection();
+    }
+
+    @Test
     public void testLoadFromCSVs() throws SQLException, ClassNotFoundException {
         MapDB tMDB = new MapDB("testLoadFromCSVs");
         try {
@@ -94,6 +119,24 @@ public class MapDBTest {
             assertEquals(3, nodeStream.count());
 
             Stream<EdgeInfo> edgeStream = tMDB.getAllEdges();
+            assertEquals(3, edgeStream.count());
+
+        } catch (FileNotFoundException e) {
+            fail("Cannot testLoadFromCSVs, file not found.");
+        }
+    }
+
+    @Test
+    public void testLoadMapCSV() throws SQLException, ClassNotFoundException, IOException {
+        MapDB mDB = new MapDB("testLoadMapCSV");
+        try {
+
+            mDB.loadMapFromCSV(testMapFile);
+
+            Stream<NodeInfo> nodeStream = mDB.getAllNodes();
+            assertEquals(3, nodeStream.count());
+
+            Stream<EdgeInfo> edgeStream = mDB.getAllEdges();
             assertEquals(3, edgeStream.count());
 
         } catch (FileNotFoundException e) {
@@ -148,6 +191,80 @@ public class MapDBTest {
         } catch (FileNotFoundException e) {
             fail("Cannot testLoadFromCSVs, file not found.");
         }
+    }
+
+    @Test
+    public void testWriteMapToCSV() throws SQLException, ClassNotFoundException, IOException {
+        final String writtenFilepath = "src/test/resources/edu/wpi/teamo/database/writtenMap.csv";
+        MapDB tMDB = new MapDB("testWriteMapToCSV");
+
+        tMDB.loadMapFromCSV(testMapFile);
+
+        tMDB.writeMapToCSV(writtenFilepath);
+
+        /* read it and check that it is sound */
+        Pair<Stream<Node>, Stream<Edge>> mapStreamPair = MapCSV.readMapFile(writtenFilepath);
+
+        List<Node> nodeList = mapStreamPair.getKey().collect(Collectors.toList());
+        List<String> nodeIDList = nodeList.stream().map(Node::getNodeID).collect(Collectors.toList());
+
+        List<Edge> edgeList = mapStreamPair.getValue().collect(Collectors.toList());
+        List<String> edgeIDList = edgeList.stream().map(Edge::getEdgeID).collect(Collectors.toList());
+
+        assertEquals(3, nodeList.size());
+        assertTrue(nodeIDList.contains("testID1"));
+        assertTrue(nodeIDList.contains("testID2"));
+        assertTrue(nodeIDList.contains("testID3"));
+        for (Node node : nodeList) {
+            if (node.getNodeID().equals("testID1")) {
+                assertEquals(1, node.getXPos());
+                assertEquals(1, node.getYPos());
+                assertEquals("1", node.getFloor());
+                assertEquals("Parking", node.getBuilding());
+                assertEquals("PARK", node.getNodeType());
+                assertEquals("Floor1RightParking1", node.getLongName());
+                assertEquals("F1RightP1", node.getShortName());
+            }
+            if (node.getNodeID().equals("testID2")) {
+                assertEquals(2, node.getXPos());
+                assertEquals(2, node.getYPos());
+                assertEquals("2", node.getFloor());
+                assertEquals("Parking", node.getBuilding());
+                assertEquals("PARK", node.getNodeType());
+                assertEquals("Floor2RightParking2", node.getLongName());
+                assertEquals("F2RightP2", node.getShortName());
+            }
+            if (node.getNodeID().equals("testID3")) {
+                assertEquals(3, node.getXPos());
+                assertEquals(3, node.getYPos());
+                assertEquals("3", node.getFloor());
+                assertEquals("Parking", node.getBuilding());
+                assertEquals("PARK", node.getNodeType());
+                assertEquals("Floor3RightParking3", node.getLongName());
+                assertEquals("F3RightP3", node.getShortName());
+            }
+        }
+
+        assertEquals(3, edgeList.size());
+        assertTrue(edgeIDList.contains("edgeID1"));
+        assertTrue(edgeIDList.contains("edgeID2"));
+        assertTrue(edgeIDList.contains("edgeID3"));
+        for (Edge edge : edgeList) {
+            if (edge.getEdgeID().equals("edgeID1")) {
+                assertEquals("edge1S", edge.getStartNodeID());
+                assertEquals("edge1E", edge.getEndNodeID());
+            }
+            if (edge.getEdgeID().equals("edgeID2")) {
+                assertEquals("edge2S", edge.getStartNodeID());
+                assertEquals("edge2E", edge.getEndNodeID());
+            }
+            if (edge.getEdgeID().equals("edgeID3")) {
+                assertEquals("edge3S", edge.getStartNodeID());
+                assertEquals("edge3E", edge.getEndNodeID());
+            }
+        }
+
+        new File(writtenFilepath).delete();
     }
 
     @Test

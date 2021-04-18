@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXListView?>
 <?import com.jfoenix.controls.JFXTabPane?>
-<?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXTreeTableView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -42,9 +41,24 @@
             </HBox.margin>
          </JFXButton>
         </HBox>
-      <JFXTreeTableView fx:id="treeView" prefHeight="419.0" prefWidth="980.0" />
-      <JFXListView fx:id="nodeArea" prefHeight="10.0" prefWidth="980.0" VBox.vgrow="ALWAYS" />
-      <JFXTreeTableView fx:id="treeViewEdge" />
+      <JFXTabPane VBox.vgrow="ALWAYS">
+         <tabs>
+            <Tab fx:id="tab1" text="Map View">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+               </content>
+            </Tab>
+            <Tab fx:id="tab2" text="List View">
+               <content>
+                  <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+                     <items>
+                        <JFXTreeTableView fx:id="treeView" />
+                        <JFXTreeTableView fx:id="treeViewEdge" />
+                     </items>
+                  </SplitPane>
+               </content>
+            </Tab>
+         </tabs></JFXTabPane>
     </VBox>
    <JFXTabPane layoutX="1040.0" layoutY="386.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="980.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <tabs>
@@ -54,47 +68,91 @@
                   <children>
                      <VBox maxHeight="100.0" maxWidth="230.0" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #4CAF50;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                         <children>
-                           <Label text="Add Node" textFill="WHITE">
-                              <VBox.margin>
-                                 <Insets left="11.0" top="3.0" />
-                              </VBox.margin>
-                           </Label>
-                           <JFXTextField fx:id="addNodeID" promptText="Node Name" style="-fx-background-color: #B5BCBA;">
-                              <font>
-                                 <Font size="12.0" />
-                              </font>
-                              <VBox.margin>
-                                 <Insets bottom="3.0" left="10.0" right="10.0" top="3.0" />
-                              </VBox.margin>
-                           </JFXTextField>
-                           <HBox prefHeight="100.0" prefWidth="200.0">
-                              <VBox.margin>
-                                 <Insets left="10.0" right="10.0" />
-                              </VBox.margin>
+                           <VBox prefHeight="99.0" prefWidth="162.0" style="-fx-background-color: #4CAF50;">
                               <children>
-                                 <JFXTextField fx:id="addNodeX" promptText="Node X" style="-fx-background-color: #B5BCBA;">
+                                 <Label text="Add Node" textFill="WHITE">
+                                    <VBox.margin>
+                                       <Insets left="11.0" top="3.0" />
+                                    </VBox.margin>
+                                 </Label>
+                                 <JFXTextField fx:id="addNodeID" promptText="Node ID" style="-fx-background-color: #B5BCBA;">
                                     <font>
                                        <Font size="12.0" />
                                     </font>
-                                    <HBox.margin>
-                                       <Insets right="5.0" />
-                                    </HBox.margin>
+                                    <VBox.margin>
+                                       <Insets bottom="3.0" left="10.0" right="10.0" top="3.0" />
+                                    </VBox.margin>
                                  </JFXTextField>
-                                 <JFXTextField fx:id="addNodeY" promptText="Node Y" style="-fx-background-color: #B5BCBA;">
+                                 <HBox prefHeight="100.0" prefWidth="200.0">
+                                    <VBox.margin>
+                                       <Insets left="10.0" right="10.0" />
+                                    </VBox.margin>
+                                    <children>
+                                       <JFXTextField fx:id="addNodeX" promptText="Node X" style="-fx-background-color: #B5BCBA;">
+                                          <font>
+                                             <Font size="12.0" />
+                                          </font>
+                                          <HBox.margin>
+                                             <Insets right="5.0" />
+                                          </HBox.margin>
+                                       </JFXTextField>
+                                       <JFXTextField fx:id="addNodeY" promptText="Node Y" style="-fx-background-color: #B5BCBA;">
+                                          <font>
+                                             <Font size="12.0" />
+                                          </font>
+                                       </JFXTextField>
+                                    </children>
+                                 </HBox>
+                                 <JFXTextField fx:id="addNodeBuilding" promptText="Building" style="-fx-background-color: #B5BCBA;">
                                     <font>
                                        <Font size="12.0" />
                                     </font>
+                                    <VBox.margin>
+                                       <Insets bottom="3.0" left="10.0" right="10.0" top="3.0" />
+                                    </VBox.margin>
                                  </JFXTextField>
+                                 <JFXTextField fx:id="addNodeFloor" promptText="Floor" style="-fx-background-color: #B5BCBA;">
+                                    <font>
+                                       <Font size="12.0" />
+                                    </font>
+                                    <VBox.margin>
+                                       <Insets bottom="3.0" left="10.0" right="10.0" top="3.0" />
+                                    </VBox.margin>
+                                 </JFXTextField>
+                                 <JFXTextField fx:id="addNodeType" promptText="Node Type" style="-fx-background-color: #B5BCBA;">
+                                    <font>
+                                       <Font size="12.0" />
+                                    </font>
+                                    <VBox.margin>
+                                       <Insets bottom="3.0" left="10.0" right="10.0" top="3.0" />
+                                    </VBox.margin>
+                                 </JFXTextField>
+                                 <JFXTextField fx:id="addNodeLN" promptText="Node Long Name" style="-fx-background-color: #B5BCBA;">
+                                    <font>
+                                       <Font size="12.0" />
+                                    </font>
+                                    <VBox.margin>
+                                       <Insets bottom="3.0" left="10.0" right="10.0" top="3.0" />
+                                    </VBox.margin>
+                                 </JFXTextField>
+                                 <JFXTextField fx:id="addNodeSN" promptText="Node Short Name" style="-fx-background-color: #B5BCBA;">
+                                    <font>
+                                       <Font size="12.0" />
+                                    </font>
+                                    <VBox.margin>
+                                       <Insets bottom="3.0" left="10.0" right="10.0" top="3.0" />
+                                    </VBox.margin>
+                                 </JFXTextField>
+                                 <JFXButton buttonType="RAISED" onAction="#handleAddSubmitNode" style="-fx-background-color: #327ffa;" text="Submit">
+                                    <VBox.margin>
+                                       <Insets bottom="3.0" left="70.0" top="5.0" />
+                                    </VBox.margin>
+                                    <font>
+                                       <Font size="13.0" />
+                                    </font>
+                                 </JFXButton>
                               </children>
-                           </HBox>
-                           <JFXButton buttonType="RAISED" onAction="#handleAddSubmitNode" style="-fx-background-color: #327ffa;" text="Submit">
-                              <VBox.margin>
-                                 <Insets bottom="3.0" left="70.0" top="5.0" />
-                              </VBox.margin>
-                              <font>
-                                 <Font size="13.0" />
-                              </font>
-                           </JFXButton>
+                           </VBox>
                            <VBox prefHeight="99.0" prefWidth="162.0" style="-fx-background-color: #4CAF50;">
                               <children>
                                  <Label text="Add Edge" textFill="WHITE">
@@ -151,73 +209,91 @@
                   <children>
                      <VBox maxHeight="100.0" maxWidth="230.0" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #d860e6;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                         <children>
-                           <Label text="Edit Node" textFill="WHITE">
-                              <VBox.margin>
-                                 <Insets left="11.0" top="3.0" />
-                              </VBox.margin>
-                           </Label>
-                           <JFXTextField fx:id="origNodeID" promptText="Original Node ID" style="-fx-background-color: #B5BCBA;">
-                              <font>
-                                 <Font size="12.0" />
-                              </font>
-                              <VBox.margin>
-                                 <Insets bottom="3.0" left="10.0" right="10.0" top="3.0" />
-                              </VBox.margin>
-                           </JFXTextField>
-                           <HBox prefHeight="100.0" prefWidth="200.0">
-                              <VBox.margin>
-                                 <Insets left="10.0" right="10.0" />
-                              </VBox.margin>
+                           <VBox prefHeight="99.0" prefWidth="162.0" style="-fx-background-color: #d860e6;">
                               <children>
-                                 <JFXTextField fx:id="origNodeX" editable="false" promptText="Original X" style="-fx-background-color: #B5BCBA;">
+                                 <Label text="Edit Node" textFill="WHITE">
+                                    <VBox.margin>
+                                       <Insets left="11.0" top="3.0" />
+                                    </VBox.margin>
+                                 </Label>
+                                 <JFXTextField fx:id="origNodeID" promptText="Original Node ID" style="-fx-background-color: #B5BCBA;">
                                     <font>
                                        <Font size="12.0" />
                                     </font>
-                                    <HBox.margin>
-                                       <Insets right="5.0" />
-                                    </HBox.margin>
+                                    <VBox.margin>
+                                       <Insets bottom="3.0" left="10.0" right="10.0" top="3.0" />
+                                    </VBox.margin>
                                  </JFXTextField>
-                                 <JFXTextField fx:id="origNodeY" editable="false" promptText="Original Y" style="-fx-background-color: #B5BCBA;">
+                                 <HBox prefHeight="100.0" prefWidth="200.0">
+                                    <VBox.margin>
+                                       <Insets left="10.0" right="10.0" />
+                                    </VBox.margin>
+                                    <children>
+                                       <JFXTextField fx:id="origNodeX" promptText="Original Node X" style="-fx-background-color: #B5BCBA;">
+                                          <font>
+                                             <Font size="12.0" />
+                                          </font>
+                                          <HBox.margin>
+                                             <Insets right="5.0" />
+                                          </HBox.margin>
+                                       </JFXTextField>
+                                       <JFXTextField fx:id="origNodeY" promptText="Node Y" style="-fx-background-color: #B5BCBA;">
+                                          <font>
+                                             <Font size="12.0" />
+                                          </font>
+                                       </JFXTextField>
+                                    </children>
+                                 </HBox>
+                                 <JFXTextField fx:id="origNodeBuilding" promptText="Orignal Node Building" style="-fx-background-color: #B5BCBA;">
                                     <font>
                                        <Font size="12.0" />
                                     </font>
+                                    <VBox.margin>
+                                       <Insets bottom="3.0" left="10.0" right="10.0" top="3.0" />
+                                    </VBox.margin>
                                  </JFXTextField>
+                                 <JFXTextField fx:id="origNodeFloor" promptText="Original Node Floor" style="-fx-background-color: #B5BCBA;">
+                                    <font>
+                                       <Font size="12.0" />
+                                    </font>
+                                    <VBox.margin>
+                                       <Insets bottom="3.0" left="10.0" right="10.0" top="3.0" />
+                                    </VBox.margin>
+                                 </JFXTextField>
+                                 <JFXTextField fx:id="origNodeType" promptText="Original Node Type" style="-fx-background-color: #B5BCBA;">
+                                    <font>
+                                       <Font size="12.0" />
+                                    </font>
+                                    <VBox.margin>
+                                       <Insets bottom="3.0" left="10.0" right="10.0" top="3.0" />
+                                    </VBox.margin>
+                                 </JFXTextField>
+                                 <JFXTextField fx:id="origNodeLN" promptText="Original Node Long Name" style="-fx-background-color: #B5BCBA;">
+                                    <font>
+                                       <Font size="12.0" />
+                                    </font>
+                                    <VBox.margin>
+                                       <Insets bottom="3.0" left="10.0" right="10.0" top="3.0" />
+                                    </VBox.margin>
+                                 </JFXTextField>
+                                 <JFXTextField fx:id="origNodeSN" promptText="Original Node Short Name" style="-fx-background-color: #B5BCBA;">
+                                    <font>
+                                       <Font size="12.0" />
+                                    </font>
+                                    <VBox.margin>
+                                       <Insets bottom="3.0" left="10.0" right="10.0" top="3.0" />
+                                    </VBox.margin>
+                                 </JFXTextField>
+                                 <JFXButton fx:id="editNodeSubmit" buttonType="RAISED" onAction="#handleEditSubmitNode" style="-fx-background-color: #327ffa;" text="Submit">
+                                    <VBox.margin>
+                                       <Insets bottom="3.0" left="70.0" top="5.0" />
+                                    </VBox.margin>
+                                    <font>
+                                       <Font size="13.0" />
+                                    </font>
+                                 </JFXButton>
                               </children>
-                           </HBox>
-                           <JFXTextField fx:id="editNodeID" promptText="New Node Name" style="-fx-background-color: #B5BCBA;">
-                              <VBox.margin>
-                                 <Insets bottom="3.0" left="10.0" right="10.0" top="3.0" />
-                              </VBox.margin>
-                           </JFXTextField>
-                           <HBox layoutX="20.0" layoutY="65.0" prefHeight="100.0" prefWidth="200.0">
-                              <VBox.margin>
-                                 <Insets left="10.0" right="10.0" />
-                              </VBox.margin>
-                              <children>
-                                 <JFXTextField fx:id="editNodeX" promptText="New X" style="-fx-background-color: #B5BCBA;">
-                                    <font>
-                                       <Font size="12.0" />
-                                    </font>
-                                    <HBox.margin>
-                                       <Insets right="5.0" />
-                                    </HBox.margin>
-                                 </JFXTextField>
-                                 <JFXTextField fx:id="editNodeY" promptText="New Y" style="-fx-background-color: #B5BCBA;">
-                                    <font>
-                                       <Font size="12.0" />
-                                    </font>
-                                 </JFXTextField>
-                              </children>
-                           </HBox>
-                           <JFXButton buttonType="RAISED" onAction="#handleEditSubmitNode" style="-fx-background-color: #327ffa;" text="Submit">
-                              <font>
-                                 <Font size="13.0" />
-                              </font>
-                              <VBox.margin>
-                                 <Insets bottom="3.0" left="70.0" top="3.0" />
-                              </VBox.margin>
-                           </JFXButton>
-                           <HBox prefHeight="100.0" prefWidth="200.0" />
+                           </VBox>
                            <VBox prefHeight="283.0" prefWidth="162.0" style="-fx-background-color: #d860e6;">
                               <children>
                                  <Label text="Edit Edge" textFill="WHITE">
@@ -225,33 +301,32 @@
                                        <Insets left="11.0" top="3.0" />
                                     </VBox.margin>
                                  </Label>
-                                 <JFXTextField fx:id="editingEdge" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="73.0" promptText="Edge to Edit:" style="-fx-background-color: #B5BCBA;">
+                                 <JFXTextField fx:id="editingEdge" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="73.0" promptText="Original Edge Name" style="-fx-background-color: #B5BCBA;">
                                     <VBox.margin>
-                                       <Insets left="10.0" right="10.0" />
+                                       <Insets bottom="3.0" left="10.0" right="10.0" />
                                     </VBox.margin>
                                  </JFXTextField>
-                                 <JFXTextArea fx:id="currentEdge" prefHeight="107.0" prefWidth="112.0" style="-fx-background-color: #B5BCBA;">
+                                 <JFXTextField fx:id="editingStart" promptText="Original Starting Node" style="-fx-background-color: #B5BCBA;">
                                     <VBox.margin>
-                                       <Insets left="10.0" right="10.0" top="3.0" />
+                                       <Insets bottom="3.0" left="10.0" right="10.0" />
                                     </VBox.margin>
-                                    <font>
-                                       <Font size="10.0" />
-                                    </font>
-                                 </JFXTextArea>
-                                 <JFXButton onAction="#handleLookup" style="-fx-background-color: #327ffa;" text="Lookup">
+                                 </JFXTextField>
+                                 <JFXTextField fx:id="editingEnd" promptText="Original Ending Node" style="-fx-background-color: #B5BCBA;">
                                     <VBox.margin>
-                                       <Insets bottom="3.0" left="70.0" top="3.0" />
+                                       <Insets bottom="3.0" left="10.0" right="10.0" />
                                     </VBox.margin>
-                                    <font>
-                                       <Font size="13.0" />
-                                    </font>
-                                 </JFXButton>
+                                 </JFXTextField>
+                                 <Label text="Changes" textFill="WHITE">
+                                    <VBox.margin>
+                                       <Insets left="11.0" top="3.0" />
+                                    </VBox.margin>
+                                 </Label>
                                  <JFXTextField fx:id="editEdgeID" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="73.0" promptText="Edge ID" style="-fx-background-color: #B5BCBA;">
                                     <VBox.margin>
                                        <Insets bottom="3.0" left="10.0" right="10.0" />
                                     </VBox.margin>
                                  </JFXTextField>
-                                 <JFXTextField fx:id="editNode1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="56.0" promptText="Node 1" style="-fx-background-color: #B5BCBA;">
+                                 <JFXTextField fx:id="editNode1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="56.0" promptText="Starting Node" style="-fx-background-color: #B5BCBA;">
                                     <font>
                                        <Font size="12.0" />
                                     </font>
@@ -259,7 +334,7 @@
                                        <Insets bottom="3.0" left="10.0" right="10.0" />
                                     </VBox.margin>
                                  </JFXTextField>
-                                 <JFXTextField fx:id="editNode2" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Node 2" style="-fx-background-color: #B5BCBA;">
+                                 <JFXTextField fx:id="editNode2" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Ending Node" style="-fx-background-color: #B5BCBA;">
                                     <font>
                                        <Font size="12.0" />
                                     </font>

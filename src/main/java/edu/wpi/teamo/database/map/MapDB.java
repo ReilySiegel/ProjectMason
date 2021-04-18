@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.sql.SQLException;
 import java.io.IOException;
+import javafx.util.Pair;
+import java.util.List;
 
 public class MapDB implements IMapService {
     Database db;
@@ -44,6 +46,14 @@ public class MapDB implements IMapService {
         db = new Database();
         Node.initTable(db);
         Edge.initTable(db);
+    }
+
+    @Override
+    public void loadMapFromCSV(String filepath) throws IOException, SQLException {
+        deleteMap();
+        Pair<Stream<Node>, Stream<Edge>> mapStreamPair = MapCSV.readMapFile(filepath);
+        storeEdges(db, mapStreamPair.getValue());
+        storeNodes(db, mapStreamPair.getKey());
     }
 
     public void loadEdgesFromFile(String filepath) throws FileNotFoundException, SQLException {
@@ -201,6 +211,14 @@ public class MapDB implements IMapService {
         Edge.getByID(db, id).delete(db);
     }
 
+    @Override
+    public void deleteMap() throws SQLException {
+        List<Node> nodes = Node.getAll(db).collect(Collectors.toList());
+        List<Edge> edges = Edge.getAll(db).collect(Collectors.toList());
+        for (Node node : nodes) { node.delete(db); }
+        for (Edge edge : edges) { edge.delete(db); }
+    }
+
     public void writeEdgesToCSV(String filepath) throws SQLException, IOException {
         Stream<Edge> edgeStream = Edge.getAll(db);
         EdgeCSV.write(filepath, edgeStream);
@@ -209,6 +227,13 @@ public class MapDB implements IMapService {
     public void writeNodesToCSV(String filepath) throws SQLException, IOException {
         Stream<Node> nodeStream = Node.getAll(db);
         NodeCSV.write(filepath, nodeStream);
+    }
+
+    @Override
+    public void writeMapToCSV(String filepath) throws SQLException, IOException {
+        Stream<Node> nodeStream = Node.getAll(db);
+        Stream<Edge> edgeStream = Edge.getAll(db);
+        MapCSV.writeMapFile(filepath, nodeStream, edgeStream);
     }
 
     @Override
