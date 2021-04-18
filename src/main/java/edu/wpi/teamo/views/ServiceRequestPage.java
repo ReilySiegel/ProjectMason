@@ -44,4 +44,7 @@ public class ServiceRequestPage extends SubPageController implements Initializab
         App.switchPage(Pages.SANITATION);
     }
 
+    @FXML
+    private void handleManageRequestPage(ActionEvent e) { App.switchPage(Pages.MANAGEREQUESTS); }
+
 }

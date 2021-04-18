@@ -301,4 +301,79 @@ public class MapDBTest {
 
         assertEquals("newEndID", tMDB.getEdge("edgeID1").getEndNodeID());
     }
+
+    @Test
+    public void testSetNodeBuilding() throws SQLException, ClassNotFoundException, FileNotFoundException {
+        final String idToChange = "testID1";
+        final String newBuilding = "nBuilding";
+
+        MapDB tMDB = new MapDB("testSetNodeBuilding");
+        tMDB.loadNodesFromFile(testNodeFile);
+        assertEquals("Parking", tMDB.getNode(idToChange).getBuilding());
+
+        tMDB.setNodeBuilding(idToChange, newBuilding);
+
+        assertEquals(newBuilding, tMDB.getNode(idToChange).getBuilding());
+    }
+
+    @Test
+    public void testSetNodeFloor() throws SQLException, ClassNotFoundException, FileNotFoundException {
+        final String idToChange = "testID1";
+        final String newFloor = "nFloor";
+
+        MapDB tMDB = new MapDB("testSetNodeFloor");
+        tMDB.loadNodesFromFile(testNodeFile);
+        assertEquals("1", tMDB.getNode(idToChange).getFloor());
+
+        tMDB.setNodeFloor(idToChange, newFloor);
+
+        assertEquals(newFloor, tMDB.getNode(idToChange).getFloor());
+    }
+
+    @Test
+    public void testSetNodeType() throws SQLException, ClassNotFoundException, FileNotFoundException {
+        final String idToChange = "testID1";
+        final String newType = "nType";
+
+        MapDB tMDB = new MapDB("testSetNodeType");
+        tMDB.loadNodesFromFile(testNodeFile);
+        assertEquals("PARK", tMDB.getNode(idToChange).getNodeType());
+
+        tMDB.setNodeType(idToChange, newType);
+
+        assertEquals(newType, tMDB.getNode(idToChange).getNodeType());
+    }
+
+    @Test
+    public void testSetNodeShortName() throws SQLException, ClassNotFoundException, FileNotFoundException {
+        final String idToChange = "testID1";
+        final String newShortName = "nShortName";
+
+        MapDB tMDB = new MapDB("testSetNodeShortName");
+        tMDB.loadNodesFromFile(testNodeFile);
+        assertEquals("F1RightP1", tMDB.getNode(idToChange).getShortName());
+
+        tMDB.setNodeShortName(idToChange, newShortName);
+
+        assertEquals(newShortName, tMDB.getNode(idToChange).getShortName());
+    }
+
+    @Test
+    public void testSetNodeID() throws SQLException, ClassNotFoundException, FileNotFoundException {
+        final String idToChange = "testID1";
+        final String newID = "nID";
+
+        MapDB tMDB = new MapDB("testSetNodeID");
+        tMDB.loadNodesFromFile(testNodeFile);
+
+        assertTrue(tMDB.nodeExists(idToChange));
+        assertFalse(tMDB.nodeExists(newID));
+
+        tMDB.setNodeID(idToChange, newID);
+
+        assertFalse(tMDB.nodeExists(idToChange));
+        assertTrue(tMDB.nodeExists(newID));
+
+        assertEquals("Floor1RightParking1", tMDB.getNode(newID).getLongName());
+    }
 }

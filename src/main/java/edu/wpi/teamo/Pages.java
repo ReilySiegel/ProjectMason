@@ -8,5 +8,6 @@ public enum Pages {
     MAIN,
     SANITATION,
     SERVICEREQUEST,
+    MANAGEREQUESTS,
     MAPEDITOR
 }
