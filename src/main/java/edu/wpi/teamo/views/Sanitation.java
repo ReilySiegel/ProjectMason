@@ -19,6 +19,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -44,16 +45,16 @@ public class Sanitation extends ServiceRequestPage implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         try {
-            LinkedList<String> nodeShortNames = new LinkedList<String>();
+            LinkedList<String> nodeIDs = new LinkedList<String>();
 
             LinkedList<NodeInfo> nodes = App.mapService.getAllNodes().collect(Collectors.toCollection(LinkedList::new));
 
             for (NodeInfo i : nodes) {
-                nodeShortNames.add(i.getNodeID());
+                nodeIDs.add(i.getNodeID());
             }
 
-            for (String nodeName : nodeShortNames) {
-                loc.getItems().add(nodeName);
+            for (String id : nodeIDs) {
+                loc.getItems().add(id);
             }
 
         } catch (Exception SQLException) {
@@ -62,8 +63,13 @@ public class Sanitation extends ServiceRequestPage implements Initializable {
 
     }
 
-    private void handleSubmission(ActionEvent e) {
+    private void handleSubmission(ActionEvent e) throws SQLException {
         String serviceName = service.getText();
+        String room = loc.getValue();
+        String assigned = assignee.getText();
+        String details = notes.getText();
+
+        App.requestService.requestSanitation(room, assigned, details);
     }
 
     @FXML
