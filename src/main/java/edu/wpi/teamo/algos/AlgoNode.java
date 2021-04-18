@@ -24,7 +24,7 @@ public class AlgoNode {
         this.floor = Floor;
         this.longName = longName;
         this.shortName = shortName;
-        this.adjacencies = new LinkedList<String>();
+        this.adjacencies = new LinkedList<>();
     }
 
     /**
@@ -40,7 +40,7 @@ public class AlgoNode {
         this.type = null;
         this.longName = null;
         this.shortName = null;
-        this.adjacencies = new LinkedList<String>();
+        this.adjacencies = new LinkedList<>();
 
     }
 

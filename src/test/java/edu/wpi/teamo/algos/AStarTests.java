@@ -1,6 +1,5 @@
 package edu.wpi.teamo.algos;
 
-
 import edu.wpi.teamo.database.map.Edge;
 
 import org.junit.jupiter.api.Test;
@@ -83,12 +82,16 @@ public class AStarTests {
         AlgoNode m = new AlgoNode("n002",3,2);
         m.set_gCost(1);
         m.set_hCost(3);
-        LinkedList<AlgoNode> l = new LinkedList();
+        LinkedList<AlgoNode> l = new LinkedList<>();
         l.addLast(n);
         l.addLast(m);
         AStar a = new AStar(l,null,"n001","n001");
-        assertEquals(true,a.lowerFcost(n,m));
+        assertTrue(a.lowerFcost(n, m));
     }
+
+    /**
+     * Test when n's gCost is higher than m's gCost
+     */
     @Test
     public void testLowerFCost2()
     {
@@ -98,12 +101,16 @@ public class AStarTests {
        AlgoNode m = new AlgoNode("n002",3,2);
         m.set_gCost(1);
         m.set_hCost(3);
-        LinkedList<AlgoNode> l = new LinkedList();
+        LinkedList<AlgoNode> l = new LinkedList<>();
         l.addLast(n);
         l.addLast(m);
        AStar a = new AStar(l,null,"n001","n001");
-       assertEquals(true,a.lowerFcost(n,m));
+        assertTrue(a.lowerFcost(n, m));
     }
+
+    /**
+     * Test for n and m having equal gcosts and hcosts
+     */
     @Test
     public void testLowerFCost3()
     {
@@ -113,32 +120,40 @@ public class AStarTests {
       AlgoNode m = new AlgoNode("n002",3,2);
       m.set_gCost(1);
       m.set_hCost(2);
-      LinkedList<AlgoNode> l = new LinkedList();
+      LinkedList<AlgoNode> l = new LinkedList<>();
       l.addLast(n);
       l.addLast(m);
       AStar a = new AStar(l,null,"n001","n001");
-      assertEquals(false,a.lowerFcost(n,m));
+      assertFalse(a.lowerFcost(n, m));
     }
+
+    /**
+     * False test case for isEnd function
+     */
     @Test
     public void testisEND1()
     {
         AlgoNode n = new AlgoNode("n001",1,1);
         AlgoNode m = new AlgoNode("n002",1,2);
-        LinkedList<AlgoNode> a = new LinkedList();
+        LinkedList<AlgoNode> a = new LinkedList<>();
         a.addLast(n);
         a.addLast(m);
         AStar star = new AStar(a,null,"n001","n002");
-        assertEquals(false,star.isEnd(n));
+        assertFalse(star.isEnd(n));
     }
+
+    /**
+     * True test case for isEnd function
+     */
     @Test
     public void testisEND2()
     {
         AlgoNode n = new AlgoNode("n001",1,1);
         AlgoNode m = new AlgoNode("n002",1,2);
-        LinkedList<AlgoNode> a = new LinkedList();
+        LinkedList<AlgoNode> a = new LinkedList<>();
         a.addLast(n);
         a.addLast(m);
         AStar star = new AStar(a,null,"n001","n002");
-        assertEquals(true,star.isEnd(m));
+        assertTrue(star.isEnd(m));
     }
 }

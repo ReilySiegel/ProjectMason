@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class AStarManagerTests {
 
     /**
-     * Test for AStarManager conducting a search for an arbitary path
+     * Test for AStarManager conducting a search for an arbitrary path
      * @throws SQLException If there is a database error
      * @throws ClassNotFoundException If there are any missing classes
      */
