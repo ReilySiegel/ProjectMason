@@ -11,22 +11,30 @@
 
 <AnchorPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.ServiceRequestPage">
    <children>
-      <VBox layoutX="406.0" layoutY="122.0" prefHeight="525.0" prefWidth="388.0">
+      <VBox alignment="TOP_CENTER" layoutX="406.0" layoutY="122.0" prefHeight="525.0" prefWidth="388.0">
          <children>
-            <JFXButton alignment="CENTER" buttonType="RAISED" onAction="#handleMedicine" prefHeight="53.0" prefWidth="167.0" ripplerFill="#b84e4e" style="-fx-background-color: #b84e4e;" text="Medicine">
+            <JFXButton alignment="CENTER" buttonType="RAISED" onAction="#handleMedicine" prefHeight="53.0" prefWidth="167.0" ripplerFill="#b84e4e" style="-fx-background-color: #b84e4e;" text="Medicine" textFill="WHITE">
                <font>
                   <Font size="27.0" />
                </font>
                <VBox.margin>
-                  <Insets left="120.0" top="150.0" />
+                  <Insets top="100.0" />
                </VBox.margin>
             </JFXButton>
-            <JFXButton buttonType="RAISED" contentDisplay="CENTER" onAction="#handleSanitation" prefHeight="53.0" prefWidth="167.0" ripplerFill="#4b7be0" style="-fx-background-color: #4b7be0;" text="Sanitation">
+            <JFXButton buttonType="RAISED" contentDisplay="CENTER" onAction="#handleSanitation" prefHeight="53.0" prefWidth="167.0" ripplerFill="#4b7be0" style="-fx-background-color: #4b7be0;" text="Sanitation" textFill="WHITE">
                <font>
                   <Font size="27.0" />
                </font>
                <VBox.margin>
-                  <Insets left="120.0" top="30.0" />
+                  <Insets top="30.0" />
+               </VBox.margin>
+            </JFXButton>
+            <JFXButton buttonType="RAISED" contentDisplay="CENTER" onAction="#handleManageRequestPage" prefHeight="53.0" prefWidth="227.0" ripplerFill="#aa00ff" style="-fx-background-color: #aa00ff;" text="View/manage Requests" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="80.0" />
                </VBox.margin>
             </JFXButton>
          </children>
