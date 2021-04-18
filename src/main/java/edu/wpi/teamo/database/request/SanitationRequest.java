@@ -2,34 +2,43 @@ package edu.wpi.teamo.database.request;
 
 import edu.wpi.teamo.database.Database;
 
+import java.sql.SQLException;
 import java.util.stream.Stream;
 
 public class SanitationRequest implements ISanitationRequestInfo {
     private String locationID;
     private boolean complete;
     private String assigned;
+    private final String id;
     private String details;
-    private int number;
-    private String id;
 
-    public static SanitationRequest getByID(Database db, String id) {
+    public SanitationRequest(String id, String locationID, boolean complete, String assigned, String details) {
+        this.locationID = locationID;
+        this.complete = complete;
+        this.assigned = assigned;
+        this.details = details;
+        this.id = id;
+    }
+
+    public static SanitationRequest getByID(Database db, String id) throws SQLException {
         //TODO
         return null;
     }
 
-    public static Stream<SanitationRequest> getAll(Database db) {
+    public static Stream<SanitationRequest> getAll(Database db) throws SQLException {
         //TODO
         return null;
     }
 
-    public static void initTable(Database db) {
+    public static void initTable(Database db) throws SQLException {
         //TODO
     }
 
-    public void update() {
+    public void update() throws SQLException {
         //TODO
     }
 
+    @Override
     public String getLocationID() {
         return locationID;
     }
@@ -38,6 +47,7 @@ public class SanitationRequest implements ISanitationRequestInfo {
         this.locationID = locationID;
     }
 
+    @Override
     public boolean isComplete() {
         return complete;
     }
@@ -46,6 +56,7 @@ public class SanitationRequest implements ISanitationRequestInfo {
         this.complete = complete;
     }
 
+    @Override
     public String getAssigned() {
         return assigned;
     }
@@ -54,20 +65,13 @@ public class SanitationRequest implements ISanitationRequestInfo {
         this.assigned = assigned;
     }
 
+    @Override
     public String getDetails() {
         return details;
     }
 
     public void setDetails(String details) {
         this.details = details;
-    }
-
-    public int getNumber() {
-        return number;
-    }
-
-    public void setNumber(int number) {
-        this.number = number;
     }
 
     @Override

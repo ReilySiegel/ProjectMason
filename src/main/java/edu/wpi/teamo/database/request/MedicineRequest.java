@@ -3,38 +3,38 @@ package edu.wpi.teamo.database.request;
 import edu.wpi.teamo.database.Database;
 
 import java.util.stream.Stream;
+import java.sql.SQLException;
 
 public class MedicineRequest implements IMedicineRequestInfo {
     private String locationID;
     private boolean complete;
+    private final String id;
     private String assigned;
     private String amount;
     private String type;
-    private int number;
-    private String id;
 
-    public MedicineRequest(String type, String amount, String locationID, String assigned) {
+    public MedicineRequest(String id, String type, String amount, String locationID, String assigned) {
         this.locationID = locationID;
         this.assigned = assigned;
         this.amount = amount;
         this.type = type;
+        this.id = id;
     }
 
-    public static MedicineRequest getByID(Database db, String id) {
+    public static MedicineRequest getByID(Database db, String id) throws SQLException {
+        return null;
+    }
+
+    public static Stream<MedicineRequest> getAll(Database db) throws SQLException {
         //TODO
         return null;
     }
 
-    public static Stream<MedicineRequest> getAll(Database db) {
-        //TODO
-        return null;
-    }
-
-    public static void initTable(Database db) {
+    public static void initTable(Database db) throws SQLException {
         //TODO
     }
 
-    public void update() {
+    public void update() throws SQLException {
         //TODO
     }
 
@@ -84,12 +84,7 @@ public class MedicineRequest implements IMedicineRequestInfo {
     }
 
     @Override
-    public int getNumber() {
-        return number;
-    }
-
-    @Override
     public String getID() {
-        return null;
+        return id;
     }
 }

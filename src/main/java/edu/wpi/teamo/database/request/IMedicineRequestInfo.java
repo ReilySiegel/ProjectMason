@@ -6,6 +6,5 @@ public interface IMedicineRequestInfo {
     String getAssigned();
     String getAmount();
     String getType();
-    int getNumber();
     String getID();
 }
