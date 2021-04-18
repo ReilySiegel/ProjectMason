@@ -43,30 +43,6 @@ public class SR07_Medicine extends ServiceRequestPage implements Initializable {
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
         try {
-            LinkedList<String> nodeIDs = new LinkedList<String>();
-            LinkedList<NodeInfo> nodes = App.dbService.getAllNodes().collect(Collectors.toCollection(LinkedList::new));
-
-            for (NodeInfo i : nodes) {
-                nodeIDs.add(i.getNodeID());
-            }
-
-            for (String id : nodeIDs) {
-                loc.getItems().add(id);
-            }
-
-        } catch (Exception SQLException) {
-            return;
-        }
-
-    }
-
-    @FXML
-    private JFXTextField assignee;
-
-
-    @FXML
-    public void initialize(URL location, ResourceBundle resources) {
-        try {
             LinkedList<String> nodeShortNames = new LinkedList<String>();
             LinkedList<NodeInfo> nodes = App.mapService.getAllNodes().collect(Collectors.toCollection(LinkedList::new));
 
@@ -90,9 +66,6 @@ public class SR07_Medicine extends ServiceRequestPage implements Initializable {
         String amount = medAmount.getText();
         String room = loc.getValue();
         String assignName = assignee.getText();
-
-        MedicineRequest req = new MedicineRequest(medicine, amount, room, assignName);
-    }
 
     @FXML
     private void handleHelp(ActionEvent e) {
