@@ -180,6 +180,12 @@ public class MapEditorPage extends SubPageController implements Initializable{
         String newNodeY = addNodeY.getText();
 
         try{
+            if(newNodeX.equals("")){
+                newNodeX = "0";
+            }
+            if(newNodeY.equals("")){
+                newNodeY = "0";
+            }
             App.mapService.addNode(newNodeID, Integer.parseInt(newNodeX), Integer.parseInt(newNodeY),
                     "Default Floor", "Default Building", "Default Type",
                     newNodeID, newNodeID);
@@ -226,6 +232,12 @@ public class MapEditorPage extends SubPageController implements Initializable{
         String newNodeY = editNodeY.getText();
 
         try{
+            if(newNodeX.equals("")){
+                newNodeX = "0";
+            }
+            if(newNodeY.equals("")){
+                newNodeY = "0";
+            }
             App.mapService.setNodePosition(currentNodeID, Integer.parseInt(newNodeX), Integer.parseInt(newNodeY));
             App.mapService.setNodeLongName(currentNodeID, newNodeID);
 
