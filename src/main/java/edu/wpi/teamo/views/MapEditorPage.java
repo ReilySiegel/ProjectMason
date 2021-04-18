@@ -116,6 +116,15 @@ public class MapEditorPage extends SubPageController implements Initializable{
     @FXML
     private JFXTextField deleteEdgeID;
 
+    @FXML
+    private JFXTextField editingEdge;
+
+    @FXML
+    private JFXTextField editingStart;
+
+    @FXML
+    private JFXTextField editingEnd;
+
     boolean treeInit = false;
 
     boolean treeEdgeInit = false;
@@ -198,9 +207,9 @@ public class MapEditorPage extends SubPageController implements Initializable{
             @Override
             public void changed(ObservableValue<? extends TreeItem<Edge>> observable, TreeItem<Edge> oldValue, TreeItem<Edge> newValue) {
                 if(newValue != null){
-                    editEdgeID.setText(newValue.getValue().getEdgeID());
-                    editNode1.setText(newValue.getValue().getStartNodeID());
-                    editNode2.setText(newValue.getValue().getEndNodeID());
+                    editingEdge.setText(newValue.getValue().getEdgeID());
+                    editingStart.setText(newValue.getValue().getStartNodeID());
+                    editingEnd.setText(newValue.getValue().getEndNodeID());
                     deleteEdgeID.setText(newValue.getValue().getEdgeID());
                 }
             }
@@ -448,22 +457,6 @@ public class MapEditorPage extends SubPageController implements Initializable{
         } catch (IOException | SQLException | NullPointerException e ) {
             return;
         }
-    }
-
-
-    @FXML
-    private JFXTextField editingEdge;
-
-    @FXML
-    private JFXTextArea displayEdges;
-
-    @FXML
-    private JFXTextArea currentEdge;
-
-
-    @FXML
-    void handleLookup(ActionEvent event) {
-
     }
 
     @FXML

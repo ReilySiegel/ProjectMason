@@ -2,7 +2,6 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTabPane?>
-<?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXTreeTableView?>
 <?import javafx.geometry.Insets?>
@@ -302,33 +301,32 @@
                                        <Insets left="11.0" top="3.0" />
                                     </VBox.margin>
                                  </Label>
-                                 <JFXTextField fx:id="editingEdge" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="73.0" promptText="Edge to Edit:" style="-fx-background-color: #B5BCBA;">
+                                 <JFXTextField fx:id="editingEdge" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="73.0" promptText="Original Edge Name" style="-fx-background-color: #B5BCBA;">
                                     <VBox.margin>
-                                       <Insets left="10.0" right="10.0" />
+                                       <Insets bottom="3.0" left="10.0" right="10.0" />
                                     </VBox.margin>
                                  </JFXTextField>
-                                 <JFXTextArea fx:id="currentEdge" prefHeight="107.0" prefWidth="112.0" style="-fx-background-color: #B5BCBA;">
+                                 <JFXTextField fx:id="editingStart" promptText="Original Starting Node" style="-fx-background-color: #B5BCBA;">
                                     <VBox.margin>
-                                       <Insets left="10.0" right="10.0" top="3.0" />
+                                       <Insets bottom="3.0" left="10.0" right="10.0" />
                                     </VBox.margin>
-                                    <font>
-                                       <Font size="10.0" />
-                                    </font>
-                                 </JFXTextArea>
-                                 <JFXButton onAction="#handleLookup" style="-fx-background-color: #327ffa;" text="Lookup">
+                                 </JFXTextField>
+                                 <JFXTextField fx:id="editingEnd" promptText="Original Ending Node" style="-fx-background-color: #B5BCBA;">
                                     <VBox.margin>
-                                       <Insets bottom="3.0" left="70.0" top="3.0" />
+                                       <Insets bottom="3.0" left="10.0" right="10.0" />
                                     </VBox.margin>
-                                    <font>
-                                       <Font size="13.0" />
-                                    </font>
-                                 </JFXButton>
+                                 </JFXTextField>
+                                 <Label text="Changes" textFill="WHITE">
+                                    <VBox.margin>
+                                       <Insets left="11.0" top="3.0" />
+                                    </VBox.margin>
+                                 </Label>
                                  <JFXTextField fx:id="editEdgeID" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="73.0" promptText="Edge ID" style="-fx-background-color: #B5BCBA;">
                                     <VBox.margin>
                                        <Insets bottom="3.0" left="10.0" right="10.0" />
                                     </VBox.margin>
                                  </JFXTextField>
-                                 <JFXTextField fx:id="editNode1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="56.0" promptText="Node 1" style="-fx-background-color: #B5BCBA;">
+                                 <JFXTextField fx:id="editNode1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="56.0" promptText="Starting Node" style="-fx-background-color: #B5BCBA;">
                                     <font>
                                        <Font size="12.0" />
                                     </font>
@@ -336,7 +334,7 @@
                                        <Insets bottom="3.0" left="10.0" right="10.0" />
                                     </VBox.margin>
                                  </JFXTextField>
-                                 <JFXTextField fx:id="editNode2" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Node 2" style="-fx-background-color: #B5BCBA;">
+                                 <JFXTextField fx:id="editNode2" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Ending Node" style="-fx-background-color: #B5BCBA;">
                                     <font>
                                        <Font size="12.0" />
                                     </font>
