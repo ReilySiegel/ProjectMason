@@ -7,6 +7,7 @@ import java.util.stream.Stream;
 import java.sql.SQLException;
 import java.io.IOException;
 import javafx.util.Pair;
+import java.util.List;
 
 public class MapDB implements IMapService {
     Database db;
@@ -49,6 +50,7 @@ public class MapDB implements IMapService {
 
     @Override
     public void loadMapFromCSV(String filepath) throws IOException, SQLException {
+        deleteMap();
         Pair<Stream<Node>, Stream<Edge>> mapStreamPair = MapCSV.readMapFile(filepath);
         storeEdges(db, mapStreamPair.getValue());
         storeNodes(db, mapStreamPair.getKey());
@@ -211,7 +213,10 @@ public class MapDB implements IMapService {
 
     @Override
     public void deleteMap() throws SQLException {
-        //TODO
+        List<Node> nodes = Node.getAll(db).collect(Collectors.toList());
+        List<Edge> edges = Edge.getAll(db).collect(Collectors.toList());
+        for (Node node : nodes) { node.delete(db); }
+        for (Edge edge : edges) { edge.delete(db); }
     }
 
     public void writeEdgesToCSV(String filepath) throws SQLException, IOException {

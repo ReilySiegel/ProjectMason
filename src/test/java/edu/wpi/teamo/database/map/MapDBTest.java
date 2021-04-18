@@ -87,6 +87,27 @@ public class MapDBTest {
     }
 
     @Test
+    public void testDeleteMap() throws SQLException, ClassNotFoundException, IOException {
+        MapDB tMDB = new MapDB("testDeleteMap");
+
+        /* load map, assert that it has been loaded */
+        tMDB.loadMapFromCSV(testMapFile);
+        Stream<NodeInfo> fullNodeStreamToCheck = tMDB.getAllNodes();
+        assertEquals(3, fullNodeStreamToCheck.count());
+        Stream<EdgeInfo> fullEdgeStreamToCheck = tMDB.getAllEdges();
+        assertEquals(3, fullEdgeStreamToCheck.count());
+
+        /* delete map, assert that it is gone */
+        tMDB.deleteMap();
+        Stream<NodeInfo> emptyNodeStreamToCheck = tMDB.getAllNodes();
+        assertEquals(0, emptyNodeStreamToCheck.count());
+        Stream<EdgeInfo> emptyEdgeStreamToCheck = tMDB.getAllEdges();
+        assertEquals(0, emptyEdgeStreamToCheck.count());
+
+        tMDB.closeConnection();
+    }
+
+    @Test
     public void testLoadFromCSVs() throws SQLException, ClassNotFoundException {
         MapDB tMDB = new MapDB("testLoadFromCSVs");
         try {
