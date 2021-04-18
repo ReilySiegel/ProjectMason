@@ -24,7 +24,9 @@ public class MapDBTest {
     @BeforeAll
     public void setup() {
         try {
-            db = new MapDB(testNodeFile, testEdgeFile);
+            db = new MapDB("MapDBTests");
+            db.loadEdgesFromFile(testEdgeFile);
+            db.loadNodesFromFile(testNodeFile);
         } catch (Exception e) {
             e.printStackTrace();
         }

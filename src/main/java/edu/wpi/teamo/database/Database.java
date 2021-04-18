@@ -43,7 +43,7 @@ public class Database {
         conn.close();
     }
 
-    public static String getURIFromName(String name) {
+    public static String getMemoryURIFromName(String name) {
         return String.format("jdbc:derby:memory:%s;create=true", name);
     }
 }

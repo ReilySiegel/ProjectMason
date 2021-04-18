@@ -60,7 +60,7 @@ public class AStarManagerTests {
      */
     @Test
     public void testFindTrivialPath() throws SQLException, ClassNotFoundException  {
-        MapDB mdb = new MapDB("testFindPath");
+        MapDB mdb = new MapDB("testFindTrivialPath");
         mdb.addNode("oPARK00101", 3116,1131,"F1", "b","PARK","Floor1RightParking1","F1RightP1");
         AStarManager asm = new AStarManager(mdb);
         LinkedList<AlgoNode> path = asm.getPath("oPARK00101","oPARK00101");
@@ -76,7 +76,7 @@ public class AStarManagerTests {
      */
     @Test
     public void testNoPath() throws SQLException, ClassNotFoundException, NullPointerException {
-        MapDB mdb = new MapDB("testFindPath");
+        MapDB mdb = new MapDB("testNoPath");
         mdb.addNode("oPARK00101", 3116,1131,"F1", "b","PARK","Floor1RightParking1","F1RightP1");
         mdb.addNode("oPARK00201", 3116,1155,"F1", "b","PARK","Floor1RightParking2","F1RightP2");
         mdb.addNode("oPARK00301", 3116,1181,"F1", "b","PARK","Floor1RightParking3","F1RightP3");

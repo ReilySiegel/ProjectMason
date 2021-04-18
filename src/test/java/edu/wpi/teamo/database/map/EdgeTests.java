@@ -13,17 +13,13 @@ import java.util.List;
 
 public class EdgeTests {
 
-    private static String generateURIFromName(String name) {
-        return "jdbc:derby:memory:" + name + ";create=true";
-    }
-
     @Test
     public void testInitTable() {
         Database db = null;
 
         /* init database */
         try {
-            db = new Database(generateURIFromName("InitEdgeTable"));
+            db = new Database(Database.getMemoryURIFromName("InitEdgeTable"));
         } catch (SQLException | ClassNotFoundException e) {
             fail(e.getMessage());
         }
@@ -57,7 +53,7 @@ public class EdgeTests {
         String edgeID = "testID";
 
         try {
-            Database db = new Database(generateURIFromName("GetEdgeByID"));
+            Database db = new Database(Database.getMemoryURIFromName("testGetEdgeByID"));
             Edge.initTable(db);
 
             /* store an edge */
@@ -86,7 +82,7 @@ public class EdgeTests {
         String edge3ID = "testIDTre";
 
         try {
-            Database db = new Database(generateURIFromName("GetAllEdges"));
+            Database db = new Database(Database.getMemoryURIFromName("GetAllEdges"));
             Edge.initTable(db);
 
             /* store three edges */
@@ -129,7 +125,7 @@ public class EdgeTests {
         String edgeID = "testID";
 
         try {
-            Database db = new Database(generateURIFromName("UpdateEdge"));
+            Database db = new Database(Database.getMemoryURIFromName("UpdateEdge"));
             Edge.initTable(db);
 
             /* store an edge */
@@ -166,7 +162,7 @@ public class EdgeTests {
         String edgeID = "edgeID1";
 
         try {
-            Database db = new Database(generateURIFromName("Deleteedge"));
+            Database db = new Database(Database.getMemoryURIFromName("Deleteedge"));
             Edge.initTable(db);
 
             /* store an edge */

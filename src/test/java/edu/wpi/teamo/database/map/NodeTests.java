@@ -13,9 +13,6 @@ import java.util.List;
 
 public class NodeTests {
 
-    private static String generateURIFromName(String name) {
-        return "jdbc:derby:memory:" + name + ";create=true";
-    }
 
     @Test
     public void testInitTable() {
@@ -23,7 +20,7 @@ public class NodeTests {
 
         /* init database */
         try {
-            db = new Database(generateURIFromName("InitNodeTable"));
+            db = new Database(Database.getMemoryURIFromName("InitNodeTable"));
         } catch (SQLException | ClassNotFoundException e) {
             fail(e.getMessage());
         }
@@ -62,7 +59,7 @@ public class NodeTests {
         int yPos = 2;
 
         try {
-            Database db = new Database(generateURIFromName("GetNodeByID"));
+            Database db = new Database(Database.getMemoryURIFromName("GetNodeByID"));
             Node.initTable(db);
 
             /* store an edge */
@@ -96,7 +93,7 @@ public class NodeTests {
         String node3ID = "testIDTre";
 
         try {
-            Database db = new Database(generateURIFromName("GetAllNodes"));
+            Database db = new Database(Database.getMemoryURIFromName("GetAllNodes"));
             Node.initTable(db);
 
             /* store three edges */
@@ -138,7 +135,7 @@ public class NodeTests {
         String nodeID = "nodeID1";
 
         try {
-            Database db = new Database(generateURIFromName("UpdateNode"));
+            Database db = new Database(Database.getMemoryURIFromName("UpdateNode"));
             Node.initTable(db);
 
             /* store an node */
@@ -174,7 +171,7 @@ public class NodeTests {
         String nodeID = "nodeID1";
 
         try {
-            Database db = new Database(generateURIFromName("DeleteNode"));
+            Database db = new Database(Database.getMemoryURIFromName("DeleteNode"));
             Node.initTable(db);
 
             /* store an node */

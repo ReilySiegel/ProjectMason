@@ -29,8 +29,7 @@ public class MapDB implements IMapService {
 
     public MapDB(String databaseName) throws SQLException, ClassNotFoundException {
         /* derive init command from custom name */
-        String uri = String.format("jdbc:derby:memory:%s;create=true", databaseName);
-        db = new Database(uri);
+        db = new Database(Database.getMemoryURIFromName(databaseName));
         Node.initTable(db);
         Edge.initTable(db);
     }
