@@ -21,6 +21,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -61,11 +62,13 @@ public class SR07_Medicine extends ServiceRequestPage implements Initializable {
     }
 
     @FXML
-    private void handleSubmission(ActionEvent e) {
+    private void handleSubmission(ActionEvent e) throws SQLException {
         String medicine = medName.getText();
         String amount = medAmount.getText();
         String room = loc.getValue();
         String assignName = assignee.getText();
+
+        App.requestService.requestMedicine(medicine, amount, room, assignName);
     }
 
     @FXML
