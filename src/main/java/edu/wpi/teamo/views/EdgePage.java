@@ -69,7 +69,7 @@ public class EdgePage extends SubPageController implements Initializable {
         List<EdgeInfo> edgeList = null;
         // try/catch for calling getAllEdges from backend
         try {
-            edgeList = App.dbService.getAllEdges().collect(Collectors.toList());
+            edgeList = App.mapService.getAllEdges().collect(Collectors.toList());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -105,7 +105,7 @@ public class EdgePage extends SubPageController implements Initializable {
 
         // try/catch for SQL and adding an edge
         try {
-            App.dbService.addEdge(newEdgeID, newEdgeNode1, newEdgeNode2);
+            App.mapService.addEdge(newEdgeID, newEdgeNode1, newEdgeNode2);
         } catch (Exception SQLException) {
             return;
         }
@@ -123,7 +123,7 @@ public class EdgePage extends SubPageController implements Initializable {
 
         // try/catch for SQL and deleting an edge
         try {
-            App.dbService.deleteEdge(EdgetoDelete);
+            App.mapService.deleteEdge(EdgetoDelete);
         } catch (Exception SQLException) {
             return;
         }
@@ -144,9 +144,9 @@ public class EdgePage extends SubPageController implements Initializable {
 
         // try catch for reading in file
         try {
-            App.dbService.setEdgeID(editingEdge.getText(), newEditEdgeID);
-            App.dbService.setEdgeStartID(newEditEdgeID, editEdgeNode1);
-            App.dbService.setEdgeEndID(newEditEdgeID, editEdgeNode2);
+            App.mapService.setEdgeID(editingEdge.getText(), newEditEdgeID);
+            App.mapService.setEdgeStartID(newEditEdgeID, editEdgeNode1);
+            App.mapService.setEdgeEndID(newEditEdgeID, editEdgeNode2);
         } catch (Exception FileNotFoundException) {
             return;
         }
@@ -161,7 +161,7 @@ public class EdgePage extends SubPageController implements Initializable {
 
         // try/catch for SQL searching for an edge to delete
         try {
-            EdgeInfo currentEdgeInfo = App.dbService.getEdge(currentEdgeID);
+            EdgeInfo currentEdgeInfo = App.mapService.getEdge(currentEdgeID);
             edgeString = "ID: " + currentEdgeInfo.getEdgeID() + "\n";
             edgeString += "Start Node: " + currentEdgeInfo.getStartNodeID() + "\n";
             edgeString += "End Node: " + currentEdgeInfo.getEndNodeID();
@@ -187,7 +187,7 @@ public class EdgePage extends SubPageController implements Initializable {
         try {
             File f = fc.showOpenDialog(null);
             String path = f.getPath();
-            App.dbService.loadEdgesFromFile(path);
+            App.mapService.loadEdgesFromFile(path);
         } catch (FileNotFoundException | SQLException | NullPointerException e)  {
             return;
         }
@@ -205,7 +205,7 @@ public class EdgePage extends SubPageController implements Initializable {
         try {
             File f = fc.showSaveDialog(null);
             String path = f.getPath();
-            App.dbService.writeEdgesToCSV(path);
+            App.mapService.writeEdgesToCSV(path);
         } catch (IOException | SQLException | NullPointerException e ) {
             return;
         }
