@@ -6,5 +6,6 @@ public enum Pages {
     EDGE,
     PATHFINDING,
     MAIN,
-    SANITATION
+    SANITATION,
+    SERVICEREQUEST
 }
