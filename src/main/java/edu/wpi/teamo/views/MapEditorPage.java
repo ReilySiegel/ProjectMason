@@ -95,6 +95,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
     @FXML
     private JFXTextField deleteEdgeID;
 
+    boolean treeInit = false;
 
     /**
      * Set validators to insure that the x and y coordinate fields are numbers
@@ -555,7 +556,11 @@ public class MapEditorPage extends SubPageController implements Initializable{
             }
         }
         TreeItem<Node> root = new RecursiveTreeItem<>(data, RecursiveTreeObject::getChildren);
-        treeView.getColumns().addAll(nID,nX,nY,nFloor,nBuilding,nType,nLongName,nShortName);
+        if(!treeInit){
+            treeView.getColumns().addAll(nID,nX,nY,nFloor,nBuilding,nType,nLongName,nShortName);
+            treeInit = true;
+        }
+
         treeView.setRoot(root);
         treeView.setShowRoot(false);
     }
