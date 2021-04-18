@@ -55,7 +55,7 @@ public class AStarTests {
         AStarManager.assignNodeAdjacency(nodes, edges);
 
         AStar a = new AStar(nodes, edges, "","");
-        a.setAllTheMess(nodes);
+        a.setAllTheNodes(nodes);
 
         LinkedList<AlgoNode> pathP10_P5 = a.findPath("oPARK01001","oPARK00501");
 

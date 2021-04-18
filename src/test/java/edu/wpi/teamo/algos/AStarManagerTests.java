@@ -1,11 +1,7 @@
 package edu.wpi.teamo.algos;
 
-
-import edu.wpi.teamo.map.database.Edge;
-import edu.wpi.teamo.map.database.MapDB;
-
+import edu.wpi.teamo.database.map.*;
 import org.junit.jupiter.api.Test;
-
 import java.sql.SQLException;
 import java.util.LinkedList;
 

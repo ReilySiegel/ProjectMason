@@ -1,10 +1,6 @@
 package edu.wpi.teamo.algos;
 
-import edu.wpi.teamo.database.map.Edge;
-import edu.wpi.teamo.database.map.EdgeInfo;
-import edu.wpi.teamo.database.map.IMapService;
-import edu.wpi.teamo.database.map.NodeInfo;
-
+import edu.wpi.teamo.database.map.*;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.*;
@@ -62,7 +58,7 @@ public class        AStarManager implements AStarService {
         assignNodeAdjacency(allNodes,allEdges);
 
         AStar aStar = new AStar(allNodes, allEdges, startID, endID);
-        aStar.setAllTheMess(allNodes);
+        aStar.setAllTheNodes(allNodes);
         return aStar.findPath(startID,endID);
     }
 }

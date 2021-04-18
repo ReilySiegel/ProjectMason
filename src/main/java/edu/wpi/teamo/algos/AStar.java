@@ -116,12 +116,13 @@ public class AStar {
     /**
      * cehcks between the two nodes passed which one has the lower f cost and
      * if the fcost is equal it prortizes
+     * TODO: (Made public for now since it was throwing errors in the tests)
      * @param n
      * @param currentNode
      * @return
      */
 
-    private boolean lowerFcost(AlgoNode n , AlgoNode currentNode)
+    public boolean lowerFcost(AlgoNode n , AlgoNode currentNode)
 
     {
         return n.get_fCost() < currentNode.get_fCost() ||
