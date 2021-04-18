@@ -182,28 +182,128 @@ public class RequestDBTests {
     }
 
     @Test
-    public void removeRequest() throws SQLException, ClassNotFoundException {
+    public void removeSanitationRequest() throws SQLException, ClassNotFoundException {
         fail();
-//        Database db = new Database(Database.getURIFromName("removeRequest"));
+//        Database db = new Database(Database.getMemoryURIFromName("removeSanitationRequest"));
 //        RequestDB rDB = new RequestDB(db);
 //
-//        /* store requests */
-//        String medID = rDB.requestMedicine("type", "amount", "location", "assigned", 1);
-//        String sanID = rDB.requestSanitation("locationID", "assigned", "details", 1);
+//        /* store request */
+//        String sanID = rDB.requestSanitation("locationID", "assigned", "details");
 //
-//        /* make sure they were stored */
-//        try { rDB.getMedicineRequest(medID);   } catch(SQLException e) { fail(); }
-//        try { rDB.getSanitationRequest(sanID); } catch(SQLException e) { fail(); }
+//        /* make sure it was stored */
+//        assertTrue(rDB.sanitationRequestExists(sanID));
 //
-//        /* remove them */
-//        rDB.removeRequest(medID);
-//        rDB.removeRequest(sanID);
+//        /* remove it */
+//        rDB.removeSanitationRequest(sanID);
 //
-//        /* make sure they gone */
+//        /* make sure its gone */
 //        assertThrows(SQLException.class, () -> rDB.getSanitationRequest(sanID));
+//
+//        db.close();
+    }
+
+    @Test
+    public void removeMedicineRequest() throws SQLException, ClassNotFoundException {
+        fail();
+//        Database db = new Database(Database.getMemoryURIFromName("removeMedicineRequest"));
+//        RequestDB rDB = new RequestDB(db);
+//
+//        /* store request */
+//        String medID = rDB.requestMedicine("type", "amount", "locationID", "assigned");
+//
+//        /* make sure it was stored */
+//        assertTrue(rDB.medicineRequestExists(medID));
+//
+//        /* remove it */
+//        rDB.removeMedicineRequest(medID);
+//
+//        /* make sure its gone */
 //        assertThrows(SQLException.class, () -> rDB.getMedicineRequest(medID));
 //
 //        db.close();
     }
 
+    @Test
+    public void setSanitationCompleted() throws SQLException, ClassNotFoundException {
+        fail();
+//        Database db = new Database(Database.getMemoryURIFromName("setSanitationCompleted"));
+//        RequestDB rDB = new RequestDB(db);
+//
+//        /* store request */
+//        String sanID = rDB.requestSanitation("locationID", "assigned", "details");
+//
+//        /* make sure it starts false */
+//        assertFalse(rDB.getSanitationRequest(sanID).isComplete());
+//
+//        /* set it to true */
+//        rDB.setSanitationCompleted(sanID);
+//
+//        /* check that it's been set */
+//        assertTrue(rDB.getSanitationRequest(sanID).isComplete());
+//
+//        db.close();
+    }
+
+    @Test
+    public void setMedicineCompleted() throws SQLException, ClassNotFoundException {
+        fail();
+//        Database db = new Database(Database.getMemoryURIFromName("setMedicineCompleted"));
+//        RequestDB rDB = new RequestDB(db);
+//
+//        /* store request */
+//        String medID = rDB.requestMedicine("type", "amount", "locationID", "assigned");
+//
+//        /* make sure it starts false */
+//        assertFalse(rDB.getMedicineRequest(medID).isComplete());
+//
+//        /* set it to true */
+//        rDB.setMedicineCompleted(medID);
+//
+//        /* check that it's been set */
+//        assertTrue(rDB.getMedicineRequest(medID).isComplete());
+//
+//        db.close();
+    }
+
+    @Test
+    public void sanitationRequestExists() throws SQLException, ClassNotFoundException {
+        fail();
+//        Database db = new Database(Database.getMemoryURIFromName("sanitationRequestExists"));
+//        RequestDB rDB = new RequestDB(db);
+//
+//        /* store request */
+//        String sanID = rDB.requestSanitation("locationID", "assigned", "details");
+//
+//        /* check existence */
+//        assertTrue(rDB.sanitationRequestExists(sanID));
+//
+//        /* remove it */
+//        rDB.removeSanitationRequest(sanID);
+//
+//        /* check that it doesnt exist */
+//        assertFalse(rDB.sanitationRequestExists(sanID));
+//
+//        db.close();
+    }
+
+    @Test
+    public void medicineRequestExists() throws SQLException, ClassNotFoundException {
+        fail();
+//        Database db = new Database(Database.getMemoryURIFromName("medicineRequestExists"));
+//        RequestDB rDB = new RequestDB(db);
+//
+//        /* store request */
+//        String medID = rDB.requestMedicine("type", "amount", "locationID", "assigned");
+//
+//        /* check existence */
+//        assertTrue(rDB.medicineRequestExists(medID));
+//
+//        /* remove it */
+//        rDB.removeMedicineRequest(medID);
+//
+//        /* check that it doesnt exist */
+//        assertFalse(rDB.medicineRequestExists(medID));
+//
+//        db.close();
+    }
 }

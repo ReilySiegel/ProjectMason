@@ -1,7 +1,6 @@
 package edu.wpi.teamo.database.request;
 
 import edu.wpi.teamo.database.Database;
-
 import java.util.stream.Stream;
 import java.sql.SQLException;
 
@@ -15,66 +14,94 @@ public class RequestDB implements IRequestService {
     }
 
     @Override
-    public String requestMedicine(String type, String amount, String location, String assigned, int requestNumber) throws SQLException {
-        //TODO
-        return null;
+    public String requestMedicine(String type, String amount, String locationID, String assigned) throws SQLException {
+        int id = 1; /* set a unique id */
+        while (medicineRequestExists(String.valueOf(id)) && id < 9999) { id++; }
+
+        MedicineRequest mr = new MedicineRequest(String.valueOf(id), type, amount, locationID, assigned);
+        mr.update();
+
+        return mr.getID();
     }
 
     @Override
-    public String requestSanitation(String location, String assigned, String details, int number) throws SQLException {
-        //TODO
-        return null;
+    public String requestSanitation(String location, String assigned, String details) throws SQLException {
+        int id = 1; /* set a unique id */
+        while (sanitationRequestExists(String.valueOf(id)) && id < 9999) { id++; }
+
+        SanitationRequest sr = new SanitationRequest(String.valueOf(id), location, assigned, details);
+        sr.update();
+
+        return sr.getID();
     }
 
     @Override
     public Stream<ISanitationRequestInfo> getAllSanitationRequests() throws SQLException {
-        //TODO
-        return null;
+        return SanitationRequest.getAll(db).map((SanitationRequest sr) -> (ISanitationRequestInfo) sr);
     }
 
     @Override
     public Stream<IMedicineRequestInfo> getAllMedicineRequests() throws SQLException {
-        //TODO
-        return null;
+        return MedicineRequest.getAll(db).map((MedicineRequest sr) -> (IMedicineRequestInfo) sr);
     }
 
     @Override
     public ISanitationRequestInfo getSanitationRequest(String id) throws SQLException {
-        return null;
+        return (ISanitationRequestInfo) SanitationRequest.getByID(db, id);
     }
 
     @Override
     public IMedicineRequestInfo getMedicineRequest(String id) throws SQLException {
-        return null;
+        return (IMedicineRequestInfo) MedicineRequest.getByID(db, id);
     }
 
     @Override
-    public void removeRequest(String requestID) throws SQLException {
-        //TODO
+    public void removeSanitationRequest(String requestID) throws SQLException {
+        SanitationRequest.getByID(db, requestID).delete(db);
     }
 
     @Override
-    public void setCompleted(String requestID) throws SQLException {
-        //TODO
+    public void removeMedicineRequest(String requestID) throws SQLException {
+        MedicineRequest.getByID(db, requestID).delete(db);
+    }
+
+    @Override
+    public void setSanitationCompleted(String requestID) throws SQLException {
+        SanitationRequest sr = SanitationRequest.getByID(db, requestID);
+        sr.setComplete(true);
+        sr.update();
+    }
+
+    @Override
+    public void setMedicineCompleted(String requestID) throws SQLException {
+        MedicineRequest mr = MedicineRequest.getByID(db, requestID);
+        mr.setComplete(true);
+        mr.update();
+    }
+
+    @Override
+    public boolean sanitationRequestExists(String requestID) {
+        try {
+            getSanitationRequest(requestID);
+            return true;
+        } catch (SQLException ignored) {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean medicineRequestExists(String requestID) {
+        try {
+            getMedicineRequest(requestID);
+            return true;
+        } catch (SQLException ignored) {
+            return false;
+        }
     }
 
     @Override
     public void closeConnection() throws SQLException {
-        //TODO
+        db.close();
     }
 
-    @Override
-    public boolean requestExists(String requestID) {
-        /* if all tables throw exceptions, there is no request */
-        boolean exists = false;
-        try {
-            getMedicineRequest(requestID);
-            exists = true;
-        } catch (SQLException ignored) { }
-        try {
-            getSanitationRequest(requestID);
-            exists = true;
-        } catch (SQLException ignored) { }
-        return exists;
-    }
 }

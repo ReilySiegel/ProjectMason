@@ -16,6 +16,7 @@ public class MedicineRequest implements IMedicineRequestInfo {
     public MedicineRequest(String id, String type, String amount, String locationID, String assigned) {
         this.locationID = locationID;
         this.assigned = assigned;
+        this.complete = false;
         this.amount = amount;
         this.type = type;
         this.id = id;
@@ -35,6 +36,10 @@ public class MedicineRequest implements IMedicineRequestInfo {
     }
 
     public void update() throws SQLException {
+        //TODO
+    }
+
+    public void delete(Database db) throws SQLException {
         //TODO
     }
 
@@ -87,4 +92,5 @@ public class MedicineRequest implements IMedicineRequestInfo {
     public String getID() {
         return id;
     }
+
 }

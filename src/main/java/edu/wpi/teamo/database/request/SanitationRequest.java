@@ -12,11 +12,11 @@ public class SanitationRequest implements ISanitationRequestInfo {
     private final String id;
     private String details;
 
-    public SanitationRequest(String id, String locationID, boolean complete, String assigned, String details) {
+    public SanitationRequest(String id, String locationID, String assigned, String details) {
         this.locationID = locationID;
-        this.complete = complete;
         this.assigned = assigned;
         this.details = details;
+        this.complete = false;
         this.id = id;
     }
 
@@ -35,6 +35,10 @@ public class SanitationRequest implements ISanitationRequestInfo {
     }
 
     public void update() throws SQLException {
+        //TODO
+    }
+
+    public void delete(Database db) throws SQLException {
         //TODO
     }
 

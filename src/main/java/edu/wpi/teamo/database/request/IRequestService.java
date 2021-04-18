@@ -5,20 +5,29 @@ import java.sql.SQLException;
 
 public interface IRequestService {
 
-    String requestMedicine(String type, String amount, String location, String assigned, int requestNumber) throws SQLException;
-    String requestSanitation(String location, String assigned, String details, int number) throws SQLException;
+    /* create and store requests */
+    String requestMedicine(String type, String amount, String locationID, String assigned) throws SQLException;
+    String requestSanitation(String locationID, String assigned, String details) throws SQLException;
 
+    /* get all */
     Stream<ISanitationRequestInfo> getAllSanitationRequests() throws SQLException;
     Stream<IMedicineRequestInfo> getAllMedicineRequests() throws SQLException;
 
+    /* get one */
     ISanitationRequestInfo getSanitationRequest(String id) throws SQLException;
     IMedicineRequestInfo getMedicineRequest(String id) throws SQLException;
 
-    void removeRequest(String requestID) throws SQLException;
+    /* remove one */
+    void removeSanitationRequest(String requestID) throws SQLException;
+    void removeMedicineRequest(String requestID) throws SQLException;
 
-    void setCompleted(String requestID) throws SQLException;
+    /* mark them as completed */
+    void setSanitationCompleted(String requestID) throws SQLException;
+    void setMedicineCompleted(String requestID) throws SQLException;
+
+    /* remove them */
+    boolean sanitationRequestExists(String requestID);
+    boolean medicineRequestExists(String requestID);
 
     void closeConnection() throws SQLException;
-
-    boolean requestExists(String requestID);
 }
