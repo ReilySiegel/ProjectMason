@@ -248,12 +248,13 @@ public class MapDB implements IMapService {
 
     public void addNode(String nodeID, int xPos, int yPos, String floor,
                         String building, String nodeType, String longName, String shortName) throws SQLException {
-
+        if (nodeExists(nodeID)) throw new SQLException("A node with that ID already exists.");
         Node n = new Node (nodeID, xPos, yPos, floor, building, nodeType, longName, shortName);
         n.update(db);
     }
 
     public void addEdge(String edgeID, String startNodeID, String endNodeID) throws SQLException {
+        if (edgeExists(edgeID)) throw new SQLException("An edge with that ID already exists.");
         Edge e = new Edge(edgeID, startNodeID, endNodeID);
         e.update(db);
     }
