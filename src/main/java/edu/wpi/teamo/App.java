@@ -23,9 +23,7 @@ public class App extends Application {
   public static IRequestService requestService = null;
   public static AStarService aStarService = null;
   public static IMapService mapService = null;
-  public static IMapService dbService = null; // <- TODO legacy symbol, remove when no longer used
   private static Stage primaryStage;
-
 
   @Override
   public void init() {
@@ -43,12 +41,10 @@ public class App extends Application {
       Database db = new Database();
       requestService = new RequestDB(db);
       mapService = new MapDB(db);
-      dbService = mapService; //see declaration
       System.out.println("Database Services Initialized");
     } catch (SQLException | ClassNotFoundException e) {
       System.out.println("ERROR: FAILED TO INIT DATABASE SERVICES");
       e.printStackTrace();
-      dbService = null;
     }
 
     /* instantiate the aStar service, set to a static variable that can be accessed from the handlers */
