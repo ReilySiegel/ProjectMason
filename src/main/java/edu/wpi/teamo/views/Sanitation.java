@@ -45,6 +45,7 @@ public class Sanitation extends ServiceRequestPage implements Initializable {
 
         try {
             LinkedList<String> nodeShortNames = new LinkedList<String>();
+
             LinkedList<NodeInfo> nodes = App.mapService.getAllNodes().collect(Collectors.toCollection(LinkedList::new));
 
             for (NodeInfo i : nodes) {

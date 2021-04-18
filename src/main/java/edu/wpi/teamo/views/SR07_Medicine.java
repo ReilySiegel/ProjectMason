@@ -7,6 +7,8 @@ import edu.wpi.teamo.App;
 
 import edu.wpi.teamo.Pages;
 import edu.wpi.teamo.database.map.NodeInfo;
+import edu.wpi.teamo.database.request.MedicineRequest;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -29,10 +31,34 @@ public class SR07_Medicine extends ServiceRequestPage implements Initializable {
     private JFXTextField medName;
 
     @FXML
+    private JFXTextField medAmount;
+
+    @FXML
     private JFXComboBox<String> loc;
 
     @FXML
-    private JFXTextField userName;
+    private JFXTextField assignee;
+
+
+    @FXML
+    public void initialize(URL location, ResourceBundle resources) {
+        try {
+            LinkedList<String> nodeIDs = new LinkedList<String>();
+            LinkedList<NodeInfo> nodes = App.dbService.getAllNodes().collect(Collectors.toCollection(LinkedList::new));
+
+            for (NodeInfo i : nodes) {
+                nodeIDs.add(i.getNodeID());
+            }
+
+            for (String id : nodeIDs) {
+                loc.getItems().add(id);
+            }
+
+        } catch (Exception SQLException) {
+            return;
+        }
+
+    }
 
     @FXML
     private JFXTextField assignee;
@@ -61,9 +87,11 @@ public class SR07_Medicine extends ServiceRequestPage implements Initializable {
     @FXML
     private void handleSubmission(ActionEvent e) {
         String medicine = medName.getText();
+        String amount = medAmount.getText();
         String room = loc.getValue();
-        String name = userName.getText().replaceAll("[^a-zA-Z0-9]", "");
         String assignName = assignee.getText();
+
+        MedicineRequest req = new MedicineRequest(medicine, amount, room, assignName);
     }
 
     @FXML
