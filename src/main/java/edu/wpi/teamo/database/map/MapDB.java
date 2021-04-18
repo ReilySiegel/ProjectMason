@@ -124,22 +124,47 @@ public class MapDB implements IMapService {
 
     @Override
     public void setNodeShortName(String id, String shortName) throws SQLException {
-        //TODO
+        /* get node object from database */
+        Node node = Node.getByID(db, id);
+        /* update node */
+        node.setShortName(shortName);
+        /* update database */
+        node.update(db);
     }
 
     @Override
     public void setNodeBuilding(String id, String building) throws SQLException {
-        //TODO
+        /* get node object from database */
+        Node node = Node.getByID(db, id);
+        /* update node */
+        node.setBuilding(building);
+        /* update database */
+        node.update(db);
     }
 
     @Override
-    public void setNodeFloor(String id, String building) throws SQLException {
-        //TODO
+    public void setNodeFloor(String id, String floor) throws SQLException {
+        /* get node object from database */
+        Node node = Node.getByID(db, id);
+        /* update node */
+        node.setFloor(floor);
+        /* update database */
+        node.update(db);
     }
 
     @Override
     public void setNodeID(String oldID, String newID) throws SQLException {
-        //TODO
+        /* get node object from database */
+        Node node = Node.getByID(db, oldID);
+
+        /* delete from database */
+        node.delete(db);
+
+        /* update node */
+        node.setNodeID(newID);
+
+        /* update database */
+        node.update(db);
     }
 
     public void setNodeLongName(String id, String newName) throws SQLException {
@@ -154,8 +179,13 @@ public class MapDB implements IMapService {
     }
 
     @Override
-    public void setNodeType(String id, String name) throws SQLException {
-        //TODO
+    public void setNodeType(String id, String type) throws SQLException {
+        /* get node object from database */
+        Node node = Node.getByID(db, id);
+        /* update node */
+        node.setNodeType(type);
+        /* update database */
+        node.update(db);
     }
 
     public void setEdgeID(String oldID, String newID) throws SQLException {
