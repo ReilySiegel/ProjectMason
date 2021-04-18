@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
+import edu.wpi.teamo.database.map.Edge;
 import edu.wpi.teamo.database.map.EdgeInfo;
 import edu.wpi.teamo.database.map.Node;
 import javafx.beans.property.SimpleStringProperty;
@@ -36,6 +37,9 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
     @FXML
     private JFXTreeTableView<Node> treeView;
+
+    @FXML
+    private JFXTreeTableView<Edge> treeViewEdge;
 
     @FXML
     private JFXTextField addNodeID;
@@ -92,6 +96,8 @@ public class MapEditorPage extends SubPageController implements Initializable{
     private JFXTextField deleteEdgeID;
 
     boolean treeInit = false;
+
+    boolean treeEdgeInit = false;
 
     /**
      * Set validators to insure that the x and y coordinate fields are numbers
@@ -160,6 +166,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
         //Update display at start so loaded database persists after switching pages
         updateNodeTreeDisplay();
+        updateEdgeTreeDisplay();
     }
 
     /**
@@ -261,7 +268,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
             return;
         }
         //updateDisplay();
-        updateNodeTreeDisplay();
+        updateEdgeTreeDisplay();
     }
 
     /**
@@ -281,7 +288,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         }
         // updating the edge display
         //updateDisplay();
-        updateNodeTreeDisplay();
+        updateEdgeTreeDisplay();
     }
 
     /**
@@ -303,7 +310,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         } catch (Exception FileNotFoundException) {
             return;
         }
-        updateNodeTreeDisplay();
+        updateEdgeTreeDisplay();
     }
 
     /**
@@ -371,7 +378,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         }
         // updating display of all edges
         //updateDisplay();
-        updateNodeTreeDisplay();
+        updateEdgeTreeDisplay();
     }
 
     @FXML
@@ -552,5 +559,56 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
         treeView.setRoot(root);
         treeView.setShowRoot(false);
+    }
+
+    @FXML
+    void updateEdgeTreeDisplay() {
+
+        JFXTreeTableColumn<Edge, String> eID = new JFXTreeTableColumn<>("Edge ID");
+        eID.setPrefWidth(125);
+        eID.setCellValueFactory((TreeTableColumn.CellDataFeatures<Edge, String> param) -> {
+            StringProperty var = new SimpleStringProperty(param.getValue().getValue().getEdgeID());
+            return var;
+        });
+
+        JFXTreeTableColumn<Edge, String> eStart = new JFXTreeTableColumn<>("Start Node");
+        eStart.setPrefWidth(125);
+        eStart.setCellValueFactory((TreeTableColumn.CellDataFeatures<Edge, String> param) -> {
+            StringProperty var = new SimpleStringProperty(param.getValue().getValue().getStartNodeID());
+            return var;
+        });
+
+        JFXTreeTableColumn<Edge, String> eEnd = new JFXTreeTableColumn<>("End Node");
+        eEnd.setPrefWidth(125);
+        eEnd.setCellValueFactory((TreeTableColumn.CellDataFeatures<Edge, String> param) -> {
+            StringProperty var = new SimpleStringProperty(param.getValue().getValue().getEndNodeID());
+            return var;
+        });
+
+        List<EdgeInfo> edgeList = null;
+
+        try {
+            edgeList = App.mapService.getAllEdges().collect(Collectors.toList());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        ObservableList<Edge> data = FXCollections.observableArrayList();
+
+        //Display all Node ID, X, Y, Floor, Building, LongName, and ShortName
+        for(int i = 0; i < edgeList.size(); i++){
+            if(!edgeList.get(i).getEdgeID().isEmpty()){
+                data.add(new Edge(edgeList.get(i).getEdgeID(),edgeList.get(i).getStartNodeID(),edgeList.get(i).getEndNodeID()));
+            }
+        }
+
+        // checks to see if tree has been initialized and wont make dupe columns
+        TreeItem<Edge> root = new RecursiveTreeItem<>(data, RecursiveTreeObject::getChildren);
+        if(!treeEdgeInit){
+            treeViewEdge.getColumns().addAll(eID,eStart, eEnd);
+            treeEdgeInit = true;
+        }
+        treeViewEdge.setRoot(root);
+        treeViewEdge.setShowRoot(false);
     }
 }

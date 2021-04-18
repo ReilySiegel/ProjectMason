@@ -54,7 +54,7 @@
                   <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
                      <items>
                         <JFXTreeTableView fx:id="treeView" />
-                        <JFXTreeTableView />
+                        <JFXTreeTableView fx:id="treeViewEdge" />
                      </items>
                   </SplitPane>
                </content>
