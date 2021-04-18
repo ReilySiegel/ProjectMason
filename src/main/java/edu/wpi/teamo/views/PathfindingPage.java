@@ -73,7 +73,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
     public void initialize(URL location, ResourceBundle resources) {
         try {
             LinkedList<String> nodeShortNames = new LinkedList<>();
-            LinkedList<NodeInfo> nodes = App.dbService.getAllNodes().collect(Collectors.toCollection(LinkedList::new));
+            LinkedList<NodeInfo> nodes = App.mapService.getAllNodes().collect(Collectors.toCollection(LinkedList::new));
             for (NodeInfo i : nodes) {
                 nodeShortNames.add(i.getNodeID());
             }
