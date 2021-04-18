@@ -246,26 +246,17 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
 
         try{
-            if(newNodeX.equals("")){
-                newNodeX = "0";
-            }
-            if(newNodeY.equals("")){
-                newNodeY = "0";
-                //showError();
-            }
             App.mapService.addNode(newNodeID, Integer.parseInt(newNodeX), Integer.parseInt(newNodeY),
                     newNodeFloor, newNodeBuilding, newNodeType,
                     newNodeLN, newNodeSN);
             updateNodeTreeDisplay();
 
         }
-        catch(SQLException | NumberFormatException e){
-            System.out.println("Error caught");
+        catch(SQLException | NumberFormatException | AssertionError e){
             showError();
             return;
         }
 
-        updateNodeTreeDisplay();
     }
 
     /**
@@ -280,11 +271,10 @@ public class MapEditorPage extends SubPageController implements Initializable{
             App.mapService.deleteNode(deleteNode);
             updateNodeTreeDisplay();
         }
-        catch (SQLException e){
+        catch (SQLException | AssertionError e){
+            showError();
             return;
         }
-
-        updateNodeTreeDisplay();
     }
 
     /**
@@ -303,12 +293,6 @@ public class MapEditorPage extends SubPageController implements Initializable{
         String newNodeSN = origNodeSN.getText();
 
         try{
-            if(newNodeX.equals("")){
-                newNodeX = "0";
-            }
-            if(newNodeY.equals("")){
-                newNodeY = "0";
-            }
             App.mapService.setNodePosition(currentNodeID, Integer.parseInt(newNodeX), Integer.parseInt(newNodeY));
             App.mapService.setNodeBuilding(currentNodeID, newNodeBuild);
             App.mapService.setNodeFloor(currentNodeID, newNodeFloor);
@@ -318,12 +302,10 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
             updateNodeTreeDisplay();
         }
-        catch (SQLException | NumberFormatException e){
+        catch (SQLException | NumberFormatException | AssertionError e){
             showError();
             return;
         }
-
-        updateNodeTreeDisplay();
     }
 
 
@@ -345,7 +327,6 @@ public class MapEditorPage extends SubPageController implements Initializable{
             showError();
             return;
         }
-        //updateDisplay();
         updateEdgeTreeDisplay();
     }
 
@@ -366,7 +347,6 @@ public class MapEditorPage extends SubPageController implements Initializable{
             return;
         }
         // updating the edge display
-        //updateDisplay();
         updateEdgeTreeDisplay();
     }
 
