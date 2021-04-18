@@ -62,4 +62,19 @@ public class RequestDB implements IRequestService {
     public void closeConnection() throws SQLException {
         //TODO
     }
+
+    @Override
+    public boolean requestExists(String requestID) {
+        /* if all tables throw exceptions, there is no request */
+        boolean exists = false;
+        try {
+            getMedicineRequest(requestID);
+            exists = true;
+        } catch (SQLException ignored) { }
+        try {
+            getSanitationRequest(requestID);
+            exists = true;
+        } catch (SQLException ignored) { }
+        return exists;
+    }
 }
