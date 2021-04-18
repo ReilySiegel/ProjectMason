@@ -42,8 +42,9 @@
             </HBox.margin>
          </JFXButton>
         </HBox>
-      <JFXTreeTableView fx:id="treeView" prefHeight="887.0" prefWidth="980.0" />
+      <JFXTreeTableView fx:id="treeView" prefHeight="419.0" prefWidth="980.0" />
       <JFXListView fx:id="nodeArea" prefHeight="10.0" prefWidth="980.0" VBox.vgrow="ALWAYS" />
+      <JFXTreeTableView fx:id="treeViewEdge" />
     </VBox>
    <JFXTabPane layoutX="1040.0" layoutY="386.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="980.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <tabs>

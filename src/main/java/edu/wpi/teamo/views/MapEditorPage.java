@@ -480,56 +480,56 @@ public class MapEditorPage extends SubPageController implements Initializable{
     @FXML
     void updateNodeTreeDisplay() {
 
-        JFXTreeTableColumn<Node, String> nID = new JFXTreeTableColumn<>("NodeID");
+        JFXTreeTableColumn<Node, String> nID = new JFXTreeTableColumn<>("Node ID");
         nID.setPrefWidth(125);
         nID.setCellValueFactory((TreeTableColumn.CellDataFeatures<Node, String> param) -> {
             StringProperty var = new SimpleStringProperty(param.getValue().getValue().getNodeID());
             return var;
         });
 
-        JFXTreeTableColumn<Node, String> nX = new JFXTreeTableColumn<>("xPos");
+        JFXTreeTableColumn<Node, String> nX = new JFXTreeTableColumn<>("X");
         nX.setPrefWidth(125);
         nX.setCellValueFactory((TreeTableColumn.CellDataFeatures<Node, String> param) -> {
             StringProperty var = new SimpleStringProperty(String.valueOf(param.getValue().getValue().getXPos()));
             return var;
         });
 
-        JFXTreeTableColumn<Node, String> nY = new JFXTreeTableColumn<>("yPos");
+        JFXTreeTableColumn<Node, String> nY = new JFXTreeTableColumn<>("Y");
         nY.setPrefWidth(125);
         nY.setCellValueFactory((TreeTableColumn.CellDataFeatures<Node, String> param) -> {
             StringProperty var = new SimpleStringProperty(String.valueOf(param.getValue().getValue().getYPos()));
             return var;
         });
 
-        JFXTreeTableColumn<Node, String> nFloor = new JFXTreeTableColumn<>("floor");
+        JFXTreeTableColumn<Node, String> nFloor = new JFXTreeTableColumn<>("Floor");
         nFloor.setPrefWidth(125);
         nFloor.setCellValueFactory((TreeTableColumn.CellDataFeatures<Node, String> param) -> {
             StringProperty var = new SimpleStringProperty(param.getValue().getValue().getFloor());
             return var;
         });
 
-        JFXTreeTableColumn<Node, String> nBuilding = new JFXTreeTableColumn<>("building");
+        JFXTreeTableColumn<Node, String> nBuilding = new JFXTreeTableColumn<>("Building");
         nBuilding.setPrefWidth(125);
         nBuilding.setCellValueFactory((TreeTableColumn.CellDataFeatures<Node, String> param) -> {
             StringProperty var = new SimpleStringProperty(param.getValue().getValue().getBuilding());
             return var;
         });
 
-        JFXTreeTableColumn<Node, String> nType = new JFXTreeTableColumn<>("nodeType");
+        JFXTreeTableColumn<Node, String> nType = new JFXTreeTableColumn<>("Node Type");
         nType.setPrefWidth(125);
         nType.setCellValueFactory((TreeTableColumn.CellDataFeatures<Node, String> param) -> {
             StringProperty var = new SimpleStringProperty(param.getValue().getValue().getNodeType());
             return var;
         });
 
-        JFXTreeTableColumn<Node, String> nLongName = new JFXTreeTableColumn<>("longName");
+        JFXTreeTableColumn<Node, String> nLongName = new JFXTreeTableColumn<>("Long Name");
         nLongName.setPrefWidth(125);
         nLongName.setCellValueFactory((TreeTableColumn.CellDataFeatures<Node, String> param) -> {
             StringProperty var = new SimpleStringProperty(param.getValue().getValue().getLongName());
             return var;
         });
 
-        JFXTreeTableColumn<Node, String> nShortName = new JFXTreeTableColumn<>("longName");
+        JFXTreeTableColumn<Node, String> nShortName = new JFXTreeTableColumn<>("Short Name");
         nShortName.setPrefWidth(125);
         nShortName.setCellValueFactory((TreeTableColumn.CellDataFeatures<Node, String> param) -> {
             StringProperty var = new SimpleStringProperty(param.getValue().getValue().getShortName());
@@ -545,7 +545,6 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
         ObservableList<Node> data = FXCollections.observableArrayList();
 
-
         //Display all Node ID, X, Y, Floor, Building, LongName, and ShortName
         for(int i = 0; i < nodeList.size(); i++){
             if(!nodeList.get(i).getNodeID().isEmpty()){
@@ -555,6 +554,8 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
             }
         }
+
+        // checks to see if tree has been initialized and wont make dupe columns
         TreeItem<Node> root = new RecursiveTreeItem<>(data, RecursiveTreeObject::getChildren);
         if(!treeInit){
             treeView.getColumns().addAll(nID,nX,nY,nFloor,nBuilding,nType,nLongName,nShortName);
