@@ -167,7 +167,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         String newNodeY = addNodeY.getText();
 
         try{
-            App.dbService.addNode(newNodeID, Integer.parseInt(newNodeX), Integer.parseInt(newNodeY),
+            App.mapService.addNode(newNodeID, Integer.parseInt(newNodeX), Integer.parseInt(newNodeY),
                     "Default Floor", "Default Building", "Default Type",
                     newNodeID, newNodeID);
             updateDisplay();
@@ -189,7 +189,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         String deleteNode= deleteNodeID.getText();
 
         try{
-            App.dbService.deleteNode(deleteNode);
+            App.mapService.deleteNode(deleteNode);
             updateDisplay();
             updateNodeTreeDisplay();
         }
@@ -210,8 +210,8 @@ public class MapEditorPage extends SubPageController implements Initializable{
         String newNodeY = editNodeY.getText();
 
         try{
-            App.dbService.setNodePosition(currentNodeID, Integer.parseInt(newNodeX), Integer.parseInt(newNodeY));
-            App.dbService.setNodeLongName(currentNodeID, newNodeID);
+            App.mapService.setNodePosition(currentNodeID, Integer.parseInt(newNodeX), Integer.parseInt(newNodeY));
+            App.mapService.setNodeLongName(currentNodeID, newNodeID);
 
             updateDisplay();
             updateNodeTreeDisplay();
@@ -236,7 +236,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
         // try/catch for SQL and adding an edge
         try {
-            App.dbService.addEdge(newEdgeID, newEdgeNode1, newEdgeNode2);
+            App.mapService.addEdge(newEdgeID, newEdgeNode1, newEdgeNode2);
         } catch (Exception SQLException) {
             return;
         }
@@ -254,7 +254,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
         // try/catch for SQL and deleting an edge
         try {
-            App.dbService.deleteEdge(EdgetoDelete);
+            App.mapService.deleteEdge(EdgetoDelete);
         } catch (Exception SQLException) {
             return;
         }
@@ -275,9 +275,9 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
         // try catch for reading in file
         try {
-            App.dbService.setEdgeID(editingEdge.getText(), newEditEdgeID);
-            App.dbService.setEdgeStartID(newEditEdgeID, editEdgeNode1);
-            App.dbService.setEdgeEndID(newEditEdgeID, editEdgeNode2);
+            App.mapService.setEdgeID(editingEdge.getText(), newEditEdgeID);
+            App.mapService.setEdgeStartID(newEditEdgeID, editEdgeNode1);
+            App.mapService.setEdgeEndID(newEditEdgeID, editEdgeNode2);
         } catch (Exception FileNotFoundException) {
             return;
         }
@@ -299,8 +299,8 @@ public class MapEditorPage extends SubPageController implements Initializable{
         try{
             File f = fc.showOpenDialog(null);
             String path = f.getPath();
-            App.dbService.loadNodesFromFile(path);
-            //App.dbService.loadNodesFromFile("src/test/resources/edu/wpi/teamo/map/database/testNodes.csv");
+            App.mapService.loadNodesFromFile(path);
+            //App.mapService.loadNodesFromFile("src/test/resources/edu/wpi/teamo/map/database/testNodes.csv");
         }
         catch(NullPointerException | FileNotFoundException | SQLException e){
             return;
@@ -323,7 +323,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         try{
             File f = fc.showSaveDialog(null);
             String path = f.getPath();
-            App.dbService.writeNodesToCSV(path);
+            App.mapService.writeNodesToCSV(path);
         }
         catch(NullPointerException | SQLException | IOException e){
             return;
@@ -345,7 +345,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         try {
             File f = fc.showOpenDialog(null);
             String path = f.getPath();
-            App.dbService.loadEdgesFromFile(path);
+            App.mapService.loadEdgesFromFile(path);
         } catch (FileNotFoundException | SQLException | NullPointerException e)  {
             return;
         }
@@ -363,7 +363,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         try {
             File f = fc.showSaveDialog(null);
             String path = f.getPath();
-            App.dbService.writeEdgesToCSV(path);
+            App.mapService.writeEdgesToCSV(path);
         } catch (IOException | SQLException | NullPointerException e ) {
             return;
         }
@@ -376,7 +376,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
     void updateDisplay(){
         List<NodeInfo> nodeList = null;
         try {
-            nodeList = App.dbService.getAllNodes().collect(Collectors.toList());
+            nodeList = App.mapService.getAllNodes().collect(Collectors.toList());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -385,7 +385,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         List<EdgeInfo> edgeList = null;
         // try/catch for calling getAllEdges from backend
         try {
-            edgeList = App.dbService.getAllEdges().collect(Collectors.toList());
+            edgeList = App.mapService.getAllEdges().collect(Collectors.toList());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -503,7 +503,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
         List<NodeInfo> nodeList = null;
         try {
-            nodeList = App.dbService.getAllNodes().collect(Collectors.toList());
+            nodeList = App.mapService.getAllNodes().collect(Collectors.toList());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
