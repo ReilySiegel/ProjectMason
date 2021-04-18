@@ -27,6 +27,15 @@ public class ServiceRequestPage extends SubPageController implements Initializab
     }
 
     /**
+     * event handler for switching to service request page
+     * @param e Action Event parameter
+     */
+    @FXML
+    private void handleBackToServicePage(ActionEvent e) {
+        App.switchPage(Pages.SERVICEREQUEST);
+    }
+
+    /**
      * event handler for switching to sanitation page
      * @param e Action Event parameter
      */

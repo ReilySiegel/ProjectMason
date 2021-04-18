@@ -7,5 +7,6 @@ public enum Pages {
     PATHFINDING,
     MAIN,
     SANITATION,
-    SERVICEREQUEST
+    SERVICEREQUEST,
+    MAPEDITOR
 }

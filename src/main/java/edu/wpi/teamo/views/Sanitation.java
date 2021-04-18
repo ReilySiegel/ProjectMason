@@ -23,7 +23,7 @@ import java.util.LinkedList;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-public class Sanitation extends SubPageController implements Initializable {
+public class Sanitation extends ServiceRequestPage implements Initializable {
 
     @FXML
     private JFXTextField service;

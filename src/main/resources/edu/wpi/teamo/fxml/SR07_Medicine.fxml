@@ -133,7 +133,7 @@
                   </HBox>
                   <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="272.0" AnchorPane.rightAnchor="0.0">
                      <children>
-                        <JFXButton onAction="#backToMain" style="-fx-background-color: #c42b2b;" text="Back" textFill="WHITE">
+                        <JFXButton onAction="#handleBackToServicePage" style="-fx-background-color: #c42b2b;" text="Back" textFill="WHITE">
                            <font>
                               <Font size="24.0" />
                            </font>

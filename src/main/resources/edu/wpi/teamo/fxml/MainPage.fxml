@@ -41,15 +41,7 @@
    <center>
       <VBox alignment="CENTER" prefHeight="226.0" prefWidth="188.0" BorderPane.alignment="CENTER">
          <children>
-            <JFXButton minHeight="20.0" minWidth="125.0" onAction="#handleMedicine" style="-fx-background-color: #f44336;" text="Medicine" textFill="WHITE">
-               <VBox.margin>
-                  <Insets bottom="10.0" top="10.0" />
-               </VBox.margin>
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </JFXButton>
-            <JFXButton minHeight="20.0" minWidth="125.0" onAction="#handleSanitation" style="-fx-background-color: #9900dd;" text="Sanitation" textFill="WHITE">
+            <JFXButton minHeight="20.0" minWidth="125.0" onAction="#handleServiceRequest" style="-fx-background-color: #9900dd;" text="Service Requests" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
@@ -57,7 +49,7 @@
                   <Insets bottom="10.0" top="10.0" />
                </VBox.margin>
             </JFXButton>
-            <JFXButton minHeight="20.0" minWidth="125.0" onAction="#handleNode" style="-fx-background-color: #008CBA;" text="Node" textFill="WHITE">
+            <JFXButton minHeight="20.0" minWidth="125.0" onAction="#handleMapEditor" prefWidth="157.0" style="-fx-background-color: #008CBA;" text="Map Editor" textFill="WHITE">
                <VBox.margin>
                   <Insets bottom="10.0" top="10.0" />
                </VBox.margin>
@@ -65,15 +57,7 @@
                   <Font size="18.0" />
                </font>
             </JFXButton>
-            <JFXButton minHeight="20.0" minWidth="125.0" onAction="#handleEdge" style="-fx-background-color: #4CAF50;" text="Edge" textFill="WHITE">
-               <VBox.margin>
-                  <Insets bottom="10.0" top="10.0" />
-               </VBox.margin>
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </JFXButton>
-            <JFXButton minHeight="20.0" minWidth="125.0" onAction="#handlePathfinding" style="-fx-background-color: #ff9900;" text="Pathfinding" textFill="WHITE">
+            <JFXButton minHeight="20.0" minWidth="125.0" onAction="#handlePathfinding" prefWidth="157.0" style="-fx-background-color: #ff9900;" text="Pathfinding" textFill="WHITE">
                <VBox.margin>
                   <Insets bottom="10.0" top="10.0" />
                </VBox.margin>

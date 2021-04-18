@@ -31,40 +31,24 @@ public class MainPage {
 
 
     /**
-     * event handler for switching to medicine page
+     * event handler for switching to service request page
      * @param e Action Event parameter
      */
     @FXML
-    private void handleMedicine(ActionEvent e) {
-        App.switchPage(Pages.MEDICINE);
+    private void handleServiceRequest(ActionEvent e) {
+        App.switchPage(Pages.SERVICEREQUEST);
     }
 
-    /**
-     * event handler for switching to sanitation page
-     * @param e Action Event parameter
-     */
-    @FXML
-    private void handleSanitation(ActionEvent e) {
-        App.switchPage(Pages.SANITATION);
-    }
 
     /**
-     * event handler for switching to node page
+     * event handler for switching to map editor page
      * @param e Action Event parameter
      */
     @FXML
-    private void handleNode(ActionEvent e) {
-        App.switchPage(Pages.NODE);
+    private void handleMapEditor(ActionEvent e) {
+        App.switchPage(Pages.MAPEDITOR);
     }
 
-    /**
-     * event handler for switching to edge page
-     * @param e Action Event parameter
-     */
-    @FXML
-    private void handleEdge(ActionEvent e) {
-        App.switchPage(Pages.EDGE);
-    }
 
     /**
      * event handler for switching to pathfinding page
