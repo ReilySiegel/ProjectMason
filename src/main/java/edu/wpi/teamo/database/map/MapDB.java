@@ -122,6 +122,26 @@ public class MapDB implements IMapService {
         node.update(db);
     }
 
+    @Override
+    public void setNodeShortName(String id, String shortName) throws SQLException {
+        //TODO
+    }
+
+    @Override
+    public void setNodeBuilding(String id, String building) throws SQLException {
+        //TODO
+    }
+
+    @Override
+    public void setNodeFloor(String id, String building) throws SQLException {
+        //TODO
+    }
+
+    @Override
+    public void setNodeID(String oldID, String newID) throws SQLException {
+        //TODO
+    }
+
     public void setNodeLongName(String id, String newName) throws SQLException {
         /* get node object from database */
         Node node = Node.getByID(db, id);
@@ -131,6 +151,11 @@ public class MapDB implements IMapService {
 
         /* update database */
         node.update(db);
+    }
+
+    @Override
+    public void setNodeType(String id, String name) throws SQLException {
+        //TODO
     }
 
     public void setEdgeID(String oldID, String newID) throws SQLException {
