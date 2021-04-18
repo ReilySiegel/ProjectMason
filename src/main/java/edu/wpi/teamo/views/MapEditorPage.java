@@ -193,6 +193,20 @@ public class MapEditorPage extends SubPageController implements Initializable{
             }
         });
 
+        //Set original node ID, X, and Y in the Edit and Delete box to selected value.
+        treeViewEdge.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<Edge>>() {
+            @Override
+            public void changed(ObservableValue<? extends TreeItem<Edge>> observable, TreeItem<Edge> oldValue, TreeItem<Edge> newValue) {
+                if(newValue != null){
+                    editEdgeID.setText(newValue.getValue().getEdgeID());
+                    editNode1.setText(newValue.getValue().getStartNodeID());
+                    editNode2.setText(newValue.getValue().getEndNodeID());
+                    deleteEdgeID.setText(newValue.getValue().getEdgeID());
+                }
+            }
+        });
+
+
         //Update display at start so loaded database persists after switching pages
         updateNodeTreeDisplay();
         updateEdgeTreeDisplay();
