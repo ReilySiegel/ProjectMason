@@ -42,9 +42,6 @@ public class MapEditorPage extends SubPageController implements Initializable{
     private JFXListView<String> nodeArea;
 
     @FXML
-    private JFXTreeView<NodeInfo> nodeTree;
-
-    @FXML
     private JFXTextField addNodeID;
 
     @FXML
@@ -152,8 +149,24 @@ public class MapEditorPage extends SubPageController implements Initializable{
                 }
             }
         });
+
+
+        //Set original node ID, X, and Y in the Edit and Delete box to selected value.
+        treeView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<Node>>() {
+            @Override
+            public void changed(ObservableValue<? extends TreeItem<Node>> observable, TreeItem<Node> oldValue, TreeItem<Node> newValue) {
+                if(newValue != null){
+                    origNodeID.setText(newValue.getValue().getNodeID());
+                    origNodeX.setText(Integer.toString(newValue.getValue().getXPos()));
+                    origNodeY.setText(Integer.toString(newValue.getValue().getYPos()));
+                    deleteNodeID.setText(newValue.getValue().getNodeID());
+                }
+            }
+        });
+
         //Update display at start so loaded database persists after switching pages
         updateDisplay();
+        updateNodeTreeDisplay();
     }
 
     /**
@@ -178,6 +191,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
             return;
         }
 
+        updateNodeTreeDisplay();
     }
 
     /**
@@ -196,6 +210,8 @@ public class MapEditorPage extends SubPageController implements Initializable{
         catch (SQLException e){
             return;
         }
+
+        updateNodeTreeDisplay();
     }
 
     /**
@@ -219,6 +235,8 @@ public class MapEditorPage extends SubPageController implements Initializable{
         catch (SQLException e){
             return;
         }
+
+        updateNodeTreeDisplay();
     }
 
 
@@ -240,7 +258,8 @@ public class MapEditorPage extends SubPageController implements Initializable{
         } catch (Exception SQLException) {
             return;
         }
-        updateDisplay();
+        //updateDisplay();
+        updateNodeTreeDisplay();
     }
 
     /**
@@ -259,7 +278,8 @@ public class MapEditorPage extends SubPageController implements Initializable{
             return;
         }
         // updating the edge display
-        updateDisplay();
+        //updateDisplay();
+        updateNodeTreeDisplay();
     }
 
     /**
@@ -283,6 +303,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         }
         // updating the edge display
         updateDisplay();
+        updateNodeTreeDisplay();
     }
 
     /**
@@ -350,7 +371,8 @@ public class MapEditorPage extends SubPageController implements Initializable{
             return;
         }
         // updating display of all edges
-        updateDisplay();
+        //updateDisplay();
+        updateNodeTreeDisplay();
     }
 
     @FXML
