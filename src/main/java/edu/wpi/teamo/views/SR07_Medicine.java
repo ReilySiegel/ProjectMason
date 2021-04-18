@@ -77,7 +77,7 @@ public class SR07_Medicine extends ServiceRequestPage implements Initializable {
         Stage helpWindow = new Stage();
 
         helpWindow.initModality(Modality.APPLICATION_MODAL);
-        helpWindow.setTitle("Help - Medicine Delivery");
+        helpWindow.setTitle("Help - Medicine Defedgdfghdfghlivery");
         helpWindow.setMinWidth(400);
         helpWindow.setMinHeight(200);
 

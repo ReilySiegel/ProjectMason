@@ -29,16 +29,16 @@ public class Sanitation extends ServiceRequestPage implements Initializable {
     private JFXTextField service;
 
     @FXML
-    private JFXTimePicker serviceTime;
+    private JFXComboBox<String> loc;
 
     @FXML
-    private JFXComboBox<String> serviceLocation;
+    private JFXTextField assignee;
 
     @FXML
-    private JFXTextField priority;
+    private JFXTimePicker time;
 
     @FXML
-    private JFXTextArea notes;
+    private JFXTextField notes;
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
@@ -53,7 +53,7 @@ public class Sanitation extends ServiceRequestPage implements Initializable {
             }
 
             for (String nodeName : nodeShortNames) {
-                serviceLocation.getItems().add(nodeName);
+                loc.getItems().add(nodeName);
             }
 
         } catch (Exception SQLException) {
@@ -62,13 +62,17 @@ public class Sanitation extends ServiceRequestPage implements Initializable {
 
     }
 
+    private void handleSubmission(ActionEvent e) {
+        String serviceName = service.getText();
+    }
+
     @FXML
     private void handleHelp(ActionEvent e) {
 
         Stage helpWindow = new Stage();
 
         helpWindow.initModality(Modality.APPLICATION_MODAL);
-        helpWindow.setTitle("Help - Medicine Delivery");
+        helpWindow.setTitle("Help");
         helpWindow.setMinWidth(400);
         helpWindow.setMinHeight(200);
 
