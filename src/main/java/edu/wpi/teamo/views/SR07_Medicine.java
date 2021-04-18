@@ -66,6 +66,7 @@ public class SR07_Medicine extends ServiceRequestPage implements Initializable {
         String amount = medAmount.getText();
         String room = loc.getValue();
         String assignName = assignee.getText();
+    }
 
     @FXML
     private void handleHelp(ActionEvent e) {
