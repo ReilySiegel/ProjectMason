@@ -19,6 +19,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -29,31 +30,31 @@ public class Sanitation extends ServiceRequestPage implements Initializable {
     private JFXTextField service;
 
     @FXML
-    private JFXTimePicker serviceTime;
+    private JFXComboBox<String> loc;
 
     @FXML
-    private JFXComboBox<String> serviceLocation;
+    private JFXTextField assignee;
 
     @FXML
-    private JFXTextField priority;
+    private JFXTimePicker time;
 
     @FXML
-    private JFXTextArea notes;
+    private JFXTextField notes;
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
 
         try {
-            LinkedList<String> nodeShortNames = new LinkedList<String>();
+            LinkedList<String> nodeIDs = new LinkedList<String>();
 
             LinkedList<NodeInfo> nodes = App.mapService.getAllNodes().collect(Collectors.toCollection(LinkedList::new));
 
             for (NodeInfo i : nodes) {
-                nodeShortNames.add(i.getNodeID());
+                nodeIDs.add(i.getNodeID());
             }
 
-            for (String nodeName : nodeShortNames) {
-                serviceLocation.getItems().add(nodeName);
+            for (String id : nodeIDs) {
+                loc.getItems().add(id);
             }
 
         } catch (Exception SQLException) {
@@ -62,13 +63,22 @@ public class Sanitation extends ServiceRequestPage implements Initializable {
 
     }
 
+    private void handleSubmission(ActionEvent e) throws SQLException {
+        String serviceName = service.getText();
+        String room = loc.getValue();
+        String assigned = assignee.getText();
+        String details = notes.getText();
+
+        App.requestService.requestSanitation(room, assigned, details);
+    }
+
     @FXML
     private void handleHelp(ActionEvent e) {
 
         Stage helpWindow = new Stage();
 
         helpWindow.initModality(Modality.APPLICATION_MODAL);
-        helpWindow.setTitle("Help - Medicine Delivery");
+        helpWindow.setTitle("Help");
         helpWindow.setMinWidth(400);
         helpWindow.setMinHeight(200);
 
