@@ -1,0 +1,9 @@
+nodeID,xcoord,ycoord,floor,building,nodeType,longName,shortName
+testID1,1,1,1,Parking,PARK,Floor1RightParking1,F1RightP1
+testID2,2,2,2,Parking,PARK,Floor2RightParking2,F2RightP2
+testID3,3,3,3,Parking,PARK,Floor3RightParking3,F3RightP3
+-------
+edgeID,startNode,endNode
+edgeID1,edge1S,edge1E
+edgeID2,edge2S,edge2E
+edgeID3,edge3S,edge3E
