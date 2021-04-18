@@ -44,5 +44,4 @@ public class ServiceRequestPage extends SubPageController implements Initializab
         App.switchPage(Pages.SANITATION);
     }
 
-
 }

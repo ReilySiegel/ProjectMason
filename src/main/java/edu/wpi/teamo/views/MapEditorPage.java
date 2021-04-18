@@ -34,12 +34,8 @@ import javafx.stage.FileChooser;
 
 public class MapEditorPage extends SubPageController implements Initializable{
 
-
     @FXML
     private JFXTreeTableView<Node> treeView;
-
-    @FXML
-    private JFXListView<String> nodeArea;
 
     @FXML
     private JFXTextField addNodeID;
@@ -104,9 +100,6 @@ public class MapEditorPage extends SubPageController implements Initializable{
      */
     @Override
     public void initialize(URL location, ResourceBundle resources){
-
-
-        nodeArea.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         NumberValidator numberValidator = new NumberValidator();
 
         //Ensure that each X and Y field are numbers
@@ -166,7 +159,6 @@ public class MapEditorPage extends SubPageController implements Initializable{
         });
 
         //Update display at start so loaded database persists after switching pages
-        updateDisplay();
         updateNodeTreeDisplay();
     }
 
@@ -190,7 +182,6 @@ public class MapEditorPage extends SubPageController implements Initializable{
             App.mapService.addNode(newNodeID, Integer.parseInt(newNodeX), Integer.parseInt(newNodeY),
                     "Default Floor", "Default Building", "Default Type",
                     newNodeID, newNodeID);
-            updateDisplay();
             updateNodeTreeDisplay();
 
         }
@@ -211,7 +202,6 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
         try{
             App.mapService.deleteNode(deleteNode);
-            updateDisplay();
             updateNodeTreeDisplay();
         }
         catch (SQLException e){
@@ -242,7 +232,6 @@ public class MapEditorPage extends SubPageController implements Initializable{
             App.mapService.setNodePosition(currentNodeID, Integer.parseInt(newNodeX), Integer.parseInt(newNodeY));
             App.mapService.setNodeLongName(currentNodeID, newNodeID);
 
-            updateDisplay();
             updateNodeTreeDisplay();
         }
         catch (SQLException e){
@@ -314,8 +303,6 @@ public class MapEditorPage extends SubPageController implements Initializable{
         } catch (Exception FileNotFoundException) {
             return;
         }
-        // updating the edge display
-        updateDisplay();
         updateNodeTreeDisplay();
     }
 
@@ -340,7 +327,6 @@ public class MapEditorPage extends SubPageController implements Initializable{
             return;
         }
 
-        updateDisplay();
         updateNodeTreeDisplay();
     }
 
@@ -404,9 +390,11 @@ public class MapEditorPage extends SubPageController implements Initializable{
         }
     }
 
+
     /**
      * Display all nodes in database in the textarea
      */
+    /*
     @FXML
     void updateDisplay(){
         List<NodeInfo> nodeList = null;
@@ -460,7 +448,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         } catch (Exception NullPointerException) {
             return;
         }
-    }
+    } */
 
     @FXML
     private JFXTextField editingEdge;

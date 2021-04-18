@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXListView?>
 <?import com.jfoenix.controls.JFXTabPane?>
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXTreeTableView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -42,9 +42,24 @@
             </HBox.margin>
          </JFXButton>
         </HBox>
-      <JFXTreeTableView fx:id="treeView" prefHeight="419.0" prefWidth="980.0" />
-      <JFXListView fx:id="nodeArea" prefHeight="10.0" prefWidth="980.0" VBox.vgrow="ALWAYS" />
-      <JFXTreeTableView fx:id="treeViewEdge" />
+      <JFXTabPane VBox.vgrow="ALWAYS">
+         <tabs>
+            <Tab fx:id="tab1" text="Map View">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+               </content>
+            </Tab>
+            <Tab fx:id="tab2" text="List View">
+               <content>
+                  <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+                     <items>
+                        <JFXTreeTableView fx:id="treeView" />
+                        <JFXTreeTableView />
+                     </items>
+                  </SplitPane>
+               </content>
+            </Tab>
+         </tabs></JFXTabPane>
     </VBox>
    <JFXTabPane layoutX="1040.0" layoutY="386.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="980.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <tabs>
