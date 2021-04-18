@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.sql.SQLException;
 import java.io.IOException;
+import javafx.util.Pair;
 
 public class MapDB implements IMapService {
     Database db;
@@ -44,6 +45,13 @@ public class MapDB implements IMapService {
         db = new Database();
         Node.initTable(db);
         Edge.initTable(db);
+    }
+
+    @Override
+    public void loadMapFromCSV(String filepath) throws IOException, SQLException {
+        Pair<Stream<Node>, Stream<Edge>> mapStreamPair = MapCSV.readMapFile(filepath);
+        storeEdges(db, mapStreamPair.getValue());
+        storeNodes(db, mapStreamPair.getKey());
     }
 
     public void loadEdgesFromFile(String filepath) throws FileNotFoundException, SQLException {
@@ -209,6 +217,13 @@ public class MapDB implements IMapService {
     public void writeNodesToCSV(String filepath) throws SQLException, IOException {
         Stream<Node> nodeStream = Node.getAll(db);
         NodeCSV.write(filepath, nodeStream);
+    }
+
+    @Override
+    public void writeMapToCSV(String filepath) throws SQLException, IOException {
+        Stream<Node> nodeStream = Node.getAll(db);
+        Stream<Edge> edgeStream = Edge.getAll(db);
+        MapCSV.writeMapFile(filepath, nodeStream, edgeStream);
     }
 
     @Override

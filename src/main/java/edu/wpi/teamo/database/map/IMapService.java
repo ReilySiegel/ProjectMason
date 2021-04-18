@@ -16,6 +16,7 @@ public interface IMapService {
     /* the setters */
     void loadNodesFromFile(String filepath) throws FileNotFoundException, SQLException;
     void loadEdgesFromFile(String filepath) throws FileNotFoundException, SQLException;
+    void loadMapFromCSV(String filepath) throws IOException, SQLException;
     void setNodePosition(String id, int newX, int newY) throws SQLException;
     void setEdgeStartID(String edgeID, String startNodeID) throws SQLException;
     void setEdgeEndID(String edgeID, String endNodeID) throws SQLException;
@@ -25,6 +26,7 @@ public interface IMapService {
     /* the makers */
     void writeNodesToCSV(String filepath) throws SQLException, IOException;
     void writeEdgesToCSV(String filepath) throws SQLException, IOException;
+    void writeMapToCSV(String filepath) throws SQLException, IOException;
     void addEdge(String edgeID, String startNodeID, String endNodeID) throws SQLException;
     void addNode(String nodeID, int xPos, int yPos, String floor,
                  String building, String nodeType, String longName, String shortNam) throws SQLException;
