@@ -142,7 +142,7 @@ public class NodePage extends SubPageController implements Initializable{
         String newNodeY = addNodeY.getText();
 
          try{
-             App.dbService.addNode(newNodeID, Integer.parseInt(newNodeX), Integer.parseInt(newNodeY),
+             App.mapService.addNode(newNodeID, Integer.parseInt(newNodeX), Integer.parseInt(newNodeY),
                      "Default Floor", "Default Building", "Default Type",
                      newNodeID, newNodeID);
              updateDisplay();
@@ -163,7 +163,7 @@ public class NodePage extends SubPageController implements Initializable{
         String deleteNode= deleteNodeID.getText();
 
         try{
-            App.dbService.deleteNode(deleteNode);
+            App.mapService.deleteNode(deleteNode);
             updateDisplay();
         }
         catch (SQLException e){
@@ -183,8 +183,8 @@ public class NodePage extends SubPageController implements Initializable{
         String newNodeY = editNodeY.getText();
 
         try{
-            App.dbService.setNodePosition(currentNodeID, Integer.parseInt(newNodeX), Integer.parseInt(newNodeY));
-            App.dbService.setNodeLongName(currentNodeID, newNodeID);
+            App.mapService.setNodePosition(currentNodeID, Integer.parseInt(newNodeX), Integer.parseInt(newNodeY));
+            App.mapService.setNodeLongName(currentNodeID, newNodeID);
 
             updateDisplay();
         }
@@ -210,8 +210,8 @@ public class NodePage extends SubPageController implements Initializable{
         try{
             File f = fc.showOpenDialog(null);
             String path = f.getPath();
-            App.dbService.loadNodesFromFile(path);
-            //App.dbService.loadNodesFromFile("src/test/resources/edu/wpi/teamo/map/database/testNodes.csv");
+            App.mapService.loadNodesFromFile(path);
+            //App.mapService.loadNodesFromFile("src/test/resources/edu/wpi/teamo/map/database/testNodes.csv");
         }
         catch(NullPointerException e){
             return;
@@ -239,7 +239,7 @@ public class NodePage extends SubPageController implements Initializable{
         try{
             File f = fc.showSaveDialog(null);
             String path = f.getPath();
-            App.dbService.writeNodesToCSV(path);
+            App.mapService.writeNodesToCSV(path);
         }
         catch(NullPointerException e){
             return;
@@ -259,7 +259,7 @@ public class NodePage extends SubPageController implements Initializable{
     void updateDisplay(){
         List<NodeInfo> nodeList = null;
         try {
-            nodeList = App.dbService.getAllNodes().collect(Collectors.toList());
+            nodeList = App.mapService.getAllNodes().collect(Collectors.toList());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
