@@ -7,6 +7,7 @@ import edu.wpi.teamo.App;
 
 import edu.wpi.teamo.Pages;
 import edu.wpi.teamo.database.map.NodeInfo;
+import edu.wpi.teamo.database.request.IMedicineRequestInfo;
 import edu.wpi.teamo.database.request.MedicineRequest;
 
 import javafx.event.ActionEvent;
@@ -27,6 +28,7 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class SR07_Medicine extends ServiceRequestPage implements Initializable {
 
@@ -59,8 +61,9 @@ public class SR07_Medicine extends ServiceRequestPage implements Initializable {
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
+
+        validRequest = true;
         try {
-            validRequest = true;
             LinkedList<String> nodeShortNames = new LinkedList<String>();
             LinkedList<NodeInfo> nodes = App.mapService.getAllNodes().collect(Collectors.toCollection(LinkedList::new));
 
@@ -116,6 +119,7 @@ public class SR07_Medicine extends ServiceRequestPage implements Initializable {
             amountErrorText.setText("No amount specified");
             validRequest = false;
         }
+
         if (room == null) {
             roomErrorText.setText("No room specified");
             validRequest = false;

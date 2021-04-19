@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -42,6 +43,17 @@ public class Sanitation extends ServiceRequestPage implements Initializable {
     private JFXTextField notes;
 
     @FXML
+    private Text typeErrorText;
+
+    @FXML
+    private Text roomErrorText;
+
+    @FXML
+    private Text assignedErrorText;
+
+    private boolean validRequest;
+
+    @FXML
     public void initialize(URL location, ResourceBundle resources) {
 
         try {
@@ -63,13 +75,34 @@ public class Sanitation extends ServiceRequestPage implements Initializable {
 
     }
 
+    @FXML
     private void handleSubmission(ActionEvent e) throws SQLException {
         String serviceName = service.getText();
         String room = loc.getValue();
         String assigned = assignee.getText();
         String details = notes.getText();
 
-        App.requestService.requestSanitation(room, assigned, details);
+        validRequest = true;
+
+        if (serviceName.equals("")) {
+            typeErrorText.setText("Service type required");
+            validRequest = false;
+        }
+
+        if (room == null) {
+            roomErrorText.setText("No room/node selected");
+            validRequest = false;
+        }
+
+        if (assigned.equals("")) {
+            assignedErrorText.setText("Assignee name required");
+            validRequest = false;
+        }
+
+        if (validRequest) {
+            App.requestService.requestSanitation(room, assigned, details);
+            System.out.println("Sanitation request submitted");
+        }
     }
 
     @FXML
