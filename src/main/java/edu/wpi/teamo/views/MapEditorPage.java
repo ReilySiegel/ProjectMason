@@ -34,6 +34,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.StackPane;
@@ -137,13 +138,28 @@ public class MapEditorPage extends SubPageController implements Initializable{
     private JFXTextField editingEnd;
 
     @FXML
+    private JFXComboBox<String> floorSwitcher;
+    String selectedFloor = "1";
+
+    @FXML
     private Canvas mapCanvas;
 
+    @FXML
+    private ImageView mapImage;
+
     Map map;
+
 
     boolean treeInit = false;
 
     boolean treeEdgeInit = false;
+
+    //TODO get rid of - add event listener
+    @FXML
+    void onFloorSwitch(ActionEvent event) {
+        selectedFloor = floorSwitcher.getValue();
+        updateMap();
+    }
 
     /**
      * Set validators to insure that the x and y coordinate fields are numbers
@@ -153,7 +169,14 @@ public class MapEditorPage extends SubPageController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources){
 
-        map = new Map(mapCanvas);
+        floorSwitcher.getItems().add("L1");
+        floorSwitcher.getItems().add("L2");
+        floorSwitcher.getItems().add("1");
+        floorSwitcher.getItems().add("2");
+        floorSwitcher.getItems().add("3");
+        floorSwitcher.getItems().add("4");
+
+        map = new Map(mapCanvas, mapImage);
 
         NumberValidator numberValidator = new NumberValidator();
 
@@ -621,7 +644,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 
         JFXButton closeButton = new JFXButton("Close");
-        closeButton.setStyle("-fx-background-color: #F40F19");
+        closeButton.setStyle("-fx-background-color: #f40f19");
         closeButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -637,7 +660,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         try {
             List<NodeInfo> nodeList = App.mapService.getAllNodes().collect(Collectors.toList());
             List<EdgeInfo> edgeList = App.mapService.getAllEdges().collect(Collectors.toList());
-            map.drawMap(nodeList, edgeList);
+            map.drawFloor(nodeList, edgeList, selectedFloor);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
