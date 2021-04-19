@@ -105,4 +105,20 @@ public class AStarManagerTests {
         assertEquals(n1.getID(), n3.getAdjacencies().get(0));
         assertEquals(0, n2.getAdjacencies().size());
     }
+
+    /**
+     * Test for invalid node type
+     * @throws SQLException If there is a database error
+     * @throws ClassNotFoundException If there are any missing classes
+     */
+    @Test
+    public void testInvalidNodeType() throws SQLException, ClassNotFoundException {
+        MapDB mdb = new MapDB("testInvalidNodeType");
+        mdb.addNode("oPARK00101", 3116,1131,"F1", "b","an invalid node type","Floor1RightParking1","F1RightP1");
+        mdb.addNode("oPARK00201", 3116,1155,"F1", "b","another node type that is invalid","Floor1RightParking2","F1RightP2");
+        mdb.addEdge("oPARK00101_oPARK00201","oPARK00101","oPARK00201");
+        AStarManager asm = new AStarManager(mdb);
+        LinkedList<AlgoNode> path = asm.getPath("oPARK00101","oPARK00201");
+        assertEquals(NodeType.NULL, path.get(0).getType());
+    }
 }
