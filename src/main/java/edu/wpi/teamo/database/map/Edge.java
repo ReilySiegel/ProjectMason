@@ -72,6 +72,14 @@ public class Edge extends RecursiveTreeObject<Edge> implements EdgeInfo {
      * or the edge object's attributes are invalid.
      */
     public void update(Database db) throws SQLException {
+
+        if (this.startNodeID == null || this.startNodeID.isEmpty())
+            throw new IllegalArgumentException("invalid startNodeID");
+        if (this.endNodeID == null || this.endNodeID.isEmpty())
+            throw new IllegalArgumentException("invalid endNodeID");
+        if (this.edgeID == null || this.edgeID.isEmpty())
+            throw new IllegalArgumentException("invalid edgeID");
+
         // Apache Derby does not have upsert, so we must try both an insert and update.
         try {
             db.processUpdate("INSERT INTO Edge (edgeID, startNode, endNode) VALUES " +
