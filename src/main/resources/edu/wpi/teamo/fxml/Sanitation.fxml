@@ -11,19 +11,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #c4e2f5;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.Sanitation">
-   <top>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sanitation Request" BorderPane.alignment="CENTER">
-         <font>
-            <Font name="Arial" size="36.0" />
-         </font>
-         <BorderPane.margin>
-            <Insets bottom="10.0" top="30.0" />
-         </BorderPane.margin>
-      </Text>
-   </top>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #1B77B9;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.Sanitation">
    <center>
-      <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="300.0" prefHeight="500.0" prefWidth="800.0" style="-fx-effect: dropshadow(three-pass-box, rgba(150,150,170,0.8), 20, 0, 0, 0); -fx-background-color: #fff;" BorderPane.alignment="CENTER">
+      <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="300.0" prefHeight="500.0" prefWidth="800.0" style="-fx-effect: dropshadow(three-pass-box, rgba(150,150,170,0.8), 20, 0, 0, 0); -fx-background-color: #fff;" BorderPane.alignment="TOP_CENTER">
          <children>
             <HBox prefHeight="50.0" prefWidth="580.0">
                <children>
@@ -114,21 +104,18 @@
          </BorderPane.margin>
       </VBox>
    </center>
-   <padding>
-      <Insets top="10.0" />
-   </padding>
    <bottom>
-      <HBox alignment="CENTER_LEFT" maxHeight="100.0" prefHeight="70.0" prefWidth="1280.0" style="-fx-background-color: #777;" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER_LEFT" maxHeight="100.0" prefHeight="70.0" prefWidth="1280.0" style="-fx-background-color: #002B53;" BorderPane.alignment="CENTER">
          <children>
-            <JFXButton buttonType="RAISED" onAction="#handleHelp" style="-fx-background-color: #4300b8;" text="Help" textFill="WHITE">
+            <JFXButton buttonType="RAISED" onAction="#handleHelp" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #5e99ff; -fx-border-radius: 25; -fx-background-radius: 25;" text="?" textFill="WHITE">
                <font>
-                  <Font size="18.0" />
+                  <Font name="Arial Bold" size="24.0" />
                </font>
                <HBox.margin>
                   <Insets left="50.0" />
                </HBox.margin>
             </JFXButton>
-            <JFXButton buttonType="RAISED" onAction="#handleBackToServicePage" style="-fx-background-color: #444;" text="Back" textFill="WHITE">
+            <JFXButton buttonType="RAISED" onAction="#backToMain" style="-fx-background-color: #444;" text="Back" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
@@ -147,4 +134,18 @@
          </children>
       </HBox>
    </bottom>
+   <top>
+      <VBox alignment="CENTER" prefHeight="110.0" prefWidth="100.0" style="-fx-background-color: #001A3C;" BorderPane.alignment="CENTER">
+         <children>
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Sanitation Request">
+               <font>
+                  <Font name="Arial" size="36.0" />
+               </font>
+            </Text>
+         </children>
+         <BorderPane.margin>
+            <Insets bottom="40.0" />
+         </BorderPane.margin>
+      </VBox>
+   </top>
 </BorderPane>
