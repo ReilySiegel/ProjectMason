@@ -38,6 +38,7 @@
                   <AnchorPane prefHeight="50.0" prefWidth="800.0">
                      <children>
                         <JFXTextField fx:id="service" minWidth="300.0" prefHeight="25.0" prefWidth="600.0" AnchorPane.rightAnchor="0.0" />
+                        <Text fx:id="typeErrorText" fill="RED" layoutX="94.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                      </children>
                   </AnchorPane>
                </children>
@@ -58,6 +59,7 @@
                   <AnchorPane prefHeight="50.0" prefWidth="800.0">
                      <children>
                         <JFXComboBox fx:id="loc" minWidth="300.0" prefHeight="25.0" prefWidth="600.0" AnchorPane.rightAnchor="0.0" />
+                        <Text fx:id="roomErrorText" fill="RED" layoutX="76.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                      </children>
                   </AnchorPane>
                </children>
@@ -75,6 +77,7 @@
                   <AnchorPane prefHeight="50.0" prefWidth="800.0">
                      <children>
                         <JFXTextField fx:id="assignee" minWidth="300.0" prefHeight="25.0" prefWidth="600.0" AnchorPane.rightAnchor="0.0" />
+                        <Text fx:id="assignedErrorText" fill="RED" layoutX="42.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                      </children>
                      <HBox.margin>
                         <Insets />
@@ -133,7 +136,7 @@
                   <Insets left="900.0" />
                </HBox.margin>
             </JFXButton>
-            <JFXButton buttonType="RAISED" style="-fx-background-color: #5ab04c;" text="Submit" textFill="WHITE">
+            <JFXButton buttonType="RAISED" onAction="#handleSubmission" style="-fx-background-color: #5ab04c;" text="Submit" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>

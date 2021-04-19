@@ -1,11 +1,12 @@
 package edu.wpi.teamo.database.request;
 
+import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import edu.wpi.teamo.database.Database;
 
 import java.sql.SQLException;
 import java.util.stream.Stream;
 
-public class SanitationRequest implements ISanitationRequestInfo {
+public class SanitationRequest extends RecursiveTreeObject<SanitationRequest> implements ISanitationRequestInfo {
     private String locationID;
     private boolean complete;
     private String assigned;
