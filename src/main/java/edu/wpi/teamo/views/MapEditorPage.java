@@ -462,7 +462,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
     void handleLoadEdgeCSV(ActionEvent event) {
         // reading in file
         FileChooser fc = new FileChooser();
-        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV FILES", "*.csv"));
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV FILE", "*.csv"));
 
         // try catch for reading in file
         try {
@@ -482,7 +482,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
     void handleSaveEdgeCSV(ActionEvent event) {
         // choosing where to save
         FileChooser fc = new FileChooser();
-        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV FILES", "*.csv"));
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV FILE", "*.csv"));
 
         // try catch for SQL/IO errors
         try {

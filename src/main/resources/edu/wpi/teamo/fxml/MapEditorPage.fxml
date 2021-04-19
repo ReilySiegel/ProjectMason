@@ -42,6 +42,11 @@
                      <Insets left="5.0" top="5.0" />
                   </HBox.margin>
                </JFXButton>
+               <JFXButton buttonType="RAISED" onAction="#handleSaveEdgeCSV" style="-fx-background-color: #B5BCBA;" text="Save Edge .csv">
+                  <HBox.margin>
+                     <Insets left="5.0" top="5.0" />
+                  </HBox.margin>
+               </JFXButton>
                   <JFXButton buttonType="RAISED" onAction="#backToMain" style="-fx-background-color: #F40F19;" text="Return">
                       <HBox.margin>
                           <Insets left="5.0" top="5.0" />
