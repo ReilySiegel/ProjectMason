@@ -619,7 +619,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 
         JFXButton closeButton = new JFXButton("Close");
-        closeButton.setStyle("#F40F19:0");
+        closeButton.setStyle("-fx-background-color: #F40F19");
         closeButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
