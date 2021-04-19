@@ -265,7 +265,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
         }
         catch(SQLException | NumberFormatException | AssertionError e){
-            showError();
+            showError("Please fill out all fields with valid arguments");
             return;
         }
 
@@ -284,7 +284,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
             updateNodeTreeDisplay();
         }
         catch (SQLException | AssertionError e){
-            showError();
+            showError("Please fill out all fields with valid arguments");
             return;
         }
     }
@@ -315,7 +315,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
             updateNodeTreeDisplay();
         }
         catch (SQLException | NumberFormatException | AssertionError e){
-            showError();
+            showError("Please fill out all fields with valid arguments");
             return;
         }
     }
@@ -336,7 +336,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         try {
             App.mapService.addEdge(newEdgeID, newEdgeNode1, newEdgeNode2);
         } catch (Exception SQLException) {
-            showError();
+            showError("Please fill out all fields with valid arguments");
             return;
         }
         updateEdgeTreeDisplay();
@@ -355,7 +355,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         try {
             App.mapService.deleteEdge(EdgetoDelete);
         } catch (Exception SQLException) {
-            showError();
+            showError("Please fill out all fields with valid arguments");
             return;
         }
         // updating the edge display
@@ -379,7 +379,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
             App.mapService.setEdgeStartID(newEditEdgeID, editEdgeNode1);
             App.mapService.setEdgeEndID(newEditEdgeID, editEdgeNode2);
         } catch (Exception FileNotFoundException) {
-            showError();
+            showError("Please fill out all fields with valid arguments");
             return;
         }
         updateEdgeTreeDisplay();
@@ -403,6 +403,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
             //App.mapService.loadNodesFromFile("src/test/resources/edu/wpi/teamo/map/database/testNodes.csv");
         }
         catch(NullPointerException | FileNotFoundException | SQLException e){
+            showError("Please select a valid file");
             return;
         }
 
@@ -446,6 +447,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
             String path = f.getPath();
             App.mapService.loadEdgesFromFile(path);
         } catch (FileNotFoundException | SQLException | NullPointerException e)  {
+            showError("Please select a valid file");
             return;
         }
         // updating display of all edges
@@ -612,10 +614,10 @@ public class MapEditorPage extends SubPageController implements Initializable{
     }
 
     @FXML
-    void showError(){
+    void showError(String message){
         JFXDialogLayout content = new JFXDialogLayout();
         content.setHeading(new Text("Error"));
-        content.setBody(new Text("Please fill out all fields with valid arguments"));
+        content.setBody(new Text(message));
         JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 
         JFXButton closeButton = new JFXButton("Close");
