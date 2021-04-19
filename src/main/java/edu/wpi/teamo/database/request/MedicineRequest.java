@@ -1,11 +1,12 @@
 package edu.wpi.teamo.database.request;
 
+import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import edu.wpi.teamo.database.Database;
 
 import java.util.stream.Stream;
 import java.sql.SQLException;
 
-public class MedicineRequest implements IMedicineRequestInfo {
+public class MedicineRequest extends RecursiveTreeObject<MedicineRequest> implements IMedicineRequestInfo {
     private String locationID;
     private boolean complete;
     private final String id;

@@ -127,6 +127,10 @@ public class SR07_Medicine extends ServiceRequestPage implements Initializable {
 
         if (validRequest) {
             App.requestService.requestMedicine(medicine, amount, room, assignName);
+            medErrorText.setText("");
+            amountErrorText.setText("");
+            roomErrorText.setText("");
+            assigneeErrorText.setText("");
             System.out.println("request successful");
         }
     }
