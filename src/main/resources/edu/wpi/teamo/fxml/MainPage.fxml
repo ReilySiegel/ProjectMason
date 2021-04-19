@@ -65,7 +65,7 @@
                   </ImageView>
                   <VBox alignment="CENTER_RIGHT" maxHeight="-Infinity" prefHeight="500.0" style="-fx-background-color: e2e2e2;" HBox.hgrow="ALWAYS">
                      <children>
-                        <JFXButton minHeight="20.0" minWidth="125.0" onAction="#handleServiceRequest" style="-fx-background-color: #9900dd;" text="Service Requests" textFill="WHITE">
+                        <JFXButton minHeight="20.0" minWidth="125.0" onAction="#handleServiceRequest" style="-fx-background-color: #9900dd;" text="%key.s_r_title" textFill="WHITE">
                            <font>
                               <Font size="36.0" />
                            </font>
@@ -87,6 +87,11 @@
                            </VBox.margin>
                            <font>
                               <Font size="36.0" />
+                           </font>
+                        </JFXButton>
+                        <JFXButton onAction="#langOnClick" prefHeight="46.0" prefWidth="147.0" style="-fx-background-color: #008CBA;" text="Switch locale" textFill="WHITE">
+                           <font>
+                              <Font size="20.0" />
                            </font>
                         </JFXButton>
                      </children>

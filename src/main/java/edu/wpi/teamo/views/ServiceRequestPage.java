@@ -6,14 +6,16 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
+import javax.annotation.Resource;
 import java.net.URL;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class ServiceRequestPage extends SubPageController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-    return;
+        return;
     }
 
 

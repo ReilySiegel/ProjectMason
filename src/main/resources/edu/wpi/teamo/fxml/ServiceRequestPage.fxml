@@ -13,7 +13,7 @@
    <children>
       <HBox layoutX="467.0" layoutY="14.0" prefHeight="100.0" prefWidth="269.0">
          <children>
-            <Label alignment="CENTER" prefHeight="45.0" prefWidth="265.0" text="  Service Requests" textFill="WHITE" textOverrun="CLIP">
+            <Label alignment="CENTER" prefHeight="45.0" prefWidth="265.0" text="%key.s_r_title" textFill="WHITE" textOverrun="CLIP">
                <font>
                   <Font name="System Bold" size="30.0" />
                </font>
@@ -49,7 +49,7 @@
                <children>
                   <HBox prefHeight="96.0" prefWidth="600.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <JFXButton alignment="CENTER" buttonType="RAISED" maxHeight="1.7976931348623157E308" onAction="#handleMedicine" prefWidth="268.0" ripplerFill="#b84e4e" style="-fx-background-color: #b84e4e;" text="Medicine" textFill="WHITE" HBox.hgrow="ALWAYS">
+                        <JFXButton alignment="CENTER" buttonType="RAISED" maxHeight="1.7976931348623157E308" onAction="#handleMedicine" prefWidth="268.0" ripplerFill="#b84e4e" style="-fx-background-color: #b84e4e;" text="%key.s_r_medicine" textFill="WHITE" HBox.hgrow="ALWAYS">
                            <font>
                               <Font size="27.0" />
                            </font>

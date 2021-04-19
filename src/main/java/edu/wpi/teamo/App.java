@@ -69,7 +69,7 @@ public class App extends Application {
     resourceBundle = ResourceBundle.getBundle(localesPath + "en_US", defaultLocale);
     selectedLocale = LocaleType.en_US;
     try {
-      Parent root = FXMLLoader.load(getClass().getResource("fxml/MainPage.fxml"));
+      Parent root = FXMLLoader.load(getClass().getResource("fxml/MainPage.fxml"),resourceBundle);
       Scene scene = new Scene(root);
       primaryStage.setScene(scene);
       primaryStage.show();
@@ -103,7 +103,7 @@ public class App extends Application {
    * @param country country code (upper case)
    * @param type Selected locale type
    */
-  public static void switchLocale(String lang, String country,  LocaleType type) {
+  public static void switchLocale(String lang, String country, LocaleType type) {
     Locale locale = new Locale(lang, country);
     try {
       resourceBundle = ResourceBundle.getBundle(localesPath + lang + "_" + country, locale);
@@ -113,6 +113,8 @@ public class App extends Application {
       resourceBundle = ResourceBundle.getBundle(localesPath + "en_US", locale);
       selectedLocale = LocaleType.en_US;
     }
+    //Update main page
+    switchPage(Pages.MAIN);
   }
 
   @Override
