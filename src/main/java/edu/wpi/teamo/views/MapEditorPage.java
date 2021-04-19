@@ -29,12 +29,15 @@ import javafx.fxml.Initializable;
 import edu.wpi.teamo.database.map.NodeInfo;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 
@@ -127,6 +130,17 @@ public class MapEditorPage extends SubPageController implements Initializable{
     @FXML
     private JFXTextField editingEdge;
 
+    @FXML
+    private JFXTextField editingStart;
+
+    @FXML
+    private JFXTextField editingEnd;
+
+    @FXML
+    private Canvas mapCanvas;
+
+    Map map;
+
     boolean treeInit = false;
 
     boolean treeEdgeInit = false;
@@ -138,6 +152,9 @@ public class MapEditorPage extends SubPageController implements Initializable{
      */
     @Override
     public void initialize(URL location, ResourceBundle resources){
+
+        map = new Map(mapCanvas);
+
         NumberValidator numberValidator = new NumberValidator();
 
         editNodeSubmit.setDisable(true);
@@ -248,7 +265,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
         }
         catch(SQLException | NumberFormatException | AssertionError e){
-            showError();
+            showError("Please fill out all fields with valid arguments");
             return;
         }
 
@@ -267,7 +284,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
             updateNodeTreeDisplay();
         }
         catch (SQLException | AssertionError e){
-            showError();
+            showError("Please fill out all fields with valid arguments");
             return;
         }
     }
@@ -298,7 +315,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
             updateNodeTreeDisplay();
         }
         catch (SQLException | NumberFormatException | AssertionError e){
-            showError();
+            showError("Please fill out all fields with valid arguments");
             return;
         }
     }
@@ -319,7 +336,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         try {
             App.mapService.addEdge(newEdgeID, newEdgeNode1, newEdgeNode2);
         } catch (Exception SQLException) {
-            showError();
+            showError("Please fill out all fields with valid arguments");
             return;
         }
         updateEdgeTreeDisplay();
@@ -338,7 +355,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         try {
             App.mapService.deleteEdge(EdgetoDelete);
         } catch (Exception SQLException) {
-            showError();
+            showError("Please fill out all fields with valid arguments");
             return;
         }
         // updating the edge display
@@ -362,7 +379,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
             App.mapService.setEdgeStartID(newEditEdgeID, editEdgeNode1);
             App.mapService.setEdgeEndID(newEditEdgeID, editEdgeNode2);
         } catch (Exception FileNotFoundException) {
-            showError();
+            showError("Please fill out all fields with valid arguments");
             return;
         }
         updateEdgeTreeDisplay();
@@ -386,6 +403,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
             //App.mapService.loadNodesFromFile("src/test/resources/edu/wpi/teamo/map/database/testNodes.csv");
         }
         catch(NullPointerException | FileNotFoundException | SQLException e){
+            showError("Please select a valid file");
             return;
         }
 
@@ -429,6 +447,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
             String path = f.getPath();
             App.mapService.loadEdgesFromFile(path);
         } catch (FileNotFoundException | SQLException | NullPointerException e)  {
+            showError("Please select a valid file");
             return;
         }
         // updating display of all edges
@@ -539,6 +558,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
         treeView.setRoot(root);
         treeView.setShowRoot(false);
+        updateMap();
     }
 
     @FXML
@@ -590,17 +610,18 @@ public class MapEditorPage extends SubPageController implements Initializable{
         }
         treeViewEdge.setRoot(root);
         treeViewEdge.setShowRoot(false);
+        updateMap();
     }
 
     @FXML
-    void showError(){
+    void showError(String message){
         JFXDialogLayout content = new JFXDialogLayout();
         content.setHeading(new Text("Error"));
-        content.setBody(new Text("Please fill out all fields with valid arguments"));
+        content.setBody(new Text(message));
         JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 
         JFXButton closeButton = new JFXButton("Close");
-        closeButton.setStyle("#F40F19");
+        closeButton.setStyle("-fx-background-color: #F40F19");
         closeButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -610,5 +631,15 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
         content.setActions(closeButton);
         errorWindow.show();
+    }
+
+    void updateMap() {
+        try {
+            List<NodeInfo> nodeList = App.mapService.getAllNodes().collect(Collectors.toList());
+            List<EdgeInfo> edgeList = App.mapService.getAllEdges().collect(Collectors.toList());
+            map.drawMap(nodeList, edgeList);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 }

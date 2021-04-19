@@ -5,10 +5,13 @@
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXTreeTableView?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
@@ -23,17 +26,12 @@
           </effect>
           <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #B5BCBA;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="220.0" AnchorPane.topAnchor="0.0">
               <HBox prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #5D5A5A;">
-                  <JFXButton buttonType="RAISED" onAction="#handleLoadNodeCSV" style="-fx-background-color: #B5BCBA;" text="Load .csv">
+                  <JFXButton buttonType="RAISED" onAction="#handleLoadNodeCSV" style="-fx-background-color: #B5BCBA;" text="Load Node .csv">
                       <HBox.margin>
                           <Insets left="5.0" top="5.0" />
                       </HBox.margin>
                   </JFXButton>
-                  <JFXButton buttonType="RAISED" onAction="#handleSaveNodeCSV" style="-fx-background-color: #B5BCBA;" text="Save .csv">
-                      <HBox.margin>
-                          <Insets left="5.0" top="5.0" />
-                      </HBox.margin>
-                  </JFXButton>
-                  <JFXButton buttonType="RAISED" onAction="#backToMain" style="-fx-background-color: #F40F19;" text="Return">
+                  <JFXButton buttonType="RAISED" onAction="#handleSaveNodeCSV" style="-fx-background-color: #B5BCBA;" text="Save Node .csv">
                       <HBox.margin>
                           <Insets left="5.0" top="5.0" />
                       </HBox.margin>
@@ -43,12 +41,26 @@
                      <Insets left="5.0" top="5.0" />
                   </HBox.margin>
                </JFXButton>
+                  <JFXButton buttonType="RAISED" onAction="#backToMain" style="-fx-background-color: #F40F19;" text="Return">
+                      <HBox.margin>
+                          <Insets left="5.0" top="5.0" />
+                      </HBox.margin>
+                  </JFXButton>
               </HBox>
             <JFXTabPane VBox.vgrow="ALWAYS">
                <tabs>
                   <Tab fx:id="tab1" text="Map View">
                      <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <ImageView fitHeight="711.0" fitWidth="980.0" layoutX="-1.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@Maps/00_thegroundfloor.png" />
+                                 </image>
+                              </ImageView>
+                              <Canvas fx:id="mapCanvas" height="668.0" layoutX="-1.0" width="980.0" />
+                           </children>
+                        </AnchorPane>
                      </content>
                   </Tab>
                   <Tab fx:id="tab2" text="List View">
