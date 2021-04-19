@@ -19,7 +19,7 @@ public class RequestDB implements IRequestService {
         while (medicineRequestExists(String.valueOf(id)) && id < 9999) { id++; }
 
         MedicineRequest mr = new MedicineRequest(String.valueOf(id), type, amount, locationID, assigned);
-        mr.update();
+        mr.update(db);
 
         return mr.getID();
     }
@@ -30,7 +30,7 @@ public class RequestDB implements IRequestService {
         while (sanitationRequestExists(String.valueOf(id)) && id < 9999) { id++; }
 
         SanitationRequest sr = new SanitationRequest(String.valueOf(id), location, assigned, details);
-        sr.update();
+        sr.update(db);
 
         return sr.getID();
     }
@@ -69,14 +69,14 @@ public class RequestDB implements IRequestService {
     public void setSanitationCompleted(String requestID) throws SQLException {
         SanitationRequest sr = SanitationRequest.getByID(db, requestID);
         sr.setComplete(true);
-        sr.update();
+        sr.update(db);
     }
 
     @Override
     public void setMedicineCompleted(String requestID) throws SQLException {
         MedicineRequest mr = MedicineRequest.getByID(db, requestID);
         mr.setComplete(true);
-        mr.update();
+        mr.update(db);
     }
 
     @Override
