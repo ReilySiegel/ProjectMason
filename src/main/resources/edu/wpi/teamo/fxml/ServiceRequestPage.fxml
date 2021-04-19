@@ -133,7 +133,7 @@
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <JFXButton maxHeight="1.7976931348623157E308" prefWidth="268.0" style="-fx-background-color: #b84e4e;" text="Language Interpeter" textFill="WHITE">
+                        <JFXButton maxHeight="1.7976931348623157E308" prefWidth="268.0" style="-fx-background-color: #b84e4e;" text="Language Interpreter" textFill="WHITE">
                            <font>
                               <Font size="24.0" />
                            </font>
