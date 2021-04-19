@@ -57,6 +57,7 @@ public class MapDB implements IMapService {
     }
 
     public void loadEdgesFromFile(String filepath) throws FileNotFoundException, SQLException {
+        deleteEdges();
         /* read file */
         Stream<Edge> edgeStream = EdgeCSV.read(filepath);
         /* save to the database */
@@ -64,6 +65,7 @@ public class MapDB implements IMapService {
     }
 
     public void loadNodesFromFile(String filepath) throws FileNotFoundException, SQLException {
+        deleteNodes();
         /* read file */
         Stream<Node> nodeStream = NodeCSV.read(filepath);
         /* save to the database */
@@ -269,10 +271,18 @@ public class MapDB implements IMapService {
 
     @Override
     public void deleteMap() throws SQLException {
-        List<Node> nodes = Node.getAll(db).collect(Collectors.toList());
+        deleteEdges();
+        deleteNodes();
+    }
+
+    private void deleteEdges() throws SQLException {
         List<Edge> edges = Edge.getAll(db).collect(Collectors.toList());
-        for (Node node : nodes) { node.delete(db); }
         for (Edge edge : edges) { edge.delete(db); }
+    }
+
+    private void deleteNodes() throws SQLException {
+        List<Node> nodes = Node.getAll(db).collect(Collectors.toList());
+        for (Node node : nodes) { node.delete(db); }
     }
 
     public void writeEdgesToCSV(String filepath) throws SQLException, IOException {
