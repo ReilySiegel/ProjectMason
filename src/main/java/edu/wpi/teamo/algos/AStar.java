@@ -101,27 +101,23 @@ public class AStar {
     }
 
     /**
-     * returns true idf the end node is the same as the current id
-     * @param n
-     * @return
+     * returns true if the end node is the same as the current id
+     * @param n node to test
+     * @return true of end node, false otherwise
      */
-
-
     public boolean isEnd(AlgoNode n)
     {
-        return n == stringToNode(endID)||n.getID() == endID;
-
+        return n == stringToNode(endID)|| n.getID().equals(endID);
     }
 
     /**
-     * cehcks between the two nodes passed which one has the lower f cost and
-     * if the fcost is equal it prortizes
+     * checks between the two nodes passed which one has the lower f cost and
+     * if the fcost is equal it prioritizes
      * TODO: (Made public for now since it was throwing errors in the tests)
-     * @param n
-     * @param currentNode
-     * @return
+     * @param n node to check
+     * @param currentNode current node
+     * @return true if n's fcost is lower than currentNode's fcost, or if the fcosts are the same and if n's hcost is lower than currentNode's hcost, and false otherwise
      */
-
     public boolean lowerFcost(AlgoNode n , AlgoNode currentNode)
 
     {

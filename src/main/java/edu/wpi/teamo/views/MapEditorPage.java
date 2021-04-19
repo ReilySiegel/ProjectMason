@@ -23,6 +23,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 
 import edu.wpi.teamo.database.map.NodeInfo;
@@ -31,9 +32,16 @@ import javafx.fxml.FXML;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 
 public class MapEditorPage extends SubPageController implements Initializable{
+
+    @FXML
+    private StackPane stackPane;
 
     @FXML
     private JFXTreeTableView<Node> treeView;
@@ -238,23 +246,17 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
 
         try{
-            if(newNodeX.equals("")){
-                newNodeX = "0";
-            }
-            if(newNodeY.equals("")){
-                newNodeY = "0";
-            }
             App.mapService.addNode(newNodeID, Integer.parseInt(newNodeX), Integer.parseInt(newNodeY),
                     newNodeFloor, newNodeBuilding, newNodeType,
                     newNodeLN, newNodeSN);
             updateNodeTreeDisplay();
 
         }
-        catch(SQLException | NumberFormatException e){
+        catch(SQLException | NumberFormatException | AssertionError e){
+            showError();
             return;
         }
 
-        updateNodeTreeDisplay();
     }
 
     /**
@@ -269,11 +271,10 @@ public class MapEditorPage extends SubPageController implements Initializable{
             App.mapService.deleteNode(deleteNode);
             updateNodeTreeDisplay();
         }
-        catch (SQLException e){
+        catch (SQLException | AssertionError e){
+            showError();
             return;
         }
-
-        updateNodeTreeDisplay();
     }
 
     /**
@@ -292,29 +293,25 @@ public class MapEditorPage extends SubPageController implements Initializable{
         String newNodeSN = origNodeSN.getText();
 
         try{
-            if(newNodeX.equals("")){
-                newNodeX = "0";
-            }
-            if(newNodeY.equals("")){
-                newNodeY = "0";
-            }
             App.mapService.setNodePosition(currentNodeID, Integer.parseInt(newNodeX), Integer.parseInt(newNodeY));
+            App.mapService.setNodeBuilding(currentNodeID, newNodeBuild);
+            App.mapService.setNodeFloor(currentNodeID, newNodeFloor);
+            App.mapService.setNodeType(currentNodeID, newNodeType);
             App.mapService.setNodeLongName(currentNodeID, newNodeLN);
+            App.mapService.setNodeShortName(currentNodeID, newNodeSN);
 
             updateNodeTreeDisplay();
         }
-        catch (SQLException e){
+        catch (SQLException | NumberFormatException | AssertionError e){
+            showError();
             return;
         }
-
-        updateNodeTreeDisplay();
     }
 
 
 
     /**
-     * handles editing a edge
-     *
+     * handles editing an edge
      * @param event clicking submit button
      */
     @FXML
@@ -327,9 +324,9 @@ public class MapEditorPage extends SubPageController implements Initializable{
         try {
             App.mapService.addEdge(newEdgeID, newEdgeNode1, newEdgeNode2);
         } catch (Exception SQLException) {
+            showError();
             return;
         }
-        //updateDisplay();
         updateEdgeTreeDisplay();
     }
 
@@ -346,10 +343,10 @@ public class MapEditorPage extends SubPageController implements Initializable{
         try {
             App.mapService.deleteEdge(EdgetoDelete);
         } catch (Exception SQLException) {
+            showError();
             return;
         }
         // updating the edge display
-        //updateDisplay();
         updateEdgeTreeDisplay();
     }
 
@@ -370,6 +367,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
             App.mapService.setEdgeStartID(newEditEdgeID, editEdgeNode1);
             App.mapService.setEdgeEndID(newEditEdgeID, editEdgeNode2);
         } catch (Exception FileNotFoundException) {
+            showError();
             return;
         }
         updateEdgeTreeDisplay();
@@ -597,5 +595,25 @@ public class MapEditorPage extends SubPageController implements Initializable{
         }
         treeViewEdge.setRoot(root);
         treeViewEdge.setShowRoot(false);
+    }
+
+    @FXML
+    void showError(){
+        JFXDialogLayout content = new JFXDialogLayout();
+        content.setHeading(new Text("Error"));
+        content.setBody(new Text("Please fill out all fields with valid arguments"));
+        JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
+
+        JFXButton closeButton = new JFXButton("Close");
+        closeButton.setStyle("#F40F19");
+        closeButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                errorWindow.close();
+            }
+        });
+
+        content.setActions(closeButton);
+        errorWindow.show();
     }
 }

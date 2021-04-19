@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import edu.wpi.teamo.database.Database;
 import edu.wpi.teamo.database.map.Node;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import java.util.stream.Stream;
 import java.sql.SQLException;
@@ -129,40 +130,41 @@ public class NodeTests {
     }
 
     @Test
-    public void testUpdate() {
+    public void testUpdate() throws SQLException, ClassNotFoundException {
         String initialName = "initialName";
         String modifiedName = "newName";
         String nodeID = "nodeID1";
 
-        try {
-            Database db = new Database(Database.getMemoryURIFromName("UpdateNode"));
-            Node.initTable(db);
+        Database db = new Database(Database.getMemoryURIFromName("UpdateNode"));
+        Node.initTable(db);
 
-            /* store an node */
-            Node nodeToStore = new Node(nodeID, 1, 1, "xd", "xd", "xd", initialName, "xd");
-            nodeToStore.update(db);
+        assertThrows(IllegalArgumentException.class, () -> {
+            Node invalidNode = new Node(nodeID, 1, 1, "", "", "", "", "");
+            invalidNode.update(db);
+        });
 
-            /* fetch it */
-            Node nodeToModify = Node.getByID(db, nodeID);
+        /* store an node */
+        Node nodeToStore = new Node(nodeID, 1, 1, "xd", "xd", "xd", initialName, "xd");
+        nodeToStore.update(db);
 
-            /* modify it */
-            nodeToModify.setLongName(modifiedName);
+        /* fetch it */
+        Node nodeToModify = Node.getByID(db, nodeID);
 
-            /* store it */
-            nodeToModify.update(db);
+        /* modify it */
+        nodeToModify.setLongName(modifiedName);
 
-            /* fetch again */
-            Node nodeToCheck = Node.getByID(db, nodeID);
+        /* store it */
+        nodeToModify.update(db);
 
-            /* check if it has been modified */
-            assertEquals(modifiedName, nodeToCheck.getLongName());
-            assertEquals(nodeID, nodeToCheck.getNodeID());
+        /* fetch again */
+        Node nodeToCheck = Node.getByID(db, nodeID);
 
-            db.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-            fail(e.getMessage());
-        }
+        /* check if it has been modified */
+        assertEquals(modifiedName, nodeToCheck.getLongName());
+        assertEquals(nodeID, nodeToCheck.getNodeID());
+
+        db.close();
+
     }
 
     @Test

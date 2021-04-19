@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.*;
 
-public class        AStarManager implements AStarService {
+public class AStarManager implements AStarService {
     private IMapService DBService;
 
     /**
@@ -45,7 +45,13 @@ public class        AStarManager implements AStarService {
         //Convert Database types to Algorithm-friendly types
         LinkedList<AlgoNode> allNodes = new LinkedList<>();
         for(NodeInfo rawNode : rawNodes) {
-            AlgoNode n = new AlgoNode(rawNode.getNodeID(), rawNode.getXPos(), rawNode.getYPos(), rawNode.getFloor(), NodeType.valueOf(rawNode.getNodeType()), rawNode.getLongName(), rawNode.getShortName());
+            AlgoNode n;
+            try {
+                n = new AlgoNode(rawNode.getNodeID(), rawNode.getXPos(), rawNode.getYPos(), rawNode.getFloor(), NodeType.valueOf(rawNode.getNodeType()), rawNode.getLongName(), rawNode.getShortName());
+            }
+            catch(IllegalArgumentException e) {
+                n = new AlgoNode(rawNode.getNodeID(), rawNode.getXPos(), rawNode.getYPos(), rawNode.getFloor(), NodeType.NULL, rawNode.getLongName(), rawNode.getShortName());
+            }
             allNodes.add(n);
         }
 

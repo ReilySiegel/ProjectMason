@@ -102,7 +102,15 @@ public class Node extends RecursiveTreeObject<Node> implements NodeInfo {
      * @throws SQLException When the database is not properly initialized,
      * or the node object's attributes are invalid.
      */
-    public void update(Database db) throws SQLException {
+    public void update(Database db) throws SQLException, IllegalArgumentException {
+
+        if (this.shortName == null || this.shortName.isEmpty()) throw new IllegalArgumentException("invalid shortName");
+        if (this.building == null  || this.building.isEmpty())  throw new IllegalArgumentException("invalid building");
+        if (this.longName == null  || this.longName.isEmpty())  throw new IllegalArgumentException("invalid longName");
+        if (this.nodeType == null  || this.nodeType.isEmpty())  throw new IllegalArgumentException("invalid nodeType");
+        if (this.floor == null     || this.floor.isEmpty())     throw new IllegalArgumentException("invalid floor");
+        if (this.nodeID == null    || this.nodeID.isEmpty())    throw new IllegalArgumentException("invalid ID");
+
         // Apache Derby does not have upsert, so we must try both an insert and update.
         try {
             db.processUpdate("INSERT INTO AlgoNode (nodeID, xcoord, ycoord, floor, building, nodeType, " +

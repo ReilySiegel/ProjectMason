@@ -157,31 +157,32 @@ public class EdgeTests {
     }
 
     @Test
-    public void testDelete() {
+    public void testDelete() throws SQLException, ClassNotFoundException {
 
         String edgeID = "edgeID1";
 
-        try {
-            Database db = new Database(Database.getMemoryURIFromName("Deleteedge"));
-            Edge.initTable(db);
+        Database db = new Database(Database.getMemoryURIFromName("DeleteEdge"));
+        Edge.initTable(db);
 
-            /* store an edge */
-            Edge edgeToStore = new Edge(edgeID, "Test", "test");
-            edgeToStore.update(db);
+        assertThrows(IllegalArgumentException.class, () -> {
+            Edge invalidEdge = new Edge(edgeID, "", "");
+            invalidEdge.update(db);
+        });
 
-            /* fetch it */
-            Edge edgeToModify = Edge.getByID(db, edgeID);
+        /* store an edge */
+        Edge edgeToStore = new Edge(edgeID, "Test", "test");
+        edgeToStore.update(db);
 
-            /* delete it */
-            edgeToModify.delete(db);
+        /* fetch it */
+        Edge edgeToModify = Edge.getByID(db, edgeID);
 
-            /* Check that edge no longer exists */
-            assertThrows(SQLException.class, () -> Edge.getByID(db, edgeID));
+        /* delete it */
+        edgeToModify.delete(db);
 
-            db.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-            fail(e.getMessage());
-        }
+        /* Check that edge no longer exists */
+        assertThrows(SQLException.class, () -> Edge.getByID(db, edgeID));
+
+        db.close();
+
     }
 }
