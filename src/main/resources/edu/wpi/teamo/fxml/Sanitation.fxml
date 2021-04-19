@@ -128,7 +128,7 @@
                   <Insets left="50.0" />
                </HBox.margin>
             </JFXButton>
-            <JFXButton buttonType="RAISED" onAction="#backToMain" style="-fx-background-color: #444;" text="Back" textFill="WHITE">
+            <JFXButton buttonType="RAISED" onAction="#handleBackToServicePage" style="-fx-background-color: #444;" text="Back" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>
