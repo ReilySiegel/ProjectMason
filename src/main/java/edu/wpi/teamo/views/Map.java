@@ -12,7 +12,7 @@ import java.io.FileInputStream;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Map {
+public class Map  {
 
     ImageView imageView;
     GraphicsContext gc;
