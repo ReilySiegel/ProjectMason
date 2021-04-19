@@ -15,7 +15,7 @@
    <children>
       <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #001a3c;">
          <top>
-            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Home Page" BorderPane.alignment="CENTER">
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.main_page" BorderPane.alignment="CENTER">
                <font>
                   <Font name="Georgia" size="48.0" />
                </font>
@@ -25,9 +25,9 @@
             </Text>
          </top>
          <bottom>
-            <HBox maxHeight="-Infinity" minHeight="-Infinity" prefHeight="60.0" prefWidth="1200.0" style="-fx-background-color: #001a3c;" BorderPane.alignment="CENTER">
+            <HBox maxHeight="-Infinity" minHeight="-Infinity" minWidth="750.0" prefHeight="60.0" prefWidth="1200.0" style="-fx-background-color: #001a3c;" BorderPane.alignment="CENTER">
                <children>
-                  <JFXButton buttonType="RAISED" onAction="#handleHelp" style="-fx-background-color: #000080;" text="Help" textFill="WHITE">
+                  <JFXButton buttonType="RAISED" minWidth="100.0" onAction="#handleHelp" prefHeight="39.0" prefWidth="69.0" style="-fx-background-color: #000080;" text="%key.help" textFill="WHITE">
                      <HBox.margin>
                         <Insets left="30.0" />
                      </HBox.margin>
@@ -35,9 +35,9 @@
                         <Font size="18.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton fx:id="closeButton" alignment="CENTER" buttonType="RAISED" onAction="#closeWindow" prefWidth="62.0" style="-fx-background-color: #db1212;" text="Exit" textFill="WHITE">
+                  <JFXButton fx:id="closeButton" alignment="CENTER" buttonType="RAISED" minWidth="100.0" onAction="#closeWindow" style="-fx-background-color: #db1212;" text="%key.exit" textFill="WHITE">
                      <HBox.margin>
-                        <Insets left="1000.0" />
+                        <Insets left="950.0" right="10.0" />
                      </HBox.margin>
                      <font>
                         <Font size="18.0" />
@@ -65,28 +65,33 @@
                   </ImageView>
                   <VBox alignment="CENTER_RIGHT" maxHeight="-Infinity" prefHeight="500.0" style="-fx-background-color: e2e2e2;" HBox.hgrow="ALWAYS">
                      <children>
-                        <JFXButton minHeight="20.0" minWidth="125.0" onAction="#handleServiceRequest" style="-fx-background-color: #9900dd;" text="Service Requests" textFill="WHITE">
+                        <JFXButton minHeight="20.0" minWidth="125.0" onAction="#handleServiceRequest" prefWidth="400.0" style="-fx-background-color: #9900dd;" text="%key.s_r_title" textFill="WHITE">
                            <font>
-                              <Font size="36.0" />
+                              <Font size="30.0" />
                            </font>
                            <VBox.margin>
                               <Insets bottom="10.0" top="10.0" />
                            </VBox.margin>
                         </JFXButton>
-                        <JFXButton minHeight="20.0" minWidth="125.0" onAction="#handleMapEditor" prefWidth="314.0" style="-fx-background-color: #008CBA;" text="Map Editor" textFill="WHITE">
+                        <JFXButton minHeight="20.0" minWidth="400.0" onAction="#handleMapEditor" prefWidth="400.0" style="-fx-background-color: #008CBA;" text="%key.map_editor" textFill="WHITE">
                            <VBox.margin>
                               <Insets bottom="10.0" top="10.0" />
                            </VBox.margin>
                            <font>
-                              <Font size="36.0" />
+                              <Font size="30.0" />
                            </font>
                         </JFXButton>
-                        <JFXButton minHeight="20.0" minWidth="125.0" onAction="#handlePathfinding" prefWidth="314.0" style="-fx-background-color: #ff9900;" text="Pathfinding" textFill="WHITE">
+                        <JFXButton minHeight="20.0" minWidth="400.0" onAction="#handlePathfinding" prefWidth="400.0" style="-fx-background-color: #ff9900;" text="%key.pathfinding" textFill="WHITE">
                            <VBox.margin>
                               <Insets bottom="10.0" top="10.0" />
                            </VBox.margin>
                            <font>
-                              <Font size="36.0" />
+                              <Font size="30.0" />
+                           </font>
+                        </JFXButton>
+                        <JFXButton onAction="#langOnClick" prefHeight="46.0" prefWidth="147.0" style="-fx-background-color: #008CBA;" text="Switch locale" textFill="WHITE">
+                           <font>
+                              <Font size="20.0" />
                            </font>
                         </JFXButton>
                      </children>

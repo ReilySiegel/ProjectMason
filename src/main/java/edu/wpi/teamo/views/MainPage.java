@@ -5,6 +5,8 @@ import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
 import edu.wpi.teamo.App;
 import java.io.IOException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import edu.wpi.teamo.Pages;
 import javafx.event.ActionEvent;
@@ -92,4 +94,21 @@ public class MainPage {
         errorWindow.show();
     }
 
+    /**
+     * Toggles between spanish and english (later on implement dedicated page for multiple languages?)
+     * @param e action event
+     */
+    @FXML
+    private void langOnClick(ActionEvent e) {
+        switch(App.selectedLocale) {
+            case en_US: {
+                App.switchLocale("es", "ES", LocaleType.es_ES);
+                break;
+            }
+            case es_ES: {
+                App.switchLocale("en", "US", LocaleType.en_US);
+                break;
+            }
+        }
+    }
 }
