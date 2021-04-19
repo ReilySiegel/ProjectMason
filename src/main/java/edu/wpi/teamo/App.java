@@ -7,6 +7,7 @@ import edu.wpi.teamo.algos.AStarManager;
 import edu.wpi.teamo.algos.AStarService;
 import edu.wpi.teamo.database.map.MapDB;
 import edu.wpi.teamo.database.Database;
+import edu.wpi.teamo.views.LocaleType;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +16,7 @@ import java.io.IOException;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import java.util.EnumMap;
+import java.util.*;
 
 public class App extends Application {
 
@@ -24,6 +25,11 @@ public class App extends Application {
   public static AStarService aStarService = null;
   public static IMapService mapService = null;
   private static Stage primaryStage;
+
+  //Internationalization
+  private static ResourceBundle resourceBundle;
+  public static LocaleType selectedLocale;
+  public static final String localesPath = "edu.wpi.teamo.locales.";
 
   @Override
   public void init() {
@@ -59,6 +65,9 @@ public class App extends Application {
   @Override
   public void start(Stage primaryStage) {
     App.primaryStage = primaryStage;
+    Locale defaultLocale = new Locale("en","US");
+    resourceBundle = ResourceBundle.getBundle(localesPath + "en_US", defaultLocale);
+    selectedLocale = LocaleType.en_US;
     try {
       Parent root = FXMLLoader.load(getClass().getResource("fxml/MainPage.fxml"));
       Scene scene = new Scene(root);
@@ -81,10 +90,28 @@ public class App extends Application {
   public static void switchPage(Pages page) {
     String pagePath = pagePaths.get(page);
     try {
-      Parent root = FXMLLoader.load(App.class.getResource(pagePath));
+      Parent root = FXMLLoader.load(App.class.getResource(pagePath),resourceBundle);
       App.getPrimaryStage().getScene().setRoot(root);
     } catch (IOException ex) {
       ex.printStackTrace();
+    }
+  }
+
+  /**
+   * Switch between different languages, falls back to en_US if lang or country parameters are malformed
+   * @param lang language code (lower case)
+   * @param country country code (upper case)
+   * @param type Selected locale type
+   */
+  public static void switchLocale(String lang, String country,  LocaleType type) {
+    Locale locale = new Locale(lang, country);
+    try {
+      resourceBundle = ResourceBundle.getBundle(localesPath + lang + "_" + country, locale);
+      selectedLocale = type;
+    }
+    catch(Exception e) {
+      resourceBundle = ResourceBundle.getBundle(localesPath + "en_US", locale);
+      selectedLocale = LocaleType.en_US;
     }
   }
 
