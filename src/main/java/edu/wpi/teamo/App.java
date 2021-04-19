@@ -29,7 +29,7 @@ public class App extends Application {
   //Internationalization
   private static ResourceBundle resourceBundle;
   public static LocaleType selectedLocale;
-  public static final String localesPath = "edu.wpi.teamo.locales.";
+  private static final String localesPath = "edu.wpi.teamo.locales.";
 
   @Override
   public void init() {
