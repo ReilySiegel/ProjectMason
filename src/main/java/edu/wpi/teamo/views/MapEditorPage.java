@@ -29,12 +29,15 @@ import javafx.fxml.Initializable;
 import edu.wpi.teamo.database.map.NodeInfo;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 
@@ -127,6 +130,17 @@ public class MapEditorPage extends SubPageController implements Initializable{
     @FXML
     private JFXTextField editingEdge;
 
+    @FXML
+    private JFXTextField editingStart;
+
+    @FXML
+    private JFXTextField editingEnd;
+
+    @FXML
+    private Canvas mapCanvas;
+
+    Map map;
+
     boolean treeInit = false;
 
     boolean treeEdgeInit = false;
@@ -138,6 +152,9 @@ public class MapEditorPage extends SubPageController implements Initializable{
      */
     @Override
     public void initialize(URL location, ResourceBundle resources){
+
+        map = new Map(mapCanvas);
+
         NumberValidator numberValidator = new NumberValidator();
 
         editNodeSubmit.setDisable(true);
@@ -539,6 +556,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
         treeView.setRoot(root);
         treeView.setShowRoot(false);
+        updateMap();
     }
 
     @FXML
@@ -590,6 +608,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         }
         treeViewEdge.setRoot(root);
         treeViewEdge.setShowRoot(false);
+        updateMap();
     }
 
     @FXML
@@ -600,7 +619,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 
         JFXButton closeButton = new JFXButton("Close");
-        closeButton.setStyle("#F40F19");
+        closeButton.setStyle("#F40F19:0");
         closeButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -610,5 +629,15 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
         content.setActions(closeButton);
         errorWindow.show();
+    }
+
+    void updateMap() {
+        try {
+            List<NodeInfo> nodeList = App.mapService.getAllNodes().collect(Collectors.toList());
+            List<EdgeInfo> edgeList = App.mapService.getAllEdges().collect(Collectors.toList());
+            map.drawMap(nodeList, edgeList);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 }
