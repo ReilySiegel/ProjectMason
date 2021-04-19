@@ -42,13 +42,7 @@ public class AStarTests {
         edges.add(new Edge("oPARK00101_oPARK00301","oPARK00101","oPARK00301"));
         edges.add(new Edge("oPARK00101_oPARK00601","oPARK00101","oPARK00601"));
         edges.add(new Edge("oPARK00101_oPARK00201","oPARK00101","oPARK00201"));
-        edges.add(new Edge("oPARK00201_oPARK00701","oPARK00201","oPARK00701"));
-        edges.add(new Edge("oPARK00601_oPARK00401","oPARK00601","oPARK00401"));
-        edges.add(new Edge("oPARK00601_oPARK00501","oPARK00601","oPARK00501"));
-        edges.add(new Edge("oPARK00701_oPARK00401","oPARK00701","oPARK00401"));
-        edges.add(new Edge("oPARK00701_oPARK00801","oPARK00701","oPARK00801"));
-        edges.add(new Edge("oPARK00801_oPARK00901","oPARK00801","oPARK00901"));
-        edges.add(new Edge("oPARK00801_oPARK01001","oPARK00801","oPARK01001"));
+
 
         // Test for assignNodeAdjacency logics
         AStarManager.assignNodeAdjacency(nodes, edges);
@@ -56,16 +50,26 @@ public class AStarTests {
         AStar a = new AStar(nodes, edges, "","");
         a.setAllTheNodes(nodes);
 
-        LinkedList<AlgoNode> pathP10_P5 = a.findPath("oPARK01001","oPARK00501");
+        /**
+         * Test for helper function adjacenciesToNodes(AlgoNode node)
+         * checking all the adjacent nodes for n1
+         */
 
-        assertEquals(6, pathP10_P5.size());
-        assertEquals(n10, pathP10_P5.get(0));
-        assertEquals(n8, pathP10_P5.get(1));
-        assertEquals(n7, pathP10_P5.get(2));
-        assertEquals(n4, pathP10_P5.get(3));
-        assertEquals(n6, pathP10_P5.get(4));
-        assertEquals(n5, pathP10_P5.get(5));
+        LinkedList<AlgoNode> adjacentNodesForN1 = a.adjacenciesToNodes(n1);
+        LinkedList<AlgoNode> adjacentNodesForN1Expected = new LinkedList<>();
+        adjacentNodesForN1Expected.add(n2);
+        adjacentNodesForN1Expected.add(n3);
+        adjacentNodesForN1Expected.add(n6);
 
+        assertEquals(adjacentNodesForN1.size(),adjacentNodesForN1Expected.size());
+        assertTrue(adjacentNodesForN1.contains(n2));
+        assertTrue(adjacentNodesForN1Expected.contains(n2));
+        assertTrue(adjacentNodesForN1.contains(n3));
+        assertTrue(adjacentNodesForN1Expected.contains(n3));
+        assertTrue(adjacentNodesForN1.contains(n6));
+        assertTrue(adjacentNodesForN1Expected.contains(n6));
+
+        System.out.println("If reach here, tests for Astar.adjacenciesToNodes() are passed!");
 
     }
 
@@ -87,6 +91,7 @@ public class AStarTests {
         l.addLast(m);
         AStar a = new AStar(l,null,"n001","n001");
         assertTrue(a.lowerFcost(n, m));
+        System.out.println("If reach here, test 1 for Astar.lowerFcost() is passed!");
     }
 
     /**
@@ -106,6 +111,7 @@ public class AStarTests {
         l.addLast(m);
        AStar a = new AStar(l,null,"n001","n001");
         assertTrue(a.lowerFcost(n, m));
+        System.out.println("If reach here, test 2 for Astar.lowerFcost() is passed!");
     }
 
     /**
@@ -125,7 +131,10 @@ public class AStarTests {
       l.addLast(m);
       AStar a = new AStar(l,null,"n001","n001");
       assertFalse(a.lowerFcost(n, m));
+      System.out.println("If reach here, test 3 for Astar.lowerFcost() is passed!");
     }
+
+
 
     /**
      * False test case for isEnd function
@@ -140,6 +149,7 @@ public class AStarTests {
         a.addLast(m);
         AStar star = new AStar(a,null,"n001","n002");
         assertFalse(star.isEnd(n));
+        System.out.println("If reach here, test 1 for Astar.isEnd() is passed!");
     }
 
     /**
@@ -155,5 +165,6 @@ public class AStarTests {
         a.addLast(m);
         AStar star = new AStar(a,null,"n001","n002");
         assertTrue(star.isEnd(m));
+        System.out.println("If reach here, test 2 for Astar.isEnd() is passed!");
     }
 }

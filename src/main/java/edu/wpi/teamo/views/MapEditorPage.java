@@ -127,12 +127,6 @@ public class MapEditorPage extends SubPageController implements Initializable{
     @FXML
     private JFXTextField editingEdge;
 
-    @FXML
-    private JFXTextField editingStart;
-
-    @FXML
-    private JFXTextField editingEnd;
-
     boolean treeInit = false;
 
     boolean treeEdgeInit = false;
@@ -216,8 +210,9 @@ public class MapEditorPage extends SubPageController implements Initializable{
             public void changed(ObservableValue<? extends TreeItem<Edge>> observable, TreeItem<Edge> oldValue, TreeItem<Edge> newValue) {
                 if(newValue != null){
                     editingEdge.setText(newValue.getValue().getEdgeID());
-                    editingStart.setText(newValue.getValue().getStartNodeID());
-                    editingEnd.setText(newValue.getValue().getEndNodeID());
+                    editEdgeID.setText(newValue.getValue().getEdgeID());
+                    editNode1.setText(newValue.getValue().getStartNodeID());
+                    editNode2.setText(newValue.getValue().getEndNodeID());
                     deleteEdgeID.setText(newValue.getValue().getEdgeID());
                 }
             }

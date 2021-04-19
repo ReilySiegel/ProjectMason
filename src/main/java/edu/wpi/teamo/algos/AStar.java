@@ -129,7 +129,7 @@ public class AStar {
      * @param node the node from which to retrieve the adjacent nodes
      * @return The list of adjacent nodes
      */
-    private LinkedList<AlgoNode> adjacenciesToNodes(AlgoNode node) {
+    public LinkedList<AlgoNode> adjacenciesToNodes(AlgoNode node) {
         LinkedList<AlgoNode> list = new LinkedList<>();
         for (String s : node.getAdjacencies()) {
             for (AlgoNode n : allTheNodes) {
