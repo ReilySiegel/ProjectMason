@@ -348,18 +348,14 @@ public class MapEditorPage extends SubPageController implements Initializable{
         String newNodeSN = origNodeSN.getText();
 
         try{
-            if (App.mapService.getNode(origNodeID.getText()).getNodeID() != null) {
-                showError("Node ID already Exists");
-            }
-            else {
-                App.mapService.setNodeID(currentNodeID, editNodeID);
-                App.mapService.setNodePosition(currentNodeID, Integer.parseInt(newNodeX), Integer.parseInt(newNodeY));
-                App.mapService.setNodeBuilding(currentNodeID, newNodeBuild);
-                App.mapService.setNodeFloor(currentNodeID, newNodeFloor);
-                App.mapService.setNodeType(currentNodeID, newNodeType);
-                App.mapService.setNodeLongName(currentNodeID, newNodeLN);
-                App.mapService.setNodeShortName(currentNodeID, newNodeSN);
-            }
+            App.mapService.setNodePosition(currentNodeID, Integer.parseInt(newNodeX), Integer.parseInt(newNodeY));
+            App.mapService.setNodeBuilding(currentNodeID, newNodeBuild);
+            App.mapService.setNodeFloor(currentNodeID, newNodeFloor);
+            App.mapService.setNodeType(currentNodeID, newNodeType);
+            App.mapService.setNodeLongName(currentNodeID, newNodeLN);
+            App.mapService.setNodeShortName(currentNodeID, newNodeSN);
+            App.mapService.setNodeID(currentNodeID, editNodeID);
+
             updateNodeTreeDisplay();
         }
         catch (SQLException | IllegalArgumentException | AssertionError e){
@@ -422,22 +418,14 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
         // try catch for reading in file
         try {
-            if (App.mapService.getEdge(editingEdge.getText()).getEdgeID() != null) {
-                showError("Edge ID already Exists");
-            }
-            else {
-                System.out.println(newEditEdgeID);
-                System.out.println(App.mapService.getEdge(editingEdge.getText()).getEdgeID());
-                App.mapService.setEdgeID(editingEdge.getText(), newEditEdgeID);
-                App.mapService.setEdgeStartID(newEditEdgeID, editEdgeNode1);
-                App.mapService.setEdgeEndID(newEditEdgeID, editEdgeNode2);
-            }
-            updateEdgeTreeDisplay();
+            App.mapService.setEdgeID(editingEdge.getText(), newEditEdgeID);
+            App.mapService.setEdgeStartID(newEditEdgeID, editEdgeNode1);
+            App.mapService.setEdgeEndID(newEditEdgeID, editEdgeNode2);
         } catch (SQLException | IllegalArgumentException e) {
             showError("Please fill out all fields with valid arguments");
             return;
         }
-
+        updateEdgeTreeDisplay();
     }
 
     /**
