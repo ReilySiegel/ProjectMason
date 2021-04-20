@@ -78,6 +78,9 @@ public class MapEditorPage extends SubPageController implements Initializable{
     private JFXTextField origNodeID;
 
     @FXML
+    private JFXTextField newNodeID;
+
+    @FXML
     private JFXTextField origNodeX;
 
     @FXML
@@ -160,6 +163,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
 //    Consumer<NodeInfo> onClickNode = (NodeInfo node) -> System.out.println("Node " + node.getNodeID() + "was clicked");
     void onClickNode(NodeInfo node) {
         origNodeID.setText(node.getNodeID());
+        newNodeID.setText(node.getNodeID());
         origNodeX.setText(Integer.toString(node.getXPos()));
         origNodeY.setText(Integer.toString(node.getYPos()));
         origNodeBuilding.setText(node.getBuilding());
@@ -333,6 +337,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
     @FXML
     void handleEditSubmitNode(ActionEvent event) {
         String currentNodeID = origNodeID.getText();
+        String editNodeID = newNodeID.getText();
         String newNodeX = origNodeX.getText();
         String newNodeY = origNodeY.getText();
         String newNodeBuild = origNodeBuilding.getText();
@@ -348,6 +353,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
             App.mapService.setNodeType(currentNodeID, newNodeType);
             App.mapService.setNodeLongName(currentNodeID, newNodeLN);
             App.mapService.setNodeShortName(currentNodeID, newNodeSN);
+            App.mapService.setNodeID(currentNodeID, editNodeID);
 
             updateNodeTreeDisplay();
         }
