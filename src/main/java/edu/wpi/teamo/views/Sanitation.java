@@ -1,19 +1,18 @@
 package edu.wpi.teamo.views;
 
-import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXTextArea;
-import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.controls.JFXTimePicker;
+import com.jfoenix.controls.*;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.Pages;
 import edu.wpi.teamo.database.map.NodeInfo;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
@@ -26,6 +25,9 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 public class Sanitation extends ServiceRequestPage implements Initializable {
+
+    @FXML
+    private StackPane stackPane;
 
     @FXML
     private JFXTextField service;
@@ -102,6 +104,43 @@ public class Sanitation extends ServiceRequestPage implements Initializable {
         if (validRequest) {
             App.requestService.requestSanitation(room, assigned, serviceName + ", " + details);
             System.out.println("Sanitation request submitted");
+
+            service.setText("");
+            loc.setValue("");
+            assignee.setText("");
+            notes.setText("");
+
+            JFXDialogLayout content = new JFXDialogLayout();
+            content.setHeading(new Text("Sanitation Request Submitted"));
+            content.setBody(new Text("Request submitted with: \n" +
+                    "Type: " + serviceName + "\n" +
+                    "Room: " + room + "\n" +
+                    "Person(s) assigned: " + assigned + "\n" +
+                    "Additional notes: " + details));
+            JFXDialog popup = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
+
+            JFXButton closeButton = new JFXButton("Close");
+            JFXButton backButton = new JFXButton("Back to Menu");
+
+            closeButton.setStyle("-fx-background-color: #F40F19; -fx-text-fill: #fff");
+            backButton.setStyle("-fx-background-color: #333333; -fx-text-fill: #fff");
+
+            closeButton.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    popup.close();
+                }
+            });
+
+            backButton.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    App.switchPage(Pages.SERVICEREQUEST);
+                }
+            });
+
+            content.setActions(closeButton, backButton);
+            popup.show();
         }
     }
 
