@@ -54,7 +54,7 @@
                      <children>
                         <VBox prefHeight="50.0" prefWidth="541.0" AnchorPane.rightAnchor="0.0">
                            <children>
-                              <JFXTextField fx:id="medAmount" minWidth="300.0" onKeyTyped="#clearAmountError" prefHeight="25.0" prefWidth="600.0" />
+                              <JFXTextField fx:id="medAmount" minWidth="300.0" onKeyTyped="#clearAmountError" prefHeight="25.0" prefWidth="600.0" promptText="%key.amount_of_medicine" />
                               <Text fx:id="amountErrorText" fill="#cd0000" strokeType="OUTSIDE" strokeWidth="0.0" />
                            </children>
                         </VBox>
@@ -79,7 +79,7 @@
                      <children>
                         <VBox layoutX="149.0" prefHeight="50.0" prefWidth="551.0">
                            <children>
-                              <JFXComboBox fx:id="loc" minWidth="300.0" prefHeight="25.0" prefWidth="600.0" />
+                              <JFXComboBox fx:id="loc" minWidth="300.0" prefHeight="25.0" prefWidth="600.0" promptText="%key.room" />
                               <Text fx:id="roomErrorText" fill="#cd0000" strokeType="OUTSIDE" strokeWidth="0.0" />
                            </children>
                         </VBox>
@@ -104,7 +104,7 @@
                   </AnchorPane>
                   <VBox prefHeight="50.0" prefWidth="1120.0">
                      <children>
-                        <JFXTextField fx:id="assignee" minWidth="300.0" onKeyTyped="#clearAssigneeError" prefHeight="25.0" prefWidth="600.0" />
+                        <JFXTextField fx:id="assignee" minWidth="300.0" onKeyTyped="#clearAssigneeError" prefHeight="25.0" prefWidth="600.0" text="%key.assignee_name" />
                         <Text fx:id="assigneeErrorText" fill="#cd0000" strokeType="OUTSIDE" strokeWidth="0.0" />
                      </children>
                   </VBox>
@@ -152,7 +152,7 @@
    <top>
       <VBox alignment="CENTER" prefHeight="110.0" prefWidth="1280.0" style="-fx-background-color: #001A3C;" BorderPane.alignment="CENTER">
          <children>
-            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.s_r_title">
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.medicine_request">
                <font>
                   <Font name="Arial" size="36.0" />
                </font>

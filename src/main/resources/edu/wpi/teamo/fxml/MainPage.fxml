@@ -89,7 +89,7 @@
                               <Font size="30.0" />
                            </font>
                         </JFXButton>
-                        <JFXButton onAction="#langOnClick" prefHeight="46.0" prefWidth="147.0" style="-fx-background-color: #008CBA;" text="Switch locale" textFill="WHITE">
+                        <JFXButton onAction="#langOnClick" prefHeight="46.0" prefWidth="147.0" style="-fx-background-color: #008CBA;" text="%key.language" textFill="WHITE">
                            <font>
                               <Font size="20.0" />
                            </font>

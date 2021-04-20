@@ -13,7 +13,7 @@
    <children>
       <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #001a3c;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Manage Requests">
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.manage_requests">
                <font>
                   <Font name="Arial" size="27.0" />
                </font>
@@ -23,7 +23,7 @@
             </Text>
             <VBox prefHeight="680.0" prefWidth="1138.0" style="-fx-background-color: #ddd; -fx-effect: dropshadow(three-pass-box, rgba(150,150,170,0.8), 10, 0, 0, 0); -fx-border-color: #C29D3C; -fx-border-width: 4;">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Medicine Requests:">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.medicine_requests">
                      <font>
                         <Font name="Arial" size="15.0" />
                      </font>
@@ -38,7 +38,7 @@
                   </JFXTreeTableView>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <JFXButton onAction="#removeMedRequest" style="-fx-background-color: #777;" text="Mark Selected as Completed" textFill="WHITE" />
+                        <JFXButton onAction="#removeMedRequest" style="-fx-background-color: #777;" text="%key.mark_selected_as_completed" textFill="WHITE" />
                         <Text fx:id="medErrorText" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0">
                            <HBox.margin>
                               <Insets left="50.0" />
@@ -60,7 +60,7 @@
             <HBox prefHeight="100.0" prefWidth="200.0" />
             <VBox prefHeight="680.0" prefWidth="1240.0" style="-fx-background-color: #ddd; -fx-effect: dropshadow(three-pass-box, rgba(150,150,170,0.8), 10, 0, 0, 0); -fx-border-color: #C29D3C; -fx-border-width: 4;">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sanitation Requests:">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.sanitation_requests">
                      <font>
                         <Font size="15.0" />
                      </font>
@@ -74,7 +74,7 @@
                      </VBox.margin></JFXTreeTableView>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <JFXButton onAction="#removeSanRequest" style="-fx-background-color: #777;" text="Mark Selected as Completed" textFill="WHITE" />
+                        <JFXButton onAction="#removeSanRequest" style="-fx-background-color: #777;" text="%key.mark_selected_as_completed" textFill="WHITE" />
                         <Text fx:id="sanErrorText" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0">
                            <HBox.margin>
                               <Insets left="50.0" />
@@ -90,7 +90,7 @@
                   <Insets />
                </VBox.margin>
             </VBox>
-            <JFXButton buttonType="RAISED" onAction="#handleBackToServicePage" style="-fx-background-color: #777;" text="Back" textFill="WHITE">
+            <JFXButton buttonType="RAISED" onAction="#handleBackToServicePage" style="-fx-background-color: #777;" text="%key.back" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>

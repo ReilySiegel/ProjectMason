@@ -15,10 +15,13 @@
          <children>
             <HBox prefHeight="100.0" prefWidth="269.0">
                <children>
-                  <Label alignment="CENTER" prefHeight="45.0" prefWidth="265.0" text="%key.s_r_title" textFill="WHITE" textOverrun="CLIP">
+                  <Label alignment="TOP_LEFT" prefHeight="45.0" prefWidth="383.0" text="%key.s_r_title" textFill="WHITE" textOverrun="CLIP">
                      <font>
                         <Font name="Arial Bold" size="30.0" />
                      </font>
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
                   </Label>
                </children>
                <VBox.margin>
@@ -34,7 +37,7 @@
                               <Font size="27.0" />
                            </font>
                            <graphic>
-                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Order medicine and have it delivered directly to a patients room! Prescriptions required." textAlignment="CENTER" wrappingWidth="450.0" />
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.medicine_description" textAlignment="CENTER" wrappingWidth="450.0" />
                            </graphic>
                            <HBox.margin>
                               <Insets left="20.0" />
@@ -45,7 +48,7 @@
                               <Font size="24.0" />
                            </font>
                            <graphic>
-                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Order food to be delivered to any room in the hospital! Includes accomodations for vegan options and allergies." textAlignment="CENTER" wrappingWidth="450.0" />
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.food_description" textAlignment="CENTER" wrappingWidth="450.0" />
                            </graphic>
                            <HBox.margin>
                               <Insets left="20.0" />
@@ -63,7 +66,7 @@
                               <Font size="24.0" />
                            </font>
                            <graphic>
-                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Have a gift delivered to the hospital and transported to a patient's room!" textAlignment="CENTER" wrappingWidth="450.0" />
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.gift_description" textAlignment="CENTER" wrappingWidth="450.0" />
                            </graphic>
                            <HBox.margin>
                               <Insets left="20.0" />
@@ -74,7 +77,7 @@
                               <Font size="24.0" />
                            </font>
                            <graphic>
-                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Request services to accomodate a variety of religious needs, such as blessings and last rites." textAlignment="CENTER" wrappingWidth="450.0" />
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.religious_description" textAlignment="CENTER" wrappingWidth="450.0" />
                            </graphic>
                            <HBox.margin>
                               <Insets left="20.0" />
@@ -92,7 +95,7 @@
                               <Font size="24.0" />
                            </font>
                            <graphic>
-                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Request patient transportation within the hospital. Requires employee authentification." textAlignment="CENTER" wrappingWidth="450.0" />
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.transportation_description" textAlignment="CENTER" wrappingWidth="450.0" />
                            </graphic>
                            <HBox.margin>
                               <Insets left="20.0" />
@@ -103,7 +106,7 @@
                               <Font size="27.0" />
                            </font>
                            <graphic>
-                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Request hospital staff to clean up spills, rooms, and public spaces! " textAlignment="CENTER" wrappingWidth="450.0" />
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.sanitation_description" textAlignment="CENTER" wrappingWidth="450.0" />
                            </graphic>
                            <HBox.margin>
                               <Insets left="20.0" />
@@ -121,7 +124,7 @@
                               <Font size="24.0" />
                            </font>
                            <graphic>
-                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Request immediate help from the hospital's security staff." textAlignment="CENTER" wrappingWidth="450.0" />
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.security_description" textAlignment="CENTER" wrappingWidth="450.0" />
                            </graphic>
                            <HBox.margin>
                               <Insets left="20.0" />
@@ -132,7 +135,7 @@
                               <Font size="24.0" />
                            </font>
                            <graphic>
-                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Hospital environmental services (EVS), such as replacements for clothing and bedding." textAlignment="CENTER" wrappingWidth="450.0" />
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.laundry_description" textAlignment="CENTER" wrappingWidth="450.0" />
                            </graphic>
                            <HBox.margin>
                               <Insets left="20.0" />
@@ -150,7 +153,7 @@
                               <Font size="24.0" />
                            </font>
                            <graphic>
-                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Receive help from on-site translators." textAlignment="CENTER" wrappingWidth="450.0" />
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.language_description" textAlignment="CENTER" wrappingWidth="450.0" />
                            </graphic>
                            <HBox.margin>
                               <Insets left="20.0" />
@@ -161,7 +164,7 @@
                               <Font size="24.0" />
                            </font>
                            <graphic>
-                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Request maintenance on failing facilities, such elevator and power issues. Requires employee authentification." textAlignment="CENTER" wrappingWidth="450.0" />
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.maintenance_description" textAlignment="CENTER" wrappingWidth="450.0" />
                            </graphic>
                            <HBox.margin>
                               <Insets left="20.0" />
