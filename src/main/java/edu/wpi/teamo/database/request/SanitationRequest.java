@@ -7,25 +7,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
 public class SanitationRequest extends RecursiveTreeObject<SanitationRequest> implements ISanitationRequestInfo {
-    private String locationID;
+    private ArrayList<String> locationIDs;
     private boolean complete;
     private String assigned;
     private final String id;
     private String details;
 
-    @Deprecated
-    public SanitationRequest(String id, String locationID, String assigned, String details) {
-        this.locationID = locationID;
-        this.assigned = assigned;
-        this.details = details;
-        this.complete = false;
-        this.id = id;
-    }
 
-    public SanitationRequest(String id, String locationID, String assigned, String details, boolean complete) {
-        this.locationID = locationID;
+    public SanitationRequest(String id, Stream<String> locationIDs, String assigned, String details, boolean complete) {
+        this.locationIDs = locationIDs.collect(Collectors.toCollection(ArrayList::new));
         this.assigned = assigned;
         this.details = details;
         this.complete = complete;
@@ -37,7 +30,7 @@ public class SanitationRequest extends RecursiveTreeObject<SanitationRequest> im
         if (!rs.next())
             throw new SQLException();
         return new SanitationRequest(rs.getString("id"),
-                                     rs.getString("locationID"),
+                                     Stream.of(rs.getString("locationID").split(",")),
                                      rs.getString("assigned"),
                                      rs.getString("details"),
                                      rs.getBoolean("complete"));
@@ -48,7 +41,7 @@ public class SanitationRequest extends RecursiveTreeObject<SanitationRequest> im
         ArrayList<SanitationRequest> reqs = new ArrayList<>();
         while (rs.next())
             reqs.add(new SanitationRequest(rs.getString("id"),
-                                           rs.getString("locationID"),
+                                           Stream.of(rs.getString("locationID").split(",")),
                                            rs.getString("assigned"),
                                            rs.getString("details"),
                                            rs.getBoolean("complete")));
@@ -76,7 +69,7 @@ public class SanitationRequest extends RecursiveTreeObject<SanitationRequest> im
                                                        this.details,
                                                        this.complete,
                                                        this.assigned,
-                                                       this.locationID)));
+                                                       this.locationIDs.stream().collect(Collectors.joining(",")))));
         } catch (SQLException e) {
             // Item with this ID already exists in the DB, try insert.
             db.processUpdate(String.join(" ",
@@ -91,7 +84,7 @@ public class SanitationRequest extends RecursiveTreeObject<SanitationRequest> im
                                                        this.details,
                                                        this.complete,
                                                        this.assigned,
-                                                       this.locationID),
+                                                       this.locationIDs.stream().collect(Collectors.joining(","))),
                                          "WHERE id = '" + this.id + "'"));
         }
     }
@@ -101,12 +94,12 @@ public class SanitationRequest extends RecursiveTreeObject<SanitationRequest> im
     }
 
     @Override
-    public String getLocationID() {
-        return locationID;
+    public Stream<String> getLocationIDs() {
+        return locationIDs.stream();
     }
 
-    public void setLocationID(String locationID) {
-        this.locationID = locationID;
+    public void setLocationID(Stream<String> locationIDs) {
+        this.locationIDs = this.locationIDs.stream().collect(Collectors.toCollection(ArrayList::new));
     }
 
     @Override

@@ -4,6 +4,8 @@ import edu.wpi.teamo.database.request.MedicineRequest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.sql.SQLException;
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.Test;
 import edu.wpi.teamo.database.Database;
 
@@ -13,24 +15,28 @@ public class MedicineRequestTest {
     public void testInitTable() throws SQLException, ClassNotFoundException {
         Database db = new Database(Database.getMemoryURIFromName("testInitTable"));
         MedicineRequest.initTable(db);
-        MedicineRequest s = new MedicineRequest("id", "test", "10", false, "loc", "me");
+        String[] loc = {"loc"};
+        MedicineRequest s = new MedicineRequest("id", "test", "10", false, Stream.of(loc), "me");
         s.update(db);
     }
 
     @Test
-    public void testGetByID() throws SQLException, ClassNotFoundException {
+    public void testGetByID() throws Exception {
         Database db = new Database(Database.getMemoryURIFromName("testGetByID"));
         MedicineRequest.initTable(db);
-        MedicineRequest s = new MedicineRequest("id", "test", "10", false, "loc", "me");
+        String[] loc = { "loc" };
+        MedicineRequest s = new MedicineRequest("id", "test", "10", false, Stream.of(loc), "me");
         s.update(db);
         assertEquals("id", MedicineRequest.getByID(db, "id").getID());
+        assertEquals("loc", MedicineRequest.getByID(db, "id").getLocationIDs().findFirst().orElseThrow(Exception::new));
     }
 
     @Test
     public void testGetAll() throws SQLException, ClassNotFoundException {
         Database db = new Database(Database.getMemoryURIFromName("testGetAll"));
         MedicineRequest.initTable(db);
-        MedicineRequest s = new MedicineRequest("id", "test", "10", false, "loc", "me");
+        String[] loc = { "loc" };
+        MedicineRequest s = new MedicineRequest("id", "test", "10", false, Stream.of(loc), "me");
         s.update(db);
         assertEquals(1, MedicineRequest.getAll(db).count());
     }
@@ -39,7 +45,8 @@ public class MedicineRequestTest {
     public void testUpdate() throws SQLException, ClassNotFoundException {
         Database db = new Database(Database.getMemoryURIFromName("testUpdate"));
         MedicineRequest.initTable(db);
-        MedicineRequest s = new MedicineRequest("id", "test", "10", false, "loc", "me");
+        String[] loc = { "loc" };
+        MedicineRequest s = new MedicineRequest("id", "test", "10", false, Stream.of(loc), "me");
         s.update(db);
         assertEquals(false, MedicineRequest.getByID(db, "id").isComplete());
         s.setComplete(true);
@@ -51,7 +58,8 @@ public class MedicineRequestTest {
     public void testDelete() throws SQLException, ClassNotFoundException {
         Database db = new Database(Database.getMemoryURIFromName("testDelete"));
         MedicineRequest.initTable(db);
-        MedicineRequest s = new MedicineRequest("id", "test", "10", false, "loc", "me");
+        String[] loc = { "loc" };
+        MedicineRequest s = new MedicineRequest("id", "test", "10", false, Stream.of(loc), "me");
         s.update(db);
         assertEquals("id", MedicineRequest.getByID(db, "id").getID());
         s.delete(db);

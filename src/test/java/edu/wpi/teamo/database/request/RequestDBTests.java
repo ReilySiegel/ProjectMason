@@ -16,19 +16,19 @@ import static org.junit.jupiter.api.Assertions.*;
 public class RequestDBTests {
 
     @Test
-    public void requestMedicine() throws SQLException, ClassNotFoundException {
+    public void requestMedicine() throws Exception {
         String assigned = "as";
-        String location = "l";
+        Stream<String> locs = Stream.of(new String[]{ "loc" });
         String amount = "a";
         String type = "t";
 
         Database db = new Database(Database.getMemoryURIFromName("requestMedicine"));
         RequestDB rDB = new RequestDB(db);
-        String id = rDB.requestMedicine(type, amount, location, assigned);
+        String id = rDB.requestMedicine(type, amount, locs, assigned);
 
         try {
             IMedicineRequestInfo medReqToCheck = rDB.getMedicineRequest(id);
-            assertEquals(location, medReqToCheck.getLocationID());
+            assertEquals("loc", medReqToCheck.getLocationIDs().findFirst().orElseThrow(Exception::new));
             assertEquals(assigned, medReqToCheck.getAssigned());
             assertEquals(amount, medReqToCheck.getAmount());
             assertEquals(type, medReqToCheck.getType());
@@ -41,18 +41,18 @@ public class RequestDBTests {
     }
 
     @Test
-    public void requestSanitation() throws SQLException, ClassNotFoundException {
-        String locationID = "l";
+    public void requestSanitation() throws Exception {
         String assigned = "a";
         String details = "d";
+        Stream<String> locs = Stream.of(new String[]{ "loc" });
 
         Database db = new Database(Database.getMemoryURIFromName("requestSanitation"));
         RequestDB rDB = new RequestDB(db);
-        String id = rDB.requestSanitation(locationID, assigned, details);
+        String id = rDB.requestSanitation(locs, assigned, details);
 
         try {
             ISanitationRequestInfo sanReqToCheck = rDB.getSanitationRequest(id);
-            assertEquals(locationID, sanReqToCheck.getLocationID());
+            assertEquals("loc", sanReqToCheck.getLocationIDs().findFirst().orElseThrow(Exception::new));
             assertEquals(assigned, sanReqToCheck.getAssigned());
             assertEquals(id, sanReqToCheck.getID());
         } catch (SQLException e) {
@@ -66,9 +66,9 @@ public class RequestDBTests {
     public void getAllSanitationRequests() throws SQLException, ClassNotFoundException {
         Database db = new Database(Database.getMemoryURIFromName("getAllSanitationRequests"));
         RequestDB rDB = new RequestDB(db);
-        String id1 = rDB.requestSanitation("loc", "assigned1", "det");
-        String id2 = rDB.requestSanitation("loc", "assigned2", "det");
-        String id3 = rDB.requestSanitation("loc", "assigned3", "det");
+        String id1 = rDB.requestSanitation(Stream.of(new String[]{ "loc" }), "assigned1", "det");
+        String id2 = rDB.requestSanitation(Stream.of(new String[]{ "loc" }), "assigned2", "det");
+        String id3 = rDB.requestSanitation(Stream.of(new String[]{ "loc" }), "assigned3", "det");
 
         /* get all, convert to stream of the ID's, put into list */
         Stream<ISanitationRequestInfo> requestStream = rDB.getAllSanitationRequests();
@@ -90,9 +90,10 @@ public class RequestDBTests {
     public void getAllMedicineRequests() throws SQLException, ClassNotFoundException {
         Database db = new Database(Database.getMemoryURIFromName("getAllMedicineRequests"));
         RequestDB rDB = new RequestDB(db);
-        String id1 = rDB.requestMedicine("t", "a", "loc", "assigned1");
-        String id2 = rDB.requestMedicine("t", "a", "loc", "assigned2");
-        String id3 = rDB.requestMedicine("t", "a", "loc", "assigned3");
+        String[] loc = { "loc" };
+        String id1 = rDB.requestMedicine("t", "a", Stream.of(loc), "assigned1");
+        String id2 = rDB.requestMedicine("t", "a", Stream.of(loc), "assigned2");
+        String id3 = rDB.requestMedicine("t", "a", Stream.of(loc), "assigned3");
 
         /* get all, convert to stream of the ID's, put into list */
         Stream<IMedicineRequestInfo> requestStream = rDB.getAllMedicineRequests();
@@ -111,8 +112,8 @@ public class RequestDBTests {
     }
 
     @Test
-    public void getSanitationRequest() throws SQLException, ClassNotFoundException {
-        String locationID = "l";
+    public void getSanitationRequest() throws Exception {
+        String[] locationID = { "l" };
         String assigned = "a";
         String details = "d";
 
@@ -121,11 +122,11 @@ public class RequestDBTests {
 
         assertThrows(SQLException.class, () -> rDB.getSanitationRequest("idontexist"));
 
-        String id = rDB.requestSanitation(locationID, assigned, details);
+        String id = rDB.requestSanitation(Stream.of(locationID), assigned, details);
 
         try {
             ISanitationRequestInfo sanReqToCheck = rDB.getSanitationRequest(id);
-            assertEquals(locationID, sanReqToCheck.getLocationID());
+            assertEquals(locationID [0], sanReqToCheck.getLocationIDs().findFirst().orElseThrow(Exception::new));
             assertEquals(assigned, sanReqToCheck.getAssigned());
             assertEquals(id, sanReqToCheck.getID());
         } catch (SQLException e) {
@@ -136,9 +137,9 @@ public class RequestDBTests {
     }
 
     @Test
-    public void getMedicineRequest() throws SQLException, ClassNotFoundException {
+    public void getMedicineRequest() throws Exception {
         String assigned = "as";
-        String location = "l";
+        String[] location = { "l" };
         String amount = "a";
         String type = "t";
 
@@ -147,11 +148,11 @@ public class RequestDBTests {
 
         assertThrows(SQLException.class, () -> rDB.getMedicineRequest("idontexist"));
 
-        String id = rDB.requestMedicine(type, amount, location, assigned);
+        String id = rDB.requestMedicine(type, amount, Stream.of(location), assigned);
 
         try {
             IMedicineRequestInfo medReqToCheck = rDB.getMedicineRequest(id);
-            assertEquals(location, medReqToCheck.getLocationID());
+            assertEquals(location[0], medReqToCheck.getLocationIDs().findFirst().orElseThrow(Exception::new));
             assertEquals(assigned, medReqToCheck.getAssigned());
             assertEquals(amount, medReqToCheck.getAmount());
             assertEquals(type, medReqToCheck.getType());
@@ -167,9 +168,9 @@ public class RequestDBTests {
     public void removeSanitationRequest() throws SQLException, ClassNotFoundException {
         Database db = new Database(Database.getMemoryURIFromName("removeSanitationRequest"));
         RequestDB rDB = new RequestDB(db);
-
+        String[] loc = { "loc" };
         /* store request */
-        String sanID = rDB.requestSanitation("locationID", "assigned", "details");
+        String sanID = rDB.requestSanitation(Stream.of(loc), "assigned", "details");
 
         /* make sure it was stored */
         assertTrue(rDB.sanitationRequestExists(sanID));
@@ -187,9 +188,10 @@ public class RequestDBTests {
     public void removeMedicineRequest() throws SQLException, ClassNotFoundException {
         Database db = new Database(Database.getMemoryURIFromName("removeMedicineRequest"));
         RequestDB rDB = new RequestDB(db);
+        String[] loc = { "loc" };
 
         /* store request */
-        String medID = rDB.requestMedicine("type", "amount", "locationID", "assigned");
+        String medID = rDB.requestMedicine("type", "amount", Stream.of(loc), "assigned");
 
         /* make sure it was stored */
         assertTrue(rDB.medicineRequestExists(medID));
@@ -207,9 +209,10 @@ public class RequestDBTests {
     public void setSanitationCompleted() throws SQLException, ClassNotFoundException {
         Database db = new Database(Database.getMemoryURIFromName("setSanitationCompleted"));
         RequestDB rDB = new RequestDB(db);
+        String[] loc = { "loc" };
 
         /* store request */
-        String sanID = rDB.requestSanitation("locationID", "assigned", "details");
+        String sanID = rDB.requestSanitation(Stream.of(loc), "assigned", "details");
 
         /* make sure it starts false */
         assertFalse(rDB.getSanitationRequest(sanID).isComplete());
@@ -229,7 +232,7 @@ public class RequestDBTests {
         RequestDB rDB = new RequestDB(db);
 
         /* store request */
-        String medID = rDB.requestMedicine("type", "amount", "locationID", "assigned");
+        String medID = rDB.requestMedicine("type", "amount", Stream.of(new String[]{ "locationID" }), "assigned");
 
         /* make sure it starts false */
         assertFalse(rDB.getMedicineRequest(medID).isComplete());
@@ -247,9 +250,10 @@ public class RequestDBTests {
     public void sanitationRequestExists() throws SQLException, ClassNotFoundException {
         Database db = new Database(Database.getMemoryURIFromName("sanitationRequestExists"));
         RequestDB rDB = new RequestDB(db);
+        String[] loc = { "loc" };
 
         /* store request */
-        String sanID = rDB.requestSanitation("locationID", "assigned", "details");
+        String sanID = rDB.requestSanitation(Stream.of(loc), "assigned", "details");
 
         /* check existence */
         assertTrue(rDB.sanitationRequestExists(sanID));
@@ -267,9 +271,10 @@ public class RequestDBTests {
     public void medicineRequestExists() throws SQLException, ClassNotFoundException {
         Database db = new Database(Database.getMemoryURIFromName("medicineRequestExists"));
         RequestDB rDB = new RequestDB(db);
+        String[] loc = { "loc" };
 
         /* store request */
-        String medID = rDB.requestMedicine("type", "amount", "locationID", "assigned");
+        String medID = rDB.requestMedicine("type", "amount", Stream.of(loc), "assigned");
 
         /* check existence */
         assertTrue(rDB.medicineRequestExists(medID));

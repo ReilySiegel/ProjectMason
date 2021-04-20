@@ -5,30 +5,22 @@ import edu.wpi.teamo.database.Database;
 
 import java.util.ArrayList;
 import java.util.stream.Stream;
+import java.util.stream.Collectors;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class MedicineRequest extends RecursiveTreeObject<MedicineRequest> implements IMedicineRequestInfo {
-    private String locationID;
+    private ArrayList<String> locationIDs;
     private boolean complete;
     private final String id;
     private String assigned;
     private String amount;
     private String type;
 
-    @Deprecated
-    public MedicineRequest(String id, String type, String amount, String locationID, String assigned) {
-        this.locationID = locationID;
-        this.assigned = assigned;
-        this.complete = false;
-        this.amount = amount;
-        this.type = type;
-        this.id = id;
-    }
-
-    public MedicineRequest(String id, String type, String amount, boolean complete, String locationID, String assigned) {
-        this.locationID = locationID;
-        this.assigned = assigned;
+    public MedicineRequest(String id, String type, String amount, boolean complete, Stream<String> locationIDs,
+            String assigned) {
+        this.locationIDs = locationIDs.collect (Collectors.toCollection(ArrayList::new));
+            this.assigned = assigned;
         this.complete = complete;
         this.amount = amount;
         this.type = type;
@@ -43,7 +35,7 @@ public class MedicineRequest extends RecursiveTreeObject<MedicineRequest> implem
                                    rs.getString("type"),
                                    rs.getString("amount"),
                                    rs.getBoolean("complete"),
-                                   rs.getString("locationID"),
+                                   Stream.of(rs.getString("locationID").split(",")),
                                    rs.getString("assigned"));
     }
 
@@ -53,10 +45,10 @@ public class MedicineRequest extends RecursiveTreeObject<MedicineRequest> implem
         while (rs.next())
             reqs.add(new MedicineRequest(rs.getString("ID"),
                                          rs.getString("type"),
-                                                rs.getString("amount"),
-                                                rs.getBoolean("complete"),
-                                                rs.getString("locationID"),
-                                                rs.getString("assigned")));
+                                         rs.getString("amount"),
+                                         rs.getBoolean("complete"),
+                                         Stream.of(rs.getString("locationID").split(",")),
+                                         rs.getString("assigned")));
         return reqs.stream();
     }
 
@@ -77,13 +69,13 @@ public class MedicineRequest extends RecursiveTreeObject<MedicineRequest> implem
                                          "INSERT INTO MedicineRequest",
                                          "(id, type, amount, complete, assigned, locationID)",
                                          "VALUES",
-                                         String.format("('%s', '%s', '%s', %s, '%s', '%s')",
-                                                       this.id,
-                                                       this.type,
-                                                       this.amount,
-                                                       this.complete,
-                                                       this.assigned,
-                                                       this.locationID)));
+                    String.format("('%s', '%s', '%s', %s, '%s', '%s')",
+                                  this.id,
+                                  this.type,
+                                  this.amount,
+                                  this.complete,
+                                  this.assigned,
+                                  this.locationIDs.stream().collect(Collectors.joining(",")))));
         } catch (SQLException e) {
             // Item with this ID already exists in the DB, try insert.
             db.processUpdate(String.join(" ",
@@ -95,10 +87,15 @@ public class MedicineRequest extends RecursiveTreeObject<MedicineRequest> implem
                                                                    "complete = %s",
                                                                    "assigned = '%s'",
                                                                    "locationID = '%s'"),
-                                                       this.id, this.type, this.amount, this.complete,
-                                                       this.assigned, this.locationID),
+                                                       this.id,
+                                                       this.type,
+                                                       this.amount,
+                                                       this.complete,
+                                                       this.assigned,
+                                                       this.locationIDs.stream()
+                                                       .collect(Collectors.joining(","))),
                                          "WHERE id = '" + this.id + "'"));
-         }
+        }
     }
 
     public void delete(Database db) throws SQLException {
@@ -106,12 +103,12 @@ public class MedicineRequest extends RecursiveTreeObject<MedicineRequest> implem
     }
 
     @Override
-    public String getLocationID() {
-        return locationID;
+    public Stream<String> getLocationIDs() {
+        return locationIDs.stream();
     }
 
-    public void setLocationID(String locationID) {
-        this.locationID = locationID;
+    public void setLocationID(Stream<String> locationIDs) {
+        this.locationIDs = locationIDs.collect(Collectors.toCollection(ArrayList::new));
     }
 
     @Override

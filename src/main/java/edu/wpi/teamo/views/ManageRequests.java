@@ -25,6 +25,7 @@ import javafx.util.Callback;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ManageRequests extends ServiceRequestPage implements Initializable {
@@ -85,7 +86,7 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         rooms.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<MedicineRequest, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<MedicineRequest, String> param) {
-                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getLocationID());
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getLocationIDs().collect(Collectors.joining(", ")));
                 return strProp;
             }
         });
@@ -104,7 +105,7 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
 
         try {
             Stream<IMedicineRequestInfo> medReqStream = App.requestService.getAllMedicineRequests();
-            medReqStream.forEach(m -> medRequests.add(new MedicineRequest(m.getID(), m.getType(), m.getAmount(), m.getLocationID(), m.getAssigned())));
+            medReqStream.forEach(m -> medRequests.add(new MedicineRequest(m.getID(), m.getType(), m.getAmount(), m.isComplete(), m.getLocationIDs(), m.getAssigned())));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -135,7 +136,7 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         sanLocs.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<SanitationRequest, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<SanitationRequest, String> param) {
-                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getLocationID());
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getLocationIDs().collect(Collectors.joining(", ")));
                 return strProp;
             }
         });
@@ -164,7 +165,7 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
 
         try {
             Stream<ISanitationRequestInfo> sanReqStream = App.requestService.getAllSanitationRequests();
-            sanReqStream.forEach(m -> sanRequests.add(new SanitationRequest(m.getID(), m.getLocationID(), m.getAssigned(), m.getDetails())));
+            sanReqStream.forEach(m -> sanRequests.add(new SanitationRequest(m.getID(), m.getLocationIDs(), m.getAssigned(), m.getDetails(), m.isComplete())));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

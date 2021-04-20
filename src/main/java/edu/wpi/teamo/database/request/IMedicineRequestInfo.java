@@ -1,7 +1,9 @@
 package edu.wpi.teamo.database.request;
 
+import java.util.stream.*;
+
 public interface IMedicineRequestInfo {
-    String getLocationID();
+    Stream<String> getLocationIDs();
     boolean isComplete();
     String getAssigned();
     String getAmount();

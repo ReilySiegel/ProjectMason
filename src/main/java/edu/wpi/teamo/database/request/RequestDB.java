@@ -4,6 +4,8 @@ import edu.wpi.teamo.database.Database;
 import java.util.stream.Stream;
 import java.sql.SQLException;
 
+import java.util.stream.*;
+
 public class RequestDB implements IRequestService {
     Database db;
 
@@ -14,22 +16,22 @@ public class RequestDB implements IRequestService {
     }
 
     @Override
-    public String requestMedicine(String type, String amount, String locationID, String assigned) throws SQLException {
+    public String requestMedicine(String type, String amount, Stream<String> locationIDs, String assigned) throws SQLException {
         int id = 1; /* set a unique id */
         while (medicineRequestExists(String.valueOf(id)) && id < 9999) { id++; }
 
-        MedicineRequest mr = new MedicineRequest(String.valueOf(id), type, amount, locationID, assigned);
+        MedicineRequest mr = new MedicineRequest(String.valueOf(id), type, amount, false, locationIDs, assigned);
         mr.update(db);
 
         return mr.getID();
     }
 
     @Override
-    public String requestSanitation(String location, String assigned, String details) throws SQLException {
+    public String requestSanitation(Stream<String> locationIDs, String assigned, String details) throws SQLException {
         int id = 1; /* set a unique id */
         while (sanitationRequestExists(String.valueOf(id)) && id < 9999) { id++; }
 
-        SanitationRequest sr = new SanitationRequest(String.valueOf(id), location, assigned, details);
+        SanitationRequest sr = new SanitationRequest(String.valueOf(id), locationIDs, assigned, details, false);
         sr.update(db);
 
         return sr.getID();

@@ -10,8 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -21,8 +20,10 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Sanitation extends ServiceRequestPage implements Initializable {
 
@@ -31,9 +32,6 @@ public class Sanitation extends ServiceRequestPage implements Initializable {
 
     @FXML
     private JFXTextField service;
-
-    @FXML
-    private JFXComboBox<String> loc;
 
     @FXML
     private JFXTextField assignee;
@@ -53,26 +51,40 @@ public class Sanitation extends ServiceRequestPage implements Initializable {
     @FXML
     private Text assignedErrorText;
 
+    @FXML
+    private MenuButton locationBox;
+
     private boolean validRequest;
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
 
+
+
+        validRequest = true;
         try {
-            LinkedList<String> nodeIDs = new LinkedList<String>();
+            resetLocationBox();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
-            LinkedList<NodeInfo> nodes = App.mapService.getAllNodes().collect(Collectors.toCollection(LinkedList::new));
+    private void resetLocationBox() throws SQLException {
+        locationBox.getItems().removeAll(locationBox.getItems());
 
-            for (NodeInfo i : nodes) {
-                nodeIDs.add(i.getNodeID());
-            }
+        LinkedList<NodeInfo> nodes = App.mapService.getAllNodes().collect(Collectors.toCollection(LinkedList::new));
 
-            for (String id : nodeIDs) {
-                loc.getItems().add(id);
-            }
+        for (NodeInfo node : nodes) {
+            CheckMenuItem menuItem = new CheckMenuItem();
+            menuItem.setText(node.getNodeID());
 
-        } catch (Exception SQLException) {
-            return;
+            menuItem.setOnAction(event -> locationBox.setText(locationBox.getItems().stream()
+                    .map((MenuItem mI) -> (CheckMenuItem) mI)
+                    .filter(CheckMenuItem::isSelected)
+                    .map(CheckMenuItem::getText)
+                    .collect(Collectors.joining(", "))));
+
+            locationBox.getItems().add(menuItem);
         }
 
     }
@@ -80,9 +92,13 @@ public class Sanitation extends ServiceRequestPage implements Initializable {
     @FXML
     private void handleSubmission(ActionEvent e) throws SQLException {
         String serviceName = service.getText();
-        String room = loc.getValue();
         String assigned = assignee.getText();
         String details = notes.getText();
+
+        List<MenuItem> mItems    = locationBox.getItems();
+        Stream<CheckMenuItem> cMItems   = mItems.stream().map((MenuItem mI) -> (CheckMenuItem) mI);
+        Stream<CheckMenuItem> checked   = cMItems.filter(CheckMenuItem::isSelected);
+        List<String>          locations = checked.map(CheckMenuItem::getText).collect(Collectors.toList());
 
         validRequest = true;
 
@@ -91,7 +107,7 @@ public class Sanitation extends ServiceRequestPage implements Initializable {
             validRequest = false;
         }
 
-        if (room == null) {
+        if (locations.size() == 0) {
             roomErrorText.setText("No room/node selected");
             validRequest = false;
         }
@@ -102,11 +118,10 @@ public class Sanitation extends ServiceRequestPage implements Initializable {
         }
 
         if (validRequest) {
-            App.requestService.requestSanitation(room, assigned, serviceName + ", " + details);
+            App.requestService.requestSanitation(locations.stream(), assigned, serviceName + ", " + details);
             System.out.println("Sanitation request submitted");
 
             service.setText("");
-            loc.setValue("");
             assignee.setText("");
             notes.setText("");
 
@@ -114,7 +129,7 @@ public class Sanitation extends ServiceRequestPage implements Initializable {
             content.setHeading(new Text("Sanitation Request Submitted"));
             content.setBody(new Text("Request submitted with: \n" +
                     "Type: " + serviceName + "\n" +
-                    "Room: " + room + "\n" +
+                    "Room: " + String.join(", ", locations) + "\n" +
                     "Person(s) assigned: " + assigned + "\n" +
                     "Additional notes: " + details));
             JFXDialog popup = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);

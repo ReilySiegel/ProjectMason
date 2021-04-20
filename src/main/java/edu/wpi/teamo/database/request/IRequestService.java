@@ -6,8 +6,8 @@ import java.sql.SQLException;
 public interface IRequestService {
 
     /* create and store requests */
-    String requestMedicine(String type, String amount, String locationID, String assigned) throws SQLException;
-    String requestSanitation(String locationID, String assigned, String details) throws SQLException;
+    String requestMedicine(String type, String amount, Stream<String> locationIDs, String assigned) throws SQLException;
+    String requestSanitation(Stream<String> locationID, String assigned, String details) throws SQLException;
 
     /* get all */
     Stream<ISanitationRequestInfo> getAllSanitationRequests() throws SQLException;
