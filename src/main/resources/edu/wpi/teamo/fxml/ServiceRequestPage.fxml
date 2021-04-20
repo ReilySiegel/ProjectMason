@@ -17,7 +17,7 @@
                <children>
                   <Label alignment="TOP_LEFT" prefHeight="45.0" prefWidth="383.0" text="%key.s_r_title" textFill="WHITE" textOverrun="CLIP">
                      <font>
-                        <Font name="Arial Bold" size="30.0" />
+                        <Font name="System Bold" size="30.0" />
                      </font>
                      <HBox.margin>
                         <Insets left="5.0" />
