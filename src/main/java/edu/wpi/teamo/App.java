@@ -46,6 +46,7 @@ public class App extends Application {
     pagePaths.put(Pages.EDGE, "/edu/wpi/teamo/fxml/EdgePage.fxml");
     pagePaths.put(Pages.MAIN, "/edu/wpi/teamo/fxml/MainPage.fxml");
     pagePaths.put(Pages.LOADINGSCREEN,"edu/wpi/teamo/fxml/LoadingScreen.fxml");
+    pagePaths.put(Pages.LOGIN, "/edu/wpi/teamo/fxml/LoginPage.fxml");
     System.out.println("Starting Up");
 
     /* instantiate the database services, set to static variables that can be accessed from the handlers */
