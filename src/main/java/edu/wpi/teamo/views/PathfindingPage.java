@@ -249,6 +249,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
         if (calculatedPath != null) {
             displayPath(calculatedPath);
         }
+        switchFloor.setValue(floor);
     }
 
     public void displayPath(LinkedList<AlgoNode> path) {
