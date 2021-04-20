@@ -15,7 +15,7 @@
          <children>
             <HBox prefHeight="100.0" prefWidth="269.0">
                <children>
-                  <Label alignment="CENTER" prefHeight="45.0" prefWidth="265.0" text="  Service Requests" textFill="WHITE" textOverrun="CLIP">
+                  <Label alignment="CENTER" prefHeight="45.0" prefWidth="265.0" text="%key.s_r_title" textFill="WHITE" textOverrun="CLIP">
                      <font>
                         <Font name="Arial Bold" size="30.0" />
                      </font>
@@ -29,7 +29,7 @@
                <children>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <JFXButton alignment="CENTER" contentDisplay="BOTTOM" maxHeight="100.0" onAction="#handleMedicine" prefHeight="100.0" prefWidth="570.0" ripplerFill="#e8a200" style="-fx-background-color: #666;" text="Medicine" textFill="WHITE">
+                        <JFXButton alignment="CENTER" contentDisplay="BOTTOM" maxHeight="100.0" onAction="#handleMedicine" prefHeight="100.0" prefWidth="570.0" ripplerFill="#e8a200" style="-fx-background-color: #666;" text="%key.medicine" textFill="WHITE">
                            <font>
                               <Font size="27.0" />
                            </font>
@@ -40,7 +40,7 @@
                               <Insets left="20.0" />
                            </HBox.margin>
                         </JFXButton>
-                        <JFXButton contentDisplay="BOTTOM" maxHeight="100.0" prefHeight="100.0" prefWidth="570.0" style="-fx-background-color: #4b7be0;" text="Food Delivery" textFill="WHITE">
+                        <JFXButton contentDisplay="BOTTOM" maxHeight="100.0" prefHeight="100.0" prefWidth="570.0" style="-fx-background-color: #4b7be0;" text="%key.food_delivery" textFill="WHITE">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -58,7 +58,7 @@
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <JFXButton contentDisplay="BOTTOM" maxHeight="100.0" prefHeight="100.0" prefWidth="570.0" style="-fx-background-color: #4b7be0;" text="Gift Delivery" textFill="WHITE">
+                        <JFXButton contentDisplay="BOTTOM" maxHeight="100.0" prefHeight="100.0" prefWidth="570.0" style="-fx-background-color: #4b7be0;" text="%key.gift_delivery" textFill="WHITE">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -69,7 +69,7 @@
                               <Insets left="20.0" />
                            </HBox.margin>
                         </JFXButton>
-                        <JFXButton contentDisplay="BOTTOM" maxHeight="100.0" prefHeight="100.0" prefWidth="570.0" style="-fx-background-color: #666;" text="Religious Requests" textFill="WHITE">
+                        <JFXButton contentDisplay="BOTTOM" maxHeight="100.0" prefHeight="100.0" prefWidth="570.0" style="-fx-background-color: #666;" text="%key.religious_requests" textFill="WHITE">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -87,7 +87,7 @@
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <JFXButton contentDisplay="BOTTOM" maxHeight="100.0" prefHeight="100.0" prefWidth="570.0" style="-fx-background-color: #666;" text="Patient Transportation" textFill="WHITE">
+                        <JFXButton contentDisplay="BOTTOM" maxHeight="100.0" prefHeight="100.0" prefWidth="570.0" style="-fx-background-color: #666;" text="%key.patient_transportation" textFill="WHITE">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -98,7 +98,7 @@
                               <Insets left="20.0" />
                            </HBox.margin>
                         </JFXButton>
-                        <JFXButton contentDisplay="BOTTOM" maxHeight="100.0" onAction="#handleSanitation" prefWidth="570.0" ripplerFill="#4b7be0" style="-fx-background-color: #4b7be0;" text="Sanitation" textFill="WHITE">
+                        <JFXButton contentDisplay="BOTTOM" maxHeight="100.0" onAction="#handleSanitation" prefWidth="570.0" ripplerFill="#4b7be0" style="-fx-background-color: #4b7be0;" text="%key.sanitation" textFill="WHITE">
                            <font>
                               <Font size="27.0" />
                            </font>
@@ -116,7 +116,7 @@
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <JFXButton contentDisplay="BOTTOM" maxHeight="100.0" prefHeight="100.0" prefWidth="570.0" style="-fx-background-color: #4b7be0;" text="Security" textFill="WHITE">
+                        <JFXButton contentDisplay="BOTTOM" maxHeight="100.0" prefHeight="100.0" prefWidth="570.0" style="-fx-background-color: #4b7be0;" text="%key.security" textFill="WHITE">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -127,7 +127,7 @@
                               <Insets left="20.0" />
                            </HBox.margin>
                         </JFXButton>
-                        <JFXButton contentDisplay="BOTTOM" maxHeight="100.0" prefWidth="570.0" style="-fx-background-color: #666;" text="Laundry" textFill="WHITE">
+                        <JFXButton contentDisplay="BOTTOM" maxHeight="100.0" prefWidth="570.0" style="-fx-background-color: #666;" text="%key.laundry" textFill="WHITE">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -145,7 +145,7 @@
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <JFXButton contentDisplay="BOTTOM" maxHeight="100.0" prefHeight="100.0" prefWidth="570.0" style="-fx-background-color: #666;" text="Language Interpeter" textFill="WHITE">
+                        <JFXButton contentDisplay="BOTTOM" maxHeight="100.0" prefHeight="100.0" prefWidth="570.0" style="-fx-background-color: #666;" text="%key.language_interpreter" textFill="WHITE">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -156,7 +156,7 @@
                               <Insets left="20.0" />
                            </HBox.margin>
                         </JFXButton>
-                        <JFXButton contentDisplay="BOTTOM" maxHeight="1.7976931348623157E308" prefHeight="100.0" prefWidth="570.0" style="-fx-background-color: #4b7be0;" text="Maintenance" textFill="WHITE">
+                        <JFXButton contentDisplay="BOTTOM" maxHeight="1.7976931348623157E308" prefHeight="100.0" prefWidth="570.0" style="-fx-background-color: #4b7be0;" text="%key.maintenance" textFill="WHITE">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -173,7 +173,7 @@
             </VBox>
             <HBox prefHeight="100.0" prefWidth="1200.0">
                <children>
-                  <JFXButton buttonType="RAISED" minHeight="50.0" onAction="#backToMain" prefHeight="50.0" style="-fx-background-color: #db1212;" text="Back" textFill="WHITE">
+                  <JFXButton buttonType="RAISED" minHeight="50.0" onAction="#backToMain" prefHeight="50.0" style="-fx-background-color: #db1212;" text="%key.back" textFill="WHITE">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -181,7 +181,7 @@
                         <Insets top="25.0" />
                      </HBox.margin>
                   </JFXButton>
-                  <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onAction="#handleManageRequestPage" prefHeight="50.0" prefWidth="227.0" ripplerFill="#00a120" style="-fx-background-color: #007700;" text="View/Manage Requests" textFill="WHITE">
+                  <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onAction="#handleManageRequestPage" prefHeight="50.0" prefWidth="250.0" ripplerFill="#00a120" style="-fx-background-color: #007700;" text="%key.view_manage_requests" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
