@@ -565,7 +565,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         // checks to see if tree has been initialized and wont make dupe columns
         TreeItem<Node> root = new RecursiveTreeItem<>(data, RecursiveTreeObject::getChildren);
         if(!treeInit){
-            //treeView.getColumns().addAll(nID,nX,nY,nFloor,nBuilding,nType,nLongName,nShortName);
+            treeView.getColumns().addAll(nID,nX,nY,nFloor,nBuilding,nType,nLongName,nShortName);
             treeInit = true;
         }
 
