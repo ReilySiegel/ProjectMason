@@ -196,7 +196,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         floorSwitcher.getItems().add("2");
         floorSwitcher.getItems().add("3");
 
-        map = new Map(mapImage, nodePane, this::onClickNode, this::onClickEdge);
+        map = new Map(mapImage, nodePane, null, this::onClickNode, this::onClickEdge);
 
         NumberValidator numberValidator = new NumberValidator();
 

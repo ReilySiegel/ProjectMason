@@ -85,7 +85,7 @@ public class App extends Application {
     /*
       display the loading screeen here
      */
-    loadImages();// is called from the ma class
+    loadImages();// is called from the map class
   }
 
   public static Stage getPrimaryStage(){

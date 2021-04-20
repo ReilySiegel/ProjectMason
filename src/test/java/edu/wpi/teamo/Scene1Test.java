@@ -22,34 +22,34 @@ import org.testfx.util.WaitForAsyncUtils;
 public class Scene1Test extends ApplicationTest {
 
   //Internationalization
-  //private static ResourceBundle resourceBundle;
-  //public static LocaleType selectedLocale;
-  //private static final String localesPath = "edu.wpi.teamo.locales.";
-
-  /** Setup test suite. */
-  @BeforeAll
-  public static void setup() throws Exception {
-    //FxToolkit.registerPrimaryStage();
-    //FxToolkit.setupApplication(App.class);
-    //System.getProperties().put("testfx.robot", "glass");
-  }
-
-  @Override
-  public void start(Stage primaryStage) throws IOException {
-    //Locale defaultLocale = new Locale("en","US");
-    //resourceBundle = ResourceBundle.getBundle(localesPath + "en_US", defaultLocale);
-    //selectedLocale = LocaleType.en_US;
-    //App.setPrimaryStage(primaryStage);
-    //Parent root = FXMLLoader.load(getClass().getResource("fxml/MainPage.fxml"),resourceBundle);
-    //Scene scene = new Scene(root);
-    //primaryStage.setScene(scene);
-    //primaryStage.show();
-  }
-
-  @Test
-  public void testButton() {
-    //verifyThat("Home Page", Node::isVisible);
-    //clickOn("Map Editor");
-    //clickOn("Service Requests");
-  }
+  private static ResourceBundle resourceBundle;
+  public static LocaleType selectedLocale;
+  private static final String localesPath = "edu.wpi.teamo.locales.";
+//
+//  /** Setup test suite. */
+//  @BeforeAll
+//  public static void setup() throws Exception {
+//    FxToolkit.registerPrimaryStage();
+//    FxToolkit.setupApplication(App.class);
+//    System.getProperties().put("testfx.robot", "glass");
+//  }
+//
+//  @Override
+//  public void start(Stage primaryStage) throws IOException {
+//    Locale defaultLocale = new Locale("en","US");
+//    resourceBundle = ResourceBundle.getBundle(localesPath + "en_US", defaultLocale);
+//    selectedLocale = LocaleType.en_US;
+//    App.setPrimaryStage(primaryStage);
+//    Parent root = FXMLLoader.load(getClass().getResource("fxml/MainPage.fxml"),resourceBundle);
+//    Scene scene = new Scene(root);
+//    primaryStage.setScene(scene);
+//    primaryStage.show();
+//  }
+//
+//  @Test
+//  public void testButton() {
+//    verifyThat("Home Page", Node::isVisible);
+//    clickOn("Map Editor");
+//    //clickOn("Service Requests");
+//  }
 }

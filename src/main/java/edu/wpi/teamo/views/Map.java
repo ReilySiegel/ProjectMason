@@ -1,16 +1,18 @@
 package edu.wpi.teamo.views;
 
+import com.jfoenix.controls.JFXTextArea;
+import edu.wpi.teamo.algos.AlgoNode;
 import edu.wpi.teamo.database.map.EdgeInfo;
 import edu.wpi.teamo.database.map.NodeInfo;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.AnchorPane;
 import java.io.FileNotFoundException;
-import javafx.scene.input.MouseEvent;
+
 import javafx.scene.image.ImageView;
+
+import java.util.LinkedList;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
-import javafx.scene.canvas.Canvas;
-import javafx.event.EventHandler;
+
 import javafx.scene.shape.Circle;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -22,6 +24,7 @@ public class Map  {
 
     ImageView imageView;
     AnchorPane nodePane;
+    JFXTextArea mapText;
 
     Consumer<NodeInfo> onNodeClicked;
     Consumer<EdgeInfo> onEdgeClicked;
@@ -30,6 +33,7 @@ public class Map  {
     static final int imageHeight = 3400;
     static private boolean imagesLoaded = true;
     private double  lineThickness = 2.0;
+    private Color lineColor = Color.RED;
 
     static Image L1FloorImage = null;
     static Image L2FloorImage = null;
@@ -38,15 +42,48 @@ public class Map  {
     static Image secondFloorImage = null;
     static Image thirdFloorImage = null;
 
-    public Map(ImageView imageView, AnchorPane nodePane,
+    public Map(ImageView imageView, AnchorPane nodePane, JFXTextArea mapText,
                Consumer<NodeInfo> onNodeClicked, Consumer<EdgeInfo> onEdgeClicked) {
         this.imageView = imageView;
         this.nodePane = nodePane;
+        this.mapText = mapText;
 
         this.onNodeClicked = onNodeClicked;
         this.onEdgeClicked = onEdgeClicked;
 
     }
+
+    public void drawPath(LinkedList<AlgoNode> path, String floor) {
+        double firstX = 0;
+        double firstY = 0;
+        double secondX = 0;
+        double secondY = 0;
+
+        for(int i = 0;  i < (path.size() - 1); i++) {
+            lineColor = path.get(i).getFloor().equals(floor) ? Color.RED : Color.GRAY;
+
+            firstX = transformX(path.get(i).getX(), nodePane.getPrefWidth());
+            firstY = transformY(path.get(i).getY(), nodePane.getPrefHeight());
+            secondX = transformX(path.get(i + 1).getX(), nodePane.getPrefWidth());
+            secondY = transformY(path.get(i + 1).getY(), nodePane.getPrefHeight());
+            Line line = createLine(firstX, firstY, secondX, secondY, null);
+            nodePane.getChildren().add(line);
+        }
+    }
+
+    public void drawFloorNodes(List<NodeInfo> allNodes, String floor) {
+        /* filter only the nodes belonging to this floor */
+        List<NodeInfo> floorNodes = allNodes.stream()
+                .filter((NodeInfo node) -> node.getFloor().equals(floor))
+                .collect(Collectors.toList());
+
+        switchFloorImage(floor);
+
+        nodePane.getChildren().removeAll(nodePane.getChildren());
+
+        createCircles(floorNodes);
+    }
+
 
     public void drawFloor(List<NodeInfo> allNodes, List<EdgeInfo> edges, String floor) {
         /* filter only the nodes belonging to this floor */
@@ -58,31 +95,31 @@ public class Map  {
 
         nodePane.getChildren().removeAll(nodePane.getChildren());
 
-        createLines(nodePane, edges, floorNodes, onEdgeClicked);
-        createCircles(nodePane, floorNodes, onNodeClicked);
+        createLines(edges, floorNodes);
+        createCircles(floorNodes);
     }
 
-    private static void createLines(AnchorPane pane, List<EdgeInfo> edges, List<NodeInfo> nodes, Consumer<EdgeInfo> onEdgeClicked) {
+    private void createLines(List<EdgeInfo> edges, List<NodeInfo> nodes) {
 
         for (EdgeInfo edge : edges) {
             NodeInfo startNode = findNode(edge.getStartNodeID(), nodes);
             NodeInfo endNode = findNode(edge.getEndNodeID(), nodes);
 
             if (startNode != null && endNode != null) {
-                double tfStartX = transformX(startNode.getXPos(), pane.getPrefWidth());
-                double tfStartY = transformY(startNode.getYPos(), pane.getPrefHeight());
-                double tfEndX = transformX(endNode.getXPos(), pane.getPrefWidth());
-                double tfEndY = transformY(endNode.getYPos(), pane.getPrefHeight());
-                Line line = createLine(tfStartX, tfStartY, tfEndX, tfEndY, onEdgeClicked, edge);
-                pane.getChildren().add(line);
+                double tfStartX = transformX(startNode.getXPos(), nodePane.getPrefWidth());
+                double tfStartY = transformY(startNode.getYPos(), nodePane.getPrefHeight());
+                double tfEndX = transformX(endNode.getXPos(), nodePane.getPrefWidth());
+                double tfEndY = transformY(endNode.getYPos(), nodePane.getPrefHeight());
+                Line line = createLine(tfStartX, tfStartY, tfEndX, tfEndY, edge);
+                nodePane.getChildren().add(line);
             }
         }
 
     }
 
-    private static Line createLine(double StartX, double StartY, double EndX, double EndY, Consumer<EdgeInfo> onEdgeClicked, EdgeInfo edge) {
+    private Line createLine(double StartX, double StartY, double EndX, double EndY, EdgeInfo edge) {
         Line line = new Line(StartX, StartY, EndX, EndY);
-        line.setStroke(Color.RED);
+        line.setStroke(lineColor);
         line.setStrokeWidth(4);
 
         line.setOnMouseClicked(event -> {
@@ -101,22 +138,26 @@ public class Map  {
         return line;
     }
 
-    private static void createCircles(AnchorPane pane, List<NodeInfo> nodes, Consumer<NodeInfo> onNodeClicked) {
+    private void createCircles(List<NodeInfo> nodes) {
         for (NodeInfo node : nodes) {
-            double transformedX = transformX(node.getXPos(), pane.getPrefWidth());
-            double transformedY = transformY(node.getYPos(), pane.getPrefHeight());
-            Circle circle = createCircle(transformedX, transformedY, onNodeClicked, node);
-            pane.getChildren().add(circle);
+            double transformedX = transformX(node.getXPos(), nodePane.getPrefWidth());
+            double transformedY = transformY(node.getYPos(), nodePane.getPrefHeight());
+            Circle circle = createCircle(transformedX, transformedY, onNodeClicked, node, mapText);
+            nodePane.getChildren().add(circle);
         }
     }
 
-    private static Circle createCircle(double x, double y, Consumer<NodeInfo> onNodeClicked, NodeInfo node) {
+    private static Circle createCircle(double x, double y, Consumer<NodeInfo> onNodeClicked, NodeInfo node, JFXTextArea mapText) {
         Circle circle = new Circle(x, y, 4, Color.BLUE);
         circle.setOnMouseEntered(event -> {
+            mapText.setText(node.getNodeID() + "\t" + node.getLongName());
             circle.setRadius(7);
             event.consume();
         });
         circle.setOnMouseExited(event -> {
+            if (mapText != null) {
+                mapText.setText("");
+            }
             circle.setRadius(4);
             event.consume();
         });

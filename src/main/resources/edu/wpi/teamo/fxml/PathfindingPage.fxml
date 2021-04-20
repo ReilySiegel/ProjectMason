@@ -3,65 +3,54 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextArea?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.PathfindingPage">
+<AnchorPane prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #001A3C;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.PathfindingPage">
    <children>
-      <HBox prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <AnchorPane layoutX="9.0" layoutY="9.0" minHeight="0.0" minWidth="0.0" prefHeight="782.0" prefWidth="1183.0" style="-fx-background-color: #1B77B9;">
          <children>
-            <SplitPane dividerPositions="0.6524064171122995" prefHeight="800.0" prefWidth="1200.0">
-              <items>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="456.0" prefWidth="0.0">
-                     <children>
-                        <SplitPane dividerPositions="0.5577889447236181" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                          <items>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="203.0" prefWidth="360.0">
-                                 <children>
-                                    <JFXTextArea fx:id="locationAvailable" editable="false" layoutX="74.0" layoutY="59.0" prefHeight="382.0" prefWidth="703.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="74.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="59.0" />
-                                    <Text layoutX="14.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Available Nodes" wrappingWidth="240.13671875">
-                                       <font>
-                                          <Font size="26.0" />
-                                       </font>
-                                    </Text>
-                                 </children></AnchorPane>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-                                 <children>
-                                    <JFXTextArea fx:id="directions" editable="false" layoutX="66.0" layoutY="54.0" prefHeight="295.0" prefWidth="711.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="66.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="54.0" />
-                                    <Text layoutX="14.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Calculated Path" wrappingWidth="240.13671875">
-                                       <font>
-                                          <Font size="26.0" />
-                                       </font>
-                                    </Text>
-                                 </children></AnchorPane>
-                          </items>
-                        </SplitPane>
-                     </children></AnchorPane>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="456.0" prefWidth="309.0">
-                     <children>
-                        <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="390.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
-                           <children>
-                              <Label text="Start Location" />
-                              <JFXComboBox fx:id="startLocation" onAction="#chooseStartLocation" prefWidth="200.0" promptText="Choose Location" style="-fx-background-color: #C8C8C8;" />
-                           </children>
-                        </VBox>
-                        <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="290.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
-                           <children>
-                              <Label text="End Location" />
-                              <JFXComboBox fx:id="endLocation" onAction="#chooseEndLocation" prefWidth="200.0" promptText=" Choose Location" style="-fx-background-color: #C8C8C8;" />
-                           </children>
-                        </VBox>
-                        <JFXButton fx:id="getDirections" buttonType="RAISED" onAction="#handleGetDirections" style="-fx-background-color: #ff9900;" text="Get Directions" AnchorPane.bottomAnchor="575.0" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="180.0" />
-                        <JFXButton fx:id="goBack" buttonType="RAISED" onAction="#backToMain" prefHeight="31.0" prefWidth="65.0" style="-fx-background-color: #000080;" text="Back" textFill="#fffbfb" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="730.0" />
-                     </children></AnchorPane>
-              </items>
-            </SplitPane>
+            <Pane layoutX="106.0" layoutY="52.0" prefHeight="623.0" prefWidth="908.0" style="-fx-background-color: #001A3C;" />
+            <JFXComboBox fx:id="switchFloor" layoutX="887.0" layoutY="18.0" onAction="#MapSwitch" prefHeight="26.0" prefWidth="114.0" promptText="Select Floor" style="-fx-background-color: #ececec;" />
+            <Text layoutX="116.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Directions" wrappingWidth="240.13671875">
+               <font>
+                  <Font size="26.0" />
+               </font>
+            </Text>
+            <ImageView fx:id="imageView" fitHeight="602.0" fitWidth="941.0" layoutX="116.0" layoutY="62.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Maps/00_thelowerlevel1.png" />
+               </image>
+            </ImageView>
+            <AnchorPane fx:id="pathPane" layoutX="116.0" layoutY="62.0" prefHeight="602.0" prefWidth="885.0" />
+            <JFXButton fx:id="backButton" buttonType="RAISED" layoutX="14.0" layoutY="15.0" onAction="#backToMain" prefHeight="32.0" prefWidth="78.0" style="-fx-background-color: #000080;" text="Back" textFill="#fffbfb" AnchorPane.bottomAnchor="735.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="1091.0" AnchorPane.topAnchor="15.0" />
+            <JFXComboBox fx:id="endDropdown" layoutX="425.0" layoutY="745.0" prefHeight="25.0" prefWidth="170.0" style="-fx-background-color: #C8C8C8;" />
+            <JFXComboBox fx:id="startDropdown" layoutX="186.0" layoutY="745.0" prefHeight="25.0" prefWidth="170.0" style="-fx-background-color: #C8C8C8;" />
+            <JFXButton fx:id="chooseStartButton" buttonType="RAISED" layoutX="159.0" layoutY="696.0" prefHeight="43.0" prefWidth="224.0" style="-fx-background-color: #ff9900;" text="Choose Start Location">
+               <font>
+                  <Font size="17.0" />
+               </font></JFXButton>
+            <JFXButton fx:id="chooseEndButton" buttonType="RAISED" layoutX="398.0" layoutY="696.0" prefHeight="43.0" prefWidth="224.0" style="-fx-background-color: #ff9900;" text="Choose End Location">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </JFXButton>
+            <JFXTextArea fx:id="pathText" layoutX="1014.0" layoutY="170.0" prefHeight="387.0" prefWidth="170.0" />
+            <JFXButton fx:id="findPathButton" buttonType="RAISED" layoutX="735.0" layoutY="699.0" prefHeight="59.0" prefWidth="247.0" style="-fx-background-color: #ff9900;" text="Find Path">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </JFXButton>
+            <JFXTextArea fx:id="mapText" focusColor="TRANSPARENT" layoutX="122.0" layoutY="69.0" prefHeight="86.0" prefWidth="866.0" unFocusColor="TRANSPARENT">
+               <font>
+                  <Font name="Arial" size="21.0" />
+               </font>
+            </JFXTextArea>
          </children>
-      </HBox>
+      </AnchorPane>
    </children>
 </AnchorPane>

@@ -5,72 +5,180 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextArea;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.algos.AlgoNode;
+import edu.wpi.teamo.database.map.EdgeInfo;
 import edu.wpi.teamo.database.map.NodeInfo;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 
+import java.awt.*;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 public class PathfindingPage extends SubPageController implements Initializable {
 
     @FXML
-    private JFXButton getDirections;
+    private JFXButton backButton;
 
     @FXML
-    private JFXButton goBack;
+    private JFXComboBox<String> endDropdown;
 
     @FXML
-    private JFXComboBox<String> startLocation;
+    private JFXComboBox<String> startDropdown;
 
     @FXML
-    private JFXComboBox<String> endLocation;
+    private JFXComboBox<String> switchFloor;
+    String floor;
 
     @FXML
-    private JFXTextArea locationAvailable;
+    JFXButton chooseStartButton;
 
-    /**
-     * @param event
-     */
     @FXML
-    private JFXTextArea directions;
+    JFXButton chooseEndButton;
 
-    /**
-     * @param event
-     */
     @FXML
-    void handleGetDirections(ActionEvent event) {
+    JFXButton findPathButton;
 
-        String endNodeId = endLocation.getValue();
-        String startNodeId = startLocation.getValue();
+    @FXML
+    private ImageView imageView;
+
+    @FXML
+    private AnchorPane pathPane;
+
+    @FXML
+    private JFXTextArea pathText;
+
+    @FXML
+    private JFXTextArea mapText;
+
+    LinkedList<AlgoNode> calculatedPath = null;
+
+    boolean selectingStart = false;
+    boolean selectingEnd = false;
+
+    String selectedStartID = null;
+    String selectedEndID = null;
+
+    Map map;
+
+    //    Consumer<NodeInfo> onClickNode = (NodeInfo node) -> System.out.println("Node " + node.getNodeID() + "was clicked");
+    void onClickNode(NodeInfo node) {
+        if (selectingStart) {
+            startDropdown.setValue(node.getNodeID());
+            selectedStartID = node.getNodeID();
+            selectingStart = false;
+        }
+        if (selectingEnd) {
+            endDropdown.setValue(node.getNodeID());
+            selectedEndID = node.getNodeID();
+            selectingEnd = false;
+        }
+        chooseStartButton.setDisable(selectingStart);
+        chooseEndButton.setDisable(selectingEnd);
+    }
+
+    //    Consumer<EdgeInfo> onClickEdge = (EdgeInfo edge) -> System.out.println("Edge " + node.getEdgeID() + "was clicked");
+    void onClickEdge(EdgeInfo edge) {
+    }
+
+    private void handleChooseStart() {
+        if (selectingStart) {
+            selectingStart = false;
+        }
+        else {
+            mapText.setText("Select your start location.");
+            selectingStart = true;
+            selectingEnd = false;
+        }
+
+        chooseStartButton.setDisable(selectingStart);
+        chooseEndButton.setDisable(selectingEnd);
+    }
+
+    private void handleChoseEnd() {
+        if (selectingEnd) {
+            selectingEnd = false;
+        }
+        else {
+            mapText.setText("Select your destination.");
+            selectingStart = false;
+            selectingEnd = true;
+        }
+        System.out.println(selectingEnd);
+        chooseEndButton.setDisable(selectingEnd);
+        chooseStartButton.setDisable(selectingStart);
+    }
+
+    void handleStartDropdown() {
+        selectedStartID = startDropdown.getValue();
+    }
+
+    void handleEndDropdown() {
+        selectedEndID = endDropdown.getValue();
+    }
+
+    private void handleFindPath() {
+        if (selectedStartID != null && selectedEndID != null) {
+            findPath(selectedStartID, selectedEndID);
+        }
+    }
+
+    void findPath(String startID, String endID) {
+
         LinkedList<AlgoNode> path = new LinkedList<>();
         try {
-            path = App.aStarService.getPath(endNodeId, startNodeId);
+            path = App.aStarService.getPath(startID, endID);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
 
-        //Display all Node ID, X, Y, Floor, Building, LongName, and ShortName
-        String displayString = "";
-        for(AlgoNode node : path){
-            displayString = displayString + node.getShortName() + "\n";
-        }
-        directions.setText(displayString);
+        if (path != null) {
+            floor = path.get(0).getFloor();
+            calculatedPath = path;
 
+            List<String> floors = new LinkedList<>();
+            for (AlgoNode node : path) {
+                if (!floors.contains(node.getFloor())) {
+                    floors.add(node.getFloor());
+                }
+            }
+
+        }
+
+        updateMap();
     }
 
-
-
-    /**
-     * @param location
-     * @param resources
-     */
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
+        switchFloor.getItems().add("L2");
+        switchFloor.getItems().add("L1");
+        switchFloor.getItems().add("Ground Floor");
+        switchFloor.getItems().add("1");
+        switchFloor.getItems().add("2");
+        switchFloor.getItems().add("3");
+        switchFloor.setValue("1");
+        floor = "1";
+
+        pathText.setText("No path.");
+
+        chooseStartButton.setOnAction(event -> handleChooseStart());
+        chooseEndButton.setOnAction(event -> handleChoseEnd());
+        findPathButton.setOnAction(event -> handleFindPath());
+        startDropdown.setOnAction(event -> handleStartDropdown());
+        endDropdown.setOnAction(event -> handleEndDropdown());
+        backButton.setOnAction(this::backToMain);
+
+        map = new Map(imageView, pathPane, mapText, this::onClickNode, this::onClickEdge);
+        updateMap();
+
         try {
             LinkedList<String> nodeShortNames = new LinkedList<>();
             LinkedList<NodeInfo> nodes = App.mapService.getAllNodes().collect(Collectors.toCollection(LinkedList::new));
@@ -79,14 +187,8 @@ public class PathfindingPage extends SubPageController implements Initializable 
             }
 
             for (String nodeName : nodeShortNames) {
-                startLocation.getItems().add(nodeName);
-                endLocation.getItems().add(nodeName);
-
-                String displayString = "";
-                for(String node : nodeShortNames){
-                    displayString = displayString + node + "\n";
-                }
-                locationAvailable.setText(displayString);
+                startDropdown.getItems().add(nodeName);
+                endDropdown.getItems().add(nodeName);
             }
 
         } catch (Exception SQLException) {
@@ -94,31 +196,37 @@ public class PathfindingPage extends SubPageController implements Initializable 
         }
     }
 
-    /**
-     *
-     * @param event
-     */
     @FXML
-    void chooseStartLocation(ActionEvent event) {
+    void MapSwitch(ActionEvent event) {
+        floor =  switchFloor.getValue();
+        updateMap();
+    }
+
+    void updateMap() {
+        LinkedList<NodeInfo> nodes = new LinkedList<>();
         try {
-            String startNodeId = startLocation.getValue();
-        } catch (Exception SQLException) {
-            return;
+            nodes = App.mapService.getAllNodes().collect(Collectors.toCollection(LinkedList::new));
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        map.drawFloorNodes(nodes, floor);
+
+        if (calculatedPath != null) {
+            displayPath(calculatedPath);
         }
     }
 
-    /**
-     *
-     * @param event
-     */
-    @FXML
-    void chooseEndLocation(ActionEvent event) {
-        try {
-
-            String endNodeId = endLocation.getValue();
-
-        } catch (Exception SQLException) {
-            return;
+    public void displayPath(LinkedList<AlgoNode> path) {
+        if (path != null) {
+            map.drawPath(path, floor);
+            StringBuilder text = new StringBuilder("Directions:\n");
+            for (AlgoNode node : path) {
+                text.append(node.getLongName()).append("\n");
+            }
+            pathText.setText(text.toString());
+        }
+        else {
+            pathText.setText("No path.");
         }
     }
 
