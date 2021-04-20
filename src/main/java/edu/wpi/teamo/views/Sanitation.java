@@ -100,7 +100,7 @@ public class Sanitation extends ServiceRequestPage implements Initializable {
         }
 
         if (validRequest) {
-            App.requestService.requestSanitation(room, assigned, details);
+            App.requestService.requestSanitation(room, assigned, serviceName + ", " + details);
             System.out.println("Sanitation request submitted");
         }
     }
