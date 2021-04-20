@@ -18,6 +18,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.util.*;
 
+import static edu.wpi.teamo.views.Map.loadImages;
+
+
 public class App extends Application {
 
   private static final EnumMap<Pages, String> pagePaths = new EnumMap<>(Pages.class);
@@ -42,6 +45,7 @@ public class App extends Application {
     pagePaths.put(Pages.NODE, "/edu/wpi/teamo/fxml/MapEditorPage.fxml");
     pagePaths.put(Pages.EDGE, "/edu/wpi/teamo/fxml/EdgePage.fxml");
     pagePaths.put(Pages.MAIN, "/edu/wpi/teamo/fxml/MainPage.fxml");
+    pagePaths.put(Pages.LOADINGSCREEN,"edu/wpi/teamo/fxml/LoadingScreen.fxml");
     System.out.println("Starting Up");
 
     /* instantiate the database services, set to static variables that can be accessed from the handlers */
@@ -77,6 +81,10 @@ public class App extends Application {
       e.printStackTrace();
       Platform.exit();
     }
+    /*
+      display the loading screeen here
+     */
+    loadImages();// is called from the ma class
   }
 
   public static Stage getPrimaryStage(){

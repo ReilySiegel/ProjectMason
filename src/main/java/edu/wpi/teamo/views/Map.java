@@ -20,24 +20,25 @@ public class Map  {
 
     static final int imageWidth = 5000;
     static final int imageHeight = 3400;
-    private boolean imagesLoaded = true;
+    static private boolean imagesLoaded = true;
+    private double  lineThickness = 2.0;
 
-    Image L1FloorImage = null;
-    Image L2FloorImage = null;
-    Image groundFloorImage = null;
-    Image firstFloorImage = null;
-    Image secondFloorImage = null;
-    Image thirdFloorImage = null;
+    static Image L1FloorImage = null;
+    static Image L2FloorImage = null;
+    static Image groundFloorImage = null;
+    static Image firstFloorImage = null;
+    static Image secondFloorImage = null;
+    static Image thirdFloorImage = null;
 
     public Map(Canvas canvas, ImageView imageView) {
         this.gc = canvas.getGraphicsContext2D();
-        imagesLoaded = loadImages();
+
         this.imageView = imageView;
         this.canvas = canvas;
 
         gc.setStroke(Color.RED);
         gc.setFill(Color.BLUE);
-        gc.setLineWidth(0.5);
+        gc.setLineWidth(lineThickness);
 
     }
 
@@ -110,7 +111,7 @@ public class Map  {
         }
     }
 
-    private boolean loadImages() {
+    static public boolean loadImages() {
         boolean loaded = true;
         try {
             FileInputStream L1FloorStream = new FileInputStream("src/main/resources/edu/wpi/teamo/fxml/Maps/00_thelowerlevel1.png");
@@ -157,4 +158,11 @@ public class Map  {
         return nodeY * (canvasHeight / imageHeight);
     }
 
+    public double getLineThickness() {
+        return lineThickness;
+    }
+
+    public void setLineThickness(double lineThickness) {
+        this.lineThickness = lineThickness;
+    }
 }
