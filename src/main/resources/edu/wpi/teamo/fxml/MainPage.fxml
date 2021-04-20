@@ -25,14 +25,14 @@
             </Text>
          </top>
          <bottom>
-            <HBox maxHeight="-Infinity" minHeight="-Infinity" minWidth="750.0" prefHeight="60.0" prefWidth="1200.0" style="-fx-background-color: #001a3c;" BorderPane.alignment="CENTER">
+            <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" minWidth="750.0" prefHeight="76.0" prefWidth="1200.0" style="-fx-background-color: #001a3c;" BorderPane.alignment="CENTER">
                <children>
-                  <JFXButton buttonType="RAISED" minWidth="100.0" onAction="#handleHelp" prefHeight="39.0" prefWidth="69.0" style="-fx-background-color: #000080;" text="%key.help" textFill="WHITE">
+                  <JFXButton buttonType="RAISED" onAction="#handleHelp" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #5e99ff; -fx-border-radius: 25; -fx-background-radius: 25;" text="?" textFill="WHITE">
                      <HBox.margin>
-                        <Insets left="30.0" />
+                        <Insets left="20.0" />
                      </HBox.margin>
                      <font>
-                        <Font size="18.0" />
+                        <Font name="Arial Bold" size="24.0" />
                      </font>
                   </JFXButton>
                   <JFXButton fx:id="closeButton" alignment="CENTER" buttonType="RAISED" minWidth="100.0" onAction="#closeWindow" style="-fx-background-color: #db1212;" text="%key.exit" textFill="WHITE">
