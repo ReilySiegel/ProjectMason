@@ -180,7 +180,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
         NumberValidator numberValidator = new NumberValidator();
 
-        editNodeSubmit.setDisable(true);
+        //editNodeSubmit.setDisable(true);
 
         //Ensure that each X and Y field are numbers
         addNodeX.getValidators().add(numberValidator);
@@ -239,7 +239,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
                     origNodeLN.setText(newValue.getValue().getLongName());
                     origNodeSN.setText(newValue.getValue().getShortName());
                     deleteNodeID.setText(newValue.getValue().getNodeID());
-                    editNodeSubmit.setDisable(false);
+                    //editNodeSubmit.setDisable(false);
                 }
             }
         });
