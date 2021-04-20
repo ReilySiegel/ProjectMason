@@ -30,15 +30,10 @@ import edu.wpi.teamo.database.map.NodeInfo;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 
@@ -163,8 +158,6 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
     /**
      * Set validators to insure that the x and y coordinate fields are numbers
-     * @param location
-     * @param resources
      */
     @Override
     public void initialize(URL location, ResourceBundle resources){
@@ -287,9 +280,8 @@ public class MapEditorPage extends SubPageController implements Initializable{
             updateNodeTreeDisplay();
 
         }
-        catch(SQLException | NumberFormatException | AssertionError e){
+        catch(SQLException | AssertionError | IllegalArgumentException e){
             showError("Please fill out all fields with valid arguments");
-            return;
         }
 
     }
@@ -306,9 +298,8 @@ public class MapEditorPage extends SubPageController implements Initializable{
             App.mapService.deleteNode(deleteNode);
             updateNodeTreeDisplay();
         }
-        catch (SQLException | AssertionError e){
+        catch (SQLException | AssertionError | IllegalArgumentException e){
             showError("Please fill out all fields with valid arguments");
-            return;
         }
     }
 
@@ -337,9 +328,8 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
             updateNodeTreeDisplay();
         }
-        catch (SQLException | NumberFormatException | AssertionError e){
+        catch (SQLException | IllegalArgumentException | AssertionError e){
             showError("Please fill out all fields with valid arguments");
-            return;
         }
     }
 
@@ -358,7 +348,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         // try/catch for SQL and adding an edge
         try {
             App.mapService.addEdge(newEdgeID, newEdgeNode1, newEdgeNode2);
-        } catch (Exception SQLException) {
+        } catch (SQLException | IllegalArgumentException e) {
             showError("Please fill out all fields with valid arguments");
             return;
         }
@@ -377,7 +367,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         // try/catch for SQL and deleting an edge
         try {
             App.mapService.deleteEdge(EdgetoDelete);
-        } catch (Exception SQLException) {
+        } catch (SQLException | IllegalArgumentException e) {
             showError("Please fill out all fields with valid arguments");
             return;
         }
@@ -401,7 +391,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
             App.mapService.setEdgeID(editingEdge.getText(), newEditEdgeID);
             App.mapService.setEdgeStartID(newEditEdgeID, editEdgeNode1);
             App.mapService.setEdgeEndID(newEditEdgeID, editEdgeNode2);
-        } catch (Exception FileNotFoundException) {
+        } catch (SQLException | IllegalArgumentException e) {
             showError("Please fill out all fields with valid arguments");
             return;
         }
@@ -449,7 +439,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
             App.mapService.writeNodesToCSV(path);
         }
         catch(NullPointerException | SQLException | IOException e){
-            return;
+            showError("Save aborted!");
         }
     }
 
@@ -490,7 +480,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
             String path = f.getPath();
             App.mapService.writeEdgesToCSV(path);
         } catch (IOException | SQLException | NullPointerException e ) {
-            return;
+            showError("Save aborted!");
         }
     }
 
@@ -575,7 +565,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         // checks to see if tree has been initialized and wont make dupe columns
         TreeItem<Node> root = new RecursiveTreeItem<>(data, RecursiveTreeObject::getChildren);
         if(!treeInit){
-            treeView.getColumns().addAll(nID,nX,nY,nFloor,nBuilding,nType,nLongName,nShortName);
+            //treeView.getColumns().addAll(nID,nX,nY,nFloor,nBuilding,nType,nLongName,nShortName);
             treeInit = true;
         }
 
