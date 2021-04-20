@@ -181,30 +181,25 @@ public class SR07_Medicine extends ServiceRequestPage implements Initializable {
     @FXML
     private void handleHelp(ActionEvent e) {
 
-        Stage helpWindow = new Stage();
+        JFXDialogLayout content = new JFXDialogLayout();
+        content.setHeading(new Text("Help - Medicine Request"));
+        content.setBody(new Text("Medicine Name: Name of medicine to be delivered\n" +
+                "Amount: Amount needed\n" +
+                "Room: The node/room where the service is needed\n" +
+                "Assignee Name: The person to be assigned to this service\n"));
+        JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 
-        helpWindow.initModality(Modality.APPLICATION_MODAL);
-        helpWindow.setTitle("Help - Medicine Defedgdfghdfghlivery");
-        helpWindow.setMinWidth(400);
-        helpWindow.setMinHeight(200);
+        JFXButton closeButton = new JFXButton("Close");
+        closeButton.setStyle("-fx-background-color: #F40F19; -fx-text-fill: #fff");
+        closeButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                errorWindow.close();
+            }
+        });
 
-        Label label = new Label();
-        label.setText("Fill out each field as follows: \n" +
-                "Medicine Name: Exact name of medicine to be delivered \n" +
-                "Room: Select the node/room for it to be delivered to \n" +
-                "Your Name: Your full name \n" +
-                "Asignee Name: Full name of the person you want to fulfill the request");
-        Button close = new Button("Close");
-
-        close.setOnAction(g -> helpWindow.close());
-
-        VBox layout = new VBox(13);
-        layout.getChildren().addAll(label, close);
-        layout.setAlignment(Pos.CENTER);
-
-        Scene scene = new Scene(layout);
-        helpWindow.setScene(scene);
-        helpWindow.showAndWait();
+        content.setActions(closeButton);
+        errorWindow.show();
     }
 
 
