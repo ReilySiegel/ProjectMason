@@ -29,11 +29,10 @@ public class Map  {
     Consumer<NodeInfo> onNodeClicked;
     Consumer<EdgeInfo> onEdgeClicked;
 
+    static private boolean imagesLoaded = true;
     static final int imageWidth = 5000;
     static final int imageHeight = 3400;
-    static private boolean imagesLoaded = true;
     private double  lineThickness = 2.0;
-    private Color lineColor = Color.RED;
 
     static Image L1FloorImage = null;
     static Image L2FloorImage = null;
@@ -60,13 +59,13 @@ public class Map  {
         double secondY = 0;
 
         for(int i = 0;  i < (path.size() - 1); i++) {
-            lineColor = path.get(i).getFloor().equals(floor) ? Color.RED : Color.GRAY;
+            Color lineColor = path.get(i).getFloor().equals(floor) ? Color.RED : Color.GRAY;
 
             firstX = transformX(path.get(i).getX(), nodePane.getPrefWidth());
             firstY = transformY(path.get(i).getY(), nodePane.getPrefHeight());
             secondX = transformX(path.get(i + 1).getX(), nodePane.getPrefWidth());
             secondY = transformY(path.get(i + 1).getY(), nodePane.getPrefHeight());
-            Line line = createLine(firstX, firstY, secondX, secondY, null);
+            Line line = createLine(firstX, firstY, secondX, secondY, null, lineColor);
             nodePane.getChildren().add(line);
         }
     }
@@ -110,17 +109,17 @@ public class Map  {
                 double tfStartY = transformY(startNode.getYPos(), nodePane.getPrefHeight());
                 double tfEndX = transformX(endNode.getXPos(), nodePane.getPrefWidth());
                 double tfEndY = transformY(endNode.getYPos(), nodePane.getPrefHeight());
-                Line line = createLine(tfStartX, tfStartY, tfEndX, tfEndY, edge);
+                Line line = createLine(tfStartX, tfStartY, tfEndX, tfEndY, edge, Color.RED);
                 nodePane.getChildren().add(line);
             }
         }
 
     }
 
-    private Line createLine(double StartX, double StartY, double EndX, double EndY, EdgeInfo edge) {
+    private Line createLine(double StartX, double StartY, double EndX, double EndY, EdgeInfo edge, Color lineColor) {
         Line line = new Line(StartX, StartY, EndX, EndY);
+        line.setStrokeWidth(5);
         line.setStroke(lineColor);
-        line.setStrokeWidth(4);
 
         line.setOnMouseClicked(event -> {
             onEdgeClicked.accept(edge);
@@ -131,7 +130,7 @@ public class Map  {
             event.consume();
         });
         line.setOnMouseExited(event -> {
-            line.setStroke(Color.RED);
+            line.setStroke(lineColor);
             event.consume();
         });
 

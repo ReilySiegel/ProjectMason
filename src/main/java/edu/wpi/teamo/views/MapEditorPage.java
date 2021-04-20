@@ -138,6 +138,9 @@ public class MapEditorPage extends SubPageController implements Initializable{
     private JFXTextField editingEnd;
 
     @FXML
+    private JFXTextArea mapText;
+
+    @FXML
     private JFXComboBox<String> floorSwitcher;
     String selectedFloor = "1";
 
@@ -196,7 +199,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         floorSwitcher.getItems().add("2");
         floorSwitcher.getItems().add("3");
 
-        map = new Map(mapImage, nodePane, null, this::onClickNode, this::onClickEdge);
+        map = new Map(mapImage, nodePane, mapText, this::onClickNode, this::onClickEdge);
 
         NumberValidator numberValidator = new NumberValidator();
 
