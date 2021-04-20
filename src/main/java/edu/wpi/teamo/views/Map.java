@@ -65,16 +65,16 @@ public class Map  {
                 case "L2":
                     imageView.setImage(L2FloorImage);
                     break;
-                case "1":
+                case "G":
                     imageView.setImage(groundFloorImage);
                     break;
-                case "2":
+                case "1":
                     imageView.setImage(firstFloorImage);
                     break;
-                case "3":
+                case "2":
                     imageView.setImage(secondFloorImage);
                     break;
-                case "4":
+                case "3":
                 default:
                     imageView.setImage(thirdFloorImage);
                     break;

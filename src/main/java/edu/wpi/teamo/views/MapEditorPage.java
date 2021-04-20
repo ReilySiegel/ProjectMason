@@ -162,12 +162,12 @@ public class MapEditorPage extends SubPageController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources){
 
-        floorSwitcher.getItems().add("L1");
         floorSwitcher.getItems().add("L2");
+        floorSwitcher.getItems().add("L1");
+        floorSwitcher.getItems().add("G");
         floorSwitcher.getItems().add("1");
         floorSwitcher.getItems().add("2");
         floorSwitcher.getItems().add("3");
-        floorSwitcher.getItems().add("4");
 
         map = new Map(mapCanvas, mapImage);
 
