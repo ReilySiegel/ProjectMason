@@ -251,6 +251,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
             public void changed(ObservableValue<? extends TreeItem<Node>> observable, TreeItem<Node> oldValue, TreeItem<Node> newValue) {
                 if(newValue != null){
                     origNodeID.setText(newValue.getValue().getNodeID());
+                    newNodeID.setText(newValue.getValue().getNodeID());
                     origNodeX.setText(Integer.toString(newValue.getValue().getXPos()));
                     origNodeY.setText(Integer.toString(newValue.getValue().getYPos()));
                     origNodeBuilding.setText(newValue.getValue().getBuilding());
