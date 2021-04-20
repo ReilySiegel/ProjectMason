@@ -6,6 +6,7 @@ import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.database.request.IMedicineRequestInfo;
+import edu.wpi.teamo.database.request.ISanitationRequestInfo;
 import edu.wpi.teamo.database.request.MedicineRequest;
 import edu.wpi.teamo.database.request.SanitationRequest;
 import javafx.beans.property.SimpleStringProperty;
@@ -101,15 +102,12 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
 
         ObservableList<MedicineRequest> medRequests = FXCollections.observableArrayList();
 
-//        try {
-//            Stream<IMedicineRequestInfo> medReqStream = App.requestService.getAllMedicineRequests();
-//            medReqStream.forEach(m -> medRequests.add(new MedicineRequest(m.getID(), m.getType(), m.getAmount(), m.getLocationID(), m.getAssigned())));
-//        } catch (SQLException throwables) {
-//            throwables.printStackTrace();
-//        }
-
-        medRequests.add(new MedicineRequest("123", "Advil", "4", "placeholder loc", "Jimothy"));
-        medRequests.add(new MedicineRequest("754", "Ketmaine", "50", "under there", "Samiel"));
+        try {
+            Stream<IMedicineRequestInfo> medReqStream = App.requestService.getAllMedicineRequests();
+            medReqStream.forEach(m -> medRequests.add(new MedicineRequest(m.getID(), m.getType(), m.getAmount(), m.getLocationID(), m.getAssigned())));
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
         final TreeItem<MedicineRequest> root = new RecursiveTreeItem<MedicineRequest>(medRequests, RecursiveTreeObject::getChildren);
         medRequestTable.getColumns().setAll(medIDs, medType, medAmount, rooms, assignees);
@@ -163,7 +161,13 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         });
 
         ObservableList<SanitationRequest> sanRequests = FXCollections.observableArrayList();
-        sanRequests.add(new SanitationRequest("335", "Ellsworth", "Wong", "no"));
+
+        try {
+            Stream<ISanitationRequestInfo> sanReqStream = App.requestService.getAllSanitationRequests();
+            sanReqStream.forEach(m -> sanRequests.add(new SanitationRequest(m.getID(), m.getLocationID(), m.getAssigned(), m.getDetails())));
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
         final TreeItem<SanitationRequest> sanRoot = new RecursiveTreeItem<SanitationRequest>(sanRequests, RecursiveTreeObject::getChildren);
         sanRequestTable.getColumns().setAll(sanIDs, sanLocs, sanAssigned, sanDetails);
@@ -176,7 +180,7 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         TreeItem<MedicineRequest> selection = medRequestTable.getSelectionModel().getSelectedItem();
         if (selection == null) medErrorText.setText("No medicine requests selected");
         else {
-            //App.requestService.removeMedicineRequest(medRequestTable.getSelectionModel().getSelectedItem().getValue().getID());
+            App.requestService.removeMedicineRequest(medRequestTable.getSelectionModel().getSelectedItem().getValue().getID());
             updateMedicineTable();
         }
 
@@ -187,7 +191,7 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         TreeItem<SanitationRequest> selection = sanRequestTable.getSelectionModel().getSelectedItem();
         if (selection == null) sanErrorText.setText("No sanitation requests selected");
         else {
-            //App.requestService.removeSanitationRequest(sanRequestTable.getSelectionModel().getSelectedItem().getValue().getID());
+            App.requestService.removeSanitationRequest(sanRequestTable.getSelectionModel().getSelectedItem().getValue().getID());
             updateSanitationTable();
         }
 

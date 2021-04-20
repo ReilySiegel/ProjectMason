@@ -1,159 +1,203 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXTextArea?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #001a3c;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.ServiceRequestPage">
    <children>
-      <HBox layoutX="467.0" layoutY="14.0" prefHeight="100.0" prefWidth="269.0">
+      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label alignment="CENTER" prefHeight="45.0" prefWidth="265.0" text="%key.s_r_title" textFill="WHITE" textOverrun="CLIP">
-               <font>
-                  <Font name="System Bold" size="30.0" />
-               </font>
-            </Label>
-         </children>
-      </HBox>
-      <HBox layoutX="14.0" layoutY="686.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-         <children>
-            <JFXButton buttonType="RAISED" minHeight="50.0" onAction="#backToMain" prefHeight="50.0" style="-fx-background-color: #db1212;" text="Back" textFill="WHITE">
-               <font>
-                  <Font size="24.0" />
-               </font>
-               <HBox.margin>
-                  <Insets top="25.0" />
-               </HBox.margin>
-            </JFXButton>
-            <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onAction="#handleManageRequestPage" prefHeight="50.0" prefWidth="227.0" ripplerFill="#aa00ff" style="-fx-background-color: #aa00ff;" text="View/Manage Requests" textFill="WHITE">
-               <font>
-                  <Font size="18.0" />
-               </font>
-               <HBox.margin>
-                  <Insets left="30.0" top="25.0" />
-               </HBox.margin>
-            </JFXButton>
-         </children>
-         <padding>
-            <Insets left="30.0" />
-         </padding>
-      </HBox>
-      <HBox layoutX="102.0" layoutY="274.0" maxHeight="-Infinity" minHeight="600.0" prefHeight="600.0" prefWidth="1200.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-         <children>
-            <VBox alignment="TOP_CENTER" prefHeight="366.0" prefWidth="600.0">
+            <HBox prefHeight="100.0" prefWidth="269.0">
                <children>
-                  <HBox prefHeight="96.0" prefWidth="600.0" VBox.vgrow="ALWAYS">
+                  <Label alignment="CENTER" prefHeight="45.0" prefWidth="265.0" text="  Service Requests" textFill="WHITE" textOverrun="CLIP">
+                     <font>
+                        <Font name="Arial Bold" size="30.0" />
+                     </font>
+                  </Label>
+               </children>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </HBox>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <JFXButton alignment="CENTER" buttonType="RAISED" maxHeight="1.7976931348623157E308" onAction="#handleMedicine" prefWidth="268.0" ripplerFill="#b84e4e" style="-fx-background-color: #b84e4e;" text="%key.s_r_medicine" textFill="WHITE" HBox.hgrow="ALWAYS">
+                        <JFXButton alignment="CENTER" contentDisplay="BOTTOM" maxHeight="100.0" onAction="#handleMedicine" prefHeight="100.0" prefWidth="570.0" ripplerFill="#e8a200" style="-fx-background-color: #666;" text="Medicine" textFill="WHITE">
                            <font>
                               <Font size="27.0" />
                            </font>
+                           <graphic>
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Order medicine and have it delivered directly to a patients room! Prescriptions required." textAlignment="CENTER" wrappingWidth="450.0" />
+                           </graphic>
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
                         </JFXButton>
-                        <JFXTextArea editable="false" focusColor="WHITE" prefHeight="117.0" prefWidth="281.0" style="-fx-background-color: #b84e4e;" text="Order medicine and have it delivered directly to a patients room! Prescriptions required." unFocusColor="WHITE" HBox.hgrow="ALWAYS" />
-                     </children>
-                  </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-                     <children>
-                        <JFXButton buttonType="RAISED" maxHeight="1.7976931348623157E308" prefWidth="268.0" style="-fx-background-color: #4b7be0;" text="Food Delivery" textFill="WHITE">
+                        <JFXButton contentDisplay="BOTTOM" maxHeight="100.0" prefHeight="100.0" prefWidth="570.0" style="-fx-background-color: #4b7be0;" text="Food Delivery" textFill="WHITE">
                            <font>
                               <Font size="24.0" />
                            </font>
+                           <graphic>
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Order food to be delivered to any room in the hospital! Includes accomodations for vegan options and allergies." textAlignment="CENTER" wrappingWidth="450.0" />
+                           </graphic>
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
                         </JFXButton>
-                        <JFXTextArea prefHeight="121.0" prefWidth="268.0" style="-fx-background-color: #4b7be0;" text="Order food to be delivered to any room in the hospital! Includes accomodations for vegan options and allergies." HBox.hgrow="ALWAYS" />
                      </children>
+                     <VBox.margin>
+                        <Insets bottom="20.0" />
+                     </VBox.margin>
                   </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                  <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <JFXButton maxHeight="1.7976931348623157E308" prefWidth="268.0" style="-fx-background-color: #b84e4e;" text="Religious Requests" textFill="WHITE">
+                        <JFXButton contentDisplay="BOTTOM" maxHeight="100.0" prefHeight="100.0" prefWidth="570.0" style="-fx-background-color: #4b7be0;" text="Gift Delivery" textFill="WHITE">
                            <font>
                               <Font size="24.0" />
                            </font>
+                           <graphic>
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Have a gift delivered to the hospital and transported to a patient's room!" textAlignment="CENTER" wrappingWidth="450.0" />
+                           </graphic>
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
                         </JFXButton>
-                        <JFXTextArea prefHeight="121.0" prefWidth="148.0" style="-fx-background-color: #b84e4e;" text="Request services to accomodate a variety of religious needs, such as blessing and last rites." HBox.hgrow="ALWAYS" />
-                     </children>
-                  </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-                     <children>
-                        <JFXButton maxHeight="1.7976931348623157E308" prefWidth="268.0" style="-fx-background-color: #4b7be0;" text="Gift Delivery" textFill="WHITE">
+                        <JFXButton contentDisplay="BOTTOM" maxHeight="100.0" prefHeight="100.0" prefWidth="570.0" style="-fx-background-color: #666;" text="Religious Requests" textFill="WHITE">
                            <font>
                               <Font size="24.0" />
                            </font>
+                           <graphic>
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Request services to accomodate a variety of religious needs, such as blessings and last rites." textAlignment="CENTER" wrappingWidth="450.0" />
+                           </graphic>
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
                         </JFXButton>
-                        <JFXTextArea prefHeight="121.0" prefWidth="130.0" style="-fx-background-color: #4b7be0;" text="Have a gift delivered to the hospital and transported to a patient's room!" HBox.hgrow="ALWAYS" />
                      </children>
+                     <VBox.margin>
+                        <Insets bottom="20.0" />
+                     </VBox.margin>
                   </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                  <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <JFXButton maxHeight="1.7976931348623157E308" style="-fx-background-color: #b84e4e;" text="Patient Transportation" textFill="WHITE">
+                        <JFXButton contentDisplay="BOTTOM" maxHeight="100.0" prefHeight="100.0" prefWidth="570.0" style="-fx-background-color: #666;" text="Patient Transportation" textFill="WHITE">
                            <font>
                               <Font size="24.0" />
                            </font>
+                           <graphic>
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Request patient transportation within the hospital. Requires employee authentification." textAlignment="CENTER" wrappingWidth="450.0" />
+                           </graphic>
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
                         </JFXButton>
-                        <JFXTextArea prefHeight="120.0" prefWidth="234.0" style="-fx-background-color: #b84e4e;" text="Request patient transportation within the hospital. Requires employee authentification." HBox.hgrow="ALWAYS" />
+                        <JFXButton contentDisplay="BOTTOM" maxHeight="100.0" onAction="#handleSanitation" prefWidth="570.0" ripplerFill="#4b7be0" style="-fx-background-color: #4b7be0;" text="Sanitation" textFill="WHITE">
+                           <font>
+                              <Font size="27.0" />
+                           </font>
+                           <graphic>
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Request hospital staff to clean up spills, rooms, and public spaces! " textAlignment="CENTER" wrappingWidth="450.0" />
+                           </graphic>
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </JFXButton>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="20.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <JFXButton contentDisplay="BOTTOM" maxHeight="100.0" prefHeight="100.0" prefWidth="570.0" style="-fx-background-color: #4b7be0;" text="Security" textFill="WHITE">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                           <graphic>
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Request immediate help from the hospital's security staff." textAlignment="CENTER" wrappingWidth="450.0" />
+                           </graphic>
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </JFXButton>
+                        <JFXButton contentDisplay="BOTTOM" maxHeight="100.0" prefWidth="570.0" style="-fx-background-color: #666;" text="Laundry" textFill="WHITE">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                           <graphic>
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Hospital environmental services (EVS), such as replacements for clothing and bedding." textAlignment="CENTER" wrappingWidth="450.0" />
+                           </graphic>
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </JFXButton>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="20.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <JFXButton contentDisplay="BOTTOM" maxHeight="100.0" prefHeight="100.0" prefWidth="570.0" style="-fx-background-color: #666;" text="Language Interpeter" textFill="WHITE">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                           <graphic>
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Receive help from on-site translators." textAlignment="CENTER" wrappingWidth="450.0" />
+                           </graphic>
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </JFXButton>
+                        <JFXButton contentDisplay="BOTTOM" maxHeight="1.7976931348623157E308" prefHeight="100.0" prefWidth="570.0" style="-fx-background-color: #4b7be0;" text="Maintenance" textFill="WHITE">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                           <graphic>
+                              <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Request maintenance on failing facilities, such elevator and power issues. Requires employee authentification." textAlignment="CENTER" wrappingWidth="450.0" />
+                           </graphic>
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </JFXButton>
                      </children>
                   </HBox>
                </children>
             </VBox>
-            <VBox minWidth="600.0" prefHeight="200.0" prefWidth="600.0">
+            <HBox prefHeight="100.0" prefWidth="1200.0">
                <children>
-                  <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-                     <children>
-                        <JFXButton buttonType="RAISED" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" onAction="#handleSanitation" prefWidth="268.0" ripplerFill="#4b7be0" style="-fx-background-color: #4b7be0;" text="Sanitation" textFill="WHITE" HBox.hgrow="ALWAYS">
-                           <font>
-                              <Font size="27.0" />
-                           </font>
-                        </JFXButton>
-                        <JFXTextArea prefHeight="120.0" prefWidth="227.0" style="-fx-background-color: #4b7be0;" text="Request hospital staff to clean up spills, rooms, and public spaces! " HBox.hgrow="ALWAYS" />
-                     </children>
-                  </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-                     <children>
-                        <JFXButton maxHeight="1.7976931348623157E308" prefWidth="268.0" style="-fx-background-color: #b84e4e;" text="Laundry" textFill="WHITE">
-                           <font>
-                              <Font size="24.0" />
-                           </font>
-                        </JFXButton>
-                        <JFXTextArea prefHeight="120.0" prefWidth="207.0" style="-fx-background-color: #b84e4e;" text="Hospital environmental services (EVS), such as replacements for clothing and bedding." HBox.hgrow="ALWAYS" />
-                     </children>
-                  </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-                     <children>
-                        <JFXButton maxHeight="1.7976931348623157E308" prefWidth="268.0" style="-fx-background-color: #4b7be0;" text="Security" textFill="WHITE">
-                           <font>
-                              <Font size="24.0" />
-                           </font>
-                        </JFXButton>
-                        <JFXTextArea prefHeight="120.0" prefWidth="179.0" style="-fx-background-color: #4b7be0;" text="Request immediate help from the hospital's security staff." HBox.hgrow="ALWAYS" />
-                     </children>
-                  </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-                     <children>
-                        <JFXButton maxHeight="1.7976931348623157E308" prefWidth="268.0" style="-fx-background-color: #b84e4e;" text="Language Interpreter" textFill="WHITE">
-                           <font>
-                              <Font size="24.0" />
-                           </font>
-                        </JFXButton>
-                        <JFXTextArea prefHeight="120.0" prefWidth="92.0" style="-fx-background-color: #b84e4e;" text="Receive help from on-site translators." HBox.hgrow="ALWAYS" />
-                     </children>
-                  </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-                     <children>
-                        <JFXButton maxHeight="1.7976931348623157E308" prefWidth="268.0" style="-fx-background-color: #4b7be0;" text="Maintenance" textFill="WHITE">
-                           <font>
-                              <Font size="24.0" />
-                           </font>
-                        </JFXButton>
-                        <JFXTextArea prefHeight="120.0" prefWidth="24.0" style="-fx-background-color: #4b7be0;" text="Request maintenance on failing facilities, such elevator and power issues. Requires employee authentification." HBox.hgrow="ALWAYS" />
-                     </children>
-                  </HBox>
+                  <JFXButton buttonType="RAISED" minHeight="50.0" onAction="#backToMain" prefHeight="50.0" style="-fx-background-color: #db1212;" text="Back" textFill="WHITE">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="25.0" />
+                     </HBox.margin>
+                  </JFXButton>
+                  <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onAction="#handleManageRequestPage" prefHeight="50.0" prefWidth="227.0" ripplerFill="#00a120" style="-fx-background-color: #007700;" text="View/Manage Requests" textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="30.0" top="25.0" />
+                     </HBox.margin>
+                  </JFXButton>
                </children>
-            </VBox>
+               <padding>
+                  <Insets left="30.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets top="50.0" />
+               </VBox.margin>
+            </HBox>
          </children>
-      </HBox>
+      </VBox>
    </children>
 </AnchorPane>
