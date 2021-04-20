@@ -12,6 +12,8 @@ public interface IMapService {
     Stream<EdgeInfo> getAllEdges() throws SQLException;
     NodeInfo getNode(String id) throws SQLException;
     EdgeInfo getEdge(String id) throws SQLException;
+    boolean nodeExists(String id);
+    boolean edgeExists(String id);
 
     /* the csv loaders */
     void loadMapFromCSV(String filepath) throws IOException, SQLException;
