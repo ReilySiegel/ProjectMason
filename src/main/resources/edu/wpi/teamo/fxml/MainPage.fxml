@@ -73,7 +73,7 @@
                               <Insets bottom="10.0" top="10.0" />
                            </VBox.margin>
                         </JFXButton>
-                        <JFXButton minHeight="20.0" minWidth="400.0" onAction="#handleMapEditor" prefWidth="400.0" style="-fx-background-color: #008CBA;" text="%key.map_editor" textFill="WHITE">
+                        <JFXButton minHeight="20.0" minWidth="400.0" onAction="#handleLogin" prefWidth="400.0" style="-fx-background-color: #008CBA;" text="%key.map_editor" textFill="WHITE">
                            <VBox.margin>
                               <Insets bottom="10.0" top="10.0" />
                            </VBox.margin>

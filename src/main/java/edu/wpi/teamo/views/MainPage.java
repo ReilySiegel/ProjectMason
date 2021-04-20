@@ -95,6 +95,13 @@ public class MainPage {
     }
 
     /**
+     * event handler for switching to login page
+     * @param e Action Event parameter
+     */
+    @FXML
+    private void handleLogin(ActionEvent e) { App.switchPage(Pages.LOGIN);}
+
+    /**
      * Toggles between spanish and english (later on implement dedicated page for multiple languages?)
      * @param e action event
      */

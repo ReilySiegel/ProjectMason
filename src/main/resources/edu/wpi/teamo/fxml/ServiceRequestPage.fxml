@@ -130,7 +130,7 @@
                               <Insets left="20.0" />
                            </HBox.margin>
                         </JFXButton>
-                        <JFXButton contentDisplay="BOTTOM" maxHeight="100.0" onAction="#handleLogin" prefWidth="570.0" style="-fx-background-color: #666;" text="%key.laundry" textFill="WHITE">
+                        <JFXButton contentDisplay="BOTTOM" maxHeight="100.0" prefWidth="570.0" style="-fx-background-color: #666;" text="%key.laundry" textFill="WHITE">
                            <font>
                               <Font size="24.0" />
                            </font>
