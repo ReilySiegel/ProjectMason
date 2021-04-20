@@ -198,6 +198,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         floorSwitcher.getItems().add("1");
         floorSwitcher.getItems().add("2");
         floorSwitcher.getItems().add("3");
+        floorSwitcher.setValue(selectedFloor);
 
         map = new Map(mapImage, nodePane, mapText, this::onClickNode, this::onClickEdge);
 
