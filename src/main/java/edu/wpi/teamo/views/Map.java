@@ -5,6 +5,7 @@ import edu.wpi.teamo.algos.AlgoNode;
 import edu.wpi.teamo.database.map.EdgeInfo;
 import edu.wpi.teamo.database.map.NodeInfo;
 import javafx.scene.layout.AnchorPane;
+
 import java.io.FileNotFoundException;
 
 import javafx.scene.image.ImageView;
@@ -17,6 +18,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+
 import java.io.FileInputStream;
 import java.util.List;
 
@@ -224,30 +226,17 @@ public class Map  {
         }
     }
 
-    static public boolean loadImages() {
-        boolean loaded = true;
-        try {
-            FileInputStream L1FloorStream = new FileInputStream("src/main/resources/edu/wpi/teamo/fxml/Maps/00_thelowerlevel1.png");
-            L1FloorImage = new Image(L1FloorStream);
+    static public void loadImages() {
+        L1FloorImage = new Image("/edu/wpi/teamo/images/00_thelowerlevel1.png");
 
-            FileInputStream L2FloorStream = new FileInputStream("src/main/resources/edu/wpi/teamo/fxml/Maps/00_thelowerlevel2.png");
-            L2FloorImage = new Image(L2FloorStream);
+        L2FloorImage = new Image("/edu/wpi/teamo/images/00_thelowerlevel2.png");
 
-            FileInputStream groundFloorStream = new FileInputStream("src/main/resources/edu/wpi/teamo/fxml/Maps/00_thegroundfloor.png");
-            groundFloorImage = new Image(groundFloorStream);
+        groundFloorImage = new Image("/edu/wpi/teamo/images/00_thegroundfloor.png");
 
-            FileInputStream firstFloorStream = new FileInputStream("src/main/resources/edu/wpi/teamo/fxml/Maps/01_thefirstfloor.png");
-            firstFloorImage = new Image(firstFloorStream);
+        firstFloorImage = new Image("/edu/wpi/teamo/images/01_thefirstfloor.png");
 
-            FileInputStream secondFloorStream = new FileInputStream("src/main/resources/edu/wpi/teamo/fxml/Maps/02_thesecondfloor.png");
-            secondFloorImage = new Image(secondFloorStream);
+        secondFloorImage = new Image("/edu/wpi/teamo/images/02_thesecondfloor.png");
 
-            FileInputStream thirdFloorStream = new FileInputStream("src/main/resources/edu/wpi/teamo/fxml/Maps/03_thethirdfloor.png");
-            thirdFloorImage = new Image(thirdFloorStream);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            loaded = false;
-        }
-        return loaded;
+        thirdFloorImage = new Image("/edu/wpi/teamo/images/03_thethirdfloor.png");
     }
 }

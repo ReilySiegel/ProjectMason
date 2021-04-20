@@ -26,7 +26,7 @@
                   </Text>
                   <ImageView fx:id="imageView" fitHeight="602.0" fitWidth="920.0" layoutX="33.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@Maps/00_thelowerlevel1.png" />
+                        <Image url="@../images/00_thelowerlevel1.png" />
                      </image>
                   </ImageView>
                   <AnchorPane fx:id="pathPane" layoutX="34.0" layoutY="64.0" prefHeight="602.0" prefWidth="885.0" />

@@ -108,7 +108,6 @@ public class PathfindingPage extends SubPageController implements Initializable 
             selectingStart = true;
             selectingEnd = false;
         }
-
         chooseStartButton.setDisable(selectingStart);
         chooseEndButton.setDisable(selectingEnd);
     }
@@ -122,7 +121,6 @@ public class PathfindingPage extends SubPageController implements Initializable 
             selectingStart = false;
             selectingEnd = true;
         }
-        System.out.println(selectingEnd);
         chooseEndButton.setDisable(selectingEnd);
         chooseStartButton.setDisable(selectingStart);
     }
