@@ -6,7 +6,6 @@
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXTreeTableView?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
@@ -65,7 +64,7 @@
                                  </image>
                               </ImageView>
                               <JFXComboBox fx:id="floorSwitcher" layoutX="910.0" layoutY="674.0" onAction="#onFloorSwitch" />
-                              <Canvas fx:id="mapCanvas" height="668.0" layoutX="-1.0" width="980.0" />
+                              <AnchorPane fx:id="nodePane" layoutY="2.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="668.0" prefWidth="980.0" />
                            </children>
                         </AnchorPane>
                      </content>

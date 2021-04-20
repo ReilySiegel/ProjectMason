@@ -12,6 +12,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import edu.wpi.teamo.database.map.Edge;
@@ -33,6 +34,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
@@ -137,13 +139,12 @@ public class MapEditorPage extends SubPageController implements Initializable{
     String selectedFloor = "1";
 
     @FXML
-    private Canvas mapCanvas;
-
-    @FXML
     private ImageView mapImage;
 
-    Map map;
+    @FXML
+    private AnchorPane nodePane;
 
+    Map map;
 
     boolean treeInit = false;
 
@@ -154,6 +155,28 @@ public class MapEditorPage extends SubPageController implements Initializable{
     void onFloorSwitch(ActionEvent event) {
         selectedFloor = floorSwitcher.getValue();
         updateMap();
+    }
+
+//    Consumer<NodeInfo> onClickNode = (NodeInfo node) -> System.out.println("Node " + node.getNodeID() + "was clicked");
+    void onClickNode(NodeInfo node) {
+        origNodeID.setText(node.getNodeID());
+        origNodeX.setText(Integer.toString(node.getXPos()));
+        origNodeY.setText(Integer.toString(node.getYPos()));
+        origNodeBuilding.setText(node.getBuilding());
+        origNodeFloor.setText(node.getFloor());
+        origNodeType.setText(node.getNodeType());
+        origNodeLN.setText(node.getLongName());
+        origNodeSN.setText(node.getShortName());
+        deleteNodeID.setText(node.getNodeID());
+    }
+
+    //    Consumer<EdgeInfo> onClickEdge = (EdgeInfo edge) -> System.out.println("Edge " + node.getEdgeID() + "was clicked");
+    void onClickEdge(EdgeInfo edge) {
+        editingEdge.setText(edge.getEdgeID());
+        editEdgeID.setText(edge.getEdgeID());
+        editNode1.setText(edge.getStartNodeID());
+        editNode2.setText(edge.getEndNodeID());
+        deleteEdgeID.setText(edge.getEdgeID());
     }
 
     /**
@@ -169,7 +192,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         floorSwitcher.getItems().add("2");
         floorSwitcher.getItems().add("3");
 
-        map = new Map(mapCanvas, mapImage);
+        map = new Map(mapImage, nodePane, this::onClickNode, this::onClickEdge);
 
         NumberValidator numberValidator = new NumberValidator();
 
@@ -627,7 +650,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
     }
 
     @FXML
-    void showError(String message){
+    void showError(String message) {
         JFXDialogLayout content = new JFXDialogLayout();
         content.setHeading(new Text("Error"));
         content.setBody(new Text(message));
@@ -655,4 +678,5 @@ public class MapEditorPage extends SubPageController implements Initializable{
             throwables.printStackTrace();
         }
     }
+
 }

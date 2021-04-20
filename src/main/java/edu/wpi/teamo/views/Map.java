@@ -3,20 +3,28 @@ package edu.wpi.teamo.views;
 import edu.wpi.teamo.database.map.EdgeInfo;
 import edu.wpi.teamo.database.map.NodeInfo;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.layout.AnchorPane;
 import java.io.FileNotFoundException;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.image.ImageView;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
 import javafx.scene.canvas.Canvas;
+import javafx.event.EventHandler;
+import javafx.scene.shape.Circle;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import java.io.FileInputStream;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Map  {
 
     ImageView imageView;
-    GraphicsContext gc;
-    Canvas canvas;
+    AnchorPane nodePane;
+
+    Consumer<NodeInfo> onNodeClicked;
+    Consumer<EdgeInfo> onEdgeClicked;
 
     static final int imageWidth = 5000;
     static final int imageHeight = 3400;
@@ -30,15 +38,13 @@ public class Map  {
     static Image secondFloorImage = null;
     static Image thirdFloorImage = null;
 
-    public Map(Canvas canvas, ImageView imageView) {
-        this.gc = canvas.getGraphicsContext2D();
-
+    public Map(ImageView imageView, AnchorPane nodePane,
+               Consumer<NodeInfo> onNodeClicked, Consumer<EdgeInfo> onEdgeClicked) {
         this.imageView = imageView;
-        this.canvas = canvas;
+        this.nodePane = nodePane;
 
-        gc.setStroke(Color.RED);
-        gc.setFill(Color.BLUE);
-        gc.setLineWidth(lineThickness);
+        this.onNodeClicked = onNodeClicked;
+        this.onEdgeClicked = onEdgeClicked;
 
     }
 
@@ -50,11 +56,104 @@ public class Map  {
 
         switchFloorImage(floor);
 
-        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        drawEdges(gc, floorNodes, edges, canvas.getWidth(), canvas.getHeight());
-        drawNodes(gc, floorNodes, canvas.getWidth(), canvas.getHeight());
+        nodePane.getChildren().removeAll(nodePane.getChildren());
+
+        createLines(nodePane, edges, floorNodes, onEdgeClicked);
+        createCircles(nodePane, floorNodes, onNodeClicked);
     }
 
+    private static void createLines(AnchorPane pane, List<EdgeInfo> edges, List<NodeInfo> nodes, Consumer<EdgeInfo> onEdgeClicked) {
+
+        for (EdgeInfo edge : edges) {
+            NodeInfo startNode = findNode(edge.getStartNodeID(), nodes);
+            NodeInfo endNode = findNode(edge.getEndNodeID(), nodes);
+
+            if (startNode != null && endNode != null) {
+                double tfStartX = transformX(startNode.getXPos(), pane.getPrefWidth());
+                double tfStartY = transformY(startNode.getYPos(), pane.getPrefHeight());
+                double tfEndX = transformX(endNode.getXPos(), pane.getPrefWidth());
+                double tfEndY = transformY(endNode.getYPos(), pane.getPrefHeight());
+                Line line = createLine(tfStartX, tfStartY, tfEndX, tfEndY, onEdgeClicked, edge);
+                pane.getChildren().add(line);
+            }
+        }
+
+    }
+
+    private static Line createLine(double StartX, double StartY, double EndX, double EndY, Consumer<EdgeInfo> onEdgeClicked, EdgeInfo edge) {
+        Line line = new Line(StartX, StartY, EndX, EndY);
+        line.setStroke(Color.RED);
+        line.setStrokeWidth(4);
+
+        line.setOnMouseClicked(event -> {
+            onEdgeClicked.accept(edge);
+            event.consume();
+        });
+        line.setOnMouseEntered(event -> {
+            line.setStroke(Color.GREEN);
+            event.consume();
+        });
+        line.setOnMouseExited(event -> {
+            line.setStroke(Color.RED);
+            event.consume();
+        });
+
+        return line;
+    }
+
+    private static void createCircles(AnchorPane pane, List<NodeInfo> nodes, Consumer<NodeInfo> onNodeClicked) {
+        for (NodeInfo node : nodes) {
+            double transformedX = transformX(node.getXPos(), pane.getPrefWidth());
+            double transformedY = transformY(node.getYPos(), pane.getPrefHeight());
+            Circle circle = createCircle(transformedX, transformedY, onNodeClicked, node);
+            pane.getChildren().add(circle);
+        }
+    }
+
+    private static Circle createCircle(double x, double y, Consumer<NodeInfo> onNodeClicked, NodeInfo node) {
+        Circle circle = new Circle(x, y, 4, Color.BLUE);
+        circle.setOnMouseEntered(event -> {
+            circle.setRadius(7);
+            event.consume();
+        });
+        circle.setOnMouseExited(event -> {
+            circle.setRadius(4);
+            event.consume();
+        });
+        circle.setOnMousePressed(event -> {
+            onNodeClicked.accept(node);
+            event.consume();
+        });
+        return circle;
+    }
+
+    private static NodeInfo findNode(String id, List<NodeInfo> nodes) {
+        NodeInfo foundNode = null;
+
+        for (NodeInfo node : nodes) {
+            if (node.getNodeID().equals(id)) {
+                foundNode = node;
+            }
+        }
+
+        return foundNode;
+    }
+
+    private static double transformX(int nodeX, double paneWidth) {
+        return nodeX * (paneWidth / imageWidth);
+    }
+
+    private static double transformY(int nodeY, double paneHeight) {
+        return nodeY * (paneHeight / imageHeight);
+    }
+
+    public double getLineThickness() {
+        return lineThickness;
+    }
+
+    public void setLineThickness(double lineThickness) {
+        this.lineThickness = lineThickness;
+    }
 
     public void switchFloorImage(String floor){
         if (imagesLoaded) {
@@ -85,32 +184,6 @@ public class Map  {
         }
     }
 
-    private static void drawNodes(GraphicsContext gc, List<NodeInfo> nodes,
-                                  double canvasWidth, double canvasHeight) {
-        for (NodeInfo node : nodes) {
-            double transformedX = transformX(node.getXPos(), canvasWidth);
-            double transformedY = transformY(node.getYPos(), canvasHeight);
-
-            gc.fillOval(transformedX - 1.5, transformedY - 1.5, 3, 3);
-        }
-    }
-
-    private static void drawEdges(GraphicsContext gc, List<NodeInfo> nodes,
-                                  List<EdgeInfo> edges, double canvasWidth, double canvasHeight) {
-        for (EdgeInfo edge : edges) {
-            NodeInfo startNode = findNode(edge.getStartNodeID(), nodes);
-            NodeInfo endNode = findNode(edge.getEndNodeID(), nodes);
-
-            if (startNode != null && endNode != null) {
-                double tfStartX = transformX(startNode.getXPos(), canvasWidth);
-                double tfStartY = transformY(startNode.getYPos(), canvasHeight);
-                double tfEndX = transformX(endNode.getXPos(), canvasWidth);
-                double tfEndY = transformY(endNode.getYPos(), canvasHeight);
-                gc.strokeLine(tfStartX, tfStartY, tfEndX, tfEndY);
-            }
-        }
-    }
-
     static public boolean loadImages() {
         boolean loaded = true;
         try {
@@ -136,33 +209,5 @@ public class Map  {
             loaded = false;
         }
         return loaded;
-    }
-
-    private static NodeInfo findNode(String id, List<NodeInfo> nodes) {
-        NodeInfo foundNode = null;
-
-        for (NodeInfo node : nodes) {
-            if (node.getNodeID().equals(id)) {
-                foundNode = node;
-            }
-        }
-
-        return foundNode;
-    }
-
-    private static double transformX(int nodeX, double canvasWidth) {
-        return nodeX * (canvasWidth / imageWidth);
-    }
-
-    private static double transformY(int nodeY, double canvasHeight) {
-        return nodeY * (canvasHeight / imageHeight);
-    }
-
-    public double getLineThickness() {
-        return lineThickness;
-    }
-
-    public void setLineThickness(double lineThickness) {
-        this.lineThickness = lineThickness;
     }
 }
