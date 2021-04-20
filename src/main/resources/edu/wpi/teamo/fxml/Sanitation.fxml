@@ -17,7 +17,7 @@
          <children>
             <HBox prefHeight="50.0" prefWidth="580.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Service">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.service">
                      <font>
                         <Font name="Arial" size="18.0" />
                      </font>
@@ -27,7 +27,7 @@
                   </Text>
                   <AnchorPane prefHeight="50.0" prefWidth="800.0">
                      <children>
-                        <JFXTextField fx:id="service" minWidth="300.0" prefHeight="25.0" prefWidth="600.0" AnchorPane.rightAnchor="0.0" />
+                        <JFXTextField fx:id="service" minWidth="300.0" prefHeight="25.0" prefWidth="600.0" promptText="%key.name_of_service" AnchorPane.rightAnchor="0.0" />
                         <Text fx:id="typeErrorText" fill="RED" layoutX="94.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                      </children>
                   </AnchorPane>
@@ -38,7 +38,7 @@
             </HBox>
             <HBox prefHeight="50.0" prefWidth="580.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Room:">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.room">
                      <font>
                         <Font name="Arial" size="18.0" />
                      </font>
@@ -48,7 +48,7 @@
                   </Text>
                   <AnchorPane prefHeight="50.0" prefWidth="800.0">
                      <children>
-                        <JFXComboBox fx:id="loc" minWidth="300.0" prefHeight="25.0" prefWidth="600.0" AnchorPane.rightAnchor="0.0" />
+                        <JFXComboBox fx:id="loc" minWidth="300.0" prefHeight="25.0" prefWidth="600.0" promptText="%key.room" AnchorPane.rightAnchor="0.0" />
                         <Text fx:id="roomErrorText" fill="RED" layoutX="76.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                      </children>
                   </AnchorPane>
@@ -59,14 +59,14 @@
             </HBox>
             <HBox prefHeight="50.0" prefWidth="200.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Assignee Name">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.assignee_name">
                      <font>
                         <Font name="Arial" size="18.0" />
                      </font>
                   </Text>
                   <AnchorPane prefHeight="50.0" prefWidth="800.0">
                      <children>
-                        <JFXTextField fx:id="assignee" minWidth="300.0" prefHeight="25.0" prefWidth="600.0" AnchorPane.rightAnchor="0.0" />
+                        <JFXTextField fx:id="assignee" minWidth="300.0" prefHeight="25.0" prefWidth="600.0" promptText="%key.name_of_assignee" AnchorPane.rightAnchor="0.0" />
                         <Text fx:id="assignedErrorText" fill="RED" layoutX="42.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                      </children>
                      <HBox.margin>
@@ -80,14 +80,14 @@
             </HBox>
             <HBox prefHeight="50.0" prefWidth="200.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Notes">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.notes">
                      <font>
                         <Font name="Arial" size="18.0" />
                      </font>
                   </Text>
                   <AnchorPane prefHeight="50.0" prefWidth="800.0">
                      <children>
-                        <JFXTextField fx:id="notes" minWidth="300.0" prefHeight="25.0" prefWidth="600.0" AnchorPane.rightAnchor="0.0" />
+                        <JFXTextField fx:id="notes" minWidth="300.0" prefHeight="25.0" prefWidth="600.0" promptText="%key.notes" AnchorPane.rightAnchor="0.0" />
                      </children>
                      <HBox.margin>
                         <Insets />
@@ -137,7 +137,7 @@
    <top>
       <VBox alignment="CENTER" prefHeight="110.0" prefWidth="100.0" style="-fx-background-color: #001A3C;" BorderPane.alignment="CENTER">
          <children>
-            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Sanitation Request">
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.sanitation_request">
                <font>
                   <Font name="Arial" size="36.0" />
                </font>
