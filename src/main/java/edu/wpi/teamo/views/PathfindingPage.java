@@ -1,19 +1,20 @@
 package edu.wpi.teamo.views;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXTextArea;
+import com.jfoenix.controls.*;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.algos.AlgoNode;
 import edu.wpi.teamo.database.map.EdgeInfo;
 import edu.wpi.teamo.database.map.NodeInfo;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 
 import java.awt.*;
 import java.net.URL;
@@ -29,6 +30,12 @@ public class PathfindingPage extends SubPageController implements Initializable 
     private JFXButton backButton;
 
     @FXML
+    private JFXButton helpButton;
+
+    @FXML
+    private JFXButton stepFloorButton;
+
+    @FXML
     private JFXComboBox<String> endDropdown;
 
     @FXML
@@ -37,6 +44,9 @@ public class PathfindingPage extends SubPageController implements Initializable 
     @FXML
     private JFXComboBox<String> switchFloor;
     String floor;
+
+    @FXML
+    private StackPane stackPane;
 
     @FXML
     JFXButton chooseStartButton;
@@ -129,6 +139,31 @@ public class PathfindingPage extends SubPageController implements Initializable 
         if (selectedStartID != null && selectedEndID != null) {
             findPath(selectedStartID, selectedEndID);
         }
+    }
+
+    @FXML
+    private void handleHelpButton(ActionEvent e){
+        JFXDialogLayout content = new JFXDialogLayout();
+        content.setHeading(new Text("Help"));
+        content.setBody(new Text("Select a starting location and ending location to get directions.\n" +
+                "1. Choose Start Location: Click on the button and then choose the node at or closest to your current location on the map.\n" +
+                "2. Choose End Location: Click on the button and ten choose the node at or closest to destination.\n" +
+                "3. Find Path: Click on the button to get directions on the map and text box on the right side of the map.\n"+
+                "4. Switch Floor: Click on the button to switch between the floors that  are on your path.\n"));
+        JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
+
+
+        JFXButton closeButton = new JFXButton("Close");
+        closeButton.setStyle("-fx-background-color: #F40F19");
+        closeButton.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent event) {
+                                        errorWindow.close();
+                                    }
+                                });
+
+        content.setActions(closeButton);
+        errorWindow.show();
     }
 
     void findPath(String startID, String endID) {
