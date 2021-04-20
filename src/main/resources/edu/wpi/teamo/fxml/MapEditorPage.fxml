@@ -63,7 +63,7 @@
                                     <Image url="@Maps/00_thegroundfloor.png" />
                                  </image>
                               </ImageView>
-                              <JFXComboBox fx:id="floorSwitcher" layoutX="910.0" layoutY="674.0" onAction="#onFloorSwitch" />
+                              <JFXComboBox fx:id="floorSwitcher" layoutX="910.0" layoutY="674.0" onAction="#onFloorSwitch" promptText="Level" AnchorPane.rightAnchor="0.0" />
                               <AnchorPane fx:id="nodePane" layoutY="2.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="668.0" prefWidth="980.0" />
                            </children>
                         </AnchorPane>

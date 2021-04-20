@@ -347,7 +347,12 @@ public class MapEditorPage extends SubPageController implements Initializable{
         String newNodeLN = origNodeLN.getText();
         String newNodeSN = origNodeSN.getText();
 
+
         try{
+            if(App.mapService.nodeExists(editNodeID) && !currentNodeID.equals(editNodeID)){
+                showError("The Node ID already exists.");
+                return;
+            }
             App.mapService.setNodePosition(currentNodeID, Integer.parseInt(newNodeX), Integer.parseInt(newNodeY));
             App.mapService.setNodeBuilding(currentNodeID, newNodeBuild);
             App.mapService.setNodeFloor(currentNodeID, newNodeFloor);
@@ -416,8 +421,13 @@ public class MapEditorPage extends SubPageController implements Initializable{
         String editEdgeNode1 = editNode1.getText();
         String editEdgeNode2 = editNode2.getText();
 
-        // try catch for reading in file
+        // try catch for editing edge
         try {
+
+            if(App.mapService.edgeExists(newEditEdgeID) && !newEditEdgeID.equals(editingEdge.getText())){
+                showError("This Edge ID already exists.");
+                return;
+            }
             App.mapService.setEdgeID(editingEdge.getText(), newEditEdgeID);
             App.mapService.setEdgeStartID(newEditEdgeID, editEdgeNode1);
             App.mapService.setEdgeEndID(newEditEdgeID, editEdgeNode2);
