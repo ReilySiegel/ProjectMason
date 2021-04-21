@@ -192,7 +192,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
     public void initialize(URL location, ResourceBundle resources) {
         switchFloor.getItems().add("L2");
         switchFloor.getItems().add("L1");
-        switchFloor.getItems().add("Ground Floor");
+        switchFloor.getItems().add("G");
         switchFloor.getItems().add("1");
         switchFloor.getItems().add("2");
         switchFloor.getItems().add("3");
