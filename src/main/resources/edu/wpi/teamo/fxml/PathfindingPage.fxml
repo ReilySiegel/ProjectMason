@@ -59,7 +59,7 @@
                         <Font name="Arial" size="21.0" />
                      </font>
                   </JFXTextArea>
-                  <JFXButton fx:id="stepFloorButton" layoutX="671.0" layoutY="15.0" prefHeight="26.0" prefWidth="114.0" style="-fx-background-color: #ececec;" text="%key.switch_floor" />
+                  <JFXButton fx:id="stepFloorButton" disable="true" layoutX="671.0" layoutY="15.0" opacity="0.0" prefHeight="26.0" prefWidth="114.0" style="-fx-background-color: #ececec;" text="%key.switch_floor" />
                   <JFXButton fx:id="helpButton" buttonType="RAISED" layoutX="938.0" layoutY="712.0" onAction="#handleHelpButton" prefHeight="43.0" prefWidth="104.0" style="-fx-background-color: #000080;" text="%key.help" textFill="#f2eeee" />
                   <Text layoutX="938.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.directions" wrappingWidth="253.99998092651367">
                      <font>
