@@ -71,6 +71,11 @@
                                     <Font name="Arial" size="21.0" />
                                  </font>
                               </JFXTextArea>
+                              <JFXButton buttonType="RAISED" layoutX="14.0" layoutY="674.0" onAction="#handleHelp" prefHeight="34.0" prefWidth="34.0" style="-fx-background-color: #001bb5; -fx-border-radius: 17; -fx-background-radius: 17;" text="?" textFill="WHITE">
+                                 <font>
+                                    <Font name="Arial Bold" size="16.0" />
+                                 </font>
+                              </JFXButton>
                            </children>
                         </AnchorPane>
                      </content>

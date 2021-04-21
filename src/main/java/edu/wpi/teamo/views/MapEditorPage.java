@@ -785,4 +785,31 @@ public class MapEditorPage extends SubPageController implements Initializable{
         }
     }
 
+    @FXML
+    private void handleHelp(ActionEvent e) {
+
+        JFXDialogLayout content = new JFXDialogLayout();
+        content.setHeading(new Text("Help - Map Editor"));
+        content.setBody(new Text("To add a map node:\n" +
+                "To add a node to the map, switch to the \"Add\" tab on the right.\n" +
+                "The Node ID field must be unique.\n" +
+                "Clicking on an unoccupied area of the map will automatically fill in the necessary inputs.\n" +
+                "In order for the node to be displayed, the floor field must be one of: L2, L1, G, 1, 2, 3\n" +
+                "The X and Y fields must be numeric, the best way to set them is clicking the map.\n" +
+                "Click \"Submit Node\" to add the node to the database.\n"));
+        JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
+
+        JFXButton closeButton = new JFXButton("Close");
+        closeButton.setStyle("-fx-background-color: #F40F19; -fx-text-fill: #fff");
+        closeButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                errorWindow.close();
+            }
+        });
+
+        content.setActions(closeButton);
+        errorWindow.show();
+    }
+
 }
