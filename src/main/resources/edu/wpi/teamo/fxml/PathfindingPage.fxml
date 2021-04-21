@@ -3,13 +3,11 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextArea?>
-<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -31,15 +29,12 @@
                         <Image url="@../images/00_thelowerlevel1.png" />
                      </image>
                   </ImageView>
-                  <AnchorPane fx:id="pathPane" layoutX="34.0" layoutY="64.0" prefHeight="602.0" prefWidth="885.0">
-                     <children>
-                        <VBox layoutX="681.0" layoutY="536.0" prefHeight="52.0" prefWidth="190.0">
-                           <children>
-                              <JFXTextField focusColor="#28292c" prefHeight="53.0" prefWidth="149.0" text=" Red - Path on Same Floor" />
-                              <JFXTextField text="Grey - Path on another floor" />
-                           </children>
-                        </VBox>
-                     </children></AnchorPane>
+                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="715.0" AnchorPane.topAnchor="600.0">
+                     <image>
+                        <Image url="@../images/legend1.jpg" />
+                     </image>
+                  </ImageView>
+                  <AnchorPane fx:id="pathPane" layoutX="34.0" layoutY="64.0" prefHeight="602.0" prefWidth="885.0" />
                   <JFXButton fx:id="backButton" buttonType="RAISED" layoutX="1050.0" layoutY="712.0" onAction="#backToMain" prefHeight="43.0" prefWidth="104.0" style="-fx-background-color: #F40F19;" text="Back" textFill="#fffbfb" AnchorPane.bottomAnchor="29.0" AnchorPane.leftAnchor="1050.0" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="712.0" />
                   <JFXComboBox fx:id="endDropdown" layoutX="338.0" layoutY="745.0" prefHeight="25.0" prefWidth="170.0" style="-fx-background-color: #C8C8C8;" />
                   <JFXComboBox fx:id="startDropdown" layoutX="61.0" layoutY="745.0" prefHeight="25.0" prefWidth="170.0" style="-fx-background-color: #C8C8C8;" />
