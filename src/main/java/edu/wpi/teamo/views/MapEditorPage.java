@@ -544,7 +544,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
             App.mapService.loadNodesFromFile(path);
             //App.mapService.loadNodesFromFile("src/test/resources/edu/wpi/teamo/map/database/testNodes.csv");
         }
-        catch(NullPointerException | FileNotFoundException | SQLException e){
+        catch(NullPointerException | FileNotFoundException | SQLException | IllegalArgumentException e){
             showError("Please select a valid file");
             return;
         }
@@ -588,7 +588,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
             File f = fc.showOpenDialog(null);
             String path = f.getPath();
             App.mapService.loadEdgesFromFile(path);
-        } catch (FileNotFoundException | SQLException | NullPointerException e)  {
+        } catch (FileNotFoundException | SQLException | NullPointerException | IllegalArgumentException e)  {
             showError("Please select a valid file");
             return;
         }
