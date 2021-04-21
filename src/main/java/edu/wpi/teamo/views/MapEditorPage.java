@@ -790,13 +790,29 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
         JFXDialogLayout content = new JFXDialogLayout();
         content.setHeading(new Text("Help - Map Editor"));
-        content.setBody(new Text("To add a map node:\n" +
+        content.setBody(new Text("*ADDING NODES*\n" +
                 "To add a node to the map, switch to the \"Add\" tab on the right.\n" +
                 "The Node ID field must be unique.\n" +
                 "Clicking on an unoccupied area of the map will automatically fill in the necessary inputs.\n" +
                 "In order for the node to be displayed, the floor field must be one of: L2, L1, G, 1, 2, 3\n" +
                 "The X and Y fields must be numeric, the best way to set them is clicking the map.\n" +
-                "Click \"Submit Node\" to add the node to the database.\n"));
+                "Click \"Submit Node\" to add the node to the database.\n" +
+                "\n*ADDING EDGES*:\n" +
+                "To add a path (edge) between two nodes, first click the \"Choose Start\" button under the edge fields. \n" +
+                "The button will become dark.  Click the desired starting node on the map, and it's ID will automatically be written to the start node field. \n" +
+                "Repeat this process with the \"Choose End\" button to select the end node. An ID will be automatically generated. The ID can be changed, but must be unique." +
+                "Click \"Submit Edge\", and the edge will be created.\n" +
+                "\n*EDITING NODES AND EDGES*\n" +
+                "To edit a node or edge, switch to the \"edit\" tab on the upper right sidebar.\n" +
+                "Clicking a node or edge on the map will fill it's information into the editing fields.\n" +
+                "Change the fields you would like to be changed, and click the submit button under those fields.\n" +
+                "If you change the ID, it must be unique.\n" +
+                "\n*DELETING NODES AND EDGES*\n" +
+                "To delete a node or edge, switch to the \"Delete\" tab on the upper right. \n" +
+                "Click the node or edge on the map that you wish to delete, and its ID will be filled into the input.\n" +
+                "Click the delete button under that field, and it will be permanently deleted from the database."));
+
+
         JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 
         JFXButton closeButton = new JFXButton("Close");
