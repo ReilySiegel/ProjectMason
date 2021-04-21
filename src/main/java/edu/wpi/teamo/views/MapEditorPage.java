@@ -796,12 +796,12 @@ public class MapEditorPage extends SubPageController implements Initializable{
                 "Clicking on an unoccupied area of the map will automatically fill in the necessary inputs.\n" +
                 "In order for the node to be displayed, the floor field must be one of: L2, L1, G, 1, 2, 3\n" +
                 "The X and Y fields must be numeric, the best way to set them is clicking the map.\n" +
-                "Click \"Submit Node\" to add the node to the database.\n" +
+                "Click \"Submit\" to add the node to the database.\n" +
                 "\n*ADDING EDGES*:\n" +
                 "To add a path (edge) between two nodes, first click the \"Choose Start\" button under the edge fields. \n" +
                 "The button will become dark.  Click the desired starting node on the map, and it's ID will automatically be written to the start node field. \n" +
                 "Repeat this process with the \"Choose End\" button to select the end node. An ID will be automatically generated. The ID can be changed, but must be unique." +
-                "Click \"Submit Edge\", and the edge will be created.\n" +
+                "Click \"Submit\", and the edge will be created.\n" +
                 "\n*EDITING NODES AND EDGES*\n" +
                 "To edit a node or edge, switch to the \"edit\" tab on the upper right sidebar.\n" +
                 "Clicking a node or edge on the map will fill it's information into the editing fields.\n" +
