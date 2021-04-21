@@ -67,7 +67,7 @@
                         <Insets bottom="100.0" left="150.0" right="150.0" top="150.0" />
                      </VBox.margin>
                   </JFXTextField>
-                  <JFXPasswordField fx:id="password" promptText="%key.password">
+                  <JFXPasswordField fx:id="password" onAction="#onEnter" promptText="%key.password">
                      <font>
                         <Font size="24.0" />
                      </font>

@@ -40,4 +40,9 @@ public class LoginPage extends SubPageController{
             errorWindow.show();
         }
     }
+
+    @FXML
+    public void onEnter(ActionEvent e) {
+        checkPasswordUsernameCombo(e);
+    }
 }
