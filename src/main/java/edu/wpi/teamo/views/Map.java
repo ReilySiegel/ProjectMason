@@ -1,25 +1,22 @@
 package edu.wpi.teamo.views;
 
-import com.jfoenix.controls.JFXTextArea;
-import edu.wpi.teamo.algos.AlgoNode;
 import edu.wpi.teamo.database.map.EdgeInfo;
 import edu.wpi.teamo.database.map.NodeInfo;
+import com.jfoenix.controls.JFXTextArea;
 import javafx.scene.layout.AnchorPane;
-
 import java.io.FileNotFoundException;
-
+import javafx.scene.input.MouseEvent;
 import javafx.scene.image.ImageView;
-
-import java.util.LinkedList;
+import edu.wpi.teamo.algos.AlgoNode;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
-
 import javafx.scene.shape.Circle;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
-
 import java.io.FileInputStream;
+import java.util.LinkedList;
+import javafx.util.Pair;
 import java.util.List;
 
 public class Map  {
@@ -44,13 +41,27 @@ public class Map  {
     static Image thirdFloorImage = null;
 
     public Map(ImageView imageView, AnchorPane nodePane, JFXTextArea mapText,
-               Consumer<NodeInfo> onNodeClicked, Consumer<EdgeInfo> onEdgeClicked) {
+               Consumer<NodeInfo> onNodeClicked, Consumer<EdgeInfo> onEdgeClicked, Consumer<Pair<Integer, Integer>> onMapClicked) {
         this.imageView = imageView;
         this.nodePane = nodePane;
         this.mapText = mapText;
 
         this.onNodeClicked = onNodeClicked;
         this.onEdgeClicked = onEdgeClicked;
+
+        nodePane.setOnMouseMoved((MouseEvent e) -> {
+            int mapX = (int) transform((int) e.getX(), nodePane.getPrefWidth(), imageWidth);
+            int mapY = (int) transform((int) e.getY(), nodePane.getPrefHeight(), imageHeight);
+            mapText.setText("(" + mapX + " , " + mapY + ")");
+        });
+
+        if (onMapClicked != null) {
+            nodePane.setOnMouseClicked((MouseEvent e) -> {
+                int mapX = (int) transform((int) e.getX(), nodePane.getPrefWidth(), imageWidth);
+                int mapY = (int) transform((int) e.getY(), nodePane.getPrefHeight(), imageHeight);
+                onMapClicked.accept(new Pair<>(mapX, mapY));
+            });
+        }
 
     }
 
@@ -63,10 +74,10 @@ public class Map  {
         for(int i = 0;  i < (path.size() - 1); i++) {
             Color lineColor = path.get(i).getFloor().equals(floor) ? Color.RED : Color.GRAY;
 
-            firstX = transformX(path.get(i).getX(), nodePane.getPrefWidth());
-            firstY = transformY(path.get(i).getY(), nodePane.getPrefHeight());
-            secondX = transformX(path.get(i + 1).getX(), nodePane.getPrefWidth());
-            secondY = transformY(path.get(i + 1).getY(), nodePane.getPrefHeight());
+            firstX = transform(path.get(i).getX(), imageWidth, nodePane.getPrefWidth());
+            firstY = transform(path.get(i).getY(), imageHeight, nodePane.getPrefHeight());
+            secondX = transform(path.get(i + 1).getX(), imageWidth, nodePane.getPrefWidth());
+            secondY = transform(path.get(i + 1).getY(), imageHeight, nodePane.getPrefHeight());
             Line line = createLine(firstX, firstY, secondX, secondY, null, lineColor);
             nodePane.getChildren().add(line);
         }
@@ -107,10 +118,10 @@ public class Map  {
             NodeInfo endNode = findNode(edge.getEndNodeID(), nodes);
 
             if (startNode != null && endNode != null) {
-                double tfStartX = transformX(startNode.getXPos(), nodePane.getPrefWidth());
-                double tfStartY = transformY(startNode.getYPos(), nodePane.getPrefHeight());
-                double tfEndX = transformX(endNode.getXPos(), nodePane.getPrefWidth());
-                double tfEndY = transformY(endNode.getYPos(), nodePane.getPrefHeight());
+                double tfStartX = transform(startNode.getXPos(), imageWidth, nodePane.getPrefWidth());
+                double tfStartY = transform(startNode.getYPos(), imageHeight, nodePane.getPrefHeight());
+                double tfEndX = transform(endNode.getXPos(), imageWidth, nodePane.getPrefWidth());
+                double tfEndY = transform(endNode.getYPos(), imageHeight, nodePane.getPrefHeight());
                 Line line = createLine(tfStartX, tfStartY, tfEndX, tfEndY, edge, Color.RED);
                 nodePane.getChildren().add(line);
             }
@@ -141,8 +152,8 @@ public class Map  {
 
     private void createCircles(List<NodeInfo> nodes) {
         for (NodeInfo node : nodes) {
-            double transformedX = transformX(node.getXPos(), nodePane.getPrefWidth());
-            double transformedY = transformY(node.getYPos(), nodePane.getPrefHeight());
+            double transformedX = transform(node.getXPos(), imageWidth,  nodePane.getPrefWidth());
+            double transformedY = transform(node.getYPos(), imageHeight, nodePane.getPrefHeight());
             Circle circle = createCircle(transformedX, transformedY, onNodeClicked, node, mapText);
             nodePane.getChildren().add(circle);
         }
@@ -181,12 +192,8 @@ public class Map  {
         return foundNode;
     }
 
-    private static double transformX(int nodeX, double paneWidth) {
-        return nodeX * (paneWidth / imageWidth);
-    }
-
-    private static double transformY(int nodeY, double paneHeight) {
-        return nodeY * (paneHeight / imageHeight);
+    private static double transform(int val, double from, double to) {
+        return val * (to / from);
     }
 
     public double getLineThickness() {

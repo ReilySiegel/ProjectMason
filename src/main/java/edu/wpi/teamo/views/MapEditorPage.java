@@ -38,6 +38,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import javafx.util.Pair;
 
 public class MapEditorPage extends SubPageController implements Initializable{
 
@@ -150,6 +151,14 @@ public class MapEditorPage extends SubPageController implements Initializable{
     @FXML
     private AnchorPane nodePane;
 
+    @FXML
+    JFXButton chooseStartButton;
+    boolean selectingStart;
+
+    @FXML
+    JFXButton chooseEndButton;
+    boolean selectingEnd;
+
     Map map;
 
     boolean treeInit = false;
@@ -161,6 +170,30 @@ public class MapEditorPage extends SubPageController implements Initializable{
     void onFloorSwitch(ActionEvent event) {
         selectedFloor = floorSwitcher.getValue();
         updateMap();
+    }
+
+    //    Consumer<Pair<Integer, Integer>> onClickEdge = (Pair<Integer, Integer> coords) -> System.out.println("Edge " + node.getEdgeID() + "was clicked");
+    void onClickMap(Pair<Integer, Integer> coords) {
+        addNodeX.setText(String.valueOf(coords.getKey()));
+        addNodeY.setText(String.valueOf(coords.getValue()));
+
+        String autoGenName = String.format("Floor_%s_%d_%d", selectedFloor, coords.getKey(), coords.getValue());
+        addNodeFloor.setText(selectedFloor);
+        if (addNodeID.getText().isEmpty()) {
+            addNodeID.setText(autoGenName);
+        }
+        if (addNodeBuilding.getText().isEmpty()) {
+            addNodeBuilding.setText(String.format("Floor_%s_default", selectedFloor));
+        }
+        if (addNodeType.getText().isEmpty()) {
+            addNodeType.setText("PARK");
+        }
+        if (addNodeLN.getText().isEmpty()) {
+            addNodeLN.setText(autoGenName);
+        }
+        if (addNodeSN.getText().isEmpty()) {
+            addNodeSN.setText(autoGenName);
+        }
     }
 
 //    Consumer<NodeInfo> onClickNode = (NodeInfo node) -> System.out.println("Node " + node.getNodeID() + "was clicked");
@@ -175,6 +208,19 @@ public class MapEditorPage extends SubPageController implements Initializable{
         origNodeLN.setText(node.getLongName());
         origNodeSN.setText(node.getShortName());
         deleteNodeID.setText(node.getNodeID());
+
+        if (selectingStart) {
+            chooseStartButton.setDisable(false);
+            addNode1.setText(node.getNodeID());
+            selectingStart = false;
+            addEdgeID.setText(node.getNodeID()+"_"+addNode2.getText());
+        }
+        if (selectingEnd) {
+            chooseEndButton.setDisable(false);
+            addNode2.setText(node.getNodeID());
+            selectingEnd = false;
+            addEdgeID.setText(addNode1.getText()+"_"+node.getNodeID());
+        }
     }
 
     //    Consumer<EdgeInfo> onClickEdge = (EdgeInfo edge) -> System.out.println("Edge " + node.getEdgeID() + "was clicked");
@@ -184,6 +230,33 @@ public class MapEditorPage extends SubPageController implements Initializable{
         editNode1.setText(edge.getStartNodeID());
         editNode2.setText(edge.getEndNodeID());
         deleteEdgeID.setText(edge.getEdgeID());
+    }
+
+    private void handleChooseStart() {
+        if (selectingStart) {
+            selectingStart = false;
+        }
+        else {
+            mapText.setText("Select your start location.");
+            selectingStart = true;
+            selectingEnd = false;
+        }
+
+        chooseStartButton.setDisable(selectingStart);
+        chooseEndButton.setDisable(selectingEnd);
+    }
+
+    private void handleChoseEnd() {
+        if (selectingEnd) {
+            selectingEnd = false;
+        }
+        else {
+            mapText.setText("Select your destination.");
+            selectingStart = false;
+            selectingEnd = true;
+        }
+        chooseEndButton.setDisable(selectingEnd);
+        chooseStartButton.setDisable(selectingStart);
     }
 
     /**
@@ -200,7 +273,10 @@ public class MapEditorPage extends SubPageController implements Initializable{
         floorSwitcher.getItems().add("3");
         floorSwitcher.setValue(selectedFloor);
 
-        map = new Map(mapImage, nodePane, mapText, this::onClickNode, this::onClickEdge);
+        chooseStartButton.setOnAction(event -> handleChooseStart());
+        chooseEndButton.setOnAction(event -> handleChoseEnd());
+
+        map = new Map(mapImage, nodePane, mapText, this::onClickNode, this::onClickEdge, this::onClickMap);
 
         NumberValidator numberValidator = new NumberValidator();
 
@@ -310,6 +386,15 @@ public class MapEditorPage extends SubPageController implements Initializable{
                     newNodeFloor, newNodeBuilding, newNodeType,
                     newNodeLN, newNodeSN);
             updateNodeTreeDisplay();
+
+            addNodeID.setText("");
+            addNodeX.setText("");
+            addNodeY.setText("");
+            addNodeBuilding.setText("");
+            addNodeFloor.setText("");
+            addNodeType.setText("");
+            addNodeLN.setText("");
+            addNodeSN.setText("");
 
         }
         catch(SQLException | AssertionError | IllegalArgumentException e){

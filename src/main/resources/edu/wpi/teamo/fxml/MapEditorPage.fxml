@@ -212,6 +212,20 @@
                                              <Insets bottom="3.0" left="10.0" right="10.0" />
                                           </VBox.margin>
                                        </JFXTextField>
+                                       <HBox prefHeight="100.0" prefWidth="200.0">
+                                          <children>
+                                             <JFXButton fx:id="chooseStartButton" buttonType="RAISED" prefHeight="25.0" prefWidth="90.0" ripplerFill="RED" style="-fx-background-color: #C29D3C;" text="Choose Start">
+                                                <HBox.margin>
+                                                   <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                                                </HBox.margin>
+                                             </JFXButton>
+                                             <JFXButton fx:id="chooseEndButton" buttonType="RAISED" prefHeight="25.0" prefWidth="90.0" ripplerFill="RED" style="-fx-background-color: #C29D3C;" text="Choose End">
+                                                <HBox.margin>
+                                                   <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+                                                </HBox.margin>
+                                             </JFXButton>
+                                          </children>
+                                       </HBox>
                                        <JFXButton buttonType="RAISED" onAction="#handleAddSubmitEdge" style="-fx-background-color: #327ffa;" text="%key.submit">
                                           <VBox.margin>
                                              <Insets bottom="3.0" left="80.0" top="5.0" />

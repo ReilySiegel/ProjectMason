@@ -169,24 +169,23 @@ public class PathfindingPage extends SubPageController implements Initializable 
         LinkedList<AlgoNode> path = new LinkedList<>();
         try {
             path = App.aStarService.getPath(startID, endID);
+            if (path != null) {
+                floor = path.get(0).getFloor();
+                calculatedPath = path;
+            }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        }
+        } catch (NullPointerException ignored) { }
 
-        if (path != null) {
-            floor = path.get(0).getFloor();
-            calculatedPath = path;
-
-            List<String> floors = new LinkedList<>();
-            for (AlgoNode node : path) {
-                if (!floors.contains(node.getFloor())) {
-                    floors.add(node.getFloor());
-                }
+        List<String> floors = new LinkedList<>();
+        for (AlgoNode node : path) {
+            if (!floors.contains(node.getFloor())) {
+                floors.add(node.getFloor());
             }
-
         }
-
         updateMap();
+
+
     }
 
     @FXML
@@ -209,7 +208,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
         endDropdown.setOnAction(event -> handleEndDropdown());
         backButton.setOnAction(this::backToMain);
 
-        map = new Map(imageView, pathPane, mapText, this::onClickNode, this::onClickEdge);
+        map = new Map(imageView, pathPane, mapText, this::onClickNode, this::onClickEdge, null);
         updateMap();
 
         try {
