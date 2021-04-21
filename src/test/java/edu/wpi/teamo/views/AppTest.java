@@ -1,4 +1,4 @@
-package edu.wpi.teamo;
+package edu.wpi.teamo.views;
 
 import static org.testfx.api.FxAssert.verifyThat;
 

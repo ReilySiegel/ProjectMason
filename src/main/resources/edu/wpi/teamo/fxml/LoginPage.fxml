@@ -34,7 +34,7 @@
          <bottom>
             <HBox prefHeight="115.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
                <children>
-                  <JFXButton buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="50.0" minWidth="110.0" onAction="#backToMain" prefHeight="50.0" prefWidth="82.0" style="-fx-background-color: #db1212;" text="%key.back" textAlignment="CENTER" textFill="WHITE">
+                  <JFXButton buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="50.0" minWidth="130.0" onAction="#backToMain" prefHeight="50.0" prefWidth="82.0" style="-fx-background-color: #db1212;" text="%key.back" textAlignment="CENTER" textFill="WHITE">
                      <HBox.margin>
                         <Insets left="150.0" top="32.5" />
                      </HBox.margin>
@@ -42,7 +42,7 @@
                         <Font size="24.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="50.0" minWidth="110.0" onAction="#checkPasswordUsernameCombo" prefHeight="0.0" style="-fx-background-color: #000080;" text="%key.submit" textAlignment="CENTER" textFill="WHITE">
+                  <JFXButton buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="50.0" minWidth="130.0" onAction="#checkPasswordUsernameCombo" prefHeight="50.0" prefWidth="135.0" style="-fx-background-color: #000080;" text="%key.submit" textAlignment="CENTER" textFill="WHITE">
                      <HBox.margin>
                         <Insets left="680.0" right="150.0" top="32.5" />
                      </HBox.margin>
