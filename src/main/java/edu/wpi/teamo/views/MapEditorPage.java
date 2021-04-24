@@ -38,6 +38,10 @@ import javafx.scene.control.TreeTableColumn;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.util.Pair;
@@ -183,7 +187,11 @@ public class MapEditorPage extends SubPageController implements Initializable{
         chooseStartButton.setOnAction(event -> handleChooseStart());
         chooseEndButton.setOnAction(event -> handleChoseEnd());
 
-        map = new Map(mapImage, nodePane, mapText, this::onClickNode, this::onClickEdge, this::onClickMap);
+        map = new Map(mapImage, nodePane);
+        map.setOnMapClicked(this::onMapClicked);
+        map.setOnDrawNode(this::onDrawNode);
+        map.setOnDrawEdge(this::onDrawEdge);
+
 
         NumberValidator numberValidator = new NumberValidator();
 
@@ -283,7 +291,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
     }
 
     //    Consumer<Pair<Integer, Integer>> onClickEdge = (Pair<Integer, Integer> coords) -> System.out.println("Edge " + node.getEdgeID() + "was clicked");
-    void onClickMap(Pair<Integer, Integer> coords) {
+    void onMapClicked(Pair<Integer, Integer> coords) {
         addNodeX.setText(String.valueOf(coords.getKey()));
         addNodeY.setText(String.valueOf(coords.getValue()));
 
@@ -304,6 +312,30 @@ public class MapEditorPage extends SubPageController implements Initializable{
         if (addNodeSN.getText().isEmpty()) {
             addNodeSN.setText(autoGenName);
         }
+    }
+
+    void onDrawNode(Pair<Circle, NodeInfo> p) {
+            Circle circle = p.getKey();
+            NodeInfo node = p.getValue();
+
+            circle.setOnMouseEntered(event -> {
+                mapText.setText(node.getNodeID() + "\t" + node.getLongName());
+                circle.setRadius(7);
+                event.consume();
+            });
+
+            circle.setOnMouseExited(event -> {
+                if (mapText != null) {
+                    mapText.setText("");
+                }
+                circle.setRadius(4);
+                event.consume();
+            });
+
+            circle.setOnMousePressed(event -> {
+                onClickNode(node);
+                event.consume();
+            });
     }
 
 //    Consumer<NodeInfo> onClickNode = (NodeInfo node) -> System.out.println("Node " + node.getNodeID() + "was clicked");
@@ -331,6 +363,28 @@ public class MapEditorPage extends SubPageController implements Initializable{
             selectingEnd = false;
             addEdgeID.setText(addNode1.getText()+"_"+node.getNodeID());
         }
+    }
+
+    private void onDrawEdge(Pair<Line, EdgeInfo> p) {
+        EdgeInfo edge = p.getValue();
+        Line line = p.getKey();
+
+        double originalWidth = line.getStrokeWidth();
+
+        line.setOnMouseClicked(event -> {
+            onClickEdge(edge);
+            event.consume();
+        });
+
+        line.setOnMouseEntered(event -> {
+            line.setStrokeWidth(originalWidth * 2);
+            event.consume();
+        });
+
+        line.setOnMouseExited(event -> {
+            line.setStrokeWidth(originalWidth);
+            event.consume();
+        });
     }
 
     //    Consumer<EdgeInfo> onClickEdge = (EdgeInfo edge) -> System.out.println("Edge " + node.getEdgeID() + "was clicked");

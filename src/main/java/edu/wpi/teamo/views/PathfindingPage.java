@@ -14,7 +14,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
+import javafx.util.Pair;
 
 import java.awt.*;
 import java.net.URL;
@@ -78,6 +80,30 @@ public class PathfindingPage extends SubPageController implements Initializable 
     String selectedEndID = null;
 
     Map map;
+
+    void onDrawNode(Pair<Circle, NodeInfo> p) {
+        Circle circle = p.getKey();
+        NodeInfo node = p.getValue();
+
+        circle.setOnMouseEntered(event -> {
+            mapText.setText(node.getNodeID() + "\t" + node.getLongName());
+            circle.setRadius(7);
+            event.consume();
+        });
+
+        circle.setOnMouseExited(event -> {
+            if (mapText != null) {
+                mapText.setText("");
+            }
+            circle.setRadius(4);
+            event.consume();
+        });
+
+        circle.setOnMousePressed(event -> {
+            onClickNode(node);
+            event.consume();
+        });
+    }
 
     //    Consumer<NodeInfo> onClickNode = (NodeInfo node) -> System.out.println("Node " + node.getNodeID() + "was clicked");
     void onClickNode(NodeInfo node) {
@@ -208,7 +234,8 @@ public class PathfindingPage extends SubPageController implements Initializable 
         endDropdown.setOnAction(event -> handleEndDropdown());
         backButton.setOnAction(this::backToMain);
 
-        map = new Map(imageView, pathPane, mapText, this::onClickNode, this::onClickEdge, null);
+        map = new Map(imageView, pathPane);
+        map.setOnDrawNode(this::onDrawNode);
         updateMap();
 
         try {

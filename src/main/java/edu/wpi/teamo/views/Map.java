@@ -21,6 +21,9 @@ import java.util.List;
 
 public class Map  {
 
+    private Consumer<Pair<Circle, NodeInfo>> onDrawNode = null;
+    private Consumer<Pair<Line, EdgeInfo>> onDrawEdge = null;
+
     static private boolean imagesLoaded = false;
     static private final int imageHeight = 3400;
     static private final int imageWidth = 5000;
@@ -32,40 +35,12 @@ public class Map  {
     static Image L1FloorImage = null;
     static Image L2FloorImage = null;
 
-    Consumer<NodeInfo> onNodeClicked;
-    Consumer<EdgeInfo> onEdgeClicked;
+    private final AnchorPane nodePane;
+    private final ImageView imageView;
 
-    JFXTextArea mapText;
-    AnchorPane nodePane;
-    ImageView imageView;
-
-
-    public Map(ImageView imageView, AnchorPane nodePane, JFXTextArea mapText,
-               Consumer<NodeInfo> onNodeClicked, Consumer<EdgeInfo> onEdgeClicked,
-               Consumer<Pair<Integer, Integer>> onMapClicked) {
-        this.onNodeClicked = onNodeClicked;
-        this.onEdgeClicked = onEdgeClicked;
-
+    public Map(ImageView imageView, AnchorPane nodePane) {
         this.imageView = imageView;
         this.nodePane = nodePane;
-        this.mapText = mapText;
-
-        nodePane.setOnMouseMoved((MouseEvent e) -> {
-            /* transform anchorPane coords to the map pixel coords */
-            int mapX = (int) transform((int) e.getX(), nodePane.getPrefWidth(), imageWidth);
-            int mapY = (int) transform((int) e.getY(), nodePane.getPrefHeight(), imageHeight);
-            mapText.setText("(" + mapX + " , " + mapY + ")");
-        });
-
-        if (onMapClicked != null) {
-            nodePane.setOnMouseClicked((MouseEvent e) -> {
-                /* transform anchorPane coords to the map pixel coords */
-                int mapX = (int) transform((int) e.getX(), nodePane.getPrefWidth(), imageWidth);
-                int mapY = (int) transform((int) e.getY(), nodePane.getPrefHeight(), imageHeight);
-                onMapClicked.accept(new Pair<>(mapX, mapY));
-            });
-        }
-
     }
 
     public void drawPath(LinkedList<AlgoNode> path, String floor) {
@@ -123,21 +98,12 @@ public class Map  {
 
     private Line createLine(double StartX, double StartY, double EndX, double EndY, EdgeInfo edge, Color lineColor) {
         Line line = new Line(StartX, StartY, EndX, EndY);
-        line.setStrokeWidth(5);
         line.setStroke(lineColor);
+        line.setStrokeWidth(5);
 
-        line.setOnMouseClicked(event -> {
-            onEdgeClicked.accept(edge);
-            event.consume();
-        });
-        line.setOnMouseEntered(event -> {
-            line.setStroke(Color.GREEN);
-            event.consume();
-        });
-        line.setOnMouseExited(event -> {
-            line.setStroke(lineColor);
-            event.consume();
-        });
+        if (onDrawEdge != null) {
+            onDrawEdge.accept(new Pair<>(line, edge));
+        }
 
         return line;
     }
@@ -146,29 +112,18 @@ public class Map  {
         for (NodeInfo node : nodes) {
             double transformedX = transform(node.getXPos(), imageWidth,  nodePane.getPrefWidth());
             double transformedY = transform(node.getYPos(), imageHeight, nodePane.getPrefHeight());
-            Circle circle = createCircle(transformedX, transformedY, onNodeClicked, node, mapText);
+            Circle circle = createCircle(transformedX, transformedY, node);
             nodePane.getChildren().add(circle);
         }
     }
 
-    private static Circle createCircle(double x, double y, Consumer<NodeInfo> onNodeClicked, NodeInfo node, JFXTextArea mapText) {
+    private Circle createCircle(double x, double y, NodeInfo node) {
         Circle circle = new Circle(x, y, 4, Color.BLUE);
-        circle.setOnMouseEntered(event -> {
-            mapText.setText(node.getNodeID() + "\t" + node.getLongName());
-            circle.setRadius(7);
-            event.consume();
-        });
-        circle.setOnMouseExited(event -> {
-            if (mapText != null) {
-                mapText.setText("");
-            }
-            circle.setRadius(4);
-            event.consume();
-        });
-        circle.setOnMousePressed(event -> {
-            onNodeClicked.accept(node);
-            event.consume();
-        });
+
+        if (onDrawNode != null) {
+            onDrawNode.accept(new Pair<>(circle, node));
+        }
+
         return circle;
     }
 
@@ -195,6 +150,32 @@ public class Map  {
 
     private static double transform(int val, double from, double to) {
         return val * (to / from);
+    }
+
+    public void setOnMouseMoved(Consumer<Pair<Integer, Integer>> onMouseMoved) {
+        nodePane.setOnMouseMoved((MouseEvent e) -> {
+            /* transform anchorPane coords to the map pixel coords */
+            int mapX = (int) transform((int) e.getX(), nodePane.getPrefWidth(), imageWidth);
+            int mapY = (int) transform((int) e.getY(), nodePane.getPrefHeight(), imageHeight);
+            onMouseMoved.accept(new Pair<>(mapX, mapY));
+        });
+    }
+
+    public void setOnMapClicked(Consumer<Pair<Integer, Integer>> onMapClicked) {
+        nodePane.setOnMouseClicked((MouseEvent e) -> {
+            /* transform anchorPane coords to the map pixel coords */
+            int mapX = (int) transform((int) e.getX(), nodePane.getPrefWidth(), imageWidth);
+            int mapY = (int) transform((int) e.getY(), nodePane.getPrefHeight(), imageHeight);
+            onMapClicked.accept(new Pair<>(mapX, mapY));
+        });
+    }
+
+    public void setOnDrawNode(Consumer<Pair<Circle, NodeInfo>> onDrawNode) {
+        this.onDrawNode = onDrawNode;
+    }
+
+    public void setOnDrawEdge(Consumer<Pair<Line, EdgeInfo>> onDrawEdge) {
+        this.onDrawEdge = onDrawEdge;
     }
 
     public void switchFloorImage(String floor){
