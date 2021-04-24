@@ -76,6 +76,7 @@ public class App extends Application {
     try {
       Parent root = FXMLLoader.load(getClass().getResource("fxml/MainPage.fxml"),resourceBundle);
       Scene scene = new Scene(root);
+      scene.getStylesheets().add("edu/wpi/teamo/fxml/CSS/HelpButton.css");
       primaryStage.setScene(scene);
       primaryStage.show();
     } catch (IOException e) {
