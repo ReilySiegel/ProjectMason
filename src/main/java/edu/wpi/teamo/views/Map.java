@@ -21,35 +21,37 @@ import java.util.List;
 
 public class Map  {
 
-    ImageView imageView;
-    AnchorPane nodePane;
-    JFXTextArea mapText;
+    static private boolean imagesLoaded = false;
+    static private final int imageHeight = 3400;
+    static private final int imageWidth = 5000;
+
+    static Image groundFloorImage = null;
+    static Image secondFloorImage = null;
+    static Image firstFloorImage = null;
+    static Image thirdFloorImage = null;
+    static Image L1FloorImage = null;
+    static Image L2FloorImage = null;
 
     Consumer<NodeInfo> onNodeClicked;
     Consumer<EdgeInfo> onEdgeClicked;
 
-    static private boolean imagesLoaded = true;
-    static final int imageWidth = 5000;
-    static final int imageHeight = 3400;
-    private double  lineThickness = 2.0;
+    JFXTextArea mapText;
+    AnchorPane nodePane;
+    ImageView imageView;
 
-    static Image L1FloorImage = null;
-    static Image L2FloorImage = null;
-    static Image groundFloorImage = null;
-    static Image firstFloorImage = null;
-    static Image secondFloorImage = null;
-    static Image thirdFloorImage = null;
 
     public Map(ImageView imageView, AnchorPane nodePane, JFXTextArea mapText,
-               Consumer<NodeInfo> onNodeClicked, Consumer<EdgeInfo> onEdgeClicked, Consumer<Pair<Integer, Integer>> onMapClicked) {
+               Consumer<NodeInfo> onNodeClicked, Consumer<EdgeInfo> onEdgeClicked,
+               Consumer<Pair<Integer, Integer>> onMapClicked) {
+        this.onNodeClicked = onNodeClicked;
+        this.onEdgeClicked = onEdgeClicked;
+
         this.imageView = imageView;
         this.nodePane = nodePane;
         this.mapText = mapText;
 
-        this.onNodeClicked = onNodeClicked;
-        this.onEdgeClicked = onEdgeClicked;
-
         nodePane.setOnMouseMoved((MouseEvent e) -> {
+            /* transform anchorPane coords to the map pixel coords */
             int mapX = (int) transform((int) e.getX(), nodePane.getPrefWidth(), imageWidth);
             int mapY = (int) transform((int) e.getY(), nodePane.getPrefHeight(), imageHeight);
             mapText.setText("(" + mapX + " , " + mapY + ")");
@@ -57,6 +59,7 @@ public class Map  {
 
         if (onMapClicked != null) {
             nodePane.setOnMouseClicked((MouseEvent e) -> {
+                /* transform anchorPane coords to the map pixel coords */
                 int mapX = (int) transform((int) e.getX(), nodePane.getPrefWidth(), imageWidth);
                 int mapY = (int) transform((int) e.getY(), nodePane.getPrefHeight(), imageHeight);
                 onMapClicked.accept(new Pair<>(mapX, mapY));
@@ -66,52 +69,41 @@ public class Map  {
     }
 
     public void drawPath(LinkedList<AlgoNode> path, String floor) {
-        double firstX = 0;
-        double firstY = 0;
-        double secondX = 0;
-        double secondY = 0;
-
         for(int i = 0;  i < (path.size() - 1); i++) {
             Color lineColor = path.get(i).getFloor().equals(floor) ? Color.RED : Color.GRAY;
 
-            firstX = transform(path.get(i).getX(), imageWidth, nodePane.getPrefWidth());
-            firstY = transform(path.get(i).getY(), imageHeight, nodePane.getPrefHeight());
-            secondX = transform(path.get(i + 1).getX(), imageWidth, nodePane.getPrefWidth());
-            secondY = transform(path.get(i + 1).getY(), imageHeight, nodePane.getPrefHeight());
+            double firstX = transform(path.get(i).getX(), imageWidth, nodePane.getPrefWidth());
+            double firstY = transform(path.get(i).getY(), imageHeight, nodePane.getPrefHeight());
+            double secondX = transform(path.get(i + 1).getX(), imageWidth, nodePane.getPrefWidth());
+            double secondY = transform(path.get(i + 1).getY(), imageHeight, nodePane.getPrefHeight());
+
             Line line = createLine(firstX, firstY, secondX, secondY, null, lineColor);
             nodePane.getChildren().add(line);
         }
     }
 
-    public void drawFloorNodes(List<NodeInfo> allNodes, String floor) {
-        /* filter only the nodes belonging to this floor */
-        List<NodeInfo> floorNodes = allNodes.stream()
-                .filter((NodeInfo node) -> node.getFloor().equals(floor))
-                .collect(Collectors.toList());
+    public void drawNodes(List<NodeInfo> allNodes, String floor) {
+        List<NodeInfo> floorNodes = filterFloor(allNodes, floor);
 
         switchFloorImage(floor);
 
-        nodePane.getChildren().removeAll(nodePane.getChildren());
-
-        createCircles(floorNodes);
+        addCircles(floorNodes);
     }
 
 
-    public void drawFloor(List<NodeInfo> allNodes, List<EdgeInfo> edges, String floor) {
-        /* filter only the nodes belonging to this floor */
-        List<NodeInfo> floorNodes = allNodes.stream()
-                                            .filter((NodeInfo node) -> node.getFloor().equals(floor))
-                                            .collect(Collectors.toList());
+    public void drawEdges(List<NodeInfo> allNodes, List<EdgeInfo> edges, String floor) {
+        List<NodeInfo> floorNodes = filterFloor(allNodes, floor);
 
         switchFloorImage(floor);
 
-        nodePane.getChildren().removeAll(nodePane.getChildren());
-
-        createLines(edges, floorNodes);
-        createCircles(floorNodes);
+        addLines(edges, floorNodes);
     }
 
-    private void createLines(List<EdgeInfo> edges, List<NodeInfo> nodes) {
+    public void clearShapes() {
+        nodePane.getChildren().removeAll(nodePane.getChildren());
+    }
+
+    private void addLines(List<EdgeInfo> edges, List<NodeInfo> nodes) {
 
         for (EdgeInfo edge : edges) {
             NodeInfo startNode = findNode(edge.getStartNodeID(), nodes);
@@ -150,7 +142,7 @@ public class Map  {
         return line;
     }
 
-    private void createCircles(List<NodeInfo> nodes) {
+    private void addCircles(List<NodeInfo> nodes) {
         for (NodeInfo node : nodes) {
             double transformedX = transform(node.getXPos(), imageWidth,  nodePane.getPrefWidth());
             double transformedY = transform(node.getYPos(), imageHeight, nodePane.getPrefHeight());
@@ -180,6 +172,15 @@ public class Map  {
         return circle;
     }
 
+    /**
+     *  filter only the nodes belonging to this floor
+     **/
+    private static List<NodeInfo> filterFloor(List<NodeInfo> nodes, String floor) {
+        return nodes.stream()
+               .filter((NodeInfo node) -> node.getFloor().equals(floor))
+               .collect(Collectors.toList());
+    }
+
     private static NodeInfo findNode(String id, List<NodeInfo> nodes) {
         NodeInfo foundNode = null;
 
@@ -194,14 +195,6 @@ public class Map  {
 
     private static double transform(int val, double from, double to) {
         return val * (to / from);
-    }
-
-    public double getLineThickness() {
-        return lineThickness;
-    }
-
-    public void setLineThickness(double lineThickness) {
-        this.lineThickness = lineThickness;
     }
 
     public void switchFloorImage(String floor){
@@ -223,7 +216,6 @@ public class Map  {
                     imageView.setImage(secondFloorImage);
                     break;
                 case "3":
-                default:
                     imageView.setImage(thirdFloorImage);
                     break;
             }
@@ -234,16 +226,24 @@ public class Map  {
     }
 
     static public void loadImages() {
-        L1FloorImage = new Image("/edu/wpi/teamo/images/00_thelowerlevel1.png");
+        try {
 
-        L2FloorImage = new Image("/edu/wpi/teamo/images/00_thelowerlevel2.png");
+            L2FloorImage = new Image("/edu/wpi/teamo/images/00_thelowerlevel2.png");
 
-        groundFloorImage = new Image("/edu/wpi/teamo/images/00_thegroundfloor.png");
+            L1FloorImage = new Image("/edu/wpi/teamo/images/00_thelowerlevel1.png");
 
-        firstFloorImage = new Image("/edu/wpi/teamo/images/01_thefirstfloor.png");
+            groundFloorImage = new Image("/edu/wpi/teamo/images/00_thegroundfloor.png");
 
-        secondFloorImage = new Image("/edu/wpi/teamo/images/02_thesecondfloor.png");
+            firstFloorImage = new Image("/edu/wpi/teamo/images/01_thefirstfloor.png");
 
-        thirdFloorImage = new Image("/edu/wpi/teamo/images/03_thethirdfloor.png");
+            secondFloorImage = new Image("/edu/wpi/teamo/images/02_thesecondfloor.png");
+
+            thirdFloorImage = new Image("/edu/wpi/teamo/images/03_thethirdfloor.png");
+
+            imagesLoaded = true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

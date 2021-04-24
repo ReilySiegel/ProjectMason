@@ -779,7 +779,9 @@ public class MapEditorPage extends SubPageController implements Initializable{
         try {
             List<NodeInfo> nodeList = App.mapService.getAllNodes().collect(Collectors.toList());
             List<EdgeInfo> edgeList = App.mapService.getAllEdges().collect(Collectors.toList());
-            map.drawFloor(nodeList, edgeList, selectedFloor);
+            map.clearShapes();
+            map.drawEdges(nodeList, edgeList, selectedFloor);
+            map.drawNodes(nodeList, selectedFloor);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

@@ -241,11 +241,9 @@ public class PathfindingPage extends SubPageController implements Initializable 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        map.drawFloorNodes(nodes, floor);
-
-        if (calculatedPath != null) {
-            displayPath(calculatedPath);
-        }
+        map.clearShapes();
+        map.drawNodes(nodes, floor);
+        displayPath(calculatedPath);
         switchFloor.setValue(floor);
     }
 
