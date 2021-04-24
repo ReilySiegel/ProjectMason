@@ -10,10 +10,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import edu.wpi.teamo.database.map.Edge;
 import edu.wpi.teamo.database.map.EdgeInfo;
@@ -46,10 +48,12 @@ public class MapEditorPage extends SubPageController implements Initializable{
     private StackPane stackPane;
 
     @FXML
-    private JFXTreeTableView<Node> treeView;
+    private JFXTreeTableView<Node> nodeTree;
+    private NodeTable nodeTable;
 
     @FXML
-    private JFXTreeTableView<Edge> treeViewEdge;
+    private JFXTreeTableView<Edge> edgeTree;
+    private EdgeTable edgeTable;
 
     @FXML
     private JFXTextField addNodeID;
@@ -161,9 +165,115 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
     Map map;
 
-    boolean treeInit = false;
 
-    boolean treeEdgeInit = false;
+    /**
+     * Set validators to insure that the x and y coordinate fields are numbers
+     */
+    @Override
+    public void initialize(URL location, ResourceBundle resources){
+
+        floorSwitcher.getItems().add("L2");
+        floorSwitcher.getItems().add("L1");
+        floorSwitcher.getItems().add("G");
+        floorSwitcher.getItems().add("1");
+        floorSwitcher.getItems().add("2");
+        floorSwitcher.getItems().add("3");
+        floorSwitcher.setValue(selectedFloor);
+
+        chooseStartButton.setOnAction(event -> handleChooseStart());
+        chooseEndButton.setOnAction(event -> handleChoseEnd());
+
+        map = new Map(mapImage, nodePane, mapText, this::onClickNode, this::onClickEdge, this::onClickMap);
+
+        NumberValidator numberValidator = new NumberValidator();
+
+        //editNodeSubmit.setDisable(true);
+
+        //Ensure that each X and Y field are numbers
+        addNodeX.getValidators().add(numberValidator);
+        //numberValidator.setMessage("Please enter a number");
+        addNodeX.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    addNodeX.validate();
+                }
+            }
+        });
+
+        addNodeY.getValidators().add(numberValidator);
+        addNodeY.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    addNodeY.validate();
+                }
+            }
+        });
+
+        origNodeX.getValidators().add(numberValidator);
+        origNodeX.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    origNodeX.validate();
+                }
+            }
+        });
+
+        origNodeY.getValidators().add(numberValidator);
+        origNodeY.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(!newValue){
+                    origNodeY.validate();
+                }
+            }
+        });
+
+        nodeTable = new NodeTable(nodeTree);
+        nodeTable.initClickListener(
+                origNodeID,
+                newNodeID,
+                origNodeX,
+                origNodeY,
+                origNodeBuilding,
+                origNodeFloor,
+                origNodeType,
+                origNodeLN,
+                origNodeSN,
+                deleteNodeID
+        );
+
+        edgeTable = new EdgeTable(edgeTree);
+        edgeTable.initClickListener(
+                editingEdge,
+                editEdgeID,
+                editNode1,
+                editNode2,
+                deleteEdgeID
+        );
+
+        update();
+    }
+
+    void update() {
+        updateNodeTreeDisplay();
+        updateEdgeTreeDisplay();
+        updateMap();
+    }
+
+    void updateMap() {
+        try {
+            List<NodeInfo> nodeList = App.mapService.getAllNodes().collect(Collectors.toList());
+            List<EdgeInfo> edgeList = App.mapService.getAllEdges().collect(Collectors.toList());
+            map.clearShapes();
+            map.drawEdges(nodeList, edgeList, selectedFloor);
+            map.drawNodes(nodeList, selectedFloor);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
 
     //TODO get rid of - add event listener
     @FXML
@@ -257,112 +367,6 @@ public class MapEditorPage extends SubPageController implements Initializable{
         }
         chooseEndButton.setDisable(selectingEnd);
         chooseStartButton.setDisable(selectingStart);
-    }
-
-    /**
-     * Set validators to insure that the x and y coordinate fields are numbers
-     */
-    @Override
-    public void initialize(URL location, ResourceBundle resources){
-
-        floorSwitcher.getItems().add("L2");
-        floorSwitcher.getItems().add("L1");
-        floorSwitcher.getItems().add("G");
-        floorSwitcher.getItems().add("1");
-        floorSwitcher.getItems().add("2");
-        floorSwitcher.getItems().add("3");
-        floorSwitcher.setValue(selectedFloor);
-
-        chooseStartButton.setOnAction(event -> handleChooseStart());
-        chooseEndButton.setOnAction(event -> handleChoseEnd());
-
-        map = new Map(mapImage, nodePane, mapText, this::onClickNode, this::onClickEdge, this::onClickMap);
-
-        NumberValidator numberValidator = new NumberValidator();
-
-        //editNodeSubmit.setDisable(true);
-
-        //Ensure that each X and Y field are numbers
-        addNodeX.getValidators().add(numberValidator);
-        //numberValidator.setMessage("Please enter a number");
-        addNodeX.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    addNodeX.validate();
-                }
-            }
-        });
-
-        addNodeY.getValidators().add(numberValidator);
-        addNodeY.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    addNodeY.validate();
-                }
-            }
-        });
-
-        origNodeX.getValidators().add(numberValidator);
-        origNodeX.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    origNodeX.validate();
-                }
-            }
-        });
-
-        origNodeY.getValidators().add(numberValidator);
-        origNodeY.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    origNodeY.validate();
-                }
-            }
-        });
-
-
-        //Set original node ID, X, and Y in the Edit and Delete box to selected value.
-        treeView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<Node>>() {
-            @Override
-            public void changed(ObservableValue<? extends TreeItem<Node>> observable, TreeItem<Node> oldValue, TreeItem<Node> newValue) {
-                if(newValue != null){
-                    origNodeID.setText(newValue.getValue().getNodeID());
-                    newNodeID.setText(newValue.getValue().getNodeID());
-                    origNodeX.setText(Integer.toString(newValue.getValue().getXPos()));
-                    origNodeY.setText(Integer.toString(newValue.getValue().getYPos()));
-                    origNodeBuilding.setText(newValue.getValue().getBuilding());
-                    origNodeFloor.setText(newValue.getValue().getFloor());
-                    origNodeType.setText(newValue.getValue().getNodeType());
-                    origNodeLN.setText(newValue.getValue().getLongName());
-                    origNodeSN.setText(newValue.getValue().getShortName());
-                    deleteNodeID.setText(newValue.getValue().getNodeID());
-                    //editNodeSubmit.setDisable(false);
-                }
-            }
-        });
-
-        //Set original node ID, X, and Y in the Edit and Delete box to selected value.
-        treeViewEdge.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<Edge>>() {
-            @Override
-            public void changed(ObservableValue<? extends TreeItem<Edge>> observable, TreeItem<Edge> oldValue, TreeItem<Edge> newValue) {
-                if(newValue != null){
-                    editingEdge.setText(newValue.getValue().getEdgeID());
-                    editEdgeID.setText(newValue.getValue().getEdgeID());
-                    editNode1.setText(newValue.getValue().getStartNodeID());
-                    editNode2.setText(newValue.getValue().getEndNodeID());
-                    deleteEdgeID.setText(newValue.getValue().getEdgeID());
-                }
-            }
-        });
-
-
-        //Update display at start so loaded database persists after switching pages
-        updateNodeTreeDisplay();
-        updateEdgeTreeDisplay();
     }
 
     /**
@@ -615,144 +619,24 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
     @FXML
     void updateNodeTreeDisplay() {
-
-        JFXTreeTableColumn<Node, String> nID = new JFXTreeTableColumn<>("Node ID");
-        nID.setPrefWidth(125);
-        nID.setCellValueFactory((TreeTableColumn.CellDataFeatures<Node, String> param) -> {
-            StringProperty var = new SimpleStringProperty(param.getValue().getValue().getNodeID());
-            return var;
-        });
-
-        JFXTreeTableColumn<Node, String> nX = new JFXTreeTableColumn<>("X");
-        nX.setPrefWidth(125);
-        nX.setCellValueFactory((TreeTableColumn.CellDataFeatures<Node, String> param) -> {
-            StringProperty var = new SimpleStringProperty(String.valueOf(param.getValue().getValue().getXPos()));
-            return var;
-        });
-
-        JFXTreeTableColumn<Node, String> nY = new JFXTreeTableColumn<>("Y");
-        nY.setPrefWidth(125);
-        nY.setCellValueFactory((TreeTableColumn.CellDataFeatures<Node, String> param) -> {
-            StringProperty var = new SimpleStringProperty(String.valueOf(param.getValue().getValue().getYPos()));
-            return var;
-        });
-
-        JFXTreeTableColumn<Node, String> nFloor = new JFXTreeTableColumn<>("Floor");
-        nFloor.setPrefWidth(125);
-        nFloor.setCellValueFactory((TreeTableColumn.CellDataFeatures<Node, String> param) -> {
-            StringProperty var = new SimpleStringProperty(param.getValue().getValue().getFloor());
-            return var;
-        });
-
-        JFXTreeTableColumn<Node, String> nBuilding = new JFXTreeTableColumn<>("Building");
-        nBuilding.setPrefWidth(125);
-        nBuilding.setCellValueFactory((TreeTableColumn.CellDataFeatures<Node, String> param) -> {
-            StringProperty var = new SimpleStringProperty(param.getValue().getValue().getBuilding());
-            return var;
-        });
-
-        JFXTreeTableColumn<Node, String> nType = new JFXTreeTableColumn<>("Node Type");
-        nType.setPrefWidth(125);
-        nType.setCellValueFactory((TreeTableColumn.CellDataFeatures<Node, String> param) -> {
-            StringProperty var = new SimpleStringProperty(param.getValue().getValue().getNodeType());
-            return var;
-        });
-
-        JFXTreeTableColumn<Node, String> nLongName = new JFXTreeTableColumn<>("Long Name");
-        nLongName.setPrefWidth(125);
-        nLongName.setCellValueFactory((TreeTableColumn.CellDataFeatures<Node, String> param) -> {
-            StringProperty var = new SimpleStringProperty(param.getValue().getValue().getLongName());
-            return var;
-        });
-
-        JFXTreeTableColumn<Node, String> nShortName = new JFXTreeTableColumn<>("Short Name");
-        nShortName.setPrefWidth(125);
-        nShortName.setCellValueFactory((TreeTableColumn.CellDataFeatures<Node, String> param) -> {
-            StringProperty var = new SimpleStringProperty(param.getValue().getValue().getShortName());
-            return var;
-        });
-
-        List<NodeInfo> nodeList = null;
+        Stream<NodeInfo> nodeStream = null;
         try {
-            nodeList = App.mapService.getAllNodes().collect(Collectors.toList());
+            nodeStream = App.mapService.getAllNodes();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
-        ObservableList<Node> data = FXCollections.observableArrayList();
-
-        //Display all Node ID, X, Y, Floor, Building, LongName, and ShortName
-        for(int i = 0; i < nodeList.size(); i++){
-            if(!nodeList.get(i).getNodeID().isEmpty()){
-                data.add(new Node(nodeList.get(i).getNodeID(),nodeList.get(i).getXPos(),nodeList.get(i).getYPos(),
-                        nodeList.get(i).getFloor(), nodeList.get(i).getBuilding(), nodeList.get(i).getNodeType(), nodeList.get(i).getLongName(),
-                        nodeList.get(i).getShortName()));
-
-            }
-        }
-
-        // checks to see if tree has been initialized and wont make dupe columns
-        TreeItem<Node> root = new RecursiveTreeItem<>(data, RecursiveTreeObject::getChildren);
-        if(!treeInit){
-            treeView.getColumns().addAll(nID,nX,nY,nFloor,nBuilding,nType,nLongName,nShortName);
-            treeInit = true;
-        }
-
-        treeView.setRoot(root);
-        treeView.setShowRoot(false);
-        updateMap();
+        nodeTable.update(nodeStream);
     }
 
     @FXML
     void updateEdgeTreeDisplay() {
-
-        JFXTreeTableColumn<Edge, String> eID = new JFXTreeTableColumn<>("Edge ID");
-        eID.setPrefWidth(125);
-        eID.setCellValueFactory((TreeTableColumn.CellDataFeatures<Edge, String> param) -> {
-            StringProperty var = new SimpleStringProperty(param.getValue().getValue().getEdgeID());
-            return var;
-        });
-
-        JFXTreeTableColumn<Edge, String> eStart = new JFXTreeTableColumn<>("Start Node");
-        eStart.setPrefWidth(125);
-        eStart.setCellValueFactory((TreeTableColumn.CellDataFeatures<Edge, String> param) -> {
-            StringProperty var = new SimpleStringProperty(param.getValue().getValue().getStartNodeID());
-            return var;
-        });
-
-        JFXTreeTableColumn<Edge, String> eEnd = new JFXTreeTableColumn<>("End Node");
-        eEnd.setPrefWidth(125);
-        eEnd.setCellValueFactory((TreeTableColumn.CellDataFeatures<Edge, String> param) -> {
-            StringProperty var = new SimpleStringProperty(param.getValue().getValue().getEndNodeID());
-            return var;
-        });
-
-        List<EdgeInfo> edgeList = null;
-
+        Stream<EdgeInfo> edgeStream = null;
         try {
-            edgeList = App.mapService.getAllEdges().collect(Collectors.toList());
+            edgeStream = App.mapService.getAllEdges();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
-        ObservableList<Edge> data = FXCollections.observableArrayList();
-
-        //Display all Node ID, X, Y, Floor, Building, LongName, and ShortName
-        for(int i = 0; i < edgeList.size(); i++){
-            if(!edgeList.get(i).getEdgeID().isEmpty()){
-                data.add(new Edge(edgeList.get(i).getEdgeID(),edgeList.get(i).getStartNodeID(),edgeList.get(i).getEndNodeID()));
-            }
-        }
-
-        // checks to see if tree has been initialized and wont make dupe columns
-        TreeItem<Edge> root = new RecursiveTreeItem<>(data, RecursiveTreeObject::getChildren);
-        if(!treeEdgeInit){
-            treeViewEdge.getColumns().addAll(eID,eStart, eEnd);
-            treeEdgeInit = true;
-        }
-        treeViewEdge.setRoot(root);
-        treeViewEdge.setShowRoot(false);
-        updateMap();
+        edgeTable.update(edgeStream);
     }
 
     @FXML
@@ -773,18 +657,6 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
         content.setActions(closeButton);
         errorWindow.show();
-    }
-
-    void updateMap() {
-        try {
-            List<NodeInfo> nodeList = App.mapService.getAllNodes().collect(Collectors.toList());
-            List<EdgeInfo> edgeList = App.mapService.getAllEdges().collect(Collectors.toList());
-            map.clearShapes();
-            map.drawEdges(nodeList, edgeList, selectedFloor);
-            map.drawNodes(nodeList, selectedFloor);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
     }
 
     @FXML
