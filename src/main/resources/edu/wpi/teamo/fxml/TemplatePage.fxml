@@ -32,7 +32,7 @@
                                 </Text>
                                 <AnchorPane prefHeight="50.0" prefWidth="800.0">
                                     <children>
-                                        <JFXTextField fx:id="service" minWidth="300.0" prefHeight="25.0" prefWidth="600.0" promptText="%key.name_of_service" AnchorPane.rightAnchor="0.0" />
+                                        <JFXTextField fx:id="service" minWidth="300.0" prefHeight="25.0" prefWidth="600.0" promptText="%key.name_of_service" unFocusColor="#eceff4" AnchorPane.rightAnchor="0.0" />
                                         <Text fx:id="typeErrorText" fill="RED" layoutX="94.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                                     </children>
                                 </AnchorPane>
@@ -50,7 +50,7 @@
                                 </Text>
                                 <AnchorPane prefHeight="50.0" prefWidth="800.0">
                                     <children>
-                                        <JFXTextField fx:id="assignee" minWidth="300.0" prefHeight="25.0" prefWidth="600.0" promptText="%key.name_of_assignee" AnchorPane.rightAnchor="0.0" />
+                                        <JFXTextField fx:id="assignee" minWidth="300.0" prefHeight="25.0" prefWidth="600.0" promptText="%key.name_of_assignee" unFocusColor="#eceff4" AnchorPane.rightAnchor="0.0" />
                                         <Text fx:id="assignedErrorText" fill="RED" layoutX="42.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                                     </children>
                                     <HBox.margin>
@@ -71,7 +71,7 @@
                                 </Text>
                                 <AnchorPane prefHeight="50.0" prefWidth="800.0">
                                     <children>
-                                        <JFXTextField fx:id="notes" minWidth="300.0" prefHeight="25.0" prefWidth="600.0" promptText="%key.notes" AnchorPane.rightAnchor="0.0" />
+                                        <JFXTextField fx:id="notes" minWidth="300.0" prefHeight="25.0" prefWidth="600.0" promptText="%key.notes" unFocusColor="#eceff4" AnchorPane.rightAnchor="0.0" />
                                     </children>
                                     <HBox.margin>
                                         <Insets />
@@ -113,7 +113,7 @@
                         <Insets bottom="20.0" left="30.0" right="30.0" />
                     </BorderPane.margin>
                <effect>
-                  <DropShadow blurType="GAUSSIAN" color="#323232" height="60.0" radius="29.5" width="60.0" />
+                  <DropShadow blurType="GAUSSIAN" color="#323232" height="40.0" radius="19.5" width="40.0" />
                </effect>
                 </VBox>
             </center>

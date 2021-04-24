@@ -14,13 +14,13 @@
 
 <StackPane fx:id="stackPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.SR07_Medicine">
    <children>
-      <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #1B77B9;">
+      <BorderPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #434C5E;">
          <center>
-            <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="300.0" prefHeight="500.0" prefWidth="800.0" style="-fx-effect: dropshadow(three-pass-box, rgba(150,150,170,0.8), 20, 0, 0, 0); -fx-background-color: #F1F1F1;" BorderPane.alignment="TOP_CENTER">
+            <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="300.0" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #2e3440;" BorderPane.alignment="TOP_CENTER">
                <children>
                   <HBox prefHeight="50.0" prefWidth="580.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.medicine">
+                        <Text fill="#eceff4" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.medicine" wrappingWidth="190.0">
                            <font>
                               <Font name="Arial" size="18.0" />
                            </font>
@@ -30,9 +30,9 @@
                         </Text>
                         <AnchorPane prefHeight="50.0" prefWidth="700.0">
                            <children>
-                              <VBox layoutX="148.0" prefHeight="50.0" prefWidth="552.0">
+                              <VBox layoutX="148.0" prefHeight="50.0" prefWidth="552.0" AnchorPane.rightAnchor="0.0">
                                  <children>
-                                    <JFXTextField fx:id="medName" minWidth="300.0" onKeyTyped="#clearMedError" prefHeight="25.0" prefWidth="600.0" promptText="%key.name_of_medicine" />
+                                    <JFXTextField fx:id="medName" minWidth="300.0" onKeyTyped="#clearMedError" prefHeight="25.0" prefWidth="600.0" promptText="%key.name_of_medicine" style="-fx-text-inner-color: #eceff4;" unFocusColor="#eceff4" />
                                     <Text fx:id="medErrorText" fill="#cd0000" strokeType="OUTSIDE" strokeWidth="0.0" />
                                  </children>
                               </VBox>
@@ -45,27 +45,26 @@
                   </HBox>
                   <HBox prefHeight="50.0" prefWidth="200.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.assignee_name">
+                        <Text fill="#eceff4" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.assignee_name" wrappingWidth="190.0">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Text>
                         <AnchorPane prefHeight="50.0" prefWidth="700.0">
-                           <HBox.margin>
-                              <Insets />
-                           </HBox.margin>
-                        </AnchorPane>
-                        <VBox prefHeight="50.0" prefWidth="1120.0">
                            <children>
-                              <JFXTextField fx:id="assignee" minWidth="300.0" onKeyTyped="#clearAssigneeError" prefHeight="25.0" prefWidth="600.0" />
-                              <Text fx:id="assigneeErrorText" fill="#cd0000" strokeType="OUTSIDE" strokeWidth="0.0" />
+                              <VBox prefHeight="50.0" prefWidth="552.0" AnchorPane.rightAnchor="0.0">
+                                 <children>
+                                    <JFXTextField fx:id="assignee" minWidth="300.0" onKeyTyped="#clearAssigneeError" prefHeight="25.0" prefWidth="600.0" style="-fx-text-inner-color: #eceff4;" unFocusColor="#eceff4" />
+                                    <Text fx:id="assigneeErrorText" fill="#cd0000" strokeType="OUTSIDE" strokeWidth="0.0" />
+                                 </children>
+                              </VBox>
                            </children>
-                        </VBox>
+                        </AnchorPane>
                      </children>
                   </HBox>
                   <HBox prefHeight="50.0" prefWidth="580.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.amount">
+                        <Text fill="#eceff4" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.amount" wrappingWidth="190.0">
                            <font>
                               <Font name="Arial" size="18.0" />
                            </font>
@@ -75,9 +74,9 @@
                         </Text>
                         <AnchorPane prefHeight="50.0" prefWidth="700.0">
                            <children>
-                              <VBox prefHeight="50.0" prefWidth="541.0" AnchorPane.rightAnchor="0.0">
+                              <VBox prefHeight="50.0" prefWidth="552.0" AnchorPane.rightAnchor="0.0">
                                  <children>
-                                    <JFXTextField fx:id="medAmount" minWidth="300.0" onKeyTyped="#clearAmountError" prefHeight="25.0" prefWidth="600.0" />
+                                    <JFXTextField fx:id="medAmount" minWidth="300.0" onKeyTyped="#clearAmountError" prefHeight="25.0" prefWidth="600.0" style="-fx-text-inner-color: #eceff4;" unFocusColor="#eceff4" />
                                     <Text fx:id="amountErrorText" fill="#cd0000" strokeType="OUTSIDE" strokeWidth="0.0" />
                                  </children>
                               </VBox>
@@ -90,7 +89,7 @@
                   </HBox>
                   <HBox prefHeight="50.0" prefWidth="580.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.room">
+                        <Text fill="#eceff4" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.room" wrappingWidth="190.0">
                            <font>
                               <Font name="Arial" size="18.0" />
                            </font>
@@ -100,7 +99,7 @@
                         </Text>
                         <AnchorPane prefHeight="50.0" prefWidth="700.0">
                            <children>
-                              <VBox layoutX="149.0" prefHeight="50.0" prefWidth="551.0">
+                              <VBox layoutX="149.0" prefHeight="50.0" prefWidth="551.0" AnchorPane.rightAnchor="0.0">
                                  <children>
                                     <MenuButton fx:id="locationBox" minWidth="550.0" mnemonicParsing="false" />
                                     <Text fx:id="roomErrorText" fill="#cd0000" strokeType="OUTSIDE" strokeWidth="0.0" />
@@ -123,7 +122,7 @@
             </VBox>
          </center>
          <bottom>
-            <HBox alignment="CENTER_LEFT" maxHeight="100.0" prefHeight="70.0" prefWidth="1280.0" style="-fx-background-color: #002B53;" BorderPane.alignment="CENTER">
+            <HBox alignment="CENTER_LEFT" maxHeight="100.0" prefHeight="70.0" prefWidth="1280.0" style="-fx-background-color: #2E3440;" BorderPane.alignment="CENTER">
                <children>
                   <JFXButton buttonType="RAISED" onAction="#handleHelp" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #5e99ff; -fx-background-radius: 25; -fx-border-radius: 25;" text="?" textFill="WHITE">
                      <font>
@@ -153,7 +152,7 @@
             </HBox>
          </bottom>
          <top>
-            <VBox alignment="CENTER" prefHeight="110.0" prefWidth="1280.0" style="-fx-background-color: #001A3C;" BorderPane.alignment="CENTER">
+            <VBox alignment="CENTER" prefHeight="110.0" prefWidth="1280.0" style="-fx-background-color: #2E3440;" BorderPane.alignment="CENTER">
                <children>
                   <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.s_r_title">
                      <font>
