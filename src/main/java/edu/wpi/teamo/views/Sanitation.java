@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -32,6 +33,15 @@ public class Sanitation extends ServiceRequestPage implements Initializable {
 
     @FXML
     private JFXTextField service;
+
+    @FXML
+    private VBox topVbox;
+
+    @FXML
+    private VBox midVbox;
+
+    @FXML
+    private HBox bottomHbox;
 
     @FXML
     private JFXTextField assignee;
@@ -58,7 +68,9 @@ public class Sanitation extends ServiceRequestPage implements Initializable {
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
-
+        topVbox.getStyleClass().add("vbox");
+        bottomHbox.getStyleClass().add("vbox");
+        midVbox.getStyleClass().add("text-area");
 
 
         validRequest = true;
