@@ -148,7 +148,7 @@
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <JFXButton contentDisplay="BOTTOM" maxHeight="100.0" prefHeight="100.0" prefWidth="570.0" style="-fx-background-color: #666;" text="%key.language_interpreter" textFill="WHITE">
+                        <JFXButton contentDisplay="BOTTOM" maxHeight="100.0" onAction="#handleLanguageInterpreter" prefHeight="100.0" prefWidth="570.0" style="-fx-background-color: #666;" text="%key.language_interpreter" textFill="WHITE">
                            <font>
                               <Font size="24.0" />
                            </font>

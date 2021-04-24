@@ -29,6 +29,15 @@ public class ServiceRequestPage extends SubPageController implements Initializab
     }
 
     /**
+     * event handler for switching to medicine page
+     * @param e Action Event parameter
+     */
+    @FXML
+    private void handleLanguageInterpreter(ActionEvent e) {
+        App.switchPage(Pages.LANGUAGEINTERPRETER);
+    }
+
+    /**
      * event handler for switching to service request page
      * @param e Action Event parameter
      */

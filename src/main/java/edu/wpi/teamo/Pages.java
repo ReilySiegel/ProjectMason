@@ -11,5 +11,6 @@ public enum Pages {
     MANAGEREQUESTS,
     MAPEDITOR,
     LOADINGSCREEN,
-    LOGIN
+    LOGIN,
+    LANGUAGEINTERPRETER
 }
