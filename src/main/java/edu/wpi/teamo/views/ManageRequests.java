@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import edu.wpi.teamo.App;
+import edu.wpi.teamo.database.request.BaseRequest;
 import edu.wpi.teamo.database.request.MedicineRequest;
 import edu.wpi.teamo.database.request.SanitationRequest;
 import javafx.beans.property.SimpleStringProperty;
@@ -117,14 +118,14 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         ObservableList<MedicineRequest> medRequests = FXCollections.observableArrayList();
 
         try {
-            Stream<IMedicineRequestInfo> medReqStream = App.requestService.getAllMedicineRequests();
+            Stream<MedicineRequest> medReqStream = App.requestService.getAllMedicineRequests();
             if (medShowCompleted.isSelected()) {
-                medReqStream.forEach(m -> medRequests.add(new MedicineRequest(m.getID(), m.getType(), m.getAmount(), m.isComplete(), m.getLocationIDs(), m.getAssigned())));
+                medReqStream.forEach(m -> medRequests.add(new MedicineRequest(m.getType(), m.getAmount(), new BaseRequest(m.getID(), m.getDetails(), m.getLocations(), m.getAssigned(), m.isComplete()))));
             }
             else {
                 medReqStream.forEach(m -> {
                     if (!m.isComplete())
-                        medRequests.add(new MedicineRequest(m.getID(), m.getType(), m.getAmount(), m.isComplete(), m.getLocationIDs(), m.getAssigned()));
+                        medRequests.add(new MedicineRequest(m.getType(), m.getAmount(), new BaseRequest(m.getID(), m.getDetails(), m.getLocations(), m.getAssigned(), m.isComplete())));
                 });
             }
         } catch (SQLException throwables) {
