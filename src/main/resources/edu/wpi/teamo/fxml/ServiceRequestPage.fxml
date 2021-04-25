@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #001a3c;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.ServiceRequestPage">
+<AnchorPane prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #2e3440;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.ServiceRequestPage">
    <children>
       <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -25,14 +25,14 @@
                   </Label>
                </children>
                <VBox.margin>
-                  <Insets top="20.0" />
+                  <Insets left="15.0" top="20.0" />
                </VBox.margin>
             </HBox>
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <JFXButton alignment="CENTER" contentDisplay="BOTTOM" maxHeight="100.0" onAction="#handleMedicine" prefHeight="100.0" prefWidth="570.0" ripplerFill="#e8a200" style="-fx-background-color: #666;" text="%key.medicine" textFill="WHITE">
+                        <JFXButton alignment="CENTER" contentDisplay="BOTTOM" maxHeight="100.0" onAction="#handleMedicine" prefHeight="100.0" prefWidth="570.0" ripplerFill="WHITE" style="-fx-background-color: #666;" text="%key.medicine" textFill="WHITE">
                            <font>
                               <Font size="27.0" />
                            </font>
@@ -176,7 +176,7 @@
             </VBox>
             <HBox prefHeight="100.0" prefWidth="1200.0">
                <children>
-                  <JFXButton buttonType="RAISED" minHeight="50.0" onAction="#backToMain" prefHeight="50.0" style="-fx-background-color: #db1212;" text="%key.back" textFill="WHITE">
+                  <JFXButton buttonType="RAISED" minHeight="50.0" onAction="#backToMain" prefHeight="50.0" style="-fx-background-color: #5e81ac;" text="%key.back" textFill="WHITE">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -184,7 +184,7 @@
                         <Insets top="25.0" />
                      </HBox.margin>
                   </JFXButton>
-                  <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onAction="#handleManageRequestPage" prefHeight="50.0" prefWidth="250.0" ripplerFill="#00a120" style="-fx-background-color: #007700;" text="%key.view_manage_requests" textFill="WHITE">
+                  <JFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="CENTER" onAction="#handleManageRequestPage" prefHeight="50.0" prefWidth="250.0" ripplerFill="WHITE" style="-fx-background-color: #5e81ac;" text="%key.view_manage_requests" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
