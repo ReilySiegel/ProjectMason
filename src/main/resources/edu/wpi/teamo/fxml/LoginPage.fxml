@@ -3,81 +3,69 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
-<StackPane fx:id="loginStack" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #001a3c;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.LoginPage">
+<StackPane fx:id="stackPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.LoginPage">
    <children>
-      <BorderPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: e2e2e2;">
-         <StackPane.margin>
-            <Insets />
-         </StackPane.margin>
-         <top>
-            <HBox prefHeight="150.0" prefWidth="1200.0" style="-fx-background-color: #001a3c;" BorderPane.alignment="CENTER">
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #001a3C;">
+         <children>
+            <AnchorPane layoutX="411.0" layoutY="50.0" prefHeight="703.0" prefWidth="721.0" style="-fx-background-color: #001a3C;">
                <children>
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.login" textAlignment="CENTER" wrappingWidth="1188.80419921875" HBox.hgrow="ALWAYS">
+                  <Label alignment="CENTER" layoutX="66.0" layoutY="33.0" prefHeight="131.0" prefWidth="590.0" text="Project Iteration 2" textAlignment="CENTER" textFill="WHITE">
                      <font>
-                        <Font size="36.0" />
+                        <Font name="SansSerif Regular" size="64.0" />
                      </font>
-                     <HBox.margin>
-                        <Insets top="50.0" />
-                     </HBox.margin>
-                  </Text>
-               </children>
-            </HBox>
-         </top>
-         <bottom>
-            <HBox prefHeight="115.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
-               <children>
-                  <JFXButton buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="50.0" minWidth="130.0" onAction="#backToMain" prefHeight="50.0" prefWidth="82.0" style="-fx-background-color: #db1212;" text="%key.back" textAlignment="CENTER" textFill="WHITE">
-                     <HBox.margin>
-                        <Insets left="150.0" top="32.5" />
-                     </HBox.margin>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="103.0" layoutY="153.0" prefHeight="86.0" prefWidth="516.0" text="Created By: Team O" textAlignment="CENTER" textFill="WHITE">
                      <font>
-                        <Font size="24.0" />
+                        <Font name="Serif Regular" size="48.0" />
                      </font>
-                  </JFXButton>
-                  <JFXButton buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="50.0" minWidth="130.0" onAction="#checkPasswordUsernameCombo" prefHeight="50.0" prefWidth="135.0" style="-fx-background-color: #000080;" text="%key.submit" textAlignment="CENTER" textFill="WHITE">
-                     <HBox.margin>
-                        <Insets left="680.0" right="150.0" top="32.5" />
-                     </HBox.margin>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="103.0" layoutY="312.0" prefHeight="138.0" prefWidth="516.0" text="Welcome to Brigham and Women's Hospital!" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="Serif Regular" size="24.0" />
+                     </font>
+                  </Label>
+                  <JFXButton layoutX="122.0" layoutY="474.0" prefHeight="119.0" prefWidth="477.0" style="-fx-background-color: #0263A9;" text="GUEST LOGIN" textFill="WHITE">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </JFXButton>
                </children>
-               <BorderPane.margin>
-                  <Insets />
-               </BorderPane.margin>
-            </HBox>
-         </bottom>
-         <center>
-            <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+            </AnchorPane>
+            <AnchorPane layoutY="1.0" prefHeight="800.0" prefWidth="330.0" style="-fx-background-color: #F7F9FF;">
                <children>
-                  <JFXTextField fx:id="username" promptText="%key.username">
+                  <JFXTextField fx:id="username" layoutX="29.0" layoutY="202.0" prefHeight="43.0" prefWidth="258.0" promptText=" Username" style="-fx-background-color: #F2F2F2; -jfx-focus-color: WHITE; -fx-border-color: BLACK; -fx-border-width: 3;" unFocusColor="#f2f2f2">
                      <font>
-                        <Font size="24.0" />
+                        <Font size="16.0" />
                      </font>
-                     <VBox.margin>
-                        <Insets bottom="100.0" left="150.0" right="150.0" top="150.0" />
-                     </VBox.margin>
                   </JFXTextField>
-                  <JFXPasswordField fx:id="password" onAction="#onEnter" promptText="%key.password">
+                  <JFXPasswordField fx:id="password" layoutX="30.0" layoutY="308.0" prefHeight="43.0" prefWidth="258.0" promptText=" Password" style="-fx-background-color: #F2F2F2; -jfx-focus-color: WHITE; -fx-border-color: BLACK; -fx-border-width: 3;" unFocusColor="#f2f2f2">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </JFXPasswordField>
+                  <JFXButton layoutX="30.0" layoutY="472.0" onAction="#checkPasswordUsernameCombo" prefHeight="51.0" prefWidth="131.0" style="-fx-background-color: #0263A9;" text="SUBMIT" textFill="#fffffffa">
                      <font>
                         <Font size="24.0" />
                      </font>
-                     <VBox.margin>
-                        <Insets bottom="150.0" left="150.0" right="150.0" />
-                     </VBox.margin>
-                  </JFXPasswordField>
+                  </JFXButton>
+                  <Label alignment="CENTER" layoutX="19.0" layoutY="59.0" prefHeight="60.0" prefWidth="295.0" text="Sign in" textAlignment="CENTER">
+                     <font>
+                        <Font size="32.0" />
+                     </font>
+                  </Label>
+                  <JFXButton layoutX="30.0" layoutY="631.0" onAction="#backToMainMenu" prefHeight="60.0" prefWidth="94.0" style="-fx-background-color: #0263A9;" text="BACK" textFill="WHITE">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </JFXButton>
                </children>
-            </VBox>
-         </center>
-      </BorderPane>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
    </children>
 </StackPane>

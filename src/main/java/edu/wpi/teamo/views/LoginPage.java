@@ -22,27 +22,32 @@ public class LoginPage extends SubPageController{
             App.switchPage(Pages.MAPEDITOR);
         }
         else{
-            JFXDialogLayout content = new JFXDialogLayout();
-            content.setHeading(new Text("Error"));
-            content.setBody(new Text("Incorrect Username or Password"));
-            JFXDialog errorWindow = new JFXDialog(loginStack, content, JFXDialog.DialogTransition.TOP);
-
-            JFXButton closeButton = new JFXButton("Close");
-            closeButton.setStyle("-fx-background-color: #f40f19");
-            closeButton.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    errorWindow.close();
-                }
-            });
-
-            content.setActions(closeButton);
-            errorWindow.show();
+////            JFXDialogLayout content = new JFXDialogLayout();
+////            content.setHeading(new Text("Error"));
+////            content.setBody(new Text("Incorrect Username or Password"));
+////            ///JFXDialog errorWindow = new JFXDialog(loginStack, content, JFXDialog.DialogTransition.TOP);
+////
+////            JFXButton closeButton = new JFXButton("Close");
+////            closeButton.setStyle("-fx-background-color: #f40f19");
+////            closeButton.setOnAction(new EventHandler<ActionEvent>() {
+////                @Override
+////                //public void handle(ActionEvent event) {
+////                   // errorWindow.close();
+////                //}
+////            });
+//
+//            content.setActions(closeButton);
+//            errorWindow.show();
         }
     }
 
     @FXML
     public void onEnter(ActionEvent e) {
         checkPasswordUsernameCombo(e);
+    }
+
+    @FXML
+    void backToMainMenu(ActionEvent e){
+        App.switchPage(Pages.MAIN);
     }
 }
