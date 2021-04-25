@@ -521,7 +521,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
             App.mapService.addNode(newNodeID, Integer.parseInt(newNodeX), Integer.parseInt(newNodeY),
                     newNodeFloor, newNodeBuilding, newNodeType,
                     newNodeLN, newNodeSN);
-            updateNodeTreeDisplay();
+            update();
 
             addNodeID.setText("");
             addNodeX.setText("");
@@ -549,7 +549,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
         try{
             App.mapService.deleteNode(deleteNode);
-            updateNodeTreeDisplay();
+            update();
         }
         catch (SQLException | AssertionError | IllegalArgumentException e){
             showError("Please fill out all fields with valid arguments");
@@ -586,7 +586,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
             App.mapService.setNodeShortName(currentNodeID, newNodeSN);
             App.mapService.setNodeID(currentNodeID, editNodeID);
 
-            updateNodeTreeDisplay();
+            update();
         }
         catch (SQLException | IllegalArgumentException | AssertionError e){
             showError("Please fill out all fields with valid arguments");
@@ -612,7 +612,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
             showError("Please fill out all fields with valid arguments");
             return;
         }
-        updateEdgeTreeDisplay();
+        update();
     }
 
     /**
@@ -631,8 +631,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
             showError("Please fill out all fields with valid arguments");
             return;
         }
-        // updating the edge display
-        updateEdgeTreeDisplay();
+        update();
     }
 
     /**
@@ -660,7 +659,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
             showError("Please fill out all fields with valid arguments");
             return;
         }
-        updateEdgeTreeDisplay();
+        update();
     }
 
     /**
