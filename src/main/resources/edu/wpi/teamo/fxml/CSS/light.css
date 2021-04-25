@@ -219,6 +219,13 @@ Styleguide Nord
     -fx-background-color: nord5;
 }
 
+.list-view {
+    -fx-background-color: nord10;
+}
+
+.jfx-check-box {
+    -jfx-checked-color: nord10;
+}
 .label {
     -fx-text-fill: nord0;
 }
