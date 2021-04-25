@@ -3,7 +3,6 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTabPane?>
-<?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXTreeTableView?>
 <?import javafx.geometry.Insets?>
@@ -59,23 +58,18 @@
                      <content>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0">
                            <children>
-                              <ImageView fx:id="mapImage" fitHeight="711.0" fitWidth="980.0" layoutX="-1.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="mapImage" fitHeight="665.0" fitWidth="980.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../images/00_thegroundfloor.png" />
                                  </image>
                               </ImageView>
-                              <JFXComboBox fx:id="floorSwitcher" layoutX="910.0" layoutY="674.0" onAction="#onFloorSwitch" promptText="Level" AnchorPane.rightAnchor="0.0" />
-                              <AnchorPane fx:id="nodePane" layoutX="6.0" layoutY="2.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="668.0" prefWidth="980.0" />
-                              <JFXTextArea fx:id="mapText" focusColor="#405aa800" layoutX="11.0" layoutY="11.0" prefHeight="94.0" prefWidth="969.0" unFocusColor="#4d4d4d00">
-                                 <font>
-                                    <Font name="Arial" size="21.0" />
-                                 </font>
-                              </JFXTextArea>
+                              <AnchorPane fx:id="nodePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="665.0" prefWidth="980.0" />
                               <JFXButton buttonType="RAISED" layoutX="14.0" layoutY="674.0" onAction="#handleHelp" prefHeight="34.0" prefWidth="34.0" style="-fx-background-color: #001bb5; -fx-border-radius: 17; -fx-background-radius: 17;" text="?" textFill="WHITE">
                                  <font>
                                     <Font name="Arial Bold" size="16.0" />
                                  </font>
                               </JFXButton>
+                              <JFXComboBox fx:id="floorSwitcher" layoutX="910.0" layoutY="674.0" onAction="#onFloorSwitch" promptText="Level" AnchorPane.rightAnchor="0.0" />
                            </children>
                         </AnchorPane>
                      </content>

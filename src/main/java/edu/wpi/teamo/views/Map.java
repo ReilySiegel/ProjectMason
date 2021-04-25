@@ -18,6 +18,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import java.io.FileInputStream;
 import java.util.LinkedList;
+
+import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Transform;
 import javafx.util.Pair;
 import java.util.List;
 
@@ -40,9 +43,20 @@ public class Map  {
     private final AnchorPane nodePane;
     private final ImageView imageView;
 
+    /* variables used to calculate the zoom and pan transforms */
+    private Double initialTranslateX = null;
+    private Double initialTranslateY = null;
+    private Double initialScreenX = null;
+    private Double initialScreenY = null;
+    private double scale = 1;
+
     public Map(ImageView imageView, AnchorPane nodePane) {
         this.imageView = imageView;
         this.nodePane = nodePane;
+
+        nodePane.setOnMouseDragged((MouseEvent e) -> translateMap(e.getScreenX(), e.getScreenY()));
+        nodePane.setOnMouseReleased((MouseEvent e) -> resetInitialDragData());
+        nodePane.setOnScroll((ScrollEvent e) -> scaleMap(e.getDeltaY()));
     }
 
     public void drawPath(LinkedList<AlgoNode> path, String floor) {
@@ -152,6 +166,52 @@ public class Map  {
 
     public static double transform(int val, double from, double to) {
         return val * (to / from);
+    }
+
+
+    private void resetInitialDragData() {
+        initialTranslateX = null;
+        initialTranslateY = null;
+        initialScreenX = null;
+        initialScreenY = null;
+    }
+
+    public void translateMap(double screenX, double screenY) {
+        /* if the drag was just initiated, must save initial conditions */
+        if (initialTranslateX == null) {
+            initialTranslateX = nodePane.getTranslateX();
+            initialTranslateY = nodePane.getTranslateY();
+            initialScreenX = screenX;
+            initialScreenY = screenY;
+        }
+        /* translate by the displacement of the mouse since initial click */
+        else {
+            double screenDisplacementX = screenX - initialScreenX;
+            double screenDisplacementY = screenY - initialScreenY;
+
+            nodePane.setTranslateX (initialTranslateX + screenDisplacementX);
+            nodePane.setTranslateY (initialTranslateY + screenDisplacementY);
+            imageView.setTranslateX(initialTranslateX    + screenDisplacementX);
+            imageView.setTranslateY(initialTranslateY    + screenDisplacementY);
+        }
+    }
+
+    public void scaleMap(double scroll) {
+        /* scroll is proportional to current scale to keep zoom speed the same */
+        double dS = scroll * scale / 500;
+        scale += dS;
+
+        /* scale the views from the center */
+        imageView.setScaleX(scale);
+        imageView.setScaleY(scale);
+        nodePane.setScaleX(scale);
+        nodePane.setScaleY(scale);
+
+        /* must translate based on how much the current point moved from the scale */
+        nodePane.setTranslateX ( nodePane.getTranslateX() + (nodePane.getTranslateX() /scale) * dS);
+        nodePane.setTranslateY ( nodePane.getTranslateY() + (nodePane.getTranslateY() /scale) * dS);
+        imageView.setTranslateX(imageView.getTranslateX() + (imageView.getTranslateX()/scale) * dS);
+        imageView.setTranslateY(imageView.getTranslateY() + (imageView.getTranslateY()/scale) * dS);
     }
 
     public void setOnMouseMoved(Consumer<Pair<Integer, Integer>> onMouseMoved) {

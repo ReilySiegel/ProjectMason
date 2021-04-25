@@ -152,9 +152,6 @@ public class MapEditorPage extends SubPageController implements Initializable{
     private JFXTextField editingEnd;
 
     @FXML
-    private JFXTextArea mapText;
-
-    @FXML
     private JFXComboBox<String> floorSwitcher;
     String selectedFloor = "1";
 
@@ -200,7 +197,6 @@ public class MapEditorPage extends SubPageController implements Initializable{
         map.setOnMapClicked(this::onMapClicked);
         map.setOnDrawNode(this::onDrawNode);
         map.setOnDrawEdge(this::onDrawEdge);
-
 
         NumberValidator numberValidator = new NumberValidator();
 
@@ -331,15 +327,11 @@ public class MapEditorPage extends SubPageController implements Initializable{
             double originalRadius = circle.getRadius();
 
             circle.setOnMouseEntered(event -> {
-                mapText.setText(node.getNodeID() + "\t" + node.getLongName());
                 circle.setRadius(7);
                 event.consume();
             });
 
             circle.setOnMouseExited(event -> {
-                if (mapText != null) {
-                    mapText.setText("");
-                }
                 circle.setRadius(originalRadius);
                 event.consume();
             });
@@ -351,6 +343,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
             circle.setOnMouseDragged((MouseEvent e) -> {
                 onDraggingNode(node, circle, e);
+                e.consume();
             });
 
             circle.setOnMouseReleased((MouseEvent e) -> {
@@ -479,7 +472,6 @@ public class MapEditorPage extends SubPageController implements Initializable{
             selectingStart = false;
         }
         else {
-            mapText.setText("Select your start location.");
             selectingStart = true;
             selectingEnd = false;
         }
@@ -493,7 +485,6 @@ public class MapEditorPage extends SubPageController implements Initializable{
             selectingEnd = false;
         }
         else {
-            mapText.setText("Select your destination.");
             selectingStart = false;
             selectingEnd = true;
         }
