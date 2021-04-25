@@ -1,9 +1,6 @@
 package edu.wpi.teamo.views;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDialog;
-import com.jfoenix.controls.JFXDialogLayout;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.*;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.Pages;
 import edu.wpi.teamo.database.map.NodeInfo;
@@ -15,7 +12,9 @@ import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.net.URL;
@@ -57,16 +56,62 @@ public class SR02_LanguageInterpreter extends ServiceRequestPage implements Init
 
     private boolean validRequest;
 
+    @FXML
+    private JFXComboBox<String> languageBox;
+
+    @FXML
+    private JFXComboBox<String> jobBox;
+
+    @FXML
+    private VBox topVbox;
+
+    @FXML
+    private HBox bottomHbox;
+
+    @FXML
+    private VBox midVbox;
+
+    @FXML
+    private JFXTimePicker timepicker;
+
+    @FXML
+    private JFXDatePicker datepicker;
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
+        topVbox.getStyleClass().add("vbox");
+        bottomHbox.getStyleClass().add("vbox");
+        midVbox.getStyleClass().add("text-area");
 
+        fillLanguageBox();
+        fillJobBox();
         validRequest = true;
         try {
             resetLocationBox();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public void fillLanguageBox() {
+        languageBox.getItems().add("Spanish");
+        languageBox.getItems().add("Chinese");
+        languageBox.getItems().add("Haitian");
+        languageBox.getItems().add("Portuguese");
+        languageBox.getItems().add("Vietnamese");
+        languageBox.getItems().add("French");
+        languageBox.getItems().add("Arabic");
+        languageBox.getItems().add("Russian");
+        languageBox.getItems().add("Italian");
+        languageBox.getItems().add("Hindi");
+    }
+
+
+    public void fillJobBox() {
+        jobBox.getItems().add("Face-to-Face");
+        jobBox.getItems().add("Phone Call");
+        jobBox.getItems().add("Video Call");
+        jobBox.getItems().add("Documentation");
     }
 
     private void resetLocationBox() throws SQLException {
@@ -115,6 +160,10 @@ public class SR02_LanguageInterpreter extends ServiceRequestPage implements Init
         String medicine = medName.getText();
         String amount = medAmount.getText();
         String assignName = assignee.getText();
+        String selectedLanguage = String.valueOf(languageBox.getItems());
+        String selectedJob = String.valueOf(jobBox.getItems());
+        String selectedTime = timepicker.getValue().toString();
+        String selectedDate = datepicker.getValue().toString();
 
         List<MenuItem>        mItems    = locationBox.getItems();
         Stream<CheckMenuItem> cMItems   = mItems.stream().map((MenuItem mI) -> (CheckMenuItem) mI);

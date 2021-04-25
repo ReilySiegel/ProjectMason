@@ -222,3 +222,29 @@ Styleguide Nord
 .label {
     -fx-text-fill: nord4;
 }
+
+.jfx-combo-box {
+    -fx-background-color: nord3;
+    -fx-text-fill: nord3;
+    -jfx-focus-color: nord4;
+    -jfx-unfocus-color: nord4;
+}
+
+.combo-box-popup .list-view .list-cell {
+    -fx-background-color: nord1;
+    -fx-text-fill: nord4;
+    -jfx-focus-color: nord4;
+    -jfx-unfocus-color: nord4;
+}
+
+.combo-box-popup .list-view .list-cell:filled:selected, .combo-box-popup .list-view .list-cell:filled:selected:hover {
+    -fx-background-color: nord7;
+}
+
+.combo-box-popup .list-view .list-cell:filled:hover{
+    -fx-background-color: nord7;
+}
+
+.combo-box .cell:selected {
+    -fx-text-fill: nord4;
+}
