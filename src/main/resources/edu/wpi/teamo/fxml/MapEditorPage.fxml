@@ -65,7 +65,7 @@
                                  </image>
                               </ImageView>
                               <JFXComboBox fx:id="floorSwitcher" layoutX="910.0" layoutY="674.0" onAction="#onFloorSwitch" promptText="Level" AnchorPane.rightAnchor="0.0" />
-                              <AnchorPane fx:id="nodePane" layoutY="2.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="668.0" prefWidth="980.0" />
+                              <AnchorPane fx:id="nodePane" layoutX="6.0" layoutY="2.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="668.0" prefWidth="980.0" />
                               <JFXTextArea fx:id="mapText" focusColor="#405aa800" layoutX="11.0" layoutY="11.0" prefHeight="94.0" prefWidth="969.0" unFocusColor="#4d4d4d00">
                                  <font>
                                     <Font name="Arial" size="21.0" />

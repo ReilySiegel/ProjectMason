@@ -3,6 +3,8 @@ package edu.wpi.teamo.views;
 import edu.wpi.teamo.database.map.EdgeInfo;
 import edu.wpi.teamo.database.map.NodeInfo;
 import com.jfoenix.controls.JFXTextArea;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import java.io.FileNotFoundException;
 import javafx.scene.input.MouseEvent;
@@ -25,8 +27,8 @@ public class Map  {
     private Consumer<Pair<Line, EdgeInfo>> onDrawEdge = null;
 
     static private boolean imagesLoaded = false;
-    static private final int imageHeight = 3400;
-    static private final int imageWidth = 5000;
+    static public final int imageHeight = 3400;
+    static public final int imageWidth = 5000;
 
     static Image groundFloorImage = null;
     static Image secondFloorImage = null;
@@ -148,7 +150,7 @@ public class Map  {
         return foundNode;
     }
 
-    private static double transform(int val, double from, double to) {
+    public static double transform(int val, double from, double to) {
         return val * (to / from);
     }
 

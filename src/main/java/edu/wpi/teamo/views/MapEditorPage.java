@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -32,10 +33,14 @@ import javafx.fxml.Initializable;
 import edu.wpi.teamo.database.map.NodeInfo;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.MouseDragEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -168,7 +173,11 @@ public class MapEditorPage extends SubPageController implements Initializable{
     boolean selectingEnd;
 
     Map map;
+    boolean dragging = false;
 
+    /* these hash maps are only for moving an associated edge when a node is being dragged */
+    HashMap<String, List<Line>> associatedEdgeBeginnings;
+    HashMap<String, List<Line>> associatedEdgeEndings;
 
     /**
      * Set validators to insure that the x and y coordinate fields are numbers
@@ -272,6 +281,8 @@ public class MapEditorPage extends SubPageController implements Initializable{
     }
 
     void updateMap() {
+        associatedEdgeBeginnings = new HashMap<>();
+        associatedEdgeEndings = new HashMap<>();
         try {
             List<NodeInfo> nodeList = App.mapService.getAllNodes().collect(Collectors.toList());
             List<EdgeInfo> edgeList = App.mapService.getAllEdges().collect(Collectors.toList());
@@ -317,6 +328,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
     void onDrawNode(Pair<Circle, NodeInfo> p) {
             Circle circle = p.getKey();
             NodeInfo node = p.getValue();
+            double originalRadius = circle.getRadius();
 
             circle.setOnMouseEntered(event -> {
                 mapText.setText(node.getNodeID() + "\t" + node.getLongName());
@@ -328,7 +340,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
                 if (mapText != null) {
                     mapText.setText("");
                 }
-                circle.setRadius(4);
+                circle.setRadius(originalRadius);
                 event.consume();
             });
 
@@ -336,7 +348,19 @@ public class MapEditorPage extends SubPageController implements Initializable{
                 onClickNode(node);
                 event.consume();
             });
+
+            circle.setOnMouseDragged((MouseEvent e) -> {
+                onDraggingNode(node, circle, e);
+            });
+
+            circle.setOnMouseReleased((MouseEvent e) -> {
+                if (dragging) {
+                    onDraggedNodeDrop(node, e);
+                }
+            });
+
     }
+
 
 //    Consumer<NodeInfo> onClickNode = (NodeInfo node) -> System.out.println("Node " + node.getNodeID() + "was clicked");
     void onClickNode(NodeInfo node) {
@@ -385,6 +409,60 @@ public class MapEditorPage extends SubPageController implements Initializable{
             line.setStrokeWidth(originalWidth);
             event.consume();
         });
+
+        /* add the line to node id hashmaps so that this line can be referenced when the node is dragged */
+        try {
+            associatedEdgeBeginnings.computeIfAbsent(edge.getStartNodeID(), k -> new LinkedList<>());
+            associatedEdgeBeginnings.get(edge.getStartNodeID()).add(line);
+
+            associatedEdgeEndings.computeIfAbsent(edge.getEndNodeID(), k -> new LinkedList<>());
+            associatedEdgeEndings.get(edge.getEndNodeID()).add(line);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    void onDraggingNode(NodeInfo node, Circle circle, MouseEvent e) {
+        dragging = true;
+
+        /* move the circle */
+        circle.setCenterX(e.getX());
+        circle.setCenterY(e.getY());
+
+        /* move connected edges */
+        try {
+            List<Line> lineBeginnings = associatedEdgeBeginnings.get(node.getNodeID());
+            if (lineBeginnings != null) {
+                for (Line line : lineBeginnings) {
+                    line.setStartX(e.getX());
+                    line.setStartY(e.getY());
+                }
+            }
+            List<Line> lineEndings = associatedEdgeEndings.get(node.getNodeID());
+            if (lineEndings != null) {
+                for (Line line : lineEndings) {
+                    line.setEndX(e.getX());
+                    line.setEndY(e.getY());
+                }
+            }
+        }
+        catch (Exception err) {
+            err.printStackTrace();
+        }
+
+    }
+
+    void onDraggedNodeDrop(NodeInfo node, MouseEvent e) {
+        int mapX = (int) Map.transform((int) e.getX(), nodePane.getPrefWidth(), Map.imageWidth);
+        int mapY = (int) Map.transform((int) e.getY(), nodePane.getPrefHeight(), Map.imageHeight);
+        try {
+            App.mapService.setNodePosition(node.getNodeID(), mapX, mapY);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        dragging = false;
+        update();
     }
 
     //    Consumer<EdgeInfo> onClickEdge = (EdgeInfo edge) -> System.out.println("Edge " + node.getEdgeID() + "was clicked");
@@ -607,7 +685,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
             return;
         }
 
-        updateNodeTreeDisplay();
+        update();
     }
 
     /**
@@ -650,9 +728,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
             showError("Please select a valid file");
             return;
         }
-        // updating display of all edges
-        //updateDisplay();
-        updateEdgeTreeDisplay();
+        update();
     }
 
     @FXML
