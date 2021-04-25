@@ -59,6 +59,10 @@ public class ServiceRequestPage extends SubPageController implements Initializab
     private void handleManageRequestPage(ActionEvent e) { App.switchPage(Pages.MANAGEREQUESTS);
     }
 
+    @FXML
+    private void handleReligiousRequest(ActionEvent e) { App.switchPage(Pages.RELIGIOUS);}
+
+
 
 
 }

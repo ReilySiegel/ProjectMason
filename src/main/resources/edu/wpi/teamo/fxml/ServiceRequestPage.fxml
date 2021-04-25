@@ -72,7 +72,7 @@
                               <Insets left="20.0" />
                            </HBox.margin>
                         </JFXButton>
-                        <JFXButton contentDisplay="BOTTOM" maxHeight="100.0" prefHeight="100.0" prefWidth="570.0" style="-fx-background-color: #666;" text="%key.religious_requests" textFill="WHITE">
+                        <JFXButton contentDisplay="BOTTOM" maxHeight="100.0" onAction="#handleReligiousRequest" prefHeight="100.0" prefWidth="570.0" style="-fx-background-color: #666;" text="%key.religious_requests" textFill="WHITE">
                            <font>
                               <Font size="24.0" />
                            </font>

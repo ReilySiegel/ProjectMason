@@ -11,5 +11,6 @@ public enum Pages {
     LOADINGSCREEN,
     LOGIN,
     LANGUAGEINTERPRETER,
+    RELIGIOUS,
     SURVEY
 }
