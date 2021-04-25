@@ -1,5 +1,6 @@
 package edu.wpi.teamo.views;
 
+import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
@@ -32,6 +33,9 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
 
     @FXML
     private JFXTreeTableView<SanitationRequest> sanRequestTable;
+
+    @FXML
+    private JFXCheckBox medShowCompleted;
 
     @FXML
     private Text medErrorText;
@@ -78,7 +82,7 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
             }
         });
 
-        JFXTreeTableColumn<MedicineRequest, String> rooms = new JFXTreeTableColumn<>("Room (Node)");
+        JFXTreeTableColumn<MedicineRequest, String> rooms = new JFXTreeTableColumn<>("Room/Node(s)");
         rooms.setPrefWidth(200);
         rooms.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<MedicineRequest, String>, ObservableValue<String>>() {
             @Override
@@ -98,17 +102,37 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
             }
         });
 
+        JFXTreeTableColumn<MedicineRequest, String> completed = new JFXTreeTableColumn<>("Status");
+        completed.setPrefWidth(200);
+        completed.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<MedicineRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<MedicineRequest, String> param) {
+                StringProperty strProp;
+                if (param.getValue().getValue().isComplete()) strProp = new SimpleStringProperty("Complete");
+                else strProp = new SimpleStringProperty("In progress");
+                return strProp;
+            }
+        });
+
         ObservableList<MedicineRequest> medRequests = FXCollections.observableArrayList();
 
         try {
-            Stream<MedicineRequest> medReqStream = MedicineRequest.getAll();
-            medReqStream.forEach(m -> medRequests.add(m));
+            Stream<IMedicineRequestInfo> medReqStream = App.requestService.getAllMedicineRequests();
+            if (medShowCompleted.isSelected()) {
+                medReqStream.forEach(m -> medRequests.add(new MedicineRequest(m.getID(), m.getType(), m.getAmount(), m.isComplete(), m.getLocationIDs(), m.getAssigned())));
+            }
+            else {
+                medReqStream.forEach(m -> {
+                    if (!m.isComplete())
+                        medRequests.add(new MedicineRequest(m.getID(), m.getType(), m.getAmount(), m.isComplete(), m.getLocationIDs(), m.getAssigned()));
+                });
+            }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
 
         final TreeItem<MedicineRequest> root = new RecursiveTreeItem<MedicineRequest>(medRequests, RecursiveTreeObject::getChildren);
-        medRequestTable.getColumns().setAll(medIDs, medType, medAmount, rooms, assignees);
+        medRequestTable.getColumns().setAll(medIDs, medType, medAmount, rooms, assignees, completed);
         medRequestTable.setRoot(root);
         medRequestTable.setShowRoot(false);
 
@@ -128,7 +152,7 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
             }
         });
 
-        JFXTreeTableColumn<SanitationRequest, String> sanLocs = new JFXTreeTableColumn<>("Room (Node)");
+        JFXTreeTableColumn<SanitationRequest, String> sanLocs = new JFXTreeTableColumn<>("Room/Node(s)");
         sanLocs.setPrefWidth(200);
         sanLocs.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<SanitationRequest, String>, ObservableValue<String>>() {
             @Override
@@ -178,7 +202,7 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         TreeItem<MedicineRequest> selection = medRequestTable.getSelectionModel().getSelectedItem();
         if (selection == null) medErrorText.setText("No medicine requests selected");
         else {
-            App.requestService.removeMedicineRequest(medRequestTable.getSelectionModel().getSelectedItem().getValue().getID());
+            App.requestService.setMedicineCompleted(medRequestTable.getSelectionModel().getSelectedItem().getValue().getID());
             updateMedicineTable();
         }
 
