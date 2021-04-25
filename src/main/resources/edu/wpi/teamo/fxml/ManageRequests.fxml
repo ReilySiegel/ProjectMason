@@ -101,7 +101,7 @@
                                           <Insets left="11.0" />
                                        </HBox.margin>
                                     </JFXButton>
-                                    <JFXCheckBox text="%key.show_completed">
+                                    <JFXCheckBox fx:id="sanShowCompleted" text="%key.show_completed">
                                        <HBox.margin>
                                           <Insets left="10.0" />
                                        </HBox.margin>

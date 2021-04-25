@@ -39,6 +39,9 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
     private JFXCheckBox medShowCompleted;
 
     @FXML
+    private JFXCheckBox sanShowCompleted;
+
+    @FXML
     private Text medErrorText;
 
     @FXML
@@ -118,14 +121,14 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         ObservableList<MedicineRequest> medRequests = FXCollections.observableArrayList();
 
         try {
-            Stream<MedicineRequest> medReqStream = App.requestService.getAllMedicineRequests();
+            Stream<MedicineRequest> medReqStream = MedicineRequest.getAll();
             if (medShowCompleted.isSelected()) {
-                medReqStream.forEach(m -> medRequests.add(new MedicineRequest(m.getType(), m.getAmount(), new BaseRequest(m.getID(), m.getDetails(), m.getLocations(), m.getAssigned(), m.isComplete()))));
+                medReqStream.forEach(m -> medRequests.add(m));
             }
             else {
                 medReqStream.forEach(m -> {
                     if (!m.isComplete())
-                        medRequests.add(new MedicineRequest(m.getType(), m.getAmount(), new BaseRequest(m.getID(), m.getDetails(), m.getLocations(), m.getAssigned(), m.isComplete())));
+                        medRequests.add(m);
                 });
             }
         } catch (SQLException throwables) {
@@ -183,17 +186,36 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
             }
         });
 
+        JFXTreeTableColumn<SanitationRequest, String> sanCompleted = new JFXTreeTableColumn<>("Status");
+        sanDetails.setPrefWidth(200);
+        sanDetails.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<SanitationRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<SanitationRequest, String> param) {
+                StringProperty strProp;
+                if (param.getValue().getValue().isComplete()) strProp = new SimpleStringProperty("Complete");
+                else strProp = new SimpleStringProperty("In progress");
+                return strProp;
+            }
+        });
+
         ObservableList<SanitationRequest> sanRequests = FXCollections.observableArrayList();
 
         try {
-            Stream<SanitationRequest> sanReqStream = App.requestService.getAllSanitationRequests();
-            sanReqStream.forEach(m -> sanRequests.add(m));
+            Stream<SanitationRequest> sanReqStream = SanitationRequest.getAll();
+            if (sanShowCompleted.isSelected()) {
+                sanReqStream.forEach(m -> sanRequests.add(m));
+            } else {
+                sanReqStream.forEach(m -> {
+                    if (!m.isComplete()) sanRequests.add(m);
+                });
+            }
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
 
         final TreeItem<SanitationRequest> sanRoot = new RecursiveTreeItem<SanitationRequest>(sanRequests, RecursiveTreeObject::getChildren);
-        sanRequestTable.getColumns().setAll(sanIDs, sanLocs, sanAssigned, sanDetails);
+        sanRequestTable.getColumns().setAll(sanIDs, sanLocs, sanAssigned, sanDetails, sanCompleted);
         sanRequestTable.setRoot(sanRoot);
         sanRequestTable.setShowRoot(false);
     }
@@ -214,7 +236,7 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         TreeItem<SanitationRequest> selection = sanRequestTable.getSelectionModel().getSelectedItem();
         if (selection == null) sanErrorText.setText("No sanitation requests selected");
         else {
-            App.requestService.removeSanitationRequest(sanRequestTable.getSelectionModel().getSelectedItem().getValue().getID());
+            App.requestService.setSanitationCompleted(sanRequestTable.getSelectionModel().getSelectedItem().getValue().getID());
             updateSanitationTable();
         }
 
