@@ -20,11 +20,8 @@ public class NodeTests {
         Database db = null;
 
         /* init database */
-        try {
-            db = new Database(Database.getMemoryURIFromName("InitNodeTable"));
-        } catch (SQLException | ClassNotFoundException e) {
-            fail(e.getMessage());
-        }
+        Database.setTesting("initNodeTable");
+        db = Database.getInstance();
 
         /* init node table */
         try {
@@ -60,12 +57,13 @@ public class NodeTests {
         int yPos = 2;
 
         try {
-            Database db = new Database(Database.getMemoryURIFromName("GetNodeByID"));
+            Database.setTesting ("GetNodeByID");
+            Database db = Database.getInstance ();
             Node.initTable(db);
 
-            /* store an edge */
-            Node nodeToStore = new Node(nodeID, xPos, yPos, floor, building, type, longName, shortName);
-            nodeToStore.update(db);
+/* store an edge */
+Node nodeToStore = new Node(nodeID, xPos, yPos, floor, building, type, longName, shortName);
+nodeToStore.update(db);
 
             /* fetch it */
             Node nodeToCheck = Node.getByID(db, nodeID);
@@ -94,7 +92,8 @@ public class NodeTests {
         String node3ID = "testIDTre";
 
         try {
-            Database db = new Database(Database.getMemoryURIFromName("GetAllNodes"));
+            Database.setTesting ("GetAllNodes");
+            Database db = Database.getInstance();
             Node.initTable(db);
 
             /* store three edges */
@@ -135,7 +134,8 @@ public class NodeTests {
         String modifiedName = "newName";
         String nodeID = "nodeID1";
 
-        Database db = new Database(Database.getMemoryURIFromName("UpdateNode"));
+        Database.setTesting ("UpdateNode");
+        Database db = Database.getInstance();
         Node.initTable(db);
 
         assertThrows(IllegalArgumentException.class, () -> {
@@ -173,7 +173,8 @@ public class NodeTests {
         String nodeID = "nodeID1";
 
         try {
-            Database db = new Database(Database.getMemoryURIFromName("DeleteNode"));
+            Database.setTesting ("DeleteNode");
+            Database db = Database.getInstance();
             Node.initTable(db);
 
             /* store an node */

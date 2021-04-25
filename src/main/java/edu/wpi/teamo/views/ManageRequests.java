@@ -5,8 +5,6 @@ import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import edu.wpi.teamo.App;
-import edu.wpi.teamo.database.request.IMedicineRequestInfo;
-import edu.wpi.teamo.database.request.ISanitationRequestInfo;
 import edu.wpi.teamo.database.request.MedicineRequest;
 import edu.wpi.teamo.database.request.SanitationRequest;
 import javafx.beans.property.SimpleStringProperty;
@@ -14,7 +12,6 @@ import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TreeItem;
@@ -86,7 +83,7 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         rooms.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<MedicineRequest, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<MedicineRequest, String> param) {
-                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getLocationIDs().collect(Collectors.joining(", ")));
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getLocations().collect(Collectors.joining(", ")));
                 return strProp;
             }
         });
@@ -104,8 +101,8 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         ObservableList<MedicineRequest> medRequests = FXCollections.observableArrayList();
 
         try {
-            Stream<IMedicineRequestInfo> medReqStream = App.requestService.getAllMedicineRequests();
-            medReqStream.forEach(m -> medRequests.add(new MedicineRequest(m.getID(), m.getType(), m.getAmount(), m.isComplete(), m.getLocationIDs(), m.getAssigned())));
+            Stream<MedicineRequest> medReqStream = MedicineRequest.getAll();
+            medReqStream.forEach(m -> medRequests.add(m));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -136,7 +133,7 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         sanLocs.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<SanitationRequest, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<SanitationRequest, String> param) {
-                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getLocationIDs().collect(Collectors.joining(", ")));
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getLocations().collect(Collectors.joining(", ")));
                 return strProp;
             }
         });
@@ -164,8 +161,8 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         ObservableList<SanitationRequest> sanRequests = FXCollections.observableArrayList();
 
         try {
-            Stream<ISanitationRequestInfo> sanReqStream = App.requestService.getAllSanitationRequests();
-            sanReqStream.forEach(m -> sanRequests.add(new SanitationRequest(m.getID(), m.getLocationIDs(), m.getAssigned(), m.getDetails(), m.isComplete())));
+            Stream<SanitationRequest> sanReqStream = App.requestService.getAllSanitationRequests();
+            sanReqStream.forEach(m -> sanRequests.add(m));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

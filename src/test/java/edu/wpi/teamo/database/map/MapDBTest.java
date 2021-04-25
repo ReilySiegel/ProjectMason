@@ -23,55 +23,61 @@ public class MapDBTest {
     static final String testEdgeFile = "src/test/resources/edu/wpi/teamo/database/testEdges.csv";
     static final String testMapFile = "src/test/resources/edu/wpi/teamo/database/testMap.csv";
 
-    MapDB db;
-
-    @BeforeAll
-    public void setup() {
-        try {
-            db = new MapDB("MapDBTests");
-            db.loadEdgesFromFile(testEdgeFile);
-            db.loadNodesFromFile(testNodeFile);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     @Test
-    public void getAllNodes() {
+    public void getAllNodes() throws SQLException, FileNotFoundException, ClassNotFoundException {
         /* test get node */
+        MapDB db = new MapDB("MapDBTests");
+        db.loadEdgesFromFile(testEdgeFile);
+        db.loadNodesFromFile(testNodeFile);
         assert (db.nodeExists("testID1"));
     }
 
     @Test
-    public void setNodePosition() throws SQLException {
+    public void setNodePosition() throws SQLException, FileNotFoundException, ClassNotFoundException {
+        MapDB db = new MapDB("MapDBTests");
+        db.loadEdgesFromFile(testEdgeFile);
+        db.loadNodesFromFile(testNodeFile);
         db.setNodePosition("testID1", 1001, 1001);
         assertEquals(1001, db.getNode("testID1").getXPos());
         assertEquals(1001, db.getNode("testID1").getYPos());
     }
 
     @Test
-    public void setNodeLongName() throws SQLException {
+    public void setNodeLongName() throws SQLException, FileNotFoundException, ClassNotFoundException {
+        MapDB db = new MapDB("MapDBTests");
+        db.loadEdgesFromFile(testEdgeFile);
+        db.loadNodesFromFile(testNodeFile);
         db.setNodeLongName("testID1", "The longest name there ever was");
         assertEquals("The longest name there ever was",
                      db.getNode("testID1").getLongName());
     }
 
     @Test
-    public void addEdge() throws SQLException {
+    public void addEdge() throws SQLException, FileNotFoundException, ClassNotFoundException {
+        MapDB db = new MapDB("MapDBTests");
+        db.loadEdgesFromFile(testEdgeFile);
+        db.loadNodesFromFile(testNodeFile);
         assertThrows(SQLException.class, () -> db.getEdge("edge1_2"));
         db.addEdge("edge1_2", "testID1", "testID2");
         assertNotNull(db.getEdge("edge1_2"));
     }
 
     @Test
-    public void addNode() throws SQLException {
+    public void addNode() throws SQLException, FileNotFoundException, ClassNotFoundException {
+        MapDB db = new MapDB("MapDBTests");
+        db.loadEdgesFromFile(testEdgeFile);
+        db.loadNodesFromFile(testNodeFile);
         assertThrows(SQLException.class, () -> db.getNode("nodeForTest"));
         db.addNode("nodeForTest", 24, 34, "ground", "main", "ROOM", "RandomTest", "RT");
         assertNotNull(db.getNode("nodeForTest"));
     }
 
     @Test
-    public void deleteNode() throws SQLException {
+    public void deleteNode() throws SQLException, FileNotFoundException, ClassNotFoundException {
+        MapDB db = new MapDB("MapDBTests");
+        db.loadEdgesFromFile(testEdgeFile);
+        db.loadNodesFromFile(testNodeFile);
         assertThrows(SQLException.class, () -> db.deleteNode("ID that dont exist"));
         assertNotNull(db.getNode("testID1"));
         db.deleteNode("testID1");
@@ -79,7 +85,10 @@ public class MapDBTest {
     }
 
     @Test
-    public void deleteEdge() throws SQLException {
+    public void deleteEdge() throws SQLException, ClassNotFoundException, FileNotFoundException {
+        MapDB db = new MapDB("MapDBTests");
+        db.loadEdgesFromFile(testEdgeFile);
+        db.loadNodesFromFile(testNodeFile);
         assertThrows(SQLException.class, () -> db.deleteEdge("ID that dont exist"));
         assertNotNull(db.getEdge("edgeID1"));
         db.deleteEdge("edgeID1");

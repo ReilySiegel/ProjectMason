@@ -13,56 +13,70 @@ public class SanitationRequestTest {
 
     @Test
     public void testInitTable() throws SQLException, ClassNotFoundException {
-        Database db = new Database(Database.getMemoryURIFromName("testInitTable"));
-        SanitationRequest.initTable(db);
+        Database.setTesting ("testInitTable");
+        SanitationRequest.initTable();
+        BaseRequest.initTable();
         String[] loc = {"loc"};
-        SanitationRequest s = new SanitationRequest("id", Stream.of(loc), "me", "det", false);
-        s.update(db);
+        BaseRequest b = new BaseRequest("id", "det", Stream.of(loc), "me", false);
+        SanitationRequest s = new SanitationRequest(b);
+        s.update();
     }
 
     @Test
     public void testGetByID() throws Exception {
-        Database db = new Database(Database.getMemoryURIFromName("testGetByID"));
-        SanitationRequest.initTable(db);
+        Database.setTesting ("testGetByID");
+        Database db = Database.getInstance ();
+        SanitationRequest.initTable();
+        BaseRequest.initTable();
         String[] loc = {"loc"};
-        SanitationRequest s = new SanitationRequest("id", Stream.of(loc), "me", "det", false);
-        s.update(db);
-        assertEquals("id", SanitationRequest.getByID(db, "id").getID());
-        assertEquals("loc", SanitationRequest.getByID(db, "id").getLocationIDs().findFirst().orElseThrow(Exception::new));
+        BaseRequest b = new BaseRequest("id", "det", Stream.of(loc), "me", false);
+        SanitationRequest s = new SanitationRequest(b);
+        s.update();
+        assertEquals("id", SanitationRequest.getByID("id").getID());
+        assertEquals("loc", SanitationRequest.getByID("id").getLocations().findFirst().orElseThrow(Exception::new));
     }
 
     @Test
     public void testGetAll() throws SQLException, ClassNotFoundException {
-        Database db = new Database(Database.getMemoryURIFromName("testGetAll"));
-        SanitationRequest.initTable(db);
+        Database.setTesting ("testGetAll");
+        Database db = Database.getInstance ();
+        SanitationRequest.initTable();
+        BaseRequest.initTable();
         String[] loc = {"loc"};
-        SanitationRequest s = new SanitationRequest("id", Stream.of(loc), "me", "det", false);
-        s.update(db);
-        assertEquals(1, SanitationRequest.getAll(db).count());
+        BaseRequest b = new BaseRequest("id", "det", Stream.of(loc), "me", false);
+        SanitationRequest s = new SanitationRequest(b);
+        s.update();
+        assertEquals(1, SanitationRequest.getAll().count());
     }
 
     @Test
     public void testUpdate() throws SQLException, ClassNotFoundException {
-        Database db = new Database(Database.getMemoryURIFromName("testUpdate"));
-        SanitationRequest.initTable(db);
+        Database.setTesting ("testUpdate");
+        Database db = Database.getInstance ();
+        SanitationRequest.initTable();
+        BaseRequest.initTable();
         String[] loc = { "loc" };
-        SanitationRequest s = new SanitationRequest("id", Stream.of(loc), "me", "det", false);
-        s.update(db);
-        assertEquals(false, SanitationRequest.getByID(db, "id").isComplete());
+        BaseRequest b = new BaseRequest("id", "det", Stream.of(loc), "me", false);
+        SanitationRequest s = new SanitationRequest(b);
+        s.update();
+        assertEquals(false, SanitationRequest.getByID("id").isComplete());
         s.setComplete(true);
-        s.update(db);
-        assertEquals(true, SanitationRequest.getByID(db, "id").isComplete());
+        s.update();
+        assertEquals(true, SanitationRequest.getByID("id").isComplete());
     }
 
     @Test
     public void testDelete() throws SQLException, ClassNotFoundException {
-        Database db = new Database(Database.getMemoryURIFromName("testDelete"));
-        SanitationRequest.initTable(db);
+        Database.setTesting ("testDelete");
+        Database db = Database.getInstance ();
+        SanitationRequest.initTable();
+        BaseRequest.initTable();
         String[] loc = {"loc"};
-        SanitationRequest s = new SanitationRequest("id", Stream.of(loc), "me", "det", false);
-        s.update(db);
-        assertEquals("id", SanitationRequest.getByID(db, "id").getID());
-        s.delete(db);
-        assertThrows(SQLException.class, () -> SanitationRequest.getByID(db, "id").getID());
+        BaseRequest b = new BaseRequest("id", "det", Stream.of(loc), "me", false);
+        SanitationRequest s = new SanitationRequest(b);
+        s.update();
+        assertEquals("id", SanitationRequest.getByID("id").getID());
+        s.delete();
+        assertThrows(SQLException.class, () -> SanitationRequest.getByID("id").getID());
     }
 }

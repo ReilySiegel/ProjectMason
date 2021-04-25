@@ -50,11 +50,10 @@ public class App extends Application {
 
     /* instantiate the database services, set to static variables that can be accessed from the handlers */
     try {
-      Database db = new Database();
-      requestService = new RequestDB(db);
-      mapService = new MapDB(db);
+      requestService = new RequestDB(Database.getInstance());
+      mapService = new MapDB(Database.getInstance());
       System.out.println("Database Services Initialized");
-    } catch (SQLException | ClassNotFoundException e) {
+    } catch (SQLException e) {
       System.out.println("ERROR: FAILED TO INIT DATABASE SERVICES");
       e.printStackTrace();
     }

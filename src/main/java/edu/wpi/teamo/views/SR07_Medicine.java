@@ -5,22 +5,15 @@ import edu.wpi.teamo.App;
 
 import edu.wpi.teamo.Pages;
 import edu.wpi.teamo.database.map.NodeInfo;
-import edu.wpi.teamo.database.request.IMedicineRequestInfo;
-import edu.wpi.teamo.database.request.MedicineRequest;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 import java.net.URL;
 import java.sql.SQLException;

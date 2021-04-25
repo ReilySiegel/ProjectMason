@@ -18,11 +18,8 @@ public class EdgeTests {
         Database db = null;
 
         /* init database */
-        try {
-            db = new Database(Database.getMemoryURIFromName("InitEdgeTable"));
-        } catch (SQLException | ClassNotFoundException e) {
-            fail(e.getMessage());
-        }
+        Database.setTesting ("InitEdgeTable");
+        db = Database.getInstance();
 
         /* init edge table */
         try {
@@ -53,7 +50,8 @@ public class EdgeTests {
         String edgeID = "testID";
 
         try {
-            Database db = new Database(Database.getMemoryURIFromName("testGetEdgeByID"));
+            Database.setTesting ("testGetEdgeByID");
+            Database db = Database.getInstance();
             Edge.initTable(db);
 
             /* store an edge */
@@ -82,7 +80,8 @@ public class EdgeTests {
         String edge3ID = "testIDTre";
 
         try {
-            Database db = new Database(Database.getMemoryURIFromName("GetAllEdges"));
+            Database.setTesting ("GetAllEdges");
+            Database db = Database.getInstance();
             Edge.initTable(db);
 
             /* store three edges */
@@ -125,7 +124,8 @@ public class EdgeTests {
         String edgeID = "testID";
 
         try {
-            Database db = new Database(Database.getMemoryURIFromName("UpdateEdge"));
+            Database.setTesting ("UpdateEdge");
+            Database db = Database.getInstance();
             Edge.initTable(db);
 
             /* store an edge */
@@ -161,7 +161,8 @@ public class EdgeTests {
 
         String edgeID = "edgeID1";
 
-        Database db = new Database(Database.getMemoryURIFromName("DeleteEdge"));
+        Database.setTesting ("DeleteEdge");
+        Database db = Database.getInstance();
         Edge.initTable(db);
 
         assertThrows(IllegalArgumentException.class, () -> {

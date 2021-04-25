@@ -5,29 +5,47 @@ import java.sql.*;
 
 public class Database {
     Connection conn;
+    private static Database db = new Database();
 
     private static String defaultFilePath () {
         return Paths.get(System.getProperty("user.home"), ".oxblood", "db").toString();
     }
 
-    public Database () throws SQLException, ClassNotFoundException {
+    private Database () {
         this("jdbc:derby:" + defaultFilePath() +  ";create=true");
     }
 
-    public Database (String uri) throws SQLException, ClassNotFoundException {
-        Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
-        conn = DriverManager.getConnection(uri);
+    private Database (String uri) {
+        try {
+            Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+            conn = DriverManager.getConnection(uri);
+        } catch (Exception e) {
+            System.out.println("Failed to create DB");
+            e.printStackTrace();
+        }
     }
 
-    public ResultSet processQuery (String s) throws SQLException {
-        Statement stmt = conn.createStatement();
+    public static Database getInstance() {
+        return db;
+    }
+
+    public static synchronized void setTesting (String dbname) {
+        try {
+            db.close();
+        } catch (Exception e) {
+        }
+        db = new Database(getMemoryURIFromName(dbname));
+    }
+
+    public static ResultSet processQuery (String s) throws SQLException {
+        Statement stmt = getInstance().conn.createStatement();
         ResultSet rs = stmt.executeQuery(s);
         return rs;
     }
 
-    public int processUpdate (String s) throws SQLException {
+    public static int processUpdate (String s) throws SQLException {
         try {
-            Statement stmt = conn.createStatement();
+            Statement stmt = getInstance().conn.createStatement();
             int numUpdated = stmt.executeUpdate(s);
             return numUpdated;
         } catch (SQLException e) {
@@ -37,6 +55,10 @@ public class Database {
             else
                 throw e;
         }
+    }
+
+    public static PreparedStatement prepareStatement(String s) throws SQLException {
+        return getInstance().conn.prepareStatement(s);
     }
 
     public void close() throws SQLException {

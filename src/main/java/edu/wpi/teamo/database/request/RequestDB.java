@@ -4,15 +4,14 @@ import edu.wpi.teamo.database.Database;
 import java.util.stream.Stream;
 import java.sql.SQLException;
 
-import java.util.stream.*;
-
 public class RequestDB implements IRequestService {
     Database db;
 
     public RequestDB(Database db) throws SQLException {
         this.db = db;
-        SanitationRequest.initTable(db);
-        MedicineRequest.initTable(db);
+        BaseRequest.initTable();
+        SanitationRequest.initTable();
+        MedicineRequest.initTable();
     }
 
     @Override
@@ -20,8 +19,9 @@ public class RequestDB implements IRequestService {
         int id = 1; /* set a unique id */
         while (medicineRequestExists(String.valueOf(id)) && id < 9999) { id++; }
 
-        MedicineRequest mr = new MedicineRequest(String.valueOf(id), type, amount, false, locationIDs, assigned);
-        mr.update(db);
+        BaseRequest b = new BaseRequest(String.valueOf(id), "", locationIDs, assigned, false);
+        MedicineRequest mr = new MedicineRequest(type, amount, b);
+        mr.update();
 
         return mr.getID();
     }
@@ -31,54 +31,53 @@ public class RequestDB implements IRequestService {
         int id = 1; /* set a unique id */
         while (sanitationRequestExists(String.valueOf(id)) && id < 9999) { id++; }
 
-        SanitationRequest sr = new SanitationRequest(String.valueOf(id), locationIDs, assigned, details, false);
-        sr.update(db);
+        SanitationRequest sr = new SanitationRequest(new BaseRequest(String.valueOf(id), details,locationIDs, assigned, false));
+        sr.update();
 
         return sr.getID();
     }
 
     @Override
-    public Stream<ISanitationRequestInfo> getAllSanitationRequests() throws SQLException {
-        return SanitationRequest.getAll(db).map((SanitationRequest sr) -> (ISanitationRequestInfo) sr);
+    public Stream<SanitationRequest> getAllSanitationRequests() throws SQLException {
+        return SanitationRequest.getAll();
     }
 
     @Override
-    public Stream<IMedicineRequestInfo> getAllMedicineRequests() throws SQLException {
-        return MedicineRequest.getAll(db).map((MedicineRequest sr) -> (IMedicineRequestInfo) sr);
+    public Stream<MedicineRequest> getAllMedicineRequests() throws SQLException {
+        return MedicineRequest.getAll().map((MedicineRequest sr) -> (MedicineRequest) sr);
     }
 
     @Override
-    public ISanitationRequestInfo getSanitationRequest(String id) throws SQLException {
-        return (ISanitationRequestInfo) SanitationRequest.getByID(db, id);
+    public SanitationRequest getSanitationRequest(String id) throws SQLException {
+        return SanitationRequest.getByID(id);
     }
 
     @Override
-    public IMedicineRequestInfo getMedicineRequest(String id) throws SQLException {
-        return (IMedicineRequestInfo) MedicineRequest.getByID(db, id);
+    public MedicineRequest getMedicineRequest(String id) throws SQLException {
+        return (MedicineRequest) MedicineRequest.getByID(id);
     }
 
     @Override
     public void removeSanitationRequest(String requestID) throws SQLException {
-        SanitationRequest.getByID(db, requestID).delete(db);
+        SanitationRequest.getByID(requestID).delete();
     }
 
     @Override
     public void removeMedicineRequest(String requestID) throws SQLException {
-        MedicineRequest.getByID(db, requestID).delete(db);
+        MedicineRequest.getByID(requestID).delete();
     }
 
     @Override
     public void setSanitationCompleted(String requestID) throws SQLException {
-        SanitationRequest sr = SanitationRequest.getByID(db, requestID);
+        SanitationRequest sr = SanitationRequest.getByID(requestID);
         sr.setComplete(true);
-        sr.update(db);
+        sr.update();
     }
 
     @Override
     public void setMedicineCompleted(String requestID) throws SQLException {
-        MedicineRequest mr = MedicineRequest.getByID(db, requestID);
+        MedicineRequest mr = MedicineRequest.getByID(requestID);
         mr.setComplete(true);
-        mr.update(db);
     }
 
     @Override

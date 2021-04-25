@@ -19,7 +19,7 @@ public class MapDB implements IMapService {
         Stream<Edge> edgeStream = EdgeCSV.read(edgeCSVFilepath);
 
         /* initialize database */
-        db = new Database();
+        db = Database.getInstance();
         Node.initTable(db);
         Edge.initTable(db);
 
@@ -31,7 +31,8 @@ public class MapDB implements IMapService {
 
     public MapDB(String databaseName) throws SQLException, ClassNotFoundException {
         /* derive init command from custom name */
-        db = new Database(Database.getMemoryURIFromName(databaseName));
+        Database.setTesting(databaseName);
+        db = Database.getInstance();
         Node.initTable(db);
         Edge.initTable(db);
     }
@@ -43,7 +44,7 @@ public class MapDB implements IMapService {
     }
 
     public MapDB() throws SQLException, ClassNotFoundException {
-        db = new Database();
+        db = Database.getInstance();
         Node.initTable(db);
         Edge.initTable(db);
     }

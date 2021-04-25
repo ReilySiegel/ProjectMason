@@ -10,7 +10,7 @@ public class DatabaseTest {
     public void testConnectDatabase() {
         boolean pass = true;
         try {
-            Database db = new Database();
+            Database db = Database.getInstance();
             db.close();
         } catch (Exception e) {
             System.out.println("CANNOT CONNECT TO DATABASE");

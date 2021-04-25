@@ -10,12 +10,12 @@ public interface IRequestService {
     String requestSanitation(Stream<String> locationID, String assigned, String details) throws SQLException;
 
     /* get all */
-    Stream<ISanitationRequestInfo> getAllSanitationRequests() throws SQLException;
-    Stream<IMedicineRequestInfo> getAllMedicineRequests() throws SQLException;
+    Stream<SanitationRequest> getAllSanitationRequests() throws SQLException;
+    Stream<MedicineRequest> getAllMedicineRequests() throws SQLException;
 
     /* get one */
-    ISanitationRequestInfo getSanitationRequest(String id) throws SQLException;
-    IMedicineRequestInfo getMedicineRequest(String id) throws SQLException;
+    SanitationRequest getSanitationRequest(String id) throws SQLException;
+    MedicineRequest getMedicineRequest(String id) throws SQLException;
 
     /* remove one */
     void removeSanitationRequest(String requestID) throws SQLException;

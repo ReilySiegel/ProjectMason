@@ -1,136 +1,57 @@
 package edu.wpi.teamo.database.request;
 
-import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import edu.wpi.teamo.database.Database;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.stream.Stream;
-import java.util.stream.Collectors;
 
-public class SanitationRequest extends RecursiveTreeObject<SanitationRequest> implements ISanitationRequestInfo {
-    private ArrayList<String> locationIDs;
-    private boolean complete;
-    private String assigned;
-    private final String id;
-    private String details;
+public class SanitationRequest extends ExtendedBaseRequest<SanitationRequest> {
 
-
-    public SanitationRequest(String id, Stream<String> locationIDs, String assigned, String details, boolean complete) {
-        this.locationIDs = locationIDs.collect(Collectors.toCollection(ArrayList::new));
-        this.assigned = assigned;
-        this.details = details;
-        this.complete = complete;
-        this.id = id;
+    public SanitationRequest(BaseRequest base) {
+        super(base);
     }
 
-    public static SanitationRequest getByID(Database db, String id) throws SQLException {
-        ResultSet rs = db.processQuery("SELECT * FROM SanitationRequest WHERE ID = '" + id + "'");
+    public static void initTable() throws SQLException {
+        Database.processUpdate("CREATE TABLE SanitationRequest (id varchar(255) primary key)");
+    }
+
+    public static SanitationRequest getByID(String id) throws SQLException {
+        ResultSet rs = Database.processQuery("SELECT * FROM SanitationRequest WHERE ID = '" + id + "'");
         if (!rs.next())
             throw new SQLException();
-        return new SanitationRequest(rs.getString("id"),
-                                     Stream.of(rs.getString("locationID").split(",")),
-                                     rs.getString("assigned"),
-                                     rs.getString("details"),
-                                     rs.getBoolean("complete"));
+        return new SanitationRequest(BaseRequest.getByID(rs.getString("ID")));
     }
 
-    public static Stream<SanitationRequest> getAll(Database db) throws SQLException {
-        ResultSet rs = db.processQuery("SELECT * FROM SanitationRequest");
+    public static Stream<SanitationRequest> getAll() throws SQLException {
+        ResultSet rs = Database.processQuery("SELECT * FROM SanitationRequest");
         ArrayList<SanitationRequest> reqs = new ArrayList<>();
         while (rs.next())
-            reqs.add(new SanitationRequest(rs.getString("id"),
-                                           Stream.of(rs.getString("locationID").split(",")),
-                                           rs.getString("assigned"),
-                                           rs.getString("details"),
-                                           rs.getBoolean("complete")));
+            reqs.add(new SanitationRequest(BaseRequest.getByID(rs.getString("id"))));
         return reqs.stream();
     }
 
-    public static void initTable(Database db) throws SQLException {
-        db.processUpdate("CREATE TABLE SanitationRequest (" +
-                         "id varchar(255) primary key, " +
-                         "details varchar(255), " +
-                         "complete boolean, " +
-                         "assigned varchar(255), " +
-                         "locationID varchar(255))");
-    }
-
-    public void update(Database db) throws SQLException {
+    public void update() throws SQLException {
         // Apache Derby does not have upsert, so we must try both an insert and update.
         try {
-            db.processUpdate(String.join(" ",
-                                         "INSERT INTO SanitationRequest",
-                                         "(id, details, complete, assigned, locationID)",
-                                         "VALUES",
-                                         String.format("('%s', '%s', %s, '%s', '%s')",
-                                                       this.id,
-                                                       this.details,
-                                                       this.complete,
-                                                       this.assigned,
-                                                       this.locationIDs.stream().collect(Collectors.joining(",")))));
+            PreparedStatement pstmt = Database.prepareStatement("INSERT INTO SanitationRequest (id) VALUES (?)");
+            pstmt.setString(1, this.base.getId());
+            pstmt.execute();
         } catch (SQLException e) {
             // Item with this ID already exists in the DB, try insert.
-            db.processUpdate(String.join(" ",
-                                         "UPDATE SanitationRequest SET",
-                                         String.format(String.join(", ",
-                                                                   "id = '%s'",
-                                                                   "details = '%s'",
-                                                                   "complete = %s",
-                                                                   "assigned = '%s'",
-                                                                   "locationID = '%s'"),
-                                                       this.id,
-                                                       this.details,
-                                                       this.complete,
-                                                       this.assigned,
-                                                       this.locationIDs.stream().collect(Collectors.joining(","))),
-                                         "WHERE id = '" + this.id + "'"));
+            PreparedStatement pstmt =
+                    Database.prepareStatement("UPDATE SanitationRequest SET id = ? WHERE id = ?");
+            pstmt.setString(1, this.base.getId());
+            pstmt.setString(2, this.base.getId());
+            pstmt.execute();
         }
+        this.base.update();
     }
 
-    public void delete(Database db) throws SQLException {
-        db.processUpdate(String.format("DELETE FROM SanitationRequest WHERE id = '%s'", this.id));
-    }
-
-    @Override
-    public Stream<String> getLocationIDs() {
-        return locationIDs.stream();
-    }
-
-    public void setLocationID(Stream<String> locationIDs) {
-        this.locationIDs = this.locationIDs.stream().collect(Collectors.toCollection(ArrayList::new));
-    }
-
-    @Override
-    public boolean isComplete() {
-        return complete;
-    }
-
-    public void setComplete(boolean complete) {
-        this.complete = complete;
-    }
-
-    @Override
-    public String getAssigned() {
-        return assigned;
-    }
-
-    public void setAssigned(String assigned) {
-        this.assigned = assigned;
-    }
-
-    @Override
-    public String getDetails() {
-        return details;
-    }
-
-    public void setDetails(String details) {
-        this.details = details;
-    }
-
-    @Override
-    public String getID() {
-        return id;
+    public void delete() throws SQLException {
+        Database.processUpdate(String.format("DELETE FROM SanitationRequest WHERE id = '%s'", this.base.getId()));
+        this.base.delete();
     }
 }
