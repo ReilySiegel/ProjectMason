@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
 import javax.annotation.Resource;
+import javax.swing.*;
 import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -62,7 +63,8 @@ public class ServiceRequestPage extends SubPageController implements Initializab
     @FXML
     private void handleReligiousRequest(ActionEvent e) { App.switchPage(Pages.RELIGIOUS);}
 
-
+    @FXML
+    private void handleLaundryRequest(ActionEvent e ){App.switchPage(Pages.LAUNDRY); }
 
 
 }

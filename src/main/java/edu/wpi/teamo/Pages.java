@@ -12,5 +12,6 @@ public enum Pages {
     LOGIN,
     LANGUAGEINTERPRETER,
     RELIGIOUS,
-    SURVEY
+    SURVEY,
+    LAUNDRY
 }
