@@ -108,12 +108,12 @@ public class PathfindingPage extends SubPageController implements Initializable 
     //    Consumer<NodeInfo> onClickNode = (NodeInfo node) -> System.out.println("Node " + node.getNodeID() + "was clicked");
     void onClickNode(NodeInfo node) {
         if (selectingStart) {
-            startDropdown.setValue(node.getNodeID());
+            startDropdown.setValue(node.getShortName());
             selectedStartID = node.getNodeID();
             selectingStart = false;
         }
         if (selectingEnd) {
-            endDropdown.setValue(node.getNodeID());
+            endDropdown.setValue(node.getShortName());
             selectedEndID = node.getNodeID();
             selectingEnd = false;
         }
@@ -242,7 +242,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
             LinkedList<String> nodeShortNames = new LinkedList<>();
             LinkedList<NodeInfo> nodes = App.mapService.getAllNodes().collect(Collectors.toCollection(LinkedList::new));
             for (NodeInfo i : nodes) {
-                nodeShortNames.add(i.getNodeID());
+                nodeShortNames.add(i.getShortName());
             }
 
             for (String nodeName : nodeShortNames) {
