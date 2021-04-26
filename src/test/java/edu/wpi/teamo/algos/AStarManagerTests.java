@@ -50,7 +50,6 @@ public class AStarManagerTests {
         assertEquals("oPARK00401", pathP10_P5.get(3).getID());
         assertEquals("oPARK00601", pathP10_P5.get(4).getID());
         assertEquals("oPARK00501", pathP10_P5.get(5).getID());
-
         System.out.println("If reach here, tests for AstarManager.getPath() are passed!");
     }
 
