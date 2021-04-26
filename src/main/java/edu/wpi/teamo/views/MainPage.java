@@ -74,11 +74,8 @@ public class MainPage {
     private void handleHelp(ActionEvent e){
 
         JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text("Help"));
-        content.setBody(new Text("Select a button to go to the corresponding page.\n" +
-                "Service Requests Page: Select between a variety of services to be performed at a given location in the hospital.\n" +
-                "Map Editor Page: Load/Save a list of map nodes and edges from a CSV file. Add, edit, or remove nodes/edges for later use in pathfinding.\n" +
-                "Pathfinding Page: Select a starting and ending location and have the program find the fastest route between them.\n"));
+        content.setHeading(new Text(App.resourceBundle.getString("key.help")));
+        content.setBody(new Text(App.resourceBundle.getString("key.main_page_help")));
         JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 
         JFXButton closeButton = new JFXButton("Close");

@@ -30,7 +30,7 @@ public class App extends Application {
   private static Stage primaryStage;
 
   //Internationalization
-  private static ResourceBundle resourceBundle;
+  public static ResourceBundle resourceBundle;
   public static LocaleType selectedLocale;
   private static final String localesPath = "edu.wpi.teamo.locales.";
 
