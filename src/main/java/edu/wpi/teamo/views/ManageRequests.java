@@ -287,9 +287,10 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         App.requestService.removeMedicineRequest(id);
 
         BaseRequest b = new BaseRequest(id, currentReq.getDetails(), currentReq.getLocations(), currentReq.getAssigned(), currentReq.isComplete());
-        MedicineRequest mr = new MedicineRequest(currentReq.getType(), currentReq.getAmount(), b);
+        MedicineRequest mr = new MedicineRequest(medTypeField.getText(), medAmountField.getText(), b);
 
         mr.update();
+        updateMedicineTable();
     }
 
 
