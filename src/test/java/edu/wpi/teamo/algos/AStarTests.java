@@ -2,9 +2,11 @@ package edu.wpi.teamo.algos;
 
 import edu.wpi.teamo.database.map.Edge;
 
+import edu.wpi.teamo.database.map.EdgeInfo;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.LinkedList;
+import java.util.List;
 
 public class AStarTests {
     /**
@@ -38,7 +40,7 @@ public class AStarTests {
         nodes.add(n10);
 
         // edges
-        LinkedList<Edge> edges = new LinkedList<>();
+        List<EdgeInfo> edges = new LinkedList<>();
         edges.add(new Edge("oPARK00101_oPARK00301","oPARK00101","oPARK00301"));
         edges.add(new Edge("oPARK00101_oPARK00601","oPARK00101","oPARK00601"));
         edges.add(new Edge("oPARK00101_oPARK00201","oPARK00101","oPARK00201"));
@@ -47,7 +49,7 @@ public class AStarTests {
         // Test for assignNodeAdjacency logics
         AStarManager.assignNodeAdjacency(nodes, edges);
 
-        AStar a = new AStar(nodes, edges, "","");
+        AStar a = new AStar(nodes,"","");
         a.setAllTheNodes(nodes);
 
         /**
@@ -89,7 +91,7 @@ public class AStarTests {
         LinkedList<AlgoNode> l = new LinkedList<>();
         l.addLast(n);
         l.addLast(m);
-        AStar a = new AStar(l,null,"n001","n001");
+        AStar a = new AStar(l,"n001","n001");
         assertTrue(a.lowerFcost(n, m));
         System.out.println("If reach here, test 1 for Astar.lowerFcost() is passed!");
     }
@@ -109,7 +111,7 @@ public class AStarTests {
         LinkedList<AlgoNode> l = new LinkedList<>();
         l.addLast(n);
         l.addLast(m);
-       AStar a = new AStar(l,null,"n001","n001");
+       AStar a = new AStar(l,"n001","n001");
         assertTrue(a.lowerFcost(n, m));
         System.out.println("If reach here, test 2 for Astar.lowerFcost() is passed!");
     }
@@ -129,7 +131,7 @@ public class AStarTests {
       LinkedList<AlgoNode> l = new LinkedList<>();
       l.addLast(n);
       l.addLast(m);
-      AStar a = new AStar(l,null,"n001","n001");
+      AStar a = new AStar(l,"n001","n001");
       assertFalse(a.lowerFcost(n, m));
       System.out.println("If reach here, test 3 for Astar.lowerFcost() is passed!");
     }
@@ -147,7 +149,7 @@ public class AStarTests {
         LinkedList<AlgoNode> a = new LinkedList<>();
         a.addLast(n);
         a.addLast(m);
-        AStar star = new AStar(a,null,"n001","n002");
+        AStar star = new AStar(a,"n001","n002");
         assertFalse(star.isEnd(n));
         System.out.println("If reach here, test 1 for Astar.isEnd() is passed!");
     }
@@ -163,7 +165,7 @@ public class AStarTests {
         LinkedList<AlgoNode> a = new LinkedList<>();
         a.addLast(n);
         a.addLast(m);
-        AStar star = new AStar(a,null,"n001","n002");
+        AStar star = new AStar(a,"n001","n002");
         assertTrue(star.isEnd(m));
         System.out.println("If reach here, test 2 for Astar.isEnd() is passed!");
     }
