@@ -1,9 +1,6 @@
 package edu.wpi.teamo.views;
 
-import com.jfoenix.controls.JFXCheckBox;
-import com.jfoenix.controls.JFXTreeTableColumn;
-import com.jfoenix.controls.JFXTreeTableView;
-import com.jfoenix.controls.RecursiveTreeItem;
+import com.jfoenix.controls.*;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.database.request.BaseRequest;
@@ -46,6 +43,15 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
 
     @FXML
     private Text sanErrorText;
+
+    @FXML
+    private JFXTextField medTypeField;
+
+    @FXML
+    private JFXTextField medAmountField;
+
+    @FXML
+    private Text currentMedReqID;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -221,23 +227,33 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
     }
 
     @FXML
-    private void removeMedRequest() throws SQLException {
+    private void markMedRequestComplete() throws SQLException {
         TreeItem<MedicineRequest> selection = medRequestTable.getSelectionModel().getSelectedItem();
         if (selection == null) medErrorText.setText("No medicine requests selected");
         else {
-            App.requestService.setMedicineCompleted(medRequestTable.getSelectionModel().getSelectedItem().getValue().getID());
-            updateMedicineTable();
+            String id = medRequestTable.getSelectionModel().getSelectedItem().getValue().getID();
+            if (App.requestService.getMedicineRequest(id).isComplete())
+                medErrorText.setText("Request already complete");
+            else {
+                App.requestService.setMedicineCompleted(medRequestTable.getSelectionModel().getSelectedItem().getValue().getID());
+                updateMedicineTable();
+            }
         }
 
     }
 
     @FXML
-    private void removeSanRequest() throws SQLException {
+    private void markSanRequestComplete() throws SQLException {
         TreeItem<SanitationRequest> selection = sanRequestTable.getSelectionModel().getSelectedItem();
         if (selection == null) sanErrorText.setText("No sanitation requests selected");
         else {
-            App.requestService.setSanitationCompleted(sanRequestTable.getSelectionModel().getSelectedItem().getValue().getID());
-            updateSanitationTable();
+            String id = sanRequestTable.getSelectionModel().getSelectedItem().getValue().getID();
+            if (App.requestService.getSanitationRequest(id).isComplete())
+                sanErrorText.setText("Request already complete");
+            else {
+                App.requestService.setSanitationCompleted(sanRequestTable.getSelectionModel().getSelectedItem().getValue().getID());
+                updateSanitationTable();
+            }
         }
 
     }
@@ -250,6 +266,30 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
     @FXML
     private void clearSanError() {
         sanErrorText.setText("");
+    }
+
+    @FXML
+    private void updateMedEditor() {
+        MedicineRequest currentReq = medRequestTable.getSelectionModel().getSelectedItem().getValue();;
+
+        currentMedReqID.setText("ID: " + currentReq.getID());
+        medTypeField.setText(currentReq.getType());
+        medAmountField.setText(currentReq.getAmount());
+
+        medTypeField.setEditable(true);
+        medAmountField.setEditable(true);
+    }
+
+    @FXML
+    private void applyMedUpdate() throws SQLException {
+        String id = currentMedReqID.getText().substring(4);
+        MedicineRequest currentReq = App.requestService.getMedicineRequest(id);
+        App.requestService.removeMedicineRequest(id);
+
+        BaseRequest b = new BaseRequest(id, currentReq.getDetails(), currentReq.getLocations(), currentReq.getAssigned(), currentReq.isComplete());
+        MedicineRequest mr = new MedicineRequest(currentReq.getType(), currentReq.getAmount(), b);
+
+        mr.update();
     }
 
 
