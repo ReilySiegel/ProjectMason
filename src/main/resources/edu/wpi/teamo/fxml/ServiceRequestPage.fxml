@@ -159,7 +159,7 @@
                               <Insets left="20.0" />
                            </HBox.margin>
                         </JFXButton>
-                        <JFXButton contentDisplay="BOTTOM" maxHeight="1.7976931348623157E308" prefHeight="100.0" prefWidth="570.0" style="-fx-background-color: #4b7be0;" text="%key.maintenance" textFill="WHITE">
+                        <JFXButton contentDisplay="BOTTOM" maxHeight="1.7976931348623157E308" onAction="#handleMaintenanceBtn" prefHeight="100.0" prefWidth="570.0" style="-fx-background-color: #4b7be0;" text="%key.maintenance" textFill="WHITE">
                            <font>
                               <Font size="24.0" />
                            </font>
