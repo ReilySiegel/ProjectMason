@@ -48,6 +48,7 @@ public class Map  {
     private Double initialTranslateY = null;
     private Double initialScreenX = null;
     private Double initialScreenY = null;
+    private boolean dragging = false;
     private double scale = 1;
 
     public Map(ImageView imageView, AnchorPane nodePane) {
@@ -55,7 +56,6 @@ public class Map  {
         this.nodePane = nodePane;
 
         nodePane.setOnMouseDragged((MouseEvent e) -> translateMap(e.getScreenX(), e.getScreenY()));
-        nodePane.setOnMouseReleased((MouseEvent e) -> resetInitialDragData());
         nodePane.setOnScroll((ScrollEvent e) -> scaleMap(e.getDeltaY()));
     }
 
@@ -174,6 +174,7 @@ public class Map  {
         initialTranslateY = null;
         initialScreenX = null;
         initialScreenY = null;
+        dragging = false;
     }
 
     public void translateMap(double screenX, double screenY) {
@@ -183,6 +184,7 @@ public class Map  {
             initialTranslateY = nodePane.getTranslateY();
             initialScreenX = screenX;
             initialScreenY = screenY;
+            dragging = true;
         }
         /* translate by the displacement of the mouse since initial click */
         else {
@@ -214,21 +216,18 @@ public class Map  {
         imageView.setTranslateY(imageView.getTranslateY() + (imageView.getTranslateY()/scale) * dS);
     }
 
-    public void setOnMouseMoved(Consumer<Pair<Integer, Integer>> onMouseMoved) {
+    public void setOnMouseMoved(Consumer<Pair<Double, Double>> onMouseMoved) {
         nodePane.setOnMouseMoved((MouseEvent e) -> {
-            /* transform anchorPane coords to the map pixel coords */
-            int mapX = (int) transform((int) e.getX(), nodePane.getPrefWidth(), imageWidth);
-            int mapY = (int) transform((int) e.getY(), nodePane.getPrefHeight(), imageHeight);
-            onMouseMoved.accept(new Pair<>(mapX, mapY));
+            if (onMouseMoved != null) {
+                onMouseMoved.accept(new Pair<>(e.getX(), e.getY()));
+            }
         });
     }
 
-    public void setOnMapClicked(Consumer<Pair<Integer, Integer>> onMapClicked) {
-        nodePane.setOnMouseClicked((MouseEvent e) -> {
-            /* transform anchorPane coords to the map pixel coords */
-            int mapX = (int) transform((int) e.getX(), nodePane.getPrefWidth(), imageWidth);
-            int mapY = (int) transform((int) e.getY(), nodePane.getPrefHeight(), imageHeight);
-            onMapClicked.accept(new Pair<>(mapX, mapY));
+    public void setOnMapClicked(Consumer<MouseEvent> onMapClicked) {
+        nodePane.setOnMouseReleased((MouseEvent e) -> {
+            if (!dragging) onMapClicked.accept(e);
+            resetInitialDragData();
         });
     }
 
