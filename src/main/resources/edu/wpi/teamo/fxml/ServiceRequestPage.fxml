@@ -37,7 +37,11 @@
                               <Font size="27.0" />
                            </font>
                            <graphic>
-                              <Text fill="#2e3440" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.medicine_description" textAlignment="CENTER" wrappingWidth="450.0" />
+                              <HBox>
+                                 <children>
+                                    <Text fill="#2e3440" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.medicine_description" textAlignment="CENTER" wrappingWidth="450.0" />
+                                 </children>
+                              </HBox>
                            </graphic>
                            <HBox.margin>
                               <Insets left="20.0" />
@@ -48,7 +52,11 @@
                               <Font size="24.0" />
                            </font>
                            <graphic>
-                              <Text fill="#2e3440" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.food_description" textAlignment="CENTER" wrappingWidth="450.0" />
+                              <HBox>
+                                 <children>
+                                    <Text fill="#2e3440" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.food_description" textAlignment="CENTER" wrappingWidth="450.0" />
+                                 </children>
+                              </HBox>
                            </graphic>
                            <HBox.margin>
                               <Insets left="20.0" right="20.0" />
@@ -66,18 +74,26 @@
                               <Font size="24.0" />
                            </font>
                            <graphic>
-                              <Text fill="#2e3440" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.gift_description" textAlignment="CENTER" wrappingWidth="450.0" />
+                              <HBox>
+                                 <children>
+                                    <Text fill="#2e3440" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.gift_description" textAlignment="CENTER" wrappingWidth="450.0" />
+                                 </children>
+                              </HBox>
                            </graphic>
                            <HBox.margin>
                               <Insets left="20.0" />
                            </HBox.margin>
                         </JFXButton>
-                        <JFXButton contentDisplay="BOTTOM" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleReligiousRequest" minWidth="570.0" style="-fx-background-color: #e5e9f0;" text="%key.religious_requests" textFill="#2e3440" HBox.hgrow="ALWAYS">
+                        <JFXButton contentDisplay="BOTTOM" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="570.0" onAction="#handleReligiousRequest" style="-fx-background-color: #e5e9f0;" text="%key.religious_requests" textFill="#2e3440" HBox.hgrow="ALWAYS">
                            <font>
                               <Font size="24.0" />
                            </font>
                            <graphic>
-                              <Text fill="#2e3440" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.religious_description" textAlignment="CENTER" wrappingWidth="450.0" />
+                              <HBox>
+                                 <children>
+                                    <Text fill="#2e3440" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.religious_description" textAlignment="CENTER" wrappingWidth="450.0" />
+                                 </children>
+                              </HBox>
                            </graphic>
                            <HBox.margin>
                               <Insets left="20.0" right="20.0" />
@@ -95,7 +111,11 @@
                               <Font size="24.0" />
                            </font>
                            <graphic>
-                              <Text fill="#2e3440" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.transportation_description" textAlignment="CENTER" wrappingWidth="450.0" />
+                              <HBox>
+                                 <children>
+                                    <Text fill="#2e3440" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.transportation_description" textAlignment="CENTER" wrappingWidth="450.0" />
+                                 </children>
+                              </HBox>
                            </graphic>
                            <HBox.margin>
                               <Insets left="20.0" />
@@ -106,7 +126,11 @@
                               <Font size="27.0" />
                            </font>
                            <graphic>
-                              <Text fill="#2e3440" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.sanitation_description" textAlignment="CENTER" wrappingWidth="450.0" />
+                              <HBox>
+                                 <children>
+                                    <Text fill="#2e3440" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.sanitation_description" textAlignment="CENTER" wrappingWidth="450.0" />
+                                 </children>
+                              </HBox>
                            </graphic>
                            <HBox.margin>
                               <Insets left="20.0" right="20.0" />
@@ -124,7 +148,11 @@
                               <Font size="24.0" />
                            </font>
                            <graphic>
-                              <Text fill="#2e3440" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.security_description" textAlignment="CENTER" wrappingWidth="450.0" />
+                              <HBox>
+                                 <children>
+                                    <Text fill="#2e3440" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.security_description" textAlignment="CENTER" wrappingWidth="450.0" />
+                                 </children>
+                              </HBox>
                            </graphic>
                            <HBox.margin>
                               <Insets left="20.0" />
@@ -135,7 +163,11 @@
                               <Font size="24.0" />
                            </font>
                            <graphic>
-                              <Text fill="#2e3440" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.laundry_description" textAlignment="CENTER" wrappingWidth="450.0" />
+                              <HBox>
+                                 <children>
+                                    <Text fill="#2e3440" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.laundry_description" textAlignment="CENTER" wrappingWidth="450.0" />
+                                 </children>
+                              </HBox>
                            </graphic>
                            <HBox.margin>
                               <Insets left="20.0" right="20.0" />
@@ -153,18 +185,26 @@
                               <Font size="24.0" />
                            </font>
                            <graphic>
-                              <Text fill="#2e3440" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.language_description" textAlignment="CENTER" wrappingWidth="450.0" />
+                              <HBox>
+                                 <children>
+                                    <Text fill="#2e3440" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.language_description" textAlignment="CENTER" wrappingWidth="450.0" />
+                                 </children>
+                              </HBox>
                            </graphic>
                            <HBox.margin>
                               <Insets left="20.0" />
                            </HBox.margin>
                         </JFXButton>
-                        <JFXButton contentDisplay="BOTTOM" maxHeight="1.7976931348623157E308" onAction="#handleMaintenanceBtn" maxWidth="1.7976931348623157E308" prefWidth="570.0" style="-fx-background-color: #e5e9f0;" text="%key.maintenance" textFill="#2e3440" HBox.hgrow="ALWAYS">
+                        <JFXButton contentDisplay="BOTTOM" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleMaintenanceBtn" prefWidth="570.0" style="-fx-background-color: #e5e9f0;" text="%key.maintenance" textFill="#2e3440" HBox.hgrow="ALWAYS">
                            <font>
                               <Font size="24.0" />
                            </font>
                            <graphic>
-                              <Text fill="#2e3440" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.maintenance_description" textAlignment="CENTER" wrappingWidth="450.0" />
+                              <HBox>
+                                 <children>
+                                    <Text fill="#2e3440" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.maintenance_description" textAlignment="CENTER" wrappingWidth="450.0" />
+                                 </children>
+                              </HBox>
                            </graphic>
                            <HBox.margin>
                               <Insets left="20.0" right="20.0" />
