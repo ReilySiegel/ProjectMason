@@ -66,4 +66,8 @@ public class ServiceRequestPage extends SubPageController implements Initializab
     private void handleMaintenanceBtn(ActionEvent e) {
         App.switchPage(Pages.MAINTENANCE);
     }
+
+    @FXML
+    private void handleSecurity(ActionEvent e) { App.switchPage(Pages.SECURITY); }
+
 }

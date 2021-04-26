@@ -12,7 +12,8 @@ public enum Pages {
     LOGIN,
     LANGUAGEINTERPRETER,
     RELIGIOUS,
-    MAINTENANCE,
     SURVEY,
-    ADDUSERS,
+    SECURITY,
+    MAINTENANCE,
+    ADDUSERS
 }

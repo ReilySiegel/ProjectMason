@@ -143,7 +143,7 @@
                   </HBox>
                   <HBox maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <JFXButton contentDisplay="BOTTOM" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="570.0" style="-fx-background-color: #e5e9f0;" text="%key.security" textFill="#2e3440" HBox.hgrow="ALWAYS">
+                        <JFXButton contentDisplay="BOTTOM" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleSecurity" prefWidth="570.0" style="-fx-background-color: #e5e9f0;" text="%key.security" textFill="#2e3440" HBox.hgrow="ALWAYS">
                            <font>
                               <Font size="24.0" />
                            </font>

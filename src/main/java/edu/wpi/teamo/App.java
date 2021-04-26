@@ -49,6 +49,7 @@ public class App extends Application {
     pagePaths.put(Pages.RELIGIOUS, "/edu/wpi/teamo/fxml/SR08_Religious.fxml");
     pagePaths.put(Pages.MAINTENANCE, "/edu/wpi/teamo/fxml/SR12_MaintenancePage.fxml");
     pagePaths.put(Pages.SURVEY, "/edu/wpi/teamo/fxml/CovidSurveyPage.fxml");
+    pagePaths.put(Pages.SECURITY, "/edu/wpi/teamo/fxml/SR11_Security.fxml");
     pagePaths.put(Pages.ADDUSERS, "/edu/wpi/teamo/fxml/AddUsersPage.fxml");
     System.out.println("Starting Up");
 
