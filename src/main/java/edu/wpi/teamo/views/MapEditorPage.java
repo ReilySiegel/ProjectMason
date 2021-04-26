@@ -40,10 +40,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.ContextMenuEvent;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.MouseDragEvent;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -368,8 +365,10 @@ public class MapEditorPage extends SubPageController implements Initializable{
             });
 
             circle.setOnMouseClicked((MouseEvent e) -> {
-                onClickNode(e, circle, node);
-                e.consume();
+                if (e.getButton() == MouseButton.PRIMARY) {
+                    onClickNode(e, circle, node);
+                    e.consume();
+                }
             });
 
             circle.setOnMouseDragged((MouseEvent e) -> {
@@ -389,12 +388,22 @@ public class MapEditorPage extends SubPageController implements Initializable{
         ContextMenu menu = new ContextMenu();
 
         MenuItem deleteItem = new MenuItem("Delete");
-        deleteItem.setOnAction(event -> confirmDelete(node));
+        deleteItem.setOnAction(event -> confirmDeleteNode(node));
 
         MenuItem addEdgeItem = new MenuItem("Add Edge");
         addEdgeItem.setOnAction(event -> handleAddingEdge(circle, node));
 
         menu.getItems().add(addEdgeItem);
+        menu.getItems().add(deleteItem);
+        menu.show(nodePane.getScene().getWindow(), e.getScreenX(), e.getScreenY());
+    }
+
+    private void edgeContextMenu(MouseEvent e, EdgeInfo edge) {
+        ContextMenu menu = new ContextMenu();
+
+        MenuItem deleteItem = new MenuItem("Delete");
+        deleteItem.setOnAction(event -> confirmDeleteEdge(edge));
+
         menu.getItems().add(deleteItem);
         menu.show(nodePane.getScene().getWindow(), e.getScreenX(), e.getScreenY());
     }
@@ -458,7 +467,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         double originalWidth = line.getStrokeWidth();
 
         line.setOnMouseClicked(event -> {
-            onClickEdge(edge);
+            onClickEdge(event, edge);
             event.consume();
         });
 
@@ -528,12 +537,14 @@ public class MapEditorPage extends SubPageController implements Initializable{
     }
 
     //    Consumer<EdgeInfo> onClickEdge = (EdgeInfo edge) -> System.out.println("Edge " + node.getEdgeID() + "was clicked");
-    void onClickEdge(EdgeInfo edge) {
+    void onClickEdge(MouseEvent e, EdgeInfo edge) {
         editingEdge.setText(edge.getEdgeID());
         editEdgeID.setText(edge.getEdgeID());
         editNode1.setText(edge.getStartNodeID());
         editNode2.setText(edge.getEndNodeID());
         deleteEdgeID.setText(edge.getEdgeID());
+
+        edgeContextMenu(e, edge);
     }
 
     private void handleChooseStart() {
@@ -626,7 +637,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         }
     }
 
-    private void confirmDelete(NodeInfo node) {
+    private void confirmDeleteNode(NodeInfo node) {
 
         JFXDialogLayout content = new JFXDialogLayout();
         content.setHeading(new Text("Confirm Node Deletion"));
@@ -644,6 +655,35 @@ public class MapEditorPage extends SubPageController implements Initializable{
         deleteButton.setOnAction(event -> {
             try {
                 deleteNode(node.getNodeID());
+            } catch (SQLException throwables) {
+                showError("There was an error when trying to delete.");
+                throwables.printStackTrace();
+            }
+            deleteConfirmationWindow.close();
+        });
+
+        content.setActions(cancelButton);
+        content.setActions(deleteButton);
+        deleteConfirmationWindow.show();
+    }
+
+    private void confirmDeleteEdge(EdgeInfo edge) {
+
+        JFXDialogLayout content = new JFXDialogLayout();
+        content.setHeading(new Text("Confirm Edge Deletion"));
+        content.setBody(new Text("Are you sure you want to delete this edge?\n" +
+                "ID: " + edge.getEdgeID() + "\n"));
+        JFXDialog deleteConfirmationWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
+
+        JFXButton cancelButton = new JFXButton("Cancel");
+        cancelButton.setStyle("-fx-background-color: #004cff; -fx-text-fill: #ffffff");
+        cancelButton.setOnAction(event -> deleteConfirmationWindow.close());
+
+        JFXButton deleteButton = new JFXButton("Delete");
+        deleteButton.setStyle("-fx-background-color: #F40F19; -fx-text-fill: #ffffff");
+        deleteButton.setOnAction(event -> {
+            try {
+                deleteEdge(edge.getEdgeID());
             } catch (SQLException throwables) {
                 showError("There was an error when trying to delete.");
                 throwables.printStackTrace();
@@ -697,6 +737,11 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
     void deleteNode(String nodeID) throws SQLException {
         App.mapService.deleteNode(nodeID);
+        update();
+    }
+
+    void deleteEdge(String edgeID) throws SQLException {
+        App.mapService.deleteEdge(edgeID);
         update();
     }
 

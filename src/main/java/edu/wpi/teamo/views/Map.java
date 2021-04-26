@@ -4,6 +4,7 @@ import edu.wpi.teamo.database.map.EdgeInfo;
 import edu.wpi.teamo.database.map.NodeInfo;
 import com.jfoenix.controls.JFXTextArea;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import java.io.FileNotFoundException;
@@ -225,8 +226,8 @@ public class Map  {
     }
 
     public void setOnMapClicked(Consumer<MouseEvent> onMapClicked) {
-        nodePane.setOnMouseReleased((MouseEvent e) -> {
-            if (!dragging) onMapClicked.accept(e);
+        nodePane.setOnMouseClicked((MouseEvent e) -> {
+            if (!dragging && e.getButton() == MouseButton.PRIMARY) onMapClicked.accept(e);
             resetInitialDragData();
         });
     }
