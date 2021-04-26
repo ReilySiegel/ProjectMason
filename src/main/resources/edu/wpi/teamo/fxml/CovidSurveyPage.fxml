@@ -79,6 +79,14 @@
                      <font>
                         <Font size="24.0" />
                      </font>
+                     <VBox.margin>
+                        <Insets bottom="15.0" />
+                     </VBox.margin>
+                  </JFXCheckBox>
+                  <JFXCheckBox fx:id="Q5" layoutX="149.0" layoutY="210.0" text="I have been in a high-risk state/area in the last 14 days">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
                   </JFXCheckBox>
                </children>
             </VBox>
