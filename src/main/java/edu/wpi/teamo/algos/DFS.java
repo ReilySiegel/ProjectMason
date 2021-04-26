@@ -47,7 +47,7 @@ public class DFS {
         }
     }
 
-    public void dfs(String targetNode){
+    private void dfs(String targetNode){
 
         int indexOfTargetID = position.get(targetNode);
 
@@ -61,11 +61,11 @@ public class DFS {
         }
     }
 
-    public boolean hasPathTo(String targetNode){
+    private boolean hasPathTo(String targetNode){
         return marked[position.get(targetNode)];
     }
 
-    public Iterable<String> pathTo(String targetNode){
+    private Iterable<String> pathTo(String targetNode){
         if (!hasPathTo(targetNode)) {System.out.println("No path found!"); return null;}
         Stack<String> path = new Stack<>();
         for(String x = targetNode; x != startID; x = edgeTo[position.get(x)])
