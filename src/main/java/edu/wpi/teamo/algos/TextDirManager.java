@@ -24,7 +24,7 @@ public class TextDirManager {
             //If we have just started travelling (no initial facing direction)
             if(lastQuadrant == null) {
                 builder.append("Proceed towards ")
-                        .append(pathToParse.get(i + 1).getID())
+                        .append(pathToParse.get(i + 1).getLongName())
                         .append("\n");
                 //Find next quadrant
                 lastQuadrant = getQuadrant(pathToParse.get(i), pathToParse.get(i + 1));
@@ -36,151 +36,151 @@ public class TextDirManager {
             switch(lastQuadrant.getKey()){
                 case 0:{
                     builder.append("Proceed towards ")
-                            .append(pathToParse.get(i + 1).getID())
+                            .append(pathToParse.get(i + 1).getLongName())
                             .append("\n");
                     break;
                 }
                 case 1:{
                     if(currentQuadrant.getKey() == 4 || currentQuadrant.getKey() == 5 || (lastQuadrant.getValue() - currentQuadrant.getValue() > 0 && currentQuadrant.getKey() == 1))
                         builder.append("Proceed leftwards to ")
-                                .append(pathToParse.get(i + 1).getID())
+                                .append(pathToParse.get(i + 1).getLongName())
                                 .append("\n");
                     else if(currentQuadrant.getKey() == 2 || currentQuadrant.getKey() == 6 || (lastQuadrant.getValue() - currentQuadrant.getValue() < 0 && currentQuadrant.getKey() == 1))
                         builder.append("Proceed rightwards to ")
-                            .append(pathToParse.get(i + 1).getID())
+                            .append(pathToParse.get(i + 1).getLongName())
                             .append("\n");
                     else if(currentQuadrant.getKey() == 3)
                         builder.append("Proceed backwards to ")
-                                .append(pathToParse.get(i + 1).getID())
+                                .append(pathToParse.get(i + 1).getLongName())
                                 .append("\n");
                     else builder.append("Proceed forward to ")
-                            .append(pathToParse.get(i + 1).getID())
+                            .append(pathToParse.get(i + 1).getLongName())
                             .append("\n");
                     break;
                 }
                 case 2:{
                     if(currentQuadrant.getKey() == 1 || currentQuadrant.getKey() == 6 || (lastQuadrant.getValue() - currentQuadrant.getValue() < 0 && currentQuadrant.getKey() == 2))
                         builder.append("Proceed leftwards to ")
-                                .append(pathToParse.get(i + 1).getID())
+                                .append(pathToParse.get(i + 1).getLongName())
                                 .append("\n");
                     else if(currentQuadrant.getKey() == 3 || currentQuadrant.getKey() == 7 || (lastQuadrant.getValue() - currentQuadrant.getValue() > 0 && currentQuadrant.getKey() == 2))
                         builder.append("Proceed rightwards to ")
-                                .append(pathToParse.get(i + 1).getID())
+                                .append(pathToParse.get(i + 1).getLongName())
                                 .append("\n");
                     else if(currentQuadrant.getKey() == 4)
                         builder.append("Proceed backwards to ")
-                                .append(pathToParse.get(i + 1).getID())
+                                .append(pathToParse.get(i + 1).getLongName())
                                 .append("\n");
                     else builder.append("Proceed forward to ")
-                                .append(pathToParse.get(i + 1).getID())
+                                .append(pathToParse.get(i + 1).getLongName())
                                 .append("\n");
                     break;
                 }
                 case 3:{
                     if(currentQuadrant.getKey() == 2 || currentQuadrant.getKey() == 7 || (lastQuadrant.getValue() - currentQuadrant.getValue() > 0 && currentQuadrant.getKey() == 3))
                         builder.append("Proceed leftwards to ")
-                                .append(pathToParse.get(i + 1).getID())
+                                .append(pathToParse.get(i + 1).getLongName())
                                 .append("\n");
                     else if(currentQuadrant.getKey() == 4 || currentQuadrant.getKey() == 8 || (lastQuadrant.getValue() - currentQuadrant.getValue() < 0 && currentQuadrant.getKey() == 3))
                         builder.append("Proceed rightwards to ")
-                                .append(pathToParse.get(i + 1).getID())
+                                .append(pathToParse.get(i + 1).getLongName())
                                 .append("\n");
                     else if(currentQuadrant.getKey() == 1)
                         builder.append("Proceed backwards to ")
-                                .append(pathToParse.get(i + 1).getID())
+                                .append(pathToParse.get(i + 1).getLongName())
                                 .append("\n");
                     else builder.append("Proceed forward to ")
-                                .append(pathToParse.get(i + 1).getID())
+                                .append(pathToParse.get(i + 1).getLongName())
                                 .append("\n");
                     break;
                 }
                 case 4:{
                     if(currentQuadrant.getKey() == 3 || currentQuadrant.getKey() == 8 || (lastQuadrant.getValue() - currentQuadrant.getValue() < 0 && currentQuadrant.getKey() == 4))
                         builder.append("Proceed leftwards to ")
-                                .append(pathToParse.get(i + 1).getID())
+                                .append(pathToParse.get(i + 1).getLongName())
                                 .append("\n");
                     else if(currentQuadrant.getKey() == 1 || currentQuadrant.getKey() == 5 || (lastQuadrant.getValue() - currentQuadrant.getValue() > 0 && currentQuadrant.getKey() == 4))
                         builder.append("Proceed rightwards to ")
-                                .append(pathToParse.get(i + 1).getID())
+                                .append(pathToParse.get(i + 1).getLongName())
                                 .append("\n");
                     else if(currentQuadrant.getKey() == 2)
                         builder.append("Proceed backwards to ")
-                                .append(pathToParse.get(i + 1).getID())
+                                .append(pathToParse.get(i + 1).getLongName())
                                 .append("\n");
                     else builder.append("Proceed forward to ")
-                                .append(pathToParse.get(i + 1).getID())
+                                .append(pathToParse.get(i + 1).getLongName())
                                 .append("\n");
                     break;
                 }
                 case 5:{
                     if(currentQuadrant.getKey() == 4 || currentQuadrant.getKey() == 8)
                         builder.append("Proceed leftwards to ")
-                                .append(pathToParse.get(i + 1).getID())
+                                .append(pathToParse.get(i + 1).getLongName())
                                 .append("\n");
                     else if(currentQuadrant.getKey() == 1 || currentQuadrant.getKey() == 6)
                         builder.append("Proceed rightwards to ")
-                                .append(pathToParse.get(i + 1).getID())
+                                .append(pathToParse.get(i + 1).getLongName())
                                 .append("\n");
                     else if(currentQuadrant.getKey() == 2 || currentQuadrant.getKey() == 3 || currentQuadrant.getKey() == 7)
                         builder.append("Proceed backwards to ")
-                                .append(pathToParse.get(i + 1).getID())
+                                .append(pathToParse.get(i + 1).getLongName())
                                 .append("\n");
                     else builder.append("Proceed forward to ")
-                                .append(pathToParse.get(i + 1).getID())
+                                .append(pathToParse.get(i + 1).getLongName())
                                 .append("\n");
                     break;
                 }
                 case 6:{
                     if(currentQuadrant.getKey() == 1 || currentQuadrant.getKey() == 5)
                         builder.append("Proceed leftwards to ")
-                                .append(pathToParse.get(i + 1).getID())
+                                .append(pathToParse.get(i + 1).getLongName())
                                 .append("\n");
                     else if(currentQuadrant.getKey() == 2 || currentQuadrant.getKey() == 7)
                         builder.append("Proceed rightwards to ")
-                                .append(pathToParse.get(i + 1).getID())
+                                .append(pathToParse.get(i + 1).getLongName())
                                 .append("\n");
                     else if(currentQuadrant.getKey() == 3 || currentQuadrant.getKey() == 4 || currentQuadrant.getKey() == 8)
                         builder.append("Proceed backwards to ")
-                                .append(pathToParse.get(i + 1).getID())
+                                .append(pathToParse.get(i + 1).getLongName())
                                 .append("\n");
                     else builder.append("Proceed forward to ")
-                                .append(pathToParse.get(i + 1).getID())
+                                .append(pathToParse.get(i + 1).getLongName())
                                 .append("\n");
                     break;
                 }
                 case 7:{
                     if(currentQuadrant.getKey() == 2 || currentQuadrant.getKey() == 6)
                         builder.append("Proceed leftwards to ")
-                                .append(pathToParse.get(i + 1).getID())
+                                .append(pathToParse.get(i + 1).getLongName())
                                 .append("\n");
                     else if(currentQuadrant.getKey() == 3 || currentQuadrant.getKey() == 8)
                         builder.append("Proceed rightwards to ")
-                                .append(pathToParse.get(i + 1).getID())
+                                .append(pathToParse.get(i + 1).getLongName())
                                 .append("\n");
                     else if(currentQuadrant.getKey() == 1 || currentQuadrant.getKey() == 5 || currentQuadrant.getKey() == 4)
                         builder.append("Proceed backwards to ")
-                                .append(pathToParse.get(i + 1).getID())
+                                .append(pathToParse.get(i + 1).getLongName())
                                 .append("\n");
                     else builder.append("Proceed forward to ")
-                                .append(pathToParse.get(i + 1).getID())
+                                .append(pathToParse.get(i + 1).getLongName())
                                 .append("\n");
                     break;
                 }
                 case 8:{
                     if(currentQuadrant.getKey() == 3 || currentQuadrant.getKey() == 7)
                         builder.append("Proceed leftwards to ")
-                                .append(pathToParse.get(i + 1).getID())
+                                .append(pathToParse.get(i + 1).getLongName())
                                 .append("\n");
                     else if(currentQuadrant.getKey() == 4 || currentQuadrant.getKey() == 5)
                         builder.append("Proceed rightwards to ")
-                                .append(pathToParse.get(i + 1).getID())
+                                .append(pathToParse.get(i + 1).getLongName())
                                 .append("\n");
                     else if(currentQuadrant.getKey() == 1 || currentQuadrant.getKey() == 2 || currentQuadrant.getKey() == 6)
                         builder.append("Proceed backwards to ")
-                                .append(pathToParse.get(i + 1).getID())
+                                .append(pathToParse.get(i + 1).getLongName())
                                 .append("\n");
                     else builder.append("Proceed forward to ")
-                                .append(pathToParse.get(i + 1).getID())
+                                .append(pathToParse.get(i + 1).getLongName())
                                 .append("\n");
                     break;
                 }
