@@ -101,6 +101,9 @@ public class MainPage {
     @FXML
     private void handleLogin(ActionEvent e) { App.switchPage(Pages.LOGIN);}
 
+    @FXML
+    private void handleAddUsers(ActionEvent e) { App.switchPage(Pages.ADDUSERS);}
+
     /**
      * Toggles between spanish and english (later on implement dedicated page for multiple languages?)
      * @param e action event

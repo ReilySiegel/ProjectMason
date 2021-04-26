@@ -19,7 +19,7 @@ public class LoginPage extends SubPageController{
     @FXML
     void checkPasswordUsernameCombo(ActionEvent e){
         if(username.getText().equals("admin") && password.getText().equals("password")){
-            App.switchPage(Pages.MAPEDITOR);
+            App.switchPage(Pages.MAIN);
         }
         else{
 ////            JFXDialogLayout content = new JFXDialogLayout();
