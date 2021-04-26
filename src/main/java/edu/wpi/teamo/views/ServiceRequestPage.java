@@ -5,8 +5,13 @@ import edu.wpi.teamo.Pages;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
 
 import javax.annotation.Resource;
+import javax.swing.*;
 import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -14,9 +19,7 @@ import java.util.ResourceBundle;
 public class ServiceRequestPage extends SubPageController implements Initializable {
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        return;
-    }
+    public void initialize(URL location, ResourceBundle resources) {return;}
 
 
     /**

@@ -3,6 +3,8 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -32,14 +34,27 @@
                <children>
                   <HBox maxWidth="1.7976931348623157E308" minWidth="1200.0" prefHeight="100.0">
                      <children>
-                        <JFXButton alignment="CENTER" contentDisplay="BOTTOM" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="100.0" minWidth="570.0" onAction="#handleMedicine" ripplerFill="#eceff4" style="-fx-background-color: #e5e9f0;" text="%key.medicine" textFill="#2e3440" HBox.hgrow="ALWAYS">
+                        <JFXButton fx:id="medBut" alignment="CENTER" contentDisplay="BOTTOM" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="100.0" minWidth="570.0" onAction="#handleMedicine" ripplerFill="#eceff4" style="-fx-background-color: #e5e9f0;" text="%key.medicine" textFill="#2e3440" HBox.hgrow="ALWAYS">
                            <font>
                               <Font size="27.0" />
                            </font>
                            <graphic>
-                              <HBox>
+                              <HBox fx:id="hbox" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="90.0" minWidth="570.0" prefHeight="90.0" prefWidth="570.0" style="-fx-background-color: TRANSPARENT;">
                                  <children>
-                                    <Text fill="#2e3440" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.medicine_description" textAlignment="CENTER" wrappingWidth="450.0" />
+                                    <VBox alignment="CENTER" prefHeight="90.0" prefWidth="483.0" HBox.hgrow="NEVER">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.medicine" textAlignment="CENTER">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font>
+                                          </Text>
+                                          <Text fill="#2e3440" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.medicine_description" textAlignment="CENTER" wrappingWidth="450.0" />
+                                       </children>
+                                    </VBox>
+                                    <ImageView fx:id="image" fitHeight="90.0" fitWidth="117.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+                                       <image>
+                                          <Image url="@../images/Icons/icons8-pill-96.png" />
+                                       </image></ImageView>
                                  </children>
                               </HBox>
                            </graphic>
@@ -52,9 +67,23 @@
                               <Font size="24.0" />
                            </font>
                            <graphic>
-                              <HBox>
+                              <HBox prefWidth="570.0">
                                  <children>
-                                    <Text fill="#2e3440" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.food_description" textAlignment="CENTER" wrappingWidth="450.0" />
+                                    <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="85.0" prefHeight="85.0" prefWidth="570.0" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.food_delivery">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font>
+                                          </Text>
+                                          <Text fill="#2e3440" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.food_description" textAlignment="CENTER" wrappingWidth="450.0" />
+                                       </children>
+                                    </VBox>
+                                    <ImageView fitHeight="90.0" fitWidth="117.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/Icons/icons8-hamburger-96.png" />
+                                       </image>
+                                    </ImageView>
                                  </children>
                               </HBox>
                            </graphic>
@@ -74,9 +103,23 @@
                               <Font size="24.0" />
                            </font>
                            <graphic>
-                              <HBox>
+                              <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="570.0">
                                  <children>
-                                    <Text fill="#2e3440" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.gift_description" textAlignment="CENTER" wrappingWidth="450.0" />
+                                    <VBox alignment="CENTER" prefHeight="90.0" prefWidth="480.0">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.gift_delivery" textAlignment="CENTER">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font>
+                                          </Text>
+                                          <Text fill="#2e3440" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.gift_description" textAlignment="CENTER" wrappingWidth="450.0" />
+                                       </children>
+                                    </VBox>
+                                    <ImageView fx:id="image1" fitHeight="90.0" fitWidth="117.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/Icons/icons8-gift-100.png" />
+                                       </image>
+                                    </ImageView>
                                  </children>
                               </HBox>
                            </graphic>
@@ -88,16 +131,30 @@
                            <font>
                               <Font size="24.0" />
                            </font>
-                           <graphic>
-                              <HBox>
-                                 <children>
-                                    <Text fill="#2e3440" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.religious_description" textAlignment="CENTER" wrappingWidth="450.0" />
-                                 </children>
-                              </HBox>
-                           </graphic>
                            <HBox.margin>
                               <Insets left="20.0" right="20.0" />
                            </HBox.margin>
+                           <graphic>
+                              <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="570.0">
+                                 <children>
+                                    <VBox alignment="CENTER" prefHeight="90.0" prefWidth="480.0">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.religious_requests" textAlignment="CENTER">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font>
+                                          </Text>
+                                          <Text fill="#2e3440" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.religious_description" textAlignment="CENTER" wrappingWidth="450.0" />
+                                       </children>
+                                    </VBox>
+                                    <ImageView fx:id="image11" fitHeight="90.0" fitWidth="117.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/Icons/icons8-holy-bible-96.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
+                           </graphic>
                         </JFXButton>
                      </children>
                      <VBox.margin>
@@ -110,31 +167,59 @@
                            <font>
                               <Font size="24.0" />
                            </font>
-                           <graphic>
-                              <HBox>
-                                 <children>
-                                    <Text fill="#2e3440" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.transportation_description" textAlignment="CENTER" wrappingWidth="450.0" />
-                                 </children>
-                              </HBox>
-                           </graphic>
                            <HBox.margin>
                               <Insets left="20.0" />
                            </HBox.margin>
+                           <graphic>
+                              <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="514.0" prefHeight="90.0" prefWidth="565.0">
+                                 <children>
+                                    <VBox alignment="CENTER" prefHeight="90.0" prefWidth="499.0">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.patient_transportation" textAlignment="CENTER">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font>
+                                          </Text>
+                                          <Text fill="#2e3440" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.transportation_description" textAlignment="CENTER" wrappingWidth="450.0" />
+                                       </children>
+                                    </VBox>
+                                    <ImageView fx:id="image12" fitHeight="90.0" fitWidth="117.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/Icons/icons8-ambulance-100.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
+                           </graphic>
                         </JFXButton>
                         <JFXButton contentDisplay="BOTTOM" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleSanitation" prefWidth="570.0" ripplerFill="#4b7be0" style="-fx-background-color: #e5e9f0;" text="%key.sanitation" textFill="#2e3440" HBox.hgrow="ALWAYS">
                            <font>
                               <Font size="27.0" />
                            </font>
-                           <graphic>
-                              <HBox>
-                                 <children>
-                                    <Text fill="#2e3440" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.sanitation_description" textAlignment="CENTER" wrappingWidth="450.0" />
-                                 </children>
-                              </HBox>
-                           </graphic>
                            <HBox.margin>
                               <Insets left="20.0" right="20.0" />
                            </HBox.margin>
+                           <graphic>
+                              <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="526.0">
+                                 <children>
+                                    <VBox alignment="CENTER" prefHeight="90.0" prefWidth="480.0">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.sanitation" textAlignment="CENTER">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font>
+                                          </Text>
+                                          <Text fill="#2e3440" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.sanitation_description" textAlignment="CENTER" wrappingWidth="450.0" />
+                                       </children>
+                                    </VBox>
+                                    <ImageView fx:id="image13" fitHeight="90.0" fitWidth="117.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/Icons/icons8-housekeeping-96.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
+                           </graphic>
                         </JFXButton>
                      </children>
                      <VBox.margin>
@@ -147,31 +232,59 @@
                            <font>
                               <Font size="24.0" />
                            </font>
-                           <graphic>
-                              <HBox>
-                                 <children>
-                                    <Text fill="#2e3440" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.security_description" textAlignment="CENTER" wrappingWidth="450.0" />
-                                 </children>
-                              </HBox>
-                           </graphic>
                            <HBox.margin>
                               <Insets left="20.0" />
                            </HBox.margin>
+                           <graphic>
+                              <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="526.0">
+                                 <children>
+                                    <VBox alignment="CENTER" prefHeight="90.0" prefWidth="480.0">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.security" textAlignment="CENTER">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font>
+                                          </Text>
+                                          <Text fill="#2e3440" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.security_description" textAlignment="CENTER" wrappingWidth="450.0" />
+                                       </children>
+                                    </VBox>
+                                    <ImageView fx:id="image131" fitHeight="90.0" fitWidth="117.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/Icons/icons8-police-badge-96.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
+                           </graphic>
                         </JFXButton>
                         <JFXButton contentDisplay="BOTTOM" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="570.0" style="-fx-background-color: #e5e9f0;" text="%key.laundry" textFill="#2e3440" HBox.hgrow="ALWAYS">
                            <font>
                               <Font size="24.0" />
                            </font>
-                           <graphic>
-                              <HBox>
-                                 <children>
-                                    <Text fill="#2e3440" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.laundry_description" textAlignment="CENTER" wrappingWidth="450.0" />
-                                 </children>
-                              </HBox>
-                           </graphic>
                            <HBox.margin>
                               <Insets left="20.0" right="20.0" />
                            </HBox.margin>
+                           <graphic>
+                              <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="526.0">
+                                 <children>
+                                    <VBox alignment="CENTER" prefHeight="90.0" prefWidth="480.0">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.laundry" textAlignment="CENTER">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font>
+                                          </Text>
+                                          <Text fill="#2e3440" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.laundry_description" textAlignment="CENTER" wrappingWidth="450.0" />
+                                       </children>
+                                    </VBox>
+                                    <ImageView fx:id="image132" fitHeight="90.0" fitWidth="117.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/Icons/icons8-hanger-96.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
+                           </graphic>
                         </JFXButton>
                      </children>
                      <VBox.margin>
@@ -184,31 +297,59 @@
                            <font>
                               <Font size="24.0" />
                            </font>
-                           <graphic>
-                              <HBox>
-                                 <children>
-                                    <Text fill="#2e3440" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.language_description" textAlignment="CENTER" wrappingWidth="450.0" />
-                                 </children>
-                              </HBox>
-                           </graphic>
                            <HBox.margin>
                               <Insets left="20.0" />
                            </HBox.margin>
+                           <graphic>
+                              <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="526.0">
+                                 <children>
+                                    <VBox alignment="CENTER" prefHeight="90.0" prefWidth="480.0">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.language_interpreter" textAlignment="CENTER">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font>
+                                          </Text>
+                                          <Text fill="#2e3440" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.language_description" textAlignment="CENTER" wrappingWidth="450.0" />
+                                       </children>
+                                    </VBox>
+                                    <ImageView fx:id="image133" fitHeight="90.0" fitWidth="117.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/Icons/icons8-collaboration-96.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
+                           </graphic>
                         </JFXButton>
                         <JFXButton contentDisplay="BOTTOM" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#handleMaintenanceBtn" prefWidth="570.0" style="-fx-background-color: #e5e9f0;" text="%key.maintenance" textFill="#2e3440" HBox.hgrow="ALWAYS">
                            <font>
                               <Font size="24.0" />
                            </font>
-                           <graphic>
-                              <HBox>
-                                 <children>
-                                    <Text fill="#2e3440" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.maintenance_description" textAlignment="CENTER" wrappingWidth="450.0" />
-                                 </children>
-                              </HBox>
-                           </graphic>
                            <HBox.margin>
                               <Insets left="20.0" right="20.0" />
                            </HBox.margin>
+                           <graphic>
+                              <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="526.0">
+                                 <children>
+                                    <VBox alignment="CENTER" prefHeight="90.0" prefWidth="480.0">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.maintenance" textAlignment="CENTER">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font>
+                                          </Text>
+                                          <Text fill="#2e3440" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.maintenance_description" textAlignment="CENTER" wrappingWidth="450.0" />
+                                       </children>
+                                    </VBox>
+                                    <ImageView fx:id="image134" fitHeight="90.0" fitWidth="117.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/Icons/icons8-maintenance-96.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
+                           </graphic>
                         </JFXButton>
                      </children>
                   </HBox>
