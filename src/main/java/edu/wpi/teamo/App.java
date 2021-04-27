@@ -1,8 +1,14 @@
 package edu.wpi.teamo;
 
 import edu.wpi.teamo.database.account.Account;
+import edu.wpi.teamo.database.request.GiftRequest;
 import edu.wpi.teamo.database.request.IRequestService;
 import edu.wpi.teamo.database.request.RequestDB;
+import edu.wpi.teamo.database.request.InterpreterRequest;
+import edu.wpi.teamo.database.request.LaundryRequest;
+import edu.wpi.teamo.database.request.MaintenanceRequest;
+import edu.wpi.teamo.database.request.ReligiousRequest;
+import edu.wpi.teamo.database.request.SecurityRequest;
 import edu.wpi.teamo.database.map.IMapService;
 import edu.wpi.teamo.algos.AStarManager;
 import edu.wpi.teamo.algos.IStrategyPathfinding;
@@ -60,6 +66,12 @@ public class App extends Application {
       requestService = new RequestDB(Database.getInstance());
       mapService = new MapDB(Database.getInstance());
       Account.initTable();
+      SecurityRequest.initTable();
+      InterpreterRequest.initTable();
+      GiftRequest.initTable();
+      LaundryRequest.initTable();
+      MaintenanceRequest.initTable();
+      ReligiousRequest.initTable();
       System.out.println("Database Services Initialized");
     } catch (SQLException e) {
       System.out.println("ERROR: FAILED TO INIT DATABASE SERVICES");
