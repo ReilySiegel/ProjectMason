@@ -387,10 +387,10 @@ public class MapEditorPage extends SubPageController implements Initializable{
     private void nodeContextMenu(MouseEvent e, Circle circle, NodeInfo node) {
         ContextMenu menu = new ContextMenu();
 
-        MenuItem deleteItem = new MenuItem("Delete");
+        MenuItem deleteItem = new MenuItem(App.resourceBundle.getString("key.delete"));
         deleteItem.setOnAction(event -> confirmDeleteNode(node));
 
-        MenuItem addEdgeItem = new MenuItem("Add Edge");
+        MenuItem addEdgeItem = new MenuItem(App.resourceBundle.getString("key.add_node"));
         addEdgeItem.setOnAction(event -> handleAddingEdge(circle, node));
 
         menu.getItems().add(addEdgeItem);
@@ -401,7 +401,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
     private void edgeContextMenu(MouseEvent e, EdgeInfo edge) {
         ContextMenu menu = new ContextMenu();
 
-        MenuItem deleteItem = new MenuItem("Delete");
+        MenuItem deleteItem = new MenuItem(App.resourceBundle.getString("key.delete"));
         deleteItem.setOnAction(event -> confirmDeleteEdge(edge));
 
         menu.getItems().add(deleteItem);
@@ -411,7 +411,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
     private void mapContextMenu(MouseEvent e, Integer x, Integer y) {
         ContextMenu menu = new ContextMenu();
 
-        MenuItem addNodeItem = new MenuItem("Add Node");
+        MenuItem addNodeItem = new MenuItem(App.resourceBundle.getString("key.add_node"));
         addNodeItem.setOnAction(event -> handleAddingNode(x, y));
 
         menu.getItems().add(addNodeItem);
@@ -611,7 +611,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
         }
         catch(SQLException | AssertionError | IllegalArgumentException e){
-            showError("Please fill out all fields with valid arguments");
+            showError(App.resourceBundle.getString("key.please_fill_out_all_fields_with_valid_arguments"));
         }
 
     }
@@ -633,30 +633,30 @@ public class MapEditorPage extends SubPageController implements Initializable{
             deleteNode(deleteNode);
         }
         catch (SQLException | AssertionError | IllegalArgumentException e){
-            showError("Please fill out all fields with valid arguments");
+            showError(App.resourceBundle.getString("key.please_fill_out_all_fields_with_valid_arguments"));
         }
     }
 
     private void confirmDeleteNode(NodeInfo node) {
 
         JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text("Confirm Node Deletion"));
-        content.setBody(new Text("Are you sure you want to delete this node?\n" +
-                                 "ID: " + node.getNodeID() + "\n" +
-                                 "Name: " + node.getLongName() + "\n"));
+        content.setHeading(new Text(App.resourceBundle.getString("key.confirm_node_deletion")));
+        content.setBody(new Text(App.resourceBundle.getString("key.deleting_a_node") +
+                App.resourceBundle.getString("key.ID_semicolon")+ node.getNodeID() + "\n" +
+                App.resourceBundle.getString("key.name_semicolon") + node.getLongName() + "\n"));
         JFXDialog deleteConfirmationWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 
-        JFXButton cancelButton = new JFXButton("Cancel");
+        JFXButton cancelButton = new JFXButton(App.resourceBundle.getString("key.cancel"));
         cancelButton.setStyle("-fx-background-color: #004cff; -fx-text-fill: #ffffff");
         cancelButton.setOnAction(event -> deleteConfirmationWindow.close());
 
-        JFXButton deleteButton = new JFXButton("Delete");
+        JFXButton deleteButton = new JFXButton(App.resourceBundle.getString("key.delete"));
         deleteButton.setStyle("-fx-background-color: #F40F19; -fx-text-fill: #ffffff");
         deleteButton.setOnAction(event -> {
             try {
                 deleteNode(node.getNodeID());
             } catch (SQLException throwables) {
-                showError("There was an error when trying to delete.");
+                showError(App.resourceBundle.getString("key.there_was_a_delete_error"));
                 throwables.printStackTrace();
             }
             deleteConfirmationWindow.close();
@@ -670,22 +670,22 @@ public class MapEditorPage extends SubPageController implements Initializable{
     private void confirmDeleteEdge(EdgeInfo edge) {
 
         JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text("Confirm Edge Deletion"));
-        content.setBody(new Text("Are you sure you want to delete this edge?\n" +
-                "ID: " + edge.getEdgeID() + "\n"));
+        content.setHeading(new Text(App.resourceBundle.getString("key.confirm_edge_deletion")));
+        content.setBody(new Text(App.resourceBundle.getString("key.deleting_an_edge") +
+                App.resourceBundle.getString("key.ID_semicolon") + edge.getEdgeID() + "\n"));
         JFXDialog deleteConfirmationWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 
-        JFXButton cancelButton = new JFXButton("Cancel");
+        JFXButton cancelButton = new JFXButton(App.resourceBundle.getString("key.cancel"));
         cancelButton.setStyle("-fx-background-color: #004cff; -fx-text-fill: #ffffff");
         cancelButton.setOnAction(event -> deleteConfirmationWindow.close());
 
-        JFXButton deleteButton = new JFXButton("Delete");
+        JFXButton deleteButton = new JFXButton(App.resourceBundle.getString("key.delete"));
         deleteButton.setStyle("-fx-background-color: #F40F19; -fx-text-fill: #ffffff");
         deleteButton.setOnAction(event -> {
             try {
                 deleteEdge(edge.getEdgeID());
             } catch (SQLException throwables) {
-                showError("There was an error when trying to delete.");
+                showError(App.resourceBundle.getString("key.there_was_a_delete_error"));
                 throwables.printStackTrace();
             }
             deleteConfirmationWindow.close();
@@ -704,7 +704,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         try {
             addNode(id, x, y, selectedFloor, defaultBulding, defaultType, id, id);
         } catch (SQLException throwables) {
-            showError("There was an error saving the node.");
+            showError(App.resourceBundle.getString("key.error_saving_node"));
             throwables.printStackTrace();
         }
     }
@@ -730,7 +730,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         try {
             App.mapService.addEdge(edgeID, startNodeID, endNodeID);
         } catch (SQLException | IllegalArgumentException e) {
-            showError("There was an error while saving the edge.");
+            showError(App.resourceBundle.getString("key.error_saving_edge"));
         }
         update();
     }
@@ -764,7 +764,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
         try{
             if(App.mapService.nodeExists(editNodeID) && !currentNodeID.equals(editNodeID)){
-                showError("The Node ID already exists.");
+                showError(App.resourceBundle.getString("key.node_id_exists"));
                 return;
             }
             App.mapService.setNodePosition(currentNodeID, Integer.parseInt(newNodeX), Integer.parseInt(newNodeY));
@@ -778,7 +778,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
             update();
         }
         catch (SQLException | IllegalArgumentException | AssertionError e){
-            showError("Please fill out all fields with valid arguments");
+            showError(App.resourceBundle.getString("key.please_fill_out_all_fields_with_valid_arguments"));
         }
     }
 
@@ -810,7 +810,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         try {
             App.mapService.deleteEdge(EdgetoDelete);
         } catch (SQLException | IllegalArgumentException e) {
-            showError("Please fill out all fields with valid arguments");
+            showError(App.resourceBundle.getString("key.please_fill_out_all_fields_with_valid_arguments"));
             return;
         }
         update();
@@ -831,14 +831,14 @@ public class MapEditorPage extends SubPageController implements Initializable{
         try {
 
             if(App.mapService.edgeExists(newEditEdgeID) && !newEditEdgeID.equals(editingEdge.getText())){
-                showError("This Edge ID already exists.");
+                showError(App.resourceBundle.getString("key.edge_id_exists"));
                 return;
             }
             App.mapService.setEdgeID(editingEdge.getText(), newEditEdgeID);
             App.mapService.setEdgeStartID(newEditEdgeID, editEdgeNode1);
             App.mapService.setEdgeEndID(newEditEdgeID, editEdgeNode2);
         } catch (SQLException | IllegalArgumentException e) {
-            showError("Please fill out all fields with valid arguments");
+            showError(App.resourceBundle.getString("key.please_fill_out_all_fields_with_valid_arguments"));
             return;
         }
         update();
@@ -862,7 +862,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
             //App.mapService.loadNodesFromFile("src/test/resources/edu/wpi/teamo/map/database/testNodes.csv");
         }
         catch(NullPointerException | FileNotFoundException | SQLException | IllegalArgumentException e){
-            showError("Please select a valid file");
+            showError(App.resourceBundle.getString("key.select_a_valid_file"));
             return;
         }
 
@@ -885,7 +885,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
             App.mapService.writeNodesToCSV(path);
         }
         catch(NullPointerException | SQLException | IOException e){
-            showError("Save aborted!");
+            showError(App.resourceBundle.getString("key.save_aborted"));
         }
     }
 
@@ -906,7 +906,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
             String path = f.getPath();
             App.mapService.loadEdgesFromFile(path);
         } catch (FileNotFoundException | SQLException | NullPointerException | IllegalArgumentException e)  {
-            showError("Please select a valid file");
+            showError(App.resourceBundle.getString("key.select_a_valid_file"));
             return;
         }
         update();
@@ -924,7 +924,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
             String path = f.getPath();
             App.mapService.writeEdgesToCSV(path);
         } catch (IOException | SQLException | NullPointerException e ) {
-            showError("Save aborted!");
+            showError(App.resourceBundle.getString("key.save_aborted"));
         }
     }
 
@@ -953,11 +953,11 @@ public class MapEditorPage extends SubPageController implements Initializable{
     @FXML
     void showError(String message) {
         JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text("Error"));
+        content.setHeading(new Text(App.resourceBundle.getString("key.error")));
         content.setBody(new Text(message));
         JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 
-        JFXButton closeButton = new JFXButton("Close");
+        JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
         closeButton.setStyle("-fx-background-color: #f40f19");
         closeButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -974,33 +974,13 @@ public class MapEditorPage extends SubPageController implements Initializable{
     private void handleHelp(ActionEvent e) {
 
         JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text("Help - Map Editor"));
-        content.setBody(new Text("*ADDING NODES*\n" +
-                "To add a node to the map, switch to the \"Add\" tab on the right.\n" +
-                "The Node ID field must be unique.\n" +
-                "Clicking on an unoccupied area of the map will automatically fill in the necessary inputs.\n" +
-                "In order for the node to be displayed, the floor field must be one of: L2, L1, G, 1, 2, 3\n" +
-                "The X and Y fields must be numeric, the best way to set them is clicking the map.\n" +
-                "Click \"Submit\" to add the node to the database.\n" +
-                "\n*ADDING EDGES*:\n" +
-                "To add a path (edge) between two nodes, first click the \"Choose Start\" button under the edge fields. \n" +
-                "The button will become dark.  Click the desired starting node on the map, and it's ID will automatically be written to the start node field. \n" +
-                "Repeat this process with the \"Choose End\" button to select the end node. An ID will be automatically generated. The ID can be changed, but must be unique." +
-                "Click \"Submit\", and the edge will be created.\n" +
-                "\n*EDITING NODES AND EDGES*\n" +
-                "To edit a node or edge, switch to the \"edit\" tab on the upper right sidebar.\n" +
-                "Clicking a node or edge on the map will fill it's information into the editing fields.\n" +
-                "Change the fields you would like to be changed, and click the submit button under those fields.\n" +
-                "If you change the ID, it must be unique.\n" +
-                "\n*DELETING NODES AND EDGES*\n" +
-                "To delete a node or edge, switch to the \"Delete\" tab on the upper right. \n" +
-                "Click the node or edge on the map that you wish to delete, and its ID will be filled into the input.\n" +
-                "Click the delete button under that field, and it will be permanently deleted from the database."));
+        content.setHeading(new Text(App.resourceBundle.getString("key.help_map_editor")));
+        content.setBody(new Text(App.resourceBundle.getString("key.help_map_editor_text")));
 
 
         JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 
-        JFXButton closeButton = new JFXButton("Close");
+        JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
         closeButton.setStyle("-fx-background-color: #F40F19; -fx-text-fill: #ffffff");
         closeButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
