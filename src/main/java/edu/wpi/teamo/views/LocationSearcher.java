@@ -96,11 +96,12 @@ public class LocationSearcher {
     }
 
     private JFXCheckBox createCheckBox(NodeInfo node, boolean selected) {
-        String text = String.format("%10s %10s", node.getLongName(), node.getNodeID());
+        String text = String.format("%s", node.getLongName());
 
         JFXCheckBox checkBox = new JFXCheckBox();
         checkBox.setPadding(new Insets(10));
         checkBox.setSelected(selected);
+        checkBox.setStyle("-jfx-checked-color: #5e81ac");
         checkBox.setText(text);
 
         checkBox.setOnAction(event -> {
