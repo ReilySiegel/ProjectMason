@@ -6,6 +6,8 @@ import edu.wpi.teamo.App;
 import edu.wpi.teamo.Pages;
 import edu.wpi.teamo.database.map.NodeInfo;
 
+import edu.wpi.teamo.database.request.BaseRequest;
+import edu.wpi.teamo.database.request.MedicineRequest;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -17,9 +19,11 @@ import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -52,39 +56,35 @@ public class SR07_Medicine extends ServiceRequestPage implements Initializable {
     @FXML
     private MenuButton locationBox;
 
+    @FXML
+    private JFXListView<JFXCheckBox> roomList;
+
+    @FXML
+    private JFXTextField locationSearchBox;
+
     private boolean validRequest;
+
+    LocationSearcher locationSearcher;
 
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
 
+        App.getPrimaryStage().getScene().getStylesheets().add(LocationSearcher.getStylePath());
+
+        locationSearcher = new LocationSearcher(locationSearchBox, roomList);
+        updateLocations();
+
         validRequest = true;
-        try {
-            resetLocationBox();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
-    private void resetLocationBox() throws SQLException {
-        LinkedList<NodeInfo> nodes = App.mapService.getAllNodes().collect(Collectors.toCollection(LinkedList::new));
-        locationBox.getItems().removeAll(locationBox.getItems());
-
-        for (NodeInfo node : nodes) {
-            CheckMenuItem menuItem = new CheckMenuItem();
-            menuItem.setText(node.getNodeID());
-
-            menuItem.setOnAction(event -> {
-                locationBox.setText(locationBox.getItems().stream()
-                        .map((MenuItem mI) -> (CheckMenuItem) mI)
-                        .filter(CheckMenuItem::isSelected)
-                        .map(CheckMenuItem::getText)
-                        .collect(Collectors.joining(", ")));
-            });
-
-            locationBox.getItems().add(menuItem);
+    private void updateLocations() {
+        try {
+            locationSearcher.setLocations(App.mapService.getAllNodes().collect(Collectors.toList()));
+        } catch (SQLException throwables) {
+            locationSearcher.setLocations(new LinkedList<>());
+            throwables.printStackTrace();
         }
-
     }
 
     @FXML
@@ -113,10 +113,8 @@ public class SR07_Medicine extends ServiceRequestPage implements Initializable {
         String amount = medAmount.getText();
         String assignName = assignee.getText();
 
-        List<MenuItem>        mItems    = locationBox.getItems();
-        Stream<CheckMenuItem> cMItems   = mItems.stream().map((MenuItem mI) -> (CheckMenuItem) mI);
-        Stream<CheckMenuItem> checked   = cMItems.filter(CheckMenuItem::isSelected);
-        List<String>          locations = checked.map(CheckMenuItem::getText).collect(Collectors.toList());
+        List<NodeInfo>          locations = locationSearcher.getSelectedLocations();
+        List<String> locationIDs = locationSearcher.getSelectedLocationIDs();
 
         validRequest = true;
 
@@ -140,10 +138,11 @@ public class SR07_Medicine extends ServiceRequestPage implements Initializable {
         }
 
         if (validRequest) {
-            App.requestService.requestMedicine(medicine, amount, locations.stream(), assignName);
+            BaseRequest br = new BaseRequest(UUID.randomUUID().toString(), "", locationIDs.stream(), assignName, false, LocalDateTime.now());
+            new MedicineRequest(medicine, amount, br).update();
+
             medErrorText.setText("");
             amountErrorText.setText("");
-            roomErrorText.setText("");
             assigneeErrorText.setText("");
             System.out.println("request successful");
             medName.setText("");
@@ -155,7 +154,7 @@ public class SR07_Medicine extends ServiceRequestPage implements Initializable {
             content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
                     App.resourceBundle.getString("key.type_semicolon")  + medicine + "\n" +
                     App.resourceBundle.getString("key.amount_semicolon")  + amount + "\n" +
-                    App.resourceBundle.getString("key.room_semicolon")  + String.join(", ", locations) + "\n" +
+                    App.resourceBundle.getString("key.room_semicolon") + String.join(", ", locationIDs) + "\n" +
                     App.resourceBundle.getString("key.persons_assigned_semicolon")  + assignName));
             JFXDialog popup = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 

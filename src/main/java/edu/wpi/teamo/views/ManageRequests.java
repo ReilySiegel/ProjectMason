@@ -20,6 +20,8 @@ import javafx.util.Callback;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -199,6 +201,17 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
             }
         });
 
+        JFXTreeTableColumn<SanitationRequest, String> sanDue= new JFXTreeTableColumn<>("Due");
+        sanDue.setPrefWidth(200);
+        sanDue.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<SanitationRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<SanitationRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getDue().format(DateTimeFormatter.ISO_DATE_TIME));
+                return strProp;
+
+            }
+        });
+
         JFXTreeTableColumn<SanitationRequest, String> sanCompleted = new JFXTreeTableColumn<>("Status");
         sanCompleted.setPrefWidth(200);
         sanCompleted.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<SanitationRequest, String>, ObservableValue<String>>() {
@@ -228,7 +241,7 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         }
 
         final TreeItem<SanitationRequest> sanRoot = new RecursiveTreeItem<SanitationRequest>(sanRequests, RecursiveTreeObject::getChildren);
-        sanRequestTable.getColumns().setAll(sanIDs, sanDetails, sanLocs, sanAssigned, sanCompleted);
+        sanRequestTable.getColumns().setAll(sanIDs, sanDetails, sanLocs, sanAssigned, sanDue, sanCompleted);
         sanRequestTable.setRoot(sanRoot);
         sanRequestTable.setShowRoot(false);
     }
