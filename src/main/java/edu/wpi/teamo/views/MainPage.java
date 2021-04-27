@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
 import edu.wpi.teamo.App;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -14,6 +15,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -23,13 +25,33 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class MainPage {
+public class MainPage extends SubPageController implements Initializable {
 
     @FXML
     private StackPane stackPane;
 
     @FXML
     private javafx.scene.control.Button closeButton;
+
+    @FXML
+    private JFXButton loginButton;
+
+    @FXML
+    private Text usernameLabel;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        if(Session.isLoggedIn()) {
+            loginButton.setText(App.resourceBundle.getString("key.logout"));
+            usernameLabel.setText(Session.getAccount().getUsername());
+            loginButton.setOnAction(this::handleLogOut);
+        }
+        else {
+            loginButton.setText(App.resourceBundle.getString("key.login"));
+            loginButton.setOnAction(this::handleLogin);
+            usernameLabel.setText("Guest");
+        }
+    }
 
     /**
      * Event handler
@@ -105,7 +127,6 @@ public class MainPage {
 
     @FXML
     private void handleAddUsers(ActionEvent e) {
-
         if(Session.isLoggedIn() && Session.getAccount().isAdmin())
             App.switchPage(Pages.ADDUSERS);
         else{
@@ -115,30 +136,10 @@ public class MainPage {
 
     @FXML
     private void handleLogOut(ActionEvent e){
+        loginButton.setText(App.resourceBundle.getString("key.login"));
+        loginButton.setOnAction(this::handleLogin);
+        usernameLabel.setText("Guest");
         Session.logout();
-    }
-
-    @FXML
-    private void displayLoginInfo(ActionEvent e){
-        JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text(App.resourceBundle.getString("key.profile_info")));
-        if(Session.isLoggedIn())
-            content.setBody(new Text("Username: " + Session.getAccount().getUsername()));
-        else
-            content.setBody(new Text("Username: guest"));
-        JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
-
-        JFXButton closeButton = new JFXButton("Close");
-        closeButton.setStyle("-fx-background-color: #F40F19");
-        closeButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                errorWindow.close();
-            }
-        });
-
-        content.setActions(closeButton);
-        errorWindow.show();
     }
 
     /**
