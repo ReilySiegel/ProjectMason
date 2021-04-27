@@ -52,6 +52,7 @@ public class App extends Application {
     pagePaths.put(Pages.SURVEY, "/edu/wpi/teamo/fxml/CovidSurveyPage.fxml");
     pagePaths.put(Pages.SECURITY, "/edu/wpi/teamo/fxml/SR11_Security.fxml");
     pagePaths.put(Pages.ADDUSERS, "/edu/wpi/teamo/fxml/AddUsersPage.fxml");
+    pagePaths.put(Pages.TRANSPORTATION,"/edu/wpi/teamo/fxml/PatientTransportation.fxml");
     System.out.println("Starting Up");
 
     /* instantiate the database services, set to static variables that can be accessed from the handlers */

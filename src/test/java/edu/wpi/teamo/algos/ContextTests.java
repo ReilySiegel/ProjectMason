@@ -13,7 +13,7 @@ public class ContextTests {
     @Test
     public void testGetPath() throws SQLException, ClassNotFoundException {
         // make to have different databaseName
-        MapDB mdb = new MapDB("testFindPath2");
+        MapDB mdb = new MapDB("testContextFindPath");
         mdb.addNode("oPARK00101", 3116,1131,"F1", "b","PARK","Floor1RightParking1","F1RightP1");
         mdb.addNode("oPARK00201", 3116,1155,"F1", "b","PARK","Floor1RightParking2","F1RightP2");
         mdb.addNode("oPARK00301", 3116,1181,"F1", "b","PARK","Floor1RightParking3","F1RightP3");

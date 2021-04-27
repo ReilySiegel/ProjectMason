@@ -13,6 +13,26 @@ public class DFS {
     private String[] edgeTo;
     private LinkedList<String>[] adj; // adjacency lists
     private Hashtable<String, Integer> position;
+    private AlgoNode sourceNode;
+
+
+    public DFS(LinkedList<AlgoNode> nodes){
+        this.allNodes = nodes;
+        this.marked = new boolean[nodes.size()];
+        this.edgeTo = new String[nodes.size()];
+        this.adj = (LinkedList<String>[]) new  LinkedList[nodes.size()];
+        this.position = new Hashtable<>();
+        int i = 0;
+        for (AlgoNode n: nodes){
+            adj[i] = n.getAdjacencies();
+            position.put(n.getID(),i);
+            i++;
+        }
+        this.sourceNode = nodes.getFirst();
+
+        dfs(sourceNode.getID());
+    }
+
 
     public DFS(LinkedList<AlgoNode> nodes, String startNodeID, String endNodeID){
         this.startID = startNodeID;
@@ -30,6 +50,23 @@ public class DFS {
         }
 
         dfs(startNodeID);
+    }
+
+
+
+    public LinkedList<AlgoNode> seekForIsolatedNodes(){
+
+        LinkedList<AlgoNode> allIsolatedNodes = new LinkedList<>();
+
+        for (int i = 0; i < allNodes.size(); i++) {
+            if (!marked[i]){
+                AlgoNode isolatedNode = allNodes.get(i);
+                allIsolatedNodes.add(isolatedNode);
+            }
+        }
+
+        return allIsolatedNodes;
+
     }
 
     public LinkedList<AlgoNode> findPath() throws NullPointerException{
@@ -73,8 +110,6 @@ public class DFS {
         path.push(startID);
         return path;
     }
-
-
 
 
     /**
