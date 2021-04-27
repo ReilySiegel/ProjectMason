@@ -6,6 +6,8 @@ import edu.wpi.teamo.Pages;
 import edu.wpi.teamo.database.map.NodeInfo;
 import edu.wpi.teamo.database.request.BaseRequest;
 import edu.wpi.teamo.database.request.SanitationRequest;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -82,15 +84,27 @@ public class SR03_Sanitation extends ServiceRequestPage implements Initializable
 
     private boolean validRequest;
 
+    private boolean recurring = false;
+
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
 
         topVbox.getStyleClass().add("vbox");
         bottomHbox.getStyleClass().add("vbox");
         midVbox.getStyleClass().add("text-area");
-        //recurCheck.setStyle("-jfx-checked-color: #5e81ac");
-        //recurCheck.setStyle("-fx-text-fill: #d8dee9");
         recurCheck.getStyleClass().add("check-box");
+
+        recurCheck.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (newValue){
+                    recurring = true;
+                }
+                else{
+                    recurring = false;
+                }
+            }
+        });
 
 
 
@@ -145,8 +159,8 @@ public class SR03_Sanitation extends ServiceRequestPage implements Initializable
         if (validRequest) {
             BaseRequest baseRequest = new BaseRequest(UUID.randomUUID().toString(), serviceName + ", " + details, locationIDs.stream(),
                     assigned, false, curDate);
-            //App.requestService.requestSanitation(locationIDs.stream(), assigned, serviceName + ", " + details);
-            new SanitationRequest(false, baseRequest).update();
+
+            new SanitationRequest(recurring, baseRequest).update();
             System.out.println("Sanitation request submitted");
 
             service.setText("");

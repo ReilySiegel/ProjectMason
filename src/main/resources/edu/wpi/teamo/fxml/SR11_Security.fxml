@@ -5,7 +5,6 @@
 <?import com.jfoenix.controls.JFXListView?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -16,9 +15,9 @@
 
 <StackPane fx:id="parentStackPane" stylesheets="/edu/wpi/teamo/fxml/CSS/nord.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.SR11_Security">
     <children>
-        <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #434C5E;">
+        <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0">
             <center>
-                <VBox fx:id="midVBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="300.0" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #2e3440;" BorderPane.alignment="TOP_CENTER">
+                <VBox fx:id="midVBox" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="300.0" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" styleClass="text-area" BorderPane.alignment="TOP_CENTER">
                     <children>
                   <JFXCheckBox fx:id="emergencyCheckbox" checkedColor="RED" nodeOrientation="LEFT_TO_RIGHT" prefHeight="38.0" prefWidth="117.0" scaleX="2.0" scaleY="2.0" text="Emergency" textFill="RED" unCheckedColor="#d3d3d3">
                      <font>
@@ -69,7 +68,7 @@
                                 <Insets bottom="10.0" />
                             </VBox.margin>
                         </HBox>
-                  <JFXListView fx:id="searchResults" maxHeight="332.0" prefHeight="273.0" prefWidth="601.0" style="-fx-background-color: transparent;">
+                  <JFXListView fx:id="searchResults" prefHeight="273.0" prefWidth="601.0" style="-fx-background-color: transparent;" VBox.vgrow="ALWAYS">
                      <VBox.margin>
                         <Insets left="169.0" />
                      </VBox.margin>
@@ -81,9 +80,6 @@
                     <BorderPane.margin>
                         <Insets bottom="20.0" left="30.0" right="30.0" />
                     </BorderPane.margin>
-               <effect>
-                  <DropShadow blurType="GAUSSIAN" color="#323232" height="40.0" radius="19.5" width="40.0" />
-               </effect>
                 </VBox>
             </center>
             <bottom>
@@ -109,7 +105,7 @@
                         <Insets />
                      </HBox.margin>
                      <children>
-                              <JFXButton fx:id="backButton" buttonType="RAISED" style="-fx-background-color: #444;" text="%key.back" textFill="WHITE">
+                              <JFXButton fx:id="backButton" buttonType="RAISED" text="%key.back" textFill="WHITE">
                                   <font>
                                       <Font size="18.0" />
                                   </font>
