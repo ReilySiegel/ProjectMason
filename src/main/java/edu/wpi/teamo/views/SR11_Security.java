@@ -114,7 +114,7 @@ public class SR11_Security extends ServiceRequestPage implements Initializable {
             receiptDialog(emergency, locations, details);
         }
         else {
-            locationErrorText.setText("Please select a location.");
+            locationErrorText.setText(App.resourceBundle.getString("key.please_select_a_location"));
         }
     }
 
@@ -153,14 +153,14 @@ public class SR11_Security extends ServiceRequestPage implements Initializable {
     private void handleHelp() {
 
         JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text("Help - Security Service Request"));
-        content.setBody(new Text("Emergency: Check this box if this is an emergency.\n" +
-                "Notes: Any necessary details about the situation.\n" +
-                "Locations: The locations where the security is needed.\n" +
-                "Type into the search field and click the checkboxes to select the desired locations."));
+        content.setHeading(new Text(App.resourceBundle.getString("key.help_security_request")));
+        content.setBody(new Text(App.resourceBundle.getString("key.emergency_help") +
+                App.resourceBundle.getString("key.notes_help") +
+                App.resourceBundle.getString("key.locations_help1") +
+                App.resourceBundle.getString("key.locations_help2")));
         JFXDialog errorWindow = new JFXDialog(parentStackPane, content, JFXDialog.DialogTransition.TOP);
 
-        JFXButton closeButton = new JFXButton("Close");
+        JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
         closeButton.setStyle("-fx-background-color: #F40F19; -fx-text-fill: #fff");
         closeButton.setOnAction(event -> errorWindow.close());
 
@@ -170,16 +170,18 @@ public class SR11_Security extends ServiceRequestPage implements Initializable {
 
     private void receiptDialog(boolean emergency, List<NodeInfo> locations, String details) {
         JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text("Security Request Submitted"));
-        content.setBody(new Text("Request submitted with: \n" +
-                "Emergency: " + (emergency?"Yes":"No") + "\n" +
-                "Locations: " + locations.stream().map(NodeInfo::getLongName).collect(Collectors.joining(", ")) + "\n" +
-                "Additional notes: " + details));
+        content.setHeading(new Text(App.resourceBundle.getString("key.security_request_submitted")));
+        content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
+                App.resourceBundle.getString("key.emergency_semicolon") +
+                (emergency?App.resourceBundle.getString("key.yes"):App.resourceBundle.getString("key.no")) + "\n" +
+                App.resourceBundle.getString("key.locations_semicolon") +
+                locations.stream().map(NodeInfo::getLongName).collect(Collectors.joining(", ")) + "\n" +
+                App.resourceBundle.getString("key.additional_notes")  + details));
 
         JFXDialog popup = new JFXDialog(parentStackPane, content, JFXDialog.DialogTransition.TOP);
 
-        JFXButton closeButton = new JFXButton("Close");
-        JFXButton backButton = new JFXButton("Back to Menu");
+        JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
+        JFXButton backButton = new JFXButton(App.resourceBundle.getString("key.back_to_main"));
 
         closeButton.setStyle("-fx-background-color: #F40F19; -fx-text-fill: #fff");
         backButton.setStyle("-fx-background-color: #333333; -fx-text-fill: #fff");
