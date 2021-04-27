@@ -88,8 +88,9 @@ public class SR03_Sanitation extends ServiceRequestPage implements Initializable
         topVbox.getStyleClass().add("vbox");
         bottomHbox.getStyleClass().add("vbox");
         midVbox.getStyleClass().add("text-area");
-        recurCheck.setStyle("-jfx-checked-color: #d8dee9");
-        recurCheck.setStyle("-fx-text-fill: #d8dee9");
+        //recurCheck.setStyle("-jfx-checked-color: #5e81ac");
+        //recurCheck.setStyle("-fx-text-fill: #d8dee9");
+        recurCheck.getStyleClass().add("check-box");
 
 
 
