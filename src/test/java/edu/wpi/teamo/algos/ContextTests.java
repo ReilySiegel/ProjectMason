@@ -39,7 +39,8 @@ public class ContextTests {
 
         // Contest using dFS
         DFSManager dfs = new DFSManager(mdb);
-        Context context = new Context(dfs);
+        Context context = new Context(null, dfs, null);
+        context.setPathfindingAlgo(dfs);
         LinkedList<AlgoNode> path_temp = context.getPath("oPARK01001","oPARK00501");
 
         assertEquals(7, path_temp.size());

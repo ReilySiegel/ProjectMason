@@ -89,11 +89,11 @@ public class MainPage extends SubPageController implements Initializable {
      */
     @FXML
     private void handleMapEditor(ActionEvent e) {
+        if(Session.isLoggedIn() && Session.getAccount().isAdmin())
             App.switchPage(Pages.MAPEDITOR);
-//        if(Session.isLoggedIn() && Session.getAccount().isAdmin())
-//        else{
-            //add error
-//        }
+        else{
+//            add error
+        }
     }
 
 

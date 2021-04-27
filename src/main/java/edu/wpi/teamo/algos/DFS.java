@@ -93,13 +93,13 @@ public class DFS {
 
         marked[indexOfTargetID]  = true;
 
+
         for (String w: adj[indexOfTargetID]){
             if (!marked[position.get(w)]){
                 edgeTo[position.get(w)] = targetNode;
                 dfs(w);
             }
         }
-
     }
 
     private boolean hasPathTo(String targetNode){

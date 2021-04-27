@@ -1,5 +1,6 @@
 package edu.wpi.teamo;
 
+import edu.wpi.teamo.algos.*;
 import edu.wpi.teamo.database.account.Account;
 import edu.wpi.teamo.database.request.GiftRequest;
 import edu.wpi.teamo.database.request.IRequestService;
@@ -10,8 +11,6 @@ import edu.wpi.teamo.database.request.MaintenanceRequest;
 import edu.wpi.teamo.database.request.ReligiousRequest;
 import edu.wpi.teamo.database.request.SecurityRequest;
 import edu.wpi.teamo.database.map.IMapService;
-import edu.wpi.teamo.algos.AStarManager;
-import edu.wpi.teamo.algos.IStrategyPathfinding;
 import edu.wpi.teamo.database.map.MapDB;
 import edu.wpi.teamo.database.Database;
 import edu.wpi.teamo.views.LocaleType;
@@ -36,6 +35,8 @@ public class App extends Application {
   public static IMapService mapService = null;
   private static Stage primaryStage;
 
+  public static Context context = null;
+
   //Internationalization
   public static ResourceBundle resourceBundle;
   public static LocaleType selectedLocale;
@@ -43,14 +44,14 @@ public class App extends Application {
 
   @Override
   public void init() {
-    pagePaths.put(Pages.SERVICEREQUEST,"/edu/wpi/teamo/fxml/ServiceRequestPage.fxml");
-    pagePaths.put(Pages.MAPEDITOR,"/edu/wpi/teamo/fxml/MapEditorPage.fxml");
+    pagePaths.put(Pages.SERVICEREQUEST, "/edu/wpi/teamo/fxml/ServiceRequestPage.fxml");
+    pagePaths.put(Pages.MAPEDITOR, "/edu/wpi/teamo/fxml/MapEditorPage.fxml");
     pagePaths.put(Pages.PATHFINDING, "/edu/wpi/teamo/fxml/PathfindingPage.fxml");
     pagePaths.put(Pages.MEDICINE, "/edu/wpi/teamo/fxml/SR07_Medicine.fxml");
     pagePaths.put(Pages.SANITATION, "/edu/wpi/teamo/fxml/SR03_Sanitation.fxml");
     pagePaths.put(Pages.MANAGEREQUESTS, "/edu/wpi/teamo/fxml/ManageRequests.fxml");
     pagePaths.put(Pages.MAIN, "/edu/wpi/teamo/fxml/MainPage.fxml");
-    pagePaths.put(Pages.LOADINGSCREEN,"edu/wpi/teamo/fxml/LoadingScreen.fxml");
+    pagePaths.put(Pages.LOADINGSCREEN, "edu/wpi/teamo/fxml/LoadingScreen.fxml");
     pagePaths.put(Pages.LOGIN, "/edu/wpi/teamo/fxml/LoginPage.fxml");
     pagePaths.put(Pages.LANGUAGEINTERPRETER, "/edu/wpi/teamo/fxml/SR02_LanguageInterpreter.fxml");
     pagePaths.put(Pages.RELIGIOUS, "/edu/wpi/teamo/fxml/SR08_Religious.fxml");
@@ -58,7 +59,7 @@ public class App extends Application {
     pagePaths.put(Pages.SURVEY, "/edu/wpi/teamo/fxml/CovidSurveyPage.fxml");
     pagePaths.put(Pages.SECURITY, "/edu/wpi/teamo/fxml/SR11_Security.fxml");
     pagePaths.put(Pages.ADDUSERS, "/edu/wpi/teamo/fxml/AddUsersPage.fxml");
-    pagePaths.put(Pages.TRANSPORTATION,"/edu/wpi/teamo/fxml/PatientTransportation.fxml");
+    pagePaths.put(Pages.TRANSPORTATION, "/edu/wpi/teamo/fxml/PatientTransportation.fxml");
 
     System.out.println("Starting Up");
 
@@ -82,7 +83,9 @@ public class App extends Application {
 
     /* instantiate the aStar service, set to a static variable that can be accessed from the handlers */
     if (mapService != null) {
-      IStrategyPathfinding = new AStarManager(mapService);
+
+      context = new Context(new BFSManager(mapService), new DFSManager(mapService), new AStarManager(mapService));
+
       System.out.println("Pathfinder Service Initialized");
     }
   }

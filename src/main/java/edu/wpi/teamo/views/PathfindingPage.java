@@ -2,15 +2,14 @@ package edu.wpi.teamo.views;
 
 import com.jfoenix.controls.*;
 import edu.wpi.teamo.App;
-import edu.wpi.teamo.algos.AlgoNode;
-import edu.wpi.teamo.algos.TextDirManager;
-import edu.wpi.teamo.database.map.EdgeInfo;
+import edu.wpi.teamo.Session;
+import edu.wpi.teamo.algos.*;
 import edu.wpi.teamo.database.map.NodeInfo;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
@@ -67,7 +66,16 @@ public class PathfindingPage extends SubPageController implements Initializable 
     private JFXListView<JFXCheckBox> searchResultsView;
 
     @FXML
-    private JFXListView<String> TextualDirView;
+    private JFXListView<String> textualDirView;
+
+    @FXML
+    private AnchorPane algoSwitchWindow;
+
+    @FXML
+    private JFXComboBox<String> algoSwitcher;
+
+    @FXML
+    private AnchorPane textualWindow;
 
     private LocationSearcher locationSearcher;
 
@@ -84,21 +92,16 @@ public class PathfindingPage extends SubPageController implements Initializable 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
 
-        App.getPrimaryStage().getScene().getStylesheets().add(LocationSearcher.getStylePath());
+        initFloorSwitcher();
+        initAlgoSwitcher();
 
-        floorComboBox.getItems().add("L2");
-        floorComboBox.getItems().add("L1");
-        floorComboBox.getItems().add("G");
-        floorComboBox.getItems().add("1");
-        floorComboBox.getItems().add("2");
-        floorComboBox.getItems().add("3");
-        floorComboBox.setValue("1");
-        floor = "1";
+        textualWindow.setVisible(false);
 
         chooseStartButton.setOnAction(this::handleChooseStart);
         floorComboBox.setOnAction(this::handleFloorSwitch);
         chooseEndButton.setOnAction(this::handleChoseEnd);
         findPathButton.setOnAction(this::handleFindPath);
+        algoSwitcher.setOnAction(this::handleAlgoSwitch);
         helpButton.setOnAction(this::handleHelpButton);
         backButton.setOnAction(this::backToMain);
 
@@ -107,9 +110,55 @@ public class PathfindingPage extends SubPageController implements Initializable 
         locationSearcher.setOnCheckNode(this::onClickNode);
         setSearchWindowVisibility(false);
 
+        App.getPrimaryStage().getScene().setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.ESCAPE) {
+                textualWindow.setVisible(false);
+                searchWindow.setVisible(false);
+                selectingStart = false;
+                selectingEnd = false;
+                setSearchWindowVisibility(false);
+                chooseStartButton.setDisable(selectingStart);
+                chooseEndButton.setDisable(selectingEnd);
+                locationSearcher.clearSelectedLocations();
+            }
+        });
+
         map = new Map(imageView, pathPane);
         map.setOnDrawNode(this::onDrawNode);
         update();
+    }
+
+    private void handleAlgoSwitch(ActionEvent actionEvent) {
+        App.context.switchAlgoManagerByCode(algoSwitcher.getValue());
+    }
+
+    private void initFloorSwitcher() {
+        floorComboBox.getItems().add("L2");
+        floorComboBox.getItems().add("L1");
+        floorComboBox.getItems().add("G");
+        floorComboBox.getItems().add("1");
+        floorComboBox.getItems().add("2");
+        floorComboBox.getItems().add("3");
+        floorComboBox.setValue("1");
+        floor = "1";
+    }
+
+    private void initAlgoSwitcher() {
+        algoSwitchWindow.setVisible(Session.isLoggedIn() && Session.getAccount().isAdmin());
+
+        algoSwitcher.getItems().add(Context.aStarCode);
+        algoSwitcher.getItems().add(Context.dfsCode);
+        algoSwitcher.getItems().add(Context.bfsCode);
+
+        if (App.context.getAlgoManager().getClass() == DFSManager.class) {
+            algoSwitcher.setValue(Context.dfsCode);
+        }
+        else if (App.context.getAlgoManager().getClass() == BFSManager.class) {
+            algoSwitcher.setValue(Context.bfsCode);
+        }
+        else if (App.context.getAlgoManager().getClass() == AStarManager.class) {
+            algoSwitcher.setValue(Context.aStarCode);
+        }
     }
 
     void onDrawNode(Pair<Circle, NodeInfo> p) {
@@ -117,12 +166,12 @@ public class PathfindingPage extends SubPageController implements Initializable 
         NodeInfo node = p.getValue();
 
         circle.setOnMouseEntered(event -> {
-            circle.setRadius(7);
+            circle.setRadius(circle.getRadius() * 2);
             event.consume();
         });
 
         circle.setOnMouseExited(event -> {
-            circle.setRadius(4);
+            circle.setRadius(circle.getRadius() / 2);
             event.consume();
         });
 
@@ -165,6 +214,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
         setSearchWindowVisibility(true);
         chooseStartButton.setDisable(selectingStart);
         chooseEndButton.setDisable(selectingEnd);
+        textualWindow.setVisible(false);
     }
 
     private void handleChoseEnd(ActionEvent e) {
@@ -178,6 +228,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
         setSearchWindowVisibility(true);
         chooseEndButton.setDisable(selectingEnd);
         chooseStartButton.setDisable(selectingStart);
+        textualWindow.setVisible(false);
     }
 
     private void handleFindPath(ActionEvent e) {
@@ -210,15 +261,17 @@ public class PathfindingPage extends SubPageController implements Initializable 
 
         LinkedList<AlgoNode> path = new LinkedList<>();
         try {
-            path = App.IStrategyPathfinding.getPath(startID, endID);
-            TextualDirView.getItems().setAll(TextDirManager.getTextualDirections(path));
+            path = App.context.getPath(startID, endID);
             if (path != null) {
                 floor = path.get(0).getFloor();
                 calculatedPath = path;
             }
-        } catch (SQLException throwables) {
+        } catch (SQLException | NullPointerException throwables) {
             throwables.printStackTrace();
-        } catch (NullPointerException ignored) { }
+        }
+
+        textualWindow.setVisible(true);
+        textualDirView.getItems().setAll(TextDirManager.getTextualDirections(path));
 
         List<String> floors = new LinkedList<>();
         for (AlgoNode node : path) {
