@@ -53,6 +53,12 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
     @FXML
     private Text currentMedReqID;
 
+    @FXML
+    private JFXTextField sanDetailsField;
+
+    @FXML
+    private Text currentSanReqID;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         updateMedicineTable();
@@ -189,12 +195,13 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
             public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<SanitationRequest, String> param) {
                 StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getDetails());
                 return strProp;
+
             }
         });
 
         JFXTreeTableColumn<SanitationRequest, String> sanCompleted = new JFXTreeTableColumn<>("Status");
-        sanDetails.setPrefWidth(200);
-        sanDetails.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<SanitationRequest, String>, ObservableValue<String>>() {
+        sanCompleted.setPrefWidth(200);
+        sanCompleted.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<SanitationRequest, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<SanitationRequest, String> param) {
                 StringProperty strProp;
@@ -221,7 +228,7 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         }
 
         final TreeItem<SanitationRequest> sanRoot = new RecursiveTreeItem<SanitationRequest>(sanRequests, RecursiveTreeObject::getChildren);
-        sanRequestTable.getColumns().setAll(sanIDs, sanLocs, sanAssigned, sanDetails, sanCompleted);
+        sanRequestTable.getColumns().setAll(sanIDs, sanDetails, sanLocs, sanAssigned, sanCompleted);
         sanRequestTable.setRoot(sanRoot);
         sanRequestTable.setShowRoot(false);
     }
@@ -270,7 +277,7 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
 
     @FXML
     private void updateMedEditor() {
-        MedicineRequest currentReq = medRequestTable.getSelectionModel().getSelectedItem().getValue();;
+        MedicineRequest currentReq = medRequestTable.getSelectionModel().getSelectedItem().getValue();
 
         currentMedReqID.setText("ID: " + currentReq.getID());
         medTypeField.setText(currentReq.getType());
@@ -278,6 +285,17 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
 
         medTypeField.setEditable(true);
         medAmountField.setEditable(true);
+    }
+
+    @FXML
+    private void updateSanEditor() {
+        SanitationRequest currentReq = sanRequestTable.getSelectionModel().getSelectedItem().getValue();
+        System.out.println(currentReq.getID());
+
+        currentSanReqID.setText("ID: " + currentReq.getID());
+        sanDetailsField.setText(currentReq.getDetails());
+
+        sanDetailsField.setEditable(true);
     }
 
     @FXML
@@ -291,6 +309,21 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
 
         mr.update();
         updateMedicineTable();
+    }
+
+    @FXML
+    private void applySanUpdate() throws SQLException {
+        String id = currentSanReqID.getText().substring(4);
+        System.out.println(id);
+        SanitationRequest currentReq = App.requestService.getSanitationRequest(id);
+        App.requestService.removeSanitationRequest(id);
+
+        BaseRequest b = new BaseRequest(id, sanDetailsField.getText(), currentReq.getLocations(), currentReq.getAssigned(), currentReq.isComplete());
+        SanitationRequest sr = new SanitationRequest(b);
+
+        sr.update();
+        updateSanitationTable();
+        System.out.println(App.requestService.getSanitationRequest(id).getDetails());
     }
 
 
