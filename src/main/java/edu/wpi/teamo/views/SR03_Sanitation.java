@@ -4,6 +4,8 @@ import com.jfoenix.controls.*;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.Pages;
 import edu.wpi.teamo.database.map.NodeInfo;
+import edu.wpi.teamo.database.request.BaseRequest;
+import edu.wpi.teamo.database.request.SanitationRequest;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -20,9 +22,12 @@ import javafx.stage.Stage;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -47,10 +52,10 @@ public class SR03_Sanitation extends ServiceRequestPage implements Initializable
     private JFXTextField assignee;
 
     @FXML
-    private JFXTimePicker time = new JFXTimePicker();
+    private JFXTimePicker timePicker = new JFXTimePicker();
 
     @FXML
-    private JFXDatePicker date = new JFXDatePicker();
+    private JFXDatePicker datePicker = new JFXDatePicker();
 
     @FXML
     private JFXTextField notes;
@@ -116,8 +121,8 @@ public class SR03_Sanitation extends ServiceRequestPage implements Initializable
         List<NodeInfo>          locations = locationSearcher.getSelectedLocations();
         List<String> locationIDs = locationSearcher.getSelectedLocationIDs();
 
-        TextField curTime = time.getEditor();
-        TextField curDate = date.getEditor();
+        LocalTime curTime = timePicker.getValue();
+        LocalDateTime curDate = datePicker.getValue().atTime(curTime);
 
         validRequest = true;
 
@@ -137,7 +142,10 @@ public class SR03_Sanitation extends ServiceRequestPage implements Initializable
         }
 
         if (validRequest) {
-            App.requestService.requestSanitation(locationIDs.stream(), assigned, serviceName + ", " + details);
+            BaseRequest baseRequest = new BaseRequest(UUID.randomUUID().toString(), serviceName + ", " + details, locationIDs.stream(),
+                    assigned, false, curDate);
+            //App.requestService.requestSanitation(locationIDs.stream(), assigned, serviceName + ", " + details);
+            new SanitationRequest(baseRequest).update();
             System.out.println("Sanitation request submitted");
 
             service.setText("");
