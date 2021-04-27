@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+
+<?import com.jfoenix.controls.JFXCheckBox?>
+
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.MenuButton?>
@@ -20,58 +23,49 @@
             <center>
                 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="300.0" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #2e3440;" BorderPane.alignment="TOP_CENTER">
                     <children>
-                        <HBox prefHeight="50.0" prefWidth="580.0">
-                            <children>
-                                <Text fill="#eceff4" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.service">
-                                    <font>
-                                        <Font name="Arial" size="18.0" />
-                                    </font>
-                                    <HBox.margin>
-                                        <Insets right="15.0" />
-                                    </HBox.margin>
-                                </Text>
-                                <AnchorPane prefHeight="50.0" prefWidth="800.0">
-                                    <children>
-                                        <JFXTextField fx:id="service" minWidth="300.0" prefHeight="25.0" prefWidth="600.0" promptText="%key.name_of_service" unFocusColor="#eceff4" AnchorPane.rightAnchor="0.0" />
-                                        <Text fx:id="typeErrorText" fill="RED" layoutX="94.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-                                    </children>
-                                </AnchorPane>
-                            </children>
-                            <VBox.margin>
-                                <Insets bottom="10.0" />
-                            </VBox.margin>
-                        </HBox>
+
                         <HBox prefHeight="50.0" prefWidth="200.0">
                             <children>
-                                <Text fill="#eceff4" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.assignee_name">
-                                    <font>
-                                        <Font name="Arial" size="18.0" />
-                                    </font>
-                                </Text>
                                 <AnchorPane prefHeight="50.0" prefWidth="800.0">
                                     <children>
-                                        <JFXTextField fx:id="assignee" minWidth="300.0" prefHeight="25.0" prefWidth="600.0" promptText="%key.name_of_assignee" unFocusColor="#eceff4" AnchorPane.rightAnchor="0.0" />
-                                        <Text fx:id="assignedErrorText" fill="RED" layoutX="42.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                                      <Text fill="#eceff4" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.assignee_name">
+                                          <font>
+                                              <Font name="Arial" size="18.0" />
+                                          </font>
+                                      </Text>
+                                        <JFXTextField fx:id="assignee" layoutX="169.0" layoutY="13.0" minWidth="300.0" prefHeight="25.0" prefWidth="600.0" promptText="%key.name_of_assignee" unFocusColor="#eceff4" AnchorPane.rightAnchor="1.0" />
+
                                     </children>
                                     <HBox.margin>
                                         <Insets />
                                     </HBox.margin>
                                 </AnchorPane>
                             </children>
+
+                        </HBox>
+                        <HBox prefHeight="70.0" prefWidth="770.0">
                             <VBox.margin>
                                 <Insets bottom="10.0" />
                             </VBox.margin>
+                     <children>
+                        <JFXCheckBox fx:id="emergencyCheckbox" checkedColor="RED" nodeOrientation="LEFT_TO_RIGHT" prefHeight="69.0" prefWidth="144.0" text="Emergency" textFill="RED" unCheckedColor="#d3d3d3">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </JFXCheckBox>
+                     </children>
                         </HBox>
-                        <HBox prefHeight="50.0" prefWidth="200.0">
+                        <HBox prefHeight="30.0" prefWidth="200.0">
                             <children>
-                                <Text fill="#eceff4" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.notes">
-                                    <font>
-                                        <Font name="Arial" size="18.0" />
-                                    </font>
-                                </Text>
-                                <AnchorPane prefHeight="50.0" prefWidth="800.0">
+                                <AnchorPane prefHeight="31.0" prefWidth="770.0">
                                     <children>
-                                        <JFXTextField fx:id="notes" minWidth="300.0" prefHeight="25.0" prefWidth="600.0" promptText="%key.notes" unFocusColor="#eceff4" AnchorPane.rightAnchor="0.0" />
+                                        <JFXTextField fx:id="notes" focusColor="#ededee" layoutX="170.0" layoutY="-5.0" minWidth="300.0" prefHeight="28.0" prefWidth="600.0" promptText="%key.notes" unFocusColor="#eceff4" AnchorPane.rightAnchor="0.0" />
+                                      <Text fill="#eceff4" layoutY="15.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.notes">
+                                          <font>
+                                              <Font name="Arial" size="18.0" />
+                                          </font>
+                                      </Text>
+
                                     </children>
                                     <HBox.margin>
                                         <Insets />
@@ -79,32 +73,23 @@
                                 </AnchorPane>
                             </children>
                         </HBox>
-                        <HBox prefHeight="50.0" prefWidth="580.0">
-                            <children>
-                                <Text fill="#eceff4" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.room">
+
+                          <AnchorPane prefHeight="50.0" prefWidth="800.0">
+                              <children>
+                                  <MenuButton fx:id="locationBox" layoutX="171.0" layoutY="23.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="599.0" AnchorPane.rightAnchor="0.0">
+                                      <items>
+                                          <MenuItem mnemonicParsing="false" text="Action 1" />
+                                          <MenuItem mnemonicParsing="false" text="Action 2" />
+                                      </items>
+                                  </MenuButton>
+                                <Text fill="#eceff4" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.room" wrappingWidth="90.0263671875">
                                     <font>
                                         <Font name="Arial" size="18.0" />
                                     </font>
-                                    <HBox.margin>
-                                        <Insets right="40.0" />
-                                    </HBox.margin>
                                 </Text>
-                                <AnchorPane prefHeight="50.0" prefWidth="800.0">
-                                    <children>
-                                        <Text fx:id="roomErrorText" fill="RED" layoutX="76.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-                                        <MenuButton fx:id="locationBox" layoutX="47.0" layoutY="2.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="599.0" AnchorPane.rightAnchor="0.0">
-                                            <items>
-                                                <MenuItem mnemonicParsing="false" text="Action 1" />
-                                                <MenuItem mnemonicParsing="false" text="Action 2" />
-                                            </items>
-                                        </MenuButton>
-                                    </children>
-                                </AnchorPane>
-                            </children>
-                            <VBox.margin>
-                                <Insets bottom="10.0" />
-                            </VBox.margin>
-                        </HBox>
+                              </children>
+                          </AnchorPane>
+
                     </children>
                     <padding>
                         <Insets bottom="10.0" left="20.0" right="10.0" top="30.0" />
@@ -120,7 +105,9 @@
             <bottom>
                 <HBox alignment="CENTER_LEFT" maxHeight="100.0" prefHeight="70.0" prefWidth="1280.0" style="-fx-background-color: #2E3440;" BorderPane.alignment="CENTER">
                     <children>
-                        <JFXButton buttonType="RAISED" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #5e99ff; -fx-border-radius: 25; -fx-background-radius: 25;" text="?" textFill="WHITE">
+
+                        <JFXButton buttonType="RAISED" onAction="#handleHelp" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #5e99ff; -fx-border-radius: 25; -fx-background-radius: 25;" text="?" textFill="WHITE">
+
                             <font>
                                 <Font name="Arial Bold" size="24.0" />
                             </font>

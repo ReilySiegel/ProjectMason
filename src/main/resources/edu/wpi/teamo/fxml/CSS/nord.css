@@ -267,6 +267,13 @@ Styleguide Nord
 .jfx-tab-pane .tab-header-background {
     -fx-background-color: nord9;
 }
+.submit-button {
+    -fx-background-color:  #5ab04c;
+}
+
+.help-button {
+    -fx-background-color:  #5e99ff;
+}
 
 .jfx-tab-pane .tab-selected-line {
     -fx-background-color: nord4;

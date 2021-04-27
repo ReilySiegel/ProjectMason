@@ -31,7 +31,7 @@ public class RequestDB implements IRequestService {
         int id = 1; /* set a unique id */
         while (sanitationRequestExists(String.valueOf(id)) && id < 9999) { id++; }
 
-        SanitationRequest sr = new SanitationRequest(new BaseRequest(String.valueOf(id), details,locationIDs, assigned, false));
+        SanitationRequest sr = new SanitationRequest(false, new BaseRequest(String.valueOf(id), details,locationIDs, assigned, false));
         sr.update();
 
         return sr.getID();
