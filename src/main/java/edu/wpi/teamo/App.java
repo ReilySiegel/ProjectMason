@@ -1,5 +1,6 @@
 package edu.wpi.teamo;
 
+import edu.wpi.teamo.database.account.Account;
 import edu.wpi.teamo.database.request.IRequestService;
 import edu.wpi.teamo.database.request.RequestDB;
 import edu.wpi.teamo.database.map.IMapService;
@@ -57,6 +58,7 @@ public class App extends Application {
     try {
       requestService = new RequestDB(Database.getInstance());
       mapService = new MapDB(Database.getInstance());
+      Account.initTable();
       System.out.println("Database Services Initialized");
     } catch (SQLException e) {
       System.out.println("ERROR: FAILED TO INIT DATABASE SERVICES");

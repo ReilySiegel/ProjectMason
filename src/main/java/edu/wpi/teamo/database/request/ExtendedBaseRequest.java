@@ -3,6 +3,7 @@ package edu.wpi.teamo.database.request;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import edu.wpi.teamo.database.Database;
 
+import java.time.LocalDateTime;
 import java.sql.SQLException;
 import java.util.stream.Stream;
 
@@ -47,5 +48,17 @@ public abstract class ExtendedBaseRequest<T> extends RecursiveTreeObject<T> {
 
     public String getID() {
         return base.getId();
+    }
+
+    public LocalDateTime getDue() {
+        return base.getDue();
+    }
+
+    public void setDue(LocalDateTime due) throws SQLException {
+        base.setDue(due);
+    }
+
+    public LocalDateTime getTimestamp() {
+        return base.getTimestamp();
     }
 }
