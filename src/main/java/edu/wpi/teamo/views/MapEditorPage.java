@@ -475,6 +475,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+        nodeEditorWindow.setVisible(false);
         dragging = false;
         update();
     }
