@@ -4,6 +4,7 @@ import com.jfoenix.controls.*;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.database.request.BaseRequest;
+import edu.wpi.teamo.database.request.InterpreterRequest;
 import edu.wpi.teamo.database.request.MedicineRequest;
 import edu.wpi.teamo.database.request.SanitationRequest;
 import javafx.beans.property.SimpleStringProperty;
@@ -61,10 +62,14 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
     @FXML
     private Text currentSanReqID;
 
+    @FXML
+    private JFXTreeTableView<InterpreterRequest> langRequestTable;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         updateMedicineTable();
         updateSanitationTable();
+        updateInterpreterTable();
 
     }
 
@@ -264,6 +269,98 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         sanRequestTable.getColumns().setAll(sanIDs, sanDetails, sanLocs, sanAssigned, sanDue, sanCompleted);
         sanRequestTable.setRoot(sanRoot);
         sanRequestTable.setShowRoot(false);
+    }
+
+    @FXML
+    private void updateInterpreterTable() {
+        JFXTreeTableColumn<InterpreterRequest, String> intIDs = new JFXTreeTableColumn<>("ID");
+        intIDs.setPrefWidth(150);
+        intIDs.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<InterpreterRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<InterpreterRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getID());
+                return strProp;
+            }
+        });
+
+        JFXTreeTableColumn<InterpreterRequest, String> intLanguage = new JFXTreeTableColumn<>("Language");
+        intLanguage.setPrefWidth(150);
+        intLanguage.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<InterpreterRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<InterpreterRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getLanguage());
+                return strProp;
+
+            }
+        });
+
+        JFXTreeTableColumn<InterpreterRequest, String> intType = new JFXTreeTableColumn<>("Job Type");
+        intType.setPrefWidth(150);
+        intType.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<InterpreterRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<InterpreterRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getType());
+                return strProp;
+
+            }
+        });
+
+
+        JFXTreeTableColumn<InterpreterRequest, String> intLocs = new JFXTreeTableColumn<>("Room/Node(s)");
+        intLocs.setPrefWidth(150);
+        intLocs.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<InterpreterRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<InterpreterRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getLocations().collect(Collectors.joining(", ")));
+                return strProp;
+            }
+        });
+
+        JFXTreeTableColumn<InterpreterRequest, String> intAssigned = new JFXTreeTableColumn<>("Assigned Person");
+        intAssigned.setPrefWidth(150);
+        intAssigned.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<InterpreterRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<InterpreterRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getAssigned());
+                return strProp;
+            }
+        });
+
+        JFXTreeTableColumn<InterpreterRequest, String> intDetails = new JFXTreeTableColumn<>("Details");
+        intDetails.setPrefWidth(150);
+        intDetails.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<InterpreterRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<InterpreterRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getDetails());
+                return strProp;
+
+            }
+        });
+
+        JFXTreeTableColumn<InterpreterRequest, String> intDue = new JFXTreeTableColumn<>("Due");
+        intDue.setPrefWidth(150);
+        intDue.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<InterpreterRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<InterpreterRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getDue().format(DateTimeFormatter.ISO_DATE_TIME));
+                return strProp;
+
+            }
+        });
+
+        ObservableList<InterpreterRequest> intRequests = FXCollections.observableArrayList();
+
+        try {
+            Stream<InterpreterRequest> intReqStream = InterpreterRequest.getAll();
+                intReqStream.forEach(m -> intRequests.add(m));
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        final TreeItem<InterpreterRequest> intRoot = new RecursiveTreeItem<InterpreterRequest>(intRequests, RecursiveTreeObject::getChildren);
+        langRequestTable.getColumns().setAll(intIDs, intLanguage, intType, intDetails, intLocs, intAssigned, intDue);
+        langRequestTable.setRoot(intRoot);
+        langRequestTable.setShowRoot(false);
     }
 
     @FXML

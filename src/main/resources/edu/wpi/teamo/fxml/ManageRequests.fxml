@@ -493,7 +493,7 @@
                            <children>
                               <VBox maxHeight="1.7976931348623157E308" prefHeight="800.0" prefWidth="1000.0" style="-fx-background-color: #ddd; -fx-effect: dropshadow(three-pass-box, rgba(150,150,170,0.8), 10, 0, 0, 0);">
                                  <children>
-                                    <JFXTreeTableView fx:id="medRequestTable112" onMouseClicked="#clearMedError" prefHeight="550.0" prefWidth="926.0">
+                                    <JFXTreeTableView fx:id="langRequestTable" onMouseClicked="#clearMedError" prefHeight="550.0" prefWidth="926.0">
                                        <VBox.margin>
                                           <Insets bottom="10.0" />
                                        </VBox.margin>
