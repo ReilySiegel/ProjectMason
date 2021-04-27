@@ -66,10 +66,10 @@ public class SR02_LanguageInterpreter extends ServiceRequestPage implements Init
     private VBox midVbox;
 
     @FXML
-    private JFXTimePicker timepicker;
+    private JFXTimePicker timepicker = new JFXTimePicker();
 
     @FXML
-    private JFXDatePicker datepicker;
+    private JFXDatePicker datepicker = new JFXDatePicker();
 
     @FXML
     private Text langErrorText;

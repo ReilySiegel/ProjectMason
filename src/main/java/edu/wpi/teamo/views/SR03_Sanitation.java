@@ -69,6 +69,12 @@ public class SR03_Sanitation extends ServiceRequestPage implements Initializable
     private Text roomErrorText;
 
     @FXML
+    private Text dateErrorText;
+
+    @FXML
+    private Text timeErrorText;
+
+    @FXML
     private Text assignedErrorText;
 
     @FXML
@@ -86,6 +92,8 @@ public class SR03_Sanitation extends ServiceRequestPage implements Initializable
 
     private boolean recurring = false;
 
+    private String recurMsg = App.resourceBundle.getString("key.is_not_recurring");
+
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -99,9 +107,11 @@ public class SR03_Sanitation extends ServiceRequestPage implements Initializable
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 if (newValue){
                     recurring = true;
+                    recurMsg = App.resourceBundle.getString("key.is_recurring");
                 }
                 else{
                     recurring = false;
+                    recurMsg = App.resourceBundle.getString("key.is_not_recurring");
                 }
             }
         });
@@ -136,8 +146,7 @@ public class SR03_Sanitation extends ServiceRequestPage implements Initializable
         List<NodeInfo>          locations = locationSearcher.getSelectedLocations();
         List<String> locationIDs = locationSearcher.getSelectedLocationIDs();
 
-        LocalTime curTime = timePicker.getValue();
-        LocalDateTime curDate = datePicker.getValue().atTime(curTime);
+
 
         validRequest = true;
 
@@ -145,6 +154,17 @@ public class SR03_Sanitation extends ServiceRequestPage implements Initializable
             typeErrorText.setText(App.resourceBundle.getString("key.no_sanitation_type_specified"));
             validRequest = false;
         }
+
+        if(timePicker.getValue() == null){
+            timeErrorText.setText(App.resourceBundle.getString("key.no_time_specified"));
+            validRequest = false;
+        }
+
+        if(datePicker.getValue() == null){
+            dateErrorText.setText(App.resourceBundle.getString("key.no_date_specified"));
+            validRequest = false;
+        }
+
 
         if (locations.size() == 0) {
             roomErrorText.setText(App.resourceBundle.getString("key.no_room_specified"));
@@ -157,6 +177,18 @@ public class SR03_Sanitation extends ServiceRequestPage implements Initializable
         }
 
         if (validRequest) {
+
+            //Clear earlier error texts
+            typeErrorText.setText("");
+            timeErrorText.setText("");
+            dateErrorText.setText("");
+            roomErrorText.setText("");
+            assignedErrorText.setText("");
+
+
+            LocalTime curTime = timePicker.getValue();
+            LocalDateTime curDate = datePicker.getValue().atTime(curTime);
+
             BaseRequest baseRequest = new BaseRequest(UUID.randomUUID().toString(), serviceName + ", " + details, locationIDs.stream(),
                     assigned, false, curDate);
 
@@ -170,9 +202,11 @@ public class SR03_Sanitation extends ServiceRequestPage implements Initializable
             JFXDialogLayout content = new JFXDialogLayout();
             content.setHeading(new Text(App.resourceBundle.getString("key.sanitation_request_submitted")));
             content.setBody(new Text("Request submitted with: \n" +
-                    App.resourceBundle.getString("key.type_of_sanitation") + serviceName + "\n" +
+                    App.resourceBundle.getString("key.type_of_sanitation") + ": " +  serviceName + "\n" +
                     App.resourceBundle.getString("key.room_semicolon") + String.join(", ", locationIDs) + "\n" +
                     App.resourceBundle.getString("key.persons_assigned_semicolon") + assigned + "\n" +
+                    App.resourceBundle.getString("key.time") + ": " + curDate.toString() + "\n" +
+                    recurMsg + "\n" +
                     App.resourceBundle.getString("key.additional_notes") + details));
             JFXDialog popup = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 

@@ -26,8 +26,12 @@
                      <children>
                         <AnchorPane prefHeight="50.0" prefWidth="800.0">
                            <children>
-                              <JFXTextField fx:id="service" minWidth="300.0" prefHeight="25.0" prefWidth="600.0" promptText="%key.mainten_service" AnchorPane.rightAnchor="0.0" />
-                              <Text fx:id="typeErrorText" fill="RED" layoutX="94.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                              <VBox layoutX="170.0" AnchorPane.rightAnchor="0.0">
+                                 <children>
+                                    <JFXTextField fx:id="service" minWidth="300.0" prefHeight="25.0" prefWidth="600.0" promptText="%key.mainten_service" />
+                                    <Text fx:id="typeErrorText" fill="#cd0000" strokeType="OUTSIDE" strokeWidth="0.0" />
+                                 </children>
+                              </VBox>
                               <Label prefHeight="21.0" prefWidth="83.0" text="%key.mainten_service" />
                            </children>
                         </AnchorPane>
@@ -40,8 +44,12 @@
                      <children>
                         <AnchorPane prefHeight="50.0" prefWidth="800.0">
                            <children>
-                              <JFXTextField fx:id="assignee" minWidth="300.0" prefHeight="25.0" prefWidth="600.0" promptText="%key.name_of_assignee" AnchorPane.rightAnchor="0.0" />
-                              <Text fx:id="assignedErrorText" fill="RED" layoutX="42.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                              <VBox layoutX="170.0" AnchorPane.rightAnchor="0.0">
+                                 <children>
+                                    <JFXTextField fx:id="assignee" minWidth="300.0" prefHeight="25.0" prefWidth="600.0" promptText="%key.name_of_assignee" />
+                                    <Text fx:id="assignedErrorText" fill="#cd0000" strokeType="OUTSIDE" strokeWidth="0.0" />
+                                 </children>
+                              </VBox>
                               <Label layoutY="4.0" text="%key.assignee_name" />
                            </children>
                            <HBox.margin>
@@ -55,14 +63,19 @@
                   </HBox>
                   <HBox prefHeight="50.0" prefWidth="200.0">
                      <children>
-                        <Label prefWidth="313.0" text="%key.time">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Label>
                         <AnchorPane prefHeight="50.0" prefWidth="909.0">
                            <children>
-                              <JFXTimePicker fx:id="timePicker" layoutX="78.0" layoutY="2.0" />
+                              <VBox layoutX="78.0" layoutY="2.0" prefWidth="600.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <JFXTimePicker fx:id="timePicker" promptText="%key.enter_time" />
+                                    <Text fx:id="timeErrorText" fill="#cd0000" strokeType="OUTSIDE" strokeWidth="0.0" />
+                                 </children>
+                              </VBox>
+                              <Label prefWidth="313.0" text="%key.time">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
                            </children>
                            <HBox.margin>
                               <Insets />
@@ -72,14 +85,19 @@
                   </HBox>
                   <HBox prefHeight="50.0" prefWidth="200.0">
                      <children>
-                        <Label prefWidth="313.0" text="%key.date">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Label>
                         <AnchorPane prefHeight="50.0" prefWidth="800.0">
                            <children>
-                              <JFXDatePicker fx:id="datePicker" layoutX="26.0" layoutY="2.0" prefHeight="25.0" prefWidth="173.0" />
+                              <Label prefWidth="313.0" text="%key.date">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <VBox layoutX="26.0" layoutY="2.0" prefWidth="600.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <JFXDatePicker fx:id="datePicker" prefHeight="25.0" prefWidth="173.0" promptText="%key.enter_date" />
+                                    <Text fx:id="dateErrorText" fill="#cd0000" strokeType="OUTSIDE" strokeWidth="0.0" />
+                                 </children>
+                              </VBox>
                            </children>
                            <HBox.margin>
                               <Insets />
@@ -87,16 +105,20 @@
                         </AnchorPane>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER_LEFT">
+                  <HBox alignment="CENTER" minHeight="51.0">
                      <children>
-                        <JFXCheckBox fx:id="recurCheck" text="%key.recurring">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
+                        <VBox alignment="CENTER_LEFT" prefWidth="600.0" HBox.hgrow="ALWAYS">
                            <HBox.margin>
-                              <Insets bottom="10.0" left="165.0" top="10.0" />
+                              <Insets />
                            </HBox.margin>
-                        </JFXCheckBox>
+                           <children>
+                              <JFXCheckBox fx:id="recurCheck" text="%key.recurring">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </JFXCheckBox>
+                           </children>
+                        </VBox>
                      </children>
                   </HBox>
                   <HBox prefHeight="50.0" prefWidth="200.0">
@@ -119,12 +141,16 @@
                      <children>
                         <AnchorPane prefHeight="50.0" prefWidth="800.0">
                            <children>
-                              <Text fx:id="roomErrorText" fill="RED" layoutX="76.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                               <Label layoutX="-3.0" layoutY="4.0" text="%key.room">
                                  <font>
                                     <Font size="18.0" />
                                  </font></Label>
-                              <JFXTextField fx:id="locationLine" layoutX="170.0" layoutY="2.0" minWidth="300.0" prefWidth="600.0" promptText="%key.search" AnchorPane.rightAnchor="0.0" />
+                              <VBox layoutX="170.0" layoutY="2.0" AnchorPane.rightAnchor="0.0">
+                                 <children>
+                                    <JFXTextField fx:id="locationLine" minWidth="300.0" prefWidth="600.0" promptText="%key.search" />
+                                    <Text fx:id="roomErrorText" fill="#cd0000" strokeType="OUTSIDE" strokeWidth="0.0" />
+                                 </children>
+                              </VBox>
                            </children>
                         </AnchorPane>
                      </children>

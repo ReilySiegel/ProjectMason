@@ -46,10 +46,10 @@ public class SR07_Medicine extends ServiceRequestPage implements Initializable {
     private JFXTextField notes;
 
     @FXML
-    private JFXTimePicker timePicker;
+    private JFXTimePicker timePicker = new JFXTimePicker();
 
     @FXML
-    private JFXDatePicker datePicker;
+    private JFXDatePicker datePicker = new JFXDatePicker();
 
     @FXML
     private Text medErrorText;
@@ -58,7 +58,13 @@ public class SR07_Medicine extends ServiceRequestPage implements Initializable {
     private Text amountErrorText;
 
     @FXML
-    private Text roomErrorText;
+    private Text locationErrorText;
+
+    @FXML
+    private Text dateErrorText;
+
+    @FXML
+    private Text timeErrorText;
 
     @FXML
     private Text assigneeErrorText;
@@ -124,8 +130,6 @@ public class SR07_Medicine extends ServiceRequestPage implements Initializable {
         String assignName = assignee.getText();
         String medNotes = notes.getText();
 
-        LocalTime curTime = timePicker.getValue();
-        LocalDateTime curDate = datePicker.getValue().atTime(curTime);
 
         List<NodeInfo>          locations = locationSearcher.getSelectedLocations();
         List<String> locationIDs = locationSearcher.getSelectedLocationIDs();
@@ -137,13 +141,23 @@ public class SR07_Medicine extends ServiceRequestPage implements Initializable {
             validRequest = false;
         }
 
+        if(timePicker.getValue() == null){
+            timeErrorText.setText(App.resourceBundle.getString("key.no_time_specified"));
+            validRequest = false;
+        }
+
+        if(datePicker.getValue() == null){
+            dateErrorText.setText(App.resourceBundle.getString("key.no_date_specified"));
+            validRequest = false;
+        }
+
         if (amount.equals("")) {
             amountErrorText.setText(App.resourceBundle.getString("key.no_amount_specified"));
             validRequest = false;
         }
 
         if (locations.size() == 0) {
-            roomErrorText.setText(App.resourceBundle.getString("key.no_room_specified"));
+            locationErrorText.setText(App.resourceBundle.getString("key.no_room_specified"));
             validRequest = false;
         }
         if (assignName.equals("")) {
@@ -152,12 +166,19 @@ public class SR07_Medicine extends ServiceRequestPage implements Initializable {
         }
 
         if (validRequest) {
+
+            LocalTime curTime = timePicker.getValue();
+            LocalDateTime curDate = datePicker.getValue().atTime(curTime);
+
             BaseRequest br = new BaseRequest(UUID.randomUUID().toString(), medNotes, locationIDs.stream(), assignName, false, curDate);
             new MedicineRequest(medicine, amount, br).update();
 
+            timeErrorText.setText("");
+            dateErrorText.setText("");
             medErrorText.setText("");
             amountErrorText.setText("");
             assigneeErrorText.setText("");
+            locationErrorText.setText("");
 
             System.out.println("request successful");
             medName.setText("");
@@ -168,11 +189,11 @@ public class SR07_Medicine extends ServiceRequestPage implements Initializable {
             JFXDialogLayout content = new JFXDialogLayout();
             content.setHeading(new Text(App.resourceBundle.getString("key.medicine_request_submitted")));
             content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
-                    App.resourceBundle.getString("key.type_semicolon")  + medicine + "\n" +
+                    App.resourceBundle.getString("key.type_semicolon") + medicine + "\n" +
                     App.resourceBundle.getString("key.amount_semicolon")  + amount + "\n" +
                     App.resourceBundle.getString("key.room_semicolon") + String.join(", ", locationIDs) + "\n" +
                     App.resourceBundle.getString("key.persons_assigned_semicolon")  + assignName + "\n" +
-                    App.resourceBundle.getString("key.time") + curDate.toString() + "\n" +
+                    App.resourceBundle.getString("key.time") + ": " +  curDate.toString() + "\n" +
                     App.resourceBundle.getString("key.notes") + ": " + medNotes));
             JFXDialog popup = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 
