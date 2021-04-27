@@ -57,7 +57,9 @@ public class Map  {
         this.nodePane = nodePane;
 
         nodePane.setOnMouseDragged((MouseEvent e) -> translateMap(e.getScreenX(), e.getScreenY()));
+        nodePane.setOnMouseReleased((MouseEvent e) -> resetInitialDragData());
         nodePane.setOnScroll((ScrollEvent e) -> scaleMap(e.getDeltaY()));
+
     }
 
     public void drawPath(LinkedList<AlgoNode> path, String floor) {
