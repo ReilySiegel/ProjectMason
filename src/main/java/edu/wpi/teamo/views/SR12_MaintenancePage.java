@@ -118,7 +118,7 @@ public class SR12_MaintenancePage extends ServiceRequestPage implements Initiali
     private void helpBtnOnClick(ActionEvent actionEvent) {
         JFXDialogLayout content = new JFXDialogLayout();
         content.setHeading(new Text("Help"));
-        content.setBody(new Text(resources.getString("key.maintenance_description")));
+        content.setBody(new Text(resources.getString("key.maintenance_help")));
         JFXDialog helpWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 
         JFXButton closeButton = new JFXButton("Close");
