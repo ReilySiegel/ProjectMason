@@ -28,6 +28,9 @@ import java.util.stream.Stream;
 public class ManageRequests extends ServiceRequestPage implements Initializable {
 
     @FXML
+    private JFXTabPane tabPane;
+
+    @FXML
     private JFXTreeTableView<MedicineRequest> medRequestTable;
 
     @FXML
@@ -61,6 +64,27 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
     private Text currentSanReqID;
 
     @FXML
+    private JFXTextField sanAssigneeField;
+
+    @FXML
+    private JFXTextArea sanNoteField;
+
+    @FXML
+    private JFXTextField sanTimeField;
+
+    @FXML
+    private JFXTextField sanDateField;
+
+    @FXML
+    private JFXTextArea sanLocationField;
+
+    @FXML
+    private JFXCheckBox sanRecurBox;
+
+
+
+
+    @FXML
     private JFXTreeTableView<InterpreterRequest> langRequestTable;
 
     @FXML
@@ -68,6 +92,17 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        tabPane.getStyleClass().add("jfx-tab-pane");
+
+        sanAssigneeField.getStyleClass().add("jfx-text-field");
+        sanDateField.getStyleClass().add("jfx-text-field");
+        sanNoteField.getStyleClass().add("jfx-text-field");
+        sanTimeField.getStyleClass().add("jfx-text-field");
+        sanLocationField.getStyleClass().add("jfx-text-field");
+        sanRecurBox.getStyleClass().add("check-box");
+
+
         updateMedicineTable();
         updateSanitationTable();
         updateInterpreterTable();

@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXTabPane?>
+<?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXTreeTableView?>
 <?import javafx.geometry.Insets?>
@@ -13,17 +14,17 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" stylesheets="@CSS/nord.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.ManageRequests">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" stylesheets="/edu/wpi/teamo/fxml/CSS/nord.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.ManageRequests">
    <children>
       <VBox maxHeight="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: nord0;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <JFXTabPane>
+            <JFXTabPane fx:id="tabPane">
                <tabs>
                   <Tab text="%key.medicine_requests">
                      <content>
-                        <HBox>
+                        <HBox style="-fx-background-color: #2E3440;">
                            <children>
-                              <VBox maxHeight="1.7976931348623157E308" prefHeight="800.0" prefWidth="1000.0" style="-fx-background-color: #ddd; -fx-effect: dropshadow(three-pass-box, rgba(150,150,170,0.8), 10, 0, 0, 0);">
+                              <VBox maxHeight="1.7976931348623157E308" prefHeight="800.0" prefWidth="1000.0" style="-fx-background-color: #2E3440; -fx-effect: dropshadow(three-pass-box, rgba(150,150,170,0.8), 10, 0, 0, 0);">
                                  <children>
                                     <JFXTreeTableView fx:id="medRequestTable" onMouseClicked="#clearMedError" prefHeight="550.0" prefWidth="926.0">
                                        <VBox.margin>
@@ -32,18 +33,18 @@
                                     </JFXTreeTableView>
                                     <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="200.0">
                                        <children>
-                                          <JFXButton onAction="#markMedRequestComplete" style="-fx-background-color: #777;" styleClass="button-small" text="%key.mark_selected_as_completed" textFill="WHITE" />
-                                          <JFXButton onAction="#updateMedicineTable" style="-fx-background-color: #777;" styleClass="button-small" text="%key.refresh" textFill="WHITE">
+                                          <JFXButton onAction="#markMedRequestComplete" style="-fx-background-color: #4c566a;" styleClass="button-small" text="%key.mark_selected_as_completed" textFill="#e5e9f0" />
+                                          <JFXButton onAction="#updateMedicineTable" style="-fx-background-color: #4c566a;" styleClass="button-small" text="%key.refresh" textFill="#e5e9f0">
                                              <HBox.margin>
                                                 <Insets left="10.0" />
                                              </HBox.margin>
                                           </JFXButton>
-                                          <JFXButton onAction="#updateMedEditor" styleClass="button-small" text="%key.edit_selected">
+                                          <JFXButton onAction="#updateMedEditor" style="-fx-background-color: #5E81AC;" styleClass="button-small" text="%key.edit_selected" textFill="#e5e9f0">
                                              <HBox.margin>
                                                 <Insets left="10.0" />
                                              </HBox.margin>
                                           </JFXButton>
-                                          <JFXCheckBox fx:id="medShowCompleted" onAction="#updateMedicineTable" styleClass="check-box-dark-text" text="%key.show_completed">
+                                          <JFXCheckBox fx:id="medShowCompleted" checkedColor="#5e81ac" onAction="#updateMedicineTable" styleClass="check-box-dark-text" text="%key.show_completed" textFill="#e5e9f0" unCheckedColor="#e5e9f0">
                                              <HBox.margin>
                                                 <Insets left="10.0" />
                                              </HBox.margin>
@@ -63,7 +64,7 @@
                                     <Insets />
                                  </opaqueInsets>
                               </VBox>
-                              <VBox prefHeight="200.0" prefWidth="280.0" style="-fx-background-color: nord6;">
+                              <VBox prefHeight="200.0" prefWidth="280.0" style="-fx-background-color: #3B4252;">
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin>
@@ -71,7 +72,7 @@
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </padding>
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.edit_request">
+                                    <Text fill="#e5e9f0" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.edit_request">
                                        <font>
                                           <Font name="Arial" size="18.0" />
                                        </font>
@@ -79,7 +80,7 @@
                                           <Insets bottom="20.0" />
                                        </VBox.margin>
                                     </Text>
-                                    <Text fx:id="currentMedReqID" strokeType="OUTSIDE" strokeWidth="0.0" text="ID: None Selected">
+                                    <Text fx:id="currentMedReqID" fill="#e5e9f0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID: None Selected">
                                        <VBox.margin>
                                           <Insets bottom="15.0" />
                                        </VBox.margin>
@@ -87,27 +88,27 @@
                                           <Font name="Arial" size="12.0" />
                                        </font>
                                     </Text>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.medicine_type">
+                                    <Text fill="#e5e9f0" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.medicine_type">
                                        <VBox.margin>
                                           <Insets bottom="5.0" />
                                        </VBox.margin>
                                     </Text>
-                                    <JFXTextField fx:id="medTypeField" editable="false" styleClass="jfx-text-field-dark">
+                                    <JFXTextField fx:id="medTypeField" editable="false" styleClass="jfx-text-field-dark" unFocusColor="#e5e9f0">
                                        <VBox.margin>
                                           <Insets bottom="15.0" />
                                        </VBox.margin>
                                     </JFXTextField>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.medicine_amount">
+                                    <Text fill="#e5e9f0" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.medicine_amount">
                                        <VBox.margin>
                                           <Insets bottom="5.0" />
                                        </VBox.margin>
                                     </Text>
-                                    <JFXTextField fx:id="medAmountField" editable="false" styleClass="jfx-text-field-dark">
+                                    <JFXTextField fx:id="medAmountField" editable="false" styleClass="jfx-text-field-dark" unFocusColor="#e5e9f0">
                                        <VBox.margin>
                                           <Insets bottom="20.0" />
                                        </VBox.margin>
                                     </JFXTextField>
-                                    <JFXButton onAction="#applyMedUpdate" styleClass="button-small" text="%key.apply" />
+                                    <JFXButton onAction="#applyMedUpdate" styleClass="button-small" text="%key.apply" textFill="#e5e9f0" />
                                  </children>
                               </VBox>
                            </children>
@@ -118,7 +119,7 @@
                      <content>
                         <HBox>
                            <children>
-                              <VBox prefHeight="680.0" prefWidth="1000.0" style="-fx-background-color: #ddd; -fx-effect: dropshadow(three-pass-box, rgba(150,150,170,0.8), 10, 0, 0, 0);">
+                              <VBox prefHeight="680.0" prefWidth="1000.0" style="-fx-background-color: #2E3440; -fx-effect: dropshadow(three-pass-box, rgba(150,150,170,0.8), 10, 0, 0, 0);">
                                  <children>
                                     <JFXTreeTableView fx:id="sanRequestTable" onMouseClicked="#clearMedError" prefHeight="550.0" prefWidth="926.0">
                                        <VBox.margin>
@@ -127,18 +128,18 @@
                                     </JFXTreeTableView>
                                     <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="200.0">
                                        <children>
-                                          <JFXButton onAction="#markSanRequestComplete" style="-fx-background-color: #777;" styleClass="button-small" text="%key.mark_selected_as_completed" textFill="WHITE" />
-                                          <JFXButton onAction="#updateSanitationTable" style="-fx-background-color: #777;" styleClass="button-small" text="%key.refresh" textFill="WHITE">
+                                          <JFXButton onAction="#markSanRequestComplete" style="-fx-background-color: #4c566a;" styleClass="button-small" text="%key.mark_selected_as_completed" textFill="#e5e9f0" />
+                                          <JFXButton onAction="#updateSanitationTable" style="-fx-background-color: #4c566a;" styleClass="button-small" text="%key.refresh" textFill="#e5e9f0">
                                              <HBox.margin>
                                                 <Insets left="10.0" />
                                              </HBox.margin>
                                           </JFXButton>
-                                          <JFXButton onAction="#updateSanEditor" styleClass="button-small" text="Edit Selected">
+                                          <JFXButton onAction="#updateSanEditor" style="-fx-background-color: #5E81AC;" styleClass="button-small" text="%key.edit_selected" textFill="#e5e9f0">
                                              <HBox.margin>
                                                 <Insets left="10.0" />
                                              </HBox.margin>
                                           </JFXButton>
-                                          <JFXCheckBox fx:id="sanShowCompleted" onAction="#updateSanitationTable" styleClass="check-box-dark-text" text="%key.show_completed">
+                                          <JFXCheckBox fx:id="sanShowCompleted" checkedColor="#5e81ac" onAction="#updateSanitationTable" styleClass="check-box-dark-text" text="%key.show_completed" textFill="#e5e9f0" unCheckedColor="#e5e9f0">
                                              <HBox.margin>
                                                 <Insets left="10.0" />
                                              </HBox.margin>
@@ -158,12 +159,12 @@
                                     <Insets />
                                  </opaqueInsets>
                               </VBox>
-                              <VBox prefHeight="200.0" prefWidth="280.0" style="-fx-background-color: nord6;">
+                              <VBox prefHeight="200.0" prefWidth="280.0" style="-fx-background-color: #3B4252;">
                                  <padding>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                  </padding>
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.edit_selected">
+                                    <Text fill="#e5e9f0" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.edit_selected">
                                        <font>
                                           <Font name="Arial" size="18.0" />
                                        </font>
@@ -171,7 +172,7 @@
                                           <Insets bottom="20.0" />
                                        </VBox.margin>
                                     </Text>
-                                    <Text fx:id="currentSanReqID" strokeType="OUTSIDE" strokeWidth="0.0" text="ID: None Selected">
+                                    <Text fx:id="currentSanReqID" fill="#e5e9f0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID: None Selected">
                                        <font>
                                           <Font name="Arial" size="12.0" />
                                        </font>
@@ -179,7 +180,7 @@
                                           <Insets bottom="15.0" />
                                        </VBox.margin>
                                     </Text>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Details:">
+                                    <Text fill="#e5e9f0" strokeType="OUTSIDE" strokeWidth="0.0" text="Details:">
                                        <font>
                                           <Font name="Arial" size="12.0" />
                                        </font>
@@ -187,12 +188,42 @@
                                           <Insets bottom="5.0" />
                                        </VBox.margin>
                                     </Text>
-                                    <JFXTextField fx:id="sanDetailsField" styleClass="jfx-text-field-dark">
+                                    <JFXTextField fx:id="sanDetailsField" labelFloat="true" promptText="%key.type_of_sanitation" styleClass="jfx-text-field-dark" unFocusColor="#e5e9f0">
                                        <VBox.margin>
                                           <Insets bottom="20.0" />
                                        </VBox.margin>
                                     </JFXTextField>
-                                    <JFXButton onAction="#applySanUpdate" styleClass="button-small" text="Apply" />
+                                    <JFXTextField fx:id="sanAssigneeField" labelFloat="true" layoutX="20.0" layoutY="109.0" promptText="%key.name_of_assignee" styleClass="jfx-text-field-dark" unFocusColor="#e5e9f0">
+                                       <VBox.margin>
+                                          <Insets bottom="20.0" />
+                                       </VBox.margin>
+                                    </JFXTextField>
+                                    <JFXTextField fx:id="sanTimeField" labelFloat="true" layoutX="20.0" layoutY="160.0" promptText="%key.time" styleClass="jfx-text-field-dark" unFocusColor="#e5e9f0">
+                                       <VBox.margin>
+                                          <Insets bottom="20.0" />
+                                       </VBox.margin>
+                                    </JFXTextField>
+                                    <JFXTextField fx:id="sanDateField" labelFloat="true" layoutX="20.0" layoutY="191.0" promptText="%key.date" styleClass="jfx-text-field-dark" unFocusColor="#e5e9f0">
+                                       <VBox.margin>
+                                          <Insets bottom="20.0" />
+                                       </VBox.margin>
+                                    </JFXTextField>
+                                    <JFXTextArea fx:id="sanLocationField" layoutX="20.0" layoutY="253.0" prefHeight="132.0" prefWidth="220.0" promptText="%key.room" style="-fx-background-color: #4c566a;">
+                                       <VBox.margin>
+                                          <Insets bottom="20.0" />
+                                       </VBox.margin>
+                                    </JFXTextArea>
+                                    <JFXTextArea fx:id="sanNoteField" promptText="%key.notes" style="-fx-background-color: #4c566a;">
+                                       <VBox.margin>
+                                          <Insets bottom="20.0" />
+                                       </VBox.margin>
+                                    </JFXTextArea>
+                                    <JFXCheckBox fx:id="sanRecurBox" checkedColor="#5e81ac" text="%key.recurring" textFill="#e5e9f0" unCheckedColor="#e5e9f0">
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" />
+                                       </VBox.margin>
+                                    </JFXCheckBox>
+                                    <JFXButton onAction="#applySanUpdate" style="-fx-background-color: #5ab04c;" styleClass="button-small" text="%key.submit" textFill="#e5e9f0" />
                                  </children>
                               </VBox>
                            </children>
@@ -201,9 +232,9 @@
                   </Tab>
                   <Tab text="%key.food_requests">
                      <content>
-                        <HBox>
+                        <HBox prefWidth="1200.0">
                            <children>
-                              <VBox maxHeight="1.7976931348623157E308" prefHeight="800.0" prefWidth="1000.0" style="-fx-background-color: #ddd; -fx-effect: dropshadow(three-pass-box, rgba(150,150,170,0.8), 10, 0, 0, 0);">
+                              <VBox maxHeight="1.7976931348623157E308" maxWidth="1200.0" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #2E3440; -fx-effect: dropshadow(three-pass-box, rgba(150,150,170,0.8), 10, 0, 0, 0);">
                                  <children>
                                     <JFXTreeTableView fx:id="medRequestTable1" onMouseClicked="#clearMedError" prefHeight="550.0" prefWidth="926.0">
                                        <VBox.margin>
@@ -212,18 +243,21 @@
                                     </JFXTreeTableView>
                                     <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" minWidth="1200.0" prefHeight="60.0" prefWidth="1200.0">
                                        <children>
-                                          <JFXButton onAction="#markMedRequestComplete" style="-fx-background-color: #777;" styleClass="button-small" text="%key.mark_selected_as_completed" textFill="WHITE" />
-                                          <JFXButton onAction="#updateMedicineTable" style="-fx-background-color: #777;" styleClass="button-small" text="%key.refresh" textFill="WHITE">
+                                          <JFXButton onAction="#markMedRequestComplete" style="-fx-background-color: #4c566a;" styleClass="button-small" text="%key.mark_selected_as_completed" textFill="#e5e9f0">
+                                             <HBox.margin>
+                                                <Insets left="10.0" />
+                                             </HBox.margin></JFXButton>
+                                          <JFXButton onAction="#updateMedicineTable" style="-fx-background-color: #4c566a;" styleClass="button-small" text="%key.refresh" textFill="#e5e9f0">
                                              <HBox.margin>
                                                 <Insets left="10.0" />
                                              </HBox.margin>
                                           </JFXButton>
-                                          <JFXButton onAction="#updateMedEditor" styleClass="button-small" text="%key.edit_selected">
+                                          <JFXButton onAction="#updateMedEditor" style="-fx-background-color: #5E81AC;" styleClass="button-small" text="%key.edit_selected" textFill="WHITE">
                                              <HBox.margin>
                                                 <Insets left="10.0" />
                                              </HBox.margin>
                                           </JFXButton>
-                                          <JFXCheckBox fx:id="medShowCompleted1" onAction="#updateMedicineTable" styleClass="check-box-dark-text" text="%key.show_completed">
+                                          <JFXCheckBox fx:id="medShowCompleted1" onAction="#updateMedicineTable" styleClass="check-box-dark-text" text="%key.show_completed" textFill="#e5e9f0" unCheckedColor="#e5e9f0">
                                              <HBox.margin>
                                                 <Insets left="10.0" />
                                              </HBox.margin>
@@ -249,9 +283,9 @@
                   </Tab>
                   <Tab text="%key.gift_requests">
                      <content>
-                        <HBox>
+                        <HBox prefWidth="1200.0">
                            <children>
-                              <VBox maxHeight="1.7976931348623157E308" prefHeight="800.0" prefWidth="1000.0" style="-fx-background-color: #ddd; -fx-effect: dropshadow(three-pass-box, rgba(150,150,170,0.8), 10, 0, 0, 0);">
+                              <VBox maxHeight="1.7976931348623157E308" maxWidth="1200.0" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #2E3440; -fx-effect: dropshadow(three-pass-box, rgba(150,150,170,0.8), 10, 0, 0, 0);">
                                  <children>
                                     <JFXTreeTableView fx:id="medRequestTable11" onMouseClicked="#clearMedError" prefHeight="550.0" prefWidth="926.0">
                                        <VBox.margin>
@@ -260,18 +294,22 @@
                                     </JFXTreeTableView>
                                     <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" minWidth="1200.0" prefHeight="60.0" prefWidth="1200.0">
                                        <children>
-                                          <JFXButton onAction="#markMedRequestComplete" style="-fx-background-color: #777;" styleClass="button-small" text="%key.mark_selected_as_completed" textFill="WHITE" />
-                                          <JFXButton onAction="#updateMedicineTable" style="-fx-background-color: #777;" styleClass="button-small" text="%key.refresh" textFill="WHITE">
+                                          <JFXButton onAction="#markMedRequestComplete" style="-fx-background-color: #4c566a;" styleClass="button-small" text="%key.mark_selected_as_completed" textFill="#e5e9f0">
                                              <HBox.margin>
                                                 <Insets left="10.0" />
                                              </HBox.margin>
                                           </JFXButton>
-                                          <JFXButton onAction="#updateMedEditor" styleClass="button-small" text="%key.edit_selected">
+                                          <JFXButton onAction="#updateMedicineTable" style="-fx-background-color: #4c566a;" styleClass="button-small" text="%key.refresh" textFill="#e5e9f0">
                                              <HBox.margin>
                                                 <Insets left="10.0" />
                                              </HBox.margin>
                                           </JFXButton>
-                                          <JFXCheckBox fx:id="medShowCompleted11" onAction="#updateMedicineTable" styleClass="check-box-dark-text" text="%key.show_completed">
+                                          <JFXButton onAction="#updateMedEditor" style="-fx-background-color: #5E81AC;" styleClass="button-small" text="%key.edit_selected" textFill="WHITE">
+                                             <HBox.margin>
+                                                <Insets left="10.0" />
+                                             </HBox.margin>
+                                          </JFXButton>
+                                          <JFXCheckBox fx:id="medShowCompleted11" onAction="#updateMedicineTable" styleClass="check-box-dark-text" text="%key.show_completed" textFill="#e5e9f0" unCheckedColor="#e5e9f0">
                                              <HBox.margin>
                                                 <Insets left="10.0" />
                                              </HBox.margin>
@@ -295,155 +333,11 @@
                         </HBox>
                      </content>
                   </Tab>
-                  <Tab text="%key.religious_requests">
-                     <content>
-                        <HBox>
-                           <children>
-                              <VBox maxHeight="1.7976931348623157E308" prefHeight="800.0" prefWidth="1000.0" style="-fx-background-color: #ddd; -fx-effect: dropshadow(three-pass-box, rgba(150,150,170,0.8), 10, 0, 0, 0);">
-                                 <children>
-                                    <JFXTreeTableView fx:id="medRequestTable12" onMouseClicked="#clearMedError" prefHeight="550.0" prefWidth="926.0">
-                                       <VBox.margin>
-                                          <Insets bottom="10.0" />
-                                       </VBox.margin>
-                                    </JFXTreeTableView>
-                                    <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" minWidth="1200.0" prefHeight="60.0" prefWidth="1200.0">
-                                       <children>
-                                          <JFXButton onAction="#markMedRequestComplete" style="-fx-background-color: #777;" styleClass="button-small" text="%key.mark_selected_as_completed" textFill="WHITE" />
-                                          <JFXButton onAction="#updateMedicineTable" style="-fx-background-color: #777;" styleClass="button-small" text="%key.refresh" textFill="WHITE">
-                                             <HBox.margin>
-                                                <Insets left="10.0" />
-                                             </HBox.margin>
-                                          </JFXButton>
-                                          <JFXButton onAction="#updateMedEditor" styleClass="button-small" text="%key.edit_selected">
-                                             <HBox.margin>
-                                                <Insets left="10.0" />
-                                             </HBox.margin>
-                                          </JFXButton>
-                                          <JFXCheckBox fx:id="medShowCompleted12" onAction="#updateMedicineTable" styleClass="check-box-dark-text" text="%key.show_completed">
-                                             <HBox.margin>
-                                                <Insets left="10.0" />
-                                             </HBox.margin>
-                                          </JFXCheckBox>
-                                          <Text fx:id="medErrorText12" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0">
-                                             <HBox.margin>
-                                                <Insets left="50.0" />
-                                             </HBox.margin>
-                                          </Text>
-                                       </children>
-                                    </HBox>
-                                 </children>
-                                 <padding>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="15.0" />
-                                 </padding>
-                                 <opaqueInsets>
-                                    <Insets />
-                                 </opaqueInsets>
-                              </VBox>
-                           </children>
-                        </HBox>
-                     </content>
-                  </Tab>
                   <Tab text="%key.transportation_requests">
                      <content>
-                        <HBox>
+                        <HBox prefWidth="1200.0">
                            <children>
-                              <VBox maxHeight="1.7976931348623157E308" prefHeight="800.0" prefWidth="1000.0" style="-fx-background-color: #ddd; -fx-effect: dropshadow(three-pass-box, rgba(150,150,170,0.8), 10, 0, 0, 0);">
-                                 <children>
-                                    <JFXTreeTableView fx:id="medRequestTable13" onMouseClicked="#clearMedError" prefHeight="550.0" prefWidth="926.0">
-                                       <VBox.margin>
-                                          <Insets bottom="10.0" />
-                                       </VBox.margin>
-                                    </JFXTreeTableView>
-                                    <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" minWidth="1200.0" prefHeight="60.0" prefWidth="1200.0">
-                                       <children>
-                                          <JFXButton onAction="#markMedRequestComplete" style="-fx-background-color: #777;" styleClass="button-small" text="%key.mark_selected_as_completed" textFill="WHITE" />
-                                          <JFXButton onAction="#updateMedicineTable" style="-fx-background-color: #777;" styleClass="button-small" text="%key.refresh" textFill="WHITE">
-                                             <HBox.margin>
-                                                <Insets left="10.0" />
-                                             </HBox.margin>
-                                          </JFXButton>
-                                          <JFXButton onAction="#updateMedEditor" styleClass="button-small" text="%key.edit_selected">
-                                             <HBox.margin>
-                                                <Insets left="10.0" />
-                                             </HBox.margin>
-                                          </JFXButton>
-                                          <JFXCheckBox fx:id="medShowCompleted13" onAction="#updateMedicineTable" styleClass="check-box-dark-text" text="%key.show_completed">
-                                             <HBox.margin>
-                                                <Insets left="10.0" />
-                                             </HBox.margin>
-                                          </JFXCheckBox>
-                                          <Text fx:id="medErrorText13" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0">
-                                             <HBox.margin>
-                                                <Insets left="50.0" />
-                                             </HBox.margin>
-                                          </Text>
-                                       </children>
-                                    </HBox>
-                                 </children>
-                                 <padding>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="15.0" />
-                                 </padding>
-                                 <opaqueInsets>
-                                    <Insets />
-                                 </opaqueInsets>
-                              </VBox>
-                           </children>
-                        </HBox>
-                     </content>
-                  </Tab>
-                  <Tab text="%key.security_requests">
-                     <content>
-                        <HBox>
-                           <children>
-                              <VBox maxHeight="1.7976931348623157E308" prefHeight="800.0" prefWidth="1000.0" style="-fx-background-color: #ddd; -fx-effect: dropshadow(three-pass-box, rgba(150,150,170,0.8), 10, 0, 0, 0);">
-                                 <children>
-                                    <JFXTreeTableView fx:id="secRequestTable" onMouseClicked="#clearMedError" prefHeight="550.0" prefWidth="926.0">
-                                       <VBox.margin>
-                                          <Insets bottom="10.0" />
-                                       </VBox.margin>
-                                    </JFXTreeTableView>
-                                    <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" minWidth="1200.0" prefHeight="60.0" prefWidth="1200.0">
-                                       <children>
-                                          <JFXButton onAction="#markMedRequestComplete" style="-fx-background-color: #777;" styleClass="button-small" text="%key.mark_selected_as_completed" textFill="WHITE" />
-                                          <JFXButton onAction="#updateMedicineTable" style="-fx-background-color: #777;" styleClass="button-small" text="%key.refresh" textFill="WHITE">
-                                             <HBox.margin>
-                                                <Insets left="10.0" />
-                                             </HBox.margin>
-                                          </JFXButton>
-                                          <JFXButton onAction="#updateMedEditor" styleClass="button-small" text="%key.edit_selected">
-                                             <HBox.margin>
-                                                <Insets left="10.0" />
-                                             </HBox.margin>
-                                          </JFXButton>
-                                          <JFXCheckBox fx:id="medShowCompleted14" onAction="#updateMedicineTable" styleClass="check-box-dark-text" text="%key.show_completed">
-                                             <HBox.margin>
-                                                <Insets left="10.0" />
-                                             </HBox.margin>
-                                          </JFXCheckBox>
-                                          <Text fx:id="medErrorText14" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0">
-                                             <HBox.margin>
-                                                <Insets left="50.0" />
-                                             </HBox.margin>
-                                          </Text>
-                                       </children>
-                                    </HBox>
-                                 </children>
-                                 <padding>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="15.0" />
-                                 </padding>
-                                 <opaqueInsets>
-                                    <Insets />
-                                 </opaqueInsets>
-                              </VBox>
-                           </children>
-                        </HBox>
-                     </content>
-                  </Tab>
-                  <Tab text="%key.laundry_requests">
-                     <content>
-                        <HBox>
-                           <children>
-                              <VBox maxHeight="1.7976931348623157E308" prefHeight="800.0" prefWidth="1000.0" style="-fx-background-color: #ddd; -fx-effect: dropshadow(three-pass-box, rgba(150,150,170,0.8), 10, 0, 0, 0);">
+                              <VBox maxHeight="1.7976931348623157E308" maxWidth="1200.0" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #2E3440; -fx-effect: dropshadow(three-pass-box, rgba(150,150,170,0.8), 10, 0, 0, 0);">
                                  <children>
                                     <JFXTreeTableView fx:id="medRequestTable111" onMouseClicked="#clearMedError" prefHeight="550.0" prefWidth="926.0">
                                        <VBox.margin>
@@ -452,18 +346,22 @@
                                     </JFXTreeTableView>
                                     <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" minWidth="1200.0" prefHeight="60.0" prefWidth="1200.0">
                                        <children>
-                                          <JFXButton onAction="#markMedRequestComplete" style="-fx-background-color: #777;" styleClass="button-small" text="%key.mark_selected_as_completed" textFill="WHITE" />
-                                          <JFXButton onAction="#updateMedicineTable" style="-fx-background-color: #777;" styleClass="button-small" text="%key.refresh" textFill="WHITE">
+                                          <JFXButton onAction="#markMedRequestComplete" style="-fx-background-color: #4c566a;" styleClass="button-small" text="%key.mark_selected_as_completed" textFill="#e5e9f0">
                                              <HBox.margin>
                                                 <Insets left="10.0" />
                                              </HBox.margin>
                                           </JFXButton>
-                                          <JFXButton onAction="#updateMedEditor" styleClass="button-small" text="%key.edit_selected">
+                                          <JFXButton onAction="#updateMedicineTable" style="-fx-background-color: #4c566a;" styleClass="button-small" text="%key.refresh" textFill="#e5e9f0">
                                              <HBox.margin>
                                                 <Insets left="10.0" />
                                              </HBox.margin>
                                           </JFXButton>
-                                          <JFXCheckBox fx:id="medShowCompleted111" onAction="#updateMedicineTable" styleClass="check-box-dark-text" text="%key.show_completed">
+                                          <JFXButton onAction="#updateMedEditor" style="-fx-background-color: #5E81AC;" styleClass="button-small" text="%key.edit_selected" textFill="WHITE">
+                                             <HBox.margin>
+                                                <Insets left="10.0" />
+                                             </HBox.margin>
+                                          </JFXButton>
+                                          <JFXCheckBox fx:id="medShowCompleted111" onAction="#updateMedicineTable" styleClass="check-box-dark-text" text="%key.show_completed" textFill="#e5e9f0" unCheckedColor="#e5e9f0">
                                              <HBox.margin>
                                                 <Insets left="10.0" />
                                              </HBox.margin>
@@ -487,36 +385,40 @@
                         </HBox>
                      </content>
                   </Tab>
-                  <Tab text="%key.language_requests">
+                  <Tab text="%key.security_requests">
                      <content>
-                        <HBox>
+                        <HBox prefWidth="1200.0">
                            <children>
-                              <VBox maxHeight="1.7976931348623157E308" prefHeight="800.0" prefWidth="1000.0" style="-fx-background-color: #ddd; -fx-effect: dropshadow(three-pass-box, rgba(150,150,170,0.8), 10, 0, 0, 0);">
+                              <VBox maxHeight="1.7976931348623157E308" maxWidth="1200.0" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #2E3440; -fx-effect: dropshadow(three-pass-box, rgba(150,150,170,0.8), 10, 0, 0, 0);">
                                  <children>
-                                    <JFXTreeTableView fx:id="langRequestTable" onMouseClicked="#clearMedError" prefHeight="550.0" prefWidth="926.0">
+                                    <JFXTreeTableView fx:id="secRequestTable" onMouseClicked="#clearMedError" prefHeight="550.0" prefWidth="926.0">
                                        <VBox.margin>
                                           <Insets bottom="10.0" />
                                        </VBox.margin>
                                     </JFXTreeTableView>
                                     <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" minWidth="1200.0" prefHeight="60.0" prefWidth="1200.0">
                                        <children>
-                                          <JFXButton onAction="#markMedRequestComplete" style="-fx-background-color: #777;" styleClass="button-small" text="%key.mark_selected_as_completed" textFill="WHITE" />
-                                          <JFXButton onAction="#updateMedicineTable" style="-fx-background-color: #777;" styleClass="button-small" text="%key.refresh" textFill="WHITE">
+                                          <JFXButton onAction="#markMedRequestComplete" style="-fx-background-color: #4c566a;" styleClass="button-small" text="%key.mark_selected_as_completed" textFill="#e5e9f0">
                                              <HBox.margin>
                                                 <Insets left="10.0" />
                                              </HBox.margin>
                                           </JFXButton>
-                                          <JFXButton onAction="#updateMedEditor" styleClass="button-small" text="%key.edit_selected">
+                                          <JFXButton onAction="#updateMedicineTable" style="-fx-background-color: #4c566a;" styleClass="button-small" text="%key.refresh" textFill="#e5e9f0">
                                              <HBox.margin>
                                                 <Insets left="10.0" />
                                              </HBox.margin>
                                           </JFXButton>
-                                          <JFXCheckBox fx:id="medShowCompleted112" onAction="#updateMedicineTable" styleClass="check-box-dark-text" text="%key.show_completed">
+                                          <JFXButton onAction="#updateMedEditor" style="-fx-background-color: #5E81AC;" styleClass="button-small" text="%key.edit_selected" textFill="WHITE">
+                                             <HBox.margin>
+                                                <Insets left="10.0" />
+                                             </HBox.margin>
+                                          </JFXButton>
+                                          <JFXCheckBox fx:id="medShowCompleted1111" onAction="#updateMedicineTable" styleClass="check-box-dark-text" text="%key.show_completed" textFill="#e5e9f0" unCheckedColor="#e5e9f0">
                                              <HBox.margin>
                                                 <Insets left="10.0" />
                                              </HBox.margin>
                                           </JFXCheckBox>
-                                          <Text fx:id="medErrorText112" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0">
+                                          <Text fx:id="medErrorText1111" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0">
                                              <HBox.margin>
                                                 <Insets left="50.0" />
                                              </HBox.margin>
@@ -537,34 +439,194 @@
                   </Tab>
                   <Tab text="%key.maintenance_requests">
                      <content>
-                        <HBox>
+                        <HBox prefWidth="1200.0">
                            <children>
-                              <VBox maxHeight="1.7976931348623157E308" prefHeight="800.0" prefWidth="1000.0" style="-fx-background-color: #ddd; -fx-effect: dropshadow(three-pass-box, rgba(150,150,170,0.8), 10, 0, 0, 0);">
+                              <VBox maxHeight="1.7976931348623157E308" maxWidth="1200.0" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #2E3440; -fx-effect: dropshadow(three-pass-box, rgba(150,150,170,0.8), 10, 0, 0, 0);">
                                  <children>
-                                    <JFXTreeTableView fx:id="medRequestTable113" onMouseClicked="#clearMedError" prefHeight="550.0" prefWidth="926.0">
+                                    <JFXTreeTableView fx:id="medRequestTable11111" onMouseClicked="#clearMedError" prefHeight="550.0" prefWidth="926.0">
                                        <VBox.margin>
                                           <Insets bottom="10.0" />
                                        </VBox.margin>
                                     </JFXTreeTableView>
                                     <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" minWidth="1200.0" prefHeight="60.0" prefWidth="1200.0">
                                        <children>
-                                          <JFXButton onAction="#markMedRequestComplete" style="-fx-background-color: #777;" styleClass="button-small" text="%key.mark_selected_as_completed" textFill="WHITE" />
-                                          <JFXButton onAction="#updateMedicineTable" style="-fx-background-color: #777;" styleClass="button-small" text="%key.refresh" textFill="WHITE">
+                                          <JFXButton onAction="#markMedRequestComplete" style="-fx-background-color: #4c566a;" styleClass="button-small" text="%key.mark_selected_as_completed" textFill="#e5e9f0">
                                              <HBox.margin>
                                                 <Insets left="10.0" />
                                              </HBox.margin>
                                           </JFXButton>
-                                          <JFXButton onAction="#updateMedEditor" styleClass="button-small" text="%key.edit_selected">
+                                          <JFXButton onAction="#updateMedicineTable" style="-fx-background-color: #4c566a;" styleClass="button-small" text="%key.refresh" textFill="#e5e9f0">
                                              <HBox.margin>
                                                 <Insets left="10.0" />
                                              </HBox.margin>
                                           </JFXButton>
-                                          <JFXCheckBox fx:id="medShowCompleted113" onAction="#updateMedicineTable" styleClass="check-box-dark-text" text="%key.show_completed">
+                                          <JFXButton onAction="#updateMedEditor" style="-fx-background-color: #5E81AC;" styleClass="button-small" text="%key.edit_selected" textFill="WHITE">
+                                             <HBox.margin>
+                                                <Insets left="10.0" />
+                                             </HBox.margin>
+                                          </JFXButton>
+                                          <JFXCheckBox fx:id="medShowCompleted11111" onAction="#updateMedicineTable" styleClass="check-box-dark-text" text="%key.show_completed" textFill="#e5e9f0" unCheckedColor="#e5e9f0">
                                              <HBox.margin>
                                                 <Insets left="10.0" />
                                              </HBox.margin>
                                           </JFXCheckBox>
-                                          <Text fx:id="medErrorText113" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0">
+                                          <Text fx:id="medErrorText11111" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0">
+                                             <HBox.margin>
+                                                <Insets left="50.0" />
+                                             </HBox.margin>
+                                          </Text>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="15.0" />
+                                 </padding>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </content>
+                  </Tab>
+                  <Tab text="%key.laundry_requests">
+                     <content>
+                        <HBox prefWidth="1200.0">
+                           <children>
+                              <VBox maxHeight="1.7976931348623157E308" maxWidth="1200.0" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #2E3440; -fx-effect: dropshadow(three-pass-box, rgba(150,150,170,0.8), 10, 0, 0, 0);">
+                                 <children>
+                                    <JFXTreeTableView fx:id="medRequestTable111111" onMouseClicked="#clearMedError" prefHeight="550.0" prefWidth="926.0">
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" />
+                                       </VBox.margin>
+                                    </JFXTreeTableView>
+                                    <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" minWidth="1200.0" prefHeight="60.0" prefWidth="1200.0">
+                                       <children>
+                                          <JFXButton onAction="#markMedRequestComplete" style="-fx-background-color: #4c566a;" styleClass="button-small" text="%key.mark_selected_as_completed" textFill="#e5e9f0">
+                                             <HBox.margin>
+                                                <Insets left="10.0" />
+                                             </HBox.margin>
+                                          </JFXButton>
+                                          <JFXButton onAction="#updateMedicineTable" style="-fx-background-color: #4c566a;" styleClass="button-small" text="%key.refresh" textFill="#e5e9f0">
+                                             <HBox.margin>
+                                                <Insets left="10.0" />
+                                             </HBox.margin>
+                                          </JFXButton>
+                                          <JFXButton onAction="#updateMedEditor" style="-fx-background-color: #5E81AC;" styleClass="button-small" text="%key.edit_selected" textFill="WHITE">
+                                             <HBox.margin>
+                                                <Insets left="10.0" />
+                                             </HBox.margin>
+                                          </JFXButton>
+                                          <JFXCheckBox fx:id="medShowCompleted111111" onAction="#updateMedicineTable" styleClass="check-box-dark-text" text="%key.show_completed" textFill="#e5e9f0" unCheckedColor="#e5e9f0">
+                                             <HBox.margin>
+                                                <Insets left="10.0" />
+                                             </HBox.margin>
+                                          </JFXCheckBox>
+                                          <Text fx:id="medErrorText111111" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0">
+                                             <HBox.margin>
+                                                <Insets left="50.0" />
+                                             </HBox.margin>
+                                          </Text>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="15.0" />
+                                 </padding>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </content>
+                  </Tab>
+                  <Tab text="%key.language_requests">
+                     <content>
+                        <HBox prefWidth="1200.0">
+                           <children>
+                              <VBox maxHeight="1.7976931348623157E308" maxWidth="1200.0" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #2E3440; -fx-effect: dropshadow(three-pass-box, rgba(150,150,170,0.8), 10, 0, 0, 0);">
+                                 <children>
+                                    <JFXTreeTableView fx:id="langRequestTable" onMouseClicked="#clearMedError" prefHeight="550.0" prefWidth="926.0">
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" />
+                                       </VBox.margin>
+                                    </JFXTreeTableView>
+                                    <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" minWidth="1200.0" prefHeight="60.0" prefWidth="1200.0">
+                                       <children>
+                                          <JFXButton onAction="#markMedRequestComplete" style="-fx-background-color: #4c566a;" styleClass="button-small" text="%key.mark_selected_as_completed" textFill="#e5e9f0">
+                                             <HBox.margin>
+                                                <Insets left="10.0" />
+                                             </HBox.margin>
+                                          </JFXButton>
+                                          <JFXButton onAction="#updateMedicineTable" style="-fx-background-color: #4c566a;" styleClass="button-small" text="%key.refresh" textFill="#e5e9f0">
+                                             <HBox.margin>
+                                                <Insets left="10.0" />
+                                             </HBox.margin>
+                                          </JFXButton>
+                                          <JFXButton onAction="#updateMedEditor" style="-fx-background-color: #5E81AC;" styleClass="button-small" text="%key.edit_selected" textFill="WHITE">
+                                             <HBox.margin>
+                                                <Insets left="10.0" />
+                                             </HBox.margin>
+                                          </JFXButton>
+                                          <JFXCheckBox fx:id="medShowCompleted1111111" onAction="#updateMedicineTable" styleClass="check-box-dark-text" text="%key.show_completed" textFill="#e5e9f0" unCheckedColor="#e5e9f0">
+                                             <HBox.margin>
+                                                <Insets left="10.0" />
+                                             </HBox.margin>
+                                          </JFXCheckBox>
+                                          <Text fx:id="medErrorText1111111" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0">
+                                             <HBox.margin>
+                                                <Insets left="50.0" />
+                                             </HBox.margin>
+                                          </Text>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="15.0" />
+                                 </padding>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </content>
+                  </Tab>
+                  <Tab text="%key.religious_requests">
+                     <content>
+                        <HBox prefWidth="1200.0">
+                           <children>
+                              <VBox maxHeight="1.7976931348623157E308" maxWidth="1200.0" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #2E3440; -fx-effect: dropshadow(three-pass-box, rgba(150,150,170,0.8), 10, 0, 0, 0);">
+                                 <children>
+                                    <JFXTreeTableView fx:id="medRequestTable11111111" onMouseClicked="#clearMedError" prefHeight="550.0" prefWidth="926.0">
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" />
+                                       </VBox.margin>
+                                    </JFXTreeTableView>
+                                    <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" minWidth="1200.0" prefHeight="60.0" prefWidth="1200.0">
+                                       <children>
+                                          <JFXButton onAction="#markMedRequestComplete" style="-fx-background-color: #4c566a;" styleClass="button-small" text="%key.mark_selected_as_completed" textFill="#e5e9f0">
+                                             <HBox.margin>
+                                                <Insets left="10.0" />
+                                             </HBox.margin>
+                                          </JFXButton>
+                                          <JFXButton onAction="#updateMedicineTable" style="-fx-background-color: #4c566a;" styleClass="button-small" text="%key.refresh" textFill="#e5e9f0">
+                                             <HBox.margin>
+                                                <Insets left="10.0" />
+                                             </HBox.margin>
+                                          </JFXButton>
+                                          <JFXButton onAction="#updateMedEditor" style="-fx-background-color: #5E81AC;" styleClass="button-small" text="%key.edit_selected" textFill="WHITE">
+                                             <HBox.margin>
+                                                <Insets left="10.0" />
+                                             </HBox.margin>
+                                          </JFXButton>
+                                          <JFXCheckBox fx:id="medShowCompleted11111111" onAction="#updateMedicineTable" styleClass="check-box-dark-text" text="%key.show_completed" textFill="#e5e9f0" unCheckedColor="#e5e9f0">
+                                             <HBox.margin>
+                                                <Insets left="10.0" />
+                                             </HBox.margin>
+                                          </JFXCheckBox>
+                                          <Text fx:id="medErrorText11111111" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0">
                                              <HBox.margin>
                                                 <Insets left="50.0" />
                                              </HBox.margin>
@@ -587,7 +649,7 @@
             </JFXTabPane>
          </children>
       </VBox>
-      <JFXButton onAction="#handleBackToServicePage" style="-fx-background-color: #777;" text="%key.back" textFill="WHITE" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0">
+      <JFXButton onAction="#handleBackToServicePage" style="-fx-background-color: #4c566a;" text="%key.back" textFill="#e5e9f0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0">
          <font>
             <Font size="18.0" />
          </font>
