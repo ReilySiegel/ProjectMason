@@ -3,42 +3,35 @@ package edu.wpi.teamo.database.map;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
-import java.io.FileNotFoundException;
+
+import java.io.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.ArrayList;
-import java.io.IOException;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.util.HashMap;
 import java.util.List;
 
 public class NodeCSV {
 
-    public static Stream<Node> read(String filepath) throws FileNotFoundException {
+    public static Stream<Node> read(InputStreamReader reader) throws IOException {
         List<Node> nodes = new ArrayList<>();
 
-        try {
-            CSVFormat format = CSVFormat.RFC4180.withHeader().withDelimiter(',');
-            FileReader fr = new FileReader(filepath);
-            CSVParser parser = new CSVParser(fr, format);
-            for (CSVRecord record : parser) {
-                Node node = new Node(
-                        record.get("nodeID"),
-                        Integer.parseInt(record.get("xcoord")),
-                        Integer.parseInt(record.get("ycoord")),
-                        record.get("floor"),
-                        record.get("building"),
-                        record.get("nodeType"),
-                        record.get("longName"),
-                        record.get("shortName")
-                );
-                nodes.add(node);
-            }
-            parser.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        CSVFormat format = CSVFormat.RFC4180.withHeader().withDelimiter(',');
+        CSVParser parser = new CSVParser(reader, format);
+        for (CSVRecord record : parser) {
+            Node node = new Node(
+                    record.get("nodeID"),
+                    Integer.parseInt(record.get("xcoord")),
+                    Integer.parseInt(record.get("ycoord")),
+                    record.get("floor"),
+                    record.get("building"),
+                    record.get("nodeType"),
+                    record.get("longName"),
+                    record.get("shortName")
+            );
+            nodes.add(node);
         }
+        parser.close();
 
         return nodes.stream();
     }

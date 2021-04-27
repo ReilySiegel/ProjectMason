@@ -1,33 +1,35 @@
 package edu.wpi.teamo.database.map;
 
 import edu.wpi.teamo.database.Database;
-import java.io.FileNotFoundException;
+
+import java.io.*;
+import java.net.URL;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.sql.SQLException;
-import java.io.IOException;
+
 import javafx.util.Pair;
 import java.util.List;
 
 public class MapDB implements IMapService {
     Database db;
 
-    public MapDB(String nodeCSVFilepath, String edgeCSVFilepath) throws FileNotFoundException, SQLException, ClassNotFoundException {
-
-        /* read csv files */
-        Stream<Node> nodeStream = NodeCSV.read(nodeCSVFilepath);
-        Stream<Edge> edgeStream = EdgeCSV.read(edgeCSVFilepath);
-
-        /* initialize database */
-        db = Database.getInstance();
-        Node.initTable(db);
-        Edge.initTable(db);
-
-        /* save to the database */
-        storeNodes(db, nodeStream);
-        storeEdges(db, edgeStream);
-
-    }
+//    public MapDB(String nodeCSVFilepath, String edgeCSVFilepath) throws FileNotFoundException, SQLException, ClassNotFoundException {
+//
+//        /* read csv files */
+//        Stream<Node> nodeStream = NodeCSV.read(nodeCSVFilepath);
+//        Stream<Edge> edgeStream = EdgeCSV.read(edgeCSVFilepath);
+//
+//        /* initialize database */
+//        db = Database.getInstance();
+//        Node.initTable(db);
+//        Edge.initTable(db);
+//
+//        /* save to the database */
+//        storeNodes(db, nodeStream);
+//        storeEdges(db, edgeStream);
+//
+//    }
 
     public MapDB(String databaseName) throws SQLException, ClassNotFoundException {
         /* derive init command from custom name */
@@ -41,12 +43,36 @@ public class MapDB implements IMapService {
         this.db = database;
         Node.initTable(db);
         Edge.initTable(db);
+        loadMapIfEmpty(db);
     }
 
     public MapDB() throws SQLException, ClassNotFoundException {
         db = Database.getInstance();
         Node.initTable(db);
         Edge.initTable(db);
+        loadMapIfEmpty(db);
+    }
+
+    private static File[] getResourceFolderFiles (String folder) {
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        URL url = loader.getResource(folder);
+        String path = url.getPath();
+        return new File(path).listFiles();
+    }
+
+    private void loadMapIfEmpty(Database db) {
+        try {
+            if (Node.getAll(db).count() == 0) {
+                System.out.println("Loading nodes from default file.");
+                loadNodesFromResource("bwOnodes.csv");
+            }
+            if (Edge.getAll(db).count() == 0) {
+                System.out.println("Loading edges from default file.");
+                loadEdgesFromResource("bwOedges.csv");
+            }
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -57,20 +83,52 @@ public class MapDB implements IMapService {
         storeNodes(db, mapStreamPair.getKey());
     }
 
-    public void loadEdgesFromFile(String filepath) throws FileNotFoundException, SQLException {
+    public void loadEdgesFromFile(String filepath) throws IOException, SQLException {
         deleteEdges();
         /* read file */
-        Stream<Edge> edgeStream = EdgeCSV.read(filepath);
+        File file = new File(filepath);
+        Stream<Edge> edgeStream = EdgeCSV.read(new FileReader(file));
         /* save to the database */
         storeEdges(db, edgeStream);
     }
 
-    public void loadNodesFromFile(String filepath) throws FileNotFoundException, SQLException {
+    public void loadNodesFromFile(String filepath) throws IOException, SQLException {
         deleteNodes();
         /* read file */
-        Stream<Node> nodeStream = NodeCSV.read(filepath);
+        File file = new File(filepath);
+        Stream<Node> nodeStream = NodeCSV.read(new FileReader(file));
         /* save to the database */
         storeNodes(db, nodeStream);
+    }
+
+    public void loadEdgesFromResource(String filepath) throws IOException, SQLException {
+        deleteEdges();
+        /* read file */
+        InputStream resourceIStream = getClass().getResourceAsStream(filepath);
+        if (resourceIStream != null) {
+            InputStreamReader iReader = new InputStreamReader(resourceIStream);
+            Stream<Edge> edgeStream = EdgeCSV.read(iReader);
+            /* save to the database */
+            storeEdges(db, edgeStream);
+        }
+        else {
+            throw new IOException("Cant get resource");
+        }
+    }
+
+    public void loadNodesFromResource(String filepath) throws IOException, SQLException {
+        deleteNodes();
+        /* read file */
+        InputStream resourceIStream = getClass().getResourceAsStream(filepath);
+        if (resourceIStream != null) {
+            InputStreamReader iReader = new InputStreamReader(resourceIStream);
+            Stream<Node> nodeStream = NodeCSV.read(iReader);
+            /* save to the database */
+            storeNodes(db, nodeStream);
+        }
+        else {
+            throw new IOException("Cant get resource");
+        }
     }
 
     private static void storeNodes(Database db, Stream<Node> nodeStream) throws SQLException {

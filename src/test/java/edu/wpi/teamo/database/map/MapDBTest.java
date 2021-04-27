@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.BeforeAll;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 import java.util.stream.Stream;
@@ -25,7 +26,7 @@ public class MapDBTest {
 
 
     @Test
-    public void getAllNodes() throws SQLException, FileNotFoundException, ClassNotFoundException {
+    public void getAllNodes() throws SQLException, IOException, ClassNotFoundException {
         /* test get node */
         MapDB db = new MapDB("MapDBTests");
         db.loadEdgesFromFile(testEdgeFile);
@@ -34,7 +35,7 @@ public class MapDBTest {
     }
 
     @Test
-    public void setNodePosition() throws SQLException, FileNotFoundException, ClassNotFoundException {
+    public void setNodePosition() throws SQLException, IOException, ClassNotFoundException {
         MapDB db = new MapDB("MapDBTests");
         db.loadEdgesFromFile(testEdgeFile);
         db.loadNodesFromFile(testNodeFile);
@@ -44,7 +45,7 @@ public class MapDBTest {
     }
 
     @Test
-    public void setNodeLongName() throws SQLException, FileNotFoundException, ClassNotFoundException {
+    public void setNodeLongName() throws SQLException, IOException, ClassNotFoundException {
         MapDB db = new MapDB("MapDBTests");
         db.loadEdgesFromFile(testEdgeFile);
         db.loadNodesFromFile(testNodeFile);
@@ -54,7 +55,7 @@ public class MapDBTest {
     }
 
     @Test
-    public void addEdge() throws SQLException, FileNotFoundException, ClassNotFoundException {
+    public void addEdge() throws SQLException, IOException, ClassNotFoundException {
         MapDB db = new MapDB("MapDBTests");
         db.loadEdgesFromFile(testEdgeFile);
         db.loadNodesFromFile(testNodeFile);
@@ -64,7 +65,7 @@ public class MapDBTest {
     }
 
     @Test
-    public void addNode() throws SQLException, FileNotFoundException, ClassNotFoundException {
+    public void addNode() throws SQLException, IOException, ClassNotFoundException {
         MapDB db = new MapDB("MapDBTests");
         db.loadEdgesFromFile(testEdgeFile);
         db.loadNodesFromFile(testNodeFile);
@@ -74,7 +75,7 @@ public class MapDBTest {
     }
 
     @Test
-    public void deleteNode() throws SQLException, FileNotFoundException, ClassNotFoundException {
+    public void deleteNode() throws SQLException, IOException, ClassNotFoundException {
         MapDB db = new MapDB("MapDBTests");
         db.loadEdgesFromFile(testEdgeFile);
         db.loadNodesFromFile(testNodeFile);
@@ -85,7 +86,7 @@ public class MapDBTest {
     }
 
     @Test
-    public void deleteEdge() throws SQLException, ClassNotFoundException, FileNotFoundException {
+    public void deleteEdge() throws SQLException, ClassNotFoundException, IOException {
         MapDB db = new MapDB("MapDBTests");
         db.loadEdgesFromFile(testEdgeFile);
         db.loadNodesFromFile(testNodeFile);
@@ -132,6 +133,8 @@ public class MapDBTest {
 
         } catch (FileNotFoundException e) {
             fail("Cannot testLoadFromCSVs, file not found.");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -163,7 +166,8 @@ public class MapDBTest {
             tMDB.writeEdgesToCSV(writtenFilepath);
 
             HashMap<String, Edge> edgesToCheck = new HashMap<>();
-            Stream<Edge> edgeStream = EdgeCSV.read(writtenFilepath);
+            File writtenFile = new File(writtenFilepath);
+            Stream<Edge> edgeStream = EdgeCSV.read(new FileReader(writtenFile));
             edgeStream.forEach((Edge edge) -> edgesToCheck.put(edge.getEdgeID(), edge));
 
             assertEquals(3, edgesToCheck.size());
@@ -187,7 +191,8 @@ public class MapDBTest {
             tMDB.loadNodesFromFile(testNodeFile);
             tMDB.writeNodesToCSV(writtenFilepath);
             HashMap<String, Node> nodesToCheck = new HashMap<>();
-            Stream<Node> nodeStream = NodeCSV.read(writtenFilepath);
+            File writtenFile = new File(writtenFilepath);
+            Stream<Node> nodeStream = NodeCSV.read(new FileReader(writtenFile));
             nodeStream.forEach((Node node) -> nodesToCheck.put(node.getNodeID(), node));
 
             assertEquals(3, nodesToCheck.size());
@@ -277,7 +282,7 @@ public class MapDBTest {
     }
 
     @Test
-    public void testSetEdgeID() throws SQLException, ClassNotFoundException, FileNotFoundException {
+    public void testSetEdgeID() throws SQLException, ClassNotFoundException, IOException {
         MapDB tMDB = new MapDB("testSetEdgeID");
         tMDB.loadEdgesFromFile(testEdgeFile);
         assertFalse(tMDB.edgeExists("newID"));
@@ -290,7 +295,7 @@ public class MapDBTest {
     }
 
     @Test
-    public void testSetEdgeStartID() throws SQLException, ClassNotFoundException, FileNotFoundException {
+    public void testSetEdgeStartID() throws SQLException, ClassNotFoundException, IOException {
         MapDB tMDB = new MapDB("testSetEdgeStartID");
         tMDB.loadEdgesFromFile(testEdgeFile);
         assertEquals("edge1S", tMDB.getEdge("edgeID1").getStartNodeID());
@@ -301,7 +306,7 @@ public class MapDBTest {
     }
 
     @Test
-    public void testSetEdgeEndID() throws SQLException, ClassNotFoundException, FileNotFoundException {
+    public void testSetEdgeEndID() throws SQLException, ClassNotFoundException, IOException {
         MapDB tMDB = new MapDB("testSetEdgeEndID");
         tMDB.loadEdgesFromFile(testEdgeFile);
         assertEquals("edge1E", tMDB.getEdge("edgeID1").getEndNodeID());
@@ -312,7 +317,7 @@ public class MapDBTest {
     }
 
     @Test
-    public void testSetNodeBuilding() throws SQLException, ClassNotFoundException, FileNotFoundException {
+    public void testSetNodeBuilding() throws SQLException, ClassNotFoundException, IOException {
         final String idToChange = "testID1";
         final String newBuilding = "nBuilding";
 
@@ -326,7 +331,7 @@ public class MapDBTest {
     }
 
     @Test
-    public void testSetNodeFloor() throws SQLException, ClassNotFoundException, FileNotFoundException {
+    public void testSetNodeFloor() throws SQLException, ClassNotFoundException, IOException {
         final String idToChange = "testID1";
         final String newFloor = "nFloor";
 
@@ -340,7 +345,7 @@ public class MapDBTest {
     }
 
     @Test
-    public void testSetNodeType() throws SQLException, ClassNotFoundException, FileNotFoundException {
+    public void testSetNodeType() throws SQLException, ClassNotFoundException, IOException {
         final String idToChange = "testID1";
         final String newType = "nType";
 
@@ -354,7 +359,7 @@ public class MapDBTest {
     }
 
     @Test
-    public void testSetNodeShortName() throws SQLException, ClassNotFoundException, FileNotFoundException {
+    public void testSetNodeShortName() throws SQLException, ClassNotFoundException, IOException {
         final String idToChange = "testID1";
         final String newShortName = "nShortName";
 
@@ -368,7 +373,7 @@ public class MapDBTest {
     }
 
     @Test
-    public void testSetNodeID() throws SQLException, ClassNotFoundException, FileNotFoundException {
+    public void testSetNodeID() throws SQLException, ClassNotFoundException, IOException {
         final String idToChange = "testID1";
         final String newID = "nID";
 

@@ -17,8 +17,8 @@ public interface IMapService {
 
     /* the csv loaders */
     void loadMapFromCSV(String filepath) throws IOException, SQLException;
-    void loadNodesFromFile(String filepath) throws FileNotFoundException, SQLException;
-    void loadEdgesFromFile(String filepath) throws FileNotFoundException, SQLException;
+    void loadNodesFromFile(String filepath) throws IOException, SQLException;
+    void loadEdgesFromFile(String filepath) throws IOException, SQLException;
 
     /* the node setters */
     void setNodePosition(String id, int newX, int newY) throws SQLException, IllegalArgumentException;

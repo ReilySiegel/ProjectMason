@@ -5,6 +5,7 @@ import edu.wpi.teamo.database.map.EdgeCSV;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.stream.Stream;
 import java.io.IOException;
 import java.util.HashMap;
@@ -20,7 +21,7 @@ public class EdgeCSVTests {
         try {
 
             HashMap<String, Edge> edges = new HashMap<>();
-            Stream<Edge> edgeStream = EdgeCSV.read(testCSVPath);
+            Stream<Edge> edgeStream = EdgeCSV.read(new FileReader(testCSVPath));
             edgeStream.forEach((Edge edge) -> edges.put(edge.getEdgeID(), edge));
 
             assertEquals(3, edges.size());
@@ -43,10 +44,10 @@ public class EdgeCSVTests {
     public void testWrite() {
         final String writtenFilepath = "src/test/resources/edu/wpi/teamo/database/writtenEdges.csv";
         try {
-            EdgeCSV.write(writtenFilepath, EdgeCSV.read(testCSVPath));
+            EdgeCSV.write(writtenFilepath, EdgeCSV.read(new FileReader(testCSVPath)));
 
             HashMap<String, Edge> edges = new HashMap<>();
-            Stream<Edge> edgeStream = EdgeCSV.read(writtenFilepath);
+            Stream<Edge> edgeStream = EdgeCSV.read(new FileReader(writtenFilepath));
             edgeStream.forEach((Edge edge) -> edges.put(edge.getEdgeID(), edge));
 
             assertEquals(3, edges.size());

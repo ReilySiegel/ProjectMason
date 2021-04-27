@@ -6,6 +6,8 @@ import java.io.FileNotFoundException;
 import edu.wpi.teamo.database.map.Node;
 import edu.wpi.teamo.database.map.NodeCSV;
 import org.junit.jupiter.api.Test;
+
+import java.io.FileReader;
 import java.util.stream.Stream;
 import java.io.IOException;
 import java.util.HashMap;
@@ -20,7 +22,7 @@ public class NodeCSVTests {
         try {
 
             HashMap<String, Node> nodes = new HashMap<>();
-            Stream<Node> nodeStream = NodeCSV.read(testCSVPath);
+            Stream<Node> nodeStream = NodeCSV.read(new FileReader(testCSVPath));
             nodeStream.forEach((Node node) -> nodes.put(node.getNodeID(), node));
 
             assertEquals(3, nodes.size());
@@ -44,11 +46,11 @@ public class NodeCSVTests {
         final String writtenFilepath = "src/test/resources/edu/wpi/teamo/database/writtenNodes.csv";
 
         try {
-            Stream<Node> nodeStream = NodeCSV.read(testCSVPath);
+            Stream<Node> nodeStream = NodeCSV.read(new FileReader(testCSVPath));
             NodeCSV.write(writtenFilepath, nodeStream);
 
             HashMap<String, Node> nodesToCheck = new HashMap<>();
-            Stream<Node> nodeCheckStream = NodeCSV.read(writtenFilepath);
+            Stream<Node> nodeCheckStream = NodeCSV.read(new FileReader(writtenFilepath));
             nodeCheckStream.forEach((Node node) -> nodesToCheck.put(node.getNodeID(), node));
 
             assertEquals(3, nodesToCheck.size());

@@ -67,11 +67,10 @@ public class MainPage extends SubPageController implements Initializable {
      * @param e
      */
     @FXML
-    private void closeWindow(ActionEvent e){
+    private void closeWindow(ActionEvent e) {
         Stage stage = (Stage) closeButton.getScene().getWindow();
         stage.close();
     }
-
 
     /**
      * event handler for switching to service request page
