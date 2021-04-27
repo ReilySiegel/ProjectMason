@@ -3,10 +3,7 @@ package edu.wpi.teamo.views;
 import com.jfoenix.controls.*;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import edu.wpi.teamo.App;
-import edu.wpi.teamo.database.request.BaseRequest;
-import edu.wpi.teamo.database.request.InterpreterRequest;
-import edu.wpi.teamo.database.request.MedicineRequest;
-import edu.wpi.teamo.database.request.SanitationRequest;
+import edu.wpi.teamo.database.request.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
@@ -20,6 +17,7 @@ import javafx.scene.text.Text;
 import javafx.util.Callback;
 
 import java.net.URL;
+import java.security.Security;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -65,11 +63,15 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
     @FXML
     private JFXTreeTableView<InterpreterRequest> langRequestTable;
 
+    @FXML
+    private JFXTreeTableView<SecurityRequest> secRequestTable;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         updateMedicineTable();
         updateSanitationTable();
         updateInterpreterTable();
+        updateSecTable();
 
     }
 
@@ -361,6 +363,92 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         langRequestTable.getColumns().setAll(intIDs, intLanguage, intType, intDetails, intLocs, intAssigned, intDue);
         langRequestTable.setRoot(intRoot);
         langRequestTable.setShowRoot(false);
+    }
+
+    @FXML
+    private void updateSecTable() {
+        JFXTreeTableColumn<SecurityRequest, String> secIDs = new JFXTreeTableColumn<>("ID");
+        secIDs.setPrefWidth(150);
+        secIDs.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<SecurityRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<SecurityRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getID());
+                return strProp;
+            }
+        });
+
+        JFXTreeTableColumn<SecurityRequest, String> secLocs = new JFXTreeTableColumn<>("Room/Node(s)");
+        secLocs.setPrefWidth(150);
+        secLocs.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<SecurityRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<SecurityRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getLocations().collect(Collectors.joining(", ")));
+                return strProp;
+            }
+        });
+
+        JFXTreeTableColumn<SecurityRequest, String> secAssigned = new JFXTreeTableColumn<>("Assigned Person");
+        secAssigned.setPrefWidth(150);
+        secAssigned.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<SecurityRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<SecurityRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getAssigned());
+                return strProp;
+            }
+        });
+
+        JFXTreeTableColumn<SecurityRequest, String> secDue = new JFXTreeTableColumn<>("Due");
+        secDue.setPrefWidth(150);
+        secDue.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<SecurityRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<SecurityRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getDue().toString());
+                return strProp;
+            }
+        });
+
+        JFXTreeTableColumn<SecurityRequest, String> secEmergency = new JFXTreeTableColumn<>("Urgency");
+        secEmergency.setPrefWidth(150);
+        secEmergency.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<SecurityRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<SecurityRequest, String> param) {
+                StringProperty strProp;
+                if (param.getValue().getValue().isEmergency())
+                    strProp = new SimpleStringProperty("Emergency");
+                else
+                    strProp = new SimpleStringProperty("Normal");
+                return strProp;
+            }
+        });
+
+        JFXTreeTableColumn<SecurityRequest, String> secCompleted = new JFXTreeTableColumn<>("Status");
+        secCompleted.setPrefWidth(150);
+        secCompleted.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<SecurityRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<SecurityRequest, String> param) {
+                StringProperty strProp;
+                if (param.getValue().getValue().isComplete())
+                    strProp = new SimpleStringProperty("Complete");
+                else
+                    strProp = new SimpleStringProperty("In progress");
+                return strProp;
+            }
+        });
+
+        ObservableList<SecurityRequest> secRequests = FXCollections.observableArrayList();
+
+        try {
+            Stream<SecurityRequest> secReqStream = SecurityRequest.getAll();
+            secReqStream.forEach(m -> secRequests.add(m));
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        final TreeItem<SecurityRequest> root = new RecursiveTreeItem<SecurityRequest>(secRequests, RecursiveTreeObject::getChildren);
+        secRequestTable.getColumns().setAll(secIDs, secLocs, secAssigned, secDue, secEmergency, secCompleted);
+        secRequestTable.setRoot(root);
+        secRequestTable.setShowRoot(false);
     }
 
     @FXML
