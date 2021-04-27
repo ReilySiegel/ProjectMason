@@ -31,4 +31,11 @@ public class Session {
         else
             throw new Exception();
     }
+
+    public static synchronized void logout (){
+        if(!(Objects.isNull(getSession().user))){
+            getSession().user = null;
+        }
+
+    }
 }

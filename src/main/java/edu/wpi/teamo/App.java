@@ -59,6 +59,7 @@ public class App extends Application {
     pagePaths.put(Pages.SECURITY, "/edu/wpi/teamo/fxml/SR11_Security.fxml");
     pagePaths.put(Pages.ADDUSERS, "/edu/wpi/teamo/fxml/AddUsersPage.fxml");
     pagePaths.put(Pages.TRANSPORTATION,"/edu/wpi/teamo/fxml/PatientTransportation.fxml");
+
     System.out.println("Starting Up");
 
     /* instantiate the database services, set to static variables that can be accessed from the handlers */
@@ -72,6 +73,7 @@ public class App extends Application {
       LaundryRequest.initTable();
       MaintenanceRequest.initTable();
       ReligiousRequest.initTable();
+      new Account("admin", "password", true, "Willson", "Wong", "admin").update();
       System.out.println("Database Services Initialized");
     } catch (SQLException e) {
       System.out.println("ERROR: FAILED TO INIT DATABASE SERVICES");

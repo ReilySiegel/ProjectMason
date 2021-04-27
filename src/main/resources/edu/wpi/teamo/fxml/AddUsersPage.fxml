@@ -15,15 +15,15 @@
          <children>
             <AnchorPane layoutX="452.0" layoutY="78.0" prefHeight="680.0" prefWidth="705.0" style="-fx-background-color: #3b4252;">
                <children>
-                  <JFXTextField layoutX="271.0" layoutY="72.0" prefHeight="40.0" prefWidth="255.0" style="-fx-background-color: #f2f2f2;" />
-                  <JFXTextField layoutX="271.0" layoutY="146.0" prefHeight="40.0" prefWidth="255.0" style="-fx-background-color: #f2f2f2;" />
-                  <JFXTextField layoutX="271.0" layoutY="223.0" prefHeight="40.0" prefWidth="255.0" style="-fx-background-color: #f2f2f2;" />
-                  <JFXPasswordField layoutX="271.0" layoutY="300.0" prefHeight="40.0" prefWidth="255.0" style="-fx-background-color: #f2f2f2;" />
-                  <JFXCheckBox layoutX="271.0" layoutY="464.0" prefHeight="58.0" prefWidth="116.0" text="%key.admin" textFill="#d8dee9" unCheckedColor="#f2f2f2">
+                  <JFXTextField fx:id="firstName" layoutX="271.0" layoutY="72.0" prefHeight="40.0" prefWidth="255.0" style="-fx-background-color: #f2f2f2;" />
+                  <JFXTextField fx:id="lastName" layoutX="271.0" layoutY="146.0" prefHeight="40.0" prefWidth="255.0" style="-fx-background-color: #f2f2f2;" />
+                  <JFXTextField fx:id="username" layoutX="271.0" layoutY="223.0" prefHeight="40.0" prefWidth="255.0" style="-fx-background-color: #f2f2f2;" />
+                  <JFXPasswordField fx:id="password" layoutX="271.0" layoutY="300.0" prefHeight="40.0" prefWidth="255.0" style="-fx-background-color: #f2f2f2;" />
+                  <JFXCheckBox fx:id="isAdmin" layoutX="271.0" layoutY="464.0" prefHeight="58.0" prefWidth="116.0" text="Admin?" textFill="#d8dee9" unCheckedColor="#f2f2f2">
                      <font>
                         <Font size="16.0" />
                      </font></JFXCheckBox>
-                  <JFXButton layoutX="461.0" layoutY="569.0" prefHeight="68.0" prefWidth="181.0" style="-fx-background-color: #8fbcbb;" text="%key.submit" textFill="#d8dee9">
+                  <JFXButton layoutX="461.0" layoutY="569.0" onAction="#addUser" prefHeight="68.0" prefWidth="181.0" style="-fx-background-color: #8fbcbb;" text="%key.submit" textFill="#d8dee9">
                      <font>
                         <Font name="System Bold" size="30.0" />
                      </font>
@@ -53,7 +53,7 @@
                         <Font name="System Bold" size="30.0" />
                      </font>
                   </JFXButton>
-                  <JFXTextField layoutX="271.0" layoutY="374.0" prefHeight="40.0" prefWidth="255.0" style="-fx-background-color: #f2f2f2;" />
+                  <JFXTextField fx:id="role" layoutX="271.0" layoutY="374.0" prefHeight="40.0" prefWidth="255.0" style="-fx-background-color: #f2f2f2;" />
                </children>
             </AnchorPane>
             <Label layoutX="22.0" layoutY="83.0" prefHeight="680.0" prefWidth="419.0" text="%key.account_creation_page" textAlignment="CENTER" textFill="#d8dee9" wrapText="true">

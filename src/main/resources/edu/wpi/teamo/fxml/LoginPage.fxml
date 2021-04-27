@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="stackPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.LoginPage">
+<StackPane fx:id="loginStack" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.LoginPage">
    <children>
       <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #001a3C;">
          <children>
@@ -24,12 +24,12 @@
                         <Font name="Serif Regular" size="48.0" />
                      </font>
                   </Label>
-                  <Label alignment="CENTER" layoutX="103.0" layoutY="312.0" prefHeight="138.0" prefWidth="516.0" text="%key.welcome_login" textAlignment="CENTER" textFill="WHITE">
+                  <Label alignment="CENTER" layoutX="103.0" layoutY="320.0" prefHeight="138.0" prefWidth="516.0" text="%key.welcome_login" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font name="Serif Regular" size="24.0" />
                      </font>
                   </Label>
-                  <JFXButton layoutX="122.0" layoutY="474.0" prefHeight="119.0" prefWidth="477.0" style="-fx-background-color: #0263A9;" text="%key.guest_login" textFill="WHITE">
+                  <JFXButton layoutX="122.0" layoutY="474.0" onAction="#guestOnClick" prefHeight="119.0" prefWidth="477.0" style="-fx-background-color: #0263A9;" text="%key.guest_login" textFill="WHITE">
                      <font>
                         <Font size="24.0" />
                      </font>

@@ -9,6 +9,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import edu.wpi.teamo.Pages;
+import edu.wpi.teamo.Session;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -57,7 +58,11 @@ public class MainPage {
      */
     @FXML
     private void handleMapEditor(ActionEvent e) {
-        App.switchPage(Pages.MAPEDITOR);
+        if(Session.isLoggedIn() && Session.getAccount().isAdmin())
+            App.switchPage(Pages.MAPEDITOR);
+        else{
+            //add error
+        }
     }
 
 
@@ -99,7 +104,42 @@ public class MainPage {
     private void handleLogin(ActionEvent e) { App.switchPage(Pages.LOGIN);}
 
     @FXML
-    private void handleAddUsers(ActionEvent e) { App.switchPage(Pages.ADDUSERS);}
+    private void handleAddUsers(ActionEvent e) {
+
+        if(Session.isLoggedIn() && Session.getAccount().isAdmin())
+            App.switchPage(Pages.ADDUSERS);
+        else{
+           //add error
+       }
+    }
+
+    @FXML
+    private void handleLogOut(ActionEvent e){
+        Session.logout();
+    }
+
+    @FXML
+    private void displayLoginInfo(ActionEvent e){
+        JFXDialogLayout content = new JFXDialogLayout();
+        content.setHeading(new Text(App.resourceBundle.getString("key.profile_info")));
+        if(Session.isLoggedIn())
+            content.setBody(new Text("Username: " + Session.getAccount().getUsername()));
+        else
+            content.setBody(new Text("Username: guest"));
+        JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
+
+        JFXButton closeButton = new JFXButton("Close");
+        closeButton.setStyle("-fx-background-color: #F40F19");
+        closeButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                errorWindow.close();
+            }
+        });
+
+        content.setActions(closeButton);
+        errorWindow.show();
+    }
 
     /**
      * Toggles between spanish and english (later on implement dedicated page for multiple languages?)

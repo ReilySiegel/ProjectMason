@@ -2,11 +2,15 @@ package edu.wpi.teamo.views;
 import com.jfoenix.controls.*;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.Pages;
+import edu.wpi.teamo.Session;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+
+import java.util.Objects;
 
 public class LoginPage extends SubPageController{
     @FXML
@@ -15,29 +19,39 @@ public class LoginPage extends SubPageController{
     JFXPasswordField password;
     @FXML
     StackPane loginStack;
+    @FXML
+    AnchorPane submitAnchorPane;
 
     @FXML
     void checkPasswordUsernameCombo(ActionEvent e){
-        if(username.getText().equals("admin") && password.getText().equals("password")){
+        String usernameString = username.getText();
+        String passwordString = password.getText();
+
+        try{
+            Session.login(usernameString,passwordString);
             App.switchPage(Pages.MAIN);
-        }
-        else{
-////            JFXDialogLayout content = new JFXDialogLayout();
-////            content.setHeading(new Text("Error"));
-////            content.setBody(new Text("Incorrect Username or Password"));
-////            ///JFXDialog errorWindow = new JFXDialog(loginStack, content, JFXDialog.DialogTransition.TOP);
-////
-////            JFXButton closeButton = new JFXButton("Close");
-////            closeButton.setStyle("-fx-background-color: #f40f19");
-////            closeButton.setOnAction(new EventHandler<ActionEvent>() {
-////                @Override
-////                //public void handle(ActionEvent event) {
-////                   // errorWindow.close();
-////                //}
-////            });
-//
-//            content.setActions(closeButton);
-//            errorWindow.show();
+
+        } catch (Exception exception) {
+            username.clear();
+            password.clear();
+
+            JFXDialogLayout content = new JFXDialogLayout();
+            content.setHeading(new Text(App.resourceBundle.getString("key.error")));
+            content.setBody(new Text(App.resourceBundle.getString("key.Invalid_Combo")));
+            JFXDialog errorWindow = new JFXDialog(loginStack,
+                    content,
+                    JFXDialog.DialogTransition.TOP);
+
+            JFXButton closeButton = new JFXButton("Close");
+            closeButton.setStyle("-fx-background-color: #F40F19");
+            closeButton.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    errorWindow.close();
+                }
+            });
+            content.setActions(closeButton);
+            errorWindow.show();
         }
     }
 
@@ -49,5 +63,11 @@ public class LoginPage extends SubPageController{
     @FXML
     void backToMainMenu(ActionEvent e){
         App.switchPage(Pages.MAIN);
+    }
+
+    @FXML
+    void guestOnClick(ActionEvent e){
+        Session.logout();
+        backToMainMenu(e);
     }
 }
