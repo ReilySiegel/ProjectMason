@@ -32,20 +32,14 @@ public class PathfindingPage extends SubPageController implements Initializable 
     private JFXButton helpButton;
 
     @FXML
-    private JFXButton stepFloorButton;
-
-    @FXML
-    private JFXComboBox<String> endDropdown;
-
-    @FXML
-    private JFXComboBox<String> startDropdown;
-
-    @FXML
-    private JFXComboBox<String> switchFloor;
+    private JFXComboBox<String> floorComboBox;
     String floor;
 
     @FXML
-    private StackPane stackPane;
+    private AnchorPane parentNode;
+
+    @FXML
+    private StackPane parentStackPane;
 
     @FXML
     JFXButton chooseStartButton;
@@ -63,10 +57,15 @@ public class PathfindingPage extends SubPageController implements Initializable 
     private AnchorPane pathPane;
 
     @FXML
-    private JFXTextArea pathText;
+    private AnchorPane searchWindow;
 
     @FXML
-    private JFXTextArea mapText;
+    private JFXTextField searchBar;
+
+    @FXML
+    private JFXListView<JFXCheckBox> searchResultsView;
+
+    private LocationSearcher locationSearcher;
 
     LinkedList<AlgoNode> calculatedPath = null;
 
@@ -78,20 +77,47 @@ public class PathfindingPage extends SubPageController implements Initializable 
 
     Map map;
 
+    @FXML
+    public void initialize(URL location, ResourceBundle resources) {
+
+        App.getPrimaryStage().getScene().getStylesheets().add(LocationSearcher.getStylePath());
+
+        floorComboBox.getItems().add("L2");
+        floorComboBox.getItems().add("L1");
+        floorComboBox.getItems().add("G");
+        floorComboBox.getItems().add("1");
+        floorComboBox.getItems().add("2");
+        floorComboBox.getItems().add("3");
+        floorComboBox.setValue("1");
+        floor = "1";
+
+        chooseStartButton.setOnAction(this::handleChooseStart);
+        floorComboBox.setOnAction(this::handleFloorSwitch);
+        chooseEndButton.setOnAction(this::handleChoseEnd);
+        findPathButton.setOnAction(this::handleFindPath);
+        helpButton.setOnAction(this::handleHelpButton);
+        backButton.setOnAction(this::backToMain);
+
+        locationSearcher = new LocationSearcher(searchBar, searchResultsView);
+        locationSearcher.setOnMakeCheckbox(this::onMakeCheckbox);
+        locationSearcher.setOnCheckNode(this::onClickNode);
+        setSearchWindowVisibility(false);
+
+        map = new Map(imageView, pathPane);
+        map.setOnDrawNode(this::onDrawNode);
+        update();
+    }
+
     void onDrawNode(Pair<Circle, NodeInfo> p) {
         Circle circle = p.getKey();
         NodeInfo node = p.getValue();
 
         circle.setOnMouseEntered(event -> {
-            mapText.setText(node.getNodeID() + "\t" + node.getLongName());
             circle.setRadius(7);
             event.consume();
         });
 
         circle.setOnMouseExited(event -> {
-            if (mapText != null) {
-                mapText.setText("");
-            }
             circle.setRadius(4);
             event.consume();
         });
@@ -105,58 +131,52 @@ public class PathfindingPage extends SubPageController implements Initializable 
     //    Consumer<NodeInfo> onClickNode = (NodeInfo node) -> System.out.println("Node " + node.getNodeID() + "was clicked");
     void onClickNode(NodeInfo node) {
         if (selectingStart) {
-            startDropdown.setValue(node.getShortName());
+            chooseStartButton.setText(node.getShortName());
             selectedStartID = node.getNodeID();
             selectingStart = false;
         }
         if (selectingEnd) {
-            endDropdown.setValue(node.getShortName());
+            chooseEndButton.setText(node.getShortName());
             selectedEndID = node.getNodeID();
             selectingEnd = false;
         }
+        setSearchWindowVisibility(false);
         chooseStartButton.setDisable(selectingStart);
         chooseEndButton.setDisable(selectingEnd);
+        locationSearcher.clearSelectedLocations();
     }
 
-    //    Consumer<EdgeInfo> onClickEdge = (EdgeInfo edge) -> System.out.println("Edge " + node.getEdgeID() + "was clicked");
-    void onClickEdge(EdgeInfo edge) {
+    void onMakeCheckbox(JFXCheckBox checkBox) {
+//        checkBox.getStylesheets().add();
     }
 
-    private void handleChooseStart() {
+    private void handleChooseStart(ActionEvent e) {
         if (selectingStart) {
             selectingStart = false;
         }
         else {
-            mapText.setText("Select your start location.");
             selectingStart = true;
             selectingEnd = false;
         }
+        setSearchWindowVisibility(true);
         chooseStartButton.setDisable(selectingStart);
         chooseEndButton.setDisable(selectingEnd);
     }
 
-    private void handleChoseEnd() {
+    private void handleChoseEnd(ActionEvent e) {
         if (selectingEnd) {
             selectingEnd = false;
         }
         else {
-            mapText.setText("Select your destination.");
             selectingStart = false;
             selectingEnd = true;
         }
+        setSearchWindowVisibility(true);
         chooseEndButton.setDisable(selectingEnd);
         chooseStartButton.setDisable(selectingStart);
     }
 
-    void handleStartDropdown() {
-        selectedStartID = startDropdown.getValue();
-    }
-
-    void handleEndDropdown() {
-        selectedEndID = endDropdown.getValue();
-    }
-
-    private void handleFindPath() {
+    private void handleFindPath(ActionEvent e) {
         if (selectedStartID != null && selectedEndID != null) {
             findPath(selectedStartID, selectedEndID);
         }
@@ -171,17 +191,12 @@ public class PathfindingPage extends SubPageController implements Initializable 
                 "2. Choose End Location: Click on the button and ten choose the node at or closest to destination.\n" +
                 "3. Find Path: Click on the button to get directions on the map and text box on the right side of the map.\n"+
                 "4. Switch Floor: Click on the button to switch between the floors that  are on your path.\n"));
-        JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
+        JFXDialog errorWindow = new JFXDialog(parentStackPane, content, JFXDialog.DialogTransition.TOP);
 
 
         JFXButton closeButton = new JFXButton("Close");
         closeButton.setStyle("-fx-background-color: #F40F19");
-        closeButton.setOnAction(new EventHandler<ActionEvent>() {
-                                    @Override
-                                    public void handle(ActionEvent event) {
-                                        errorWindow.close();
-                                    }
-                                });
+        closeButton.setOnAction(event -> errorWindow.close());
 
         content.setActions(closeButton);
         errorWindow.show();
@@ -206,59 +221,15 @@ public class PathfindingPage extends SubPageController implements Initializable 
                 floors.add(node.getFloor());
             }
         }
-        updateMap();
-
-
+        update();
     }
 
-    @FXML
-    public void initialize(URL location, ResourceBundle resources) {
-        switchFloor.getItems().add("L2");
-        switchFloor.getItems().add("L1");
-        switchFloor.getItems().add("G");
-        switchFloor.getItems().add("1");
-        switchFloor.getItems().add("2");
-        switchFloor.getItems().add("3");
-        switchFloor.setValue("1");
-        floor = "1";
-
-        pathText.setText("No path.");
-
-        chooseStartButton.setOnAction(event -> handleChooseStart());
-        chooseEndButton.setOnAction(event -> handleChoseEnd());
-        findPathButton.setOnAction(event -> handleFindPath());
-        startDropdown.setOnAction(event -> handleStartDropdown());
-        endDropdown.setOnAction(event -> handleEndDropdown());
-        backButton.setOnAction(this::backToMain);
-
-        map = new Map(imageView, pathPane);
-        map.setOnDrawNode(this::onDrawNode);
-        updateMap();
-
-        try {
-            LinkedList<String> nodeShortNames = new LinkedList<>();
-            LinkedList<NodeInfo> nodes = App.mapService.getAllNodes().collect(Collectors.toCollection(LinkedList::new));
-            for (NodeInfo i : nodes) {
-                nodeShortNames.add(i.getShortName());
-            }
-
-            for (String nodeName : nodeShortNames) {
-                startDropdown.getItems().add(nodeName);
-                endDropdown.getItems().add(nodeName);
-            }
-
-        } catch (Exception SQLException) {
-            return;
-        }
+    void handleFloorSwitch(ActionEvent e) {
+        floor =  floorComboBox.getValue();
+        update();
     }
 
-    @FXML
-    void MapSwitch(ActionEvent event) {
-        floor =  switchFloor.getValue();
-        updateMap();
-    }
-
-    void updateMap() {
+    void update() {
         LinkedList<NodeInfo> nodes = new LinkedList<>();
         try {
             nodes = App.mapService.getAllNodes().collect(Collectors.toCollection(LinkedList::new));
@@ -268,7 +239,8 @@ public class PathfindingPage extends SubPageController implements Initializable 
         map.clearShapes();
         map.drawNodes(nodes, floor);
         displayPath(calculatedPath);
-        switchFloor.setValue(floor);
+        floorComboBox.setValue(floor);
+        locationSearcher.setLocations(nodes);
     }
 
     public void displayPath(LinkedList<AlgoNode> path) {
@@ -278,11 +250,11 @@ public class PathfindingPage extends SubPageController implements Initializable 
             for (AlgoNode node : path) {
                 text.append(node.getLongName()).append("\n");
             }
-            pathText.setText(text.toString());
         }
-        else {
-            pathText.setText("No path.");
-        }
+    }
+
+    private void setSearchWindowVisibility(boolean visible) {
+        searchWindow.setVisible(visible);
     }
 
 }
