@@ -19,7 +19,7 @@ public class SanitationRequestTest {
         BaseRequest.initTable();
         String[] loc = {"loc"};
         BaseRequest b = new BaseRequest("id", "det", Stream.of(loc), "me", false);
-        SanitationRequest s = new SanitationRequest(b);
+        SanitationRequest s = new SanitationRequest(false, b);
         s.update();
     }
 
@@ -32,7 +32,7 @@ public class SanitationRequestTest {
         String[] loc = {"loc"};
         LocalDateTime t = LocalDateTime.now();
         BaseRequest b = new BaseRequest("id", "det", Stream.of(loc), "me", false, t, t);
-        SanitationRequest s = new SanitationRequest(b);
+        SanitationRequest s = new SanitationRequest(false, b);
         s.update();
         assertEquals("id", SanitationRequest.getByID("id").getID());
         assertEquals("loc", SanitationRequest.getByID("id").getLocations().findFirst().orElseThrow(Exception::new));
@@ -48,7 +48,7 @@ public class SanitationRequestTest {
         BaseRequest.initTable();
         String[] loc = { "loc" };
         BaseRequest b = new BaseRequest("id", "det", Stream.of(loc), "me", false);
-        SanitationRequest s = new SanitationRequest(b);
+        SanitationRequest s = new SanitationRequest(false, b);
         s.update();
         assertEquals(1, SanitationRequest.getAll().count());
     }
@@ -61,7 +61,7 @@ public class SanitationRequestTest {
         BaseRequest.initTable();
         String[] loc = { "loc" };
         BaseRequest b = new BaseRequest("id", "det", Stream.of(loc), "me", false);
-        SanitationRequest s = new SanitationRequest(b);
+        SanitationRequest s = new SanitationRequest(false, b);
         s.update();
         assertEquals(false, SanitationRequest.getByID("id").isComplete());
         s.setComplete(true);
@@ -77,7 +77,7 @@ public class SanitationRequestTest {
         BaseRequest.initTable();
         String[] loc = {"loc"};
         BaseRequest b = new BaseRequest("id", "det", Stream.of(loc), "me", false);
-        SanitationRequest s = new SanitationRequest(b);
+        SanitationRequest s = new SanitationRequest(false, b);
         s.update();
         assertEquals("id", SanitationRequest.getByID("id").getID());
         s.delete();

@@ -319,7 +319,7 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         App.requestService.removeSanitationRequest(id);
 
         BaseRequest b = new BaseRequest(id, sanDetailsField.getText(), currentReq.getLocations(), currentReq.getAssigned(), currentReq.isComplete());
-        SanitationRequest sr = new SanitationRequest(b);
+        SanitationRequest sr = new SanitationRequest(false, b);
 
         sr.update();
         updateSanitationTable();

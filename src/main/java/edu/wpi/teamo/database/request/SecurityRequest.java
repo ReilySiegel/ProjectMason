@@ -51,7 +51,7 @@ public class SecurityRequest extends ExtendedBaseRequest<SecurityRequest> {
                     Database.prepareStatement("UPDATE SecurityRequest SET id = ?, emergency = ? WHERE id = ?");
             pstmt.setString(1, this.base.getId());
             pstmt.setBoolean(2, this.emergency);
-            pstmt.setString(2, this.base.getId());
+            pstmt.setString(3, this.base.getId());
             pstmt.execute();
         }
         this.base.update();

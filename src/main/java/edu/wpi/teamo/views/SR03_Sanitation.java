@@ -145,7 +145,7 @@ public class SR03_Sanitation extends ServiceRequestPage implements Initializable
             BaseRequest baseRequest = new BaseRequest(UUID.randomUUID().toString(), serviceName + ", " + details, locationIDs.stream(),
                     assigned, false, curDate);
             //App.requestService.requestSanitation(locationIDs.stream(), assigned, serviceName + ", " + details);
-            new SanitationRequest(baseRequest).update();
+            new SanitationRequest(false, baseRequest).update();
             System.out.println("Sanitation request submitted");
 
             service.setText("");
