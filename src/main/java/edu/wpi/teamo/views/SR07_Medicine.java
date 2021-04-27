@@ -20,6 +20,7 @@ import javafx.scene.text.Text;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -40,6 +41,15 @@ public class SR07_Medicine extends ServiceRequestPage implements Initializable {
 
     @FXML
     private JFXTextField assignee;
+
+    @FXML
+    private JFXTextField notes;
+
+    @FXML
+    private JFXTimePicker timePicker;
+
+    @FXML
+    private JFXDatePicker datePicker;
 
     @FXML
     private Text medErrorText;
@@ -112,6 +122,10 @@ public class SR07_Medicine extends ServiceRequestPage implements Initializable {
         String medicine = medName.getText();
         String amount = medAmount.getText();
         String assignName = assignee.getText();
+        String medNotes = notes.getText();
+
+        LocalTime curTime = timePicker.getValue();
+        LocalDateTime curDate = datePicker.getValue().atTime(curTime);
 
         List<NodeInfo>          locations = locationSearcher.getSelectedLocations();
         List<String> locationIDs = locationSearcher.getSelectedLocationIDs();
@@ -138,16 +152,18 @@ public class SR07_Medicine extends ServiceRequestPage implements Initializable {
         }
 
         if (validRequest) {
-            BaseRequest br = new BaseRequest(UUID.randomUUID().toString(), "", locationIDs.stream(), assignName, false, LocalDateTime.now());
+            BaseRequest br = new BaseRequest(UUID.randomUUID().toString(), medNotes, locationIDs.stream(), assignName, false, curDate);
             new MedicineRequest(medicine, amount, br).update();
 
             medErrorText.setText("");
             amountErrorText.setText("");
             assigneeErrorText.setText("");
+
             System.out.println("request successful");
             medName.setText("");
             medAmount.setText("");
             assignee.setText("");
+            notes.setText("");
 
             JFXDialogLayout content = new JFXDialogLayout();
             content.setHeading(new Text(App.resourceBundle.getString("key.medicine_request_submitted")));
@@ -155,7 +171,9 @@ public class SR07_Medicine extends ServiceRequestPage implements Initializable {
                     App.resourceBundle.getString("key.type_semicolon")  + medicine + "\n" +
                     App.resourceBundle.getString("key.amount_semicolon")  + amount + "\n" +
                     App.resourceBundle.getString("key.room_semicolon") + String.join(", ", locationIDs) + "\n" +
-                    App.resourceBundle.getString("key.persons_assigned_semicolon")  + assignName));
+                    App.resourceBundle.getString("key.persons_assigned_semicolon")  + assignName + "\n" +
+                    App.resourceBundle.getString("key.time") + curDate.toString() + "\n" +
+                    App.resourceBundle.getString("key.notes") + ": " + medNotes));
             JFXDialog popup = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 
             JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));

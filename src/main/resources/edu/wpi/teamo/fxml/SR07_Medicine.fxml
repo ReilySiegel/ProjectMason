@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXListView?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXTimePicker?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -64,6 +66,48 @@
                   </HBox>
                   <HBox prefHeight="50.0" prefWidth="580.0">
                      <children>
+                        <Text fill="#eceff4" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.date" wrappingWidth="190.0">
+                           <font>
+                              <Font name="Arial" size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets right="15.0" />
+                           </HBox.margin>
+                        </Text>
+                        <AnchorPane prefHeight="50.0" prefWidth="700.0">
+                           <children>
+                              <VBox prefHeight="50.0" prefWidth="552.0" AnchorPane.rightAnchor="0.0">
+                                 <children>
+                                    <JFXDatePicker fx:id="datePicker" prefWidth="400.0" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="50.0" prefWidth="580.0">
+                     <children>
+                        <Text fill="#eceff4" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.time" wrappingWidth="190.0">
+                           <font>
+                              <Font name="Arial" size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets right="15.0" />
+                           </HBox.margin>
+                        </Text>
+                        <AnchorPane prefHeight="50.0" prefWidth="700.0">
+                           <children>
+                              <VBox prefHeight="50.0" prefWidth="552.0" AnchorPane.rightAnchor="0.0">
+                                 <children>
+                                    <JFXTimePicker fx:id="timePicker" prefHeight="25.0" prefWidth="400.0" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="50.0" prefWidth="580.0">
+                     <children>
                         <Text fill="#eceff4" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.amount" wrappingWidth="190.0">
                            <font>
                               <Font name="Arial" size="18.0" />
@@ -106,6 +150,27 @@
                      </children>
                   </HBox>
                   <JFXListView fx:id="roomList" maxHeight="332.0" prefHeight="273.0" prefWidth="601.0" style="-fx-background-color: transparent;" stylesheets="@CSS/LocationSearch.css" />
+                  <HBox prefHeight="50.0" prefWidth="580.0">
+                     <children>
+                        <Text fill="#eceff4" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.notes" wrappingWidth="190.0">
+                           <font>
+                              <Font name="Arial" size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets right="15.0" />
+                           </HBox.margin>
+                        </Text>
+                        <AnchorPane prefHeight="50.0" prefWidth="700.0">
+                           <children>
+                              <VBox prefHeight="50.0" prefWidth="552.0" AnchorPane.rightAnchor="0.0">
+                                 <children>
+                                    <JFXTextField fx:id="notes" minWidth="300.0" onKeyTyped="#clearAmountError" prefHeight="25.0" prefWidth="600.0" style="-fx-text-inner-color: #eceff4;" unFocusColor="#eceff4" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </HBox>
                </children>
                <padding>
                   <Insets bottom="10.0" left="20.0" right="10.0" top="30.0" />
