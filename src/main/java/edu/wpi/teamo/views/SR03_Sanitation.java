@@ -122,17 +122,17 @@ public class SR03_Sanitation extends ServiceRequestPage implements Initializable
         validRequest = true;
 
         if (serviceName.equals("")) {
-            typeErrorText.setText("Service type required");
+            typeErrorText.setText(App.resourceBundle.getString("key.no_sanitation_type_specified"));
             validRequest = false;
         }
 
         if (locations.size() == 0) {
-            roomErrorText.setText("No room/node selected");
+            roomErrorText.setText(App.resourceBundle.getString("key.no_room_specified"));
             validRequest = false;
         }
 
         if (assigned.equals("")) {
-            assignedErrorText.setText("Assignee name required");
+            assignedErrorText.setText(App.resourceBundle.getString("key.no_assignee_specified"));
             validRequest = false;
         }
 
@@ -145,16 +145,16 @@ public class SR03_Sanitation extends ServiceRequestPage implements Initializable
             notes.setText("");
 
             JFXDialogLayout content = new JFXDialogLayout();
-            content.setHeading(new Text("Sanitation Request Submitted"));
+            content.setHeading(new Text(App.resourceBundle.getString("key.sanitation_request_submitted")));
             content.setBody(new Text("Request submitted with: \n" +
-                    "Type: " + serviceName + "\n" +
-                    "Room: " + String.join(", ", locationIDs) + "\n" +
-                    "Person(s) assigned: " + assigned + "\n" +
-                    "Additional notes: " + details));
+                    App.resourceBundle.getString("key.type_of_sanitation") + serviceName + "\n" +
+                    App.resourceBundle.getString("key.room_semicolon") + String.join(", ", locationIDs) + "\n" +
+                    App.resourceBundle.getString("key.persons_assigned_semicolon") + assigned + "\n" +
+                    App.resourceBundle.getString("key.additional_notes") + details));
             JFXDialog popup = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 
-            JFXButton closeButton = new JFXButton("Close");
-            JFXButton backButton = new JFXButton("Back to Menu");
+            JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
+            JFXButton backButton = new JFXButton(App.resourceBundle.getString("key.back_to_main"));
 
             closeButton.setStyle("-fx-background-color: #F40F19; -fx-text-fill: #fff");
             backButton.setStyle("-fx-background-color: #333333; -fx-text-fill: #fff");
@@ -182,13 +182,13 @@ public class SR03_Sanitation extends ServiceRequestPage implements Initializable
     private void handleHelp(ActionEvent e) {
 
         JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text("Help - Sanitation Service Request"));
-        content.setBody(new Text("Service Name: Type of service required\n" +
-                "Room: The node/room where the service is needed\n" +
-                "Assignee Name: The person to be assigned to this service\n"));
+        content.setHeading(new Text(App.resourceBundle.getString("key.help_sanitation")));
+        content.setBody(new Text(App.resourceBundle.getString("key.sanitation_type_help") +
+                App.resourceBundle.getString("key.room_help") +
+                App.resourceBundle.getString("key.assignee_help")));
         JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 
-        JFXButton closeButton = new JFXButton("Close");
+        JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
         closeButton.setStyle("-fx-background-color: #F40F19; -fx-text-fill: #fff");
         closeButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
