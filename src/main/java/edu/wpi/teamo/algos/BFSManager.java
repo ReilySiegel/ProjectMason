@@ -19,6 +19,13 @@ public class BFSManager extends AlgoManagerI{
     }
     @Override
     public LinkedList<AlgoNode> getPath(String StartID, String endID) throws SQLException {
-        return null;
+        conditionSetup();
+
+        BFS BreadthFirstSearch = new BFS(nodes, StartID, endID);
+        BreadthFirstSearch.setNodes(nodes);
+
+        LinkedList<AlgoNode> path = BreadthFirstSearch.findPath(StartID, endID);
+
+        return path;
     }
 }
