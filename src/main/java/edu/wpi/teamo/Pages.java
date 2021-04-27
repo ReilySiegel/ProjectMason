@@ -14,7 +14,6 @@ public enum Pages {
     RELIGIOUS,
     SURVEY,
     LAUNDRY,
-    SURVEY,
     SECURITY,
     MAINTENANCE,
     ADDUSERS,
