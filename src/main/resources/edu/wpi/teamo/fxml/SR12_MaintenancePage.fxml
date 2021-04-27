@@ -33,7 +33,7 @@
                                 <AnchorPane prefHeight="50.0" prefWidth="800.0">
                                     <children>
                                         <Text fx:id="typeErrorText" fill="RED" layoutX="94.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-                              <JFXComboBox fx:id="MainTypeComboBox" layoutY="1.0" prefHeight="25.0" prefWidth="279.0" style="-fx-background-color: #434C5E;" />
+                              <JFXComboBox fx:id="MainTypeComboBox" layoutY="1.0" prefHeight="25.0" prefWidth="279.0" style="-fx-background-color: #2e3440;" />
                                     </children>
                                 </AnchorPane>
                             </children>
