@@ -77,6 +77,16 @@
                         </JFXButton>
                      </children>
                   </AnchorPane>
+                  <AnchorPane fx:id="textualWindow" layoutX="115.0" layoutY="579.0" prefHeight="193.0" prefWidth="364.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #000000; -fx-border-width: 2;">
+                     <children>
+                        <JFXListView fx:id="TextualDirView" layoutX="13.0" layoutY="59.0" prefHeight="124.0" prefWidth="332.0" style="-fx-background-color: transparent;" />
+                        <Text layoutX="112.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Textual Directions:" textAlignment="CENTER" AnchorPane.leftAnchor="109.76708984375" AnchorPane.rightAnchor="118.23291015625">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </AnchorPane>
                </children>
             </AnchorPane>
          </children>
