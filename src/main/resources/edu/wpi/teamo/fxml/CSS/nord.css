@@ -203,7 +203,7 @@ Styleguide Nord
 }
 
 .text-area {
-    -fx-background-color: nord2;
+    -fx-background-color: nord0;
     -fx-effect:  dropshadow(three-pass-box, rgba(150,150,170,0.8), 20, 0, 0, 0);
 }
 

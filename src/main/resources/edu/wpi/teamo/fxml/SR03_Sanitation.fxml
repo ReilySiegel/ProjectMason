@@ -70,7 +70,7 @@
                         </AnchorPane>
                      </children>
                   </HBox>
-                  <HBox prefHeight="50.0" prefWidth="200.0" style="-fx-effect: dropshadow(three-pass-box, rgba(150,150,170,0.8), 20, 0, 0, 0);">
+                  <HBox prefHeight="50.0" prefWidth="200.0">
                      <children>
                         <Label prefWidth="313.0" text="%key.date">
                            <font>
