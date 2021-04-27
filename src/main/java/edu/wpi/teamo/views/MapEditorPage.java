@@ -352,15 +352,14 @@ public class MapEditorPage extends SubPageController implements Initializable{
     void onDrawNode(Pair<Circle, NodeInfo> p) {
             Circle circle = p.getKey();
             NodeInfo node = p.getValue();
-            double originalRadius = circle.getRadius();
 
             circle.setOnMouseEntered(event -> {
-                circle.setRadius(7);
+                circle.setRadius(circle.getRadius() * 2);
                 event.consume();
             });
 
             circle.setOnMouseExited(event -> {
-                circle.setRadius(originalRadius);
+                circle.setRadius(circle.getRadius() / 2);
                 event.consume();
             });
 
@@ -464,20 +463,18 @@ public class MapEditorPage extends SubPageController implements Initializable{
         EdgeInfo edge = p.getValue();
         Line line = p.getKey();
 
-        double originalWidth = line.getStrokeWidth();
-
         line.setOnMouseClicked(event -> {
             onClickEdge(event, edge);
             event.consume();
         });
 
         line.setOnMouseEntered(event -> {
-            line.setStrokeWidth(originalWidth * 2);
+            line.setStrokeWidth(line.getStrokeWidth() * 2);
             event.consume();
         });
 
         line.setOnMouseExited(event -> {
-            line.setStrokeWidth(originalWidth);
+            line.setStrokeWidth(line.getStrokeWidth() / 2);
             event.consume();
         });
 
@@ -700,6 +697,14 @@ public class MapEditorPage extends SubPageController implements Initializable{
         String defaultBulding = "building";
         String defaultType = "DEFAULT";
         String id = selectedFloor + "_" + x + "_" + y + "_" + "default";
+
+        int count = 0;
+        String numberedID = id;
+        while (App.mapService.nodeExists(numberedID) && count < 1000) {
+            numberedID = id + count;
+            ++count;
+        }
+        id = numberedID;
 
         try {
             addNode(id, x, y, selectedFloor, defaultBulding, defaultType, id, id);
