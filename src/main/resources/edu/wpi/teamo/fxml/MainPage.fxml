@@ -32,8 +32,8 @@
                         <Font size="18.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton onAction="#handleAddUsers" prefHeight="41.0" prefWidth="110.0" style="-fx-background-color: #db1212;" text="Add Account" textFill="WHITE" />
-                  <JFXButton onAction="#handleLogin" prefHeight="42.0" prefWidth="85.0" style="-fx-background-color: #db1212;" text="Login" textFill="WHITE">
+                  <JFXButton onAction="#handleAddUsers" prefHeight="41.0" prefWidth="110.0" style="-fx-background-color: #db1212;" text="%key.add_account" textFill="WHITE" />
+                  <JFXButton onAction="#handleLogin" prefHeight="42.0" prefWidth="85.0" style="-fx-background-color: #db1212;" text="%key.login" textFill="WHITE">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
