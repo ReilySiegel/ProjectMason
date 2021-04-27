@@ -37,6 +37,9 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
     private JFXTreeTableView<SanitationRequest> sanRequestTable;
 
     @FXML
+    private JFXTreeTableView<MaintenanceRequest> mtnRequestTable;
+
+    @FXML
     private JFXCheckBox medShowCompleted;
 
     @FXML
@@ -107,6 +110,7 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         updateSanitationTable();
         updateInterpreterTable();
         updateSecTable();
+        updateMtnTable();
 
     }
 
@@ -484,6 +488,86 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         secRequestTable.getColumns().setAll(secIDs, secLocs, secAssigned, secDue, secEmergency, secCompleted);
         secRequestTable.setRoot(root);
         secRequestTable.setShowRoot(false);
+    }
+
+    @FXML
+    private void updateMtnTable() {
+        JFXTreeTableColumn<MaintenanceRequest, String> mtnIDs = new JFXTreeTableColumn<>("ID");
+        mtnIDs.setPrefWidth(150);
+        mtnIDs.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<MaintenanceRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<MaintenanceRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getID());
+                return strProp;
+            }
+        });
+
+        JFXTreeTableColumn<MaintenanceRequest, String> mtnType = new JFXTreeTableColumn<>("Type");
+        mtnType.setPrefWidth(150);
+        mtnType.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<MaintenanceRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<MaintenanceRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getType());
+                return strProp;
+            }
+        });
+
+        JFXTreeTableColumn<MaintenanceRequest, String> mtnLocs = new JFXTreeTableColumn<>("Room/Node(s)");
+        mtnLocs.setPrefWidth(150);
+        mtnLocs.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<MaintenanceRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<MaintenanceRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getLocations().collect(Collectors.joining(", ")));
+                return strProp;
+            }
+        });
+
+        JFXTreeTableColumn<MaintenanceRequest, String> mtnAssigned = new JFXTreeTableColumn<>("Assigned Person");
+        mtnAssigned.setPrefWidth(150);
+        mtnAssigned.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<MaintenanceRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<MaintenanceRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getAssigned());
+                return strProp;
+            }
+        });
+
+        JFXTreeTableColumn<MaintenanceRequest, String> mtnDue = new JFXTreeTableColumn<>("Due");
+        mtnDue.setPrefWidth(150);
+        mtnDue.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<MaintenanceRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<MaintenanceRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getDue().toString());
+                return strProp;
+            }
+        });
+
+        JFXTreeTableColumn<MaintenanceRequest, String> mtnComplete = new JFXTreeTableColumn<>("Status");
+        mtnComplete.setPrefWidth(150);
+        mtnComplete.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<MaintenanceRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<MaintenanceRequest, String> param) {
+                StringProperty strProp;
+                if (param.getValue().getValue().isComplete()) strProp = new SimpleStringProperty("Complete");
+                else strProp = new SimpleStringProperty("In progress");
+                return strProp;
+            }
+        });
+
+        ObservableList<MaintenanceRequest> mtnRequests = FXCollections.observableArrayList();
+
+        try {
+            Stream<MaintenanceRequest> mtnReqStream = MaintenanceRequest.getAll();
+            mtnReqStream.forEach(m -> mtnRequests.add(m));
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        final TreeItem<MaintenanceRequest> root = new RecursiveTreeItem<MaintenanceRequest>(mtnRequests, RecursiveTreeObject::getChildren);
+        mtnRequestTable.getColumns().setAll(mtnIDs, mtnType, mtnAssigned, mtnDue, mtnComplete);
+        mtnRequestTable.setRoot(root);
+        mtnRequestTable.setShowRoot(false);
     }
 
     @FXML
