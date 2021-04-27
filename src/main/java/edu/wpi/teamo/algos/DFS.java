@@ -13,6 +13,7 @@ public class DFS {
     private String[] edgeTo;
     private LinkedList<String>[] adj; // adjacency lists
     private Hashtable<String, Integer> position;
+
     private AlgoNode sourceNode;
 
 
@@ -42,11 +43,13 @@ public class DFS {
         this.edgeTo = new String[nodes.size()];
         this.adj = (LinkedList<String>[]) new  LinkedList[nodes.size()];
         this.position = new Hashtable<>();
+
         int i = 0;
         for (AlgoNode n: nodes){
             adj[i] = n.getAdjacencies();
             position.put(n.getID(),i);
             i++;
+
         }
 
         dfs(startNodeID);
@@ -96,6 +99,7 @@ public class DFS {
                 dfs(w);
             }
         }
+
     }
 
     private boolean hasPathTo(String targetNode){
@@ -103,6 +107,7 @@ public class DFS {
     }
 
     private Iterable<String> pathTo(String targetNode){
+
         if (!hasPathTo(targetNode)) {System.out.println("No path found!"); return null;}
         Stack<String> path = new Stack<>();
         for(String x = targetNode; x != startID; x = edgeTo[position.get(x)])

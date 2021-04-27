@@ -31,5 +31,4 @@ public class DFSManager extends AlgoManagerI{
         DFS DepthFirstSearch = new DFS(nodes);
         return DepthFirstSearch.seekForIsolatedNodes();
     }
-
 }
