@@ -390,7 +390,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         MenuItem deleteItem = new MenuItem(App.resourceBundle.getString("key.delete"));
         deleteItem.setOnAction(event -> confirmDeleteNode(node));
 
-        MenuItem addEdgeItem = new MenuItem(App.resourceBundle.getString("key.add_node"));
+        MenuItem addEdgeItem = new MenuItem(App.resourceBundle.getString("key.add_edge"));
         addEdgeItem.setOnAction(event -> handleAddingEdge(circle, node));
 
         menu.getItems().add(addEdgeItem);
