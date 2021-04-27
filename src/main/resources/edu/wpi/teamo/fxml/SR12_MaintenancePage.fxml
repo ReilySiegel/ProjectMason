@@ -20,7 +20,7 @@
             <center>
                 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="300.0" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #2e3440;" BorderPane.alignment="TOP_CENTER">
                     <children>
-                        <HBox prefHeight="50.0" prefWidth="580.0">
+                        <HBox fx:id="hBox" prefHeight="50.0" prefWidth="580.0">
                             <children>
                                 <Text fill="#eceff4" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.mainten_service">
                                     <font>
@@ -124,7 +124,7 @@
                                 <Insets left="50.0" />
                             </HBox.margin>
                         </JFXButton>
-                        <JFXButton buttonType="RAISED" onAction="#handleBackToServicePage" style="-fx-background-color: #444;" text="%key.back" textFill="WHITE">
+                        <JFXButton buttonType="RAISED" onAction="#handleBackToServicePageM" style="-fx-background-color: #444;" text="%key.back" textFill="WHITE">
                             <font>
                                 <Font size="18.0" />
                             </font>

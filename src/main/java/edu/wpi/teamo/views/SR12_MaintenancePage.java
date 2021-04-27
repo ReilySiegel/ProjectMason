@@ -2,7 +2,10 @@ package edu.wpi.teamo.views;
 
 import com.jfoenix.controls.*;
 import edu.wpi.teamo.App;
+import edu.wpi.teamo.Pages;
 import edu.wpi.teamo.database.map.NodeInfo;
+import edu.wpi.teamo.database.request.BaseRequest;
+import edu.wpi.teamo.database.request.MaintenanceRequest;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
@@ -12,6 +15,7 @@ import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.*;
 
@@ -19,9 +23,6 @@ public class SR12_MaintenancePage extends ServiceRequestPage implements Initiali
 
     @FXML
     private StackPane stackPane;
-
-    @FXML
-    private JFXTextField service;
 
     @FXML
     private JFXTextField assignee;
@@ -47,9 +48,12 @@ public class SR12_MaintenancePage extends ServiceRequestPage implements Initiali
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        type = SR12Type.NULL;
+        //Override CSS
+        App.getPrimaryStage().getScene().getStylesheets().remove(LocationSearcher.getStylePath());
         App.getPrimaryStage().getScene().getStylesheets().add("edu/wpi/teamo/fxml/CSS/MaintenancePage.css");
+
         this.resources = resources;
-        validRequest = true;
         String elevatorM = resources.getString("key.maintenance_elevator");
         String powerM = resources.getString("key.maintenance_power");
         MainTypeComboBox.getItems().add(elevatorM);
@@ -96,28 +100,135 @@ public class SR12_MaintenancePage extends ServiceRequestPage implements Initiali
                     ls.setLocations(elevItems);
                     break;
                 }
+                case NULL: {
+                    break;
+                }
             }
     }
 
     @FXML
     private void submitBtnOnClick(ActionEvent actionEvent) {
-    //TODO
+        JFXDialogLayout submissionContent = new JFXDialogLayout();
+        submissionContent.setHeading(new Text(resources.getString("key.confirm_request_submission")));
+        submissionContent.setBody(new Text(resources.getString("key.maintenance_help")));
+        JFXDialog confirmWindow = new JFXDialog(stackPane, submissionContent, JFXDialog.DialogTransition.TOP);
+        JFXButton closeButton = new JFXButton(resources.getString("key.close"));
+        JFXButton submitButton = new JFXButton(resources.getString("key.submit"));
+        closeButton.setLayoutX(0);
+        closeButton.setStyle("-fx-background-color: #f40f19");
+        submitButton.setStyle("-fx-background-color: #5ab04c");
+        closeButton.setOnAction(event -> confirmWindow.close());
+        submitButton.setOnAction(event -> {
+            confirmSubmission();
+            confirmWindow.close();
+        });
+        submissionContent.setActions(closeButton);
+        submissionContent.setActions(submitButton);
+        confirmWindow.show();
+
+    }
+
+    private void promptSuccess() {
+        JFXDialogLayout content = new JFXDialogLayout();
+        content.setHeading(new Text(resources.getString("key.confirm_success_title")));
+        content.setBody(new Text(resources.getString("key.confirm_success_details")));
+        JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
+        JFXButton closeButton = new JFXButton(resources.getString("key.close"));
+        closeButton.setStyle("-fx-background-color: #f40f19");
+        closeButton.setOnAction(event -> errorWindow.close());
+        content.setActions(closeButton);
+        errorWindow.show();
+    }
+
+    private void confirmSubmission() {
+        validateFields();
+        if(validRequest) {
+            String str_type = "";
+            switch(type){
+                case ELEVATOR:{
+                    str_type = "Elevator Maintenance";
+                    break;
+                }
+                case POWER:{
+                    str_type = "Power Maintenance";
+                    break;
+                }
+            }
+            String sub_assignee = assignee.getText();
+            String sub_notes = notes.getText();
+            List<String> selectedNodes = ls.getSelectedLocationIDs();
+            LocalDateTime localDateTime = LocalDateTime.now();
+            MaintenanceRequest MR = new MaintenanceRequest(str_type, new BaseRequest(
+               UUID.randomUUID().toString(), sub_notes, selectedNodes.stream(), sub_assignee, false, localDateTime));
+            try{
+                MR.update();
+                promptSuccess();
+                resetFields();
+            }
+            catch(SQLException e){
+                e.printStackTrace();
+                promptSQLError();
+            }
+        }
+        else promptError();
+    }
+
+    private void promptSQLError() {
+        JFXDialogLayout content = new JFXDialogLayout();
+        content.setHeading(new Text(resources.getString("key.sqlerror")));
+        content.setBody(new Text(resources.getString("key.sql_error_details")));
+        JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
+        JFXButton closeButton = new JFXButton(resources.getString("key.close"));
+        closeButton.setStyle("-fx-background-color: #f40f19");
+        closeButton.setOnAction(event -> errorWindow.close());
+        content.setActions(closeButton);
+        errorWindow.show();
+    }
+
+    private void resetFields() {
+        assignee.textProperty().setValue("");
+        notes.textProperty().setValue("");
+        nodeSearchField.textProperty().setValue("");
+    }
+
+    private void validateFields() {
+        validRequest = type != SR12Type.NULL && !notes.textProperty().getValue().equals("") &&
+                !assignee.textProperty().getValue().equals("") && ls.getSelectedLocations().size() != 0;
+    }
+
+    private void promptError() {
+        JFXDialogLayout content = new JFXDialogLayout();
+        content.setHeading(new Text(resources.getString("key.error")));
+        content.setBody(new Text(resources.getString("key.maintenance_error")));
+        JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
+        JFXButton closeButton = new JFXButton(resources.getString("key.close"));
+        closeButton.setStyle("-fx-background-color: #f40f19");
+        closeButton.setOnAction(event -> errorWindow.close());
+        content.setActions(closeButton);
+        errorWindow.show();
     }
 
     @FXML
     private void helpBtnOnClick(ActionEvent actionEvent) {
         JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text("Help"));
+        content.setHeading(new Text(resources.getString("key.help")));
         content.setBody(new Text(resources.getString("key.maintenance_help")));
         JFXDialog helpWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
-        JFXButton closeButton = new JFXButton("Close");
+        JFXButton closeButton = new JFXButton(resources.getString("key.close"));
         closeButton.setStyle("-fx-background-color: #f40f19");
         closeButton.setOnAction(event -> helpWindow.close());
         content.setActions(closeButton);
         helpWindow.show();
     }
 
+    @FXML
+    private void handleBackToServicePageM(ActionEvent e) {
+        //Remove CSS from this page to prevent override on other pages
+        App.getPrimaryStage().getScene().getStylesheets().remove("edu/wpi/teamo/fxml/CSS/MaintenancePage.css");
+        App.switchPage(Pages.SERVICEREQUEST);
+    }
+
     private enum SR12Type {
-        ELEVATOR,POWER
+        ELEVATOR,POWER,NULL
     }
 }
