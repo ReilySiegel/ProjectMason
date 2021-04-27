@@ -42,10 +42,14 @@ public class CovidSurveyPage extends ServiceRequestPage implements Initializable
     @FXML
     JFXCheckBox Q4;
 
+    @FXML
+    JFXCheckBox Q5;
+
     private boolean Q1Check = false;
     private boolean Q2Check = false;
     private boolean Q3Check = false;
     private boolean Q4Check = false;
+    private boolean Q5Check = false;
 
 
     @FXML
@@ -58,6 +62,7 @@ public class CovidSurveyPage extends ServiceRequestPage implements Initializable
         Q2.getStyleClass().add("jfx-check-box");
         Q3.getStyleClass().add("jfx-check-box");
         Q4.getStyleClass().add("jfx-check-box");
+        Q5.getStyleClass().add("jfx-check-box");
 
         Q1.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
@@ -103,6 +108,17 @@ public class CovidSurveyPage extends ServiceRequestPage implements Initializable
             }
         });
 
+        Q5.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (newValue) {
+                    Q5Check = true;
+                } else {
+                    Q5Check = false;
+                }
+            }
+        });
+
 
 
     }
@@ -111,15 +127,15 @@ public class CovidSurveyPage extends ServiceRequestPage implements Initializable
         JFXDialogLayout content = new JFXDialogLayout();
         content.setHeading(new Text("Thank you for submitting your response."));
 
-        if(Q1Check || Q2Check || Q3Check || Q4Check){
+        if(Q1Check || Q2Check || Q3Check || Q4Check || Q5Check){
             content.setBody(new Text("Please enter the hospital through the back entrance. \n" +
-                    "Please wear a mask and maintain a 6-foot distance between all workers unless \n" +
-                    "instructed otherwise"));
+                    "Please wear a mask and maintain a 6-foot distance between all hospital staff \n" +
+                    "and patients unless instructed otherwise"));
         }
         else{
             content.setBody(new Text("Please enter the hospital through the front entrance \n" +
-                    "Please wear a mask and maintain a 6-foot distance between all workers unless\n" +
-                    "instructed otherwise"));
+                    "Please wear a mask and maintain a 6-foot distance between all hospital staff \n" +
+                    "and patients unless instructed otherwise"));
         }
 
         JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);

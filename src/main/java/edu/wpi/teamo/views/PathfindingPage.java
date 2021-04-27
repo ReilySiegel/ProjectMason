@@ -9,8 +9,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -18,7 +16,6 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.util.Pair;
 
-import java.awt.*;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -194,7 +191,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
 
         LinkedList<AlgoNode> path = new LinkedList<>();
         try {
-            path = App.aStarService.getPath(startID, endID);
+            path = App.IStrategyPathfinding.getPath(startID, endID);
             if (path != null) {
                 floor = path.get(0).getFloor();
                 calculatedPath = path;

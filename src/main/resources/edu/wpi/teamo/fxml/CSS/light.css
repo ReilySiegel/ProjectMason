@@ -180,6 +180,11 @@ Styleguide Nord
     Styleguide Nord - Aurora
     */
     nord15: #b48ead;
+
+    /*
+    Darker blue used for accentuated features i.e. buttons
+     */
+    temp:  #18457d;
 }
 
 .root {

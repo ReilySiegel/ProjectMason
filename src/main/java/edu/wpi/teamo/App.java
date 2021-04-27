@@ -4,7 +4,7 @@ import edu.wpi.teamo.database.request.IRequestService;
 import edu.wpi.teamo.database.request.RequestDB;
 import edu.wpi.teamo.database.map.IMapService;
 import edu.wpi.teamo.algos.AStarManager;
-import edu.wpi.teamo.algos.AStarService;
+import edu.wpi.teamo.algos.IStrategyPathfinding;
 import edu.wpi.teamo.database.map.MapDB;
 import edu.wpi.teamo.database.Database;
 import edu.wpi.teamo.views.LocaleType;
@@ -25,12 +25,12 @@ public class App extends Application {
 
   private static final EnumMap<Pages, String> pagePaths = new EnumMap<>(Pages.class);
   public static IRequestService requestService = null;
-  public static AStarService aStarService = null;
+  public static IStrategyPathfinding IStrategyPathfinding = null;
   public static IMapService mapService = null;
   private static Stage primaryStage;
 
   //Internationalization
-  private static ResourceBundle resourceBundle;
+  public static ResourceBundle resourceBundle;
   public static LocaleType selectedLocale;
   private static final String localesPath = "edu.wpi.teamo.locales.";
 
@@ -47,7 +47,10 @@ public class App extends Application {
     pagePaths.put(Pages.LOGIN, "/edu/wpi/teamo/fxml/LoginPage.fxml");
     pagePaths.put(Pages.LANGUAGEINTERPRETER, "/edu/wpi/teamo/fxml/SR02_LanguageInterpreter.fxml");
     pagePaths.put(Pages.RELIGIOUS, "/edu/wpi/teamo/fxml/SR08_Religious.fxml");
+    pagePaths.put(Pages.MAINTENANCE, "/edu/wpi/teamo/fxml/SR12_MaintenancePage.fxml");
     pagePaths.put(Pages.SURVEY, "/edu/wpi/teamo/fxml/CovidSurveyPage.fxml");
+    pagePaths.put(Pages.SECURITY, "/edu/wpi/teamo/fxml/SR11_Security.fxml");
+    pagePaths.put(Pages.ADDUSERS, "/edu/wpi/teamo/fxml/AddUsersPage.fxml");
     System.out.println("Starting Up");
 
     /* instantiate the database services, set to static variables that can be accessed from the handlers */
@@ -62,7 +65,7 @@ public class App extends Application {
 
     /* instantiate the aStar service, set to a static variable that can be accessed from the handlers */
     if (mapService != null) {
-      aStarService = new AStarManager(mapService);
+      IStrategyPathfinding = new AStarManager(mapService);
       System.out.println("Pathfinder Service Initialized");
     }
   }

@@ -1,0 +1,10 @@
+.text-input {
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: white;
+}
+.text-input:focused {
+    -fx-text-fill: white;
+}
+.check-box {
+    -fx-text-fill: white;
+}

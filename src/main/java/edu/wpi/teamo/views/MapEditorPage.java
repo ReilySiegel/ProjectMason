@@ -35,12 +35,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.MouseDragEvent;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -172,6 +172,10 @@ public class MapEditorPage extends SubPageController implements Initializable{
     Map map;
     boolean dragging = false;
 
+    NodeInfo addingEdgeStartNode = null;
+    Line addingEdgeLine = null;
+    boolean addingEdge = false;
+
     /* these hash maps are only for moving an associated edge when a node is being dragged */
     HashMap<String, List<Line>> associatedEdgeBeginnings;
     HashMap<String, List<Line>> associatedEdgeEndings;
@@ -197,6 +201,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         map.setOnMapClicked(this::onMapClicked);
         map.setOnDrawNode(this::onDrawNode);
         map.setOnDrawEdge(this::onDrawEdge);
+        map.setOnMouseMoved(this::onMouseMoved);
 
         NumberValidator numberValidator = new NumberValidator();
 
@@ -298,11 +303,14 @@ public class MapEditorPage extends SubPageController implements Initializable{
     }
 
     //    Consumer<Pair<Integer, Integer>> onClickEdge = (Pair<Integer, Integer> coords) -> System.out.println("Edge " + node.getEdgeID() + "was clicked");
-    void onMapClicked(Pair<Integer, Integer> coords) {
-        addNodeX.setText(String.valueOf(coords.getKey()));
-        addNodeY.setText(String.valueOf(coords.getValue()));
+    void onMapClicked(MouseEvent e) {
+        int mapX = (int) Map.transform((int) e.getX(), nodePane.getPrefWidth(), Map.imageWidth);
+        int mapY = (int) Map.transform((int) e.getY(), nodePane.getPrefWidth(), Map.imageWidth);
 
-        String autoGenName = String.format("Floor_%s_%d_%d", selectedFloor, coords.getKey(), coords.getValue());
+        addNodeX.setText(String.valueOf(mapX));
+        addNodeY.setText(String.valueOf(mapY));
+
+        String autoGenName = String.format("Floor_%s_%d_%d", selectedFloor, mapX, mapY);
         addNodeFloor.setText(selectedFloor);
         if (addNodeID.getText().isEmpty()) {
             addNodeID.setText(autoGenName);
@@ -318,6 +326,26 @@ public class MapEditorPage extends SubPageController implements Initializable{
         }
         if (addNodeSN.getText().isEmpty()) {
             addNodeSN.setText(autoGenName);
+        }
+
+        if (addingEdge) {
+            nodePane.getChildren().remove(addingEdgeLine);
+            addingEdgeStartNode = null;
+            addingEdgeLine = null;
+            addingEdge = false;
+        }
+        else {
+            mapContextMenu(e, mapX, mapY);
+        }
+
+    }
+
+    void onMouseMoved(Pair<Double, Double> p) {
+        double x = p.getKey();
+        double y = p.getValue();
+        if (addingEdgeLine != null) {
+            addingEdgeLine.setEndX(x);
+            addingEdgeLine.setEndY(y);
         }
     }
 
@@ -336,9 +364,11 @@ public class MapEditorPage extends SubPageController implements Initializable{
                 event.consume();
             });
 
-            circle.setOnMousePressed(event -> {
-                onClickNode(node);
-                event.consume();
+            circle.setOnMouseClicked((MouseEvent e) -> {
+                if (e.getButton() == MouseButton.PRIMARY) {
+                    onClickNode(e, circle, node);
+                    e.consume();
+                }
             });
 
             circle.setOnMouseDragged((MouseEvent e) -> {
@@ -350,13 +380,50 @@ public class MapEditorPage extends SubPageController implements Initializable{
                 if (dragging) {
                     onDraggedNodeDrop(node, e);
                 }
+                e.consume();
             });
-
     }
 
+    private void nodeContextMenu(MouseEvent e, Circle circle, NodeInfo node) {
+        ContextMenu menu = new ContextMenu();
 
-//    Consumer<NodeInfo> onClickNode = (NodeInfo node) -> System.out.println("Node " + node.getNodeID() + "was clicked");
-    void onClickNode(NodeInfo node) {
+        MenuItem deleteItem = new MenuItem("Delete");
+        deleteItem.setOnAction(event -> confirmDeleteNode(node));
+
+        MenuItem addEdgeItem = new MenuItem("Add Edge");
+        addEdgeItem.setOnAction(event -> handleAddingEdge(circle, node));
+
+        menu.getItems().add(addEdgeItem);
+        menu.getItems().add(deleteItem);
+        menu.show(nodePane.getScene().getWindow(), e.getScreenX(), e.getScreenY());
+    }
+
+    private void edgeContextMenu(MouseEvent e, EdgeInfo edge) {
+        ContextMenu menu = new ContextMenu();
+
+        MenuItem deleteItem = new MenuItem("Delete");
+        deleteItem.setOnAction(event -> confirmDeleteEdge(edge));
+
+        menu.getItems().add(deleteItem);
+        menu.show(nodePane.getScene().getWindow(), e.getScreenX(), e.getScreenY());
+    }
+
+    private void mapContextMenu(MouseEvent e, Integer x, Integer y) {
+        ContextMenu menu = new ContextMenu();
+
+        MenuItem addNodeItem = new MenuItem("Add Node");
+        addNodeItem.setOnAction(event -> handleAddingNode(x, y));
+
+        menu.getItems().add(addNodeItem);
+        menu.show(
+                nodePane.getScene().getWindow(),
+                e.getScreenX(),
+                e.getScreenY()
+        );
+    }
+
+    //    Consumer<NodeInfo> onClickNode = (NodeInfo node) -> System.out.println("Node " + node.getNodeID() + "was clicked");
+    void onClickNode(MouseEvent e, Circle circle, NodeInfo node) {
         origNodeID.setText(node.getNodeID());
         newNodeID.setText(node.getNodeID());
         origNodeX.setText(Integer.toString(node.getXPos()));
@@ -374,13 +441,24 @@ public class MapEditorPage extends SubPageController implements Initializable{
             selectingStart = false;
             addEdgeID.setText(node.getNodeID()+"_"+addNode2.getText());
         }
-        if (selectingEnd) {
+        else if (selectingEnd) {
             chooseEndButton.setDisable(false);
             addNode2.setText(node.getNodeID());
             selectingEnd = false;
             addEdgeID.setText(addNode1.getText()+"_"+node.getNodeID());
         }
+        else if (addingEdge && addingEdgeStartNode != null) {
+            addEdge(addingEdgeStartNode, node);
+            addingEdge = false;
+            addingEdgeStartNode = null;
+            nodePane.getChildren().remove(addingEdgeLine);
+        }
+        else {
+            nodeContextMenu(e, circle, node);
+        }
     }
+
+
 
     private void onDrawEdge(Pair<Line, EdgeInfo> p) {
         EdgeInfo edge = p.getValue();
@@ -389,7 +467,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         double originalWidth = line.getStrokeWidth();
 
         line.setOnMouseClicked(event -> {
-            onClickEdge(edge);
+            onClickEdge(event, edge);
             event.consume();
         });
 
@@ -459,12 +537,14 @@ public class MapEditorPage extends SubPageController implements Initializable{
     }
 
     //    Consumer<EdgeInfo> onClickEdge = (EdgeInfo edge) -> System.out.println("Edge " + node.getEdgeID() + "was clicked");
-    void onClickEdge(EdgeInfo edge) {
+    void onClickEdge(MouseEvent e, EdgeInfo edge) {
         editingEdge.setText(edge.getEdgeID());
         editEdgeID.setText(edge.getEdgeID());
         editNode1.setText(edge.getStartNodeID());
         editNode2.setText(edge.getEndNodeID());
         deleteEdgeID.setText(edge.getEdgeID());
+
+        edgeContextMenu(e, edge);
     }
 
     private void handleChooseStart() {
@@ -494,7 +574,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
     /**
      * Event handler for adding a Node to the database
-     * @param event
+     * @param  event
      */
     @FXML
     void handleAddSubmitNode(ActionEvent event) {
@@ -509,10 +589,16 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
 
         try{
-            App.mapService.addNode(newNodeID, Integer.parseInt(newNodeX), Integer.parseInt(newNodeY),
-                    newNodeFloor, newNodeBuilding, newNodeType,
-                    newNodeLN, newNodeSN);
-            update();
+            addNode(
+                newNodeID,
+                Integer.parseInt(newNodeX),
+                Integer.parseInt(newNodeY),
+                newNodeFloor,
+                newNodeBuilding,
+                newNodeType,
+                newNodeLN,
+                newNodeSN
+            );
 
             addNodeID.setText("");
             addNodeX.setText("");
@@ -530,6 +616,11 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
     }
 
+    private void addNode(String id, int x, int y, String fl, String bu, String ty, String ln, String sn) throws SQLException {
+        App.mapService.addNode(id, x, y, fl, bu, ty, ln, sn);
+        update();
+    }
+
     /**
      * Event handler for removing a Node from the database
      * @param event
@@ -539,12 +630,119 @@ public class MapEditorPage extends SubPageController implements Initializable{
         String deleteNode= deleteNodeID.getText();
 
         try{
-            App.mapService.deleteNode(deleteNode);
-            update();
+            deleteNode(deleteNode);
         }
         catch (SQLException | AssertionError | IllegalArgumentException e){
             showError("Please fill out all fields with valid arguments");
         }
+    }
+
+    private void confirmDeleteNode(NodeInfo node) {
+
+        JFXDialogLayout content = new JFXDialogLayout();
+        content.setHeading(new Text("Confirm Node Deletion"));
+        content.setBody(new Text("Are you sure you want to delete this node?\n" +
+                                 "ID: " + node.getNodeID() + "\n" +
+                                 "Name: " + node.getLongName() + "\n"));
+        JFXDialog deleteConfirmationWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
+
+        JFXButton cancelButton = new JFXButton("Cancel");
+        cancelButton.setStyle("-fx-background-color: #004cff; -fx-text-fill: #ffffff");
+        cancelButton.setOnAction(event -> deleteConfirmationWindow.close());
+
+        JFXButton deleteButton = new JFXButton("Delete");
+        deleteButton.setStyle("-fx-background-color: #F40F19; -fx-text-fill: #ffffff");
+        deleteButton.setOnAction(event -> {
+            try {
+                deleteNode(node.getNodeID());
+            } catch (SQLException throwables) {
+                showError("There was an error when trying to delete.");
+                throwables.printStackTrace();
+            }
+            deleteConfirmationWindow.close();
+        });
+
+        content.setActions(cancelButton);
+        content.setActions(deleteButton);
+        deleteConfirmationWindow.show();
+    }
+
+    private void confirmDeleteEdge(EdgeInfo edge) {
+
+        JFXDialogLayout content = new JFXDialogLayout();
+        content.setHeading(new Text("Confirm Edge Deletion"));
+        content.setBody(new Text("Are you sure you want to delete this edge?\n" +
+                "ID: " + edge.getEdgeID() + "\n"));
+        JFXDialog deleteConfirmationWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
+
+        JFXButton cancelButton = new JFXButton("Cancel");
+        cancelButton.setStyle("-fx-background-color: #004cff; -fx-text-fill: #ffffff");
+        cancelButton.setOnAction(event -> deleteConfirmationWindow.close());
+
+        JFXButton deleteButton = new JFXButton("Delete");
+        deleteButton.setStyle("-fx-background-color: #F40F19; -fx-text-fill: #ffffff");
+        deleteButton.setOnAction(event -> {
+            try {
+                deleteEdge(edge.getEdgeID());
+            } catch (SQLException throwables) {
+                showError("There was an error when trying to delete.");
+                throwables.printStackTrace();
+            }
+            deleteConfirmationWindow.close();
+        });
+
+        content.setActions(cancelButton);
+        content.setActions(deleteButton);
+        deleteConfirmationWindow.show();
+    }
+
+    private void handleAddingNode(Integer x, Integer y) {
+        String defaultBulding = "building";
+        String defaultType = "DEFAULT";
+        String id = selectedFloor + "_" + x + "_" + y + "_" + "default";
+
+        try {
+            addNode(id, x, y, selectedFloor, defaultBulding, defaultType, id, id);
+        } catch (SQLException throwables) {
+            showError("There was an error saving the node.");
+            throwables.printStackTrace();
+        }
+    }
+
+    void handleAddingEdge(Circle circle, NodeInfo node) {
+        addingEdgeLine = new Line(circle.getCenterX(), circle.getCenterY(), circle.getCenterX(), circle.getCenterY());
+        addingEdgeLine.setStroke(Color.RED);
+        addingEdgeLine.setStrokeWidth(2);
+        addingEdgeLine.setMouseTransparent(true);
+        addingEdgeStartNode = node;
+        addingEdge = true;
+        nodePane.getChildren().add(addingEdgeLine);
+    }
+
+    void addEdge(NodeInfo startNode, NodeInfo endNode) {
+        String startID = startNode.getNodeID();
+        String endID = endNode.getNodeID();
+        String edgeID = startID + "_" + endID;
+        addEdge(edgeID, startID, endID);
+    }
+
+    void addEdge(String edgeID, String startNodeID, String endNodeID) {
+        try {
+            App.mapService.addEdge(edgeID, startNodeID, endNodeID);
+        } catch (SQLException | IllegalArgumentException e) {
+            showError("There was an error while saving the edge.");
+        }
+        update();
+    }
+
+    void deleteNode(String nodeID) throws SQLException {
+        App.mapService.deleteNode(nodeID);
+        update();
+    }
+
+    void deleteEdge(String edgeID) throws SQLException {
+        App.mapService.deleteEdge(edgeID);
+        update();
     }
 
     /**
@@ -596,14 +794,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         String newEdgeNode1 = addNode1.getText();
         String newEdgeNode2 = addNode2.getText();
 
-        // try/catch for SQL and adding an edge
-        try {
-            App.mapService.addEdge(newEdgeID, newEdgeNode1, newEdgeNode2);
-        } catch (SQLException | IllegalArgumentException e) {
-            showError("Please fill out all fields with valid arguments");
-            return;
-        }
-        update();
+        addEdge(newEdgeID, newEdgeNode1, newEdgeNode2);
     }
 
     /**

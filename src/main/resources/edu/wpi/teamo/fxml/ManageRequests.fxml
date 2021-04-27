@@ -2,101 +2,128 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXTreeTableView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #c4e2f5;" stylesheets="@CSS/nord.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.ManageRequests">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" stylesheets="@CSS/nord.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.ManageRequests">
    <children>
-      <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: nord0;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox maxHeight="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: nord0;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.manage_requests">
-               <font>
-                  <Font name="Arial" size="27.0" />
-               </font>
-               <VBox.margin>
-                  <Insets bottom="20.0" />
-               </VBox.margin>
-            </Text>
-            <TabPane>
-               <VBox.margin>
-                  <Insets bottom="20.0" />
-               </VBox.margin>
+            <JFXTabPane>
                <tabs>
-                  <Tab text="Medicine Requests">
+                  <Tab text="%key.medicine_requests">
                      <content>
-                        <VBox prefHeight="680.0" prefWidth="1138.0" style="-fx-background-color: #ddd; -fx-effect: dropshadow(three-pass-box, rgba(150,150,170,0.8), 10, 0, 0, 0);">
+                        <HBox>
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.medicine_requests">
-                                 <font>
-                                    <Font name="Arial" size="15.0" />
-                                 </font>
-                                 <VBox.margin>
-                                    <Insets bottom="15.0" />
-                                 </VBox.margin>
-                              </Text>
-                              <JFXTreeTableView fx:id="medRequestTable" onMouseClicked="#clearMedError" prefHeight="378.0" prefWidth="926.0">
-                                 <VBox.margin>
-                                    <Insets bottom="10.0" />
-                                 </VBox.margin>
-                              </JFXTreeTableView>
-                              <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                              <VBox maxHeight="1.7976931348623157E308" prefHeight="800.0" prefWidth="1000.0" style="-fx-background-color: #ddd; -fx-effect: dropshadow(three-pass-box, rgba(150,150,170,0.8), 10, 0, 0, 0);">
                                  <children>
-                                    <JFXButton onAction="#removeMedRequest" style="-fx-background-color: #777;" text="%key.mark_selected_as_completed" textFill="WHITE" />
-                                    <JFXButton onAction="#updateMedicineTable" style="-fx-background-color: #777;" text="%key.refresh" textFill="WHITE">
-                                       <HBox.margin>
-                                          <Insets left="11.0" />
-                                       </HBox.margin>
-                                    </JFXButton>
-                                    <JFXCheckBox fx:id="medShowCompleted" text="%key.show_completed">
-                                       <HBox.margin>
-                                          <Insets left="10.0" />
-                                       </HBox.margin>
-                                    </JFXCheckBox>
-                                    <Text fx:id="medErrorText" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0">
-                                       <HBox.margin>
-                                          <Insets left="50.0" />
-                                       </HBox.margin>
-                                    </Text>
+                                    <JFXTreeTableView fx:id="medRequestTable" onMouseClicked="#clearMedError" prefHeight="378.0" prefWidth="926.0">
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" />
+                                       </VBox.margin>
+                                    </JFXTreeTableView>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="200.0">
+                                       <children>
+                                          <JFXButton onAction="#markMedRequestComplete" style="-fx-background-color: #777;" styleClass="button-small" text="%key.mark_selected_as_completed" textFill="WHITE" />
+                                          <JFXButton onAction="#updateMedicineTable" style="-fx-background-color: #777;" styleClass="button-small" text="%key.refresh" textFill="WHITE">
+                                             <HBox.margin>
+                                                <Insets left="10.0" />
+                                             </HBox.margin>
+                                          </JFXButton>
+                                          <JFXButton onAction="#updateMedEditor" styleClass="button-small" text="Edit selected">
+                                             <HBox.margin>
+                                                <Insets left="10.0" />
+                                             </HBox.margin>
+                                          </JFXButton>
+                                          <JFXCheckBox fx:id="medShowCompleted" text="%key.show_completed">
+                                             <HBox.margin>
+                                                <Insets left="10.0" />
+                                             </HBox.margin>
+                                          </JFXCheckBox>
+                                          <Text fx:id="medErrorText" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0">
+                                             <HBox.margin>
+                                                <Insets left="50.0" />
+                                             </HBox.margin>
+                                          </Text>
+                                       </children>
+                                    </HBox>
                                  </children>
-                              </HBox>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="15.0" />
+                                 </padding>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                              </VBox>
+                              <VBox prefHeight="200.0" prefWidth="280.0" style="-fx-background-color: nord6;">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Edit Request">
+                                       <font>
+                                          <Font name="Arial" size="18.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets bottom="20.0" />
+                                       </VBox.margin>
+                                    </Text>
+                                    <Text fx:id="currentMedReqID" strokeType="OUTSIDE" strokeWidth="0.0" text="ID: ">
+                                       <VBox.margin>
+                                          <Insets bottom="15.0" />
+                                       </VBox.margin>
+                                    </Text>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Type:">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" />
+                                       </VBox.margin>
+                                    </Text>
+                                    <JFXTextField fx:id="medTypeField" editable="false" styleClass="jfx-text-field-dark">
+                                       <VBox.margin>
+                                          <Insets bottom="15.0" />
+                                       </VBox.margin>
+                                    </JFXTextField>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Amount:">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" />
+                                       </VBox.margin>
+                                    </Text>
+                                    <JFXTextField fx:id="medAmountField" editable="false" styleClass="jfx-text-field-dark">
+                                       <VBox.margin>
+                                          <Insets bottom="20.0" />
+                                       </VBox.margin>
+                                    </JFXTextField>
+                                    <JFXButton onAction="#applyMedUpdate" styleClass="button-small" text="Apply" />
+                                 </children>
+                              </VBox>
                            </children>
-                           <padding>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="15.0" />
-                           </padding>
-                           <opaqueInsets>
-                              <Insets />
-                           </opaqueInsets>
-                        </VBox>
+                        </HBox>
                      </content>
                   </Tab>
-                  <Tab text="Sanitaiton Requests">
+                  <Tab text="%key.sanitation_requests">
                      <content>
                         <VBox prefHeight="680.0" prefWidth="1138.0" style="-fx-background-color: #ddd; -fx-effect: dropshadow(three-pass-box, rgba(150,150,170,0.8), 10, 0, 0, 0);">
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.sanitation_requests">
-                                 <font>
-                                    <Font name="Arial" size="15.0" />
-                                 </font>
-                                 <VBox.margin>
-                                    <Insets bottom="15.0" />
-                                 </VBox.margin>
-                              </Text>
                               <JFXTreeTableView fx:id="sanRequestTable" onMouseClicked="#clearMedError" prefHeight="378.0" prefWidth="926.0">
                                  <VBox.margin>
                                     <Insets bottom="10.0" />
                                  </VBox.margin>
                               </JFXTreeTableView>
-                              <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                              <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="200.0">
                                  <children>
-                                    <JFXButton onAction="#removeSanRequest" style="-fx-background-color: #777;" text="%key.mark_selected_as_completed" textFill="WHITE" />
-                                    <JFXButton onAction="#updateSanitationTable" style="-fx-background-color: #777;" text="%key.refresh" textFill="WHITE">
+                                    <JFXButton onAction="#markSanRequestComplete" style="-fx-background-color: #777;" styleClass="button-small" text="%key.mark_selected_as_completed" textFill="WHITE" />
+                                    <JFXButton onAction="#updateSanitationTable" style="-fx-background-color: #777;" styleClass="button-small" text="%key.refresh" textFill="WHITE">
                                        <HBox.margin>
                                           <Insets left="11.0" />
                                        </HBox.margin>
@@ -124,19 +151,13 @@
                      </content>
                   </Tab>
                </tabs>
-            </TabPane>
-            <JFXButton buttonType="RAISED" onAction="#handleBackToServicePage" style="-fx-background-color: #777;" text="%key.back" textFill="WHITE">
-               <font>
-                  <Font size="18.0" />
-               </font>
-               <VBox.margin>
-                  <Insets top="100.0" />
-               </VBox.margin>
-            </JFXButton>
+            </JFXTabPane>
          </children>
-         <padding>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-         </padding>
       </VBox>
+      <JFXButton buttonType="RAISED" onAction="#handleBackToServicePage" style="-fx-background-color: #777;" text="%key.back" textFill="WHITE" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </JFXButton>
    </children>
 </AnchorPane>

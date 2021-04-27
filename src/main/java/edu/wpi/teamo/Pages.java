@@ -13,5 +13,9 @@ public enum Pages {
     LANGUAGEINTERPRETER,
     RELIGIOUS,
     SURVEY,
-    LAUNDRY
+    LAUNDRY,
+    SURVEY,
+    SECURITY,
+    MAINTENANCE,
+    ADDUSERS
 }

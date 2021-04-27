@@ -4,6 +4,7 @@ import edu.wpi.teamo.database.map.*;
 import org.junit.jupiter.api.Test;
 import java.sql.SQLException;
 import java.util.LinkedList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -49,9 +50,7 @@ public class AStarManagerTests {
         assertEquals("oPARK00401", pathP10_P5.get(3).getID());
         assertEquals("oPARK00601", pathP10_P5.get(4).getID());
         assertEquals("oPARK00501", pathP10_P5.get(5).getID());
-
         System.out.println("If reach here, tests for AstarManager.getPath() are passed!");
-
     }
 
     /**
@@ -95,7 +94,7 @@ public class AStarManagerTests {
     @Test
     public void testAssignNodeAdjacency() {
         LinkedList<AlgoNode> nodes = new LinkedList<>();
-        LinkedList<Edge> edges = new LinkedList<>();
+        List<EdgeInfo> edges = new LinkedList<>();
         AlgoNode n1 = new AlgoNode("oPARK00101", 3116, 1131,"F1", NodeType.PARK,"Floor1RightParking1","F1RightP1");
         AlgoNode n2 = new AlgoNode("oPARK00102", 3116, 1151,"F1", NodeType.PARK,"Floor1RightParking2","F1RightP2");
         AlgoNode n3 = new AlgoNode("oPARK00301", 3116,1181,"F1", NodeType.PARK,"Floor1RightParking3","F1RightP3");
@@ -137,7 +136,7 @@ public class AStarManagerTests {
         nodes.add(n10);
 
         // edges
-        LinkedList<Edge> edges = new LinkedList<>();
+        List<EdgeInfo> edges = new LinkedList<>();
         edges.add(new Edge("oPARK00101_oPARK00301","oPARK00101","oPARK00301"));
         edges.add(new Edge("oPARK00101_oPARK00601","oPARK00101","oPARK00601"));
         edges.add(new Edge("oPARK00101_oPARK00201","oPARK00101","oPARK00201"));
@@ -152,7 +151,7 @@ public class AStarManagerTests {
         // Test for assignNodeAdjacency logics
         AStarManager.assignNodeAdjacency(nodes, edges);
 
-        AStar a = new AStar(nodes, edges, "","");
+        AStar a = new AStar(nodes,"","");
         a.setAllTheNodes(nodes);
 
         LinkedList<AlgoNode> pathP10_P5 = a.findPath("oPARK01001","oPARK00501");

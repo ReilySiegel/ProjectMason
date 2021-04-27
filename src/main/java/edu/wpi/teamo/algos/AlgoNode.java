@@ -7,7 +7,6 @@ public class AlgoNode {
     private NodeType type;
     private  LinkedList<String> adjacencies;
 
-
     /**
      * adding gCost and hCost(initialize them to 0) for the use of A* Algorithm
      * adding parent AlgoNode to indicate the direction of the pathFinding

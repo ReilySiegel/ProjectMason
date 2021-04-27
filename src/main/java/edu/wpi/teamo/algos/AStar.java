@@ -6,19 +6,17 @@ import java.util.*;
 
 public class AStar {
 
-    private LinkedList<AlgoNode> nodes;
-    private LinkedList<Edge> edges;
     private String startID;
     private String endID;
-
     private LinkedList<AlgoNode> allTheNodes;
 
 
-    public AStar(LinkedList<AlgoNode> nodes, LinkedList<Edge> edges, String startNodeID, String endNodeID) {
+
+    public AStar(LinkedList<AlgoNode> nodes, String startNodeID, String endNodeID) {
         this.startID = startNodeID;
         this.endID = endNodeID;
-        this.nodes = nodes;
-        this.edges = edges;
+        this.allTheNodes = nodes;
+
     }
 
 

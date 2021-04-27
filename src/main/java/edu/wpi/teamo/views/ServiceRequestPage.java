@@ -5,6 +5,10 @@ import edu.wpi.teamo.Pages;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
 
 import javax.annotation.Resource;
 import javax.swing.*;
@@ -15,9 +19,7 @@ import java.util.ResourceBundle;
 public class ServiceRequestPage extends SubPageController implements Initializable {
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        return;
-    }
+    public void initialize(URL location, ResourceBundle resources) {return;}
 
 
     /**
@@ -64,7 +66,11 @@ public class ServiceRequestPage extends SubPageController implements Initializab
     private void handleReligiousRequest(ActionEvent e) { App.switchPage(Pages.RELIGIOUS);}
 
     @FXML
-    private void handleLaundryRequest(ActionEvent e ){App.switchPage(Pages.LAUNDRY); }
+    private void handleMaintenanceBtn(ActionEvent e) {
+        App.switchPage(Pages.MAINTENANCE);
+    }
 
+    @FXML
+    private void handleSecurity(ActionEvent e) { App.switchPage(Pages.SECURITY); }
 
 }
