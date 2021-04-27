@@ -66,6 +66,21 @@ public class ContextTests {
         assertEquals("oPARK00601", path_temp1.get(4).getID());
         assertEquals("oPARK00501", path_temp1.get(5).getID());
 
+
+        // Switching Algorithms by calling the setter
+        // in this case, switch to BFS
+        BFSManager bfs = new BFSManager(mdb);
+        context.setPathfindingAlgo(bfs);
+        LinkedList<AlgoNode> path_bfs = context.getPath("oPARK01001","oPARK00501");
+
+        assertEquals(6, path_bfs.size());
+        assertEquals("oPARK01001", path_bfs.get(0).getID());
+        assertEquals("oPARK00801", path_bfs.get(1).getID());
+        assertEquals("oPARK00701", path_bfs.get(2).getID());
+        assertEquals("oPARK00401", path_bfs.get(3).getID());
+        assertEquals("oPARK00601", path_bfs.get(4).getID());
+        assertEquals("oPARK00501", path_bfs.get(5).getID());
+
         System.out.println("If reach here, tests for Context.getPath() are passed!! ");
     }
 
