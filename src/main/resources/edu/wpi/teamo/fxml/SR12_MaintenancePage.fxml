@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.MenuButton?>
@@ -33,12 +34,7 @@
                                 <AnchorPane prefHeight="50.0" prefWidth="800.0">
                                     <children>
                                         <Text fx:id="typeErrorText" fill="RED" layoutX="94.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-                              <MenuButton fx:id="typeMenuBox" mnemonicParsing="false" prefHeight="25.0" prefWidth="575.0">
-                                <items>
-                                  <MenuItem fx:id="elevatorOpt" mnemonicParsing="false" onAction="#onElevatorOptClick" text="Elevator Maintenance:" />
-                                  <MenuItem fx:id="powerOpt" mnemonicParsing="false" onAction="#onPowerOptClick" text="Power Maintenance:" />
-                                </items>
-                              </MenuButton>
+                              <JFXComboBox fx:id="MainTypeComboBox" layoutY="1.0" prefHeight="25.0" prefWidth="204.0" style="-fx-background-color: #434C5E;" />
                                     </children>
                                 </AnchorPane>
                             </children>

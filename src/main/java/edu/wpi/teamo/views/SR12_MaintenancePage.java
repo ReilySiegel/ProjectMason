@@ -1,21 +1,23 @@
 package edu.wpi.teamo.views;
 
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.*;
 import edu.wpi.teamo.App;
+import edu.wpi.teamo.algos.NodeType;
 import edu.wpi.teamo.database.map.NodeInfo;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.CheckMenuItem;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
+import javafx.event.EventHandler;
+import javafx.fxml.*;
+import javafx.scene.control.*;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.LinkedList;
-import java.util.ResourceBundle;
-import java.util.stream.Collectors;
+import java.util.*;
+import java.util.stream.*;
 
 public class SR12_MaintenancePage extends ServiceRequestPage implements Initializable {
 
@@ -35,14 +37,36 @@ public class SR12_MaintenancePage extends ServiceRequestPage implements Initiali
     private MenuButton locationBox;
 
     @FXML
-    private MenuButton typeMenuBox;
+    private JFXComboBox<String> MainTypeComboBox;
 
     private boolean validRequest;
     private SR12Type type;
+    private ResourceBundle resources;
+
+    private List<CheckMenuItem> allItems, elevItems;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        this.resources = resources;
         validRequest = true;
+        String elevatorM = resources.getString("key.maintenance_elevator");
+        String powerM = resources.getString("key.maintenance_power");
+        MainTypeComboBox.getItems().add(elevatorM);
+        MainTypeComboBox.getItems().add(powerM);
+        MainTypeComboBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if(newValue.equals(elevatorM)){
+                    type = SR12Type.ELEVATOR;
+                    updateLocationBox();
+                }
+                else if(newValue.equals(powerM)){
+                    type = SR12Type.POWER;
+                    updateLocationBox();
+                }
+            }
+        });
+
         try {
             resetLocationBox();
         } catch (SQLException e) {
@@ -51,21 +75,38 @@ public class SR12_MaintenancePage extends ServiceRequestPage implements Initiali
     }
 
     private void resetLocationBox() throws SQLException {
-        LinkedList<NodeInfo> nodes = App.mapService.getAllNodes().collect(Collectors.toCollection(LinkedList::new));
+        List<NodeInfo> savedNodes = App.mapService.getAllNodes().collect(Collectors.toCollection(LinkedList::new));
+        allItems = FXCollections.observableArrayList();
+        elevItems = FXCollections.observableArrayList();
         locationBox.getItems().removeAll(locationBox.getItems());
+        for (NodeInfo node : savedNodes) addNode(node);
+    }
 
-        for (NodeInfo node : nodes) {
-            CheckMenuItem menuItem = new CheckMenuItem();
-            menuItem.setText(node.getNodeID());
+    private void updateLocationBox() {
+        locationBox.getItems().removeAll(locationBox.getItems());
+            switch(type) {
+                case POWER: {
+                    locationBox.getItems().setAll(allItems);
+                    break;
+                }
+                case ELEVATOR: {
+                    locationBox.getItems().setAll(elevItems);
+                    break;
+                }
+            }
+    }
 
-            menuItem.setOnAction(event -> locationBox.setText(locationBox.getItems().stream()
-                    .map((MenuItem mI) -> (CheckMenuItem) mI)
-                    .filter(CheckMenuItem::isSelected)
-                    .map(CheckMenuItem::getText)
-                    .collect(Collectors.joining(", "))));
-            locationBox.getItems().add(menuItem);
-        }
-
+    private void addNode(NodeInfo node) {
+        CheckMenuItem menuItem = new CheckMenuItem();
+        menuItem.setText(node.getNodeID());
+        menuItem.setOnAction(event -> locationBox.setText(locationBox.getItems().stream()
+                .map((MenuItem mI) -> (CheckMenuItem) mI)
+                .filter(CheckMenuItem::isSelected)
+                .map(CheckMenuItem::getText)
+                .collect(Collectors.joining(", "))));
+        locationBox.getItems().add(menuItem);
+        if(node.getNodeType().equals("ELEV")) elevItems.add(menuItem);
+        allItems.add(menuItem);
     }
 
     @FXML
@@ -75,19 +116,21 @@ public class SR12_MaintenancePage extends ServiceRequestPage implements Initiali
 
     @FXML
     private void helpBtnOnClick(ActionEvent actionEvent) {
-    //TODO
-    }
+        JFXDialogLayout content = new JFXDialogLayout();
+        content.setHeading(new Text("Help"));
+        content.setBody(new Text(resources.getString("key.maintenance_description")));
+        JFXDialog helpWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 
-    @FXML
-    private void onElevatorOptClick(ActionEvent actionEvent) {
-        type = SR12Type.ELEVATOR;
-        typeMenuBox.textProperty().setValue("Elevator Maintenance");
-    }
-
-    @FXML
-    private void onPowerOptClick(ActionEvent actionEvent) {
-        type = SR12Type.POWER;
-        typeMenuBox.textProperty().setValue("Power Maintenance");
+        JFXButton closeButton = new JFXButton("Close");
+        closeButton.setStyle("-fx-background-color: #f40f19");
+        closeButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                helpWindow.close();
+            }
+        });
+        content.setActions(closeButton);
+        helpWindow.show();
     }
 
     private enum SR12Type {
