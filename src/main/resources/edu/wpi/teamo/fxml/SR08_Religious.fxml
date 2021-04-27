@@ -2,10 +2,9 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.jfoenix.controls.JFXListView?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -15,11 +14,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane fx:id="stackPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.SR08_Religious">
+<StackPane fx:id="stackPane" stylesheets="@CSS/SecurityPage.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.SR08_Religious">
    <children>
       <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #434C5E;">
          <center>
-            <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="300.0" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #2e3440;" BorderPane.alignment="TOP_CENTER">
+            <VBox fx:id="midVbox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="300.0" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #2e3440;" BorderPane.alignment="TOP_CENTER">
                <children>
                   <HBox prefHeight="50.0" prefWidth="580.0">
                      <children>
@@ -51,7 +50,7 @@
                         </Text>
                         <AnchorPane prefHeight="50.0" prefWidth="800.0">
                            <children>
-                              <JFXTextField fx:id="assignee" minWidth="300.0" prefHeight="25.0" prefWidth="600.0" promptText="%key.name_of_assignee" unFocusColor="#eceff4" AnchorPane.rightAnchor="0.0" />
+                              <JFXTextField fx:id="assigneeName" minWidth="300.0" prefHeight="25.0" prefWidth="600.0" promptText="%key.name_of_assignee" unFocusColor="#eceff4" AnchorPane.rightAnchor="0.0" />
                               <Text fx:id="assignedErrorText" fill="RED" layoutX="42.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                            </children>
                            <HBox.margin>
@@ -89,7 +88,7 @@
                         </Text>
                         <AnchorPane prefHeight="50.0" prefWidth="800.0">
                            <children>
-                              <JFXTextField fx:id="notes1" minWidth="300.0" prefHeight="25.0" prefWidth="600.0" promptText="%key.notes" unFocusColor="#eceff4" AnchorPane.rightAnchor="0.0" />
+                              <JFXTextField fx:id="religiousFigure" minWidth="300.0" prefHeight="25.0" prefWidth="600.0" promptText="%key.notes" unFocusColor="#eceff4" AnchorPane.rightAnchor="0.0" />
                            </children>
                            <HBox.margin>
                               <Insets />
@@ -109,7 +108,7 @@
                               <Insets />
                            </HBox.margin>
                            <children>
-                              <JFXCheckBox checkedColor="#21bc21" layoutX="75.0" layoutY="4.0" />
+                              <JFXCheckBox fx:id="lastRites" checkedColor="#21bc21" layoutX="75.0" layoutY="4.0" />
                            </children>
                         </AnchorPane>
                      </children>
@@ -126,13 +125,9 @@
                         </Text>
                         <AnchorPane prefHeight="50.0" prefWidth="800.0">
                            <children>
+                              <JFXListView fx:id="roomList" layoutY="16.0" prefHeight="129.0" prefWidth="640.0" stylesheets="@CSS/LocationSearch.css" />
                               <Text fx:id="roomErrorText" fill="RED" layoutX="76.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-                              <MenuButton fx:id="locationBox" layoutX="47.0" layoutY="2.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="599.0" AnchorPane.rightAnchor="0.0">
-                                 <items>
-                                    <MenuItem mnemonicParsing="false" text="Action 1" />
-                                    <MenuItem mnemonicParsing="false" text="Action 2" />
-                                 </items>
-                              </MenuButton>
+                              <JFXTextField fx:id="room" layoutX="35.0" layoutY="-15.0" minWidth="300.0" prefHeight="31.0" prefWidth="605.0" promptText="%key.notes" unFocusColor="#eceff4" />
                            </children>
                         </AnchorPane>
                      </children>
@@ -153,7 +148,7 @@
             </VBox>
          </center>
          <bottom>
-            <HBox alignment="CENTER_LEFT" maxHeight="100.0" prefHeight="70.0" prefWidth="1280.0" style="-fx-background-color: #2E3440;" BorderPane.alignment="CENTER">
+            <HBox fx:id="bottomHbox" alignment="CENTER_LEFT" maxHeight="100.0" prefHeight="70.0" prefWidth="1280.0" style="-fx-background-color: #2E3440;" BorderPane.alignment="CENTER">
                <children>
                   <JFXButton buttonType="RAISED" onAction="#handleHelpPress" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #5e99ff; -fx-border-radius: 25; -fx-background-radius: 25;" text="?" textFill="WHITE">
                      <font>
@@ -171,7 +166,7 @@
                         <Insets left="800.0" />
                      </HBox.margin>
                   </JFXButton>
-                  <JFXButton buttonType="RAISED" style="-fx-background-color: #5ab04c;" text="%key.submit" textFill="WHITE">
+                  <JFXButton buttonType="RAISED" onAction="#handleSubmission" style="-fx-background-color: #5ab04c;" text="%key.submit" textFill="WHITE">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -183,7 +178,7 @@
             </HBox>
          </bottom>
          <top>
-            <VBox alignment="CENTER" prefHeight="110.0" prefWidth="100.0" style="-fx-background-color: #2E3440;" BorderPane.alignment="CENTER">
+            <VBox fx:id="topVbox" alignment="CENTER" prefHeight="110.0" prefWidth="100.0" style="-fx-background-color: #2E3440;" BorderPane.alignment="CENTER">
                <children>
                   <Text fill="#eceff4" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.religious_requests">
                      <font>
