@@ -17,5 +17,6 @@ public enum Pages {
     SURVEY,
     SECURITY,
     MAINTENANCE,
-    ADDUSERS
+    ADDUSERS,
+    TRANSPORTATION
 }

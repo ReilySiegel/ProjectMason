@@ -13,7 +13,7 @@ public class ContextTests {
     @Test
     public void testGetPath() throws SQLException, ClassNotFoundException {
         // make to have different databaseName
-        MapDB mdb = new MapDB("testFindPath2");
+        MapDB mdb = new MapDB("testContextFindPath");
         mdb.addNode("oPARK00101", 3116,1131,"F1", "b","PARK","Floor1RightParking1","F1RightP1");
         mdb.addNode("oPARK00201", 3116,1155,"F1", "b","PARK","Floor1RightParking2","F1RightP2");
         mdb.addNode("oPARK00301", 3116,1181,"F1", "b","PARK","Floor1RightParking3","F1RightP3");
@@ -65,6 +65,21 @@ public class ContextTests {
         assertEquals("oPARK00401", path_temp1.get(3).getID());
         assertEquals("oPARK00601", path_temp1.get(4).getID());
         assertEquals("oPARK00501", path_temp1.get(5).getID());
+
+
+        // Switching Algorithms by calling the setter
+        // in this case, switch to BFS
+        BFSManager bfs = new BFSManager(mdb);
+        context.setPathfindingAlgo(bfs);
+        LinkedList<AlgoNode> path_bfs = context.getPath("oPARK01001","oPARK00501");
+
+        assertEquals(6, path_bfs.size());
+        assertEquals("oPARK01001", path_bfs.get(0).getID());
+        assertEquals("oPARK00801", path_bfs.get(1).getID());
+        assertEquals("oPARK00701", path_bfs.get(2).getID());
+        assertEquals("oPARK00401", path_bfs.get(3).getID());
+        assertEquals("oPARK00601", path_bfs.get(4).getID());
+        assertEquals("oPARK00501", path_bfs.get(5).getID());
 
         System.out.println("If reach here, tests for Context.getPath() are passed!! ");
     }

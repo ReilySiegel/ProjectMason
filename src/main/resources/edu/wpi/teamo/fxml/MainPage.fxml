@@ -4,49 +4,17 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <StackPane fx:id="stackPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.MainPage">
    <children>
       <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #001a3c;">
-         <bottom>
-            <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" minWidth="750.0" prefHeight="76.0" prefWidth="1200.0" style="-fx-background-color: #001a3c;" BorderPane.alignment="CENTER">
-               <children>
-                  <JFXButton buttonType="RAISED" onAction="#handleHelp" prefHeight="50.0" prefWidth="50.0" styleClass="standard" stylesheets="/edu/wpi/teamo/fxml/CSS/HelpButton.css" text="?">
-                     <HBox.margin>
-                        <Insets left="20.0" />
-                     </HBox.margin>
-                     <font>
-                        <Font name="Arial Bold" size="24.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton fx:id="closeButton" alignment="CENTER" buttonType="RAISED" minWidth="100.0" onAction="#closeWindow" style="-fx-background-color: #db1212;" text="%key.exit" textFill="WHITE">
-                     <HBox.margin>
-                        <Insets left="800.0" right="10.0" />
-                     </HBox.margin>
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton onAction="#handleAddUsers" prefHeight="41.0" prefWidth="110.0" style="-fx-background-color: #db1212;" text="Add Account" textFill="WHITE" />
-                  <JFXButton onAction="#handleLogin" prefHeight="42.0" prefWidth="85.0" style="-fx-background-color: #db1212;" text="Login" textFill="WHITE">
-                     <HBox.margin>
-                        <Insets left="10.0" />
-                     </HBox.margin>
-                  </JFXButton>
-               </children>
-               <BorderPane.margin>
-                  <Insets />
-               </BorderPane.margin>
-               <padding>
-                  <Insets bottom="10.0" top="10.0" />
-               </padding>
-            </HBox>
-         </bottom>
          <center>
             <HBox maxHeight="-Infinity" minHeight="500.0" prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: e2e2e2;" BorderPane.alignment="CENTER">
                <children>
@@ -68,14 +36,6 @@
                               <Insets bottom="10.0" top="10.0" />
                            </VBox.margin>
                         </JFXButton>
-                        <JFXButton minHeight="20.0" minWidth="400.0" onAction="#handleMapEditor" prefWidth="400.0" style="-fx-background-color: #008CBA;" text="%key.map_editor" textFill="WHITE">
-                           <VBox.margin>
-                              <Insets bottom="10.0" top="10.0" />
-                           </VBox.margin>
-                           <font>
-                              <Font size="30.0" />
-                           </font>
-                        </JFXButton>
                         <JFXButton minHeight="20.0" minWidth="400.0" onAction="#handlePathfinding" prefWidth="400.0" style="-fx-background-color: #ff9900;" text="%key.pathfinding" textFill="WHITE">
                            <VBox.margin>
                               <Insets bottom="10.0" top="10.0" />
@@ -84,10 +44,21 @@
                               <Font size="30.0" />
                            </font>
                         </JFXButton>
-                        <JFXButton onAction="#langOnClick" prefHeight="46.0" prefWidth="147.0" style="-fx-background-color: #008CBA;" text="%key.language" textFill="WHITE">
+                        <JFXButton minHeight="20.0" minWidth="400.0" onAction="#handleMapEditor" prefWidth="400.0" style="-fx-background-color: #008CBA;" text="%key.map_editor" textFill="WHITE">
+                           <VBox.margin>
+                              <Insets bottom="10.0" top="10.0" />
+                           </VBox.margin>
                            <font>
-                              <Font size="20.0" />
+                              <Font size="30.0" />
                            </font>
+                        </JFXButton>
+                        <JFXButton onAction="#handleAddUsers" prefHeight="5.0" prefWidth="399.0" style="-fx-background-color: #db1212;" text="%key.add_account" textFill="WHITE">
+                           <font>
+                              <Font size="30.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="10.0" top="10.0" />
+                           </VBox.margin>
                         </JFXButton>
                      </children>
                      <padding>
@@ -97,6 +68,39 @@
                </children>
             </HBox>
          </center>
+         <top>
+            <AnchorPane prefHeight="76.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <JFXButton fx:id="loginButton" layoutX="1078.0" layoutY="17.0" onAction="#handleLogin" prefHeight="42.0" prefWidth="96.0" style="-fx-background-color: #db1212;" text="%key.login" textFill="WHITE" />
+                  <Text fx:id="usernameLabel" fill="WHITE" layoutX="734.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-text-alignment: right;" text="Guest" wrappingWidth="332.13677978515625">
+                     <font>
+                        <Font size="31.0" />
+                     </font>
+                  </Text>
+               </children>
+            </AnchorPane>
+         </top>
+         <bottom>
+            <AnchorPane prefHeight="79.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <JFXButton buttonType="RAISED" layoutX="14.0" layoutY="12.0" onAction="#handleHelp" prefHeight="50.0" prefWidth="50.0" styleClass="standard" stylesheets="/edu/wpi/teamo/fxml/CSS/HelpButton.css" text="?">
+                     <font>
+                        <Font name="Arial Bold" size="24.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton layoutX="83.0" layoutY="14.0" onAction="#langOnClick" prefHeight="46.0" prefWidth="147.0" style="-fx-background-color: #008CBA;" text="%key.language" textFill="WHITE">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="closeButton" buttonType="RAISED" layoutX="1078.0" layoutY="20.0" minWidth="100.0" onAction="#closeWindow" style="-fx-background-color: #db1212;" text="%key.exit" textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </AnchorPane>
+         </bottom>
       </BorderPane>
    </children>
 </StackPane>

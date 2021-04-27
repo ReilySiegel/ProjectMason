@@ -4,6 +4,7 @@ import edu.wpi.teamo.database.request.SanitationRequest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
@@ -29,20 +30,23 @@ public class SanitationRequestTest {
         SanitationRequest.initTable();
         BaseRequest.initTable();
         String[] loc = {"loc"};
-        BaseRequest b = new BaseRequest("id", "det", Stream.of(loc), "me", false);
+        LocalDateTime t = LocalDateTime.now();
+        BaseRequest b = new BaseRequest("id", "det", Stream.of(loc), "me", false, t, t);
         SanitationRequest s = new SanitationRequest(b);
         s.update();
         assertEquals("id", SanitationRequest.getByID("id").getID());
         assertEquals("loc", SanitationRequest.getByID("id").getLocations().findFirst().orElseThrow(Exception::new));
+        assertEquals(t, SanitationRequest.getByID("id").getTimestamp());
+        assertEquals(t, SanitationRequest.getByID("id").getDue());
     }
 
     @Test
     public void testGetAll() throws SQLException, ClassNotFoundException {
-        Database.setTesting ("testGetAll");
-        Database db = Database.getInstance ();
+        Database.setTesting("testGetAll");
+        Database db = Database.getInstance();
         SanitationRequest.initTable();
         BaseRequest.initTable();
-        String[] loc = {"loc"};
+        String[] loc = { "loc" };
         BaseRequest b = new BaseRequest("id", "det", Stream.of(loc), "me", false);
         SanitationRequest s = new SanitationRequest(b);
         s.update();

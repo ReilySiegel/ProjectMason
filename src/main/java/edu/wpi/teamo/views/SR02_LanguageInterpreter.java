@@ -78,6 +78,13 @@ public class SR02_LanguageInterpreter extends ServiceRequestPage implements Init
     private JFXDatePicker datepicker;
 
     @FXML
+    private Text langErrorText;
+
+    @FXML
+    private Text jobErrorText;
+
+
+    @FXML
     public void initialize(URL location, ResourceBundle resources) {
         topVbox.getStyleClass().add("vbox");
         bottomHbox.getStyleClass().add("vbox");
@@ -105,7 +112,6 @@ public class SR02_LanguageInterpreter extends ServiceRequestPage implements Init
         languageBox.getItems().add("Italian");
         languageBox.getItems().add("Hindi");
     }
-
 
     public void fillJobBox() {
         jobBox.getItems().add("Face-to-Face");
@@ -157,11 +163,9 @@ public class SR02_LanguageInterpreter extends ServiceRequestPage implements Init
 
     @FXML
     private void handleSubmission(ActionEvent e) throws SQLException {
-        String medicine = medName.getText();
-        String amount = medAmount.getText();
         String assignName = assignee.getText();
-        String selectedLanguage = String.valueOf(languageBox.getItems());
-        String selectedJob = String.valueOf(jobBox.getItems());
+        String selectedLanguage = languageBox.getSelectionModel().getSelectedItem();
+        String selectedJob = jobBox.getSelectionModel().getSelectedItem();
         String selectedTime = timepicker.getValue().toString();
         String selectedDate = datepicker.getValue().toString();
 
@@ -171,48 +175,45 @@ public class SR02_LanguageInterpreter extends ServiceRequestPage implements Init
         List<String>          locations = checked.map(CheckMenuItem::getText).collect(Collectors.toList());
 
         validRequest = true;
-
-        if (medicine.equals("")) {
-            medErrorText.setText("No medicine specified");
+        if (selectedLanguage.equals("")) {
+            langErrorText.setText(App.resourceBundle.getString("key.no_language_specified"));
             validRequest = false;
         }
 
-        if (amount.equals("")) {
-            amountErrorText.setText("No amount specified");
+        if (selectedJob.equals("")) {
+            jobErrorText.setText(App.resourceBundle.getString("key.no_job_type_specified"));
             validRequest = false;
         }
 
         if (locations.size() == 0) {
-            roomErrorText.setText("No room specified");
+            roomErrorText.setText(App.resourceBundle.getString("key.no_room_specified"));
             validRequest = false;
         }
         if (assignName.equals("")) {
-            assigneeErrorText.setText("No assignee specified");
+            assigneeErrorText.setText(App.resourceBundle.getString("key.no_assignee_specified"));
             validRequest = false;
         }
 
-        if (validRequest) {
-            App.requestService.requestMedicine(medicine, amount, locations.stream(), assignName);
-            medErrorText.setText("");
-            amountErrorText.setText("");
+       if (validRequest) {
+            //App.InterpreterRequest("hi","hi","hi","hi","hi");
+            langErrorText.setText("");
+            jobErrorText.setText("");
             roomErrorText.setText("");
             assigneeErrorText.setText("");
             System.out.println("request successful");
-            medName.setText("");
-            medAmount.setText("");
             assignee.setText("");
 
             JFXDialogLayout content = new JFXDialogLayout();
-            content.setHeading(new Text("Medicine Request Submitted"));
-            content.setBody(new Text("Request submitted with: \n" +
-                    "Type: " + medicine + "\n" +
-                    "Amount: " + amount + "\n" +
-                    "Room: " + String.join(", ", locations) + "\n" +
-                    "Person(s) assigned: " + assignName));
+            content.setHeading(new Text(App.resourceBundle.getString("key.language_request_submitted")));
+            content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
+                    App.resourceBundle.getString("key.language_semicolon") +  selectedLanguage+ "\n" +
+                    App.resourceBundle.getString("key.job_type_semicolon") + selectedJob + "\n" +
+                    App.resourceBundle.getString("key.room_semicolon") + String.join(", ", locations) + "\n" +
+                    App.resourceBundle.getString("key.persons_assigned_semicolon") + assignName));
             JFXDialog popup = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 
-            JFXButton closeButton = new JFXButton("Close");
-            JFXButton backButton = new JFXButton("Back to Menu");
+            JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
+            JFXButton backButton = new JFXButton(App.resourceBundle.getString("key.back_to_main"));
 
             closeButton.setStyle("-fx-background-color: #F40F19; -fx-text-fill: #fff");
             backButton.setStyle("-fx-background-color: #333333; -fx-text-fill: #fff");
@@ -240,14 +241,15 @@ public class SR02_LanguageInterpreter extends ServiceRequestPage implements Init
     private void handleHelp(ActionEvent e) {
 
         JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text("Help - Medicine Request"));
-        content.setBody(new Text("Medicine Name: Name of medicine to be delivered\n" +
-                "Amount: Amount needed\n" +
-                "Room: The node/room where the service is needed\n" +
-                "Assignee Name: The person to be assigned to this service\n"));
+        content.setHeading(new Text(App.resourceBundle.getString("key.help_interpreter_request")));
+        content.setBody(new Text(App.resourceBundle.getString("key.help_language") +
+                App.resourceBundle.getString("key.help_lang_job_type") +
+                App.resourceBundle.getString("key.room_help") +
+                App.resourceBundle.getString("key.assignee_help")+
+                App.resourceBundle.getString("key.date/time_help")));
         JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 
-        JFXButton closeButton = new JFXButton("Close");
+        JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
         closeButton.setStyle("-fx-background-color: #F40F19; -fx-text-fill: #fff");
         closeButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override

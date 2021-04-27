@@ -25,4 +25,10 @@ public class DFSManager extends AlgoManagerI{
         return DepthFirstSearch.findPath();
 
     }
+
+    public LinkedList<AlgoNode> getIsolatedNodes() throws SQLException {
+        conditionSetup();
+        DFS DepthFirstSearch = new DFS(nodes);
+        return DepthFirstSearch.seekForIsolatedNodes();
+    }
 }

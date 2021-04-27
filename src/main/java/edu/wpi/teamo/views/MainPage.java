@@ -5,14 +5,17 @@ import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
 import edu.wpi.teamo.App;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 import edu.wpi.teamo.Pages;
+import edu.wpi.teamo.Session;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -22,13 +25,33 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class MainPage {
+public class MainPage extends SubPageController implements Initializable {
 
     @FXML
     private StackPane stackPane;
 
     @FXML
     private javafx.scene.control.Button closeButton;
+
+    @FXML
+    private JFXButton loginButton;
+
+    @FXML
+    private Text usernameLabel;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        if(Session.isLoggedIn()) {
+            loginButton.setText(App.resourceBundle.getString("key.logout"));
+            usernameLabel.setText(Session.getAccount().getUsername());
+            loginButton.setOnAction(this::handleLogOut);
+        }
+        else {
+            loginButton.setText(App.resourceBundle.getString("key.login"));
+            loginButton.setOnAction(this::handleLogin);
+            usernameLabel.setText("Guest");
+        }
+    }
 
     /**
      * Event handler
@@ -57,7 +80,11 @@ public class MainPage {
      */
     @FXML
     private void handleMapEditor(ActionEvent e) {
-        App.switchPage(Pages.MAPEDITOR);
+        if(Session.isLoggedIn() && Session.getAccount().isAdmin())
+            App.switchPage(Pages.MAPEDITOR);
+        else{
+            //add error
+        }
     }
 
 
@@ -99,7 +126,21 @@ public class MainPage {
     private void handleLogin(ActionEvent e) { App.switchPage(Pages.LOGIN);}
 
     @FXML
-    private void handleAddUsers(ActionEvent e) { App.switchPage(Pages.ADDUSERS);}
+    private void handleAddUsers(ActionEvent e) {
+        if(Session.isLoggedIn() && Session.getAccount().isAdmin())
+            App.switchPage(Pages.ADDUSERS);
+        else{
+           //add error
+       }
+    }
+
+    @FXML
+    private void handleLogOut(ActionEvent e){
+        loginButton.setText(App.resourceBundle.getString("key.login"));
+        loginButton.setOnAction(this::handleLogin);
+        usernameLabel.setText("Guest");
+        Session.logout();
+    }
 
     /**
      * Toggles between spanish and english (later on implement dedicated page for multiple languages?)

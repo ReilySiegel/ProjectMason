@@ -1,7 +1,14 @@
 package edu.wpi.teamo;
 
+import edu.wpi.teamo.database.account.Account;
+import edu.wpi.teamo.database.request.GiftRequest;
 import edu.wpi.teamo.database.request.IRequestService;
 import edu.wpi.teamo.database.request.RequestDB;
+import edu.wpi.teamo.database.request.InterpreterRequest;
+import edu.wpi.teamo.database.request.LaundryRequest;
+import edu.wpi.teamo.database.request.MaintenanceRequest;
+import edu.wpi.teamo.database.request.ReligiousRequest;
+import edu.wpi.teamo.database.request.SecurityRequest;
 import edu.wpi.teamo.database.map.IMapService;
 import edu.wpi.teamo.algos.AStarManager;
 import edu.wpi.teamo.algos.IStrategyPathfinding;
@@ -40,7 +47,7 @@ public class App extends Application {
     pagePaths.put(Pages.MAPEDITOR,"/edu/wpi/teamo/fxml/MapEditorPage.fxml");
     pagePaths.put(Pages.PATHFINDING, "/edu/wpi/teamo/fxml/PathfindingPage.fxml");
     pagePaths.put(Pages.MEDICINE, "/edu/wpi/teamo/fxml/SR07_Medicine.fxml");
-    pagePaths.put(Pages.SANITATION, "/edu/wpi/teamo/fxml/Sanitation.fxml");
+    pagePaths.put(Pages.SANITATION, "/edu/wpi/teamo/fxml/SR03_Sanitation.fxml");
     pagePaths.put(Pages.MANAGEREQUESTS, "/edu/wpi/teamo/fxml/ManageRequests.fxml");
     pagePaths.put(Pages.MAIN, "/edu/wpi/teamo/fxml/MainPage.fxml");
     pagePaths.put(Pages.LOADINGSCREEN,"edu/wpi/teamo/fxml/LoadingScreen.fxml");
@@ -51,12 +58,22 @@ public class App extends Application {
     pagePaths.put(Pages.SURVEY, "/edu/wpi/teamo/fxml/CovidSurveyPage.fxml");
     pagePaths.put(Pages.SECURITY, "/edu/wpi/teamo/fxml/SR11_Security.fxml");
     pagePaths.put(Pages.ADDUSERS, "/edu/wpi/teamo/fxml/AddUsersPage.fxml");
+    pagePaths.put(Pages.TRANSPORTATION,"/edu/wpi/teamo/fxml/PatientTransportation.fxml");
+
     System.out.println("Starting Up");
 
     /* instantiate the database services, set to static variables that can be accessed from the handlers */
     try {
       requestService = new RequestDB(Database.getInstance());
       mapService = new MapDB(Database.getInstance());
+      Account.initTable();
+      SecurityRequest.initTable();
+      InterpreterRequest.initTable();
+      GiftRequest.initTable();
+      LaundryRequest.initTable();
+      MaintenanceRequest.initTable();
+      ReligiousRequest.initTable();
+      new Account("admin", "password", true, "Willson", "Wong", "admin").update();
       System.out.println("Database Services Initialized");
     } catch (SQLException e) {
       System.out.println("ERROR: FAILED TO INIT DATABASE SERVICES");

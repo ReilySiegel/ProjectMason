@@ -9,6 +9,7 @@ import javafx.geometry.Insets;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class LocationSearcher {
@@ -18,6 +19,10 @@ public class LocationSearcher {
 
     List<NodeInfo> selectedLocations;
     List<NodeInfo> locations;
+
+    Consumer<NodeInfo> onCheckNode = null;
+    Consumer<JFXCheckBox> onMakeCheckbox = null;
+
 
     /**
      * An object that handles searching and selecting multiple locations.
@@ -52,6 +57,15 @@ public class LocationSearcher {
 
     public List<String> getSelectedLocationIDs() {
         return selectedLocations.stream().map(NodeInfo::getNodeID).collect(Collectors.toList());
+    }
+
+    public void clearSelectedLocations() {
+        selectedLocations = new LinkedList<>();
+        handleSearchInput();
+    }
+
+    public void setOnCheckNode(Consumer<NodeInfo> onCheckNode) {
+        this.onCheckNode = onCheckNode;
     }
 
     private void handleSearchInput() {
@@ -95,18 +109,27 @@ public class LocationSearcher {
 
     }
 
+    public void setOnMakeCheckbox(Consumer<JFXCheckBox> onMakeCheckbox) {
+        this.onMakeCheckbox = onMakeCheckbox;
+    }
+
     private JFXCheckBox createCheckBox(NodeInfo node, boolean selected) {
-        String text = String.format("%10s %10s", node.getLongName(), node.getNodeID());
+        String text = String.format("%s", node.getLongName());
 
         JFXCheckBox checkBox = new JFXCheckBox();
         checkBox.setPadding(new Insets(10));
         checkBox.setSelected(selected);
+        checkBox.setStyle("-jfx-checked-color: #5e81ac");
         checkBox.setText(text);
 
         checkBox.setOnAction(event -> {
             if (checkBox.isSelected()) selectedLocations.add(node);
             else selectedLocations.remove(node);
+
+            if (onCheckNode != null) onCheckNode.accept(node);
         });
+
+        if (onMakeCheckbox != null) onMakeCheckbox.accept(checkBox);
 
         return checkBox;
     }

@@ -14,9 +14,10 @@ public class DFS {
     private LinkedList<String>[] adj; // adjacency lists
     private Hashtable<String, Integer> position;
 
-    public DFS(LinkedList<AlgoNode> nodes, String startNodeID, String endNodeID){
-        this.startID = startNodeID;
-        this.endID = endNodeID;
+    private AlgoNode sourceNode;
+
+
+    public DFS(LinkedList<AlgoNode> nodes){
         this.allNodes = nodes;
         this.marked = new boolean[nodes.size()];
         this.edgeTo = new String[nodes.size()];
@@ -28,8 +29,47 @@ public class DFS {
             position.put(n.getID(),i);
             i++;
         }
+        this.sourceNode = nodes.getFirst();
+
+        dfs(sourceNode.getID());
+    }
+
+
+    public DFS(LinkedList<AlgoNode> nodes, String startNodeID, String endNodeID){
+        this.startID = startNodeID;
+        this.endID = endNodeID;
+        this.allNodes = nodes;
+        this.marked = new boolean[nodes.size()];
+        this.edgeTo = new String[nodes.size()];
+        this.adj = (LinkedList<String>[]) new  LinkedList[nodes.size()];
+        this.position = new Hashtable<>();
+
+        int i = 0;
+        for (AlgoNode n: nodes){
+            adj[i] = n.getAdjacencies();
+            position.put(n.getID(),i);
+            i++;
+
+        }
 
         dfs(startNodeID);
+    }
+
+
+
+    public LinkedList<AlgoNode> seekForIsolatedNodes(){
+
+        LinkedList<AlgoNode> allIsolatedNodes = new LinkedList<>();
+
+        for (int i = 0; i < allNodes.size(); i++) {
+            if (!marked[i]){
+                AlgoNode isolatedNode = allNodes.get(i);
+                allIsolatedNodes.add(isolatedNode);
+            }
+        }
+
+        return allIsolatedNodes;
+
     }
 
     public LinkedList<AlgoNode> findPath() throws NullPointerException{
@@ -59,6 +99,7 @@ public class DFS {
                 dfs(w);
             }
         }
+
     }
 
     private boolean hasPathTo(String targetNode){
@@ -66,6 +107,7 @@ public class DFS {
     }
 
     private Iterable<String> pathTo(String targetNode){
+
         if (!hasPathTo(targetNode)) {System.out.println("No path found!"); return null;}
         Stack<String> path = new Stack<>();
         for(String x = targetNode; x != startID; x = edgeTo[position.get(x)])
@@ -73,8 +115,6 @@ public class DFS {
         path.push(startID);
         return path;
     }
-
-
 
 
     /**

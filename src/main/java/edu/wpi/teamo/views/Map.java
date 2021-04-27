@@ -13,6 +13,8 @@ import javafx.scene.image.ImageView;
 import edu.wpi.teamo.algos.AlgoNode;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
+
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -52,12 +54,21 @@ public class Map  {
     private boolean dragging = false;
     private double scale = 1;
 
+    private Paint defaultCircleColor = Color.BLUE;
+    public Paint defaultLineColor = Color.RED;
+    public double defaultStrokeWidth = 5;
+    public double defaultRadius = 5;
+
     public Map(ImageView imageView, AnchorPane nodePane) {
         this.imageView = imageView;
         this.nodePane = nodePane;
 
+
+
         nodePane.setOnMouseDragged((MouseEvent e) -> translateMap(e.getScreenX(), e.getScreenY()));
+        nodePane.setOnMouseReleased((MouseEvent e) -> resetInitialDragData());
         nodePane.setOnScroll((ScrollEvent e) -> scaleMap(e.getDeltaY()));
+
     }
 
     public void drawPath(LinkedList<AlgoNode> path, String floor) {
@@ -72,6 +83,8 @@ public class Map  {
             Line line = createLine(firstX, firstY, secondX, secondY, null, lineColor);
             nodePane.getChildren().add(line);
         }
+
+        scaleMap(0);
     }
 
     public void drawNodes(List<NodeInfo> allNodes, String floor) {
@@ -80,6 +93,8 @@ public class Map  {
         switchFloorImage(floor);
 
         addCircles(floorNodes);
+
+        scaleMap(0);
     }
 
 
@@ -89,6 +104,8 @@ public class Map  {
         switchFloorImage(floor);
 
         addLines(edges, floorNodes);
+
+        scaleMap(0);
     }
 
     public void clearShapes() {
@@ -106,17 +123,17 @@ public class Map  {
                 double tfStartY = transform(startNode.getYPos(), imageHeight, nodePane.getPrefHeight());
                 double tfEndX = transform(endNode.getXPos(), imageWidth, nodePane.getPrefWidth());
                 double tfEndY = transform(endNode.getYPos(), imageHeight, nodePane.getPrefHeight());
-                Line line = createLine(tfStartX, tfStartY, tfEndX, tfEndY, edge, Color.RED);
+                Line line = createLine(tfStartX, tfStartY, tfEndX, tfEndY, edge, defaultLineColor);
                 nodePane.getChildren().add(line);
             }
         }
 
     }
 
-    private Line createLine(double StartX, double StartY, double EndX, double EndY, EdgeInfo edge, Color lineColor) {
+    private Line createLine(double StartX, double StartY, double EndX, double EndY, EdgeInfo edge, Paint lineColor) {
         Line line = new Line(StartX, StartY, EndX, EndY);
         line.setStroke(lineColor);
-        line.setStrokeWidth(5);
+        line.setStrokeWidth(defaultStrokeWidth);
 
         if (onDrawEdge != null) {
             onDrawEdge.accept(new Pair<>(line, edge));
@@ -135,7 +152,7 @@ public class Map  {
     }
 
     private Circle createCircle(double x, double y, NodeInfo node) {
-        Circle circle = new Circle(x, y, 4, Color.BLUE);
+        Circle circle = new Circle(x, y, defaultRadius, defaultCircleColor);
 
         if (onDrawNode != null) {
             onDrawNode.accept(new Pair<>(circle, node));
@@ -209,6 +226,15 @@ public class Map  {
         imageView.setScaleY(scale);
         nodePane.setScaleX(scale);
         nodePane.setScaleY(scale);
+
+        for (javafx.scene.Node thing : nodePane.getChildren()) {
+            if (thing.getClass() == Circle.class) {
+                ((Circle) thing).setRadius(defaultRadius/scale);
+            }
+            else if (thing.getClass() == Line.class) {
+                ((Line) thing).setStrokeWidth(defaultStrokeWidth/scale);
+            }
+        };
 
         /* must translate based on how much the current point moved from the scale */
         nodePane.setTranslateX ( nodePane.getTranslateX() + (nodePane.getTranslateX() /scale) * dS);

@@ -26,7 +26,7 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class Sanitation extends ServiceRequestPage implements Initializable {
+public class SR03_Sanitation extends ServiceRequestPage implements Initializable {
 
     @FXML
     private StackPane stackPane;
@@ -47,7 +47,10 @@ public class Sanitation extends ServiceRequestPage implements Initializable {
     private JFXTextField assignee;
 
     @FXML
-    private JFXTimePicker time;
+    private JFXTimePicker time = new JFXTimePicker();
+
+    @FXML
+    private JFXDatePicker date = new JFXDatePicker();
 
     @FXML
     private JFXTextField notes;
@@ -62,43 +65,46 @@ public class Sanitation extends ServiceRequestPage implements Initializable {
     private Text assignedErrorText;
 
     @FXML
-    private MenuButton locationBox;
+    private JFXTextField locationLine;
+
+    @FXML
+    private JFXCheckBox recurCheck;
+
+    @FXML
+    private JFXListView<JFXCheckBox> roomList;
+
+    LocationSearcher locationSearcher;
 
     private boolean validRequest;
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
+
         topVbox.getStyleClass().add("vbox");
         bottomHbox.getStyleClass().add("vbox");
         midVbox.getStyleClass().add("text-area");
+        recurCheck.setStyle("-jfx-checked-color: #d8dee9");
+        recurCheck.setStyle("-fx-text-fill: #d8dee9");
+
+
+
+        App.getPrimaryStage().getScene().getStylesheets().add(LocationSearcher.getStylePath());
+
+        locationSearcher = new LocationSearcher(locationLine, roomList);
+        updateLocations();
 
 
         validRequest = true;
-        try {
-            resetLocationBox();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
-    private void resetLocationBox() throws SQLException {
-        locationBox.getItems().removeAll(locationBox.getItems());
 
-        LinkedList<NodeInfo> nodes = App.mapService.getAllNodes().collect(Collectors.toCollection(LinkedList::new));
-
-        for (NodeInfo node : nodes) {
-            CheckMenuItem menuItem = new CheckMenuItem();
-            menuItem.setText(node.getNodeID());
-
-            menuItem.setOnAction(event -> locationBox.setText(locationBox.getItems().stream()
-                    .map((MenuItem mI) -> (CheckMenuItem) mI)
-                    .filter(CheckMenuItem::isSelected)
-                    .map(CheckMenuItem::getText)
-                    .collect(Collectors.joining(", "))));
-
-            locationBox.getItems().add(menuItem);
+    private void updateLocations() {
+        try {
+            locationSearcher.setLocations(App.mapService.getAllNodes().collect(Collectors.toList()));
+        } catch (SQLException throwables) {
+            locationSearcher.setLocations(new LinkedList<>());
+            throwables.printStackTrace();
         }
-
     }
 
     @FXML
@@ -107,30 +113,31 @@ public class Sanitation extends ServiceRequestPage implements Initializable {
         String assigned = assignee.getText();
         String details = notes.getText();
 
-        List<MenuItem> mItems    = locationBox.getItems();
-        Stream<CheckMenuItem> cMItems   = mItems.stream().map((MenuItem mI) -> (CheckMenuItem) mI);
-        Stream<CheckMenuItem> checked   = cMItems.filter(CheckMenuItem::isSelected);
-        List<String>          locations = checked.map(CheckMenuItem::getText).collect(Collectors.toList());
+        List<NodeInfo>          locations = locationSearcher.getSelectedLocations();
+        List<String> locationIDs = locationSearcher.getSelectedLocationIDs();
+
+        TextField curTime = time.getEditor();
+        TextField curDate = date.getEditor();
 
         validRequest = true;
 
         if (serviceName.equals("")) {
-            typeErrorText.setText("Service type required");
+            typeErrorText.setText(App.resourceBundle.getString("key.no_sanitation_type_specified"));
             validRequest = false;
         }
 
         if (locations.size() == 0) {
-            roomErrorText.setText("No room/node selected");
+            roomErrorText.setText(App.resourceBundle.getString("key.no_room_specified"));
             validRequest = false;
         }
 
         if (assigned.equals("")) {
-            assignedErrorText.setText("Assignee name required");
+            assignedErrorText.setText(App.resourceBundle.getString("key.no_assignee_specified"));
             validRequest = false;
         }
 
         if (validRequest) {
-            App.requestService.requestSanitation(locations.stream(), assigned, serviceName + ", " + details);
+            App.requestService.requestSanitation(locationIDs.stream(), assigned, serviceName + ", " + details);
             System.out.println("Sanitation request submitted");
 
             service.setText("");
@@ -138,16 +145,16 @@ public class Sanitation extends ServiceRequestPage implements Initializable {
             notes.setText("");
 
             JFXDialogLayout content = new JFXDialogLayout();
-            content.setHeading(new Text("Sanitation Request Submitted"));
+            content.setHeading(new Text(App.resourceBundle.getString("key.sanitation_request_submitted")));
             content.setBody(new Text("Request submitted with: \n" +
-                    "Type: " + serviceName + "\n" +
-                    "Room: " + String.join(", ", locations) + "\n" +
-                    "Person(s) assigned: " + assigned + "\n" +
-                    "Additional notes: " + details));
+                    App.resourceBundle.getString("key.type_of_sanitation") + serviceName + "\n" +
+                    App.resourceBundle.getString("key.room_semicolon") + String.join(", ", locationIDs) + "\n" +
+                    App.resourceBundle.getString("key.persons_assigned_semicolon") + assigned + "\n" +
+                    App.resourceBundle.getString("key.additional_notes") + details));
             JFXDialog popup = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 
-            JFXButton closeButton = new JFXButton("Close");
-            JFXButton backButton = new JFXButton("Back to Menu");
+            JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
+            JFXButton backButton = new JFXButton(App.resourceBundle.getString("key.back_to_main"));
 
             closeButton.setStyle("-fx-background-color: #F40F19; -fx-text-fill: #fff");
             backButton.setStyle("-fx-background-color: #333333; -fx-text-fill: #fff");
@@ -175,13 +182,13 @@ public class Sanitation extends ServiceRequestPage implements Initializable {
     private void handleHelp(ActionEvent e) {
 
         JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text("Help - Sanitation Service Request"));
-        content.setBody(new Text("Service Name: Type of service required\n" +
-                "Room: The node/room where the service is needed\n" +
-                "Assignee Name: The person to be assigned to this service\n"));
+        content.setHeading(new Text(App.resourceBundle.getString("key.help_sanitation")));
+        content.setBody(new Text(App.resourceBundle.getString("key.sanitation_type_help") +
+                App.resourceBundle.getString("key.room_help") +
+                App.resourceBundle.getString("key.assignee_help")));
         JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 
-        JFXButton closeButton = new JFXButton("Close");
+        JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
         closeButton.setStyle("-fx-background-color: #F40F19; -fx-text-fill: #fff");
         closeButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
