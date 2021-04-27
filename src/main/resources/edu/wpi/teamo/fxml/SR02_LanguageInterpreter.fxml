@@ -3,12 +3,11 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXListView?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXTimePicker?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -97,29 +96,6 @@
                                 </AnchorPane>
                             </children>
                         </HBox>
-                        <HBox prefHeight="50.0" prefWidth="580.0">
-                            <children>
-                        <Label prefHeight="27.0" prefWidth="444.0" text="%key.room" textFill="WHITE">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Label>
-                                <AnchorPane prefHeight="50.0" prefWidth="800.0">
-                                    <children>
-                                        <Text fx:id="roomErrorText" fill="RED" layoutX="76.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-                                        <MenuButton fx:id="locationBox" layoutX="47.0" layoutY="2.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="599.0" AnchorPane.rightAnchor="0.0">
-                                            <items>
-                                                <MenuItem mnemonicParsing="false" text="Action 1" />
-                                                <MenuItem mnemonicParsing="false" text="Action 2" />
-                                            </items>
-                                        </MenuButton>
-                                    </children>
-                                </AnchorPane>
-                            </children>
-                            <VBox.margin>
-                                <Insets bottom="10.0" />
-                            </VBox.margin>
-                        </HBox>
                   <HBox prefHeight="50.0" prefWidth="200.0">
                      <children>
                         <Label prefWidth="313.0" text="%key.time" textFill="WHITE">
@@ -137,7 +113,7 @@
                         </AnchorPane>
                      </children>
                   </HBox>
-                  <HBox prefHeight="50.0" prefWidth="200.0" style="-fx-effect: dropshadow(three-pass-box, rgba(150,150,170,0.8), 20, 0, 0, 0);">
+                  <HBox prefHeight="50.0" prefWidth="200.0">
                      <children>
                         <Label prefHeight="27.0" prefWidth="316.0" text="%key.date" textFill="WHITE">
                            <font>
@@ -154,6 +130,35 @@
                         </AnchorPane>
                      </children>
                   </HBox>
+                  <HBox prefHeight="50.0" prefWidth="580.0">
+                     <children>
+                        <AnchorPane prefHeight="50.0" prefWidth="800.0">
+                           <children>
+                              <Label layoutX="-3.0" layoutY="4.0" text="%key.room">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <VBox layoutX="170.0" layoutY="2.0" AnchorPane.rightAnchor="0.0">
+                                 <children>
+                                    <JFXTextField fx:id="locationLine" minWidth="300.0" prefWidth="600.0" promptText="%key.search" />
+                                    <Text fx:id="roomErrorText1" fill="#cd0000" strokeType="OUTSIDE" strokeWidth="0.0" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </HBox>
+                  <JFXListView fx:id="roomList" maxWidth="600.0" prefHeight="132.0" prefWidth="400.0">
+                     <VBox.margin>
+                        <Insets left="170.0" />
+                     </VBox.margin>
+                  </JFXListView>
+                  <Text fx:id="roomErrorText" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="202.0">
+                     <VBox.margin>
+                        <Insets left="170.0" />
+                     </VBox.margin>
+                  </Text>
                     </children>
                     <padding>
                         <Insets bottom="10.0" left="20.0" right="10.0" top="30.0" />

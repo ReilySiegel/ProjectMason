@@ -40,13 +40,7 @@ public class SR02_LanguageInterpreter extends ServiceRequestPage implements Init
     private JFXTextField assignee;
 
     @FXML
-    private Text roomErrorText;
-
-    @FXML
     private Text assigneeErrorText;
-
-    @FXML
-    private MenuButton locationBox;
 
     private boolean validRequest;
 
@@ -78,7 +72,19 @@ public class SR02_LanguageInterpreter extends ServiceRequestPage implements Init
     private Text jobErrorText;
 
     @FXML
+    private Text roomErrorText;
+
+    @FXML
     private JFXTextField notes;
+
+    @FXML
+    private JFXTextField locationLine;
+
+    @FXML
+    private JFXListView<JFXCheckBox> roomList;
+
+
+    LocationSearcher locationSearcher;
 
 
     @FXML
@@ -89,11 +95,19 @@ public class SR02_LanguageInterpreter extends ServiceRequestPage implements Init
 
         fillLanguageBox();
         fillJobBox();
-        validRequest = true;
+        App.getPrimaryStage().getScene().getStylesheets().add(LocationSearcher.getStylePath());
+
+        locationSearcher = new LocationSearcher(locationLine, roomList);
+        updateLocations();
+
+    }
+
+    private void updateLocations() {
         try {
-            resetLocationBox();
-        } catch (SQLException e) {
-            e.printStackTrace();
+            locationSearcher.setLocations(App.mapService.getAllNodes().collect(Collectors.toList()));
+        } catch (SQLException throwables) {
+            locationSearcher.setLocations(new LinkedList<>());
+            throwables.printStackTrace();
         }
     }
 
@@ -117,31 +131,6 @@ public class SR02_LanguageInterpreter extends ServiceRequestPage implements Init
         jobBox.getItems().add("Documentation");
     }
 
-    private void resetLocationBox() throws SQLException {
-        LinkedList<NodeInfo> nodes = App.mapService.getAllNodes().collect(Collectors.toCollection(LinkedList::new));
-        locationBox.getItems().removeAll(locationBox.getItems());
-
-        for (NodeInfo node : nodes) {
-            CheckMenuItem menuItem = new CheckMenuItem();
-            menuItem.setText(node.getNodeID());
-
-            menuItem.setOnAction(event -> {
-                locationBox.setText(locationBox.getItems().stream()
-                        .map((MenuItem mI) -> (CheckMenuItem) mI)
-                        .filter(CheckMenuItem::isSelected)
-                        .map(CheckMenuItem::getText)
-                        .collect(Collectors.joining(", ")));
-            });
-
-            locationBox.getItems().add(menuItem);
-        }
-
-    }
-
-    @FXML
-    private void clearAssigneeError(KeyEvent e) {
-        assigneeErrorText.setText("");
-    }
 
     @FXML
     private void handleSubmission(ActionEvent e) throws SQLException {
@@ -150,11 +139,8 @@ public class SR02_LanguageInterpreter extends ServiceRequestPage implements Init
         String selectedJob = jobBox.getSelectionModel().getSelectedItem();
         String details = notes.getText();
 
-
-        List<MenuItem>        mItems    = locationBox.getItems();
-        Stream<CheckMenuItem> cMItems   = mItems.stream().map((MenuItem mI) -> (CheckMenuItem) mI);
-        Stream<CheckMenuItem> checked   = cMItems.filter(CheckMenuItem::isSelected);
-        List<String>          locations = checked.map(CheckMenuItem::getText).collect(Collectors.toList());
+        List<NodeInfo> locations = locationSearcher.getSelectedLocations();
+        List<String> locationIDs = locationSearcher.getSelectedLocationIDs();
 
         LocalTime curTime = timepicker.getValue();
         LocalDateTime curDate = datepicker.getValue().atTime(curTime);
@@ -180,7 +166,7 @@ public class SR02_LanguageInterpreter extends ServiceRequestPage implements Init
         }
 
        if (validRequest) {
-           BaseRequest baseRequest = new BaseRequest(UUID.randomUUID().toString(), details, locations.stream(),
+           BaseRequest baseRequest = new BaseRequest(UUID.randomUUID().toString(), details, locationIDs.stream(),
                   assigned, false, curDate);
 
             new InterpreterRequest(selectedLanguage, selectedJob, baseRequest).update();
@@ -197,7 +183,7 @@ public class SR02_LanguageInterpreter extends ServiceRequestPage implements Init
             content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
                     App.resourceBundle.getString("key.language_semicolon") +  selectedLanguage+ "\n" +
                     App.resourceBundle.getString("key.job_type_semicolon") + selectedJob + "\n" +
-                    App.resourceBundle.getString("key.room_semicolon") + String.join(", ", locations) + "\n" +
+                    App.resourceBundle.getString("key.room_semicolon") + String.join(", ", locationIDs) + "\n" +
                     App.resourceBundle.getString("key.persons_assigned_semicolon") + assigned + "\n" +
                     App.resourceBundle.getString("key.selected_time_semicolon") + curDate));
             JFXDialog popup = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
