@@ -2,13 +2,9 @@ package edu.wpi.teamo.views;
 
 import com.jfoenix.controls.*;
 import edu.wpi.teamo.App;
-import edu.wpi.teamo.algos.NodeType;
 import edu.wpi.teamo.database.map.NodeInfo;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.StackPane;
@@ -34,79 +30,73 @@ public class SR12_MaintenancePage extends ServiceRequestPage implements Initiali
     private JFXTextField notes;
 
     @FXML
-    private MenuButton locationBox;
+    private JFXComboBox<String> MainTypeComboBox;
 
     @FXML
-    private JFXComboBox<String> MainTypeComboBox;
+    private JFXTextField nodeSearchField;
+
+    @FXML
+    private JFXListView<JFXCheckBox> listOfSearched;
 
     private boolean validRequest;
     private SR12Type type;
     private ResourceBundle resources;
+    private LocationSearcher ls;
 
-    private List<CheckMenuItem> allItems, elevItems;
+    private List<NodeInfo> allItems, elevItems;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        App.getPrimaryStage().getScene().getStylesheets().add("edu/wpi/teamo/fxml/CSS/MaintenancePage.css");
         this.resources = resources;
         validRequest = true;
         String elevatorM = resources.getString("key.maintenance_elevator");
         String powerM = resources.getString("key.maintenance_power");
         MainTypeComboBox.getItems().add(elevatorM);
         MainTypeComboBox.getItems().add(powerM);
-        MainTypeComboBox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if(newValue.equals(elevatorM)){
-                    type = SR12Type.ELEVATOR;
-                    updateLocationBox();
-                }
-                else if(newValue.equals(powerM)){
-                    type = SR12Type.POWER;
-                    updateLocationBox();
-                }
+        MainTypeComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue.equals(elevatorM)){
+                type = SR12Type.ELEVATOR;
+                updateOptions();
+            }
+            else if(newValue.equals(powerM)){
+                type = SR12Type.POWER;
+                updateOptions();
             }
         });
+        ls = new LocationSearcher(nodeSearchField, listOfSearched);
+        initLocationSearcher();
+    }
 
+    private void initLocationSearcher() {
         try {
-            resetLocationBox();
+            List<NodeInfo> nodes = App.mapService.getAllNodes().collect(Collectors.toList());
+            ls.setLocations(nodes);
+            elevItems = new LinkedList<>();
+            allItems = new LinkedList<>();
+            for(NodeInfo nI : nodes) {
+                if(nI.getNodeType().equals("ELEV")) elevItems.add(nI);
+                allItems.add(nI);
+            }
         } catch (SQLException e) {
+            ls.setLocations(new LinkedList<>());
             e.printStackTrace();
         }
     }
 
-    private void resetLocationBox() throws SQLException {
-        List<NodeInfo> savedNodes = App.mapService.getAllNodes().collect(Collectors.toCollection(LinkedList::new));
-        allItems = FXCollections.observableArrayList();
-        elevItems = FXCollections.observableArrayList();
-        locationBox.getItems().removeAll(locationBox.getItems());
-        for (NodeInfo node : savedNodes) addNode(node);
-    }
-
-    private void updateLocationBox() {
-        locationBox.getItems().removeAll(locationBox.getItems());
+    private void updateOptions() {
             switch(type) {
                 case POWER: {
-                    locationBox.getItems().setAll(allItems);
+                    ls.searchResultsList.getItems().removeAll(ls.searchResultsList.getItems());
+                    ls.setLocations(allItems);
                     break;
                 }
                 case ELEVATOR: {
-                    locationBox.getItems().setAll(elevItems);
+                    ls.searchResultsList.getItems().removeAll(ls.searchResultsList.getItems());
+                    ls.setLocations(elevItems);
                     break;
                 }
             }
-    }
-
-    private void addNode(NodeInfo node) {
-        CheckMenuItem menuItem = new CheckMenuItem();
-        menuItem.setText(node.getNodeID());
-        menuItem.setOnAction(event -> locationBox.setText(locationBox.getItems().stream()
-                .map((MenuItem mI) -> (CheckMenuItem) mI)
-                .filter(CheckMenuItem::isSelected)
-                .map(CheckMenuItem::getText)
-                .collect(Collectors.joining(", "))));
-        locationBox.getItems().add(menuItem);
-        if(node.getNodeType().equals("ELEV")) elevItems.add(menuItem);
-        allItems.add(menuItem);
     }
 
     @FXML
@@ -120,15 +110,9 @@ public class SR12_MaintenancePage extends ServiceRequestPage implements Initiali
         content.setHeading(new Text("Help"));
         content.setBody(new Text(resources.getString("key.maintenance_help")));
         JFXDialog helpWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
-
         JFXButton closeButton = new JFXButton("Close");
         closeButton.setStyle("-fx-background-color: #f40f19");
-        closeButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                helpWindow.close();
-            }
-        });
+        closeButton.setOnAction(event -> helpWindow.close());
         content.setActions(closeButton);
         helpWindow.show();
     }

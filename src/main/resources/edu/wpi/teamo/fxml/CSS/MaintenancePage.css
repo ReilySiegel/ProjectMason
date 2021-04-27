@@ -1,0 +1,17 @@
+.text-input {
+    -fx-text-fill: #eceff4;
+    -fx-prompt-text-fill: #eceff4;
+}
+.text-input:focused {
+    -fx-text-fill: #eceff4;
+}
+.check-box {
+    -fx-text-fill: #eceff4;
+}
+.list-cell {
+    -fx-background-color: #434C5E;
+    -fx-text-fill: #eceff4;
+}
+.list-view {
+    -fx-background-color: #434C5E;
+}
