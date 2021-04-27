@@ -7,14 +7,25 @@ import edu.wpi.teamo.App;
 import edu.wpi.teamo.Pages;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.fxml.FXML;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 
 public class SR08_Religious extends SubPageController{
     @FXML
     private StackPane stackPane;
+
+    @FXML
+    private VBox topVbox;
+
+    @FXML
+    private VBox midVbox;
+
+    @FXML
+    private HBox bottomHbox;
 
     public void handleBackClick(ActionEvent e){
         App.switchPage(Pages.SERVICEREQUEST);

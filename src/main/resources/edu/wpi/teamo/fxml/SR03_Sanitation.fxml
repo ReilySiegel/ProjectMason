@@ -20,7 +20,7 @@
    <children>
       <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0">
          <center>
-            <VBox fx:id="midVbox" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="300.0" prefHeight="549.0" prefWidth="800.0" style="-fx-effect: dropshadow(three-pass-box, rgba(150,150,170,0.8), 20, 0, 0, 0);" BorderPane.alignment="TOP_CENTER">
+            <VBox fx:id="midVbox" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="300.0" prefHeight="549.0" prefWidth="800.0" BorderPane.alignment="TOP_CENTER">
                <children>
                   <HBox prefHeight="50.0" prefWidth="580.0">
                      <children>
