@@ -60,6 +60,14 @@
                               <Insets bottom="10.0" top="10.0" />
                            </VBox.margin>
                         </JFXButton>
+                        <JFXButton layoutX="358.0" layoutY="355.0" onAction="#handleSurvey" prefHeight="5.0" prefWidth="399.0" style="-fx-background-color: #db1212;" text="%key.survey" textFill="WHITE">
+                           <font>
+                              <Font size="30.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </JFXButton>
                      </children>
                      <padding>
                         <Insets right="70.0" />

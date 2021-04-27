@@ -54,6 +54,15 @@ public class MainPage extends SubPageController implements Initializable {
     }
 
     /**
+     * event handler for switching to survey
+     * @param e Action Event parameter
+     */
+    @FXML
+    private void handleSurvey(ActionEvent e) {
+        App.switchPage(Pages.SURVEY);
+    }
+
+    /**
      * Event handler
      * @param e
      */

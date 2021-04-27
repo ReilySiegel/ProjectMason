@@ -270,7 +270,8 @@ Styleguide Nord
 }
 
 .check-box {
-    -fx-text-fill: #d8dee9;
+    -fx-text-fill: nord4;
+    -jfx-unchecked-color: nord4;
     -jfx-checked-color: #5e81ac;
 }
 

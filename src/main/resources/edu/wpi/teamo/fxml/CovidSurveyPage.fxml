@@ -10,13 +10,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="stackPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.CovidSurveyPage">
+<StackPane fx:id="stackPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" stylesheets="/edu/wpi/teamo/fxml/CSS/nord.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.CovidSurveyPage">
    <children>
-      <BorderPane prefHeight="200.0" prefWidth="200.0" stylesheets="/edu/wpi/teamo/fxml/CSS/light.css">
+      <BorderPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #3b4252;">
          <top>
-            <HBox fx:id="topHbox" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <HBox fx:id="topHbox" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #2e3440;" styleClass="vbox" BorderPane.alignment="CENTER">
                <children>
-                  <Label text="COVID-19 Pre-screening Survey" textFill="#e1d2d2">
+                  <Label text="%key.survey_full" textFill="#e1d2d2">
                      <font>
                         <Font size="36.0" />
                      </font>
@@ -25,9 +25,9 @@
             </HBox>
          </top>
          <bottom>
-            <HBox fx:id="bottomHbox" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <HBox fx:id="bottomHbox" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #2e3440;" styleClass="vbox" BorderPane.alignment="CENTER">
                <children>
-                  <JFXButton buttonType="RAISED" onAction="#handleBackToServicePage" text="Return">
+                  <JFXButton buttonType="RAISED" onAction="#backToMain" text="%key.back">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -35,7 +35,7 @@
                         <Insets left="15.0" right="15.0" />
                      </HBox.margin>
                   </JFXButton>
-                  <JFXButton buttonType="RAISED" onAction="#handleSubmit" text="Submit">
+                  <JFXButton buttonType="RAISED" onAction="#handleSubmit" text="%key.submit">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -44,51 +44,57 @@
             </HBox>
          </bottom>
          <center>
-            <VBox fx:id="middleVbox" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+            <VBox fx:id="middleVbox" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="1000.0" style="-fx-background-color: #4c566a;" styleClass="text-area" BorderPane.alignment="CENTER">
                <children>
-                  <Label text="Please select all that apply">
+                  <Label text="%key.survey_select">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <JFXCheckBox fx:id="Q1" text="I have received a positive COVID-19 test result in the past 14 days.">
+                  <JFXCheckBox fx:id="Q1" text="%key.survey_Q1">
                      <font>
                         <Font size="24.0" />
                      </font>
                      <VBox.margin>
-                        <Insets bottom="15.0" top="15.0" />
+                        <Insets bottom="25.0" top="25.0" />
                      </VBox.margin>
                   </JFXCheckBox>
-                  <JFXCheckBox fx:id="Q2" text="I am currently experiencing symptoms associated with COVID-19.">
+                  <JFXCheckBox fx:id="Q2" text="%key.survey_Q2">
                      <font>
                         <Font size="24.0" />
                      </font>
                      <VBox.margin>
-                        <Insets bottom="15.0" />
+                        <Insets bottom="25.0" />
                      </VBox.margin>
                   </JFXCheckBox>
-                  <JFXCheckBox fx:id="Q3" text="I have been in close contact with someone diagnosed with COVID-19 in the past 14 days">
+                  <JFXCheckBox fx:id="Q3" text="%key.survey_Q3">
                      <font>
                         <Font size="24.0" />
                      </font>
                      <VBox.margin>
-                        <Insets bottom="15.0" />
+                        <Insets bottom="25.0" />
                      </VBox.margin>
                   </JFXCheckBox>
-                  <JFXCheckBox fx:id="Q4" text="I have been asked to quarantine or self-isolate by a health official in the last 14 days.">
+                  <JFXCheckBox fx:id="Q4" text="%key.survey_Q4">
                      <font>
                         <Font size="24.0" />
                      </font>
                      <VBox.margin>
-                        <Insets bottom="15.0" />
+                        <Insets bottom="25.0" />
                      </VBox.margin>
                   </JFXCheckBox>
-                  <JFXCheckBox fx:id="Q5" layoutX="149.0" layoutY="210.0" text="I have been in a high-risk state/area in the last 14 days">
+                  <JFXCheckBox fx:id="Q5" layoutX="149.0" layoutY="210.0" text="%key.survey_Q5">
                      <font>
                         <Font size="24.0" />
                      </font>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
                   </JFXCheckBox>
                </children>
+               <BorderPane.margin>
+                  <Insets bottom="25.0" left="50.0" right="50.0" top="25.0" />
+               </BorderPane.margin>
             </VBox>
          </center>
       </BorderPane>
