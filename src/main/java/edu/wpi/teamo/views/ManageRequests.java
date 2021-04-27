@@ -71,7 +71,7 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
     @FXML
     private void updateMedicineTable() {
         JFXTreeTableColumn<MedicineRequest, String> medIDs = new JFXTreeTableColumn<>("ID");
-        medIDs.setPrefWidth(200);
+        medIDs.setPrefWidth(100);
         medIDs.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<MedicineRequest, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<MedicineRequest, String> param) {
@@ -81,7 +81,7 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         });
 
         JFXTreeTableColumn<MedicineRequest, String> medType = new JFXTreeTableColumn<>("Medicine Type");
-        medType.setPrefWidth(200);
+        medType.setPrefWidth(100);
         medType.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<MedicineRequest, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<MedicineRequest, String> param) {
@@ -91,7 +91,7 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         });
 
         JFXTreeTableColumn<MedicineRequest, String> medAmount = new JFXTreeTableColumn<>("Medicine Amount");
-        medAmount.setPrefWidth(200);
+        medAmount.setPrefWidth(100);
         medAmount.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<MedicineRequest, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<MedicineRequest, String> param) {
@@ -101,7 +101,7 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         });
 
         JFXTreeTableColumn<MedicineRequest, String> rooms = new JFXTreeTableColumn<>("Room/Node(s)");
-        rooms.setPrefWidth(200);
+        rooms.setPrefWidth(100);
         rooms.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<MedicineRequest, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<MedicineRequest, String> param) {
@@ -111,7 +111,7 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         });
 
         JFXTreeTableColumn<MedicineRequest, String> assignees = new JFXTreeTableColumn<>("Assigned Person");
-        assignees.setPrefWidth(200);
+        assignees.setPrefWidth(100);
         assignees.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<MedicineRequest, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<MedicineRequest, String> param) {
@@ -120,8 +120,28 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
             }
         });
 
+        JFXTreeTableColumn<MedicineRequest, String> medDetails = new JFXTreeTableColumn<>("Details");
+        medDetails.setPrefWidth(100);
+        medDetails.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<MedicineRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<MedicineRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getDetails());
+                return strProp;
+            }
+        });
+
+        JFXTreeTableColumn<MedicineRequest, String> medDue = new JFXTreeTableColumn<>("Due");
+        medDue.setPrefWidth(100);
+        medDue.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<MedicineRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<MedicineRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getDue().toString());
+                return strProp;
+            }
+        });
+
         JFXTreeTableColumn<MedicineRequest, String> completed = new JFXTreeTableColumn<>("Status");
-        completed.setPrefWidth(200);
+        completed.setPrefWidth(100);
         completed.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<MedicineRequest, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<MedicineRequest, String> param) {
@@ -150,7 +170,7 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         }
 
         final TreeItem<MedicineRequest> root = new RecursiveTreeItem<MedicineRequest>(medRequests, RecursiveTreeObject::getChildren);
-        medRequestTable.getColumns().setAll(medIDs, medType, medAmount, rooms, assignees, completed);
+        medRequestTable.getColumns().setAll(medIDs, medType, medAmount, rooms, assignees, medDetails, medDue, completed);
         medRequestTable.setRoot(root);
         medRequestTable.setShowRoot(false);
 
@@ -161,7 +181,7 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
     @FXML
     private void updateSanitationTable() {
         JFXTreeTableColumn<SanitationRequest, String> sanIDs = new JFXTreeTableColumn<>("ID");
-        sanIDs.setPrefWidth(200);
+        sanIDs.setPrefWidth(150);
         sanIDs.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<SanitationRequest, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<SanitationRequest, String> param) {
@@ -171,7 +191,7 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         });
 
         JFXTreeTableColumn<SanitationRequest, String> sanLocs = new JFXTreeTableColumn<>("Room/Node(s)");
-        sanLocs.setPrefWidth(200);
+        sanLocs.setPrefWidth(150);
         sanLocs.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<SanitationRequest, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<SanitationRequest, String> param) {
@@ -181,7 +201,7 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         });
 
         JFXTreeTableColumn<SanitationRequest, String> sanAssigned = new JFXTreeTableColumn<>("Assigned Person");
-        sanAssigned.setPrefWidth(200);
+        sanAssigned.setPrefWidth(150);
         sanAssigned.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<SanitationRequest, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<SanitationRequest, String> param) {
@@ -191,7 +211,7 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         });
 
         JFXTreeTableColumn<SanitationRequest, String> sanDetails = new JFXTreeTableColumn<>("Details");
-        sanDetails.setPrefWidth(200);
+        sanDetails.setPrefWidth(150);
         sanDetails.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<SanitationRequest, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<SanitationRequest, String> param) {
@@ -201,8 +221,8 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
             }
         });
 
-        JFXTreeTableColumn<SanitationRequest, String> sanDue= new JFXTreeTableColumn<>("Due");
-        sanDue.setPrefWidth(200);
+        JFXTreeTableColumn<SanitationRequest, String> sanDue = new JFXTreeTableColumn<>("Due");
+        sanDue.setPrefWidth(150);
         sanDue.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<SanitationRequest, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<SanitationRequest, String> param) {
@@ -213,7 +233,7 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         });
 
         JFXTreeTableColumn<SanitationRequest, String> sanCompleted = new JFXTreeTableColumn<>("Status");
-        sanCompleted.setPrefWidth(200);
+        sanCompleted.setPrefWidth(150);
         sanCompleted.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<SanitationRequest, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<SanitationRequest, String> param) {

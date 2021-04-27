@@ -274,6 +274,10 @@ Styleguide Nord
     -jfx-checked-color: #5e81ac;
 }
 
+.check-box-dark-text {
+    -fx-text-fill: black;
+}
+
 .submit-button {
     -fx-background-color:  #5ab04c;
 }
@@ -284,4 +288,8 @@ Styleguide Nord
 
 .jfx-tab-pane .tab-selected-line {
     -fx-background-color: nord4;
+}
+
+.jfx-tab-pane .tab-header-area .jfx-rippler{
+    -jfx-rippler-fill:WHITE;
 }
