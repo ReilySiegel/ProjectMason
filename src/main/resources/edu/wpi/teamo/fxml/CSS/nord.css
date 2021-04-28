@@ -263,10 +263,10 @@ Styleguide Nord
 }
 
 .jfx-tab-pane .headers-region {
-    -fx-background-color: nord9;
+    -fx-background-color: nord3;
 }
 .jfx-tab-pane .tab-header-background {
-    -fx-background-color: nord9;
+    -fx-background-color: nord3;
 }
 
 .check-box {
@@ -293,4 +293,8 @@ Styleguide Nord
 
 .jfx-tab-pane .tab-header-area .jfx-rippler{
     -jfx-rippler-fill:WHITE;
+}
+
+.table-view .column-header {
+    -fx-text-fill: black;
 }

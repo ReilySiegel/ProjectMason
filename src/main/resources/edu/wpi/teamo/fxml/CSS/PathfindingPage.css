@@ -1,13 +1,16 @@
 .pane {
-    -fx-background-color: #c6c6c6;
-    -fx-border-color: #000000;
-    -fx-border-width: 2;
+    -fx-background-color: rgba(220, 220, 220, 0.8);
+    /*-fx-border-color: #000000;*/
+    /*-fx-border-width: 2;*/
+    -fx-effect: dropshadow(gaussian, rgba(100, 100, 100, 0.3), 10, 0.5, 0.0, 0.0);
 }
 
 .button {
-    -fx-background-color:  #88C0D0;
+    -fx-background-color:  #bbedfc;
     -fx-font-size: 18;
     -fx-text-fill: #000000;
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
     /*-fx-border-color: #000000;*/
     /*-fx-border-width: 2;*/
 }

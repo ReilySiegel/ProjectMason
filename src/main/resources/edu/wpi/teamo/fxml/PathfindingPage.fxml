@@ -45,12 +45,12 @@
                   </AnchorPane>
                   <AnchorPane layoutX="1034.0" layoutY="14.0" prefHeight="47.0" prefWidth="154.0" styleClass="pane">
                      <children>
-                        <Text layoutX="-51.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.floor" textAlignment="RIGHT" wrappingWidth="129.9999961256981">
+                        <Text layoutX="-73.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.floor" textAlignment="RIGHT" wrappingWidth="129.9999961256981">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Text>
-                        <JFXComboBox fx:id="floorComboBox" focusColor="#405aa800" layoutX="84.0" layoutY="9.0" styleClass="pane" unFocusColor="#4d4d4d00" />
+                        <JFXComboBox fx:id="floorComboBox" focusColor="#405aa800" layoutX="65.0" layoutY="10.0" styleClass="pane" unFocusColor="#4d4d4d00" />
                      </children>
                   </AnchorPane>
                   <AnchorPane fx:id="searchWindow" layoutX="499.0" layoutY="578.0" prefHeight="193.0" prefWidth="364.0" styleClass="pane">
