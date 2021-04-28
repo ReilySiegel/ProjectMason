@@ -39,7 +39,7 @@
                                                 <Insets left="10.0" />
                                              </HBox.margin>
                                           </JFXButton>
-                                          <JFXButton onAction="#updateMedEditor" style="-fx-background-color: #5E81AC;" styleClass="button-small" text="%key.edit_selected" textFill="#e5e9f0">
+                                          <JFXButton onAction="#updateMedEditor" style="-fx-background-color: #5E81AC;" styleClass="button-small" text="%key.edit_selected" textFill="#e5e9f0" visible="false">
                                              <HBox.margin>
                                                 <Insets left="10.0" />
                                              </HBox.margin>
