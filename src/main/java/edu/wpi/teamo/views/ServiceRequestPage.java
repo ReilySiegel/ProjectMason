@@ -77,6 +77,9 @@ public class ServiceRequestPage extends SubPageController implements Initializab
     private void handleTransportation(ActionEvent e) { App.switchPage(Pages.TRANSPORTATION); }
 
     @FXML
+    private void handleLaundry(ActionEvent e){App.switchPage(Pages.LAUNDRY);}
+
+    @FXML
     private void handleGifts(ActionEvent e) { App.switchPage(Pages.GIFTS); }
   
     @FXML

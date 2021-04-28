@@ -52,6 +52,7 @@ public class App extends Application {
     pagePaths.put(Pages.SURVEY, "/edu/wpi/teamo/fxml/CovidSurveyPage.fxml");
     pagePaths.put(Pages.SECURITY, "/edu/wpi/teamo/fxml/SR11_Security.fxml");
     pagePaths.put(Pages.ADDUSERS, "/edu/wpi/teamo/fxml/AddUsersPage.fxml");
+    pagePaths.put(Pages.LAUNDRY, "/edu/wpi/teamo/fxml/LaundryRequestPage.fxml");
     pagePaths.put(Pages.TRANSPORTATION,"/edu/wpi/teamo/fxml/PatientTransportation.fxml");
     pagePaths.put(Pages.GIFTS, "/edu/wpi/teamo/fxml/GiftRequest.fxml");
     pagePaths.put(Pages.FOOD,"/edu/wpi/teamo/fxml/FoodRequestPage.fxml");

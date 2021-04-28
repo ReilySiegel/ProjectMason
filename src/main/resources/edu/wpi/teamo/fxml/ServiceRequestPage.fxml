@@ -299,7 +299,7 @@
                               </HBox>
                            </graphic>
                         </JFXButton>
-                        <JFXButton contentDisplay="BOTTOM" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="570.0" style="-fx-background-color: #3B4252;" text="%key.laundry" textFill="#2e3440" HBox.hgrow="ALWAYS">
+                        <JFXButton onAction="#handleLaundry" contentDisplay="BOTTOM" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="570.0" style="-fx-background-color: #3B4252;" text="%key.laundry" textFill="#2e3440" HBox.hgrow="ALWAYS">
                            <font>
                               <Font size="24.0" />
                            </font>
