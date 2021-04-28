@@ -808,5 +808,94 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         System.out.println(App.requestService.getSanitationRequest(id).getDetails());
     }
 
+    @FXML
+    private void updateLaundryTable() {
+        JFXTreeTableColumn<LaundryRequest, String> laundryIDs = new JFXTreeTableColumn<>("ID");
+        laundryIDs.setPrefWidth(200);
+        //WHAT
+        laundryIDs.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<LaundryRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<LaundryRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getID());
+                return strProp;
+            }
+        });
+        JFXTreeTableColumn<LaundryRequest, String> gowns = new JFXTreeTableColumn<>("Gown");
+        gowns.setPrefWidth(150);
+        gowns.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<LaundryRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<LaundryRequest, String> param) {
+                StringProperty strProp;
+                if (param.getValue().getValue().getGown()) strProp = new SimpleStringProperty("Yes");
+                else strProp = new SimpleStringProperty("No");
+                return strProp;
+            }
+        });
+        JFXTreeTableColumn<LaundryRequest, String> beddings = new JFXTreeTableColumn<>("Bedding");
+        beddings.setPrefWidth(150);
+        beddings.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<LaundryRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<LaundryRequest, String> param) {
+                String temp = "No";
+                if(param.getValue().getValue().getBedding()){
+                    temp = "Yes";
+                }
+                else{
+                    temp = "No";
+                }
+                StringProperty strProp = new SimpleStringProperty(temp);
+                return strProp;
+            }
+        });
+        JFXTreeTableColumn<LaundryRequest, String> laundryLocs = new JFXTreeTableColumn<>("Room/Node(s)");
+        laundryLocs.setPrefWidth(150);
+        laundryLocs.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<LaundryRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<LaundryRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getLocations().collect(Collectors.joining(", ")));
+                return strProp;
+            }
+        });
+        JFXTreeTableColumn<LaundryRequest, String> laundryAssigned = new JFXTreeTableColumn<>("Assigned Person");
+        laundryAssigned.setPrefWidth(150);
+        laundryAssigned.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<LaundryRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<LaundryRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getAssigned());
+                return strProp;
+            }
+        });
+        JFXTreeTableColumn<LaundryRequest, String> laundryDue = new JFXTreeTableColumn<>("Due");
+        laundryDue.setPrefWidth(150);
+        laundryDue.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<LaundryRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<LaundryRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getDue().toString());
+                return strProp;
+            }
+        });
+        JFXTreeTableColumn<LaundryRequest, String> laundryComplete = new JFXTreeTableColumn<>("Status");
+        laundryComplete.setPrefWidth(150);
+        laundryComplete.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<LaundryRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<LaundryRequest, String> param) {
+                StringProperty strProp;
+                if (param.getValue().getValue().isComplete()) strProp = new SimpleStringProperty("Complete");
+                else strProp = new SimpleStringProperty("In progress");
+                return strProp;
+            }
+        });
+        ObservableList<LaundryRequest> laundryRequests = FXCollections.observableArrayList();
+        try {
+            Stream<LaundryRequest> laundryReqStream = LaundryRequest.getAll();
+            laundryReqStream.forEach(m -> laundryRequests.add(m));
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        final TreeItem<LaundryRequest> root = new RecursiveTreeItem<LaundryRequest>(laundryRequests, RecursiveTreeObject::getChildren);
+        laundryRequestTable.getColumns().setAll(laundryIDs, gowns, beddings, laundryLocs, laundryAssigned, laundryDue, laundryComplete);
+        laundryRequestTable.setRoot(root);
+        laundryRequestTable.setShowRoot(false);
+    }
 
 }
