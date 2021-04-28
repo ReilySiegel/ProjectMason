@@ -104,7 +104,7 @@
                                     <Font name="Arial" size="18.0" />
                                  </font>
                               </JFXCheckBox>
-                              <Text fx:id="checkError" fill="WHITE" layoutX="3.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                              <Text fx:id="checkError" fill="RED" layoutX="3.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                            </children>
                         </AnchorPane>
                      </children>
