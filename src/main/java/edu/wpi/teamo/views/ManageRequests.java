@@ -52,6 +52,9 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
     private JFXTreeTableView<ReligiousRequest> religRequestTable;
 
     @FXML
+    private JFXTreeTableView<FoodRequest> foodRequestTable;
+
+    @FXML
     private JFXTreeTableView<SecurityRequest> secRequestTable;
 
 
@@ -500,6 +503,7 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         secRequestTable.setShowRoot(false);
     }
 
+
     @FXML
     private void updateMtnTable() {
         JFXTreeTableColumn<MaintenanceRequest, String> mtnIDs = new JFXTreeTableColumn<>("ID");
@@ -521,6 +525,17 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
                 return strProp;
             }
         });
+
+        JFXTreeTableColumn<MaintenanceRequest, String> mtnDetails = new JFXTreeTableColumn<>("Details");
+        mtnDetails.setPrefWidth(150);
+        mtnDetails.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<MaintenanceRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<MaintenanceRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getDetails());
+                return strProp;
+            }
+        });
+
 
         JFXTreeTableColumn<MaintenanceRequest, String> mtnLocs = new JFXTreeTableColumn<>("Room/Node(s)");
         mtnLocs.setPrefWidth(150);
@@ -575,7 +590,7 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         }
 
         final TreeItem<MaintenanceRequest> root = new RecursiveTreeItem<MaintenanceRequest>(mtnRequests, RecursiveTreeObject::getChildren);
-        mtnRequestTable.getColumns().setAll(mtnIDs, mtnType, mtnAssigned, mtnDue, mtnComplete);
+        mtnRequestTable.getColumns().setAll(mtnIDs, mtnType, mtnDetails, mtnAssigned, mtnDue, mtnComplete);
         mtnRequestTable.setRoot(root);
         mtnRequestTable.setShowRoot(false);
     }
@@ -684,7 +699,36 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
                 updateMedicineTable();
             }
         }
+    }
 
+    @FXML
+    private void markSecurityRequestComplete() throws SQLException {
+        TreeItem<SecurityRequest> selection = secRequestTable.getSelectionModel().getSelectedItem();
+        if (selection == null) System.out.println("No security requests selected");
+        else {
+            String id = secRequestTable.getSelectionModel().getSelectedItem().getValue().getID();
+            if (SecurityRequest.getByID(id).isComplete())
+                System.out.println("Request already complete");
+            else {
+                SecurityRequest.getByID(id).setComplete(true);
+                updateSecTable();
+            }
+        }
+    }
+
+    @FXML
+    private void markLaundryRequestComplete() throws SQLException {
+        TreeItem<LaundryRequest> selection = laundryRequestTable.getSelectionModel().getSelectedItem();
+        if (selection == null) System.out.println("No laundry requests selected");
+        else {
+            String id = laundryRequestTable.getSelectionModel().getSelectedItem().getValue().getID();
+            if (LaundryRequest.getByID(id).isComplete())
+                medErrorText.setText("Request already complete");
+            else {
+                LaundryRequest.getByID(id).setComplete(true);
+                updateLaundryTable();
+            }
+        }
     }
 
     @FXML
