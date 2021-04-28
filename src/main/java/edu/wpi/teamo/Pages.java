@@ -18,5 +18,6 @@ public enum Pages {
     MAINTENANCE,
     ADDUSERS,
     TRANSPORTATION,
+    GIFTS,
     FOOD
 }

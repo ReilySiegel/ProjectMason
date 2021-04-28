@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<StackPane fx:id="stackPane" stylesheets="@CSS/nord.css" xmlns="http://javafx.com/javafx/8.0.202-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.GiftRequestPage">
+    <children>
+        <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #434C5E;">
+            <center>
+                <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="300.0" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #2e3440;" BorderPane.alignment="TOP_CENTER">
+                    <children>
+                  <HBox prefHeight="50.0" prefWidth="200.0">
+                     <children>
+                        <Text fill="#eceff4" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.giftDeliverTo">
+                           <font>
+                              <Font name="Arial" size="18.0" />
+                           </font>
+                        </Text>
+                        <AnchorPane prefHeight="50.0" prefWidth="800.0">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <children>
+                              <JFXTextField fx:id="giftDeliverTo" minWidth="300.0" prefHeight="25.0" prefWidth="600.0" promptText="%key.giftDeliverTo" unFocusColor="#eceff4" AnchorPane.rightAnchor="0.0" />
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </HBox>
+                        <HBox prefHeight="50.0" prefWidth="200.0">
+                            <children>
+                                <Text fill="#eceff4" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.assignee_name">
+                                    <font>
+                                        <Font name="Arial" size="18.0" />
+                                    </font>
+                                </Text>
+                                <AnchorPane prefHeight="50.0" prefWidth="800.0">
+                                    <children>
+                                        <JFXTextField fx:id="assignee" minWidth="300.0" prefHeight="25.0" prefWidth="600.0" promptText="%key.name_of_assignee" unFocusColor="#eceff4" AnchorPane.rightAnchor="0.0" />
+                                    </children>
+                                    <HBox.margin>
+                                        <Insets />
+                                    </HBox.margin>
+                                </AnchorPane>
+                            </children>
+                            <VBox.margin>
+                                <Insets bottom="10.0" />
+                            </VBox.margin>
+                        </HBox>
+                        <HBox prefHeight="50.0" prefWidth="200.0">
+                            <children>
+                                <Text fill="#eceff4" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.notes">
+                                    <font>
+                                        <Font name="Arial" size="18.0" />
+                                    </font>
+                                </Text>
+                                <AnchorPane prefHeight="50.0" prefWidth="800.0">
+                                    <children>
+                                        <JFXTextField fx:id="notes" minWidth="300.0" prefHeight="25.0" prefWidth="600.0" promptText="%key.notes" unFocusColor="#eceff4" AnchorPane.rightAnchor="0.0" />
+                                    </children>
+                                    <HBox.margin>
+                                        <Insets />
+                                    </HBox.margin>
+                                </AnchorPane>
+                            </children>
+                        </HBox>
+                  <HBox prefHeight="50.0" prefWidth="200.0">
+                     <children>
+                        <Text fill="#eceff4" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.giftTrackingID">
+                           <font>
+                              <Font name="Arial" size="18.0" />
+                           </font>
+                        </Text>
+                        <AnchorPane prefHeight="50.0" prefWidth="800.0">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <children>
+                              <JFXTextField fx:id="giftTrackingID" minWidth="300.0" prefHeight="25.0" prefWidth="600.0" promptText="%key.giftTrackingID" unFocusColor="#eceff4" AnchorPane.rightAnchor="0.0" />
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="50.0" prefWidth="580.0">
+                     <children>
+                        <AnchorPane prefHeight="50.0" prefWidth="800.0">
+                           <children>
+                              <Text fx:id="roomErrorText2" fill="RED" layoutX="76.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                              <MenuButton fx:id="locationBox" layoutX="47.0" layoutY="2.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="599.0" AnchorPane.rightAnchor="0.0">
+                                 <items>
+                                    <MenuItem mnemonicParsing="false" text="Action 1" />
+                                    <MenuItem mnemonicParsing="false" text="Action 2" />
+                                 </items>
+                              </MenuButton>
+                              <Text fill="#eceff4" layoutX="14.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.room">
+                                 <font>
+                                    <Font name="Arial" size="18.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </HBox>
+                    </children>
+                    <padding>
+                        <Insets bottom="10.0" left="20.0" right="10.0" top="30.0" />
+                    </padding>
+                    <BorderPane.margin>
+                        <Insets bottom="20.0" left="30.0" right="30.0" />
+                    </BorderPane.margin>
+               <effect>
+                  <DropShadow blurType="GAUSSIAN" color="#323232" height="40.0" radius="19.5" width="40.0" />
+               </effect>
+                </VBox>
+            </center>
+            <bottom>
+                <HBox alignment="CENTER_LEFT" maxHeight="100.0" prefHeight="70.0" prefWidth="1280.0" style="-fx-background-color: #2E3440;" BorderPane.alignment="CENTER">
+                    <children>
+                        <JFXButton buttonType="RAISED" onAction="#handleHelp" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #5e99ff; -fx-border-radius: 25; -fx-background-radius: 25;" text="?" textFill="WHITE">
+                            <font>
+                                <Font name="Arial Bold" size="24.0" />
+                            </font>
+                            <HBox.margin>
+                                <Insets left="50.0" />
+                            </HBox.margin>
+                        </JFXButton>
+                        <JFXButton buttonType="RAISED" onAction="#handleBackToServicePage" style="-fx-background-color: #444;" text="%key.back" textFill="WHITE">
+                            <font>
+                                <Font size="18.0" />
+                            </font>
+                            <HBox.margin>
+                                <Insets left="800.0" />
+                            </HBox.margin>
+                        </JFXButton>
+                        <JFXButton buttonType="RAISED" onAction="#handleSubmission" style="-fx-background-color: #5ab04c;" text="%key.submit" textFill="WHITE">
+                            <font>
+                                <Font size="18.0" />
+                            </font>
+                            <HBox.margin>
+                                <Insets left="20.0" />
+                            </HBox.margin>
+                        </JFXButton>
+                    </children>
+                </HBox>
+            </bottom>
+            <top>
+                <VBox alignment="CENTER" prefHeight="110.0" prefWidth="100.0" style="-fx-background-color: #2E3440;" BorderPane.alignment="CENTER">
+                    <children>
+                        <Text fill="#eceff4" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.gift_service_request">
+                            <font>
+                                <Font name="Arial" size="36.0" />
+                            </font>
+                        </Text>
+                    </children>
+                    <BorderPane.margin>
+                        <Insets bottom="40.0" />
+                    </BorderPane.margin>
+                </VBox>
+            </top>
+        </BorderPane>
+    </children>
+</StackPane>
