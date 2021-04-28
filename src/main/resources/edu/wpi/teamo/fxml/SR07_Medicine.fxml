@@ -172,7 +172,7 @@
                         </AnchorPane>
                      </children>
                   </HBox>
-                  <JFXListView fx:id="roomList" maxHeight="1.7976931348623157E308" prefHeight="105.0" prefWidth="768.0" style="-fx-background-color: transparent;" stylesheets="@CSS/LocationSearch.css">
+                  <JFXListView fx:id="roomList" maxHeight="1.7976931348623157E308" prefWidth="768.0" style="-fx-background-color: transparent;" stylesheets="@CSS/LocationSearch.css">
                      <VBox.margin>
                         <Insets left="218.0" />
                      </VBox.margin></JFXListView>
@@ -213,7 +213,7 @@
                               <Font size="18.0" />
                            </font>
                         </JFXButton>
-                        <JFXButton buttonType="RAISED" onAction="#handleSubmission" text="%key.submit" textFill="WHITE">
+                        <JFXButton buttonType="RAISED" onAction="#handleSubmission" styleClass="submit-button" text="%key.submit" textFill="WHITE">
                            <font>
                               <Font size="18.0" />
                            </font>

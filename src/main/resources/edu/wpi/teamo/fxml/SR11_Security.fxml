@@ -19,7 +19,7 @@
             <center>
                 <VBox fx:id="midVBox" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="300.0" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" styleClass="text-area" BorderPane.alignment="TOP_CENTER">
                     <children>
-                  <JFXCheckBox fx:id="emergencyCheckbox" checkedColor="RED" nodeOrientation="LEFT_TO_RIGHT" prefHeight="38.0" prefWidth="117.0" scaleX="2.0" scaleY="2.0" text="Emergency" textFill="RED" unCheckedColor="#d3d3d3">
+                  <JFXCheckBox fx:id="emergencyCheckbox" checkedColor="RED" nodeOrientation="LEFT_TO_RIGHT" prefHeight="38.0" prefWidth="117.0" scaleX="2.0" scaleY="2.0" text="%key.emergency" textFill="RED" unCheckedColor="#d3d3d3">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
