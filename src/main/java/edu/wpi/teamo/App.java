@@ -70,7 +70,7 @@ public class App extends Application {
       MaintenanceRequest.initTable();
       ReligiousRequest.initTable();
       FoodRequest.initTable();
-      new Account("admin", "password", true, "Willson", "Wong", "admin").update();
+      new Account("admin", "admin", true, "Willson", "Wong", "admin").update();
       System.out.println("Database Services Initialized");
     } catch (SQLException e) {
       System.out.println("ERROR: FAILED TO INIT DATABASE SERVICES");
