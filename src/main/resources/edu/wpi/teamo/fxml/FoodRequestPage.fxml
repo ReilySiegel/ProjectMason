@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXTimePicker?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<StackPane fx:id="stackPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.FoodRequestPage">
+    <children>
+        <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #434C5E;">
+            <center>
+                <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="300.0" minWidth="-Infinity" prefHeight="526.0" prefWidth="902.0" style="-fx-background-color: #2e3440;" BorderPane.alignment="TOP_CENTER">
+                    <children>
+                        <HBox prefHeight="50.0" prefWidth="580.0">
+                            <children>
+                                <Text fill="#eceff4" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.name_of_the_patient">
+                                    <font>
+                                        <Font name="Arial" size="18.0" />
+                                    </font>
+                                    <HBox.margin>
+                                        <Insets right="15.0" />
+                                    </HBox.margin>
+                                </Text>
+                                <AnchorPane prefHeight="50.0" prefWidth="800.0">
+                                    <children>
+                                        <JFXTextField fx:id="service" minWidth="300.0" prefHeight="25.0" prefWidth="600.0" promptText="%key.name_of_service" unFocusColor="#eceff4" AnchorPane.rightAnchor="0.0" />
+                                        <Text fx:id="typeErrorText" fill="RED" layoutX="94.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                                    </children>
+                                </AnchorPane>
+                            </children>
+                            <VBox.margin>
+                                <Insets bottom="10.0" />
+                            </VBox.margin>
+                        </HBox>
+                        <HBox prefHeight="50.0" prefWidth="200.0">
+                            <children>
+                                <Text fill="#eceff4" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.delivery_time">
+                                    <font>
+                                        <Font name="Arial" size="18.0" />
+                                    </font>
+                                </Text>
+                                <AnchorPane prefHeight="50.0" prefWidth="800.0">
+                                    <children>
+                                        <Text fx:id="assignedErrorText" fill="RED" layoutX="42.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                              <JFXTimePicker defaultColor="#0c83dd" layoutX="94.0" layoutY="1.0" />
+                                    </children>
+                                    <HBox.margin>
+                                        <Insets />
+                                    </HBox.margin>
+                                </AnchorPane>
+                            </children>
+                            <VBox.margin>
+                                <Insets bottom="10.0" />
+                            </VBox.margin>
+                        </HBox>
+                        <HBox prefHeight="57.0" prefWidth="872.0">
+                            <children>
+                                <Text fill="#eceff4" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.delivery_date">
+                                    <font>
+                                        <Font name="Arial" size="18.0" />
+                                    </font>
+                                </Text>
+                                <AnchorPane prefHeight="50.0" prefWidth="800.0">
+                                    <HBox.margin>
+                                        <Insets />
+                                    </HBox.margin>
+                           <children>
+                              <JFXDatePicker defaultColor="#002d94" layoutX="95.0" layoutY="1.0" />
+                           </children>
+                                </AnchorPane>
+                            </children>
+                        </HBox>
+                        <HBox prefHeight="50.0" prefWidth="580.0">
+                            <children>
+                                <Text fill="#eceff4" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.delivery_location">
+                                    <font>
+                                        <Font name="Arial" size="18.0" />
+                                    </font>
+                                    <HBox.margin>
+                                        <Insets right="40.0" />
+                                    </HBox.margin>
+                                </Text>
+                                <AnchorPane prefHeight="50.0" prefWidth="800.0">
+                                    <children>
+                                        <Text fx:id="roomErrorText" fill="RED" layoutX="76.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                                    </children>
+                                </AnchorPane>
+                            </children>
+                            <VBox.margin>
+                                <Insets bottom="10.0" />
+                            </VBox.margin>
+                        </HBox>
+                  <HBox prefHeight="53.0" prefWidth="872.0">
+                     <children>
+                        <Text fill="#f2ecec" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.appetizer" wrappingWidth="192.7294921875">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <AnchorPane prefHeight="53.0" prefWidth="709.0">
+                           <children>
+                              <JFXComboBox fx:id="appetizer_list" layoutX="80.0" layoutY="1.0" />
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="66.0" prefWidth="872.0">
+                     <children>
+                        <Text fill="#ebe3e3" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.entree">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <AnchorPane prefHeight="66.0" prefWidth="781.0">
+                           <children>
+                              <JFXComboBox fx:id="entree_list" layoutX="157.0" layoutY="1.0" />
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="61.0" prefWidth="872.0">
+                     <children>
+                        <Text fill="#f2eaea" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.dessert">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <AnchorPane prefHeight="61.0" prefWidth="762.0">
+                           <children>
+                              <JFXComboBox fx:id="dessert_list" layoutX="151.0" layoutY="1.0" />
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="69.0" prefWidth="872.0">
+                     <children>
+                        <Text fill="#f2eaea" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.dietary_restrictions" wrappingWidth="273.6826171875">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <JFXTextArea fx:id="dietary_restrictions" prefHeight="69.0" prefWidth="646.0" />
+                     </children>
+                  </HBox>
+                    </children>
+                    <padding>
+                        <Insets bottom="10.0" left="20.0" right="10.0" top="30.0" />
+                    </padding>
+                    <BorderPane.margin>
+                        <Insets bottom="20.0" left="30.0" right="30.0" />
+                    </BorderPane.margin>
+               <effect>
+                  <DropShadow blurType="GAUSSIAN" color="#323232" height="40.0" radius="19.5" width="40.0" />
+               </effect>
+                </VBox>
+            </center>
+            <bottom>
+                <HBox alignment="CENTER_LEFT" maxHeight="100.0" prefHeight="70.0" prefWidth="1280.0" style="-fx-background-color: #2E3440;" BorderPane.alignment="CENTER">
+                    <children>
+                        <JFXButton buttonType="RAISED" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #5e99ff; -fx-border-radius: 25; -fx-background-radius: 25;" text="?" textFill="WHITE">
+                            <font>
+                                <Font name="Arial Bold" size="24.0" />
+                            </font>
+                            <HBox.margin>
+                                <Insets left="50.0" />
+                            </HBox.margin>
+                        </JFXButton>
+                        <JFXButton buttonType="RAISED" style="-fx-background-color: #444;" text="%key.back" textFill="WHITE">
+                            <font>
+                                <Font size="18.0" />
+                            </font>
+                            <HBox.margin>
+                                <Insets left="800.0" />
+                            </HBox.margin>
+                        </JFXButton>
+                        <JFXButton buttonType="RAISED" style="-fx-background-color: #5ab04c;" text="%key.submit" textFill="WHITE">
+                            <font>
+                                <Font size="18.0" />
+                            </font>
+                            <HBox.margin>
+                                <Insets left="20.0" />
+                            </HBox.margin>
+                        </JFXButton>
+                    </children>
+                </HBox>
+            </bottom>
+            <top>
+                <VBox alignment="CENTER" prefHeight="110.0" prefWidth="100.0" style="-fx-background-color: #2E3440;" BorderPane.alignment="CENTER">
+                    <children>
+                        <Text fill="#eceff4" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.food_request">
+                            <font>
+                                <Font name="Arial" size="36.0" />
+                            </font>
+                        </Text>
+                    </children>
+                    <BorderPane.margin>
+                        <Insets bottom="40.0" />
+                    </BorderPane.margin>
+                </VBox>
+            </top>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+        </BorderPane>
+    </children>
+</StackPane>

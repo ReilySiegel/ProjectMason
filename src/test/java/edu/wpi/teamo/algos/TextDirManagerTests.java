@@ -4,7 +4,7 @@ import edu.wpi.teamo.database.map.MapDB;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
-import java.util.LinkedList;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -42,12 +42,13 @@ public class TextDirManagerTests {
 
         AStarManager asm = new AStarManager(mdb);
         LinkedList<AlgoNode> pathP10_P5 = asm.getPath("oPARK01001","oPARK00501");
-        assertEquals("Proceed towards Floor1RightParking8\n" +
-                "Proceed rightwards to Floor1RightParking7\n" +
-                "Proceed backwards to Floor1RightParking4\n" +
-                "Proceed leftwards to Floor1RightParking6\n" +
-                "Proceed backwards to Floor1RightParking5\n" +
-                "You have arrived at your destination.",TextDirManager.getTextualDirections(pathP10_P5));
+        List<String> textualPath = TextDirManager.getTextualDirections(pathP10_P5);
+        assertEquals("Proceed towards Floor1RightParking8",textualPath.get(0));
+        assertEquals("Proceed rightwards to Floor1RightParking7",textualPath.get(1));
+        assertEquals("Proceed backwards to Floor1RightParking4",textualPath.get(2));
+        assertEquals("Proceed leftwards to Floor1RightParking6",textualPath.get(3));
+        assertEquals("Proceed backwards to Floor1RightParking5",textualPath.get(4));
+        assertEquals("You have arrived at your destination.",textualPath.get(5));
     }
 
     /**
@@ -74,12 +75,13 @@ public class TextDirManagerTests {
 
         AStarManager asm = new AStarManager(mdb);
         LinkedList<AlgoNode> pathP1_P6 = asm.getPath("oPARK00101","oPARK00601");
-        assertEquals("Proceed towards Floor1RightParking2\n" +
-                "Proceed leftwards to Floor1RightParking3\n" +
-                "Proceed rightwards to Floor1RightParking4\n" +
-                "Proceed rightwards to Floor1RightParking5\n" +
-                "Proceed forward to Floor1RightParking6\n" +
-                "You have arrived at your destination.",TextDirManager.getTextualDirections(pathP1_P6));
+        List<String> textualPath = TextDirManager.getTextualDirections(pathP1_P6);
+        assertEquals("Proceed towards Floor1RightParking2",textualPath.get(0));
+        assertEquals("Proceed leftwards to Floor1RightParking3",textualPath.get(1));
+        assertEquals("Proceed rightwards to Floor1RightParking4",textualPath.get(2));
+        assertEquals("Proceed rightwards to Floor1RightParking5",textualPath.get(3));
+        assertEquals("Proceed forward to Floor1RightParking6",textualPath.get(4));
+        assertEquals("You have arrived at your destination.",textualPath.get(5));
     }
 
     /**
@@ -94,7 +96,8 @@ public class TextDirManagerTests {
         mdb.addEdge("oPARK00101_oPARK00101","oPARK00101","oPARK00101");
         AStarManager asm = new AStarManager(mdb);
         LinkedList<AlgoNode> pathP1_P1 = asm.getPath("oPARK00101","oPARK00101");
-        assertEquals("You have arrived at your destination.",TextDirManager.getTextualDirections(pathP1_P1));
+        List<String> textualPath = TextDirManager.getTextualDirections(pathP1_P1);
+        assertEquals("You have arrived at your destination.",textualPath.get(0));
     }
 
     /**
@@ -120,11 +123,12 @@ public class TextDirManagerTests {
 
         AStarManager asm = new AStarManager(mdb);
         LinkedList<AlgoNode> pathP1_P6 = asm.getPath("oPARK00101","oPARK00601");
-        assertEquals("Proceed towards Floor1RightParking2\n" +
-                "Proceed backwards to Floor1RightParking3\n" +
-                "Proceed leftwards to Floor1RightParking4\n" +
-                "Proceed rightwards to Floor1RightParking5\n" +
-                "Proceed leftwards to Floor1RightParking6\n" +
-                "You have arrived at your destination.",TextDirManager.getTextualDirections(pathP1_P6));
+        List<String> textualPath = TextDirManager.getTextualDirections(pathP1_P6);
+        assertEquals("Proceed towards Floor1RightParking2",textualPath.get(0));
+        assertEquals("Proceed backwards to Floor1RightParking3",textualPath.get(1));
+        assertEquals("Proceed leftwards to Floor1RightParking4",textualPath.get(2));
+        assertEquals("Proceed rightwards to Floor1RightParking5",textualPath.get(3));
+        assertEquals("Proceed leftwards to Floor1RightParking6",textualPath.get(4));
+        assertEquals("You have arrived at your destination.",textualPath.get(5));
     }
 }

@@ -2,10 +2,14 @@ package edu.wpi.teamo.views;
 
 import edu.wpi.teamo.database.map.Node;
 import edu.wpi.teamo.database.map.NodeInfo;
+import edu.wpi.teamo.database.request.BaseRequest;
+import edu.wpi.teamo.database.request.MedicineRequest;
+import edu.wpi.teamo.database.request.SecurityRequest;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 
-import java.util.Locale;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javafx.fxml.Initializable;
@@ -13,17 +17,17 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.event.ActionEvent;
-import java.util.ResourceBundle;
+
 import java.util.stream.Stream;
 
 import javafx.scene.text.Text;
 import com.jfoenix.controls.*;
 import java.sql.SQLException;
-import java.util.LinkedList;
+
 import edu.wpi.teamo.Pages;
 import edu.wpi.teamo.App;
 import javafx.fxml.FXML;
-import java.util.List;
+
 import java.net.URL;
 
 public class SR11_Security extends ServiceRequestPage implements Initializable {
@@ -105,6 +109,25 @@ public class SR11_Security extends ServiceRequestPage implements Initializable {
 
         if (validFields) {
             //App.requestService.requestSanitation(locations.stream(), assigned, serviceName + ", " + details);
+
+            LocalDateTime dateTime = LocalDateTime.now();
+
+            SecurityRequest sr = new SecurityRequest(
+                                                    emergency,
+                                                    new BaseRequest(
+                                                                    UUID.randomUUID().toString(),
+                                                                    details,
+                                                                    locationIDs.stream(),
+                                                                    "",
+                                                                    false,
+                                                                    dateTime)
+                                                    );
+            try {
+                sr.update();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+
             System.out.println("Security request submitted");
 
             System.out.println(String.join(",", locationIDs));

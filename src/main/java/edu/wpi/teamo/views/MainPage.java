@@ -54,6 +54,15 @@ public class MainPage extends SubPageController implements Initializable {
     }
 
     /**
+     * event handler for switching to survey
+     * @param e Action Event parameter
+     */
+    @FXML
+    private void handleSurvey(ActionEvent e) {
+        App.switchPage(Pages.SURVEY);
+    }
+
+    /**
      * Event handler
      * @param e
      */
@@ -80,11 +89,11 @@ public class MainPage extends SubPageController implements Initializable {
      */
     @FXML
     private void handleMapEditor(ActionEvent e) {
-        if(Session.isLoggedIn() && Session.getAccount().isAdmin())
             App.switchPage(Pages.MAPEDITOR);
-        else{
+//        if(Session.isLoggedIn() && Session.getAccount().isAdmin())
+//        else{
             //add error
-        }
+//        }
     }
 
 

@@ -17,6 +17,7 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 
 import java.util.Collections;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -30,7 +31,6 @@ public class NodeTable {
     }
 
     public void initClickListener(
-                    JFXTextField origNodeID,
                     JFXTextField newNodeID,
                     JFXTextField origNodeX,
                     JFXTextField origNodeY,
@@ -39,14 +39,13 @@ public class NodeTable {
                     JFXTextField origNodeType,
                     JFXTextField origNodeLN,
                     JFXTextField origNodeSN,
-                    JFXTextField deleteNodeID
+                    Consumer<NodeInfo> onClickNode
     ) {
         //Set original node ID, X, and Y in the Edit and Delete box to selected value.
         tree.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<Node>>() {
             @Override
             public void changed(ObservableValue<? extends TreeItem<Node>> observable, TreeItem<Node> oldValue, TreeItem<Node> newValue) {
                 if(newValue != null){
-                    origNodeID.setText(newValue.getValue().getNodeID());
                     newNodeID.setText(newValue.getValue().getNodeID());
                     origNodeX.setText(Integer.toString(newValue.getValue().getXPos()));
                     origNodeY.setText(Integer.toString(newValue.getValue().getYPos()));
@@ -55,8 +54,7 @@ public class NodeTable {
                     origNodeType.setText(newValue.getValue().getNodeType());
                     origNodeLN.setText(newValue.getValue().getLongName());
                     origNodeSN.setText(newValue.getValue().getShortName());
-                    deleteNodeID.setText(newValue.getValue().getNodeID());
-                    //editNodeSubmit.setDisable(false);
+                    onClickNode.accept(newValue.getValue());
                 }
             }
         });

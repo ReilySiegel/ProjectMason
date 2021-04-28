@@ -58,11 +58,11 @@ public class CovidSurveyPage extends ServiceRequestPage implements Initializable
         bottomHbox.getStyleClass().add("root");
         middleVbox.getStyleClass().add("vbox");
 
-        Q1.getStyleClass().add("jfx-check-box");
-        Q2.getStyleClass().add("jfx-check-box");
-        Q3.getStyleClass().add("jfx-check-box");
-        Q4.getStyleClass().add("jfx-check-box");
-        Q5.getStyleClass().add("jfx-check-box");
+        Q1.getStyleClass().add("check-box");
+        Q2.getStyleClass().add("check-box");
+        Q3.getStyleClass().add("check-box");
+        Q4.getStyleClass().add("check-box");
+        Q5.getStyleClass().add("check-box");
 
         Q1.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override

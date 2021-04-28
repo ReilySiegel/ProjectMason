@@ -3,6 +3,7 @@ package edu.wpi.teamo.views;
 import com.jfoenix.controls.*;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.algos.AlgoNode;
+import edu.wpi.teamo.algos.TextDirManager;
 import edu.wpi.teamo.database.map.EdgeInfo;
 import edu.wpi.teamo.database.map.NodeInfo;
 import javafx.event.ActionEvent;
@@ -64,6 +65,9 @@ public class PathfindingPage extends SubPageController implements Initializable 
 
     @FXML
     private JFXListView<JFXCheckBox> searchResultsView;
+
+    @FXML
+    private JFXListView<String> TextualDirView;
 
     private LocationSearcher locationSearcher;
 
@@ -207,6 +211,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
         LinkedList<AlgoNode> path = new LinkedList<>();
         try {
             path = App.IStrategyPathfinding.getPath(startID, endID);
+            TextualDirView.getItems().setAll(TextDirManager.getTextualDirections(path));
             if (path != null) {
                 floor = path.get(0).getFloor();
                 calculatedPath = path;

@@ -203,7 +203,8 @@ Styleguide Nord
 }
 
 .text-area {
-    -fx-background-color: nord2;
+    -fx-background-color: nord0;
+    -fx-effect:  dropshadow(three-pass-box, #323232, 20, 0, 0, 0);
 }
 
 .vbox {
@@ -267,6 +268,17 @@ Styleguide Nord
 .jfx-tab-pane .tab-header-background {
     -fx-background-color: nord9;
 }
+
+.check-box {
+    -fx-text-fill: nord4;
+    -jfx-unchecked-color: nord4;
+    -jfx-checked-color: #5e81ac;
+}
+
+.check-box-dark-text {
+    -fx-text-fill: black;
+}
+
 .submit-button {
     -fx-background-color:  #5ab04c;
 }
@@ -277,4 +289,8 @@ Styleguide Nord
 
 .jfx-tab-pane .tab-selected-line {
     -fx-background-color: nord4;
+}
+
+.jfx-tab-pane .tab-header-area .jfx-rippler{
+    -jfx-rippler-fill:WHITE;
 }

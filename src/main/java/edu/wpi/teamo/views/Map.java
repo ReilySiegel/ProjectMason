@@ -13,11 +13,10 @@ import javafx.scene.image.ImageView;
 import edu.wpi.teamo.algos.AlgoNode;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
-
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import java.io.FileInputStream;
 import java.util.LinkedList;
@@ -62,8 +61,6 @@ public class Map  {
     public Map(ImageView imageView, AnchorPane nodePane) {
         this.imageView = imageView;
         this.nodePane = nodePane;
-
-
 
         nodePane.setOnMouseDragged((MouseEvent e) -> translateMap(e.getScreenX(), e.getScreenY()));
         nodePane.setOnMouseReleased((MouseEvent e) -> resetInitialDragData());
@@ -124,7 +121,9 @@ public class Map  {
                 double tfEndX = transform(endNode.getXPos(), imageWidth, nodePane.getPrefWidth());
                 double tfEndY = transform(endNode.getYPos(), imageHeight, nodePane.getPrefHeight());
                 Line line = createLine(tfStartX, tfStartY, tfEndX, tfEndY, edge, defaultLineColor);
-                nodePane.getChildren().add(line);
+                if (line != null) {
+                    nodePane.getChildren().add(line);
+                }
             }
         }
 
@@ -139,7 +138,12 @@ public class Map  {
             onDrawEdge.accept(new Pair<>(line, edge));
         }
 
-        return line;
+        if (isWithinPaneBounds(StartX, StartY) && isWithinPaneBounds(EndX, EndY)) {
+            return line;
+        }
+        else {
+            return null;
+        }
     }
 
     private void addCircles(List<NodeInfo> nodes) {
@@ -147,7 +151,9 @@ public class Map  {
             double transformedX = transform(node.getXPos(), imageWidth,  nodePane.getPrefWidth());
             double transformedY = transform(node.getYPos(), imageHeight, nodePane.getPrefHeight());
             Circle circle = createCircle(transformedX, transformedY, node);
-            nodePane.getChildren().add(circle);
+            if (circle != null) {
+                nodePane.getChildren().add(circle);
+            }
         }
     }
 
@@ -158,7 +164,19 @@ public class Map  {
             onDrawNode.accept(new Pair<>(circle, node));
         }
 
-        return circle;
+        if (isWithinPaneBounds(x, y)) {
+            return circle;
+        }
+        else {
+            return null;
+        }
+    }
+
+    private boolean isWithinPaneBounds(double x, double y) {
+        boolean inBounds = true;
+        if (x < 0 || x > nodePane.getPrefWidth()) inBounds = false;
+        if (y < 0 || y > nodePane.getPrefHeight()) inBounds = false;
+        return inBounds;
     }
 
     /**
@@ -253,7 +271,7 @@ public class Map  {
 
     public void setOnMapClicked(Consumer<MouseEvent> onMapClicked) {
         nodePane.setOnMouseClicked((MouseEvent e) -> {
-            if (!dragging && e.getButton() == MouseButton.PRIMARY) onMapClicked.accept(e);
+            if (!dragging) onMapClicked.accept(e);
             resetInitialDragData();
         });
     }

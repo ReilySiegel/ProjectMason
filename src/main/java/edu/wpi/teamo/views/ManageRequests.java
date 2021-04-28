@@ -3,9 +3,7 @@ package edu.wpi.teamo.views;
 import com.jfoenix.controls.*;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import edu.wpi.teamo.App;
-import edu.wpi.teamo.database.request.BaseRequest;
-import edu.wpi.teamo.database.request.MedicineRequest;
-import edu.wpi.teamo.database.request.SanitationRequest;
+import edu.wpi.teamo.database.request.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
@@ -19,6 +17,7 @@ import javafx.scene.text.Text;
 import javafx.util.Callback;
 
 import java.net.URL;
+import java.security.Security;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -61,17 +60,25 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
     @FXML
     private Text currentSanReqID;
 
+    @FXML
+    private JFXTreeTableView<InterpreterRequest> langRequestTable;
+
+    @FXML
+    private JFXTreeTableView<SecurityRequest> secRequestTable;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         updateMedicineTable();
         updateSanitationTable();
+        updateInterpreterTable();
+        updateSecTable();
 
     }
 
     @FXML
     private void updateMedicineTable() {
         JFXTreeTableColumn<MedicineRequest, String> medIDs = new JFXTreeTableColumn<>("ID");
-        medIDs.setPrefWidth(200);
+        medIDs.setPrefWidth(100);
         medIDs.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<MedicineRequest, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<MedicineRequest, String> param) {
@@ -81,7 +88,7 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         });
 
         JFXTreeTableColumn<MedicineRequest, String> medType = new JFXTreeTableColumn<>("Medicine Type");
-        medType.setPrefWidth(200);
+        medType.setPrefWidth(100);
         medType.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<MedicineRequest, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<MedicineRequest, String> param) {
@@ -91,7 +98,7 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         });
 
         JFXTreeTableColumn<MedicineRequest, String> medAmount = new JFXTreeTableColumn<>("Medicine Amount");
-        medAmount.setPrefWidth(200);
+        medAmount.setPrefWidth(100);
         medAmount.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<MedicineRequest, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<MedicineRequest, String> param) {
@@ -101,7 +108,7 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         });
 
         JFXTreeTableColumn<MedicineRequest, String> rooms = new JFXTreeTableColumn<>("Room/Node(s)");
-        rooms.setPrefWidth(200);
+        rooms.setPrefWidth(100);
         rooms.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<MedicineRequest, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<MedicineRequest, String> param) {
@@ -111,7 +118,7 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         });
 
         JFXTreeTableColumn<MedicineRequest, String> assignees = new JFXTreeTableColumn<>("Assigned Person");
-        assignees.setPrefWidth(200);
+        assignees.setPrefWidth(100);
         assignees.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<MedicineRequest, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<MedicineRequest, String> param) {
@@ -120,8 +127,28 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
             }
         });
 
+        JFXTreeTableColumn<MedicineRequest, String> medDetails = new JFXTreeTableColumn<>("Details");
+        medDetails.setPrefWidth(100);
+        medDetails.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<MedicineRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<MedicineRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getDetails());
+                return strProp;
+            }
+        });
+
+        JFXTreeTableColumn<MedicineRequest, String> medDue = new JFXTreeTableColumn<>("Due");
+        medDue.setPrefWidth(100);
+        medDue.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<MedicineRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<MedicineRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getDue().toString());
+                return strProp;
+            }
+        });
+
         JFXTreeTableColumn<MedicineRequest, String> completed = new JFXTreeTableColumn<>("Status");
-        completed.setPrefWidth(200);
+        completed.setPrefWidth(100);
         completed.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<MedicineRequest, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<MedicineRequest, String> param) {
@@ -150,7 +177,7 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         }
 
         final TreeItem<MedicineRequest> root = new RecursiveTreeItem<MedicineRequest>(medRequests, RecursiveTreeObject::getChildren);
-        medRequestTable.getColumns().setAll(medIDs, medType, medAmount, rooms, assignees, completed);
+        medRequestTable.getColumns().setAll(medIDs, medType, medAmount, rooms, assignees, medDetails, medDue, completed);
         medRequestTable.setRoot(root);
         medRequestTable.setShowRoot(false);
 
@@ -161,7 +188,7 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
     @FXML
     private void updateSanitationTable() {
         JFXTreeTableColumn<SanitationRequest, String> sanIDs = new JFXTreeTableColumn<>("ID");
-        sanIDs.setPrefWidth(200);
+        sanIDs.setPrefWidth(150);
         sanIDs.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<SanitationRequest, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<SanitationRequest, String> param) {
@@ -171,7 +198,7 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         });
 
         JFXTreeTableColumn<SanitationRequest, String> sanLocs = new JFXTreeTableColumn<>("Room/Node(s)");
-        sanLocs.setPrefWidth(200);
+        sanLocs.setPrefWidth(150);
         sanLocs.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<SanitationRequest, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<SanitationRequest, String> param) {
@@ -181,7 +208,7 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         });
 
         JFXTreeTableColumn<SanitationRequest, String> sanAssigned = new JFXTreeTableColumn<>("Assigned Person");
-        sanAssigned.setPrefWidth(200);
+        sanAssigned.setPrefWidth(150);
         sanAssigned.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<SanitationRequest, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<SanitationRequest, String> param) {
@@ -191,7 +218,7 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         });
 
         JFXTreeTableColumn<SanitationRequest, String> sanDetails = new JFXTreeTableColumn<>("Details");
-        sanDetails.setPrefWidth(200);
+        sanDetails.setPrefWidth(150);
         sanDetails.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<SanitationRequest, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<SanitationRequest, String> param) {
@@ -201,8 +228,8 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
             }
         });
 
-        JFXTreeTableColumn<SanitationRequest, String> sanDue= new JFXTreeTableColumn<>("Due");
-        sanDue.setPrefWidth(200);
+        JFXTreeTableColumn<SanitationRequest, String> sanDue = new JFXTreeTableColumn<>("Due");
+        sanDue.setPrefWidth(150);
         sanDue.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<SanitationRequest, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<SanitationRequest, String> param) {
@@ -213,7 +240,7 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         });
 
         JFXTreeTableColumn<SanitationRequest, String> sanCompleted = new JFXTreeTableColumn<>("Status");
-        sanCompleted.setPrefWidth(200);
+        sanCompleted.setPrefWidth(150);
         sanCompleted.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<SanitationRequest, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<SanitationRequest, String> param) {
@@ -244,6 +271,184 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         sanRequestTable.getColumns().setAll(sanIDs, sanDetails, sanLocs, sanAssigned, sanDue, sanCompleted);
         sanRequestTable.setRoot(sanRoot);
         sanRequestTable.setShowRoot(false);
+    }
+
+    @FXML
+    private void updateInterpreterTable() {
+        JFXTreeTableColumn<InterpreterRequest, String> intIDs = new JFXTreeTableColumn<>("ID");
+        intIDs.setPrefWidth(150);
+        intIDs.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<InterpreterRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<InterpreterRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getID());
+                return strProp;
+            }
+        });
+
+        JFXTreeTableColumn<InterpreterRequest, String> intLanguage = new JFXTreeTableColumn<>("Language");
+        intLanguage.setPrefWidth(150);
+        intLanguage.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<InterpreterRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<InterpreterRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getLanguage());
+                return strProp;
+
+            }
+        });
+
+        JFXTreeTableColumn<InterpreterRequest, String> intType = new JFXTreeTableColumn<>("Job Type");
+        intType.setPrefWidth(150);
+        intType.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<InterpreterRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<InterpreterRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getType());
+                return strProp;
+
+            }
+        });
+
+
+        JFXTreeTableColumn<InterpreterRequest, String> intLocs = new JFXTreeTableColumn<>("Room/Node(s)");
+        intLocs.setPrefWidth(150);
+        intLocs.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<InterpreterRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<InterpreterRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getLocations().collect(Collectors.joining(", ")));
+                return strProp;
+            }
+        });
+
+        JFXTreeTableColumn<InterpreterRequest, String> intAssigned = new JFXTreeTableColumn<>("Assigned Person");
+        intAssigned.setPrefWidth(150);
+        intAssigned.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<InterpreterRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<InterpreterRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getAssigned());
+                return strProp;
+            }
+        });
+
+        JFXTreeTableColumn<InterpreterRequest, String> intDetails = new JFXTreeTableColumn<>("Details");
+        intDetails.setPrefWidth(150);
+        intDetails.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<InterpreterRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<InterpreterRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getDetails());
+                return strProp;
+
+            }
+        });
+
+        JFXTreeTableColumn<InterpreterRequest, String> intDue = new JFXTreeTableColumn<>("Due");
+        intDue.setPrefWidth(150);
+        intDue.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<InterpreterRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<InterpreterRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getDue().format(DateTimeFormatter.ISO_DATE_TIME));
+                return strProp;
+
+            }
+        });
+
+        ObservableList<InterpreterRequest> intRequests = FXCollections.observableArrayList();
+
+        try {
+            Stream<InterpreterRequest> intReqStream = InterpreterRequest.getAll();
+                intReqStream.forEach(m -> intRequests.add(m));
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        final TreeItem<InterpreterRequest> intRoot = new RecursiveTreeItem<InterpreterRequest>(intRequests, RecursiveTreeObject::getChildren);
+        langRequestTable.getColumns().setAll(intIDs, intLanguage, intType, intDetails, intLocs, intAssigned, intDue);
+        langRequestTable.setRoot(intRoot);
+        langRequestTable.setShowRoot(false);
+    }
+
+    @FXML
+    private void updateSecTable() {
+        JFXTreeTableColumn<SecurityRequest, String> secIDs = new JFXTreeTableColumn<>("ID");
+        secIDs.setPrefWidth(150);
+        secIDs.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<SecurityRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<SecurityRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getID());
+                return strProp;
+            }
+        });
+
+        JFXTreeTableColumn<SecurityRequest, String> secLocs = new JFXTreeTableColumn<>("Room/Node(s)");
+        secLocs.setPrefWidth(150);
+        secLocs.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<SecurityRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<SecurityRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getLocations().collect(Collectors.joining(", ")));
+                return strProp;
+            }
+        });
+
+        JFXTreeTableColumn<SecurityRequest, String> secAssigned = new JFXTreeTableColumn<>("Assigned Person");
+        secAssigned.setPrefWidth(150);
+        secAssigned.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<SecurityRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<SecurityRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getAssigned());
+                return strProp;
+            }
+        });
+
+        JFXTreeTableColumn<SecurityRequest, String> secDue = new JFXTreeTableColumn<>("Due");
+        secDue.setPrefWidth(150);
+        secDue.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<SecurityRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<SecurityRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getDue().toString());
+                return strProp;
+            }
+        });
+
+        JFXTreeTableColumn<SecurityRequest, String> secEmergency = new JFXTreeTableColumn<>("Urgency");
+        secEmergency.setPrefWidth(150);
+        secEmergency.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<SecurityRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<SecurityRequest, String> param) {
+                StringProperty strProp;
+                if (param.getValue().getValue().isEmergency())
+                    strProp = new SimpleStringProperty("Emergency");
+                else
+                    strProp = new SimpleStringProperty("Normal");
+                return strProp;
+            }
+        });
+
+        JFXTreeTableColumn<SecurityRequest, String> secCompleted = new JFXTreeTableColumn<>("Status");
+        secCompleted.setPrefWidth(150);
+        secCompleted.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<SecurityRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<SecurityRequest, String> param) {
+                StringProperty strProp;
+                if (param.getValue().getValue().isComplete())
+                    strProp = new SimpleStringProperty("Complete");
+                else
+                    strProp = new SimpleStringProperty("In progress");
+                return strProp;
+            }
+        });
+
+        ObservableList<SecurityRequest> secRequests = FXCollections.observableArrayList();
+
+        try {
+            Stream<SecurityRequest> secReqStream = SecurityRequest.getAll();
+            secReqStream.forEach(m -> secRequests.add(m));
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        final TreeItem<SecurityRequest> root = new RecursiveTreeItem<SecurityRequest>(secRequests, RecursiveTreeObject::getChildren);
+        secRequestTable.getColumns().setAll(secIDs, secLocs, secAssigned, secDue, secEmergency, secCompleted);
+        secRequestTable.setRoot(root);
+        secRequestTable.setShowRoot(false);
     }
 
     @FXML

@@ -4,6 +4,9 @@ import com.jfoenix.controls.*;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.Pages;
 import edu.wpi.teamo.database.map.NodeInfo;
+import edu.wpi.teamo.database.request.BaseRequest;
+import edu.wpi.teamo.database.request.InterpreterRequest;
+import edu.wpi.teamo.database.request.SanitationRequest;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -19,9 +22,12 @@ import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -31,19 +37,7 @@ public class SR02_LanguageInterpreter extends ServiceRequestPage implements Init
     private StackPane stackPane;
 
     @FXML
-    private JFXTextField medName;
-
-    @FXML
-    private JFXTextField medAmount;
-
-    @FXML
     private JFXTextField assignee;
-
-    @FXML
-    private Text medErrorText;
-
-    @FXML
-    private Text amountErrorText;
 
     @FXML
     private Text roomErrorText;
@@ -82,6 +76,9 @@ public class SR02_LanguageInterpreter extends ServiceRequestPage implements Init
 
     @FXML
     private Text jobErrorText;
+
+    @FXML
+    private JFXTextField notes;
 
 
     @FXML
@@ -142,37 +139,25 @@ public class SR02_LanguageInterpreter extends ServiceRequestPage implements Init
     }
 
     @FXML
-    private void clearMedError(KeyEvent e) {
-        medErrorText.setText("");
-    }
-
-    @FXML
-    private void clearAmountError(KeyEvent e) {
-        amountErrorText.setText("");
-    }
-
-//    @FXML
-//    private void clearRoomError(ActionEvent e) {
-//        roomErrorText.setText("");
-//    }
-
-    @FXML
     private void clearAssigneeError(KeyEvent e) {
         assigneeErrorText.setText("");
     }
 
     @FXML
     private void handleSubmission(ActionEvent e) throws SQLException {
-        String assignName = assignee.getText();
+        String assigned = assignee.getText();
         String selectedLanguage = languageBox.getSelectionModel().getSelectedItem();
         String selectedJob = jobBox.getSelectionModel().getSelectedItem();
-        String selectedTime = timepicker.getValue().toString();
-        String selectedDate = datepicker.getValue().toString();
+        String details = notes.getText();
+
 
         List<MenuItem>        mItems    = locationBox.getItems();
         Stream<CheckMenuItem> cMItems   = mItems.stream().map((MenuItem mI) -> (CheckMenuItem) mI);
         Stream<CheckMenuItem> checked   = cMItems.filter(CheckMenuItem::isSelected);
         List<String>          locations = checked.map(CheckMenuItem::getText).collect(Collectors.toList());
+
+        LocalTime curTime = timepicker.getValue();
+        LocalDateTime curDate = datepicker.getValue().atTime(curTime);
 
         validRequest = true;
         if (selectedLanguage.equals("")) {
@@ -189,17 +174,21 @@ public class SR02_LanguageInterpreter extends ServiceRequestPage implements Init
             roomErrorText.setText(App.resourceBundle.getString("key.no_room_specified"));
             validRequest = false;
         }
-        if (assignName.equals("")) {
+        if (assigned.equals("")) {
             assigneeErrorText.setText(App.resourceBundle.getString("key.no_assignee_specified"));
             validRequest = false;
         }
 
        if (validRequest) {
-            //App.InterpreterRequest("hi","hi","hi","hi","hi");
+           BaseRequest baseRequest = new BaseRequest(UUID.randomUUID().toString(), details, locations.stream(),
+                  assigned, false, curDate);
+
+            new InterpreterRequest(selectedLanguage, selectedJob, baseRequest).update();
             langErrorText.setText("");
             jobErrorText.setText("");
             roomErrorText.setText("");
             assigneeErrorText.setText("");
+            notes.setText("");
             System.out.println("request successful");
             assignee.setText("");
 
@@ -209,7 +198,8 @@ public class SR02_LanguageInterpreter extends ServiceRequestPage implements Init
                     App.resourceBundle.getString("key.language_semicolon") +  selectedLanguage+ "\n" +
                     App.resourceBundle.getString("key.job_type_semicolon") + selectedJob + "\n" +
                     App.resourceBundle.getString("key.room_semicolon") + String.join(", ", locations) + "\n" +
-                    App.resourceBundle.getString("key.persons_assigned_semicolon") + assignName));
+                    App.resourceBundle.getString("key.persons_assigned_semicolon") + assigned + "\n" +
+                    App.resourceBundle.getString("key.selected_time_semicolon") + curDate));
             JFXDialog popup = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 
             JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));

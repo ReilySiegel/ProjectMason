@@ -1,7 +1,6 @@
 package edu.wpi.teamo.views;
 
 import com.jfoenix.controls.*;
-import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import com.jfoenix.validation.NumberValidator;
 import edu.wpi.teamo.App;
 
@@ -14,37 +13,27 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import edu.wpi.teamo.database.map.Edge;
 import edu.wpi.teamo.database.map.EdgeInfo;
 import edu.wpi.teamo.database.map.Node;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 
 import edu.wpi.teamo.database.map.NodeInfo;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeTableColumn;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
@@ -65,91 +54,85 @@ public class MapEditorPage extends SubPageController implements Initializable{
     private EdgeTable edgeTable;
 
     @FXML
-    private JFXTextField addNodeID;
+    private Text nodeEditorHeadingText;
 
     @FXML
-    private JFXTextField addNodeBuilding;
+    private AnchorPane nodeEditorWindow;
 
     @FXML
-    private JFXTextField addNodeFloor;
+    private JFXTextField nodeEditorInputID;
 
     @FXML
-    private JFXTextField addNodeType;
+    private JFXTextField nodeEditorInputX;
 
     @FXML
-    private JFXTextField addNodeLN;
+    private JFXTextField nodeEditorInputIY;
 
     @FXML
-    private JFXTextField addNodeSN;
+    private JFXTextField nodeEditorInputBuilding;
 
     @FXML
-    private JFXTextField addNodeX;
+    private JFXTextField nodeEditorInputFloor;
 
     @FXML
-    private JFXTextField addNodeY;
+    private JFXTextField nodeEditorInputType;
 
     @FXML
-    private JFXTextField origNodeID;
+    private JFXTextField nodeEditorInputLN;
 
     @FXML
-    private JFXTextField newNodeID;
+    private JFXTextField nodeEditorInputSN;
 
     @FXML
-    private JFXTextField origNodeX;
+    private JFXButton nodeEditorSubmitButton;
 
     @FXML
-    private JFXTextField origNodeY;
+    private JFXButton nodeEditorDeleteButton;
 
     @FXML
-    private JFXTextField origNodeBuilding;
+    private Text edgeEditorHeadingText;
 
     @FXML
-    private JFXTextField origNodeFloor;
+    private AnchorPane edgeEditorWindow;
 
     @FXML
-    private JFXTextField origNodeType;
+    private JFXTextField edgeEditorInputID;
 
     @FXML
-    private JFXTextField origNodeLN;
+    private JFXTextField edgeEditorInputStartID;
 
     @FXML
-    private JFXTextField origNodeSN;
+    private JFXTextField edgeEditorInputEndID;
 
     @FXML
-    private JFXButton editNodeSubmit;
+    private JFXButton edgeEditorSubmitButton;
 
     @FXML
-    private JFXTextField deleteNodeID;
+    private JFXButton edgeEditorDeleteButton;
 
     @FXML
-    private JFXTextField addEdgeID;
+    private JFXButton loadEdgeCSVButton;
 
     @FXML
-    private JFXTextField addNode1;
+    private JFXButton saveEdgeCSVButton;
 
     @FXML
-    private JFXTextField addNode2;
+    private JFXButton loadNodeCSVButton;
 
     @FXML
-    private JFXTextField editEdgeID;
+    private JFXButton saveNodeCSVButton;
 
     @FXML
-    private JFXTextField editNode1;
+    private JFXButton helpButton;
 
     @FXML
-    private JFXTextField editNode2;
+    private JFXButton exitButton;
 
     @FXML
-    private JFXTextField deleteEdgeID;
+    private AnchorPane tableWindow;
 
     @FXML
-    private JFXTextField editingEdge;
-
-    @FXML
-    private JFXTextField editingStart;
-
-    @FXML
-    private JFXTextField editingEnd;
+    private JFXButton openTableButton;
 
     @FXML
     private JFXComboBox<String> floorSwitcher;
@@ -161,20 +144,16 @@ public class MapEditorPage extends SubPageController implements Initializable{
     @FXML
     private AnchorPane nodePane;
 
-    @FXML
-    JFXButton chooseStartButton;
-    boolean selectingStart;
-
-    @FXML
-    JFXButton chooseEndButton;
-    boolean selectingEnd;
-
     Map map;
     boolean dragging = false;
 
     NodeInfo addingEdgeStartNode = null;
     Line addingEdgeLine = null;
     boolean addingEdge = false;
+
+    //TODO remove this
+    EdgeInfo edgeBeingEdited;
+    NodeInfo nodeBeingEdited;
 
     /* these hash maps are only for moving an associated edge when a node is being dragged */
     HashMap<String, List<Line>> associatedEdgeBeginnings;
@@ -186,16 +165,14 @@ public class MapEditorPage extends SubPageController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources){
 
+        floorSwitcher.setOnAction(this::onFloorSwitch);
+        floorSwitcher.setValue(selectedFloor);
         floorSwitcher.getItems().add("L2");
         floorSwitcher.getItems().add("L1");
         floorSwitcher.getItems().add("G");
         floorSwitcher.getItems().add("1");
         floorSwitcher.getItems().add("2");
         floorSwitcher.getItems().add("3");
-        floorSwitcher.setValue(selectedFloor);
-
-        chooseStartButton.setOnAction(event -> handleChooseStart());
-        chooseEndButton.setOnAction(event -> handleChoseEnd());
 
         map = new Map(mapImage, nodePane);
         map.setOnMapClicked(this::onMapClicked);
@@ -203,76 +180,72 @@ public class MapEditorPage extends SubPageController implements Initializable{
         map.setOnDrawEdge(this::onDrawEdge);
         map.setOnMouseMoved(this::onMouseMoved);
 
-        NumberValidator numberValidator = new NumberValidator();
+        helpButton.setOnAction(this::handleHelp);
+        exitButton.setOnAction(this::backToMain);
+        nodeEditorSubmitButton.setOnAction(this::handleNodeEditSubmit);
+        edgeEditorSubmitButton.setOnAction(this::handleEdgeEditSubmit);
+        nodeEditorDeleteButton.setOnAction(this::handleNodeEditDelete);
+        edgeEditorDeleteButton.setOnAction(this::handleEdgeEditDelete);
+        loadNodeCSVButton.setOnAction(this::handleLoadNodeCSV);
+        loadEdgeCSVButton.setOnAction(this::handleLoadEdgeCSV);
+        saveNodeCSVButton.setOnAction(this::handleSaveNodeCSV);
+        saveEdgeCSVButton.setOnAction(this::handleSaveEdgeCSV);
+        openTableButton.setOnAction(this::handleOpenTable);
 
-        //editNodeSubmit.setDisable(true);
-
-        //Ensure that each X and Y field are numbers
-        addNodeX.getValidators().add(numberValidator);
-        //numberValidator.setMessage("Please enter a number");
-        addNodeX.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    addNodeX.validate();
-                }
-            }
-        });
-
-        addNodeY.getValidators().add(numberValidator);
-        addNodeY.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    addNodeY.validate();
-                }
-            }
-        });
-
-        origNodeX.getValidators().add(numberValidator);
-        origNodeX.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    origNodeX.validate();
-                }
-            }
-        });
-
-        origNodeY.getValidators().add(numberValidator);
-        origNodeY.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if(!newValue){
-                    origNodeY.validate();
-                }
-            }
-        });
+        nodeEditorWindow.setVisible(false);
+        edgeEditorWindow.setVisible(false);
+        tableWindow.setVisible(false);
 
         nodeTable = new NodeTable(nodeTree);
         nodeTable.initClickListener(
-                origNodeID,
-                newNodeID,
-                origNodeX,
-                origNodeY,
-                origNodeBuilding,
-                origNodeFloor,
-                origNodeType,
-                origNodeLN,
-                origNodeSN,
-                deleteNodeID
+                nodeEditorInputID,
+                nodeEditorInputX,
+                nodeEditorInputIY,
+                nodeEditorInputBuilding,
+                nodeEditorInputFloor,
+                nodeEditorInputType,
+                nodeEditorInputLN,
+                nodeEditorInputSN,
+                this::openNodeEditor
         );
 
         edgeTable = new EdgeTable(edgeTree);
         edgeTable.initClickListener(
-                editingEdge,
-                editEdgeID,
-                editNode1,
-                editNode2,
-                deleteEdgeID
+                edgeEditorInputID,
+                edgeEditorInputStartID,
+                edgeEditorInputEndID,
+                this::openEdgeEditor
         );
 
+        App.getPrimaryStage().getScene().setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.ESCAPE) {
+                edgeEditorWindow.setVisible(false);
+                nodeEditorWindow.setVisible(false);
+                tableWindow.setVisible(false);
+            }
+        });
+
         update();
+    }
+
+    private void handleOpenTable(ActionEvent actionEvent) {
+        tableWindow.setVisible(true);
+    }
+
+    private void handleNodeEditDelete(ActionEvent actionEvent) {
+        if (nodeBeingEdited != null) {
+            confirmDeleteNode(nodeBeingEdited);
+            nodeBeingEdited = null;
+        }
+        nodeEditorWindow.setVisible(false);
+    }
+
+    private void handleEdgeEditDelete(ActionEvent actionEvent) {
+        if (edgeBeingEdited != null) {
+            confirmDeleteEdge(edgeBeingEdited);
+            edgeBeingEdited = null;
+        }
+        edgeEditorWindow.setVisible(false);
     }
 
     void update() {
@@ -295,38 +268,15 @@ public class MapEditorPage extends SubPageController implements Initializable{
         }
     }
 
-    //TODO get rid of - add event listener
-    @FXML
     void onFloorSwitch(ActionEvent event) {
         selectedFloor = floorSwitcher.getValue();
         updateMap();
     }
 
-    //    Consumer<Pair<Integer, Integer>> onClickEdge = (Pair<Integer, Integer> coords) -> System.out.println("Edge " + node.getEdgeID() + "was clicked");
+    /* gets cast to a consumer */
     void onMapClicked(MouseEvent e) {
         int mapX = (int) Map.transform((int) e.getX(), nodePane.getPrefWidth(), Map.imageWidth);
         int mapY = (int) Map.transform((int) e.getY(), nodePane.getPrefWidth(), Map.imageWidth);
-
-        addNodeX.setText(String.valueOf(mapX));
-        addNodeY.setText(String.valueOf(mapY));
-
-        String autoGenName = String.format("Floor_%s_%d_%d", selectedFloor, mapX, mapY);
-        addNodeFloor.setText(selectedFloor);
-        if (addNodeID.getText().isEmpty()) {
-            addNodeID.setText(autoGenName);
-        }
-        if (addNodeBuilding.getText().isEmpty()) {
-            addNodeBuilding.setText(String.format("Floor_%s_default", selectedFloor));
-        }
-        if (addNodeType.getText().isEmpty()) {
-            addNodeType.setText("PARK");
-        }
-        if (addNodeLN.getText().isEmpty()) {
-            addNodeLN.setText(autoGenName);
-        }
-        if (addNodeSN.getText().isEmpty()) {
-            addNodeSN.setText(autoGenName);
-        }
 
         if (addingEdge) {
             nodePane.getChildren().remove(addingEdgeLine);
@@ -334,8 +284,13 @@ public class MapEditorPage extends SubPageController implements Initializable{
             addingEdgeLine = null;
             addingEdge = false;
         }
-        else {
+        else if (e.getButton() == MouseButton.SECONDARY) {
             mapContextMenu(e, mapX, mapY);
+        }
+        else {
+            edgeEditorWindow.setVisible(false);
+            nodeEditorWindow.setVisible(false);
+            tableWindow.setVisible(false);
         }
 
     }
@@ -364,10 +319,8 @@ public class MapEditorPage extends SubPageController implements Initializable{
             });
 
             circle.setOnMouseClicked((MouseEvent e) -> {
-                if (e.getButton() == MouseButton.PRIMARY) {
-                    onClickNode(e, circle, node);
-                    e.consume();
-                }
+                onClickNode(e, circle, node);
+                e.consume();
             });
 
             circle.setOnMouseDragged((MouseEvent e) -> {
@@ -423,41 +376,34 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
     //    Consumer<NodeInfo> onClickNode = (NodeInfo node) -> System.out.println("Node " + node.getNodeID() + "was clicked");
     void onClickNode(MouseEvent e, Circle circle, NodeInfo node) {
-        origNodeID.setText(node.getNodeID());
-        newNodeID.setText(node.getNodeID());
-        origNodeX.setText(Integer.toString(node.getXPos()));
-        origNodeY.setText(Integer.toString(node.getYPos()));
-        origNodeBuilding.setText(node.getBuilding());
-        origNodeFloor.setText(node.getFloor());
-        origNodeType.setText(node.getNodeType());
-        origNodeLN.setText(node.getLongName());
-        origNodeSN.setText(node.getShortName());
-        deleteNodeID.setText(node.getNodeID());
-
-        if (selectingStart) {
-            chooseStartButton.setDisable(false);
-            addNode1.setText(node.getNodeID());
-            selectingStart = false;
-            addEdgeID.setText(node.getNodeID()+"_"+addNode2.getText());
-        }
-        else if (selectingEnd) {
-            chooseEndButton.setDisable(false);
-            addNode2.setText(node.getNodeID());
-            selectingEnd = false;
-            addEdgeID.setText(addNode1.getText()+"_"+node.getNodeID());
-        }
-        else if (addingEdge && addingEdgeStartNode != null) {
+        if (addingEdge && addingEdgeStartNode != null) {
             addEdge(addingEdgeStartNode, node);
             addingEdge = false;
             addingEdgeStartNode = null;
             nodePane.getChildren().remove(addingEdgeLine);
         }
-        else {
+        else if (e.getButton() == MouseButton.SECONDARY) {
             nodeContextMenu(e, circle, node);
+        }
+        else {
+            openNodeEditor(node);
         }
     }
 
-
+    private void openNodeEditor(NodeInfo node) {
+        nodeEditorHeadingText.setText(App.resourceBundle.getString("key.editing_node"));
+        nodeEditorInputX.setText(Integer.toString(node.getXPos()));
+        nodeEditorInputIY.setText(Integer.toString(node.getYPos()));
+        nodeEditorInputBuilding.setText(node.getBuilding());
+        nodeEditorInputType.setText(node.getNodeType());
+        nodeEditorInputSN.setText(node.getShortName());
+        nodeEditorInputLN.setText(node.getLongName());
+        nodeEditorInputFloor.setText(node.getFloor());
+        nodeEditorInputID.setText(node.getNodeID());
+        nodeEditorWindow.setVisible(true);
+        edgeEditorWindow.setVisible(false);
+        nodeBeingEdited = node;
+    }
 
     private void onDrawEdge(Pair<Line, EdgeInfo> p) {
         EdgeInfo edge = p.getValue();
@@ -535,103 +481,27 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
     //    Consumer<EdgeInfo> onClickEdge = (EdgeInfo edge) -> System.out.println("Edge " + node.getEdgeID() + "was clicked");
     void onClickEdge(MouseEvent e, EdgeInfo edge) {
-        editingEdge.setText(edge.getEdgeID());
-        editEdgeID.setText(edge.getEdgeID());
-        editNode1.setText(edge.getStartNodeID());
-        editNode2.setText(edge.getEndNodeID());
-        deleteEdgeID.setText(edge.getEdgeID());
-
-        edgeContextMenu(e, edge);
-    }
-
-    private void handleChooseStart() {
-        if (selectingStart) {
-            selectingStart = false;
+        if (e.getButton() == MouseButton.SECONDARY) {
+            edgeContextMenu(e, edge);
         }
         else {
-            selectingStart = true;
-            selectingEnd = false;
+            openEdgeEditor(edge);
         }
-
-        chooseStartButton.setDisable(selectingStart);
-        chooseEndButton.setDisable(selectingEnd);
     }
 
-    private void handleChoseEnd() {
-        if (selectingEnd) {
-            selectingEnd = false;
-        }
-        else {
-            selectingStart = false;
-            selectingEnd = true;
-        }
-        chooseEndButton.setDisable(selectingEnd);
-        chooseStartButton.setDisable(selectingStart);
-    }
-
-    /**
-     * Event handler for adding a Node to the database
-     * @param  event
-     */
-    @FXML
-    void handleAddSubmitNode(ActionEvent event) {
-        String newNodeID = addNodeID.getText();
-        String newNodeX = addNodeX.getText();
-        String newNodeY = addNodeY.getText();
-        String newNodeBuilding = addNodeBuilding.getText();
-        String newNodeFloor = addNodeFloor.getText();
-        String newNodeType = addNodeType.getText();
-        String newNodeLN = addNodeLN.getText();
-        String newNodeSN = addNodeSN.getText();
-
-
-        try{
-            addNode(
-                newNodeID,
-                Integer.parseInt(newNodeX),
-                Integer.parseInt(newNodeY),
-                newNodeFloor,
-                newNodeBuilding,
-                newNodeType,
-                newNodeLN,
-                newNodeSN
-            );
-
-            addNodeID.setText("");
-            addNodeX.setText("");
-            addNodeY.setText("");
-            addNodeBuilding.setText("");
-            addNodeFloor.setText("");
-            addNodeType.setText("");
-            addNodeLN.setText("");
-            addNodeSN.setText("");
-
-        }
-        catch(SQLException | AssertionError | IllegalArgumentException e){
-            showError(App.resourceBundle.getString("key.please_fill_out_all_fields_with_valid_arguments"));
-        }
-
+    private void openEdgeEditor(EdgeInfo edge) {
+        edgeEditorHeadingText.setText(App.resourceBundle.getString("key.editing_edge"));
+        edgeEditorInputStartID.setText(edge.getStartNodeID());
+        edgeEditorInputEndID.setText(edge.getEndNodeID());
+        edgeEditorInputID.setText(edge.getEdgeID());
+        nodeEditorWindow.setVisible(false);
+        edgeEditorWindow.setVisible(true);
+        edgeBeingEdited = edge;
     }
 
     private void addNode(String id, int x, int y, String fl, String bu, String ty, String ln, String sn) throws SQLException {
         App.mapService.addNode(id, x, y, fl, bu, ty, ln, sn);
         update();
-    }
-
-    /**
-     * Event handler for removing a Node from the database
-     * @param event
-     */
-    @FXML
-    void handleDeleteSubmitNode(ActionEvent event) {
-        String deleteNode= deleteNodeID.getText();
-
-        try{
-            deleteNode(deleteNode);
-        }
-        catch (SQLException | AssertionError | IllegalArgumentException e){
-            showError(App.resourceBundle.getString("key.please_fill_out_all_fields_with_valid_arguments"));
-        }
     }
 
     private void confirmDeleteNode(NodeInfo node) {
@@ -687,6 +557,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
             }
             deleteConfirmationWindow.close();
         });
+
 
         content.setActions(cancelButton);
         content.setActions(deleteButton);
@@ -750,98 +621,66 @@ public class MapEditorPage extends SubPageController implements Initializable{
         update();
     }
 
-    /**
-     * Event handler for writing node edits to the database
-     * @param event
-     */
-    @FXML
-    void handleEditSubmitNode(ActionEvent event) {
-        String currentNodeID = origNodeID.getText();
-        String editNodeID = newNodeID.getText();
-        String newNodeX = origNodeX.getText();
-        String newNodeY = origNodeY.getText();
-        String newNodeBuild = origNodeBuilding.getText();
-        String newNodeFloor = origNodeFloor.getText();
-        String newNodeType = origNodeType.getText();
-        String newNodeLN = origNodeLN.getText();
-        String newNodeSN = origNodeSN.getText();
+    void handleNodeEditSubmit(ActionEvent event) {
+        String newNodeBuild = nodeEditorInputBuilding.getText();
+        String newNodeFloor = nodeEditorInputFloor.getText();
+        String newNodeType = nodeEditorInputType.getText();
+        String currentNodeID = nodeEditorInputID.getText();
+        String origNodeID = nodeBeingEdited.getNodeID();
+        String newNodeLN = nodeEditorInputLN.getText();
+        String newNodeSN = nodeEditorInputSN.getText();
+        String newNodeY = nodeEditorInputIY.getText();
+        String newNodeX = nodeEditorInputX.getText();
 
+        if (!currentNodeID.equals(nodeBeingEdited.getNodeID())) {
+            if (!App.mapService.nodeExists(currentNodeID)) {
+                try {
+                    App.mapService.setNodeID(origNodeID, currentNodeID);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+            else {
+                showError(App.resourceBundle.getString("key.node_id_exists"));
+            }
+        }
 
         try{
-            if(App.mapService.nodeExists(editNodeID) && !currentNodeID.equals(editNodeID)){
-                showError(App.resourceBundle.getString("key.node_id_exists"));
-                return;
-            }
             App.mapService.setNodePosition(currentNodeID, Integer.parseInt(newNodeX), Integer.parseInt(newNodeY));
             App.mapService.setNodeBuilding(currentNodeID, newNodeBuild);
             App.mapService.setNodeFloor(currentNodeID, newNodeFloor);
             App.mapService.setNodeType(currentNodeID, newNodeType);
             App.mapService.setNodeLongName(currentNodeID, newNodeLN);
             App.mapService.setNodeShortName(currentNodeID, newNodeSN);
-            App.mapService.setNodeID(currentNodeID, editNodeID);
-
-            update();
+            nodeEditorWindow.setVisible(false);
+            nodeBeingEdited = null;
         }
         catch (SQLException | IllegalArgumentException | AssertionError e){
+            e.printStackTrace();
             showError(App.resourceBundle.getString("key.please_fill_out_all_fields_with_valid_arguments"));
         }
-    }
 
-
-
-    /**
-     * handles editing an edge
-     * @param event clicking submit button
-     */
-    @FXML
-    void handleAddSubmitEdge(ActionEvent event) {
-        String newEdgeID = addEdgeID.getText();
-        String newEdgeNode1 = addNode1.getText();
-        String newEdgeNode2 = addNode2.getText();
-
-        addEdge(newEdgeID, newEdgeNode1, newEdgeNode2);
-    }
-
-    /**
-     * handles editing a edge
-     *
-     * @param event clicking submit button
-     */
-    @FXML
-    void handleDeleteSubmitEdge(ActionEvent event) {
-        String EdgetoDelete = deleteEdgeID.getText();
-
-        // try/catch for SQL and deleting an edge
-        try {
-            App.mapService.deleteEdge(EdgetoDelete);
-        } catch (SQLException | IllegalArgumentException e) {
-            showError(App.resourceBundle.getString("key.please_fill_out_all_fields_with_valid_arguments"));
-            return;
-        }
         update();
     }
 
-    /**
-     * handles editing a edge
-     *
-     * @param event clicking submit button
-     */
-    @FXML
-    void handleEditSubmitEdge(ActionEvent event) {
-        String newEditEdgeID = editEdgeID.getText();
-        String editEdgeNode1 = editNode1.getText();
-        String editEdgeNode2 = editNode2.getText();
+    void handleEdgeEditSubmit(ActionEvent event) {
+        String newEditEdgeID = edgeEditorInputID.getText();
+        String editEdgeNode1 = edgeEditorInputStartID.getText();
+        String editEdgeNode2 = edgeEditorInputEndID.getText();
 
-        // try catch for editing edge
         try {
-
-            if(App.mapService.edgeExists(newEditEdgeID) && !newEditEdgeID.equals(editingEdge.getText())){
+            if (App.mapService.edgeExists(newEditEdgeID) && !newEditEdgeID.equals(edgeBeingEdited.getEdgeID())) {
                 showError(App.resourceBundle.getString("key.edge_id_exists"));
-                return;
             }
-            App.mapService.setEdgeID(editingEdge.getText(), newEditEdgeID);
-            App.mapService.setEdgeStartID(newEditEdgeID, editEdgeNode1);
-            App.mapService.setEdgeEndID(newEditEdgeID, editEdgeNode2);
+            else {
+                App.mapService.setEdgeID(edgeBeingEdited.getEdgeID(), newEditEdgeID);
+                App.mapService.setEdgeStartID(newEditEdgeID, editEdgeNode1);
+                App.mapService.setEdgeEndID(newEditEdgeID, editEdgeNode2);
+
+                edgeEditorWindow.setVisible(false);
+                edgeBeingEdited = null;
+
+            }
         } catch (SQLException | IllegalArgumentException e) {
             showError(App.resourceBundle.getString("key.please_fill_out_all_fields_with_valid_arguments"));
             return;

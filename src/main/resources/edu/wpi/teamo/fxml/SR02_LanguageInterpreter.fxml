@@ -21,7 +21,7 @@
     <children>
         <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0">
             <center>
-                <VBox fx:id="midVbox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="300.0" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-effect: dropshadow(three-pass-box, rgba(150,150,170,0.8), 20, 0, 0, 0);" BorderPane.alignment="TOP_CENTER">
+                <VBox fx:id="midVbox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="300.0" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" BorderPane.alignment="TOP_CENTER">
                     <children>
                   <HBox prefHeight="50.0" prefWidth="580.0">
                      <children>
