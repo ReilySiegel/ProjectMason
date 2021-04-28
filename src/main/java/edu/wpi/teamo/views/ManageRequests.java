@@ -123,7 +123,98 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         updateGiftTable();
         updateSecTable();
         updateMtnTable();
+        updateReligTable();
+        updateFoodTable();
+        updateLaundryTable();
+    }
 
+    @FXML
+    private void updateFoodTable() {
+        JFXTreeTableColumn<FoodRequest, String> foodIDs = new JFXTreeTableColumn<>("ID");
+        foodIDs.setPrefWidth(200);
+        foodIDs.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<FoodRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<FoodRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getID());
+                return strProp;
+            }
+        });
+        JFXTreeTableColumn<FoodRequest, String> foodLocs = new JFXTreeTableColumn<>("Room/Node(s)");
+        foodLocs.setPrefWidth(150);
+        foodLocs.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<FoodRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<FoodRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getLocations().collect(Collectors.joining(", ")));
+                return strProp;
+            }
+        });
+        JFXTreeTableColumn<FoodRequest, String> foodAssigned = new JFXTreeTableColumn<>("Assigned Person");
+        foodAssigned.setPrefWidth(150);
+        foodAssigned.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<FoodRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<FoodRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getAssigned());
+                return strProp;
+            }
+        });
+        JFXTreeTableColumn<FoodRequest, String> foodDue = new JFXTreeTableColumn<>("Due");
+        foodDue.setPrefWidth(150);
+        foodDue.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<FoodRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<FoodRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getDue().toString());
+                return strProp;
+            }
+        });
+        JFXTreeTableColumn<FoodRequest, String> foodApp = new JFXTreeTableColumn<>("Appetizer");
+        foodApp.setPrefWidth(150);
+        foodApp.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<FoodRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<FoodRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getAppetizer());
+                return strProp;
+            }
+        });
+        JFXTreeTableColumn<FoodRequest, String> foodEntree = new JFXTreeTableColumn<>("Appetizer");
+        foodEntree.setPrefWidth(150);
+        foodEntree.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<FoodRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<FoodRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getEntre());
+                return strProp;
+            }
+        });
+        JFXTreeTableColumn<FoodRequest, String> foodDessert = new JFXTreeTableColumn<>("Appetizer");
+        foodDessert.setPrefWidth(150);
+        foodDessert.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<FoodRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<FoodRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getDessert());
+                return strProp;
+            }
+        });
+        JFXTreeTableColumn<FoodRequest, String> foodComplete = new JFXTreeTableColumn<>("Status");
+        foodComplete.setPrefWidth(150);
+        foodComplete.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<FoodRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<FoodRequest, String> param) {
+                StringProperty strProp;
+                if (param.getValue().getValue().isComplete()) strProp = new SimpleStringProperty("Complete");
+                else strProp = new SimpleStringProperty("In progress");
+                return strProp;
+            }
+        });
+        ObservableList<FoodRequest> foodRequests = FXCollections.observableArrayList();
+        try {
+            Stream<FoodRequest> foodReqStream = FoodRequest.getAll();
+            foodReqStream.forEach(m -> foodRequests.add(m));
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        final TreeItem<FoodRequest> root = new RecursiveTreeItem<FoodRequest>(foodRequests, RecursiveTreeObject::getChildren);
+        foodRequestTable.getColumns().setAll(foodIDs, foodLocs, foodAssigned, foodApp, foodEntree, foodDessert, foodDue, foodComplete);
+        foodRequestTable.setRoot(root);
+        foodRequestTable.setShowRoot(false);
     }
 
     @FXML
@@ -415,6 +506,96 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
     }
 
     @FXML
+    private void updateLaundryTable() {
+        JFXTreeTableColumn<LaundryRequest, String> laundryIDs = new JFXTreeTableColumn<>("ID");
+        laundryIDs.setPrefWidth(200);
+        //WHAT
+        laundryIDs.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<LaundryRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<LaundryRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getID());
+                return strProp;
+            }
+        });
+        JFXTreeTableColumn<LaundryRequest, String> gowns = new JFXTreeTableColumn<>("Gown");
+        gowns.setPrefWidth(150);
+        gowns.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<LaundryRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<LaundryRequest, String> param) {
+                StringProperty strProp;
+                if (param.getValue().getValue().getGown()) strProp = new SimpleStringProperty("Yes");
+                else strProp = new SimpleStringProperty("No");
+                return strProp;
+            }
+        });
+        JFXTreeTableColumn<LaundryRequest, String> beddings = new JFXTreeTableColumn<>("Bedding");
+        beddings.setPrefWidth(150);
+        beddings.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<LaundryRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<LaundryRequest, String> param) {
+                String temp = "No";
+                if(param.getValue().getValue().getBedding()){
+                    temp = "Yes";
+                }
+                else{
+                    temp = "No";
+                }
+                StringProperty strProp = new SimpleStringProperty(temp);
+                return strProp;
+            }
+        });
+        JFXTreeTableColumn<LaundryRequest, String> laundryLocs = new JFXTreeTableColumn<>("Room/Node(s)");
+        laundryLocs.setPrefWidth(150);
+        laundryLocs.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<LaundryRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<LaundryRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getLocations().collect(Collectors.joining(", ")));
+                return strProp;
+            }
+        });
+        JFXTreeTableColumn<LaundryRequest, String> laundryAssigned = new JFXTreeTableColumn<>("Assigned Person");
+        laundryAssigned.setPrefWidth(150);
+        laundryAssigned.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<LaundryRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<LaundryRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getAssigned());
+                return strProp;
+            }
+        });
+        JFXTreeTableColumn<LaundryRequest, String> laundryDue = new JFXTreeTableColumn<>("Due");
+        laundryDue.setPrefWidth(150);
+        laundryDue.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<LaundryRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<LaundryRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getDue().toString());
+                return strProp;
+            }
+        });
+        JFXTreeTableColumn<LaundryRequest, String> laundryComplete = new JFXTreeTableColumn<>("Status");
+        laundryComplete.setPrefWidth(150);
+        laundryComplete.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<LaundryRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<LaundryRequest, String> param) {
+                StringProperty strProp;
+                if (param.getValue().getValue().isComplete()) strProp = new SimpleStringProperty("Complete");
+                else strProp = new SimpleStringProperty("In progress");
+                return strProp;
+            }
+        });
+        ObservableList<LaundryRequest> laundryRequests = FXCollections.observableArrayList();
+        try {
+            Stream<LaundryRequest> laundryReqStream = LaundryRequest.getAll();
+            laundryReqStream.forEach(m -> laundryRequests.add(m));
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        final TreeItem<LaundryRequest> root = new RecursiveTreeItem<LaundryRequest>(laundryRequests, RecursiveTreeObject::getChildren);
+        laundryRequestTable.getColumns().setAll(laundryIDs, gowns, beddings, laundryLocs, laundryAssigned, laundryDue, laundryComplete);
+        laundryRequestTable.setRoot(root);
+        laundryRequestTable.setShowRoot(false);
+    }
+
+    @FXML
     private void updateSecTable() {
         JFXTreeTableColumn<SecurityRequest, String> secIDs = new JFXTreeTableColumn<>("ID");
         secIDs.setPrefWidth(150);
@@ -499,7 +680,6 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         secRequestTable.setRoot(root);
         secRequestTable.setShowRoot(false);
     }
-
 
     @FXML
     private void updateMtnTable() {
@@ -592,7 +772,6 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         mtnRequestTable.setShowRoot(false);
     }
 
-
     @FXML
     private void updateGiftTable() {
         JFXTreeTableColumn<GiftRequest, String> giftIDs = new JFXTreeTableColumn<>("ID");
@@ -684,6 +863,110 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
     }
 
     @FXML
+    private void updateReligTable() {
+        JFXTreeTableColumn<ReligiousRequest, String> religIDs = new JFXTreeTableColumn<>("ID");
+        religIDs.setPrefWidth(150);
+        religIDs.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<ReligiousRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<ReligiousRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getID());
+                return strProp;
+            }
+        });
+
+        JFXTreeTableColumn<ReligiousRequest, String> religService = new JFXTreeTableColumn<>("Service");
+        religService.setPrefWidth(150);
+        religService.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<ReligiousRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<ReligiousRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getService());
+                return strProp;
+            }
+        });
+
+        JFXTreeTableColumn<ReligiousRequest, String> religFigure = new JFXTreeTableColumn<>("Figure");
+        religFigure.setPrefWidth(150);
+        religFigure.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<ReligiousRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<ReligiousRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getFigure());
+                return strProp;
+            }
+        });
+
+        JFXTreeTableColumn<ReligiousRequest, String> religLastRites = new JFXTreeTableColumn<>("Last Rites");
+        religLastRites.setPrefWidth(150);
+        religLastRites.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<ReligiousRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<ReligiousRequest, String> param) {
+                StringProperty strProp;
+                if (param.getValue().getValue().isLastRites()) strProp = new SimpleStringProperty("Yes");
+                else strProp = new SimpleStringProperty("No");
+                return strProp;
+            }
+        });
+
+        JFXTreeTableColumn<ReligiousRequest, String> religLocs = new JFXTreeTableColumn<>("Room/Node(s)");
+        religLocs.setPrefWidth(150);
+        religLocs.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<ReligiousRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<ReligiousRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getLocations().collect(Collectors.joining(", ")));
+                return strProp;
+            }
+        });
+
+        JFXTreeTableColumn<ReligiousRequest, String> religAssigned = new JFXTreeTableColumn<>("Assigned Person");
+        religAssigned.setPrefWidth(150);
+        religAssigned.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<ReligiousRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<ReligiousRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getAssigned());
+                return strProp;
+            }
+        });
+
+        JFXTreeTableColumn<ReligiousRequest, String> religDue = new JFXTreeTableColumn<>("Due");
+        religDue.setPrefWidth(150);
+        religDue.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<ReligiousRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<ReligiousRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getDue().toString());
+                return strProp;
+            }
+        });
+
+        JFXTreeTableColumn<ReligiousRequest, String> religComplete = new JFXTreeTableColumn<>("Status");
+        religDue.setPrefWidth(150);
+        religDue.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<ReligiousRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<ReligiousRequest, String> param) {
+                StringProperty strProp;
+                if (param.getValue().getValue().isComplete()) strProp = new SimpleStringProperty("Complete");
+                else strProp = new SimpleStringProperty("In progress");
+                return strProp;
+            }
+        });
+
+        ObservableList<ReligiousRequest> religRequests = FXCollections.observableArrayList();
+
+        try {
+            Stream<ReligiousRequest> religReqStream = ReligiousRequest.getAll();
+            religReqStream.forEach(m -> religRequests.add(m));
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        final TreeItem<ReligiousRequest> root = new RecursiveTreeItem<ReligiousRequest>(religRequests, RecursiveTreeObject::getChildren);
+        religRequestTable.getColumns().setAll(religIDs, religService, religFigure, religLastRites, religLocs, religAssigned, religDue, religComplete);
+        religRequestTable.setRoot(root);
+        religRequestTable.setShowRoot(false);
+
+
+    }
+
+    @FXML
     private void markMedRequestComplete() throws SQLException {
         TreeItem<MedicineRequest> selection = medRequestTable.getSelectionModel().getSelectedItem();
         if (selection == null) medErrorText.setText("No medicine requests selected");
@@ -745,6 +1028,36 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
     }
 
     @FXML
+    private void markFoodRequestComplete() throws SQLException {
+        TreeItem<FoodRequest> selection = foodRequestTable.getSelectionModel().getSelectedItem();
+        if (selection == null) System.out.println("No food requests selected");
+        else {
+            String id = foodRequestTable.getSelectionModel().getSelectedItem().getValue().getID();
+            if (FoodRequest.getByID(id).isComplete())
+                sanErrorText.setText("Request already complete");
+            else {
+                FoodRequest.getByID(id).setComplete(true);
+                updateFoodTable();
+            }
+        }
+    }
+
+    @FXML
+    private void markReligRequestComplete() throws SQLException {
+        TreeItem<ReligiousRequest> selection = religRequestTable.getSelectionModel().getSelectedItem();
+        if (selection == null) System.out.println("No religious requests selected");
+        else {
+            String id = religRequestTable.getSelectionModel().getSelectedItem().getValue().getID();
+            if (ReligiousRequest.getByID(id).isComplete())
+                sanErrorText.setText("Request already complete");
+            else {
+                ReligiousRequest.getByID(id).setComplete(true);
+                updateReligTable();
+            }
+        }
+    }
+
+    @FXML
     private void clearMedError() {
         medErrorText.setText("");
     }
@@ -775,7 +1088,7 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         sanDetailsField.setText(currentReq.getDetails());
 
         sanDetailsField.setEditable(true);
-    }
+    }/**/
 
     @FXML
     private void applyMedUpdate() throws SQLException {
