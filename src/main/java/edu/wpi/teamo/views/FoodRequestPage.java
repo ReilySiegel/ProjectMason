@@ -29,7 +29,7 @@ import java.util.ResourceBundle;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class FoodRequestPage extends SubPageController implements Initializable {
+public class FoodRequestPage extends ServiceRequestPage implements Initializable {
 
     @FXML
     private JFXTextField appetizerBox;
