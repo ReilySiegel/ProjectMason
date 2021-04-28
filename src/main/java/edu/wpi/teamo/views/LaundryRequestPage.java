@@ -56,7 +56,8 @@ public class LaundryRequestPage extends SubPageController implements Initializab
     @FXML
     private Text roomErrorText;
 
-
+    @FXML
+    private JFXButton backButton;
 
     @FXML
     private MenuButton locationBox;
@@ -70,10 +71,12 @@ public class LaundryRequestPage extends SubPageController implements Initializab
 
     LocationSearcher locationSearcher;
 
+
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
 
-        App.getPrimaryStage().getScene().getStylesheets().add(LocationSearcher.getStylePath());
+        backButton.setOnAction(event -> App.switchPage(Pages.SERVICEREQUEST));
+
         try {
 
             this.resetLocationBox();
