@@ -89,7 +89,7 @@
                         </Text>
                         <AnchorPane prefHeight="50.0" prefWidth="800.0">
                            <children>
-                              <JFXTextField fx:id="religiousFigure" minWidth="300.0" prefHeight="25.0" prefWidth="600.0" promptText="%key.notes" unFocusColor="#eceff4" AnchorPane.rightAnchor="0.0" />
+                              <JFXTextField fx:id="religiousFigure" minWidth="300.0" prefHeight="25.0" prefWidth="600.0" promptText="%key.religious_figure" unFocusColor="#eceff4" AnchorPane.rightAnchor="0.0" />
                            </children>
                            <HBox.margin>
                               <Insets />
@@ -128,7 +128,7 @@
                            <children>
                               <JFXListView fx:id="roomList" layoutY="16.0" maxHeight="1.7976931348623157E308" prefHeight="222.0" prefWidth="640.0" stylesheets="@CSS/LocationSearch.css" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="25.0" />
                               <Text fx:id="roomErrorText" fill="RED" layoutX="76.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-                              <JFXTextField fx:id="room" layoutX="35.0" layoutY="-15.0" minWidth="300.0" prefHeight="31.0" prefWidth="605.0" promptText="%key.notes" unFocusColor="#eceff4" />
+                              <JFXTextField fx:id="room" layoutX="35.0" layoutY="-15.0" minWidth="300.0" prefHeight="31.0" prefWidth="605.0" promptText="%key.search" unFocusColor="#eceff4" />
                            </children>
                         </AnchorPane>
                      </children>
