@@ -236,7 +236,7 @@
                            <children>
                               <VBox maxHeight="1.7976931348623157E308" maxWidth="1200.0" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #2E3440; -fx-effect: dropshadow(three-pass-box, rgba(150,150,170,0.8), 10, 0, 0, 0);">
                                  <children>
-                                    <JFXTreeTableView fx:id="medRequestTable1" onMouseClicked="#clearMedError" prefHeight="550.0" prefWidth="926.0">
+                                    <JFXTreeTableView fx:id="foodRequestTable" onMouseClicked="#clearMedError" prefHeight="550.0" prefWidth="926.0">
                                        <VBox.margin>
                                           <Insets bottom="10.0" />
                                        </VBox.margin>
@@ -287,7 +287,7 @@
                            <children>
                               <VBox maxHeight="1.7976931348623157E308" maxWidth="1200.0" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #2E3440; -fx-effect: dropshadow(three-pass-box, rgba(150,150,170,0.8), 10, 0, 0, 0);">
                                  <children>
-                                    <JFXTreeTableView fx:id="medRequestTable11" onMouseClicked="#clearMedError" prefHeight="550.0" prefWidth="926.0">
+                                    <JFXTreeTableView fx:id="giftRequestTable" onMouseClicked="#clearMedError" prefHeight="550.0" prefWidth="926.0">
                                        <VBox.margin>
                                           <Insets bottom="10.0" />
                                        </VBox.margin>
@@ -339,7 +339,7 @@
                            <children>
                               <VBox maxHeight="1.7976931348623157E308" maxWidth="1200.0" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #2E3440; -fx-effect: dropshadow(three-pass-box, rgba(150,150,170,0.8), 10, 0, 0, 0);">
                                  <children>
-                                    <JFXTreeTableView fx:id="medRequestTable111" onMouseClicked="#clearMedError" prefHeight="550.0" prefWidth="926.0">
+                                    <JFXTreeTableView fx:id="transRequestTable" onMouseClicked="#clearMedError" prefHeight="550.0" prefWidth="926.0">
                                        <VBox.margin>
                                           <Insets bottom="10.0" />
                                        </VBox.margin>
@@ -495,7 +495,7 @@
                            <children>
                               <VBox maxHeight="1.7976931348623157E308" maxWidth="1200.0" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #2E3440; -fx-effect: dropshadow(three-pass-box, rgba(150,150,170,0.8), 10, 0, 0, 0);">
                                  <children>
-                                    <JFXTreeTableView fx:id="medRequestTable111111" onMouseClicked="#clearMedError" prefHeight="550.0" prefWidth="926.0">
+                                    <JFXTreeTableView fx:id="laundryRequestTable" onMouseClicked="#clearMedError" prefHeight="550.0" prefWidth="926.0">
                                        <VBox.margin>
                                           <Insets bottom="10.0" />
                                        </VBox.margin>
@@ -599,7 +599,7 @@
                            <children>
                               <VBox maxHeight="1.7976931348623157E308" maxWidth="1200.0" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #2E3440; -fx-effect: dropshadow(three-pass-box, rgba(150,150,170,0.8), 10, 0, 0, 0);">
                                  <children>
-                                    <JFXTreeTableView fx:id="medRequestTable11111111" onMouseClicked="#clearMedError" prefHeight="550.0" prefWidth="926.0">
+                                    <JFXTreeTableView fx:id="religRequestTable" onMouseClicked="#clearMedError" prefHeight="550.0" prefWidth="926.0">
                                        <VBox.margin>
                                           <Insets bottom="10.0" />
                                        </VBox.margin>

@@ -40,6 +40,22 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
     private JFXTreeTableView<MaintenanceRequest> mtnRequestTable;
 
     @FXML
+    private JFXTreeTableView<GiftRequest> giftRequestTable;
+
+    @FXML
+    private JFXTreeTableView<InterpreterRequest> langRequestTable;
+
+    @FXML
+    private JFXTreeTableView<LaundryRequest> laundryRequestTable;
+
+    @FXML
+    private JFXTreeTableView<ReligiousRequest> religRequestTable;
+
+    @FXML
+    private JFXTreeTableView<SecurityRequest> secRequestTable;
+
+
+    @FXML
     private JFXCheckBox medShowCompleted;
 
     @FXML
@@ -86,13 +102,6 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
 
 
 
-
-    @FXML
-    private JFXTreeTableView<InterpreterRequest> langRequestTable;
-
-    @FXML
-    private JFXTreeTableView<SecurityRequest> secRequestTable;
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -109,6 +118,7 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         updateMedicineTable();
         updateSanitationTable();
         updateInterpreterTable();
+        updateGiftTable();
         updateSecTable();
         updateMtnTable();
 
@@ -568,6 +578,97 @@ public class ManageRequests extends ServiceRequestPage implements Initializable 
         mtnRequestTable.getColumns().setAll(mtnIDs, mtnType, mtnAssigned, mtnDue, mtnComplete);
         mtnRequestTable.setRoot(root);
         mtnRequestTable.setShowRoot(false);
+    }
+
+
+    @FXML
+    private void updateGiftTable() {
+        JFXTreeTableColumn<GiftRequest, String> giftIDs = new JFXTreeTableColumn<>("ID");
+        giftIDs.setPrefWidth(150);
+        giftIDs.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<GiftRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<GiftRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getID());
+                return strProp;
+            }
+        });
+
+        JFXTreeTableColumn<GiftRequest, String> giftTID = new JFXTreeTableColumn<>("Tracking ID");
+        giftTID.setPrefWidth(200);
+        giftTID.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<GiftRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<GiftRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getTrackingID());
+                return strProp;
+            }
+        });
+
+        JFXTreeTableColumn<GiftRequest, String> giftLocs = new JFXTreeTableColumn<>("Room/Node(s)");
+        giftLocs.setPrefWidth(150);
+        giftLocs.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<GiftRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<GiftRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getLocations().collect(Collectors.joining(", ")));
+                return strProp;
+            }
+        });
+
+        JFXTreeTableColumn<GiftRequest, String> giftAssigned = new JFXTreeTableColumn<>("Assigned Person");
+        giftAssigned.setPrefWidth(150);
+        giftAssigned.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<GiftRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<GiftRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getAssigned());
+                return strProp;
+            }
+        });
+
+        JFXTreeTableColumn<GiftRequest, String> giftDue = new JFXTreeTableColumn<>("Due");
+        giftDue.setPrefWidth(150);
+        giftDue.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<GiftRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<GiftRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getDue().toString());
+                return strProp;
+            }
+        });
+
+        JFXTreeTableColumn<GiftRequest, String> giftComplete = new JFXTreeTableColumn<>("Status");
+        giftComplete.setPrefWidth(150);
+        giftComplete.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<GiftRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<GiftRequest, String> param) {
+                StringProperty strProp;
+                if (param.getValue().getValue().isComplete()) strProp = new SimpleStringProperty("Complete");
+                else strProp = new SimpleStringProperty("In progress");
+                return strProp;
+            }
+        });
+
+        JFXTreeTableColumn<GiftRequest, String> giftNotes = new JFXTreeTableColumn<>("Notes");
+        giftComplete.setPrefWidth(300);
+        giftComplete.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<GiftRequest, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<GiftRequest, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getDue().toString());
+                return strProp;
+            }
+        });
+
+        ObservableList<GiftRequest> giftRequests = FXCollections.observableArrayList();
+
+        try {
+            Stream<GiftRequest> mtnReqStream = GiftRequest.getAll();
+            mtnReqStream.forEach(m -> giftRequests.add(m));
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        final TreeItem<GiftRequest> root = new RecursiveTreeItem<GiftRequest>(giftRequests, RecursiveTreeObject::getChildren);
+        giftRequestTable.getColumns().setAll(giftIDs, giftTID, giftAssigned, giftDue, giftNotes, giftComplete);
+        giftRequestTable.setRoot(root);
+        giftRequestTable.setShowRoot(false);
     }
 
     @FXML
