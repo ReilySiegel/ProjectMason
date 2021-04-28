@@ -27,7 +27,6 @@ public class TextDirManager {
                 continue;
             }
             Pair<Integer,Double> currentQuadrant = getQuadrant(pathToParse.get(i), pathToParse.get(i + 1));
-
             //Determine direction based on quadrant and angle
             switch(lastQuadrant.getKey()){
                 case 0:{
@@ -35,9 +34,9 @@ public class TextDirManager {
                     break;
                 }
                 case 1:{
-                    if(currentQuadrant.getKey() == 4 || currentQuadrant.getKey() == 5 || (lastQuadrant.getValue() - currentQuadrant.getValue() > 0 && currentQuadrant.getKey() == 1))
+                    if(currentQuadrant.getKey() == 4 || currentQuadrant.getKey() == 5 || (Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) > 0 && currentQuadrant.getKey() == 1))
                         directions.add("Proceed leftwards to " + pathToParse.get(i + 1).getLongName());
-                    else if(currentQuadrant.getKey() == 2 || currentQuadrant.getKey() == 6 || (lastQuadrant.getValue() - currentQuadrant.getValue() < 0 && currentQuadrant.getKey() == 1))
+                    else if(currentQuadrant.getKey() == 2 || currentQuadrant.getKey() == 6 || (Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) < 0 && currentQuadrant.getKey() == 1))
                         directions.add("Proceed rightwards to " + pathToParse.get(i + 1).getLongName());
                     else if(currentQuadrant.getKey() == 3)
                         directions.add("Proceed backwards to " + pathToParse.get(i + 1).getLongName());
@@ -45,9 +44,9 @@ public class TextDirManager {
                     break;
                 }
                 case 2:{
-                    if(currentQuadrant.getKey() == 1 || currentQuadrant.getKey() == 6 || (lastQuadrant.getValue() - currentQuadrant.getValue() < 0 && currentQuadrant.getKey() == 2))
+                    if(currentQuadrant.getKey() == 1 || currentQuadrant.getKey() == 6 || (Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) < 0 && currentQuadrant.getKey() == 2))
                         directions.add("Proceed leftwards to " + pathToParse.get(i + 1).getLongName());
-                    else if(currentQuadrant.getKey() == 3 || currentQuadrant.getKey() == 7 || (lastQuadrant.getValue() - currentQuadrant.getValue() > 0 && currentQuadrant.getKey() == 2))
+                    else if(currentQuadrant.getKey() == 3 || currentQuadrant.getKey() == 7 || (Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) > 0 && currentQuadrant.getKey() == 2))
                         directions.add("Proceed rightwards to " + pathToParse.get(i + 1).getLongName());
                     else if(currentQuadrant.getKey() == 4)
                         directions.add("Proceed backwards to " + pathToParse.get(i + 1).getLongName());
@@ -55,9 +54,9 @@ public class TextDirManager {
                     break;
                 }
                 case 3:{
-                    if(currentQuadrant.getKey() == 2 || currentQuadrant.getKey() == 7 || (lastQuadrant.getValue() - currentQuadrant.getValue() > 0 && currentQuadrant.getKey() == 3))
+                    if(currentQuadrant.getKey() == 2 || currentQuadrant.getKey() == 7 || (Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) > 0 && currentQuadrant.getKey() == 3))
                         directions.add("Proceed leftwards to " + pathToParse.get(i + 1).getLongName());
-                    else if(currentQuadrant.getKey() == 4 || currentQuadrant.getKey() == 8 || (lastQuadrant.getValue() - currentQuadrant.getValue() < 0 && currentQuadrant.getKey() == 3))
+                    else if(currentQuadrant.getKey() == 4 || currentQuadrant.getKey() == 8 || (Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) < 0 && currentQuadrant.getKey() == 3))
                         directions.add("Proceed rightwards to " + pathToParse.get(i + 1).getLongName());
                     else if(currentQuadrant.getKey() == 1)
                         directions.add("Proceed backwards to " + pathToParse.get(i + 1).getLongName());
@@ -65,9 +64,9 @@ public class TextDirManager {
                     break;
                 }
                 case 4:{
-                    if(currentQuadrant.getKey() == 3 || currentQuadrant.getKey() == 8 || (lastQuadrant.getValue() - currentQuadrant.getValue() < 0 && currentQuadrant.getKey() == 4))
+                    if(currentQuadrant.getKey() == 3 || currentQuadrant.getKey() == 8 || (Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) < 0 && currentQuadrant.getKey() == 4))
                         directions.add("Proceed leftwards to " + pathToParse.get(i + 1).getLongName());
-                    else if(currentQuadrant.getKey() == 1 || currentQuadrant.getKey() == 5 || (lastQuadrant.getValue() - currentQuadrant.getValue() > 0 && currentQuadrant.getKey() == 4))
+                    else if(currentQuadrant.getKey() == 1 || currentQuadrant.getKey() == 5 || (Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) > 0 && currentQuadrant.getKey() == 4))
                         directions.add("Proceed rightwards to " + pathToParse.get(i + 1).getLongName());
                     else if(currentQuadrant.getKey() == 2)
                         directions.add("Proceed backwards to " + pathToParse.get(i + 1).getLongName());
@@ -130,25 +129,42 @@ public class TextDirManager {
      */
     public static Pair<Integer, Double> getQuadrant(AlgoNode current, AlgoNode next) {
 
-        double angle = Math.tan((double) (next.getY() - current.getY()) / (double) (next.getX() - current.getX()));
-        //Quadrants 1 or 3
-        if(angle > 0) {
-            if(next.getY() - current.getY() > 0 || next.getX() - current.getX() > 0) return new Pair<>(1,angle);
-            else return new Pair<>(3,angle);
+        double oppAdj = (double) (next.getY() - current.getY()) / (double) (next.getX() - current.getX());
+        double angle = Math.tan(oppAdj);
+        //Check if opposing/adjacent is less than pi/2 or greater than pi
+        if(oppAdj % Math.PI < Math.PI / 2 && angle != 0) {
+            //Quadrants 1 or 3
+            if (angle > 0) {
+                if (next.getY() - current.getY() > 0 || next.getX() - current.getX() > 0) return new Pair<>(1, angle);
+                else return new Pair<>(3, angle);
+            }
+            //Quadrants 2 or 4
+            else {
+                if (next.getY() - current.getY() > 0 || next.getX() - current.getX() < 0) return new Pair<>(2, angle);
+                else return new Pair<>(4, angle);
+            }
         }
-        //Quadrants 2 or 4
-        else if(angle < 0) {
-            if(next.getY() - current.getY() > 0 || next.getX() - current.getX() < 0) return new Pair<>(2,angle);
-            else return new Pair<>(4,angle);
+        else if(oppAdj % Math.PI > Math.PI / 2) {
+            //Quadrants 1 or 3
+            if (angle < 0) {
+                if (next.getY() - current.getY() > 0 || next.getX() - current.getX() > 0) return new Pair<>(1, angle);
+                else return new Pair<>(3, angle);
+            }
+            //Quadrants 2 or 4
+            else {
+                if (next.getY() - current.getY() > 0 || next.getX() - current.getX() < 0) return new Pair<>(2, angle);
+                else return new Pair<>(4, angle);
+            }
         }
         //A boundary (angle default to 0)
         else {
-            if(next.getY() - current.getY() > 0) return new Pair<>(6,0.0);
-            else if(next.getY() - current.getY() < 0) return new Pair<>(8,0.0);
-            else if(next.getX() - current.getX() > 0) return new Pair<>(5,0.0);
-            else if(next.getX() - current.getX() < 0) return new Pair<>(7,0.0);
-            else return new Pair<>(0,0.0);
+            if (next.getY() - current.getY() > 0) return new Pair<>(6, 0.0);
+            else if (next.getY() - current.getY() < 0) return new Pair<>(8, 0.0);
+            else if (next.getX() - current.getX() > 0) return new Pair<>(5, 0.0);
+            else if (next.getX() - current.getX() < 0) return new Pair<>(7, 0.0);
+            else return new Pair<>(0, 0.0);
         }
+
     }
 
 }
