@@ -4,6 +4,7 @@
 <?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.effect.DropShadow?>
@@ -30,8 +31,8 @@
                             </Text>
                             <AnchorPane prefHeight="50.0" prefWidth="800.0">
                                 <children>
-                                    <JFXTextField fx:id="assignee"  focusColor="WHITE" minWidth="300.0" prefHeight="25.0" prefWidth="600.0" promptText="%key.name_of_assignee" unFocusColor="#eceff4" AnchorPane.rightAnchor="0.0" />
-                                    <Text  fx:id="assigneeErrorText" fill="RED" layoutX="42.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                                    <JFXTextField fx:id="assignee" focusColor="WHITE" minWidth="300.0" prefHeight="25.0" prefWidth="600.0" promptText="%key.name_of_assignee" unFocusColor="#eceff4" AnchorPane.rightAnchor="0.0" />
+                                    <Text fx:id="assigneeErrorText" fill="RED" layoutX="42.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                                 </children>
                                 <HBox.margin>
                                     <Insets />
@@ -159,6 +160,7 @@
                             <Font name="Arial" size="36.0" />
                         </font>
                     </Text>
+                  <Label text="Created by: Nathan Rogers" textFill="WHITE" />
                 </children>
                 <BorderPane.margin>
                     <Insets bottom="40.0" />

@@ -217,6 +217,7 @@
                         <Font size="45.0" />
                      </font>
                   </Label>
+                  <Label text="Created by: Mason Powell " textFill="WHITE" />
                     </children>
                     <BorderPane.margin>
                         <Insets bottom="40.0" />

@@ -224,6 +224,7 @@
                         <Font size="36.0" />
                      </font>
                   </Label>
+                  <Label text="Created by: Sam Rowe" textFill="#f2f2f2" />
                </children>
             </VBox>
          </top>

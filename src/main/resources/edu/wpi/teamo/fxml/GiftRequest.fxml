@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.effect.DropShadow?>
@@ -172,6 +173,7 @@
                                 <Font name="Arial" size="36.0" />
                             </font>
                         </Text>
+                  <Label prefHeight="21.0" prefWidth="166.0" text="Created by: Reily Siegel" />
                     </children>
                     <BorderPane.margin>
                         <Insets bottom="40.0" />
