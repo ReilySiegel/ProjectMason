@@ -44,7 +44,7 @@
                               <Font name="Arial" size="24.0" />
                            </font>
                         </JFXButton>
-                        <JFXButton buttonType="RAISED" minHeight="60.0" minWidth="400.0" onAction="#handleMapEditor" prefWidth="400.0" style="-fx-background-color: #2a44a1;" text="%key.map_editor" textFill="WHITE">
+                        <JFXButton fx:id="mapeditorButton" buttonType="RAISED" minHeight="60.0" minWidth="400.0" onAction="#handleMapEditor" prefWidth="400.0" style="-fx-background-color: #2a44a1;" text="%key.map_editor" textFill="WHITE">
                            <VBox.margin>
                               <Insets bottom="10.0" top="10.0" />
                            </VBox.margin>
@@ -52,7 +52,7 @@
                               <Font name="Arial" size="24.0" />
                            </font>
                         </JFXButton>
-                        <JFXButton buttonType="RAISED" minHeight="60.0" onAction="#handleAddUsers" prefHeight="5.0" prefWidth="399.0" style="-fx-background-color: #2a44a1;" text="%key.add_account" textFill="WHITE">
+                        <JFXButton fx:id="addaccountButton" buttonType="RAISED" minHeight="60.0" onAction="#handleAddUsers" prefHeight="5.0" prefWidth="399.0" style="-fx-background-color: #2a44a1;" text="%key.add_account" textFill="WHITE">
                            <font>
                               <Font name="Arial" size="24.0" />
                            </font>

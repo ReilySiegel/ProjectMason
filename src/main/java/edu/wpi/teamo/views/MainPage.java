@@ -39,8 +39,18 @@ public class MainPage extends SubPageController implements Initializable {
     @FXML
     private Text usernameLabel;
 
+    @FXML
+    private JFXButton mapeditorButton;
+
+    @FXML
+    private JFXButton addaccountButton;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        mapeditorButton.setVisible(false);
+        mapeditorButton.setManaged(false);
+        addaccountButton.setVisible(false);
+        addaccountButton.setManaged(false);
         if(Session.isLoggedIn()) {
             loginButton.setText(App.resourceBundle.getString("key.logout"));
             usernameLabel.setText(Session.getAccount().getUsername());
@@ -50,6 +60,12 @@ public class MainPage extends SubPageController implements Initializable {
             loginButton.setText(App.resourceBundle.getString("key.login"));
             loginButton.setOnAction(this::handleLogin);
             usernameLabel.setText("Guest");
+        }
+        if(Session.isLoggedIn() && Session.getAccount().isAdmin()) {
+            mapeditorButton.setVisible(true);
+            mapeditorButton.setManaged(true);
+            addaccountButton.setVisible(true);
+            addaccountButton.setManaged(true);
         }
     }
 
@@ -148,6 +164,10 @@ public class MainPage extends SubPageController implements Initializable {
         loginButton.setOnAction(this::handleLogin);
         usernameLabel.setText("Guest");
         Session.logout();
+        mapeditorButton.setVisible(false);
+        mapeditorButton.setManaged(false);
+        addaccountButton.setVisible(false);
+        addaccountButton.setManaged(false);
     }
 
     /**
