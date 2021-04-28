@@ -36,14 +36,14 @@
                   </JFXButton>
                </children>
             </AnchorPane>
-            <AnchorPane layoutY="1.0" prefHeight="800.0" prefWidth="330.0" style="-fx-background-color: #F7F9FF;">
+            <AnchorPane layoutY="1.0" prefHeight="800.0" prefWidth="330.0" style="-fx-background-color: #d4d4d4;">
                <children>
-                  <JFXTextField fx:id="username" layoutX="29.0" layoutY="202.0" prefHeight="43.0" prefWidth="258.0" promptText="%key.username" style="-fx-background-color: #F2F2F2; -jfx-focus-color: WHITE; -fx-border-color: BLACK; -fx-border-width: 3;" unFocusColor="#f2f2f2">
+                  <JFXTextField fx:id="username" layoutX="29.0" layoutY="202.0" prefHeight="43.0" prefWidth="258.0" promptText="%key.username" style="-fx-background-color: transparent; -fx-border-color: BLACK; -fx-border-width: 3;" unFocusColor="#f0f0f000">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </JFXTextField>
-                  <JFXPasswordField fx:id="password" layoutX="30.0" layoutY="308.0" prefHeight="43.0" prefWidth="258.0" promptText="%key.password" style="-fx-background-color: #F2F2F2; -jfx-focus-color: WHITE; -fx-border-color: BLACK; -fx-border-width: 3;" unFocusColor="#f2f2f2">
+                  <JFXPasswordField fx:id="password" layoutX="30.0" layoutY="308.0" prefHeight="43.0" prefWidth="258.0" promptText="%key.password" style="-fx-background-color: transparent; -fx-border-color: BLACK; -fx-border-width: 3;" unFocusColor="#f0f0f000">
                      <font>
                         <Font size="16.0" />
                      </font>
