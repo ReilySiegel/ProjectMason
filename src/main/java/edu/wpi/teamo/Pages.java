@@ -17,5 +17,6 @@ public enum Pages {
     SECURITY,
     MAINTENANCE,
     ADDUSERS,
-    TRANSPORTATION
+    TRANSPORTATION,
+    FOOD
 }

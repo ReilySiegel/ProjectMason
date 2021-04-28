@@ -2,14 +2,7 @@ package edu.wpi.teamo;
 
 import edu.wpi.teamo.algos.*;
 import edu.wpi.teamo.database.account.Account;
-import edu.wpi.teamo.database.request.GiftRequest;
-import edu.wpi.teamo.database.request.IRequestService;
-import edu.wpi.teamo.database.request.RequestDB;
-import edu.wpi.teamo.database.request.InterpreterRequest;
-import edu.wpi.teamo.database.request.LaundryRequest;
-import edu.wpi.teamo.database.request.MaintenanceRequest;
-import edu.wpi.teamo.database.request.ReligiousRequest;
-import edu.wpi.teamo.database.request.SecurityRequest;
+import edu.wpi.teamo.database.request.*;
 import edu.wpi.teamo.database.map.IMapService;
 import edu.wpi.teamo.database.map.MapDB;
 import edu.wpi.teamo.database.Database;
@@ -59,7 +52,8 @@ public class App extends Application {
     pagePaths.put(Pages.SURVEY, "/edu/wpi/teamo/fxml/CovidSurveyPage.fxml");
     pagePaths.put(Pages.SECURITY, "/edu/wpi/teamo/fxml/SR11_Security.fxml");
     pagePaths.put(Pages.ADDUSERS, "/edu/wpi/teamo/fxml/AddUsersPage.fxml");
-    pagePaths.put(Pages.TRANSPORTATION, "/edu/wpi/teamo/fxml/PatientTransportation.fxml");
+    pagePaths.put(Pages.TRANSPORTATION,"/edu/wpi/teamo/fxml/PatientTransportation.fxml");
+    pagePaths.put(Pages.FOOD,"/edu/wpi/teamo/fxml/FoodRequestPage.fxml");
 
     System.out.println("Starting Up");
 
@@ -74,6 +68,7 @@ public class App extends Application {
       LaundryRequest.initTable();
       MaintenanceRequest.initTable();
       ReligiousRequest.initTable();
+      FoodRequest.initTable();
       new Account("admin", "password", true, "Willson", "Wong", "admin").update();
       System.out.println("Database Services Initialized");
     } catch (SQLException e) {
