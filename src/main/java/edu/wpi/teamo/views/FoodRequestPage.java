@@ -109,10 +109,9 @@ public class FoodRequestPage extends ServiceRequestPage implements Initializable
     private void handleHelp(ActionEvent e) {
 
         JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text(App.resourceBundle.getString("key.help_transportation")));
+        content.setHeading(new Text(App.resourceBundle.getString("key.FoodDeliveryHelp")));
         content.setBody(new Text(
-                App.resourceBundle.getString("key.assignee_help")+
-                        App.resourceBundle.getString("key.room_help")));
+                App.resourceBundle.getString("key.menuHelp")));
         JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 
         JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
@@ -133,10 +132,9 @@ public class FoodRequestPage extends ServiceRequestPage implements Initializable
     private void handleMenu(ActionEvent e) {
 
         JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text(App.resourceBundle.getString("key.help_transportation")));
+        content.setHeading(new Text(App.resourceBundle.getString("key.titleMenu")));
         content.setBody(new Text(
-                App.resourceBundle.getString("key.assignee_help")+
-                        App.resourceBundle.getString("key.room_help")));
+                App.resourceBundle.getString("key.menuList")));
         JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 
         JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
