@@ -200,7 +200,7 @@ public class SR03_Sanitation extends ServiceRequestPage implements Initializable
 
             JFXDialogLayout content = new JFXDialogLayout();
             content.setHeading(new Text(App.resourceBundle.getString("key.sanitation_request_submitted")));
-            content.setBody(new Text("Request submitted with: \n" +
+            content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
                     App.resourceBundle.getString("key.type_of_sanitation") + ": " +  serviceName + "\n" +
                     App.resourceBundle.getString("key.room_semicolon") + String.join(", ", locationIDs) + "\n" +
                     App.resourceBundle.getString("key.persons_assigned_semicolon") + assigned + "\n" +

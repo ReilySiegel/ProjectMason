@@ -125,7 +125,7 @@
         <bottom>
             <HBox alignment="CENTER_LEFT" maxHeight="100.0" prefHeight="70.0" prefWidth="1280.0" style="-fx-background-color: #2E3440;" BorderPane.alignment="CENTER">
                 <children>
-                    <JFXButton buttonType="RAISED" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #5e99ff; -fx-border-radius: 25; -fx-background-radius: 25;" text="?" textFill="WHITE">
+                    <JFXButton buttonType="RAISED" onAction="#handleHelp" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #5e99ff; -fx-border-radius: 25; -fx-background-radius: 25;" text="?" textFill="WHITE">
                         <font>
                             <Font name="Arial Bold" size="24.0" />
                         </font>
@@ -133,7 +133,7 @@
                             <Insets left="50.0" />
                         </HBox.margin>
                     </JFXButton>
-                    <JFXButton fx:id="backButton" buttonType="RAISED" style="-fx-background-color: #444;" text="%key.back" textFill="WHITE">
+                    <JFXButton fx:id="backButton" buttonType="RAISED" onAction="#handleBackToServicePage" style="-fx-background-color: #444;" text="%key.back" textFill="WHITE">
                         <font>
                             <Font size="18.0" />
                         </font>

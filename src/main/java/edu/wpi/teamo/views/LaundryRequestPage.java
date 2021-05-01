@@ -27,7 +27,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class LaundryRequestPage extends SubPageController implements Initializable {
+public class LaundryRequestPage extends ServiceRequestPage implements Initializable {
 
     @FXML
     private StackPane stackPane;
@@ -66,7 +66,6 @@ public class LaundryRequestPage extends SubPageController implements Initializab
     private JFXTextField locationSearchBox;
 
 
-
     private boolean validRequest;
 
     LocationSearcher locationSearcher;
@@ -80,16 +79,15 @@ public class LaundryRequestPage extends SubPageController implements Initializab
         try {
 
             this.resetLocationBox();
-        }
-        catch (SQLException e)
-        {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         //locationSearcher = new LocationSearcher(locationSearchBox, roomList);
-       // updateLocations();
+        // updateLocations();
 
         validRequest = true;
     }
+
     private void resetLocationBox() throws SQLException {
         LinkedList<NodeInfo> nodes = App.mapService.getAllNodes().collect(Collectors.toCollection(LinkedList::new));
         locationBox.getItems().removeAll(locationBox.getItems());
@@ -112,9 +110,6 @@ public class LaundryRequestPage extends SubPageController implements Initializab
     }
 
 
-
-
-
 //    @FXML
 //    private void clearRoomError(ActionEvent e) {
 //        roomErrorText.setText("");
@@ -135,24 +130,21 @@ public class LaundryRequestPage extends SubPageController implements Initializab
 
         //List<NodeInfo> locations = locationSearcher.getSelectedLocations();
         //List<String> locationIDs = locationSearcher.getSelectedLocationIDs();
-        List<MenuItem> mItems    = locationBox.getItems();
-        Stream<CheckMenuItem> cMItems   = mItems.stream().map((MenuItem mI) -> (CheckMenuItem) mI);
-        Stream<CheckMenuItem> checked   = cMItems.filter(CheckMenuItem::isSelected);
-        List<String>          locations = checked.map(CheckMenuItem::getText).collect(Collectors.toList());
+        List<MenuItem> mItems = locationBox.getItems();
+        Stream<CheckMenuItem> cMItems = mItems.stream().map((MenuItem mI) -> (CheckMenuItem) mI);
+        Stream<CheckMenuItem> checked = cMItems.filter(CheckMenuItem::isSelected);
+        List<String> locations = checked.map(CheckMenuItem::getText).collect(Collectors.toList());
         validRequest = true;
-        if(!gownCheck && !sheetCheck)
-        {
+        if (!gownCheck && !sheetCheck) {
             validRequest = false;
             checkError.setText(App.resourceBundle.getString("key.laundry_check_error"));
-        }
-        else{
-            if (gownCheck){
-                laundryChecked= " Gowns ";
-                if(sheetCheck)
-                {laundryChecked+="and Sheets";
+        } else {
+            if (gownCheck) {
+                laundryChecked = " Gowns ";
+                if (sheetCheck) {
+                    laundryChecked += "and Sheets";
                 }
-            }
-            else{
+            } else {
                 laundryChecked = "Sheets";
             }
         }
@@ -163,14 +155,14 @@ public class LaundryRequestPage extends SubPageController implements Initializab
             validRequest = false;
         }
         if (assignName.equals("")) {
-           assigneeErrorText.setText(App.resourceBundle.getString("key.no_laundry_checked"));
+            assigneeErrorText.setText(App.resourceBundle.getString("key.no_laundry_checked"));
             validRequest = false;
         }
 
         if (validRequest) {
             LocalDateTime now = LocalDateTime.now();
             BaseRequest br = new BaseRequest(UUID.randomUUID().toString(), note, locations.stream(), assignName, false, now);
-            new LaundryRequest(gownCheck,sheetCheck,br);
+            new LaundryRequest(gownCheck, sheetCheck, br);
 
 
             assigneeErrorText.setText("");
@@ -184,9 +176,9 @@ public class LaundryRequestPage extends SubPageController implements Initializab
             JFXDialogLayout content = new JFXDialogLayout();
             content.setHeading(new Text(App.resourceBundle.getString("key.laundry_request_submitted")));
             content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
-                    App.resourceBundle.getString("key.laundry_checked")  + laundryChecked+ "\n" +
+                    App.resourceBundle.getString("key.laundry_checked") + laundryChecked + "\n" +
                     App.resourceBundle.getString("key.room_semicolon") + String.join(", ", locations) + "\n" +
-                    App.resourceBundle.getString("key.persons_assigned_semicolon")  + assignName + "\n" +
+                    App.resourceBundle.getString("key.persons_assigned_semicolon") + assignName + "\n" +
                     App.resourceBundle.getString("key.notes") + ": " + note));
             JFXDialog popup = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 
@@ -220,8 +212,8 @@ public class LaundryRequestPage extends SubPageController implements Initializab
 
         JFXDialogLayout content = new JFXDialogLayout();
         content.setHeading(new Text(App.resourceBundle.getString("key.help_laundry_request")));
-        content.setBody(new Text( App.resourceBundle.getString("key.room_help") +
-                App.resourceBundle.getString("key.assignee_help")+
+        content.setBody(new Text(App.resourceBundle.getString("key.room_help") +
+                App.resourceBundle.getString("key.assignee_help") +
                 App.resourceBundle.getString("key.laundry_check_help")));
 
         JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
@@ -238,7 +230,6 @@ public class LaundryRequestPage extends SubPageController implements Initializab
         content.setActions(closeButton);
         errorWindow.show();
     }
-
 
 
 

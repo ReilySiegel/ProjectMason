@@ -31,7 +31,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 
-public class SR08_Religious extends SubPageController implements Initializable {
+public class SR08_Religious extends ServiceRequestPage implements Initializable {
     @FXML
     private StackPane stackPane;
 
@@ -137,11 +137,13 @@ public class SR08_Religious extends SubPageController implements Initializable {
     private void receiptPopup(String serviceName, List<String> locationIDs, String assigned, String details) {
         JFXDialogLayout content = new JFXDialogLayout();
         content.setHeading(new Text(App.resourceBundle.getString("key.sanitation_request_submitted")));
-        content.setBody(new Text("Request submitted with: \n" +
-                App.resourceBundle.getString("key.type_of_sanitation") + serviceName + "\n" +
-                App.resourceBundle.getString("key.room_semicolon") + String.join(", ", locationIDs) + "\n" +
+        content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
+                App.resourceBundle.getString("key.type_of_service") + serviceName + "\n" +
                 App.resourceBundle.getString("key.persons_assigned_semicolon") + assigned + "\n" +
-                App.resourceBundle.getString("key.additional_notes") + details));
+                App.resourceBundle.getString("key.additional_notes")+ details + "\n" +
+                App.resourceBundle.getString("key.room_semicolon") + String.join(", ", locationIDs) + "\n" +
+                App.resourceBundle.getString("key.religious_figure_semicolon") + religiousFigure.getText() + "\n" +
+                App.resourceBundle.getString("key.last_rights_semicolon") + lastRites.isSelected()));
         JFXDialog popup = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 
         JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
@@ -180,11 +182,11 @@ public class SR08_Religious extends SubPageController implements Initializable {
 
     public void handleHelpPress(ActionEvent e){
         JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text("Help"));
-        content.setBody(new Text(" Service: request service\n Assignee name: enter your name\n Notes: write any additional notes\n Religious figure: request a religious figure to come\n Last Rites: Please check this box for your last rites"));
+        content.setHeading(new Text(App.resourceBundle.getString("key.help")));
+        content.setBody(new Text(App.resourceBundle.getString("key.religion_help")));
         JFXDialog helpWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 
-        JFXButton closeButton = new JFXButton("Close");
+        JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
         closeButton.setStyle("-fx-background-color: #f40f19");
         closeButton.setOnAction(event -> helpWindow.close());
 
