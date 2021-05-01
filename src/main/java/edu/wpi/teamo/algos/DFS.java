@@ -95,9 +95,15 @@ public class DFS {
 
 
         for (String w: adj[indexOfTargetID]){
-            if (!marked[position.get(w)]){
-                edgeTo[position.get(w)] = targetNode;
-                dfs(w);
+            try {
+                if (!marked[position.get(w)]) {
+                    edgeTo[position.get(w)] = targetNode;
+                    dfs(w);
+                }
+            }
+            catch (NullPointerException e)
+            {
+                System.out.println("null wus here");
             }
         }
     }

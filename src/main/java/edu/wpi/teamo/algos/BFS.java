@@ -49,10 +49,15 @@ public class BFS {
             LinkedList<AlgoNode> neighbors = getNeighbors(currNode);
 
             for(AlgoNode  n: neighbors){
-                if (!visited[nodes.indexOf(n)]){
-                    queue.add(n);
-                    visited[nodes.indexOf(n)] = true;
-                    n.setParent(currNode);
+                try {
+                    if (!visited[nodes.indexOf(n)]) {
+                        queue.add(n);
+                        visited[nodes.indexOf(n)] = true;
+                        n.setParent(currNode);
+                    }
+                }
+                catch(ArrayIndexOutOfBoundsException e){
+                    System.out.println("Out of bounds exception was here");
                 }
             }
 
