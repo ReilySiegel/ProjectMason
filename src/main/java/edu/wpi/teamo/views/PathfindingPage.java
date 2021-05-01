@@ -106,7 +106,6 @@ public class PathfindingPage extends SubPageController implements Initializable 
         backButton.setOnAction(this::backToMain);
 
         locationSearcher = new LocationSearcher(searchBar, searchResultsView);
-        locationSearcher.setOnMakeCheckbox(this::onMakeCheckbox);
         locationSearcher.setOnCheckNode(this::onClickNode);
         setSearchWindowVisibility(false);
 
@@ -197,10 +196,6 @@ public class PathfindingPage extends SubPageController implements Initializable 
         chooseStartButton.setDisable(selectingStart);
         chooseEndButton.setDisable(selectingEnd);
         locationSearcher.clearSelectedLocations();
-    }
-
-    void onMakeCheckbox(JFXCheckBox checkBox) {
-//        checkBox.getStylesheets().add();
     }
 
     private void handleChooseStart(ActionEvent e) {

@@ -12,17 +12,8 @@ import java.util.Locale;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-public class LocationSearcher {
-
-    JFXListView<JFXCheckBox> searchResultsList;
-    JFXTextField searchBar;
-
-    List<NodeInfo> selectedLocations;
-    List<NodeInfo> locations;
-
+public class LocationSearcher extends SearchSelect<NodeInfo, JFXCheckBox> {
     Consumer<NodeInfo> onCheckNode = null;
-    Consumer<JFXCheckBox> onMakeCheckbox = null;
-
 
     /**
      * An object that handles searching and selecting multiple locations.
@@ -32,13 +23,46 @@ public class LocationSearcher {
      * @param searchResultsList a JFXListView<JFXCheckBox> object that will list the search results and allow selection.
      */
     public LocationSearcher(JFXTextField searchBar, JFXListView<JFXCheckBox> searchResultsList) {
-        this.searchResultsList = searchResultsList;
-        this.searchBar = searchBar;
+        super(searchBar, searchResultsList, null, null);
 
-        this.selectedLocations = new LinkedList<>();
-        this.locations = new LinkedList<>();
+        setCellCreator(this::makeCheckbox);
+        setMatcher(this::nodeMatchesText);
+    }
 
-        this.searchBar.setOnKeyTyped(event -> handleSearchInput());
+    public JFXCheckBox makeCheckbox(NodeInfo node, boolean isSelected) {
+        String text = String.format("%s", node.getLongName());
+
+        JFXCheckBox checkBox = new JFXCheckBox();
+        checkBox.setPadding(new Insets(10));
+        checkBox.setSelected(isSelected);
+        checkBox.setStyle("-jfx-checked-color: #5e81ac");
+        checkBox.setText(text);
+
+        checkBox.setOnAction(event -> {
+            if (checkBox.isSelected()) selectItem(node);
+            else deSelectItem(node);
+
+            if (onCheckNode != null) onCheckNode.accept(node);
+        });
+
+        return checkBox;
+    }
+
+    public boolean nodeMatchesText(NodeInfo node, String text) {
+        boolean matching;
+
+        text = text.toLowerCase(Locale.ROOT);
+
+        matching  = String.valueOf(node.getXPos()).toLowerCase(Locale.ROOT).contains(text);
+        matching |= String.valueOf(node.getYPos()).toLowerCase(Locale.ROOT).contains(text);
+        matching |= node.getShortName().toLowerCase(Locale.ROOT).contains(text);
+        matching |= node.getNodeType().toLowerCase(Locale.ROOT).contains(text);
+        matching |= node.getBuilding().toLowerCase(Locale.ROOT).contains(text);
+        matching |= node.getLongName().toLowerCase(Locale.ROOT).contains(text);
+        matching |= node.getNodeID().toLowerCase(Locale.ROOT).contains(text);
+        matching |= node.getFloor().toLowerCase(Locale.ROOT).contains(text);
+
+        return matching;
     }
 
     /**
@@ -47,101 +71,23 @@ public class LocationSearcher {
      * @param locations List of NodeInfo objects to be searched and selected.
      */
     public void setLocations(List<NodeInfo> locations) {
-        updateMatchingLocations(locations);
-        this.locations = locations;
+        setItems(locations);
     }
 
     public List<NodeInfo> getSelectedLocations() {
-        return selectedLocations;
+        return getSelectedItems();
     }
 
     public List<String> getSelectedLocationIDs() {
-        return selectedLocations.stream().map(NodeInfo::getNodeID).collect(Collectors.toList());
+        return getSelectedLocations().stream().map(NodeInfo::getNodeID).collect(Collectors.toList());
     }
 
     public void clearSelectedLocations() {
-        selectedLocations = new LinkedList<>();
-        handleSearchInput();
+        clearSelectedItems();
     }
 
     public void setOnCheckNode(Consumer<NodeInfo> onCheckNode) {
         this.onCheckNode = onCheckNode;
     }
-
-    private void handleSearchInput() {
-
-        String searchText = searchBar.getText();
-
-        List<NodeInfo> matchingLocations = locations.stream()
-                .filter((NodeInfo node) -> nodeMatchesText(node, searchText))
-                .collect(Collectors.toList());
-
-        updateMatchingLocations(matchingLocations);
-    }
-
-    private boolean nodeMatchesText(NodeInfo node, String searchText) {
-        boolean matching;
-
-        searchText = searchText.toLowerCase(Locale.ROOT);
-
-        matching  = String.valueOf(node.getXPos()).toLowerCase(Locale.ROOT).contains(searchText);
-        matching |= String.valueOf(node.getYPos()).toLowerCase(Locale.ROOT).contains(searchText);
-        matching |= node.getShortName().toLowerCase(Locale.ROOT).contains(searchText);
-        matching |= node.getNodeType().toLowerCase(Locale.ROOT).contains(searchText);
-        matching |= node.getBuilding().toLowerCase(Locale.ROOT).contains(searchText);
-        matching |= node.getLongName().toLowerCase(Locale.ROOT).contains(searchText);
-        matching |= node.getNodeID().toLowerCase(Locale.ROOT).contains(searchText);
-        matching |= node.getFloor().toLowerCase(Locale.ROOT).contains(searchText);
-
-        return matching;
-    }
-
-    private void updateMatchingLocations(List<NodeInfo> matchingLocations) {
-        searchResultsList.getItems().removeAll(searchResultsList.getItems());
-
-        for (NodeInfo node : selectedLocations) {
-            searchResultsList.getItems().add(createCheckBox(node, true));
-        }
-
-        for (NodeInfo node : matchingLocations) {
-            searchResultsList.getItems().add(createCheckBox(node, false));
-        }
-
-    }
-
-    public void setOnMakeCheckbox(Consumer<JFXCheckBox> onMakeCheckbox) {
-        this.onMakeCheckbox = onMakeCheckbox;
-    }
-
-    private JFXCheckBox createCheckBox(NodeInfo node, boolean selected) {
-        String text = String.format("%s", node.getLongName());
-
-        JFXCheckBox checkBox = new JFXCheckBox();
-        checkBox.setPadding(new Insets(10));
-        checkBox.setSelected(selected);
-        checkBox.setStyle("-jfx-checked-color: #5e81ac");
-        checkBox.setText(text);
-
-        checkBox.setOnAction(event -> {
-            if (checkBox.isSelected()) selectedLocations.add(node);
-            else selectedLocations.remove(node);
-
-            if (onCheckNode != null) onCheckNode.accept(node);
-        });
-
-        if (onMakeCheckbox != null) onMakeCheckbox.accept(checkBox);
-
-        return checkBox;
-    }
-
-    /**
-     * gets path to a stylesheet that makes the list transparent. Will get rid of soon hopefully.
-     * Load it like this:
-     * App.getPrimaryStage().getScene().getStylesheets().add(LocationSearcher.getStylePath());
-     */
-    public static String getStylePath() {
-        return "edu/wpi/teamo/fxml/CSS/LocationSearch.css";
-    }
-
 
 }

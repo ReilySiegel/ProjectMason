@@ -89,13 +89,13 @@ public class SR12_MaintenancePage extends ServiceRequestPage implements Initiali
     private void updateOptions() {
             switch(type) {
                 case POWER: {
-                    ls.searchResultsList.getItems().removeAll(ls.searchResultsList.getItems());
                     ls.setLocations(allItems);
+                    ls.clearSelectedItems();
                     break;
                 }
                 case ELEVATOR: {
-                    ls.searchResultsList.getItems().removeAll(ls.searchResultsList.getItems());
                     ls.setLocations(elevItems);
+                    ls.clearSelectedItems();
                     break;
                 }
                 case NULL: {
