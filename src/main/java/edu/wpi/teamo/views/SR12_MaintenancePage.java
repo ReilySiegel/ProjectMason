@@ -50,8 +50,6 @@ public class SR12_MaintenancePage extends ServiceRequestPage implements Initiali
     public void initialize(URL location, ResourceBundle resources) {
         type = SR12Type.NULL;
         //Override CSS
-        App.getPrimaryStage().getScene().getStylesheets().remove(LocationSearcher.getStylePath());
-        App.getPrimaryStage().getScene().getStylesheets().add("edu/wpi/teamo/fxml/CSS/MaintenancePage.css");
 
         this.resources = resources;
         String elevatorM = resources.getString("key.maintenance_elevator");

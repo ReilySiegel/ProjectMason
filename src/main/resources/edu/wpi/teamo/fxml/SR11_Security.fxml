@@ -4,6 +4,7 @@
 <?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXListView?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -14,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane fx:id="parentStackPane" stylesheets="/edu/wpi/teamo/fxml/CSS/nord.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.SR11_Security">
+<StackPane fx:id="parentStackPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.SR11_Security">
     <children>
         <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0">
             <center>
@@ -69,7 +70,7 @@
                                 <Insets bottom="10.0" />
                             </VBox.margin>
                         </HBox>
-                  <JFXListView fx:id="searchResults" prefHeight="273.0" prefWidth="601.0" style="-fx-background-color: transparent;" VBox.vgrow="ALWAYS">
+                  <JFXListView fx:id="searchResults" prefHeight="273.0" prefWidth="601.0" stylesheets="@CSS/LocationSearch.css" VBox.vgrow="ALWAYS">
                      <VBox.margin>
                         <Insets left="169.0" />
                      </VBox.margin>
@@ -141,4 +142,8 @@
             </top>
         </BorderPane>
     </children>
+   <stylesheets>
+      <URL value="@CSS/SecurityPage.css" />
+      <URL value="@CSS/nord.css" />
+   </stylesheets>
 </StackPane>

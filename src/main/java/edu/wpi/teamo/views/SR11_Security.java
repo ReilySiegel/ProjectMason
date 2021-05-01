@@ -74,8 +74,6 @@ public class SR11_Security extends ServiceRequestPage implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         /* add styles */
-        App.getPrimaryStage().getScene().getStylesheets().add("edu/wpi/teamo/fxml/CSS/SecurityPage.css");
-        App.getPrimaryStage().getScene().getStylesheets().add(LocationSearcher.getStylePath());
         locationErrorText.setStyle("-fx-text-fill: red;");
         bottomButtonBar.getStyleClass().add("vbox");
         midVBox.getStyleClass().add("text-area");

@@ -149,7 +149,7 @@
                         </AnchorPane>
                      </children>
                   </HBox>
-                  <JFXListView fx:id="roomList" maxWidth="600.0" prefHeight="132.0" prefWidth="400.0">
+                  <JFXListView fx:id="roomList" maxWidth="600.0" prefHeight="132.0" prefWidth="400.0" stylesheets="@CSS/LocationSearch.css">
                      <VBox.margin>
                         <Insets left="170.0" />
                      </VBox.margin>

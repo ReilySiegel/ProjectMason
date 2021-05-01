@@ -158,7 +158,7 @@
                         <Insets bottom="10.0" />
                      </VBox.margin>
                   </HBox>
-                  <JFXListView fx:id="roomList" maxWidth="600.0" prefHeight="132.0" prefWidth="400.0" VBox.vgrow="ALWAYS">
+                  <JFXListView fx:id="roomList" maxWidth="600.0" prefHeight="132.0" prefWidth="400.0" stylesheets="@CSS/LocationSearch.css" VBox.vgrow="ALWAYS">
                      <VBox.margin>
                         <Insets left="170.0" />
                      </VBox.margin>

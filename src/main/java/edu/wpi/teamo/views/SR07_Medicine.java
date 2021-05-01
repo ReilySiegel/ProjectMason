@@ -85,8 +85,6 @@ public class SR07_Medicine extends ServiceRequestPage implements Initializable {
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
 
-        App.getPrimaryStage().getScene().getStylesheets().add(LocationSearcher.getStylePath());
-
         locationSearcher = new LocationSearcher(locationSearchBox, roomList);
         updateLocations();
 

@@ -133,7 +133,7 @@
                             <Insets left="50.0" />
                         </HBox.margin>
                     </JFXButton>
-                    <JFXButton buttonType="RAISED" onAction="#backToMain" style="-fx-background-color: #444;" text="%key.back" textFill="WHITE">
+                    <JFXButton fx:id="backButton" buttonType="RAISED" style="-fx-background-color: #444;" text="%key.back" textFill="WHITE">
                         <font>
                             <Font size="18.0" />
                         </font>

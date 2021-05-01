@@ -95,7 +95,6 @@ public class SR02_LanguageInterpreter extends ServiceRequestPage implements Init
 
         fillLanguageBox();
         fillJobBox();
-        App.getPrimaryStage().getScene().getStylesheets().add(LocationSearcher.getStylePath());
 
         locationSearcher = new LocationSearcher(locationLine, roomList);
         updateLocations();

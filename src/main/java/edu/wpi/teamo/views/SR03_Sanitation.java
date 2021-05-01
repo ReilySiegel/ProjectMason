@@ -118,7 +118,6 @@ public class SR03_Sanitation extends ServiceRequestPage implements Initializable
 
 
 
-        App.getPrimaryStage().getScene().getStylesheets().add(LocationSearcher.getStylePath());
 
         locationSearcher = new LocationSearcher(locationLine, roomList);
         updateLocations();
