@@ -29,7 +29,13 @@ public class LoginPage extends SubPageController{
 
         try{
             Session.login(usernameString,passwordString);
-            App.switchPage(Pages.MAIN);
+            if(Session.getAccount().hasEmployeeAccess()){
+                App.switchPage(Pages.MAIN);
+            }
+            else{
+                App.switchPage(Pages.SURVEY);
+            }
+
 
         } catch (Exception exception) {
             username.clear();
@@ -69,7 +75,7 @@ public class LoginPage extends SubPageController{
     void guestOnClick(ActionEvent e){
         try{
             Session.login("guest","guest");
-            App.switchPage(Pages.MAIN);
+            App.switchPage(Pages.SURVEY);
 
         } catch (Exception exception) {
             System.out.println("Error");
