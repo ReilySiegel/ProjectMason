@@ -59,7 +59,7 @@ public class MainPage extends SubPageController implements Initializable {
         else {
             loginButton.setText(App.resourceBundle.getString("key.login"));
             loginButton.setOnAction(this::handleLogin);
-            usernameLabel.setText("Guest");
+            usernameLabel.setText("Not logged in");
         }
         if(Session.isLoggedIn() && Session.getAccount().isAdmin()) {
             mapeditorButton.setVisible(true);

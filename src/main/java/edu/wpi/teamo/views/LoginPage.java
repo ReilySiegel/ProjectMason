@@ -67,7 +67,12 @@ public class LoginPage extends SubPageController{
 
     @FXML
     void guestOnClick(ActionEvent e){
-        Session.logout();
-        backToMainMenu(e);
+        try{
+            Session.login("guest","guest");
+            App.switchPage(Pages.MAIN);
+
+        } catch (Exception exception) {
+            System.out.println("Error");
+        }
     }
 }

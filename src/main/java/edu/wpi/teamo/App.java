@@ -72,6 +72,9 @@ public class App extends Application {
       ReligiousRequest.initTable();
       FoodRequest.initTable();
       new Account("admin", "admin", true, "Willson", "Wong", "admin").update();
+      new Account("patient", "patient", false, "Nestor", "Lopez", "patient").update();
+      new Account("employee", "employee", false, "Reily", "Siegel", "employee").update();
+      new Account("guest", "guest", false, "guest", "guest", "guest").update();
       System.out.println("Database Services Initialized");
     } catch (SQLException e) {
       System.out.println("ERROR: FAILED TO INIT DATABASE SERVICES");

@@ -124,6 +124,10 @@ public class Account {
         return isAdmin;
     }
 
+    public boolean hasEmployeeAccess() {return (this.isAdmin() || this.role.equals("employee"));}
+
+    public boolean hasPatientAccess() {return (this.hasEmployeeAccess() || this.role.equals("patient"));}
+
     public void setAdmin(boolean admin) throws SQLException {
         isAdmin = admin;
         this.update();
