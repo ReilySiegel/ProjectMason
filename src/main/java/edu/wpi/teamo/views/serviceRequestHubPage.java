@@ -1,118 +1,171 @@
 package edu.wpi.teamo.views;
 
-import com.jfoenix.controls.*;
-import com.jfoenix.svg.SVGGlyph;
-import edu.wpi.teamo.App;
-import edu.wpi.teamo.Pages;
-import javafx.beans.binding.Bindings;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.scene.Node;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.layout.*;
-
-import javafx.scene.image.ImageView;
-import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.image.ImageView;
+import javafx.scene.control.Label;
+import javafx.event.EventHandler;
+import javafx.fxml.Initializable;
+import javafx.scene.image.Image;
+import javafx.event.ActionEvent;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-
+import com.jfoenix.controls.*;
+import javafx.geometry.Insets;
+import javafx.scene.layout.*;
+import edu.wpi.teamo.Pages;
+import edu.wpi.teamo.App;
+import javafx.fxml.FXML;
 import java.net.URL;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.*;
 
 public class serviceRequestHubPage implements Initializable {
 
     @FXML
     private StackPane stackPane;
+
+    @FXML
+    private JFXButton backButton;
+
+    @FXML
+    private JFXButton helpButton;
+
+    @FXML
+    private JFXTextField searchBar;
+
     @FXML
     private JFXListView<JFXButton> listView;
 
     @FXML
     private HBox hboxSize;
 
+    private SearchSelect<Pages, JFXButton> searcher;
+
+    private EnumMap<Pages, String> descriptionMap;
+    private EnumMap<Pages, String> titleMap;
+    private EnumMap<Pages, Image> iconMap;
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        createAllServiceButtons();
-    }
 
-    public void createAllServiceButtons() {
-        Image icon = new Image("edu/wpi/teamo/images/Icons/icons8-pill-100.png");
-        createServiceButtons(App.resourceBundle.getString("key.medicine"),
-                App.resourceBundle.getString("key.medicine_description"), icon, Pages.MEDICINE);
-        icon = new Image("edu/wpi/teamo/images/Icons/icons8-ambulance-100.png");
-        createServiceButtons(App.resourceBundle.getString("key.patient_transportation"),
-                App.resourceBundle.getString("key.transportation_description"), icon, Pages.TRANSPORTATION);
-        icon = new Image("edu/wpi/teamo/images/Icons/icons8-collaboration-96.png");
-        createServiceButtons(App.resourceBundle.getString("key.language_interpreter"),
-                App.resourceBundle.getString("key.language_description"), icon, Pages.LANGUAGEINTERPRETER);
-        icon = new Image("edu/wpi/teamo/images/Icons/icons8-gift-100.png");
-        createServiceButtons(App.resourceBundle.getString("key.gift_delivery"),
-                App.resourceBundle.getString("key.gift_description"), icon, Pages.GIFTS);
-        icon = new Image("edu/wpi/teamo/images/Icons/icons8-hanger-96.png");
-        createServiceButtons(App.resourceBundle.getString("key.laundry"),
-                App.resourceBundle.getString("key.laundry_description"), icon, Pages.LAUNDRY);
-        icon = new Image("edu/wpi/teamo/images/Icons/icons8-hamburger-96.png");
-        createServiceButtons(App.resourceBundle.getString("key.food_delivery"),
-                App.resourceBundle.getString("key.food_description"), icon, Pages.FOOD);
-        icon = new Image("edu/wpi/teamo/images/Icons/icons8-holy-bible-96.png");
-        createServiceButtons(App.resourceBundle.getString("key.religious_requests"),
-                App.resourceBundle.getString("key.religious_description"), icon, Pages.RELIGIOUS);
-        icon = new Image("edu/wpi/teamo/images/Icons/icons8-housekeeping-96.png");
-        createServiceButtons(App.resourceBundle.getString("key.sanitation"),
-                App.resourceBundle.getString("key.sanitation_description"), icon, Pages.SANITATION);
-        icon = new Image("edu/wpi/teamo/images/Icons/icons8-maintenance-96.png");
-        createServiceButtons(App.resourceBundle.getString("key.maintenance"),
-                App.resourceBundle.getString("key.maintenance_description"), icon, Pages.MAINTENANCE);
-        icon = new Image("edu/wpi/teamo/images/Icons/icons8-police-badge-96.png");
-        createServiceButtons(App.resourceBundle.getString("key.security"),
-                App.resourceBundle.getString("key.security_description"), icon, Pages.SECURITY);
+        backButton.setOnAction(this::handleBacktoMain);
+        helpButton.setOnAction(this::handleHelp);
+
+        List<Pages> serviceRequestPages = new LinkedList<>();
+        serviceRequestPages.add(Pages.LANGUAGEINTERPRETER);
+        serviceRequestPages.add(Pages.TRANSPORTATION);
+        serviceRequestPages.add(Pages.MAINTENANCE);
+        serviceRequestPages.add(Pages.SANITATION);
+        serviceRequestPages.add(Pages.RELIGIOUS);
+        serviceRequestPages.add(Pages.SECURITY);
+        serviceRequestPages.add(Pages.MEDICINE);
+        serviceRequestPages.add(Pages.LAUNDRY);
+        serviceRequestPages.add(Pages.GIFTS);
+        serviceRequestPages.add(Pages.FOOD);
+
+        descriptionMap = new EnumMap<>(Pages.class);
+        titleMap = new EnumMap<>(Pages.class);
+        iconMap = new EnumMap<>(Pages.class);
+        populateMaps(serviceRequestPages);
+
+        SearchSelect.Matcher<Pages> matcher = (page, text) ->
+                titleMap.get(page).toLowerCase(Locale.ROOT).contains(text.toLowerCase(Locale.ROOT));
+
+        searcher = new SearchSelect<>(searchBar, listView, matcher, this::makeButton);
+
+        if (verifyMaps(serviceRequestPages)) {
+            searcher.setItems(serviceRequestPages);
+        }
+        else {
+            System.out.println("Request page button tables are incomplete.");
+        }
 
     }
 
+    private void populateMaps(List<Pages> serviceRequestPages) {
+        //TODO make this more reliable by looping through the given pages and setting wit a switch case
+        iconMap.put(Pages.LANGUAGEINTERPRETER, new Image("edu/wpi/teamo/images/Icons/icons8-collaboration-96.png"));
+        iconMap.put(Pages.TRANSPORTATION, new Image("edu/wpi/teamo/images/Icons/icons8-ambulance-100.png"));
+        iconMap.put(Pages.MAINTENANCE, new Image("edu/wpi/teamo/images/Icons/icons8-maintenance-96.png"));
+        iconMap.put(Pages.SANITATION, new Image("edu/wpi/teamo/images/Icons/icons8-housekeeping-96.png"));
+        iconMap.put(Pages.SECURITY, new Image("edu/wpi/teamo/images/Icons/icons8-police-badge-96.png"));
+        iconMap.put(Pages.RELIGIOUS, new Image("edu/wpi/teamo/images/Icons/icons8-holy-bible-96.png"));
+        iconMap.put(Pages.MEDICINE, new Image("edu/wpi/teamo/images/Icons/icons8-pill-100.png"));
+        iconMap.put(Pages.LAUNDRY, new Image("edu/wpi/teamo/images/Icons/icons8-hanger-96.png"));
+        iconMap.put(Pages.FOOD, new Image("edu/wpi/teamo/images/Icons/icons8-hamburger-96.png"));
+        iconMap.put(Pages.GIFTS, new Image("edu/wpi/teamo/images/Icons/icons8-gift-100.png"));
 
+        descriptionMap.put(Pages.LANGUAGEINTERPRETER, App.resourceBundle.getString("key.language_description"));
+        descriptionMap.put(Pages.TRANSPORTATION, App.resourceBundle.getString("key.transportation_description"));
+        descriptionMap.put(Pages.MAINTENANCE, App.resourceBundle.getString("key.maintenance_description"));
+        descriptionMap.put(Pages.SANITATION, App.resourceBundle.getString("key.sanitation_description"));
+        descriptionMap.put(Pages.RELIGIOUS, App.resourceBundle.getString("key.religious_description"));
+        descriptionMap.put(Pages.SECURITY, App.resourceBundle.getString("key.security_description"));
+        descriptionMap.put(Pages.MEDICINE, App.resourceBundle.getString("key.medicine_description"));
+        descriptionMap.put(Pages.LAUNDRY, App.resourceBundle.getString("key.laundry_description"));
+        descriptionMap.put(Pages.GIFTS, App.resourceBundle.getString("key.gift_description"));
+        descriptionMap.put(Pages.FOOD, App.resourceBundle.getString("key.food_description"));
 
-    public void createServiceButtons(String key1, String key2, Image image, Pages page) {
-        Font font = Font.font("System", FontWeight.NORMAL, 20);
+        titleMap.put(Pages.LANGUAGEINTERPRETER, App.resourceBundle.getString("key.language_interpreter"));
+        titleMap.put(Pages.TRANSPORTATION, App.resourceBundle.getString("key.patient_transportation"));
+        titleMap.put(Pages.RELIGIOUS, App.resourceBundle.getString("key.religious_requests"));
+        titleMap.put(Pages.MAINTENANCE, App.resourceBundle.getString("key.maintenance"));
+        titleMap.put(Pages.SANITATION, App.resourceBundle.getString("key.sanitation"));
+        titleMap.put(Pages.GIFTS, App.resourceBundle.getString("key.gift_delivery"));
+        titleMap.put(Pages.FOOD, App.resourceBundle.getString("key.food_delivery"));
+        titleMap.put(Pages.SECURITY, App.resourceBundle.getString("key.security"));
+        titleMap.put(Pages.MEDICINE, App.resourceBundle.getString("key.medicine"));
+        titleMap.put(Pages.LAUNDRY, App.resourceBundle.getString("key.laundry"));
+    }
+
+    private boolean verifyMaps(List<Pages> serviceRequestPages) {
+        for (Pages page : serviceRequestPages) {
+            if (
+                descriptionMap.get(page) == null ||
+                titleMap.get(page) == null ||
+                iconMap.get(page) == null
+               ) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private JFXButton makeButton(Pages page, boolean isSelected) {
+        Label description = new Label(descriptionMap.get(page));
+        Label title = new Label(titleMap.get(page));
+
         Font font2 = Font.font("System", FontWeight.NORMAL, 10);
+        Font font = Font.font("System", FontWeight.NORMAL, 20);
+        description.setFont(font2);
+        title.setFont(font);
 
-        Label label1 = new Label(key1);
-        label1.setFont(font);
-        Label label2 = new Label(key2);
-        label2.setFont(font2);
-        VBox vbox = new VBox(label1, label2);
+        VBox vbox = new VBox(title, description);
         vbox.setPadding(new Insets(0,0,0,5));
 
         ImageView icon = new ImageView();
-        icon.setImage(image);
+        icon.setImage(iconMap.get(page));
 
-        HBox hbox = new HBox(icon,vbox);
-
-        JFXButton s = new JFXButton("", hbox);
-        s.setFont(font);
+        HBox hbox = new HBox(icon, vbox);
         hboxSize.setPrefWidth(768);
+
+        JFXButton button = new JFXButton("", hbox);
+        button.setOnAction(actionEvent -> SubPageContainer.switchPage(page));
         //s.setMinWidth(hboxSize.getPrefWidth());
-        s.setMaxWidth(Double.MAX_VALUE);
-        s.setOnAction(actionEvent -> SubPageContainer.switchPage(page));
+        button.setMaxWidth(Double.MAX_VALUE);
+        button.setFont(font);
 
-        s.getStyleClass().clear();
-        s.getStyleClass().add("pane");
+        button.getStyleClass().clear();
+        button.getStyleClass().add("pane");
 
-        listView.getItems().add(s);
-
+        return button;
     }
 
-    @FXML
     void handleBacktoMain(ActionEvent event) {
         App.switchPage(Pages.MAIN);
     }
 
-    @FXML
     private void handleHelp(ActionEvent e) {
-
         JFXDialogLayout content = new JFXDialogLayout();
         content.setHeading(new Text(App.resourceBundle.getString("key.help_service_requests")));
         content.setBody(new Text(App.resourceBundle.getString("key.help_finding_a_service") +
