@@ -4,113 +4,205 @@
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXTreeTableView?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane fx:id="stackPane" stylesheets="@CSS/MapEditor.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.MapEditorPage">
+<StackPane fx:id="stackPane" stylesheets="@CSS/MainPage.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.MapEditorPage">
    <children>
-      <AnchorPane styleClass="pane">
-          <effect>
-              <DropShadow />
-          </effect>
+      <ImageView fx:id="mapImage" fitHeight="720.0" fitWidth="1280.0" pickOnBounds="true">
+         <image>
+            <Image url="@../images/00_thegroundfloor.png" />
+         </image>
+      </ImageView>
+      <AnchorPane fx:id="nodePane" />
+      <GridPane fx:id="gridPane" prefHeight="664.0" prefWidth="1149.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="1175.0" minWidth="0.0" prefWidth="218.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="1175.0" minWidth="0.0" prefWidth="627.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="1281.0" minWidth="10.0" prefWidth="435.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="572.0" minHeight="10.0" prefHeight="94.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="690.0" minHeight="10.0" prefHeight="626.0" vgrow="SOMETIMES" />
+        </rowConstraints>
          <children>
-            <ImageView fx:id="mapImage" fitHeight="782.0" fitWidth="1176.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/00_thegroundfloor.png" />
-               </image>
-            </ImageView>
-            <AnchorPane fx:id="nodePane" prefHeight="782.0" prefWidth="1150.0" />
-            <AnchorPane fx:id="nodeEditorWindow" layoutX="857.0" layoutY="98.0" prefHeight="379.0" prefWidth="283.0" styleClass="pane" stylesheets="@CSS/MapEditor.css">
+            <VBox pickOnBounds="false" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <children>
-                  <Text fx:id="nodeEditorHeadingText" layoutX="15.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="key.editing_edge" wrappingWidth="263.9999752640724">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Text>
-                  <JFXTextField fx:id="nodeEditorInputID" focusColor="#405aa800" layoutX="14.0" layoutY="57.0" prefHeight="27.0" prefWidth="254.0" promptText="ID" unFocusColor="#4d4d4d00" />
-                  <JFXTextField fx:id="nodeEditorInputX" focusColor="#405aa800" layoutX="14.0" layoutY="95.0" prefHeight="27.0" prefWidth="120.0" promptText="X" unFocusColor="#4d4d4d00" />
-                  <JFXTextField fx:id="nodeEditorInputIY" focusColor="#405aa800" layoutX="147.0" layoutY="95.0" prefHeight="27.0" prefWidth="120.0" promptText="Y" unFocusColor="#4d4d4d00" />
-                  <JFXTextField fx:id="nodeEditorInputBuilding" focusColor="#405aa800" layoutX="14.0" layoutY="132.0" prefHeight="27.0" prefWidth="254.0" promptText="Building" unFocusColor="#4d4d4d00" />
-                  <JFXTextField fx:id="nodeEditorInputFloor" focusColor="#405aa800" layoutX="14.0" layoutY="169.0" prefHeight="27.0" prefWidth="254.0" promptText="Floor" unFocusColor="#4d4d4d00" />
-                  <JFXTextField fx:id="nodeEditorInputType" focusColor="#405aa800" layoutX="15.0" layoutY="206.0" prefHeight="27.0" prefWidth="254.0" promptText="Type" unFocusColor="#4d4d4d00" />
-                  <JFXTextField fx:id="nodeEditorInputLN" focusColor="#405aa800" layoutX="15.0" layoutY="244.0" prefHeight="27.0" prefWidth="254.0" promptText="Long Name" unFocusColor="#4d4d4d00" />
-                  <JFXTextField fx:id="nodeEditorInputSN" focusColor="#405aa800" layoutX="14.0" layoutY="282.0" prefHeight="27.0" prefWidth="254.0" promptText="Short Name" unFocusColor="#4d4d4d00" />
-                  <JFXButton fx:id="nodeEditorDeleteButton" layoutX="15.0" layoutY="326.0" prefHeight="27.0" prefWidth="78.0" styleClass="delete-button" text="%key.delete" />
-                  <JFXButton fx:id="nodeEditorSubmitButton" alignment="CENTER_RIGHT" layoutX="147.0" layoutY="326.0" styleClass="submit-button" text="%key.submit" />
-               </children>
-            </AnchorPane>
-            <AnchorPane fx:id="controlWindow" layoutX="14.0" layoutY="14.0" prefHeight="74.0" prefWidth="1120.0" styleClass="pane" stylesheets="@CSS/MapEditor.css">
+                  <VBox fx:id="nodeEditorWindow" prefHeight="391.0" prefWidth="375.0" spacing="10.0" styleClass="pane">
+                     <VBox.margin>
+                        <Insets left="30.0" right="30.0" />
+                     </VBox.margin>
+                     <children>
+                        <Text fx:id="nodeEditorHeadingText" strokeType="OUTSIDE" strokeWidth="0.0" text="key.editing_node" wrappingWidth="263.9999752640724">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <JFXTextField fx:id="nodeEditorInputID" focusColor="#405aa800" prefHeight="27.0" prefWidth="254.0" promptText="ID" unFocusColor="#4d4d4d00" />
+                        <JFXTextField fx:id="nodeEditorInputX" focusColor="#405aa800" prefHeight="27.0" prefWidth="120.0" promptText="X" unFocusColor="#4d4d4d00" />
+                        <JFXTextField fx:id="nodeEditorInputIY" focusColor="#405aa800" prefHeight="27.0" prefWidth="120.0" promptText="Y" unFocusColor="#4d4d4d00" />
+                        <JFXTextField fx:id="nodeEditorInputBuilding" focusColor="#405aa800" prefHeight="27.0" prefWidth="254.0" promptText="Building" unFocusColor="#4d4d4d00" />
+                        <JFXTextField fx:id="nodeEditorInputFloor" focusColor="#405aa800" prefHeight="27.0" prefWidth="254.0" promptText="Floor" unFocusColor="#4d4d4d00" />
+                        <JFXTextField fx:id="nodeEditorInputType" focusColor="#405aa800" prefHeight="27.0" prefWidth="254.0" promptText="Type" unFocusColor="#4d4d4d00" />
+                        <JFXTextField fx:id="nodeEditorInputLN" focusColor="#405aa800" prefHeight="27.0" prefWidth="254.0" promptText="Long Name" unFocusColor="#4d4d4d00" />
+                        <JFXTextField fx:id="nodeEditorInputSN" focusColor="#405aa800" prefHeight="27.0" prefWidth="254.0" promptText="Short Name" unFocusColor="#4d4d4d00" />
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <JFXButton fx:id="nodeEditorDeleteButton" prefHeight="27.0" prefWidth="78.0" styleClass="delete-button" text="%key.delete">
+                                 <HBox.margin>
+                                    <Insets right="100.0" />
+                                 </HBox.margin>
+                              </JFXButton>
+                              <JFXButton fx:id="nodeEditorSubmitButton" alignment="CENTER_RIGHT" styleClass="submit-button" text="%key.submit" />
+                           </children>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                     </padding>
+                  </VBox>
+                  <VBox fx:id="edgeEditorWindow" prefHeight="200.0" prefWidth="100.0" spacing="10.0" styleClass="pane">
+                     <children>
+                        <Text fx:id="edgeEditorHeadingText" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.editing_edge" wrappingWidth="263.9999752640724">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <JFXTextField fx:id="edgeEditorInputID" focusColor="#405aa800" prefHeight="27.0" prefWidth="254.0" promptText="ID" unFocusColor="#4d4d4d00" />
+                        <JFXTextField fx:id="edgeEditorInputEndID" focusColor="#405aa800" prefHeight="27.0" prefWidth="254.0" promptText="Start Node ID" unFocusColor="#4d4d4d00" />
+                        <JFXTextField fx:id="edgeEditorInputStartID" focusColor="#405aa800" prefHeight="27.0" prefWidth="254.0" promptText="Start Node ID" unFocusColor="#4d4d4d00" />
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <JFXButton fx:id="edgeEditorDeleteButton" prefHeight="27.0" prefWidth="78.0" styleClass="delete-button" text="%key.delete">
+                                 <HBox.margin>
+                                    <Insets right="100.0" />
+                                 </HBox.margin>
+                              </JFXButton>
+                              <JFXButton fx:id="edgeEditorSubmitButton" alignment="CENTER_RIGHT" styleClass="submit-button" text="%key.submit" />
+                           </children>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </HBox>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="30.0" left="30.0" right="30.0" />
+                     </VBox.margin>
+                     <padding>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                     </padding>
+                  </VBox>
+               </children></VBox>
+            <StackPane fx:id="tableWindow" pickOnBounds="false" prefHeight="150.0" prefWidth="200.0" styleClass="pane" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+               </GridPane.margin>
                <children>
-                  <JFXButton fx:id="loadNodeCSVButton" buttonType="RAISED" layoutX="364.0" layoutY="18.0" prefHeight="39.0" prefWidth="120.0" styleClass="csv-button" text="%key.load_node_csv">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton fx:id="saveNodeCSVButton" buttonType="RAISED" layoutX="625.0" layoutY="18.0" prefHeight="39.0" prefWidth="120.0" styleClass="csv-button" text="%key.save_node_csv">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </JFXButton>
-                  <Text layoutX="893.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.floor" wrappingWidth="97.00001209974289">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                  </Text>
-                  <JFXComboBox fx:id="floorSwitcher" focusColor="#405aa800" layoutX="993.0" layoutY="18.0" prefHeight="39.0" prefWidth="113.0" styleClass="button" unFocusColor="#4d4d4d00" />
-                  <JFXButton fx:id="saveEdgeCSVButton" buttonType="RAISED" layoutX="757.0" layoutY="17.0" prefHeight="39.0" prefWidth="120.0" styleClass="csv-button" text="%key.save_edge_csv">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton fx:id="loadEdgeCSVButton" buttonType="RAISED" layoutX="494.0" layoutY="18.0" prefHeight="39.0" prefWidth="120.0" styleClass="csv-button" text="%key.load_edge_csv">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton fx:id="exitButton" buttonType="RAISED" layoutX="14.0" layoutY="17.0" prefHeight="39.0" prefWidth="97.0" text="%key.exit">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton fx:id="helpButton" buttonType="RAISED" layoutX="120.0" layoutY="18.0" prefHeight="39.0" prefWidth="42.0" text="?">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton fx:id="openTableButton" buttonType="RAISED" layoutX="198.0" layoutY="18.0" prefHeight="39.0" prefWidth="135.0" text="%key.open_table" />
+                  <SplitPane dividerPositions="0.4955116696588869" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+                    <items>
+                        <JFXTreeTableView fx:id="nodeTree" />
+                        <JFXTreeTableView fx:id="edgeTree" />
+                    </items>
+                  </SplitPane>
                </children>
-            </AnchorPane>
-            <AnchorPane fx:id="edgeEditorWindow" layoutX="857.0" layoutY="486.0" prefHeight="241.0" prefWidth="283.0" styleClass="pane">
+               <padding>
+                  <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+               </padding>
+            </StackPane>
+            <HBox alignment="CENTER" pickOnBounds="false" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
                <children>
-                  <JFXTextField fx:id="edgeEditorInputEndID" focusColor="#405aa800" layoutX="15.0" layoutY="125.0" prefHeight="27.0" prefWidth="254.0" promptText="Start Node ID" unFocusColor="#4d4d4d00" />
-                  <Text fx:id="edgeEditorHeadingText" layoutX="14.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.editing_node" wrappingWidth="263.9999752640724">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Text>
-                  <JFXTextField fx:id="edgeEditorInputID" focusColor="#405aa800" layoutX="14.0" layoutY="53.0" prefHeight="27.0" prefWidth="254.0" promptText="ID" unFocusColor="#4d4d4d00" />
-                  <JFXTextField fx:id="edgeEditorInputStartID" focusColor="#405aa800" layoutX="15.0" layoutY="89.0" prefHeight="27.0" prefWidth="254.0" promptText="Start Node ID" unFocusColor="#4d4d4d00" />
-                  <JFXButton fx:id="edgeEditorDeleteButton" layoutX="15.0" layoutY="186.0" prefHeight="27.0" prefWidth="78.0" styleClass="delete-button" text="%key.delete" />
-                  <JFXButton fx:id="edgeEditorSubmitButton" alignment="CENTER_RIGHT" layoutX="146.0" layoutY="186.0" styleClass="submit-button" text="%key.submit" />
+                  <VBox alignment="CENTER" pickOnBounds="false" prefHeight="94.0" prefWidth="810.0">
+                     <children>
+                        <HBox fx:id="controlWindow" alignment="CENTER" prefHeight="94.0" prefWidth="754.0" styleClass="pane">
+                           <children>
+                              <JFXButton fx:id="openTableButton" buttonType="RAISED" prefHeight="39.0" prefWidth="135.0" text="%key.open_table">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                              </JFXButton>
+                              <JFXButton fx:id="loadNodeCSVButton" buttonType="RAISED" prefHeight="39.0" prefWidth="120.0" styleClass="csv-button" text="%key.load_node_csv">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                              </JFXButton>
+                              <JFXButton fx:id="saveNodeCSVButton" buttonType="RAISED" prefHeight="39.0" prefWidth="120.0" styleClass="csv-button" text="%key.save_node_csv">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                              </JFXButton>
+                              <JFXButton fx:id="saveEdgeCSVButton" buttonType="RAISED" prefHeight="39.0" prefWidth="120.0" styleClass="csv-button" text="%key.save_edge_csv">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                              </JFXButton>
+                              <JFXButton fx:id="loadEdgeCSVButton" buttonType="RAISED" prefHeight="39.0" prefWidth="120.0" styleClass="csv-button" text="%key.load_edge_csv">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                              </JFXButton>
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                           </VBox.margin>
+                        </HBox>
+                     </children>
+                  </VBox>
                </children>
-            </AnchorPane>
-            <AnchorPane fx:id="tableWindow" layoutX="14.0" layoutY="96.0" prefHeight="657.0" prefWidth="823.0" styleClass="pane">
-                    <children>
-                       <SplitPane dividerPositions="0.5" layoutX="5.0" layoutY="5.0" orientation="VERTICAL" prefHeight="652.0" prefWidth="818.0">
-                          <items>
-                             <JFXTreeTableView fx:id="nodeTree" prefHeight="284.0" prefWidth="821.0" />
-                             <JFXTreeTableView fx:id="edgeTree" prefHeight="237.0" prefWidth="357.0" />
-                          </items>
-                       </SplitPane>
-                    </children>
-            </AnchorPane>
+            </HBox>
+            <HBox alignment="CENTER" pickOnBounds="false" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <VBox alignment="CENTER" pickOnBounds="false" prefHeight="94.0" prefWidth="193.0">
+                     <children>
+                        <HBox alignment="CENTER" prefHeight="63.0" prefWidth="193.0" styleClass="pane">
+                           <children>
+                              <JFXButton fx:id="helpButton" buttonType="RAISED" prefHeight="39.0" prefWidth="42.0" text="?">
+                                 <font>
+                                    <Font name="System Bold" size="18.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                              </JFXButton>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.floor" textAlignment="RIGHT" wrappingWidth="52.00001209974289">
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
+                              </Text>
+                              <JFXComboBox fx:id="floorSwitcher" focusColor="#405aa800" prefHeight="39.0" prefWidth="48.0" styleClass="button" unFocusColor="#4d4d4d00">
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                              </JFXComboBox>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
          </children>
-      </AnchorPane>
+      </GridPane>
    </children>
 </StackPane>

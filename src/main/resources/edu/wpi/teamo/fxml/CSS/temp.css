@@ -1,0 +1,11 @@
+.filterPane {
+    -fx-background-color: rgba(230, 230, 230, 0.8);
+}
+
+.requestDisplayPane {
+    -fx-background-color: rgba(2550, 255, 255, 0.8);
+}
+
+.background_thing {
+    -fx-background-image: url("edu/wpi/teamo/images/hospital.jpg");
+}

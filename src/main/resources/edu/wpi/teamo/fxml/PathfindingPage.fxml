@@ -8,97 +8,155 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="parentNode" prefHeight="644.0" prefWidth="965.0" style="-fx-background-color: #e0e0e0;" stylesheets="@CSS/PathfindingPage.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.PathfindingPage">
+<AnchorPane fx:id="parentNode" prefHeight="677.0" prefWidth="1028.0" stylesheets="@CSS/MainPage.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.PathfindingPage">
    <children>
-      <StackPane fx:id="parentStackPane" prefHeight="150.0" prefWidth="200.0">
+      <StackPane fx:id="parentStackPane" alignment="TOP_LEFT">
          <children>
-            <AnchorPane prefHeight="823.0" prefWidth="1202.0">
+            <ImageView fx:id="imageView" fitHeight="720.0" fitWidth="1280.0" pickOnBounds="true">
+               <image>
+                  <Image url="@../images/00_thelowerlevel1.png" />
+               </image>
+            </ImageView>
+            <AnchorPane fx:id="pathPane" maxHeight="720.0" prefHeight="720.0" prefWidth="1280.0" />
+            <GridPane fx:id="gridPane" prefHeight="689.0" prefWidth="1241.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="712.0" minWidth="111.0" prefWidth="420.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="605.6666870117188" minWidth="0.0" prefWidth="465.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="742.0" minWidth="188.0" prefWidth="393.33331298828125" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="132.3333282470703" minHeight="102.99999237060547" prefHeight="106.99999237060547" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="778.0" minHeight="345.0" prefHeight="396.00000762939453" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="580.0" minHeight="212.0" prefHeight="237.0" vgrow="SOMETIMES" />
+              </rowConstraints>
                <children>
-                  <ImageView fx:id="imageView" fitHeight="823.0" fitWidth="1202.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/00_thelowerlevel1.png" />
-                     </image>
-                  </ImageView>
-                  <AnchorPane fx:id="pathPane" prefHeight="823.0" prefWidth="1202.0" />
-                  <AnchorPane layoutX="877.0" layoutY="578.0" prefHeight="193.0" prefWidth="311.0" styleClass="pane">
+                  <VBox fx:id="searchWindow" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="pane" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <children>
-                        <JFXButton fx:id="findPathButton" buttonType="RAISED" layoutX="75.0" layoutY="128.0" prefHeight="39.0" prefWidth="161.0" text="%key.find_path">
-                           <font>
-                              <Font name="Century" size="21.0" />
-                           </font>
-                        </JFXButton>
-                        <JFXButton fx:id="chooseStartButton" buttonType="RAISED" layoutX="24.0" layoutY="20.0" prefHeight="29.0" prefWidth="263.0" text="%key.choose_start_location">
-                           <font>
-                              <Font name="Century" size="15.0" />
-                           </font>
-                        </JFXButton>
-                        <JFXButton fx:id="chooseEndButton" buttonType="RAISED" layoutX="24.0" layoutY="63.0" prefHeight="29.0" prefWidth="263.0" text="%key.choose_end_location">
-                           <font>
-                              <Font name="Century" size="15.0" />
-                           </font>
-                        </JFXButton>
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane layoutX="1034.0" layoutY="14.0" prefHeight="47.0" prefWidth="154.0" styleClass="pane">
-                     <children>
-                        <Text layoutX="-73.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.floor" textAlignment="RIGHT" wrappingWidth="129.9999961256981">
-                           <font>
-                              <Font size="20.0" />
-                           </font>
-                        </Text>
-                        <JFXComboBox fx:id="floorComboBox" focusColor="#405aa800" layoutX="65.0" layoutY="10.0" styleClass="pane" unFocusColor="#4d4d4d00" />
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane fx:id="searchWindow" layoutX="499.0" layoutY="578.0" prefHeight="193.0" prefWidth="364.0" styleClass="pane">
-                     <children>
-                        <JFXTextField fx:id="searchBar" focusColor="#405aa800" layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="332.0" promptText="Search a location..." unFocusColor="#4d4d4d00">
+                        <JFXTextField fx:id="searchBar" focusColor="#405aa800" prefHeight="27.0" prefWidth="332.0" promptText="Search a location..." unFocusColor="#4d4d4d00">
                            <opaqueInsets>
                               <Insets />
                            </opaqueInsets>
+                           <VBox.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </VBox.margin>
                         </JFXTextField>
-                        <JFXListView fx:id="searchResultsView" layoutX="13.0" layoutY="59.0" prefHeight="124.0" prefWidth="332.0" style="-fx-background-color: transparent;" stylesheets="@CSS/LocationSearch.css" />
+                        <JFXListView fx:id="searchResultsView" prefHeight="128.0" prefWidth="332.0" style="-fx-background-color: transparent;" stylesheets="@CSS/LocationSearch.css">
+                           <VBox.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </VBox.margin></JFXListView>
                      </children>
-                  </AnchorPane>
-                  <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="76.0" prefWidth="161.0" styleClass="pane">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <GridPane.margin>
+                        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                     </GridPane.margin>
+                  </VBox>
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="pane" GridPane.columnIndex="2" GridPane.rowIndex="2">
                      <children>
-                        <JFXButton fx:id="backButton" buttonType="RAISED" layoutX="14.0" layoutY="17.0" text="%key.back" textFill="WHITE">
+                        <JFXButton fx:id="chooseStartButton" buttonType="RAISED" prefHeight="29.0" prefWidth="263.0" text="Choose a start location.">
                            <font>
-                              <Font name="Century" size="12.0" />
+                              <Font name="Century" size="15.0" />
                            </font>
+                           <VBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </VBox.margin>
                         </JFXButton>
-                        <JFXButton fx:id="helpButton" buttonType="RAISED" layoutX="104.0" layoutY="19.0" text="?" textFill="WHITE">
+                        <JFXButton fx:id="chooseEndButton" buttonType="RAISED" prefHeight="29.0" prefWidth="263.0" text="Choose a destination.">
                            <font>
-                              <Font name="Century" size="18.0" />
+                              <Font name="Century" size="15.0" />
                            </font>
+                           <VBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </VBox.margin>
+                        </JFXButton>
+                        <JFXButton fx:id="findPathButton" buttonType="RAISED" prefHeight="39.0" prefWidth="161.0" text="Find Path">
+                           <font>
+                              <Font name="Century" size="21.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </VBox.margin>
                         </JFXButton>
                      </children>
-                  </AnchorPane>
-                  <AnchorPane fx:id="textualWindow" layoutX="12.0" layoutY="579.0" prefHeight="193.0" prefWidth="346.0" styleClass="pane">
+                     <GridPane.margin>
+                        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                     </GridPane.margin>
+                  </VBox>
+                  <HBox fx:id="algoSwitchWindow" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" styleClass="pane" GridPane.columnIndex="1">
+                     <GridPane.margin>
+                        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+                     </GridPane.margin>
                      <children>
-                        <JFXListView fx:id="textualDirView" layoutX="13.0" layoutY="59.0" prefHeight="124.0" prefWidth="343.0" stylesheets="@CSS/LocationSearch.css" />
-                        <Text layoutX="112.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Textual Directions:" textAlignment="CENTER" AnchorPane.leftAnchor="109.76708984375" AnchorPane.rightAnchor="118.23291015625">
-                           <font>
-                              <Font size="17.0" />
-                           </font>
-                        </Text>
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane fx:id="algoSwitchWindow" layoutX="874.0" layoutY="499.0" prefHeight="68.0" prefWidth="311.0" styleClass="pane">
-                     <children>
-                        <JFXComboBox fx:id="algoSwitcher" focusColor="#405aa800" layoutX="167.0" layoutY="14.0" prefHeight="39.0" prefWidth="130.0" styleClass="pane" unFocusColor="#4d4d4d00" />
-                        <Text layoutX="-45.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.algo_switch" textAlignment="RIGHT" wrappingWidth="200.13671875">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.algo_switch" textAlignment="RIGHT" wrappingWidth="156.13671875">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Text>
+                        <JFXComboBox fx:id="algoSwitcher" focusColor="#405aa800" prefHeight="39.0" prefWidth="130.0" styleClass="pane" unFocusColor="#4d4d4d00">
+                           <HBox.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </HBox.margin></JFXComboBox>
                      </children>
-                  </AnchorPane>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="49.0" prefWidth="222.0" styleClass="pane">
+                     <GridPane.margin>
+                        <Insets bottom="30.0" left="30.0" right="180.0" top="30.0" />
+                     </GridPane.margin>
+                     <children>
+                        <JFXButton fx:id="helpButton" buttonType="RAISED" text="?" textFill="WHITE">
+                           <font>
+                              <Font name="Century" size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </JFXButton>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.floor" textAlignment="RIGHT" wrappingWidth="103.99999612569809">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Text>
+                        <JFXComboBox fx:id="floorComboBox" focusColor="#405aa800" styleClass="pane" unFocusColor="#4d4d4d00">
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin></JFXComboBox>
+                     </children>
+                  </HBox>
+                  <VBox fx:id="textualWindow" alignment="CENTER" prefHeight="237.0" prefWidth="334.0" styleClass="pane" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Textual Directions:" textAlignment="CENTER">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Text>
+                        <JFXListView fx:id="textualDirView" prefHeight="200.0" prefWidth="302.0" stylesheets="@CSS/LocationSearch.css">
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </VBox.margin>
+                        </JFXListView>
+                     </children>
+                     <GridPane.margin>
+                        <Insets bottom="60.0" left="30.0" right="30.0" top="60.0" />
+                     </GridPane.margin>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
+                  </VBox>
                </children>
-            </AnchorPane>
+            </GridPane>
          </children>
       </StackPane>
    </children>

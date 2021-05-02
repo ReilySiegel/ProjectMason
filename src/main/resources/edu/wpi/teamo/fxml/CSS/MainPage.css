@@ -1,0 +1,42 @@
+.pane {
+    -fx-background-color: rgba(255, 255, 255, 0.35);
+    -fx-border-color: rgba(255, 255, 255, 0.9);
+    -fx-border-width: 0.5;
+    -fx-effect: dropshadow(gaussian, rgba(100, 100, 100, 0.3), 10, 0.5, 0.0, 0.0);
+}
+
+.murkier-pane {
+    -fx-background-color: rgba(255, 255, 255, 0.5);
+    -fx-border-color: rgba(255, 255, 255, 0.9);
+    -fx-border-width: 0.5;
+    -fx-effect: dropshadow(gaussian, rgba(100, 100, 100, 0.3), 10, 0.5, 0.0, 0.0);
+}
+
+.button {
+    -fx-background-color: rgba(255, 239, 239, 0.9);
+    -fx-font-size: 12;
+    -fx-text-fill: #000000;
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
+    margin: 15px 15px 15px 15px;
+    /*-fx-border-color: #000000;*/
+    /*-fx-border-width: 2;*/
+}
+
+.inputs {
+    -fx-background-color: rgba(255, 255, 255, 0.3);
+    -fx-border-color: rgba(255, 255, 255, 0.9);
+    -fx-border-width: 0.5;
+    -fx-effect: dropshadow(gaussian, rgba(100, 100, 100, 0.3), 10, 0.5, 0.0, 0.0);
+}
+
+.button .submit-button {
+    -fx-background-color: rgb(62, 234, 105);
+}
+
+
+.text-field {
+    /*-fx-background-color: #88C0D0;*/
+    -fx-border-color: #777777;
+    -fx-border-width: 1;
+}

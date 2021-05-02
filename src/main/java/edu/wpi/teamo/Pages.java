@@ -3,7 +3,7 @@ package edu.wpi.teamo;
 public enum Pages {
     MEDICINE,
     PATHFINDING,
-    MAIN,
+    OLDMAIN,
     SANITATION,
     SERVICEREQUEST,
     MANAGEREQUESTS,
@@ -19,5 +19,6 @@ public enum Pages {
     ADDUSERS,
     TRANSPORTATION,
     GIFTS,
-    FOOD
+    FOOD,
+    MAIN
 }

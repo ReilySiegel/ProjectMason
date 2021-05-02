@@ -1,37 +1,61 @@
 package edu.wpi.teamo.views;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDialog;
-import com.jfoenix.controls.JFXDialogLayout;
 import edu.wpi.teamo.App;
-import java.io.IOException;
-import java.net.URL;
-import java.util.Locale;
-import java.util.ResourceBundle;
-
 import edu.wpi.teamo.Pages;
 import edu.wpi.teamo.Session;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
-public class MainPage extends SubPageController implements Initializable {
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class MainPage implements Initializable {
 
     @FXML
-    private StackPane stackPane;
+    private ImageView imageView;
 
     @FXML
-    private javafx.scene.control.Button closeButton;
+    private VBox mainMenuButtonBox;
+
+    @FXML
+    private JFXButton pathfinderButton;
+
+    @FXML
+    private JFXButton serviceRequestButton;
+
+    @FXML
+    private JFXButton aboutButton;
+
+    @FXML
+    private JFXButton mapEditorButton;
+
+    @FXML
+    private JFXButton requestManagerButton;
+
+    @FXML
+    private JFXButton accountManagerButton;
+
+    @FXML
+    private AnchorPane containerPane;
+
+    @FXML
+    private AnchorPane backgroundPane;
+
+    @FXML
+    private VBox containerVBox;
+
+    @FXML
+    private GridPane mainGrid;
 
     @FXML
     private JFXButton loginButton;
@@ -39,152 +63,149 @@ public class MainPage extends SubPageController implements Initializable {
     @FXML
     private Text usernameLabel;
 
-    @FXML
-    private JFXButton mapeditorButton;
-
-    @FXML
-    private JFXButton addaccountButton;
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        mapeditorButton.setVisible(false);
-        mapeditorButton.setManaged(false);
-        addaccountButton.setVisible(false);
-        addaccountButton.setManaged(false);
+        SubPageContainer.newInstance(containerPane, containerVBox);
+
+        boolean isAdmin = Session.isLoggedIn() && Session.getAccount().isAdmin();
+        setAdminButtonVisibility(isAdmin);
+        updateAccountWindow();
+
+        //Enable clicking through the gridpane overlaying the whole page
+        mainGrid.setFillHeight(backgroundPane, true);
+        mainGrid.setFillWidth(backgroundPane, true);
+        mainGrid.setPickOnBounds(false);
+
+        //Set dimensions of background image to the pane so it expands properly
+        imageView.fitHeightProperty().bind(mainGrid.heightProperty());
+        imageView.fitWidthProperty().bind(mainGrid.widthProperty());
+
+        serviceRequestButton.setOnAction(this::handleServiceRequestButton);
+        requestManagerButton.setOnAction(this::handleRequestManagerButton);
+        accountManagerButton.setOnAction(this::handleAccountManagerButton);
+        pathfinderButton.setOnAction(this::handlePathfinderButton);
+        mapEditorButton.setOnAction(this::handleMapEditorButton);
+        aboutButton.setOnAction(this::handleAboutButton);
+
+        //commented out because right now these guys need the primary scene which is not yet set if this is the first page being loaded
+//        try {
+//            mapEditorPage = FXMLLoader.load(getClass().getResource("/edu/wpi/teamo/fxml/MapEditorPage.fxml"),
+//                    App.resourceBundle);
+//            pathfindingPage = FXMLLoader.load(getClass().getResource("/edu/wpi/teamo/fxml/PathfindingPage.fxml"),
+//                    App.resourceBundle);
+//            backgroundPane.getChildren().addAll(mapEditorPage,pathfindingPage);
+//
+//            pathfindingPage.setVisible(false);
+//            pathfindingPage.setMouseTransparent(true);
+//            mapEditorPage.setVisible(false);
+//            mapEditorPage.setMouseTransparent(true);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+    }
+
+    private void handleAccountManagerButton(ActionEvent actionEvent) {
+        setManageRequests();
+    }
+
+    private void handleRequestManagerButton(ActionEvent actionEvent) {
+        setManageRequests();
+    }
+
+    private void handleMapEditorButton(ActionEvent actionEvent) {
+        setMapEditor();
+    }
+
+    private void handleAboutButton(ActionEvent actionEvent) {
+        setAbout();
+    }
+
+    private void handlePathfinderButton(ActionEvent actionEvent) {
+        setPathfinding();
+    }
+
+    private void handleServiceRequestButton(ActionEvent actionEvent) {
+        setServiceRequest();
+    }
+
+    public void setMapEditor() {
+        hidePages();
+        backgroundPane.setVisible(true);
+        try {
+            Node mapEditorPage = FXMLLoader.load(getClass().getResource("/edu/wpi/teamo/fxml/MapEditorPage.fxml"),
+                    App.resourceBundle);
+            backgroundPane.getChildren().setAll(mapEditorPage);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setPathfinding() {
+        hidePages();
+        backgroundPane.setVisible(true);
+        try {
+            Node pathfindingPage = FXMLLoader.load(getClass().getResource("/edu/wpi/teamo/fxml/PathfindingPage.fxml"),
+                    App.resourceBundle);
+            backgroundPane.getChildren().setAll(pathfindingPage);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setAbout() {
+        hidePages();
+        SubPageContainer.switchPage(Pages.MEDICINE);
+    }
+
+    public void setServiceRequest() {
+        hidePages();
+        SubPageContainer.switchPage(Pages.SERVICEREQUEST);
+    }
+
+    public void setManageRequests() {
+        hidePages();
+        SubPageContainer.switchPage(Pages.MANAGEREQUESTS);
+    }
+
+    private void updateAccountWindow() {
         if(Session.isLoggedIn()) {
             loginButton.setText(App.resourceBundle.getString("key.logout"));
             usernameLabel.setText(Session.getAccount().getUsername());
-            loginButton.setOnAction(this::handleLogOut);
+            loginButton.setOnAction(this::handleLogout);
         }
         else {
             loginButton.setText(App.resourceBundle.getString("key.login"));
             loginButton.setOnAction(this::handleLogin);
-            usernameLabel.setText("Not logged in");
-        }
-        if(Session.isLoggedIn() && Session.getAccount().isAdmin()) {
-            mapeditorButton.setVisible(true);
-            mapeditorButton.setManaged(true);
-            addaccountButton.setVisible(true);
-            addaccountButton.setManaged(true);
+            usernameLabel.setText("Guest");
         }
     }
 
-    /**
-     * event handler for switching to survey
-     * @param e Action Event parameter
-     */
-    @FXML
-    private void handleSurvey(ActionEvent e) {
-        App.switchPage(Pages.SURVEY);
+    private void setAdminButtonVisibility(boolean visible) {
+        accountManagerButton.setVisible(visible);
+        accountManagerButton.setManaged(visible);
+        requestManagerButton.setVisible(visible);
+        requestManagerButton.setManaged(visible);
+        mapEditorButton.setVisible(visible);
+        mapEditorButton.setManaged(visible);
     }
 
-    /**
-     * Event handler
-     * @param e
-     */
-    @FXML
-    private void closeWindow(ActionEvent e) {
-        Stage stage = (Stage) closeButton.getScene().getWindow();
-        stage.close();
+    private void handleLogin(ActionEvent e) {
+        hidePages();
+        SubPageContainer.switchPage(Pages.LOGIN);
     }
 
-    /**
-     * event handler for switching to service request page
-     * @param e Action Event parameter
-     */
-    @FXML
-    private void handleServiceRequest(ActionEvent e) {
-        App.switchPage(Pages.SERVICEREQUEST);
-    }
-
-
-    /**
-     * event handler for switching to map editor page
-     * @param e Action Event parameter
-     */
-    @FXML
-    private void handleMapEditor(ActionEvent e) {
-        if(Session.isLoggedIn() && Session.getAccount().isAdmin())
-            App.switchPage(Pages.MAPEDITOR);
-        else{
-//            add error
-        }
-    }
-
-
-    /**
-     * event handler for switching to pathfinding page
-     * @param e Action Event parameter
-     */
-    @FXML
-    private void handlePathfinding(ActionEvent e) {
-        App.switchPage(Pages.PATHFINDING);
-    }
-
-    @FXML
-    private void handleHelp(ActionEvent e){
-
-        JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text(App.resourceBundle.getString("key.help")));
-        content.setBody(new Text(App.resourceBundle.getString("key.main_page_help")));
-        JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
-
-        JFXButton closeButton = new JFXButton("Close");
-        closeButton.setStyle("-fx-background-color: #F40F19");
-        closeButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                errorWindow.close();
-            }
-        });
-
-        content.setActions(closeButton);
-        errorWindow.show();
-    }
-
-    /**
-     * event handler for switching to login page
-     * @param e Action Event parameter
-     */
-    @FXML
-    private void handleLogin(ActionEvent e) { App.switchPage(Pages.LOGIN);}
-
-    @FXML
-    private void handleAddUsers(ActionEvent e) {
-        if(Session.isLoggedIn() && Session.getAccount().isAdmin())
-            App.switchPage(Pages.ADDUSERS);
-        else{
-           //add error
-       }
-    }
-
-    @FXML
-    private void handleLogOut(ActionEvent e){
-        loginButton.setText(App.resourceBundle.getString("key.login"));
-        loginButton.setOnAction(this::handleLogin);
-        usernameLabel.setText("Guest");
+    private void handleLogout(ActionEvent e){
         Session.logout();
-        mapeditorButton.setVisible(false);
-        mapeditorButton.setManaged(false);
-        addaccountButton.setVisible(false);
-        addaccountButton.setManaged(false);
+
+        setAdminButtonVisibility(false);
+        updateAccountWindow();
+        hidePages();
     }
 
-    /**
-     * Toggles between spanish and english (later on implement dedicated page for multiple languages?)
-     * @param e action event
-     */
-    @FXML
-    private void langOnClick(ActionEvent e) {
-        switch(App.selectedLocale) {
-            case en_US: {
-                App.switchLocale("es", "ES", LocaleType.es_ES, false);
-                break;
-            }
-            case es_ES: {
-                App.switchLocale("en", "US", LocaleType.en_US, false);
-                break;
-            }
-        }
+    private void hidePages() {
+        SubPageContainer.getInstance().hide();
+        backgroundPane.getChildren().clear();
+        backgroundPane.setVisible(false);
     }
+
 }

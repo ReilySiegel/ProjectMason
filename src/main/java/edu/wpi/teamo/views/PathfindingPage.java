@@ -10,8 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.util.Pair;
@@ -26,9 +25,6 @@ import java.util.stream.Collectors;
 public class PathfindingPage extends SubPageController implements Initializable {
 
     @FXML
-    private JFXButton backButton;
-
-    @FXML
     private JFXButton helpButton;
 
     @FXML
@@ -37,6 +33,9 @@ public class PathfindingPage extends SubPageController implements Initializable 
 
     @FXML
     private AnchorPane parentNode;
+
+    @FXML
+    private GridPane gridPane;
 
     @FXML
     private StackPane parentStackPane;
@@ -57,7 +56,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
     private AnchorPane pathPane;
 
     @FXML
-    private AnchorPane searchWindow;
+    private VBox searchWindow;
 
     @FXML
     private JFXTextField searchBar;
@@ -69,13 +68,13 @@ public class PathfindingPage extends SubPageController implements Initializable 
     private JFXListView<String> textualDirView;
 
     @FXML
-    private AnchorPane algoSwitchWindow;
+    private HBox algoSwitchWindow;
 
     @FXML
     private JFXComboBox<String> algoSwitcher;
 
     @FXML
-    private AnchorPane textualWindow;
+    private VBox textualWindow;
 
     private LocationSearcher locationSearcher;
 
@@ -91,6 +90,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
+        gridPane.setPickOnBounds(false);
 
         initFloorSwitcher();
         initAlgoSwitcher();
@@ -103,7 +103,6 @@ public class PathfindingPage extends SubPageController implements Initializable 
         findPathButton.setOnAction(this::handleFindPath);
         algoSwitcher.setOnAction(this::handleAlgoSwitch);
         helpButton.setOnAction(this::handleHelpButton);
-        backButton.setOnAction(this::backToMain);
 
         locationSearcher = new LocationSearcher(searchBar, searchResultsView);
         locationSearcher.setOnCheckNode(this::onClickNode);
@@ -122,6 +121,8 @@ public class PathfindingPage extends SubPageController implements Initializable 
             }
         });
 
+        imageView.setFitHeight(App.getPrimaryStage().getHeight());
+        imageView.setFitWidth(App.getPrimaryStage().getWidth());
         map = new Map(imageView, pathPane);
         map.setOnDrawNode(this::onDrawNode);
         update();

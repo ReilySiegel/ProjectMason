@@ -3,78 +3,89 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXListView?>
 <?import com.jfoenix.controls.JFXTextField?>
-<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="stackPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: #434c5e;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.serviceRequestHubPage">
+<StackPane fx:id="stackPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="648.0" prefWidth="768.0" stylesheets="@CSS/MainPage.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.serviceRequestHubPage">
    <children>
-      <VBox prefHeight="686.0" prefWidth="1200.0">
+      <GridPane>
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="207.0" minWidth="3.0" percentWidth="2.0" prefWidth="67.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="132.0" minWidth="6.0" percentWidth="2.0" prefWidth="6.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="217.0" minHeight="0.0" percentHeight="15.0" prefHeight="28.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="603.0" minHeight="10.0" prefHeight="584.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="121.0" minHeight="3.0" percentHeight="15.0" prefHeight="32.0" vgrow="SOMETIMES" />
+        </rowConstraints>
          <children>
-            <HBox prefHeight="584.0" prefWidth="1200.0" VBox.vgrow="ALWAYS">
+            <VBox styleClass="pane" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
-                  <VBox prefHeight="229.0" prefWidth="1200.0" HBox.hgrow="ALWAYS">
+                  <HBox VBox.vgrow="ALWAYS">
                      <children>
-                        <VBox>
+                        <VBox HBox.hgrow="ALWAYS">
                            <children>
-                              <Label text="%key.service_request_searcher" VBox.vgrow="ALWAYS">
-                                 <VBox.margin>
-                                    <Insets left="100.0" right="100.0" top="30.0" />
-                                 </VBox.margin>
-                                 <font>
-                                    <Font size="24.0" />
-                                 </font>
-                              </Label>
-                              <JFXTextField prefHeight="25.0" prefWidth="791.0" VBox.vgrow="ALWAYS">
-                                 <VBox.margin>
-                                    <Insets left="100.0" right="100.0" top="10.0" />
-                                 </VBox.margin>
-                              </JFXTextField>
+                              <VBox>
+                                 <children>
+                                    <Label text="%key.service_request_searcher" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets left="100.0" right="100.0" top="30.0" />
+                                       </VBox.margin>
+                                       <font>
+                                          <Font size="24.0" />
+                                       </font>
+                                    </Label>
+                                    <JFXTextField prefHeight="25.0" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets left="100.0" right="100.0" top="10.0" />
+                                       </VBox.margin>
+                                    </JFXTextField>
+                                 </children>
+                              </VBox>
+                              <HBox fx:id="hboxSize" alignment="CENTER" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <JFXListView fx:id="listView" prefHeight="282.0" prefWidth="635.0" stylesheets="@CSS/LocationSearch.css" HBox.hgrow="ALWAYS">
+                                       <HBox.margin>
+                                          <Insets left="50.0" right="50.0" top="20.0" />
+                                       </HBox.margin>
+                                    </JFXListView>
+                                 </children>
+                              </HBox>
                            </children>
                         </VBox>
-                        <HBox fx:id="hboxSize" VBox.vgrow="ALWAYS">
-                           <children>
-                              <HBox prefHeight="100.0" prefWidth="200.0" stylesheets="@CSS/LocationSearch.css" HBox.hgrow="ALWAYS" />
-                              <JFXListView fx:id="listView" prefHeight="468.0" prefWidth="799.0" style="-fx-background-color: #434c5e;" HBox.hgrow="ALWAYS">
-                                 <HBox.margin>
-                                    <Insets top="20.0" />
-                                 </HBox.margin>
-                              </JFXListView>
-                              <HBox prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-                           </children>
-                        </HBox>
                      </children>
-                  </VBox>
-               </children></HBox>
-            <HBox prefHeight="0.0" prefWidth="1200.0">
-               <children>
-                  <JFXButton onAction="#handleBacktoMain" prefHeight="42.0" prefWidth="111.0" style="-fx-background-color: #434c5e;" text="%key.back" HBox.hgrow="ALWAYS">
-                     <HBox.margin>
-                        <Insets left="10.0" top="25.0" />
-                     </HBox.margin>
-                  </JFXButton>
-                  <JFXButton buttonType="RAISED" contentDisplay="TOP" onAction="#handleHelp" prefHeight="50.0" prefWidth="50.0" style="-fx-border-radius: 25; -fx-background-radius: 25;" text="?" textFill="WHITE" HBox.hgrow="ALWAYS">
-                     <font>
-                        <Font name="Arial Bold" size="24.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="5.0" right="10.0" top="20.0" />
-                     </HBox.margin>
-                  </JFXButton>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT">
+                     <children>
+                        <JFXButton onAction="#handleBacktoMain" prefHeight="30.0" prefWidth="111.0" text="%key.back" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets left="10.0" right="20.0" />
+                           </HBox.margin>
+                        </JFXButton>
+                        <JFXButton buttonType="RAISED" contentDisplay="TOP" onAction="#handleHelp" prefHeight="37.0" prefWidth="74.0" style="-fx-border-radius: 25; -fx-background-radius: 25;" text="?" textFill="WHITE" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font name="Arial Bold" size="24.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="5.0" right="10.0" />
+                           </HBox.margin>
+                        </JFXButton>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                     </VBox.margin>
+                  </HBox>
                </children>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-            </HBox>
+            </VBox>
          </children>
-      </VBox>
+      </GridPane>
    </children>
-   <stylesheets>
-      <URL value="@CSS/LocationSearch.css" />
-      <URL value="@CSS/nord.css" />
-   </stylesheets>
 </StackPane>

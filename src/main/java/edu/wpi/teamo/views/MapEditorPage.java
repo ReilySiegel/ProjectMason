@@ -29,10 +29,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SplitPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -46,6 +49,9 @@ public class MapEditorPage extends SubPageController implements Initializable{
     private StackPane stackPane;
 
     @FXML
+    private GridPane gridPane;
+
+    @FXML
     private JFXTreeTableView<Node> nodeTree;
     private NodeTable nodeTable;
 
@@ -57,7 +63,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
     private Text nodeEditorHeadingText;
 
     @FXML
-    private AnchorPane nodeEditorWindow;
+    private VBox nodeEditorWindow;
 
     @FXML
     private JFXTextField nodeEditorInputID;
@@ -93,7 +99,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
     private Text edgeEditorHeadingText;
 
     @FXML
-    private AnchorPane edgeEditorWindow;
+    private VBox edgeEditorWindow;
 
     @FXML
     private JFXTextField edgeEditorInputID;
@@ -125,11 +131,11 @@ public class MapEditorPage extends SubPageController implements Initializable{
     @FXML
     private JFXButton helpButton;
 
-    @FXML
-    private JFXButton exitButton;
+//    @FXML
+//    private JFXButton exitButton;
 
     @FXML
-    private AnchorPane tableWindow;
+    private StackPane tableWindow;
 
     @FXML
     private JFXButton openTableButton;
@@ -164,6 +170,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
      */
     @Override
     public void initialize(URL location, ResourceBundle resources){
+        gridPane.setPickOnBounds(false);
 
         floorSwitcher.setOnAction(this::onFloorSwitch);
         floorSwitcher.setValue(selectedFloor);
@@ -174,6 +181,9 @@ public class MapEditorPage extends SubPageController implements Initializable{
         floorSwitcher.getItems().add("2");
         floorSwitcher.getItems().add("3");
 
+        mapImage.setFitHeight(App.getPrimaryStage().getHeight());
+        mapImage.setFitWidth(App.getPrimaryStage().getWidth());
+
         map = new Map(mapImage, nodePane);
         map.setOnMapClicked(this::onMapClicked);
         map.setOnDrawNode(this::onDrawNode);
@@ -181,7 +191,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         map.setOnMouseMoved(this::onMouseMoved);
 
         helpButton.setOnAction(this::handleHelp);
-        exitButton.setOnAction(this::backToMain);
+//        exitButton.setOnAction(this::backToMain);
         nodeEditorSubmitButton.setOnAction(this::handleNodeEditSubmit);
         edgeEditorSubmitButton.setOnAction(this::handleEdgeEditSubmit);
         nodeEditorDeleteButton.setOnAction(this::handleNodeEditDelete);
@@ -275,8 +285,8 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
     /* gets cast to a consumer */
     void onMapClicked(MouseEvent e) {
-        int mapX = (int) Map.transform((int) e.getX(), nodePane.getPrefWidth(), Map.imageWidth);
-        int mapY = (int) Map.transform((int) e.getY(), nodePane.getPrefWidth(), Map.imageWidth);
+        int mapX = (int) Map.transform((int) e.getX(), map.getWidth(), Map.imageWidth);
+        int mapY = (int) Map.transform((int) e.getY(), map.getWidth(), Map.imageWidth);
 
         if (addingEdge) {
             nodePane.getChildren().remove(addingEdgeLine);
@@ -468,8 +478,8 @@ public class MapEditorPage extends SubPageController implements Initializable{
     }
 
     void onDraggedNodeDrop(NodeInfo node, MouseEvent e) {
-        int mapX = (int) Map.transform((int) e.getX(), nodePane.getPrefWidth(), Map.imageWidth);
-        int mapY = (int) Map.transform((int) e.getY(), nodePane.getPrefHeight(), Map.imageHeight);
+        int mapX = (int) Map.transform((int) e.getX(), map.getWidth(), Map.imageWidth);
+        int mapY = (int) Map.transform((int) e.getY(), map.getHeight(), Map.imageHeight);
         try {
             App.mapService.setNodePosition(node.getNodeID(), mapX, mapY);
         } catch (SQLException throwables) {

@@ -3,69 +3,70 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="loginStack" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.LoginPage">
+<StackPane fx:id="loginStack" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="768.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.LoginPage">
    <children>
-      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #001a3C;">
+      <GridPane>
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="232.0" minWidth="10.0" percentWidth="25.0" prefWidth="216.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="559.0" minWidth="10.0" prefWidth="379.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="415.0" minWidth="10.0" percentWidth="25.0" prefWidth="165.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="219.0" minHeight="10.0" percentHeight="25.0" prefHeight="161.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="445.0" minHeight="10.0" prefHeight="273.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="227.0" minHeight="10.0" percentHeight="25.0" prefHeight="142.0" vgrow="SOMETIMES" />
+        </rowConstraints>
          <children>
-            <AnchorPane layoutX="411.0" layoutY="50.0" prefHeight="703.0" prefWidth="721.0" style="-fx-background-color: #001a3C;">
+            <VBox alignment="CENTER" prefHeight="376.0" prefWidth="338.0" spacing="20.0" styleClass="pane" stylesheets="@CSS/MainPage.css" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
-                  <Label alignment="CENTER" layoutX="66.0" layoutY="33.0" prefHeight="131.0" prefWidth="590.0" text="Project Iteration 2" textAlignment="CENTER" textFill="WHITE">
-                     <font>
-                        <Font name="SansSerif Regular" size="64.0" />
-                     </font>
-                  </Label>
-                  <Label alignment="CENTER" layoutX="103.0" layoutY="153.0" prefHeight="86.0" prefWidth="516.0" text="%key.created_by_us" textAlignment="CENTER" textFill="WHITE">
-                     <font>
-                        <Font name="Serif Regular" size="48.0" />
-                     </font>
-                  </Label>
-                  <Label alignment="CENTER" layoutX="103.0" layoutY="320.0" prefHeight="138.0" prefWidth="516.0" text="%key.welcome_login" textAlignment="CENTER" textFill="WHITE">
-                     <font>
-                        <Font name="Serif Regular" size="24.0" />
-                     </font>
-                  </Label>
-                  <JFXButton layoutX="122.0" layoutY="474.0" onAction="#guestOnClick" prefHeight="119.0" prefWidth="477.0" style="-fx-background-color: #0263A9;" text="%key.guest_login" textFill="WHITE">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </JFXButton>
-               </children>
-            </AnchorPane>
-            <AnchorPane layoutY="1.0" prefHeight="800.0" prefWidth="330.0" style="-fx-background-color: #d4d4d4;">
-               <children>
-                  <JFXTextField fx:id="username" layoutX="29.0" layoutY="202.0" prefHeight="43.0" prefWidth="258.0" promptText="%key.username" style="-fx-background-color: transparent; -fx-border-color: BLACK; -fx-border-width: 3;" unFocusColor="#f0f0f000">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </JFXTextField>
-                  <JFXPasswordField fx:id="password" layoutX="30.0" layoutY="308.0" prefHeight="43.0" prefWidth="258.0" promptText="%key.password" style="-fx-background-color: transparent; -fx-border-color: BLACK; -fx-border-width: 3;" unFocusColor="#f0f0f000">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </JFXPasswordField>
-                  <JFXButton layoutX="30.0" layoutY="472.0" onAction="#checkPasswordUsernameCombo" prefHeight="51.0" prefWidth="131.0" style="-fx-background-color: #0263A9;" text="%key.submit" textFill="#fffffffa">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </JFXButton>
-                  <Label alignment="CENTER" layoutX="19.0" layoutY="59.0" prefHeight="60.0" prefWidth="295.0" text="%key.sign_in" textAlignment="CENTER">
+                  <Label alignment="CENTER" text="%key.sign_in" textAlignment="CENTER">
                      <font>
                         <Font size="32.0" />
                      </font>
                   </Label>
-                  <JFXButton layoutX="30.0" layoutY="631.0" onAction="#backToMainMenu" prefHeight="60.0" prefWidth="94.0" style="-fx-background-color: #0263A9;" text="%key.back" textFill="WHITE">
+                  <JFXTextField fx:id="username" focusColor="BLACK" promptText="%key.username" style="-fx-background-color: transparent; -fx-border-color: BLACK; -fx-border-width: 3;" unFocusColor="#f0f0f000">
                      <font>
-                        <Font size="24.0" />
+                        <Font size="16.0" />
                      </font>
-                  </JFXButton>
+                  </JFXTextField>
+                  <JFXPasswordField fx:id="password" focusColor="BLACK" promptText="%key.password" style="-fx-background-color: transparent; -fx-border-color: BLACK; -fx-border-width: 3;" unFocusColor="#f0f0f000">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </JFXPasswordField>
+                  <HBox alignment="CENTER" spacing="75.0">
+                     <children>
+                        <JFXButton onAction="#backToMainMenu" prefHeight="50.0" prefWidth="130.0" text="%key.back" textFill="WHITE">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </JFXButton>
+                        <JFXButton onAction="#checkPasswordUsernameCombo" prefHeight="50.0" prefWidth="130.0" text="%key.submit" textFill="#fffffffa">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </JFXButton>
+                     </children>
+                  </HBox>
                </children>
-            </AnchorPane>
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+               <padding>
+                  <Insets left="30.0" right="30.0" />
+               </padding>
+            </VBox>
          </children>
-      </AnchorPane>
+      </GridPane>
    </children>
 </StackPane>

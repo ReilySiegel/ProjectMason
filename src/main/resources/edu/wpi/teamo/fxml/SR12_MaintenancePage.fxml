@@ -10,171 +10,195 @@
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane fx:id="stackPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.SR12_MaintenancePage">
+<StackPane fx:id="stackPane" stylesheets="@CSS/MaintenancePage.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.SR12_MaintenancePage">
     <children>
-        <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #434C5E;">
-            <center>
-                <VBox maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="300.0" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #2e3440;" BorderPane.alignment="TOP_CENTER">
-                    <children>
-                        <HBox fx:id="hBox" prefHeight="50.0" prefWidth="580.0">
-                            <children>
-                                <Text fill="#eceff4" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.mainten_service">
-                                    <font>
-                                        <Font name="Arial" size="18.0" />
-                                    </font>
-                                    <HBox.margin>
-                                        <Insets right="15.0" />
-                                    </HBox.margin>
-                                </Text>
-                                <AnchorPane prefHeight="50.0" prefWidth="800.0">
-                                    <children>
-                                        <Text fx:id="typeErrorText" fill="RED" layoutX="94.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-                              <JFXComboBox fx:id="MainTypeComboBox" layoutY="1.0" prefHeight="25.0" prefWidth="279.0" style="-fx-background-color: #2e3440;" />
-                                    </children>
-                                </AnchorPane>
-                            </children>
-                            <VBox.margin>
-                                <Insets bottom="10.0" />
-                            </VBox.margin>
+      <GridPane prefHeight="576.0" prefWidth="738.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="395.0" minWidth="0.0" prefWidth="0.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="1050.0" minWidth="10.0" prefWidth="1050.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="245.0" minWidth="0.0" prefWidth="0.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="262.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="682.0" minHeight="10.0" prefHeight="682.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="143.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+              <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="544.0" styleClass="pane" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <center>
+                      <VBox maxHeight="1.7976931348623157E308" minWidth="-Infinity" prefHeight="396.0" prefWidth="675.0" BorderPane.alignment="TOP_CENTER">
+                          <children>
+                              <HBox fx:id="hBox" prefHeight="46.0" prefWidth="883.0">
+                                  <children>
+                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.mainten_service" textAlignment="RIGHT" wrappingWidth="190.0">
+                                          <font>
+                                              <Font name="Arial" size="18.0" />
+                                          </font>
+                                          <HBox.margin>
+                                              <Insets right="20.0" />
+                                          </HBox.margin>
+                                      </Text>
+                                      <AnchorPane prefHeight="46.0" prefWidth="396.0">
+                                          <children>
+                                              <Text fx:id="typeErrorText" fill="RED" layoutX="94.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                                    <JFXComboBox fx:id="MainTypeComboBox" focusColor="BLACK" layoutY="1.0" prefHeight="25.0" prefWidth="355.0" unFocusColor="BLACK" />
+                                          </children>
+                                      </AnchorPane>
+                                  </children>
+                                  <VBox.margin>
+                                      <Insets bottom="10.0" />
+                                  </VBox.margin>
+                              </HBox>
+                              <HBox prefHeight="50.0" prefWidth="200.0">
+                                  <children>
+                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.assignee_name" textAlignment="RIGHT" wrappingWidth="190.0">
+                                          <font>
+                                              <Font name="Arial" size="18.0" />
+                                          </font>
+                                 <HBox.margin>
+                                    <Insets right="20.0" />
+                                 </HBox.margin>
+                                      </Text>
+                                      <AnchorPane prefHeight="45.0" prefWidth="435.0">
+                                          <children>
+                                              <JFXTextField fx:id="assignee" focusColor="BLACK" layoutY="1.0" minWidth="300.0" prefHeight="27.0" prefWidth="358.0" promptText="%key.name_of_assignee" unFocusColor="TRANSPARENT" AnchorPane.rightAnchor="77.0" />
+                                              <Text fx:id="assignedErrorText" fill="RED" layoutX="-1.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                                          </children>
+                                          <HBox.margin>
+                                              <Insets />
+                                          </HBox.margin>
+                                      </AnchorPane>
+                                  </children>
+                                  <VBox.margin>
+                                      <Insets bottom="10.0" />
+                                  </VBox.margin>
+                              </HBox>
+                              <HBox prefHeight="50.0" prefWidth="200.0">
+                                  <children>
+                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.notes" textAlignment="RIGHT" wrappingWidth="190.0">
+                                          <font>
+                                              <Font name="Arial" size="18.0" />
+                                          </font>
+                                 <HBox.margin>
+                                    <Insets right="20.0" />
+                                 </HBox.margin>
+                                      </Text>
+                                      <AnchorPane prefHeight="27.0" prefWidth="453.0">
+                                          <children>
+                                              <JFXTextField fx:id="notes" focusColor="BLACK" minWidth="300.0" prefHeight="27.0" prefWidth="357.0" promptText="%key.notes" unFocusColor="TRANSPARENT" AnchorPane.rightAnchor="96.0" />
+                                          </children>
+                                          <HBox.margin>
+                                              <Insets />
+                                          </HBox.margin>
+                                      </AnchorPane>
+                                  </children>
+                              </HBox>
+                              <HBox prefHeight="45.0" prefWidth="893.0">
+                                  <children>
+                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.room" textAlignment="RIGHT" wrappingWidth="190.0">
+                                          <font>
+                                              <Font name="Arial" size="18.0" />
+                                          </font>
+                                          <HBox.margin>
+                                              <Insets right="20.0" />
+                                          </HBox.margin>
+                                      </Text>
+                                      <AnchorPane prefHeight="45.0" prefWidth="594.0">
+                                          <children>
+                                              <Text fx:id="roomErrorText" fill="RED" layoutX="76.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                                    <JFXTextField fx:id="nodeSearchField" focusColor="BLACK" prefHeight="27.0" prefWidth="358.0" promptText="%key.search" unFocusColor="#4d4d4d00" />
+                                          </children>
+                                      </AnchorPane>
+                                  </children>
+                                  <VBox.margin>
+                                      <Insets bottom="10.0" />
+                                  </VBox.margin>
+                              </HBox>
+                        <HBox alignment="CENTER_RIGHT" prefHeight="177.0" prefWidth="677.0">
+                           <children>
+                              <JFXListView fx:id="listOfSearched" maxHeight="1.7976931348623157E308" prefHeight="176.0" prefWidth="527.0" stylesheets="@CSS/LocationSearch.css" />
+                           </children>
                         </HBox>
-                        <HBox prefHeight="50.0" prefWidth="200.0">
-                            <children>
-                                <Text fill="#eceff4" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.assignee_name">
-                                    <font>
-                                        <Font name="Arial" size="18.0" />
-                                    </font>
-                                </Text>
-                                <AnchorPane prefHeight="50.0" prefWidth="800.0">
-                                    <children>
-                                        <JFXTextField fx:id="assignee" minWidth="300.0" prefHeight="25.0" prefWidth="591.0" promptText="%key.name_of_assignee" style="-fx-text-inner-color: #eceff4;" AnchorPane.rightAnchor="9.0" />
-                                        <Text fx:id="assignedErrorText" fill="RED" layoutX="42.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-                                    </children>
-                                    <HBox.margin>
-                                        <Insets />
-                                    </HBox.margin>
-                                </AnchorPane>
-                            </children>
-                            <VBox.margin>
-                                <Insets bottom="10.0" />
-                            </VBox.margin>
-                        </HBox>
-                        <HBox prefHeight="50.0" prefWidth="200.0">
-                            <children>
-                                <Text fill="#eceff4" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.notes">
-                                    <font>
-                                        <Font name="Arial" size="18.0" />
-                                    </font>
-                                </Text>
-                                <AnchorPane prefHeight="50.0" prefWidth="800.0">
-                                    <children>
-                                        <JFXTextField fx:id="notes" minWidth="300.0" prefHeight="25.0" prefWidth="600.0" promptText="%key.notes" style="-fx-text-inner-color: #eceff4;" AnchorPane.rightAnchor="0.0" />
-                                    </children>
-                                    <HBox.margin>
-                                        <Insets />
-                                    </HBox.margin>
-                                </AnchorPane>
-                            </children>
-                        </HBox>
-                        <HBox prefHeight="50.0" prefWidth="580.0">
-                            <children>
-                                <Text fill="#eceff4" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.room">
-                                    <font>
-                                        <Font name="Arial" size="18.0" />
-                                    </font>
-                                    <HBox.margin>
-                                        <Insets right="40.0" />
-                                    </HBox.margin>
-                                </Text>
-                                <AnchorPane prefHeight="50.0" prefWidth="800.0">
-                                    <children>
-                                        <Text fx:id="roomErrorText" fill="RED" layoutX="76.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-                              <JFXTextField fx:id="nodeSearchField" prefHeight="25.0" prefWidth="636.0" promptText="%key.search" style="-fx-text-inner-color: #eceff4;" />
-                                    </children>
-                                </AnchorPane>
-                            </children>
-                            <VBox.margin>
-                                <Insets bottom="10.0" />
-                            </VBox.margin>
-                        </HBox>
-                  <JFXListView fx:id="listOfSearched" maxHeight="1.7976931348623157E308" prefHeight="290.0" prefWidth="637.0" style="-fx-background-color: #2e3440;" VBox.vgrow="ALWAYS" />
-                    </children>
-                    <padding>
-                        <Insets bottom="10.0" left="20.0" right="10.0" top="30.0" />
-                    </padding>
-                    <BorderPane.margin>
-                        <Insets bottom="20.0" left="30.0" right="30.0" />
-                    </BorderPane.margin>
-               <effect>
-                  <DropShadow blurType="GAUSSIAN" color="#323232" height="60.0" radius="29.5" width="60.0" />
-               </effect>
-                </VBox>
-            </center>
-            <bottom>
-                <HBox alignment="CENTER_LEFT" maxHeight="100.0" prefHeight="70.0" prefWidth="1280.0" style="-fx-background-color: #2E3440;" BorderPane.alignment="CENTER">
-                    <children>
-                  <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                     <children>
-                              <JFXButton buttonType="RAISED" onAction="#helpBtnOnClick" prefHeight="50.0" prefWidth="50.0" style="-fx-border-radius: 25; -fx-background-radius: 25;" styleClass="help-button" text="?" textFill="WHITE">
-                                  <font>
-                                      <Font name="Arial Bold" size="24.0" />
-                                  </font>
+                          </children>
+                          <BorderPane.margin>
+                              <Insets left="30.0" right="30.0" />
+                          </BorderPane.margin>
+                     <effect>
+                        <DropShadow blurType="GAUSSIAN" color="#323232" height="60.0" radius="29.5" width="60.0" />
+                     </effect>
+                      </VBox>
+                  </center>
+                  <bottom>
+                      <HBox alignment="CENTER_LEFT" maxHeight="100.0" prefHeight="70.0" prefWidth="1280.0" BorderPane.alignment="CENTER">
+                          <children>
+                        <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
                            <HBox.margin>
-                              <Insets left="20.0" />
+                              <Insets />
                            </HBox.margin>
-                              </JFXButton>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                     <children>
-                              <JFXButton buttonType="RAISED" onAction="#handleBackToServicePageM" text="%key.back" textFill="WHITE">
-                                  <font>
-                                      <Font size="18.0" />
-                                  </font>
-                              </JFXButton>
-                              <JFXButton buttonType="RAISED" onAction="#submitBtnOnClick" styleClass="submit-button" text="%key.submit" textFill="WHITE">
-                                  <font>
-                                      <Font size="18.0" />
-                                  </font>
+                           <children>
+                                    <JFXButton buttonType="RAISED" onAction="#helpBtnOnClick" prefHeight="50.0" prefWidth="50.0" style="-fx-border-radius: 25; -fx-background-radius: 25;" styleClass="help-button" text="?" textFill="WHITE">
+                                        <font>
+                                            <Font name="Arial Bold" size="24.0" />
+                                        </font>
+                                 <HBox.margin>
+                                    <Insets left="20.0" />
+                                 </HBox.margin>
+                                    </JFXButton>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
                            <HBox.margin>
-                              <Insets left="20.0" right="20.0" />
+                              <Insets />
                            </HBox.margin>
-                              </JFXButton>
-                     </children>
-                  </HBox>
-                    </children>
-                </HBox>
-            </bottom>
-            <top>
-                <VBox alignment="CENTER" prefHeight="110.0" prefWidth="100.0" style="-fx-background-color: #2E3440;" BorderPane.alignment="CENTER">
-                    <children>
-                        <Text fill="#eceff4" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.maintenance_request">
-                            <font>
-                                <Font name="Arial" size="36.0" />
-                            </font>
-                        </Text>
-                  <Label text="Created by: Ivan Klevanski " textFill="WHITE" />
-                    </children>
-                    <BorderPane.margin>
-                        <Insets bottom="40.0" />
-                    </BorderPane.margin>
-                </VBox>
-            </top>
-        </BorderPane>
+                           <children>
+                                    <JFXButton buttonType="RAISED" onAction="#handleBackToServicePageM" text="%key.back" textFill="WHITE">
+                                        <font>
+                                            <Font size="18.0" />
+                                        </font>
+                                    </JFXButton>
+                                    <JFXButton buttonType="RAISED" onAction="#submitBtnOnClick" styleClass="submit-button" text="%key.submit" textFill="WHITE">
+                                        <font>
+                                            <Font size="18.0" />
+                                        </font>
+                                 <HBox.margin>
+                                    <Insets left="20.0" right="20.0" />
+                                 </HBox.margin>
+                                    </JFXButton>
+                           </children>
+                        </HBox>
+                          </children>
+                      </HBox>
+                  </bottom>
+                  <top>
+                      <VBox alignment="CENTER" prefHeight="110.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                          <children>
+                              <Text fill="#030303" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.maintenance_request">
+                                  <font>
+                                      <Font name="Arial" size="36.0" />
+                                  </font>
+                              </Text>
+                        <Label text="Created by: Ivan Klevanski " />
+                          </children>
+                          <BorderPane.margin>
+                              <Insets />
+                          </BorderPane.margin>
+                      </VBox>
+                  </top>
+               <stylesheets>
+                  <URL value="@CSS/MainPage.css" />
+                  <URL value="@CSS/MaintenancePage.css" />
+               </stylesheets>
+              </BorderPane>
+         </children>
+      </GridPane>
     </children>
-   <stylesheets>
-      <URL value="@CSS/MaintenancePage.css" />
-      <URL value="@CSS/nord.css" />
-   </stylesheets>
 </StackPane>

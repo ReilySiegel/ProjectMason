@@ -37,13 +37,13 @@ public class App extends Application {
 
   @Override
   public void init() {
-    pagePaths.put(Pages.SERVICEREQUEST, "/edu/wpi/teamo/fxml/ServiceRequestPage.fxml");
+    pagePaths.put(Pages.SERVICEREQUEST, "/edu/wpi/teamo/fxml/serviceRequestHubPage.fxml");
     pagePaths.put(Pages.MAPEDITOR, "/edu/wpi/teamo/fxml/MapEditorPage.fxml");
     pagePaths.put(Pages.PATHFINDING, "/edu/wpi/teamo/fxml/PathfindingPage.fxml");
     pagePaths.put(Pages.MEDICINE, "/edu/wpi/teamo/fxml/SR07_Medicine.fxml");
     pagePaths.put(Pages.SANITATION, "/edu/wpi/teamo/fxml/SR03_Sanitation.fxml");
     pagePaths.put(Pages.MANAGEREQUESTS, "/edu/wpi/teamo/fxml/ManageRequests.fxml");
-    pagePaths.put(Pages.MAIN, "/edu/wpi/teamo/fxml/MainPage.fxml");
+    pagePaths.put(Pages.OLDMAIN, "/edu/wpi/teamo/fxml/OldMainPage.fxml");
     pagePaths.put(Pages.LOADINGSCREEN, "edu/wpi/teamo/fxml/LoadingScreen.fxml");
     pagePaths.put(Pages.LOGIN, "/edu/wpi/teamo/fxml/LoginPage.fxml");
     pagePaths.put(Pages.LANGUAGEINTERPRETER, "/edu/wpi/teamo/fxml/SR02_LanguageInterpreter.fxml");
@@ -56,6 +56,7 @@ public class App extends Application {
     pagePaths.put(Pages.TRANSPORTATION,"/edu/wpi/teamo/fxml/PatientTransportation.fxml");
     pagePaths.put(Pages.GIFTS, "/edu/wpi/teamo/fxml/GiftRequest.fxml");
     pagePaths.put(Pages.FOOD,"/edu/wpi/teamo/fxml/FoodRequestPage.fxml");
+    pagePaths.put(Pages.MAIN, "/edu/wpi/teamo/fxml/MainPage.fxml");
 
     System.out.println("Starting Up");
 
@@ -97,7 +98,7 @@ public class App extends Application {
     resourceBundle = ResourceBundle.getBundle(localesPath + "en_US", defaultLocale);
     selectedLocale = LocaleType.en_US;
     try {
-      Parent root = FXMLLoader.load(getClass().getResource("fxml/MainPage.fxml"),resourceBundle);
+      Parent root = FXMLLoader.load(getClass().getResource("fxml/MainPage.fxml"), resourceBundle);
       Scene scene = new Scene(root);
       scene.getStylesheets().add("edu/wpi/teamo/fxml/CSS/HelpButton.css");
       primaryStage.setScene(scene);
@@ -106,10 +107,10 @@ public class App extends Application {
       e.printStackTrace();
       Platform.exit();
     }
+    loadImages();// is called from the map class
     /*
       display the loading screeen here
      */
-    loadImages();// is called from the map class
   }
 
   public static Stage getPrimaryStage(){
@@ -128,6 +129,10 @@ public class App extends Application {
     } catch (IOException ex) {
       ex.printStackTrace();
     }
+  }
+
+  public static String getPagePath(Pages page) {
+    return pagePaths.get(page);
   }
 
   /**

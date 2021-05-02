@@ -4,6 +4,7 @@ import com.jfoenix.controls.*;
 import com.jfoenix.svg.SVGGlyph;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.Pages;
+import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -12,10 +13,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Font;
@@ -40,6 +38,7 @@ public class serviceRequestHubPage implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         createAllServiceButtons();
     }
+
     public void createAllServiceButtons() {
         Image icon = new Image("edu/wpi/teamo/images/Icons/icons8-pill-100.png");
         createServiceButtons(App.resourceBundle.getString("key.medicine"),
@@ -76,27 +75,34 @@ public class serviceRequestHubPage implements Initializable {
 
 
 
-    public void createServiceButtons(String key1, String key2, Image image, Pages pages) {
+    public void createServiceButtons(String key1, String key2, Image image, Pages page) {
         Font font = Font.font("System", FontWeight.NORMAL, 20);
+        Font font2 = Font.font("System", FontWeight.NORMAL, 10);
 
         Label label1 = new Label(key1);
         label1.setFont(font);
         Label label2 = new Label(key2);
-        label2.setFont(font);
+        label2.setFont(font2);
         VBox vbox = new VBox(label1, label2);
+        vbox.setPadding(new Insets(0,0,0,5));
 
         ImageView icon = new ImageView();
         icon.setImage(image);
+
         HBox hbox = new HBox(icon,vbox);
 
-        JFXButton s = new JFXButton("",hbox);
+        JFXButton s = new JFXButton("", hbox);
         s.setFont(font);
-        hboxSize.setPrefWidth(1000);
-        s.setMinWidth(hboxSize.getPrefWidth());
-        s.setOnAction(actionEvent ->  {
-            App.switchPage(pages);
-        });
+        hboxSize.setPrefWidth(768);
+        //s.setMinWidth(hboxSize.getPrefWidth());
+        s.setMaxWidth(Double.MAX_VALUE);
+        s.setOnAction(actionEvent -> SubPageContainer.switchPage(page));
+
+        s.getStyleClass().clear();
+        s.getStyleClass().add("pane");
+
         listView.getItems().add(s);
+
     }
 
     @FXML

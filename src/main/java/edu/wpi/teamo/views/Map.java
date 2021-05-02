@@ -1,5 +1,6 @@
 package edu.wpi.teamo.views;
 
+import edu.wpi.teamo.App;
 import edu.wpi.teamo.database.map.EdgeInfo;
 import edu.wpi.teamo.database.map.NodeInfo;
 import com.jfoenix.controls.JFXTextArea;
@@ -61,21 +62,39 @@ public class Map  {
     public Map(ImageView imageView, AnchorPane nodePane) {
         this.imageView = imageView;
         this.nodePane = nodePane;
-
+//        translateMap(nodePane.getHeight()/2,nodePane.getWidth()/2); //this does not work. 
+        scaleMap(-100);
         nodePane.setOnMouseDragged((MouseEvent e) -> translateMap(e.getScreenX(), e.getScreenY()));
         nodePane.setOnMouseReleased((MouseEvent e) -> resetInitialDragData());
         nodePane.setOnScroll((ScrollEvent e) -> scaleMap(e.getDeltaY()));
 
+        updateSize();
+    }
+
+    public double getHeight() {
+        return imageView.getFitHeight();
+    }
+
+    public double getWidth() {
+        return imageView.getFitWidth();
+    }
+
+    public void updateSize() {
+        nodePane.setMinHeight(getHeight());
+        nodePane.setMaxHeight(getHeight());
+        nodePane.setMinWidth(getWidth());
+        nodePane.setMaxWidth(getWidth());
     }
 
     public void drawPath(LinkedList<AlgoNode> path, String floor) {
+        updateSize();
         for(int i = 0;  i < (path.size() - 1); i++) {
             Color lineColor = path.get(i).getFloor().equals(floor) ? Color.RED : Color.GRAY;
 
-            double firstX = transform(path.get(i).getX(), imageWidth, nodePane.getPrefWidth());
-            double firstY = transform(path.get(i).getY(), imageHeight, nodePane.getPrefHeight());
-            double secondX = transform(path.get(i + 1).getX(), imageWidth, nodePane.getPrefWidth());
-            double secondY = transform(path.get(i + 1).getY(), imageHeight, nodePane.getPrefHeight());
+            double firstX = transform(path.get(i).getX(), imageWidth, getWidth());
+            double firstY = transform(path.get(i).getY(), imageHeight, getHeight());
+            double secondX = transform(path.get(i + 1).getX(), imageWidth, getWidth());
+            double secondY = transform(path.get(i + 1).getY(), imageHeight, getHeight());
 
             Line line = createLine(firstX, firstY, secondX, secondY, null, lineColor);
             nodePane.getChildren().add(line);
@@ -85,6 +104,7 @@ public class Map  {
     }
 
     public void drawNodes(List<NodeInfo> allNodes, String floor) {
+        updateSize();
         List<NodeInfo> floorNodes = filterFloor(allNodes, floor);
 
         switchFloorImage(floor);
@@ -96,6 +116,7 @@ public class Map  {
 
 
     public void drawEdges(List<NodeInfo> allNodes, List<EdgeInfo> edges, String floor) {
+        updateSize();
         List<NodeInfo> floorNodes = filterFloor(allNodes, floor);
 
         switchFloorImage(floor);
@@ -116,10 +137,10 @@ public class Map  {
             NodeInfo endNode = findNode(edge.getEndNodeID(), nodes);
 
             if (startNode != null && endNode != null) {
-                double tfStartX = transform(startNode.getXPos(), imageWidth, nodePane.getPrefWidth());
-                double tfStartY = transform(startNode.getYPos(), imageHeight, nodePane.getPrefHeight());
-                double tfEndX = transform(endNode.getXPos(), imageWidth, nodePane.getPrefWidth());
-                double tfEndY = transform(endNode.getYPos(), imageHeight, nodePane.getPrefHeight());
+                double tfStartX = transform(startNode.getXPos(), imageWidth, getWidth());
+                double tfStartY = transform(startNode.getYPos(), imageHeight, getHeight());
+                double tfEndX = transform(endNode.getXPos(), imageWidth, getWidth());
+                double tfEndY = transform(endNode.getYPos(), imageHeight, getHeight());
                 Line line = createLine(tfStartX, tfStartY, tfEndX, tfEndY, edge, defaultLineColor);
                 if (line != null) {
                     nodePane.getChildren().add(line);
@@ -148,8 +169,8 @@ public class Map  {
 
     private void addCircles(List<NodeInfo> nodes) {
         for (NodeInfo node : nodes) {
-            double transformedX = transform(node.getXPos(), imageWidth,  nodePane.getPrefWidth());
-            double transformedY = transform(node.getYPos(), imageHeight, nodePane.getPrefHeight());
+            double transformedX = transform(node.getXPos(), imageWidth,  getWidth());
+            double transformedY = transform(node.getYPos(), imageHeight, getHeight());
             Circle circle = createCircle(transformedX, transformedY, node);
             if (circle != null) {
                 nodePane.getChildren().add(circle);
@@ -174,8 +195,9 @@ public class Map  {
 
     private boolean isWithinPaneBounds(double x, double y) {
         boolean inBounds = true;
-        if (x < 0 || x > nodePane.getPrefWidth()) inBounds = false;
-        if (y < 0 || y > nodePane.getPrefHeight()) inBounds = false;
+        if (x < 0 || x > getWidth()) inBounds = false;
+        if (y < 0 || y > getHeight()) inBounds = false;
+
         return inBounds;
     }
 

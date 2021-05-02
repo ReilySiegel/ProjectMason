@@ -40,7 +40,7 @@ public class Scene1Test extends ApplicationTest {
 //    resourceBundle = ResourceBundle.getBundle(localesPath + "en_US", defaultLocale);
 //    selectedLocale = LocaleType.en_US;
 //    App.setPrimaryStage(primaryStage);
-//    Parent root = FXMLLoader.load(getClass().getResource("fxml/MainPage.fxml"),resourceBundle);
+//    Parent root = FXMLLoader.load(getClass().getResource("fxml/OldMainPage.fxml"),resourceBundle);
 //    Scene scene = new Scene(root);
 //    primaryStage.setScene(scene);
 //    primaryStage.show();

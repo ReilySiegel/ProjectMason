@@ -1,17 +1,22 @@
 package edu.wpi.teamo.views;
 
 import com.jfoenix.controls.*;
+import edu.wpi.teamo.App;
+import edu.wpi.teamo.Pages;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -146,8 +151,11 @@ public class CovidSurveyPage extends ServiceRequestPage implements Initializable
         closeButton.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
             @Override
             public void handle(javafx.event.ActionEvent event) {
-                errorWindow.close();
+                //errorWindow.close();
+                App.switchPage(Pages.OLDMAIN);
             }
+
+
         });
 
         content.setActions(closeButton);

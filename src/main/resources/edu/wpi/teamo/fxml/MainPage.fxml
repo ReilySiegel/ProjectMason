@@ -2,122 +2,142 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.effect.GaussianBlur?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane fx:id="stackPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.MainPage">
+<StackPane style="-fx-background-color: #dddddd;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.MainPage">
    <children>
-      <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #001a3c;">
-         <center>
-            <HBox maxHeight="-Infinity" minHeight="500.0" prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: e2e2e2;" BorderPane.alignment="CENTER">
+      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="720.0" prefWidth="1280.0">
+         <children>
+            <ImageView fx:id="imageView" fitHeight="720.0" fitWidth="1280.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <effect>
+                  <GaussianBlur radius="12.25" />
+               </effect>
+               <image>
+                  <Image url="@../images/clouds.jpg" />
+               </image>
+            </ImageView>
+            <AnchorPane fx:id="backgroundPane" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <GridPane fx:id="mainGrid" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="4.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="12.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="1097.3333129882812" minWidth="10.0" percentWidth="4.0" prefWidth="1097.3333129882812" />
+                  <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="106.0" minHeight="10.0" percentHeight="10.0" prefHeight="91.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
                <children>
-                  <ImageView fitHeight="400.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/Brigham_and_Womens_Hospital_logo.svg.png" />
-                     </image>
-                     <HBox.margin>
-                        <Insets left="40.0" top="40.0" />
-                     </HBox.margin>
-                  </ImageView>
-                  <VBox alignment="CENTER_RIGHT" maxHeight="-Infinity" prefHeight="500.0" style="-fx-background-color: e2e2e2;" HBox.hgrow="ALWAYS">
+                  <VBox fx:id="containerVBox" alignment="CENTER" pickOnBounds="false" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
                      <children>
-                        <JFXButton buttonType="RAISED" minHeight="60.0" minWidth="125.0" onAction="#handleServiceRequest" prefWidth="400.0" style="-fx-background-color: #2a44a1;" text="%key.s_r_title" textFill="WHITE">
-                           <font>
-                              <Font name="Arial" size="24.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets bottom="10.0" top="10.0" />
-                           </VBox.margin>
-                        </JFXButton>
-                        <JFXButton buttonType="RAISED" minHeight="60.0" minWidth="400.0" onAction="#handlePathfinding" prefWidth="400.0" style="-fx-background-color: #2a44a1;" text="%key.pathfinding" textFill="WHITE">
-                           <VBox.margin>
-                              <Insets bottom="10.0" top="10.0" />
-                           </VBox.margin>
-                           <font>
-                              <Font name="Arial" size="24.0" />
-                           </font>
-                        </JFXButton>
-                        <JFXButton fx:id="mapeditorButton" buttonType="RAISED" minHeight="60.0" minWidth="400.0" onAction="#handleMapEditor" prefWidth="400.0" style="-fx-background-color: #2a44a1;" text="%key.map_editor" textFill="WHITE">
-                           <VBox.margin>
-                              <Insets bottom="10.0" top="10.0" />
-                           </VBox.margin>
-                           <font>
-                              <Font name="Arial" size="24.0" />
-                           </font>
-                        </JFXButton>
-                        <JFXButton fx:id="addaccountButton" buttonType="RAISED" minHeight="60.0" onAction="#handleAddUsers" prefHeight="5.0" prefWidth="399.0" style="-fx-background-color: #2a44a1;" text="%key.add_account" textFill="WHITE">
-                           <font>
-                              <Font name="Arial" size="24.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets bottom="10.0" top="10.0" />
-                           </VBox.margin>
-                        </JFXButton>
-                        <JFXButton buttonType="RAISED" layoutX="358.0" layoutY="355.0" minHeight="60.0" onAction="#handleSurvey" prefHeight="5.0" prefWidth="399.0" style="-fx-background-color: #2a44a1;" text="%key.survey" textFill="WHITE">
-                           <font>
-                              <Font name="Arial" size="24.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets top="10.0" />
-                           </VBox.margin>
-                        </JFXButton>
+                        <AnchorPane fx:id="containerPane" pickOnBounds="false" VBox.vgrow="ALWAYS" />
                      </children>
-                     <padding>
-                        <Insets right="70.0" />
-                     </padding>
                   </VBox>
+                  <VBox alignment="CENTER" pickOnBounds="false" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <children>
+                        <VBox fx:id="mainMenuButtonBox" alignment="CENTER" spacing="15.0" styleClass="pane" stylesheets="@CSS/MainPage.css">
+                           <children>
+                              <ImageView fitHeight="121.0" fitWidth="125.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/logo2.png" />
+                                 </image>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </ImageView>
+                              <JFXButton fx:id="pathfinderButton" buttonType="RAISED" layoutX="25.0" layoutY="25.0" prefHeight="40.0" prefWidth="120.0" text="Pathfinding">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </JFXButton>
+                              <JFXButton fx:id="serviceRequestButton" buttonType="RAISED" layoutX="10.0" layoutY="79.0" prefHeight="40.0" prefWidth="120.0" text="Service Requests">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </JFXButton>
+                              <JFXButton fx:id="aboutButton" buttonType="RAISED" prefHeight="40.0" prefWidth="120.0" text="About">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </JFXButton>
+                              <JFXButton fx:id="mapEditorButton" buttonType="RAISED" prefHeight="40.0" prefWidth="120.0" text="Map Editor">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </JFXButton>
+                              <JFXButton fx:id="requestManagerButton" buttonType="RAISED" layoutX="10.0" layoutY="118.0" prefHeight="40.0" prefWidth="120.0" text="Request Manager">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </JFXButton>
+                              <JFXButton fx:id="accountManagerButton" buttonType="RAISED" prefHeight="40.0" prefWidth="120.0" text="Account Manager">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </JFXButton>
+                           </children>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                  </VBox>
+                  <HBox alignment="CENTER" pickOnBounds="false" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="4">
+                     <children>
+                        <VBox alignment="CENTER" pickOnBounds="false" prefHeight="72.0" prefWidth="202.0">
+                           <children>
+                              <HBox alignment="CENTER" prefHeight="45.0" prefWidth="183.0" spacing="20.0" styleClass="pane" stylesheets="@CSS/MainPage.css">
+                                 <children>
+                                    <Text fx:id="usernameLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="Guest" textAlignment="CENTER" wrappingWidth="83.13671875">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Text>
+                                    <JFXButton fx:id="loginButton" text="Login" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
                </children>
-            </HBox>
-         </center>
-         <top>
-            <AnchorPane prefHeight="76.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
-               <children>
-                  <JFXButton fx:id="loginButton" layoutX="1078.0" layoutY="17.0" onAction="#handleLogin" style="-fx-background-color: #4d4d4d;" text="%key.login" textFill="WHITE" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
-                     <font>
-                        <Font name="Arial" size="14.0" />
-                     </font></JFXButton>
-                  <Text fx:id="usernameLabel" fill="WHITE" layoutX="769.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-text-alignment: right;" text="Guest" wrappingWidth="332.13677978515625" AnchorPane.topAnchor="12.705078125">
-                     <font>
-                        <Font name="Arial" size="18.0" />
-                     </font>
-                  </Text>
-               </children>
-            </AnchorPane>
-         </top>
-         <bottom>
-            <AnchorPane prefHeight="79.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
-               <children>
-                  <JFXButton buttonType="RAISED" layoutX="14.0" layoutY="12.0" onAction="#handleHelp" prefHeight="50.0" prefWidth="50.0" styleClass="standard" stylesheets="/edu/wpi/teamo/fxml/CSS/HelpButton.css" text="?" AnchorPane.bottomAnchor="15.0">
-                     <font>
-                        <Font name="Arial Bold" size="24.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton layoutX="83.0" layoutY="14.0" onAction="#langOnClick" style="-fx-background-color: #008CBA;" text="%key.language" textFill="WHITE" AnchorPane.bottomAnchor="15.0">
-                     <font>
-                        <Font name="Arial" size="20.0" />
-                     </font>
-                     <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </padding>
-                  </JFXButton>
-                  <JFXButton fx:id="closeButton" buttonType="RAISED" layoutX="1078.0" layoutY="20.0" minWidth="100.0" onAction="#closeWindow" style="-fx-background-color: #4d4d4d;" text="%key.exit" textFill="WHITE" AnchorPane.bottomAnchor="15.0">
-                     <font>
-                        <Font name="Arial" size="20.0" />
-                     </font>
-                     <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </padding>
-                  </JFXButton>
-               </children>
-            </AnchorPane>
-         </bottom>
-      </BorderPane>
+            </GridPane>
+         </children>
+      </AnchorPane>
    </children>
 </StackPane>

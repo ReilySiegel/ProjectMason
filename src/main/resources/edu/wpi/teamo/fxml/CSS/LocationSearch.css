@@ -12,7 +12,7 @@
     -fx-border-color:transparent;
 }
 .list-view .scroll-bar:vertical .thumb {
-    -fx-background-color: #009dff;
+    -fx-background-color: rgba(255, 255, 255, 0.5);
     -fx-background-insets: 5, 5, 5;
     -fx-background-radius: 5;
 }
