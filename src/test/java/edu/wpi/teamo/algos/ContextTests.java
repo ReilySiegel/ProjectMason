@@ -39,7 +39,7 @@ public class ContextTests {
 
         // Contest using dFS
         DFSManager dfs = new DFSManager(mdb);
-        Context context = new Context(null, dfs, null);
+        Context context = new Context(null, dfs, null,null,null);
         context.setPathfindingAlgo(dfs);
         LinkedList<AlgoNode> path_temp = context.getPath("oPARK01001","oPARK00501");
 
@@ -81,6 +81,35 @@ public class ContextTests {
         assertEquals("oPARK00401", path_bfs.get(3).getID());
         assertEquals("oPARK00601", path_bfs.get(4).getID());
         assertEquals("oPARK00501", path_bfs.get(5).getID());
+
+        // Switching Algorithms by calling the setter
+        // in this case, switch to BestFirst
+        BestFirstManager bestFirstManager = new BestFirstManager(mdb);
+        context.setPathfindingAlgo(bestFirstManager);
+        LinkedList<AlgoNode> path_BestFirst = context.getPath("oPARK01001","oPARK00501");
+
+        assertEquals(6, path_BestFirst.size());
+        assertEquals("oPARK01001", path_BestFirst.get(0).getID());
+        assertEquals("oPARK00801", path_BestFirst.get(1).getID());
+        assertEquals("oPARK00701", path_BestFirst.get(2).getID());
+        assertEquals("oPARK00401", path_BestFirst.get(3).getID());
+        assertEquals("oPARK00601", path_BestFirst.get(4).getID());
+        assertEquals("oPARK00501", path_BestFirst.get(5).getID());
+
+        // Switching Algorithms by calling the setter
+        // in this case, switch to Dijkstra
+        DijkstraManager djm = new DijkstraManager(mdb);
+        context.setPathfindingAlgo(djm);
+        LinkedList<AlgoNode> dijkstra_path = context.getPath("oPARK01001","oPARK00501");
+
+        assertEquals(6, dijkstra_path.size());
+        assertEquals("oPARK01001", dijkstra_path.get(0).getID());
+        assertEquals("oPARK00801", dijkstra_path.get(1).getID());
+        assertEquals("oPARK00701", dijkstra_path.get(2).getID());
+        assertEquals("oPARK00401", dijkstra_path.get(3).getID());
+        assertEquals("oPARK00601", dijkstra_path.get(4).getID());
+        assertEquals("oPARK00501", dijkstra_path.get(5).getID());
+
 
         System.out.println("If reach here, tests for Context.getPath() are passed!! ");
     }

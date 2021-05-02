@@ -16,6 +16,8 @@ public class Context {
     public static final String dfsCode = "DFS";
     public static final String bfsCode = "BFS";
     public static final String aStarCode = "AStar";
+    public static final String bestFirstCode = "BestFirst";
+    public static final String DijkstraCode = "Dijkstra";
 
     private final BFSManager bfm;
 
@@ -23,11 +25,17 @@ public class Context {
 
     private final AStarManager asm;
 
-    public Context(BFSManager bfm, DFSManager dfm, AStarManager asm) {
+    private final BestFirstManager bsfm;
+
+    private final DijkstraManager dkm;
+
+    public Context(BFSManager bfm, DFSManager dfm, AStarManager asm, BestFirstManager bsfm, DijkstraManager dkm) {
         setPathfindingAlgo(asm);
         this.bfm = bfm;
         this.dfm = dfm;
         this.asm = asm;
+        this.bsfm = bsfm;
+        this.dkm = dkm;
     }
 
     public void setPathfindingAlgo(IStrategyPathfinding pathfindingAlgo) {
@@ -44,6 +52,12 @@ public class Context {
                 break;
             case aStarCode:
                 setPathfindingAlgo(asm);
+                break;
+            case bestFirstCode:
+                setPathfindingAlgo(bsfm);
+                break;
+            case DijkstraCode:
+                setPathfindingAlgo(dkm);
                 break;
         }
     }

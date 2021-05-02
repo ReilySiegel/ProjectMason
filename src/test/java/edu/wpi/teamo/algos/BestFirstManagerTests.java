@@ -7,14 +7,13 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class BFSManagerTests {
-
-
+public class BestFirstManagerTests {
     @Test
     public void testGetPath() throws SQLException, ClassNotFoundException {
-
-        MapDB mdb = new MapDB("testBFSFindPath");
+        // make to have different databaseName
+        MapDB mdb = new MapDB("testBestFirstFindPath");
         mdb.addNode("oPARK00101", 3116, 1131, "F1", "b", "PARK", "Floor1RightParking1", "F1RightP1");
         mdb.addNode("oPARK00201", 3116, 1155, "F1", "b", "PARK", "Floor1RightParking2", "F1RightP2");
         mdb.addNode("oPARK00301", 3116, 1181, "F1", "b", "PARK", "Floor1RightParking3", "F1RightP3");
@@ -25,6 +24,7 @@ public class BFSManagerTests {
         mdb.addNode("oPARK00801", 3242, 1133, "F1", "b", "PARK", "Floor1RightParking8", "F1RightP8");
         mdb.addNode("oPARK00901", 3242, 1157, "F1", "b", "PARK", "Floor1RightParking9", "F1RightP9");
         mdb.addNode("oPARK01001", 3284, 1279, "F1", "b", "PARK", "Floor1RightParkingA", "F1RightPA");
+        mdb.addNode("oPARK01101", 1234, 1234, "F1", "b", "PARK", "Floor1RightParkingB", "F1RightPB");
         mdb.addEdge("oPARK00101_oPARK00301", "oPARK00101", "oPARK00301");
         mdb.addEdge("oPARK00101_oPARK00601", "oPARK00101", "oPARK00601");
         mdb.addEdge("oPARK00101_oPARK00201", "oPARK00101", "oPARK00201");
@@ -36,20 +36,41 @@ public class BFSManagerTests {
         mdb.addEdge("oPARK00801_oPARK00901", "oPARK00801", "oPARK00901");
         mdb.addEdge("oPARK00801_oPARK01001", "oPARK00801", "oPARK01001");
 
-        BFSManager bfsm = new BFSManager(mdb);
-        LinkedList<AlgoNode> pathP10_P5 = bfsm.getPath("oPARK01001","oPARK00501");
+        BestFirstManager bestFirstManager = new BestFirstManager(mdb);
+        LinkedList<AlgoNode> path_temp = bestFirstManager.getPath("oPARK01001", "oPARK00501");
 
-        assertEquals(6, pathP10_P5.size());
-        assertEquals("oPARK01001", pathP10_P5.get(0).getID());
-        assertEquals("oPARK00801", pathP10_P5.get(1).getID());
-        assertEquals("oPARK00701", pathP10_P5.get(2).getID());
-        assertEquals("oPARK00401", pathP10_P5.get(3).getID());
-        assertEquals("oPARK00601", pathP10_P5.get(4).getID());
-        assertEquals("oPARK00501", pathP10_P5.get(5).getID());
-        System.out.println("If reach here, tests for BFSManager.getPath() are passed!");
+        assertEquals(6, path_temp.size());
+        assertEquals("oPARK01001", path_temp.get(0).getID());
+        assertEquals("oPARK00801", path_temp.get(1).getID());
+        assertEquals("oPARK00701", path_temp.get(2).getID());
+        assertEquals("oPARK00401", path_temp.get(3).getID());
+        assertEquals("oPARK00601", path_temp.get(4).getID());
+        assertEquals("oPARK00501", path_temp.get(5).getID());
 
+
+        LinkedList<AlgoNode> path_temp1 = bestFirstManager.getPath("oPARK00701","oPARK00501");
+
+
+        assertEquals(4, path_temp1.size());
+        assertEquals("oPARK00701", path_temp1.get(0).getID());
+        assertEquals("oPARK00401", path_temp1.get(1).getID());
+        assertEquals("oPARK00601", path_temp1.get(2).getID());
+        assertEquals("oPARK00501", path_temp1.get(3).getID());
+
+
+        // a NullPointerException will be caught and have system print.
+        LinkedList<AlgoNode> path_temp2 = bestFirstManager.getPath("oPARK01101", "oPARK00801");
+
+        assertEquals(true,path_temp2.isEmpty());
+
+
+        LinkedList<AlgoNode> path_temp3 = bestFirstManager.getPath("oPARK00401","oPARK00501");
+        assertEquals(3, path_temp3.size());
+        assertEquals("oPARK00401", path_temp3.get(0).getID());
+        assertEquals("oPARK00601", path_temp3.get(1).getID());
+        assertEquals("oPARK00501", path_temp3.get(2).getID());
+
+        System.out.println("If reach here tests for BestFirstManager.getPath() are passed!!");
 
     }
-
-
 }
