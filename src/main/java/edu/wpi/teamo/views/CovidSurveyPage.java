@@ -24,7 +24,7 @@ import java.util.ResourceBundle;
 public class CovidSurveyPage extends ServiceRequestPage implements Initializable {
 
     @FXML
-    StackPane stackPane;
+    StackPane parentStackPane;
 
     @FXML
     HBox topHbox;
@@ -59,15 +59,6 @@ public class CovidSurveyPage extends ServiceRequestPage implements Initializable
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
-        topHbox.getStyleClass().add("root");
-        bottomHbox.getStyleClass().add("root");
-        middleVbox.getStyleClass().add("vbox");
-
-        Q1.getStyleClass().add("check-box");
-        Q2.getStyleClass().add("check-box");
-        Q3.getStyleClass().add("check-box");
-        Q4.getStyleClass().add("check-box");
-        Q5.getStyleClass().add("check-box");
 
         Q1.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
@@ -143,7 +134,7 @@ public class CovidSurveyPage extends ServiceRequestPage implements Initializable
                     "and patients unless instructed otherwise"));
         }
 
-        JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
+        JFXDialog errorWindow = new JFXDialog(parentStackPane, content, JFXDialog.DialogTransition.TOP);
         content.setStyle("-fx-background-color: #d8dee9");
 
         JFXButton closeButton = new JFXButton("Close");
@@ -151,8 +142,7 @@ public class CovidSurveyPage extends ServiceRequestPage implements Initializable
         closeButton.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
             @Override
             public void handle(javafx.event.ActionEvent event) {
-                //errorWindow.close();
-                App.switchPage(Pages.OLDMAIN);
+                App.switchPage(Pages.MAIN);
             }
 
 

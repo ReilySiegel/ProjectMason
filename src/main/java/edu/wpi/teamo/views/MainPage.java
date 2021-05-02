@@ -167,6 +167,11 @@ public class MainPage implements Initializable {
         SubPageContainer.switchPage(Pages.MANAGEREQUESTS);
     }
 
+    public void setCovidSurvey() {
+        hidePages();
+        SubPageContainer.switchPage(Pages.SURVEY);
+    }
+
     private void updateAccountWindow() {
         if(Session.isLoggedIn()) {
             loginButton.setText(App.resourceBundle.getString("key.logout"));

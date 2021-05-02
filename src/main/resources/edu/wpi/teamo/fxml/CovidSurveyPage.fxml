@@ -5,98 +5,107 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="stackPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" stylesheets="/edu/wpi/teamo/fxml/CSS/nord.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.CovidSurveyPage">
+<StackPane fx:id="parentStackPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.CovidSurveyPage">
    <children>
-      <BorderPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #3b4252;">
-         <top>
-            <HBox fx:id="topHbox" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #2e3440;" styleClass="vbox" BorderPane.alignment="CENTER">
-               <children>
-                  <Label text="%key.survey_full" textFill="#e1d2d2">
-                     <font>
-                        <Font size="36.0" />
-                     </font>
-                  </Label>
-               </children>
-            </HBox>
-         </top>
-         <bottom>
-            <HBox fx:id="bottomHbox" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #2e3440;" styleClass="vbox" BorderPane.alignment="CENTER">
-               <children>
-                  <JFXButton buttonType="RAISED" onAction="#backToMain" text="%key.back">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets left="15.0" right="15.0" />
-                     </HBox.margin>
-                  </JFXButton>
-                  <JFXButton buttonType="RAISED" onAction="#handleSubmit" text="%key.submit">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </JFXButton>
-               </children>
-            </HBox>
-         </bottom>
-         <center>
-            <VBox fx:id="middleVbox" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="1000.0" style="-fx-background-color: #4c566a;" styleClass="text-area" BorderPane.alignment="CENTER">
-               <children>
-                  <Label text="%key.survey_select">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Label>
-                  <JFXCheckBox fx:id="Q1" text="%key.survey_Q1">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets bottom="25.0" top="25.0" />
-                     </VBox.margin>
-                  </JFXCheckBox>
-                  <JFXCheckBox fx:id="Q2" text="%key.survey_Q2">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets bottom="25.0" />
-                     </VBox.margin>
-                  </JFXCheckBox>
-                  <JFXCheckBox fx:id="Q3" text="%key.survey_Q3">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets bottom="25.0" />
-                     </VBox.margin>
-                  </JFXCheckBox>
-                  <JFXCheckBox fx:id="Q4" text="%key.survey_Q4">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets bottom="25.0" />
-                     </VBox.margin>
-                  </JFXCheckBox>
-                  <JFXCheckBox fx:id="Q5" layoutX="149.0" layoutY="210.0" text="%key.survey_Q5">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                  </JFXCheckBox>
-               </children>
-               <BorderPane.margin>
-                  <Insets bottom="25.0" left="50.0" right="50.0" top="25.0" />
-               </BorderPane.margin>
-            </VBox>
-         </center>
-      </BorderPane>
+      <GridPane prefHeight="576.0" prefWidth="768.0" stylesheets="@CSS/MainPage.css">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <BorderPane styleClass="pane" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+               <center>
+                  <VBox fx:id="middleVbox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="557.0" prefWidth="768.0">
+                     <children>
+                        <Label text="%key.survey_select">
+                           <font>
+                              <Font name="Arial" size="20.0" />
+                           </font>
+                        </Label>
+                        <JFXCheckBox fx:id="Q1" text="%key.survey_Q1">
+                           <font>
+                              <Font name="Arial" size="20.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="25.0" top="25.0" />
+                           </VBox.margin>
+                        </JFXCheckBox>
+                        <JFXCheckBox fx:id="Q2" text="%key.survey_Q2">
+                           <font>
+                              <Font name="Arial" size="20.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="25.0" />
+                           </VBox.margin>
+                        </JFXCheckBox>
+                        <JFXCheckBox fx:id="Q3" text="%key.survey_Q3">
+                           <font>
+                              <Font name="Arial" size="20.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="25.0" />
+                           </VBox.margin>
+                        </JFXCheckBox>
+                        <JFXCheckBox fx:id="Q4" text="%key.survey_Q4">
+                           <font>
+                              <Font name="Arial" size="20.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="25.0" />
+                           </VBox.margin>
+                        </JFXCheckBox>
+                        <JFXCheckBox fx:id="Q5" layoutX="149.0" layoutY="210.0" text="%key.survey_Q5">
+                           <font>
+                              <Font name="Arial" size="20.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </JFXCheckBox>
+                     </children>
+                     <padding>
+                        <Insets left="30.0" right="30.0" top="30.0" />
+                     </padding>
+                  </VBox>
+               </center>
+               <bottom>
+                  <HBox fx:id="bottomHbox" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <JFXButton buttonType="RAISED" onAction="#backToMain" prefHeight="40.0" prefWidth="100.0" text="%key.back">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="15.0" right="15.0" />
+                           </HBox.margin>
+                        </JFXButton>
+                        <JFXButton buttonType="RAISED" onAction="#handleSubmit" prefHeight="40.0" prefWidth="100.0" text="%key.submit">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </JFXButton>
+                     </children>
+                  </HBox>
+               </bottom>
+            </BorderPane>
+         </children>
+      </GridPane>
    </children>
 </StackPane>
