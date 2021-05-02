@@ -27,6 +27,8 @@ public class DFS {
         for (AlgoNode n: nodes){
             adj[i] = n.getAdjacencies();
             position.put(n.getID(),i);
+            if(position.get(n.getID()) == null)
+                position.putIfAbsent(n.getID(),i);
             i++;
         }
         this.sourceNode = nodes.getFirst();
@@ -49,8 +51,8 @@ public class DFS {
             adj[i] = n.getAdjacencies();
             position.put(n.getID(),i);
             i++;
-
         }
+
 
         dfs(startNodeID);
     }

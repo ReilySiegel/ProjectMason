@@ -18,7 +18,7 @@ public class DijkstraManagerTests {
     @Test
     public void testFindPath() throws SQLException, ClassNotFoundException {
 
-        MapDB mdb = new MapDB("testAStarFindPath");
+        MapDB mdb = new MapDB("testDijkstraFindPath");
         mdb.addNode("oPARK00101", 3116,1131,"F1", "b","PARK","Floor1RightParking1","F1RightP1");
         mdb.addNode("oPARK00201", 3116,1155,"F1", "b","PARK","Floor1RightParking2","F1RightP2");
         mdb.addNode("oPARK00301", 3116,1181,"F1", "b","PARK","Floor1RightParking3","F1RightP3");
@@ -60,7 +60,7 @@ public class DijkstraManagerTests {
      */
     @Test
     public void testFindTrivialPath() throws SQLException, ClassNotFoundException  {
-        MapDB mdb = new MapDB("testFindTrivialPath");
+        MapDB mdb = new MapDB("testDijkstraFindTrivialPath");
         mdb.addNode("oPARK00101", 3116,1131,"F1", "b","PARK","Floor1RightParking1","F1RightP1");
         AStarManager asm = new AStarManager(mdb);
         LinkedList<AlgoNode> path = asm.getPath("oPARK00101","oPARK00101");
@@ -77,7 +77,7 @@ public class DijkstraManagerTests {
      */
     @Test
     public void testNoPath() throws SQLException, ClassNotFoundException, NullPointerException {
-        MapDB mdb = new MapDB("testNoPath");
+        MapDB mdb = new MapDB("testDijkstraNoPath");
         mdb.addNode("oPARK00101", 3116,1131,"F1", "b","PARK","Floor1RightParking1","F1RightP1");
         mdb.addNode("oPARK00201", 3116,1155,"F1", "b","PARK","Floor1RightParking2","F1RightP2");
         mdb.addNode("oPARK00301", 3116,1181,"F1", "b","PARK","Floor1RightParking3","F1RightP3");
@@ -175,7 +175,7 @@ public class DijkstraManagerTests {
      */
     @Test
     public void testInvalidNodeType() throws SQLException, ClassNotFoundException {
-        MapDB mdb = new MapDB("testInvalidNodeType");
+        MapDB mdb = new MapDB("testDijkstraInvalidNodeType");
         mdb.addNode("oPARK00101", 3116,1131,"F1", "b","an invalid node type","Floor1RightParking1","F1RightP1");
         mdb.addNode("oPARK00201", 3116,1155,"F1", "b","another node type that is invalid","Floor1RightParking2","F1RightP2");
         mdb.addEdge("oPARK00101_oPARK00201","oPARK00101","oPARK00201");
