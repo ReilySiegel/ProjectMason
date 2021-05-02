@@ -39,6 +39,10 @@ public class RequestDisplay {
         this.types.put("Security", true);
         this.types.put("Food", true);
         this.types.put("Gift", true);
+        this.types.put("Laundry", true);
+        this.types.put("Maintenance", true);
+        this.types.put("Interpreter", true);
+        this.types.put("Reilgious", true);
     }
 
     public void setShowComplete(Boolean showComplete) {
@@ -64,6 +68,10 @@ public class RequestDisplay {
         if (selectedTypes.get("Security")) secRequests.forEach(r -> makeSRBox(r, "Security Request"));
         if (selectedTypes.get("Food")) foodRequests.forEach(r -> makeSRBox(r, "Food Request"));
         if (selectedTypes.get("Gift")) giftRequests.forEach(r -> makeSRBox(r, "Gift Request"));
+        if (selectedTypes.get("Interpreter")) interpRequests.forEach(r -> makeSRBox(r, "Interpreter Request"));
+        if (selectedTypes.get("Laundry")) laundryRequests.forEach(r -> makeSRBox(r, "Laundry Request"));
+        if (selectedTypes.get("Maintenance")) maintRequests.forEach(r -> makeSRBox(r, "Maintenance Request"));
+        if (selectedTypes.get("Religious")) religRequests.forEach(r -> makeSRBox(r, "Religious Request"));
 
     }
 

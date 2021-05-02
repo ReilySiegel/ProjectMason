@@ -101,6 +101,9 @@
                            <font>
                               <Font size="18.0" />
                            </font>
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
                         </Text>
                         <JFXComboBox fx:id="algoSwitcher" focusColor="#405aa800" prefHeight="39.0" prefWidth="130.0" styleClass="pane" unFocusColor="#4d4d4d00">
                            <HBox.margin>

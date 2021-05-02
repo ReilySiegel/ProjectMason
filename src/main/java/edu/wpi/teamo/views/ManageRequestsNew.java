@@ -31,6 +31,10 @@ public class ManageRequestsNew implements Initializable {
     JFXCheckBox secCheck;
     JFXCheckBox foodCheck;
     JFXCheckBox giftCheck;
+    JFXCheckBox interpCheck;
+    JFXCheckBox laundryCheck;
+    JFXCheckBox maintCheck;
+    JFXCheckBox religCheck;
 
     RequestDisplay requestDisplay;
 
@@ -44,6 +48,10 @@ public class ManageRequestsNew implements Initializable {
         selectedTypes.put("Security", true);
         selectedTypes.put("Food", true);
         selectedTypes.put("Gift", true);
+        selectedTypes.put("Interpreter", true);
+        selectedTypes.put("Laundry", true);
+        selectedTypes.put("Maintenance", true);
+        selectedTypes.put("Religious", true);
 
         try {
             requestDisplay.update(selectedTypes);
@@ -63,12 +71,24 @@ public class ManageRequestsNew implements Initializable {
         foodCheck.setSelected(true);
         giftCheck = new JFXCheckBox("Gift");
         giftCheck.setSelected(true);
+        interpCheck = new JFXCheckBox("Interpreter");
+        interpCheck.setSelected(true);
+        laundryCheck = new JFXCheckBox("laundry");
+        laundryCheck.setSelected(true);
+        maintCheck = new JFXCheckBox("Maintenance");
+        maintCheck.setSelected(true);
+        religCheck = new JFXCheckBox("Religious");
+        religCheck.setSelected(true);
 
         typeFilterSelection.getItems().add(medCheck);
         typeFilterSelection.getItems().add(sanCheck);
         typeFilterSelection.getItems().add(secCheck);
         typeFilterSelection.getItems().add(foodCheck);
         typeFilterSelection.getItems().add(giftCheck);
+        typeFilterSelection.getItems().add(interpCheck);
+        typeFilterSelection.getItems().add(laundryCheck);
+        typeFilterSelection.getItems().add(maintCheck);
+        typeFilterSelection.getItems().add(religCheck);
     }
 
     @FXML
@@ -80,6 +100,10 @@ public class ManageRequestsNew implements Initializable {
         selectedTypes.put("Security", secCheck.isSelected());
         selectedTypes.put("Food", foodCheck.isSelected());
         selectedTypes.put("Gift", giftCheck.isSelected());
+        selectedTypes.put("Interpreter", interpCheck.isSelected());
+        selectedTypes.put("Laundry", laundryCheck.isSelected());
+        selectedTypes.put("Maintenance", maintCheck.isSelected());
+        selectedTypes.put("Religious", religCheck.isSelected());
 
         requestDisplay.setShowComplete(showCompleted.isSelected());
         requestDisplay.update(selectedTypes);
