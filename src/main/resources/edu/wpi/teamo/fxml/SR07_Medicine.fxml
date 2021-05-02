@@ -221,11 +221,30 @@
                   </JFXListView>
                   <HBox alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="727.0">
                      <children>
-                        <JFXButton fx:id="submitButton" buttonType="RAISED" prefHeight="25.0" prefWidth="112.0" styleClass="submit-button" stylesheets="@CSS/MainPage.css" text="Submit">
+                        <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <JFXButton buttonType="RAISED" onAction="#handleHelp" prefHeight="40.0" prefWidth="40.0" style="-fx-border-radius: 25; -fx-background-radius: 25;" styleClass="help-button" text="?" textFill="WHITE">
+                                 <font>
+                                    <Font name="Arial Bold" size="24.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets left="40.0" />
+                                 </VBox.margin>
+                              </JFXButton>
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
                            <HBox.margin>
-                              <Insets right="120.0" />
+                              <Insets />
                            </HBox.margin>
-                        </JFXButton>
+                           <children>
+                              <JFXButton fx:id="submitButton" buttonType="RAISED" onAction="#handleSubmission" prefHeight="25.0" prefWidth="112.0" styleClass="submit-button" stylesheets="@CSS/MainPage.css" text="Submit">
+                                 <VBox.margin>
+                                    <Insets right="150.0" />
+                                 </VBox.margin>
+                              </JFXButton>
+                           </children>
+                        </VBox>
                      </children>
                      <VBox.margin>
                         <Insets />
