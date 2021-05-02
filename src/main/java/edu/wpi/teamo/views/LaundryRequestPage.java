@@ -74,7 +74,7 @@ public class LaundryRequestPage extends ServiceRequestPage implements Initializa
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
 
-        //backButton.setOnAction(event -> App.switchPage(Pages.SERVICEREQUEST));
+        backButton.setOnAction(actionEvent -> SubPageContainer.switchPage(Pages.SERVICEREQUEST));
 
         try {
 

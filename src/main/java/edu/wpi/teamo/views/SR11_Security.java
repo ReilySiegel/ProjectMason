@@ -73,6 +73,8 @@ public class SR11_Security extends ServiceRequestPage implements Initializable {
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
 
+
+
         /* add styles */
         locationErrorText.setStyle("-fx-text-fill: red;");
         bottomButtonBar.getStyleClass().add("vbox");
@@ -83,7 +85,7 @@ public class SR11_Security extends ServiceRequestPage implements Initializable {
         /* assign event handlers */
         submitButton.setOnAction(event -> handleSubmission());
         helpButton.setOnAction(event -> handleHelp());
-        backButton.setOnAction(event -> handleBack());
+        backButton.setOnAction(actionEvent -> SubPageContainer.switchPage(Pages.SERVICEREQUEST));
 
 
         /* init search engine */
@@ -92,9 +94,7 @@ public class SR11_Security extends ServiceRequestPage implements Initializable {
 
     }
 
-    private void handleBack() {
-        App.switchPage(Pages.SERVICEREQUEST);
-    }
+
 
     private void handleSubmission() {
 

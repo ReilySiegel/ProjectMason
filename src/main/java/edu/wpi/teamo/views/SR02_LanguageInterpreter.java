@@ -83,12 +83,17 @@ public class SR02_LanguageInterpreter extends ServiceRequestPage implements Init
     @FXML
     private JFXListView<JFXCheckBox> roomList;
 
+    @FXML
+    private JFXButton backButton;
 
     LocationSearcher locationSearcher;
 
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
+
+        backButton.setOnAction(actionEvent -> SubPageContainer.switchPage(Pages.SERVICEREQUEST));
+
         topVbox.getStyleClass().add("vbox");
         bottomHbox.getStyleClass().add("vbox");
         midVbox.getStyleClass().add("text-area");

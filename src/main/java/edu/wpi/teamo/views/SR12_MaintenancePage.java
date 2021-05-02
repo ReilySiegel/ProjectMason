@@ -39,6 +39,9 @@ public class SR12_MaintenancePage extends ServiceRequestPage implements Initiali
     @FXML
     private JFXListView<JFXCheckBox> listOfSearched;
 
+    @FXML
+    private JFXButton backButton;
+
     private boolean validRequest;
     private SR12Type type;
     private ResourceBundle resources;
@@ -48,6 +51,8 @@ public class SR12_MaintenancePage extends ServiceRequestPage implements Initiali
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        backButton.setOnAction(actionEvent -> SubPageContainer.switchPage(Pages.SERVICEREQUEST));
+
         type = SR12Type.NULL;
         //Override CSS
 

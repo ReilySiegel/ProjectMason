@@ -61,10 +61,16 @@ public class FoodRequestPage extends ServiceRequestPage implements Initializable
     @FXML
     private JFXTextField locationLine;
 
+    @FXML
+    private JFXButton backButton;
+
     LocationSearcher locationSearcher;
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
+
+        backButton.setOnAction(actionEvent -> SubPageContainer.switchPage(Pages.SERVICEREQUEST));
+
         locationSearcher = new LocationSearcher(locationLine, locationSearch);
         updateLocations();
     }

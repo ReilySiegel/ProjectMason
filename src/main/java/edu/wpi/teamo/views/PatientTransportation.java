@@ -25,8 +25,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-public class PatientTransportation extends ServiceRequestPage implements Initializable {
-
+public class PatientTransportation extends ServiceRequestPage implements Initializable{
     @FXML
     private StackPane stackPane;
 
@@ -72,13 +71,20 @@ public class PatientTransportation extends ServiceRequestPage implements Initial
     private JFXCheckBox recurCheck;
 
     @FXML
-
     private JFXListView<JFXCheckBox> roomList;
+
+    @FXML
+    private JFXButton backButton;
 
     LocationSearcher locationSearcher;
 
 
     private boolean validRequest;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        backButton.setOnAction(actionEvent -> SubPageContainer.switchPage(Pages.SERVICEREQUEST));
+    }
 
 
     @FXML

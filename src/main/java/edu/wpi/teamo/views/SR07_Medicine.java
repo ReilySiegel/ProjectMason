@@ -77,6 +77,9 @@ public class SR07_Medicine extends ServiceRequestPage implements Initializable {
     @FXML
     private JFXTextField locationSearchBox;
 
+    @FXML
+    private JFXButton backButton;
+
     private boolean validRequest;
 
     LocationSearcher locationSearcher;
@@ -84,6 +87,8 @@ public class SR07_Medicine extends ServiceRequestPage implements Initializable {
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
+
+        backButton.setOnAction(actionEvent -> SubPageContainer.switchPage(Pages.SERVICEREQUEST));
 
         locationSearcher = new LocationSearcher(locationSearchBox, roomList);
         updateLocations();

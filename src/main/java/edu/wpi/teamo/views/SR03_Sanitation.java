@@ -54,6 +54,9 @@ public class SR03_Sanitation extends ServiceRequestPage implements Initializable
     private JFXTextField assignee;
 
     @FXML
+    private JFXButton backButton;
+
+    @FXML
     private JFXTimePicker timePicker = new JFXTimePicker();
 
     @FXML
@@ -96,6 +99,8 @@ public class SR03_Sanitation extends ServiceRequestPage implements Initializable
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
+
+        backButton.setOnAction(actionEvent -> SubPageContainer.switchPage(Pages.SERVICEREQUEST));
 
         topVbox.getStyleClass().add("vbox");
         bottomHbox.getStyleClass().add("vbox");

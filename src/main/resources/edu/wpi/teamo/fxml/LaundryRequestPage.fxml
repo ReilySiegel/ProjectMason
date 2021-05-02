@@ -163,7 +163,7 @@
                         </HBox>
                         <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="488.0">
                            <children>
-                                <JFXButton fx:id="backButton" buttonType="RAISED" onAction="#handleBackToServicePage" text="%key.back" textFill="WHITE">
+                                <JFXButton fx:id="backButton" buttonType="RAISED" text="%key.back" textFill="WHITE">
                                     <font>
                                         <Font size="18.0" />
                                     </font>

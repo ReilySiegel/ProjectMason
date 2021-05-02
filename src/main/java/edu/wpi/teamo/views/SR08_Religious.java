@@ -80,9 +80,14 @@ public class SR08_Religious extends ServiceRequestPage implements Initializable 
     @FXML
     private Text assignedErrorText;
 
+    @FXML
+    private JFXButton backButton;
+
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
+
+        backButton.setOnAction(actionEvent -> SubPageContainer.switchPage(Pages.SERVICEREQUEST));
 
         topVbox.getStyleClass().add("vbox");
         bottomHbox.getStyleClass().add("vbox");
@@ -176,9 +181,6 @@ public class SR08_Religious extends ServiceRequestPage implements Initializable 
         return validRequest;
     }
 
-    public void handleBackClick(ActionEvent e){
-        App.switchPage(Pages.SERVICEREQUEST);
-    }
 
     public void handleHelpPress(ActionEvent e){
         JFXDialogLayout content = new JFXDialogLayout();

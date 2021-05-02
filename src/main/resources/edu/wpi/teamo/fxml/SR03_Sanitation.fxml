@@ -225,7 +225,7 @@
                               <Insets />
                            </HBox.margin>
                            <children>
-                              <JFXButton buttonType="RAISED" onAction="#handleBackToServicePage" text="%key.back" textFill="WHITE">
+                              <JFXButton fx:id="backButton" buttonType="RAISED" text="%key.back" textFill="WHITE">
                                  <font>
                                     <Font size="18.0" />
                                  </font>

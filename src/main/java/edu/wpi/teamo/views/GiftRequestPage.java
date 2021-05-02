@@ -49,12 +49,16 @@ public class GiftRequestPage extends ServiceRequestPage implements Initializable
     @FXML
     private MenuButton locationBox;
 
+    @FXML
+    private JFXButton backButton;
+
     private boolean validRequest;
 
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
 
+        backButton.setOnAction(actionEvent -> SubPageContainer.switchPage(Pages.SERVICEREQUEST));
         validRequest = true;
         try {
             resetLocationBox();
