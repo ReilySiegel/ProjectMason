@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.Label?>
@@ -20,10 +19,6 @@
                   <JFXTextField fx:id="lastName" layoutX="271.0" layoutY="146.0" prefHeight="40.0" prefWidth="255.0" style="-fx-background-color: #f2f2f2;" />
                   <JFXTextField fx:id="username" layoutX="271.0" layoutY="223.0" prefHeight="40.0" prefWidth="255.0" style="-fx-background-color: #f2f2f2;" />
                   <JFXPasswordField fx:id="password" layoutX="271.0" layoutY="300.0" prefHeight="40.0" prefWidth="255.0" style="-fx-background-color: #f2f2f2;" />
-                  <JFXCheckBox fx:id="isAdmin" layoutX="271.0" layoutY="464.0" prefHeight="58.0" prefWidth="116.0" text="Admin?" textFill="#d8dee9" unCheckedColor="#f2f2f2">
-                     <font>
-                        <Font size="16.0" />
-                     </font></JFXCheckBox>
                   <JFXButton layoutX="461.0" layoutY="569.0" onAction="#addUser" prefHeight="68.0" prefWidth="181.0" style="-fx-background-color: #8fbcbb;" text="%key.submit" textFill="#d8dee9">
                      <font>
                         <Font name="System Bold" size="30.0" />
@@ -45,16 +40,11 @@
                      <font>
                         <Font size="24.0" />
                      </font></Label>
-                  <Label layoutX="56.0" layoutY="374.0" prefHeight="40.0" prefWidth="169.0" text="%key.role" textFill="#d8dee9">
-                     <font>
-                        <Font size="24.0" />
-                     </font></Label>
                   <JFXButton layoutX="45.0" layoutY="574.0" onAction="#backToMainMenu" prefHeight="58.0" prefWidth="123.0" style="-fx-background-color: #bf616a;" text="%key.back" textFill="#f2f2f2">
                      <font>
                         <Font name="System Bold" size="30.0" />
                      </font>
                   </JFXButton>
-                  <JFXTextField fx:id="role" layoutX="271.0" layoutY="374.0" prefHeight="40.0" prefWidth="255.0" style="-fx-background-color: #f2f2f2;" />
                   <Text fx:id="fNameError" fill="#ff7070" layoutX="271.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                   <Text fx:id="lNameError" fill="#ff7070" layoutX="271.0" layoutY="204.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                   <Text fx:id="userError" fill="#ff7070" layoutX="271.0" layoutY="281.0" strokeType="OUTSIDE" strokeWidth="0.0" />
@@ -62,7 +52,7 @@
                   <Text fx:id="roleError" fill="#ff7070" layoutX="271.0" layoutY="435.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                </children>
             </AnchorPane>
-            <Label layoutX="22.0" layoutY="83.0" prefHeight="680.0" prefWidth="419.0" text="%key.account_creation_page" textAlignment="CENTER" textFill="#d8dee9" wrapText="true">
+            <Label layoutX="22.0" layoutY="83.0" prefHeight="680.0" prefWidth="419.0" text="%key.patient_account_creation_page" textAlignment="CENTER" textFill="#d8dee9" wrapText="true">
                <font>
                   <Font size="84.0" />
                </font>

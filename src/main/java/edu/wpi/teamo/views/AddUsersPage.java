@@ -23,10 +23,6 @@ public class AddUsersPage extends SubPageController{
     @FXML
     JFXTextField lastName;
     @FXML
-    JFXTextField role;
-    @FXML
-    JFXCheckBox isAdmin;
-    @FXML
     JFXPasswordField password;
     @FXML
     StackPane stackPane;
@@ -73,13 +69,10 @@ public class AddUsersPage extends SubPageController{
                 validAccount = false;
                 pwError.setText(requiredField);
             } else pwError.setText("");
-            if (role.getText().isEmpty()) {
-                validAccount = false;
-                roleError.setText(requiredField);
-            } else roleError.setText("");
+
 
             if (validAccount) {
-                new Account(username.getText(), password.getText(), isAdmin.isSelected(), firstName.getText(), lastName.getText(), role.getText()).update();
+                new Account(username.getText(), password.getText(), false, firstName.getText(), lastName.getText(), "patient").update();
                 App.switchPage(Pages.MAIN);
             }
 
