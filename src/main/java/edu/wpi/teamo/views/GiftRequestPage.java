@@ -177,8 +177,4 @@ public class GiftRequestPage extends ServiceRequestPage implements Initializable
         content.setActions(closeButton);
         errorWindow.show();
     }
-
-
-
-
 }

@@ -22,10 +22,7 @@ import java.time.LocalDateTime;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalTime;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -97,6 +94,7 @@ public class SR07_Medicine extends ServiceRequestPage implements Initializable {
 
         locationSearcher = new LocationSearcher(locationSearchBox, roomList);
         updateLocations();
+        updateLocale();
 
         validRequest = true;
 
@@ -258,7 +256,12 @@ public class SR07_Medicine extends ServiceRequestPage implements Initializable {
         errorWindow.show();
     }
 
-
-
-
+    public void updateLocale() {
+        if (App.selectedLocale == LocaleType.en_US) {
+            Locale.setDefault(new Locale("en", "US"));
+        }
+        else if (App.selectedLocale == LocaleType.es_ES) {
+            Locale.setDefault(new Locale("es", "US"));
+        }
+    }
 }
