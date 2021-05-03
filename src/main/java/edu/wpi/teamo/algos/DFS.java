@@ -16,7 +16,6 @@ public class DFS {
 
     private AlgoNode sourceNode;
 
-
     public DFS(LinkedList<AlgoNode> nodes){
         this.allNodes = nodes;
         this.marked = new boolean[nodes.size()];
@@ -31,8 +30,8 @@ public class DFS {
                 position.putIfAbsent(n.getID(),i);
             i++;
         }
-        this.sourceNode = nodes.getFirst();
-
+        // the elevator on the first floor
+        sourceNode = nodes.get(6);
         dfs(sourceNode.getID());
     }
 
@@ -105,7 +104,7 @@ public class DFS {
             }
             catch (NullPointerException e)
             {
-                System.out.println("null wus here");
+                System.out.println("null wus here: " + w);
             }
         }
     }

@@ -34,9 +34,10 @@ public class App extends Application {
   public static ResourceBundle resourceBundle;
   public static LocaleType selectedLocale;
   private static final String localesPath = "edu.wpi.teamo.locales.";
+  public static LinkedList<AlgoNode> isolatedNodes;
 
   @Override
-  public void init() {
+  public void init() throws SQLException {
     pagePaths.put(Pages.SERVICEREQUEST, "/edu/wpi/teamo/fxml/serviceRequestHubPage.fxml");
     pagePaths.put(Pages.MAPEDITOR, "/edu/wpi/teamo/fxml/MapEditorPage.fxml");
     pagePaths.put(Pages.PATHFINDING, "/edu/wpi/teamo/fxml/PathfindingPage.fxml");
@@ -89,6 +90,17 @@ public class App extends Application {
       context = new Context(new BFSManager(mapService), new DFSManager(mapService), new AStarManager(mapService), new BestFirstManager(mapService), new DijkstraManager(mapService));
 
       System.out.println("Pathfinder Service Initialized");
+
+      // when the application starts, it will provide a list of nodes that are isolated(could be empty if there isn't any)
+      DFSManager explorer = new DFSManager(mapService);
+      LinkedList<AlgoNode> allIsolatedNodes = explorer.getIsolatedNodes();
+      isolatedNodes = allIsolatedNodes;
+
+      for (AlgoNode n: allIsolatedNodes){
+        System.out.println();
+        System.out.println(n.getID());
+      }
+
     }
   }
 
