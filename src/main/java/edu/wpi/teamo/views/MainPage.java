@@ -177,6 +177,11 @@ public class MainPage implements Initializable {
         SubPageContainer.switchPage(Pages.SURVEY);
     }
 
+    public void setSettings() {
+        hidePages();
+        SubPageContainer.switchPage(Pages.SETTINGS);
+    }
+
     private void updateAccountWindow() {
         if(Session.isLoggedIn()) {
             loginButton.setText(App.resourceBundle.getString("key.logout"));
@@ -217,19 +222,4 @@ public class MainPage implements Initializable {
         backgroundPane.getChildren().clear();
         backgroundPane.setVisible(false);
     }
-
-    @FXML
-    private void langOnClick(ActionEvent e) {
-        switch(App.selectedLocale) {
-            case en_US: {
-                App.switchLocale("es", "ES", LocaleType.es_ES, false);
-                break;
-            }
-            case es_ES: {
-                App.switchLocale("en", "US", LocaleType.en_US, false);
-                break;
-            }
-        }
-    }
-
 }

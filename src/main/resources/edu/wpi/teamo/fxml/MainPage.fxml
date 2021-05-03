@@ -112,6 +112,11 @@
                                     <Font size="18.0" />
                                  </font>
                               </JFXButton>
+                              <JFXButton buttonType="RAISED" onAction="#setSettings" prefHeight="40.0" prefWidth="120.0" text="%key.settings">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </JFXButton>
                            </children>
                            <VBox.margin>
                               <Insets />
@@ -139,18 +144,6 @@
                            </children>
                         </VBox>
                      </children>
-                  </HBox>
-                  <HBox alignment="BOTTOM_RIGHT" GridPane.columnIndex="4" GridPane.rowIndex="2">
-                     <children>
-                        <JFXButton onAction="#langOnClick" text="%key.language">
-                           <HBox.margin>
-                              <Insets bottom="30.0" right="30.0" />
-                           </HBox.margin>
-                        </JFXButton>
-                     </children>
-                     <GridPane.margin>
-                        <Insets />
-                     </GridPane.margin>
                   </HBox>
                </children>
             </GridPane>
