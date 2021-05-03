@@ -244,16 +244,12 @@ public class PathfindingPage extends SubPageController implements Initializable 
     @FXML
     private void handleHelpButton(ActionEvent e){
         JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text("Help"));
-        content.setBody(new Text("Select a starting location and ending location to get directions.\n" +
-                "1. Choose Start Location: Click on the button and then choose the node at or closest to your current location on the map.\n" +
-                "2. Choose End Location: Click on the button and ten choose the node at or closest to destination.\n" +
-                "3. Find Path: Click on the button to get directions on the map and text box on the right side of the map.\n"+
-                "4. Switch Floor: Click on the button to switch between the floors that  are on your path.\n"));
+        content.setHeading(new Text(App.resourceBundle.getString("key.help")));
+        content.setBody(new Text(App.resourceBundle.getString("key.pathfinding_help")));
         JFXDialog errorWindow = new JFXDialog(parentStackPane, content, JFXDialog.DialogTransition.TOP);
 
 
-        JFXButton closeButton = new JFXButton("Close");
+        JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
         closeButton.setStyle("-fx-background-color: #F40F19");
         closeButton.setOnAction(event -> errorWindow.close());
 

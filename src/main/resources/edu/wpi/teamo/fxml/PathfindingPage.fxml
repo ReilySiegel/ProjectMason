@@ -41,7 +41,7 @@
                <children>
                   <VBox fx:id="searchWindow" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="pane" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <children>
-                        <JFXTextField fx:id="searchBar" focusColor="#405aa800" prefHeight="27.0" prefWidth="332.0" promptText="Search a location..." unFocusColor="#4d4d4d00">
+                        <JFXTextField fx:id="searchBar" focusColor="#405aa800" prefHeight="27.0" prefWidth="332.0" promptText="%key.search_location" unFocusColor="#4d4d4d00">
                            <opaqueInsets>
                               <Insets />
                            </opaqueInsets>
@@ -63,7 +63,7 @@
                   </VBox>
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" styleClass="pane" GridPane.columnIndex="2" GridPane.rowIndex="2">
                      <children>
-                        <JFXButton fx:id="chooseStartButton" buttonType="RAISED" prefHeight="29.0" prefWidth="263.0" text="Choose a start location.">
+                        <JFXButton fx:id="chooseStartButton" buttonType="RAISED" prefHeight="29.0" prefWidth="263.0" text="%key.choose_start_location">
                            <font>
                               <Font name="Century" size="15.0" />
                            </font>
@@ -71,7 +71,7 @@
                               <Insets bottom="5.0" top="5.0" />
                            </VBox.margin>
                         </JFXButton>
-                        <JFXButton fx:id="chooseEndButton" buttonType="RAISED" prefHeight="29.0" prefWidth="263.0" text="Choose a destination.">
+                        <JFXButton fx:id="chooseEndButton" buttonType="RAISED" prefHeight="29.0" prefWidth="263.0" text="%key.choose_a_destination">
                            <font>
                               <Font name="Century" size="15.0" />
                            </font>
@@ -79,7 +79,7 @@
                               <Insets bottom="5.0" top="5.0" />
                            </VBox.margin>
                         </JFXButton>
-                        <JFXButton fx:id="findPathButton" buttonType="RAISED" prefHeight="39.0" prefWidth="161.0" text="Find Path">
+                        <JFXButton fx:id="findPathButton" buttonType="RAISED" prefHeight="39.0" prefWidth="161.0" text="%key.find_path">
                            <font>
                               <Font name="Century" size="21.0" />
                            </font>
