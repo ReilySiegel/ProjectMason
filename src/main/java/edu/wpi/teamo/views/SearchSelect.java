@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 
 public class SearchSelect<T, Cell> {
 
+    private boolean enabled = true;
+
     JFXListView<Cell> resultsList;
     JFXTextField searchBar;
 
@@ -29,6 +31,11 @@ public class SearchSelect<T, Cell> {
         Cell makeCell(T item, boolean selected);
     }
     CellCreator<T, Cell> cellCreator;
+
+    public interface HeaderCellCreator<T, Cell> {
+        Cell makeCell();
+    }
+    HeaderCellCreator<T, Cell> headerCellCreator = null;
 
     public interface ItemSorter<T> {
         List<T> sort(List<T> itemList);
@@ -74,8 +81,12 @@ public class SearchSelect<T, Cell> {
      * @param items List of T objects to be searched and selected.
      */
     public void setItems(List<T> items) {
-        updateMatchingItems(items);
         this.items = items;
+        updateFromSearchBar();
+    }
+
+    public void setHeaderCellCreator(HeaderCellCreator<T, Cell> headerCellCreator) {
+        this.headerCellCreator = headerCellCreator;
     }
 
     public List<T> getSelectedItems() {
@@ -87,13 +98,15 @@ public class SearchSelect<T, Cell> {
         updateFromSearchBar();
     }
 
-    private void updateFromSearchBar() {
+    public void updateFromSearchBar() {
         String searchText = searchBar.getText();
         List<T> matchingItems = filterMatchingItems(searchText, items);
         updateMatchingItems(matchingItems);
     }
 
     private List<T> filterMatchingItems(String text, List<T> items) {
+        if (!enabled) return items;
+
         if (matcher == null) {
             throw new InvalidParameterException("Matcher has not been set");
         }
@@ -104,11 +117,18 @@ public class SearchSelect<T, Cell> {
     }
 
     private void updateMatchingItems(List<T> matchingItems) {
+        if (!enabled) return;
+
         if (cellCreator == null) {
             throw new InvalidParameterException("Cell creator has not been set");
         }
 
-        resultsList.getItems().removeAll(resultsList.getItems());
+        resultsList.getItems().clear();
+
+        if (headerCellCreator != null) {
+            Cell cell = headerCellCreator.makeCell();
+            resultsList.getItems().add(cell);
+        }
 
         for (T item : selectedItems) {
             Cell cell = cellCreator.makeCell(item, true);
@@ -140,5 +160,9 @@ public class SearchSelect<T, Cell> {
 
     public void setCellCreator(CellCreator<T, Cell> cellCreator) {
         this.cellCreator = cellCreator;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }

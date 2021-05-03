@@ -4,18 +4,15 @@
 .list-view {
     -fx-background-color: transparent;
 }
-.list-view .scroll-bar:vertical {
+.list-view .scroll-bar {
     -fx-background-color:transparent;
 }
 .list-view .increment-button ,.list-view .decrement-button {
     -fx-background-color:transparent;
     -fx-border-color:transparent;
 }
-.list-view .scroll-bar:vertical .thumb {
+.list-view .scroll-bar .thumb {
     -fx-background-color: rgba(255, 255, 255, 0.5);
     -fx-background-insets: 5, 5, 5;
     -fx-background-radius: 5;
-}
-.list-view .scroll-bar:horizontal {
-    -fx-scale-x: 0;
 }

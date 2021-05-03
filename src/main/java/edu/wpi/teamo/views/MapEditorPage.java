@@ -17,25 +17,28 @@ import java.util.stream.Stream;
 import edu.wpi.teamo.algos.AlgoNode;
 import edu.wpi.teamo.algos.DFSManager;
 import edu.wpi.teamo.database.map.*;
+import edu.wpi.teamo.database.map.Edge;
+import edu.wpi.teamo.database.map.EdgeInfo;
+import edu.wpi.teamo.database.map.Node;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 
+import edu.wpi.teamo.database.map.NodeInfo;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.util.Pair;
+import javax.activity.InvalidActivityException;
 
 public class MapEditorPage extends SubPageController implements Initializable{
 
@@ -44,14 +47,6 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
     @FXML
     private GridPane gridPane;
-
-    @FXML
-    private JFXTreeTableView<Node> nodeTree;
-    private NodeTable nodeTable;
-
-    @FXML
-    private JFXTreeTableView<Edge> edgeTree;
-    private EdgeTable edgeTable;
 
     @FXML
     private Text nodeEditorHeadingText;
@@ -144,6 +139,21 @@ public class MapEditorPage extends SubPageController implements Initializable{
     @FXML
     private AnchorPane nodePane;
 
+    @FXML
+    private JFXTextField tableSearchBar;
+
+    @FXML
+    private JFXComboBox<String> tableTypeBox;
+
+    @FXML
+    private JFXListView<HBox> tableView;
+
+    private NodeTable nodeTable;
+    private EdgeTable edgeTable;
+
+    private static final String tableEdgeKey = "Edge";
+    private static final String tableNodeKey = "Node";
+
     Map map;
     boolean dragging = false;
 
@@ -200,32 +210,26 @@ public class MapEditorPage extends SubPageController implements Initializable{
         loadEdgeCSVButton.setOnAction(this::handleLoadEdgeCSV);
         saveNodeCSVButton.setOnAction(this::handleSaveNodeCSV);
         saveEdgeCSVButton.setOnAction(this::handleSaveEdgeCSV);
+        tableTypeBox.setOnAction(this::handleTableTypeSwitch);
         openTableButton.setOnAction(this::handleOpenTable);
 
         nodeEditorWindow.setVisible(false);
         edgeEditorWindow.setVisible(false);
         tableWindow.setVisible(false);
 
-        nodeTable = new NodeTable(nodeTree);
-        nodeTable.initClickListener(
-                nodeEditorInputID,
-                nodeEditorInputX,
-                nodeEditorInputIY,
-                nodeEditorInputBuilding,
-                nodeEditorInputFloor,
-                nodeEditorInputType,
-                nodeEditorInputLN,
-                nodeEditorInputSN,
-                this::openNodeEditor
-        );
+        nodeTable = new NodeTable(tableSearchBar, tableView, this::update, App.mapService);
+        edgeTable = new EdgeTable(tableSearchBar, tableView, this::update, App.mapService);
+        /* if we want to use the search bar for both we must set the handler here */
+        tableSearchBar.setOnKeyTyped(event -> {
+            nodeTable.updateFromSearchBar();
+            edgeTable.updateFromSearchBar();
+        });
 
-        edgeTable = new EdgeTable(edgeTree);
-        edgeTable.initClickListener(
-                edgeEditorInputID,
-                edgeEditorInputStartID,
-                edgeEditorInputEndID,
-                this::openEdgeEditor
-        );
+        tableTypeBox.getItems().add(tableNodeKey);
+        tableTypeBox.getItems().add(tableEdgeKey);
+
+        tableTypeBox.setValue(tableNodeKey);
+        edgeTable.setEnabled(false);
 
         App.getPrimaryStage().getScene().setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ESCAPE) {
@@ -236,6 +240,24 @@ public class MapEditorPage extends SubPageController implements Initializable{
         });
 
         update();
+    }
+
+    private void handleTableTypeSwitch(Event event) {
+        String value = tableTypeBox.getValue();
+        switch (value) {
+            case tableNodeKey:
+                edgeTable.setEnabled(false);
+                nodeTable.setEnabled(true);
+                updateNodeTable();
+                break;
+            case tableEdgeKey:
+                nodeTable.setEnabled(false);
+                edgeTable.setEnabled(true);
+                updateEdgeTable();
+                break;
+            default:
+                throw new Error("Map editor table combobox has invalid values.");
+        }
     }
 
     private void handleOpenTable(ActionEvent actionEvent) {
@@ -259,10 +281,9 @@ public class MapEditorPage extends SubPageController implements Initializable{
     }
 
     void update() {
-        updateNodeTreeDisplay();
-        updateEdgeTreeDisplay();
+        updateNodeTable();
+        updateEdgeTable();
         updateMap();
-
     }
 
     void updateMap() {
@@ -281,9 +302,6 @@ public class MapEditorPage extends SubPageController implements Initializable{
             map.clearShapes();
             map.drawEdges(nodeList, edgeList, selectedFloor);
             map.drawNodes(nodeList, selectedFloor);
-
-
-
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -368,32 +386,11 @@ public class MapEditorPage extends SubPageController implements Initializable{
             NodeInfo node = p.getValue();
 
             switch (node.getNodeType()) {
-                case "PARK":
+                case "ISOLATED":
                     circle.setFill(Color.BLACK);
                     break;
-                case "DEPT":
-                    circle.setFill(Color.BLUE);
-                    break;
-                case "HALL":
-                    circle.setFill(Color.TRANSPARENT);
-                    break;
-                case "CONF":
-                    circle.setFill(Color.RED);
-                    break;
-                case "REST":
-                    circle.setFill(Color.YELLOW);
-                    break;
-                case "LABS":
-                    circle.setFill(Color.GREEN);
-                    break;
-                case "CITY":
-                    circle.setFill(Color.ORANGE);
-                    break;
-                case "ISOLATED":
-                    circle.setFill(Color.DARKOLIVEGREEN);
-                    break;
                 default:
-                    circle.setFill(Color.CYAN);
+                    circle.setFill(Color.BLUE);
                     break;
             }
 
@@ -881,25 +878,25 @@ public class MapEditorPage extends SubPageController implements Initializable{
     }
 
     @FXML
-    void updateNodeTreeDisplay() {
+    void updateNodeTable() {
         Stream<NodeInfo> nodeStream = null;
         try {
             nodeStream = App.mapService.getAllNodes();
+            nodeTable.setItems(nodeStream.collect(Collectors.toList()));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        nodeTable.update(nodeStream);
     }
 
     @FXML
-    void updateEdgeTreeDisplay() {
+    void updateEdgeTable() {
         Stream<EdgeInfo> edgeStream = null;
         try {
             edgeStream = App.mapService.getAllEdges();
+            edgeTable.setItems(edgeStream.collect(Collectors.toList()));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        edgeTable.update(edgeStream);
     }
 
     @FXML

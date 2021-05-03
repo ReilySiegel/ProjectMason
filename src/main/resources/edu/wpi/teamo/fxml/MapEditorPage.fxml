@@ -2,10 +2,9 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXListView?>
 <?import com.jfoenix.controls.JFXTextField?>
-<?import com.jfoenix.controls.JFXTreeTableView?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -108,17 +107,25 @@
                <GridPane.margin>
                   <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
                </GridPane.margin>
-               <children>
-                  <SplitPane dividerPositions="0.4955116696588869" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
-                    <items>
-                        <JFXTreeTableView fx:id="nodeTree" />
-                        <JFXTreeTableView fx:id="edgeTree" />
-                    </items>
-                  </SplitPane>
-               </children>
                <padding>
                   <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
                </padding>
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="506.0" spacing="10.0">
+                           <children>
+                              <JFXTextField fx:id="tableSearchBar" prefHeight="27.0" prefWidth="190.0" />
+                              <JFXComboBox fx:id="tableTypeBox" focusColor="BLACK" style="-fx-border-color: grey;" />
+                           </children>
+                           <padding>
+                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                           </padding>
+                        </HBox>
+                        <JFXListView fx:id="tableView" prefHeight="444.0" prefWidth="506.0" stylesheets="@CSS/LocationSearch.css" />
+                     </children>
+                  </VBox>
+               </children>
             </StackPane>
             <HBox alignment="CENTER" pickOnBounds="false" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
                <children>

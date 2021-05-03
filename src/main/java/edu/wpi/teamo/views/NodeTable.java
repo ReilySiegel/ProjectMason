@@ -1,143 +1,232 @@
 package edu.wpi.teamo.views;
 
+import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.controls.JFXTreeTableColumn;
-import com.jfoenix.controls.JFXTreeTableView;
-import com.jfoenix.controls.RecursiveTreeItem;
-import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
-import edu.wpi.teamo.database.map.Node;
+import edu.wpi.teamo.database.map.IMapService;
 import edu.wpi.teamo.database.map.NodeInfo;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeTableColumn;
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 
-import java.util.Collections;
-import java.util.function.Consumer;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.sql.SQLException;
+import java.util.Locale;
 
-public class NodeTable {
+public class NodeTable extends SearchSelect<NodeInfo, HBox> {
 
-    JFXTreeTableView<Node> tree;
+    private final IMapService mapService;
 
-    public NodeTable(JFXTreeTableView<Node> nodeTree) {
-        tree = nodeTree;
-        initColumns();
+    double columnWidth = 200;
+
+    public static interface OnUpdate {
+        void onUpdate();
+    }
+    OnUpdate onUpdate = null;
+
+    public NodeTable(JFXTextField searchBar, JFXListView<HBox> table, OnUpdate onUpdate, IMapService mapService) {
+        super(searchBar, table, null, null);
+        setCellCreator(this::createRow);
+        this.mapService = mapService;
+        setMatcher(this::nodeMatches);
+        setHeaderCellCreator(this::createHeader);
+        this.onUpdate = onUpdate;
     }
 
-    public void initClickListener(
-                    JFXTextField newNodeID,
-                    JFXTextField origNodeX,
-                    JFXTextField origNodeY,
-                    JFXTextField origNodeBuilding,
-                    JFXTextField origNodeFloor,
-                    JFXTextField origNodeType,
-                    JFXTextField origNodeLN,
-                    JFXTextField origNodeSN,
-                    Consumer<NodeInfo> onClickNode
-    ) {
-        //Set original node ID, X, and Y in the Edit and Delete box to selected value.
-        tree.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<Node>>() {
-            @Override
-            public void changed(ObservableValue<? extends TreeItem<Node>> observable, TreeItem<Node> oldValue, TreeItem<Node> newValue) {
-                if(newValue != null){
-                    newNodeID.setText(newValue.getValue().getNodeID());
-                    origNodeX.setText(Integer.toString(newValue.getValue().getXPos()));
-                    origNodeY.setText(Integer.toString(newValue.getValue().getYPos()));
-                    origNodeBuilding.setText(newValue.getValue().getBuilding());
-                    origNodeFloor.setText(newValue.getValue().getFloor());
-                    origNodeType.setText(newValue.getValue().getNodeType());
-                    origNodeLN.setText(newValue.getValue().getLongName());
-                    origNodeSN.setText(newValue.getValue().getShortName());
-                    onClickNode.accept(newValue.getValue());
-                }
-            }
-        });
+    private boolean nodeMatches(NodeInfo node, String text) {
+        boolean matching;
+
+        text = text.toLowerCase(Locale.ROOT);
+
+        matching  = String.valueOf(node.getXPos()).toLowerCase(Locale.ROOT).contains(text);
+        matching |= String.valueOf(node.getYPos()).toLowerCase(Locale.ROOT).contains(text);
+        matching |= node.getShortName().toLowerCase(Locale.ROOT).contains(text);
+        matching |= node.getNodeType().toLowerCase(Locale.ROOT).contains(text);
+        matching |= node.getBuilding().toLowerCase(Locale.ROOT).contains(text);
+        matching |= node.getLongName().toLowerCase(Locale.ROOT).contains(text);
+        matching |= node.getNodeID().toLowerCase(Locale.ROOT).contains(text);
+        matching |= node.getFloor().toLowerCase(Locale.ROOT).contains(text);
+
+        return matching;
     }
 
-    public void update(Stream<NodeInfo> nodeStream) {
-        if (nodeStream == null) return;
+    private HBox createHeader() {
+        Label idField = new Label("id");
+        idField.setMinWidth(columnWidth);
+        Label longNameField = new Label("longName");
+        longNameField.setMinWidth(columnWidth);
+        Label shortNameField = new Label("shortName");
+        shortNameField.setMinWidth(columnWidth);
+        Label typeField = new Label("type");
+        typeField.setMinWidth(columnWidth);
+        Label buildingField = new Label("building");
+        buildingField.setMinWidth(columnWidth);
+        Label floorField = new Label("floor");
+        floorField.setMinWidth(columnWidth);
+        Label xField = new Label("x");
+        xField.setMinWidth(columnWidth);
+        Label yField = new Label("y");
+        yField.setMinWidth(columnWidth);
+        HBox row = new HBox(idField, longNameField, shortNameField, typeField, buildingField, floorField, xField, yField);
+        return row;
+    }
 
-        ObservableList<Node> data = FXCollections.observableArrayList();
+    private HBox createRow(NodeInfo node, boolean isSelected) {
 
-        //Display all Node ID, X, Y, Floor, Building, LongName, and ShortName
-        for(NodeInfo node : nodeStream.collect(Collectors.toList())){
-            if(!node.getNodeID().isEmpty()){
-                data.add(new Node(node.getNodeID(),node.getXPos(),node.getYPos(),
-                        node.getFloor(), node.getBuilding(), node.getNodeType(), node.getLongName(),
-                        node.getShortName()));
+        JFXTextField idField = new JFXTextField();
+        idField.setText(node.getNodeID());
+        idField.setOnAction(event -> handleIDChange(idField, node));
+        idField.setMinWidth(columnWidth);
+
+        JFXTextField longNameField = new JFXTextField();
+        longNameField.setText(node.getLongName());
+        longNameField.setOnAction(event -> handleLNChange(longNameField, node));
+        longNameField.setMinWidth(columnWidth);
+
+        JFXTextField shortNameField = new JFXTextField();
+        shortNameField.setText(node.getShortName());
+        shortNameField.setOnAction(event -> handleSNChange(shortNameField, node));
+        shortNameField.setMinWidth(columnWidth);
+
+        JFXTextField typeField = new JFXTextField();
+        typeField.setText(node.getNodeType());
+        typeField.setOnAction(event -> handleTypeChange(typeField, node));
+        typeField.setMinWidth(columnWidth);
+
+        JFXTextField buildingField = new JFXTextField();
+        buildingField.setText(node.getBuilding());
+        buildingField.setOnAction(event -> handleBuildingChange(buildingField, node));
+        buildingField.setMinWidth(columnWidth);
+
+        JFXTextField floorField = new JFXTextField();
+        floorField.setText(node.getFloor());
+        floorField.setOnAction(event -> handleFloorChange(floorField, node));
+        floorField.setMinWidth(columnWidth);
+
+        JFXTextField xField = new JFXTextField();
+        xField.setText(String.valueOf(node.getXPos()));
+        xField.setOnAction(event -> handleXChange(xField, node));
+        xField.setMinWidth(columnWidth);
+
+        JFXTextField yField = new JFXTextField();
+        yField.setText(String.valueOf(node.getYPos()));
+        yField.setOnAction(event -> handleYChange(yField, node));
+        yField.setMinWidth(columnWidth);
+
+        HBox row = new HBox(idField, longNameField, shortNameField, typeField, buildingField, floorField, xField, yField);
+        row.setStyle("-fx-background-color: rgba(132,252,248, 0.4)");
+
+        return row;
+    }
+
+    private void handleYChange(JFXTextField textField, NodeInfo node) {
+        String text = textField.getText();
+        if (mapService != null) {
+            try {
+                int newY = Integer.parseInt(text);
+                mapService.setNodePosition(node.getNodeID(), node.getXPos(), newY);
+                onUpdate.onUpdate();
+            } catch (NumberFormatException e) {
+                textField.setText(String.valueOf(node.getYPos()));
+            } catch (SQLException throwables) {
+                textField.setText(String.valueOf(node.getYPos()));
+                throwables.printStackTrace();
             }
         }
-
-        TreeItem<Node> root = new RecursiveTreeItem<>(data, RecursiveTreeObject::getChildren);
-
-        tree.setRoot(root);
-        tree.setShowRoot(false);
     }
 
-    private void initColumns() {
-        JFXTreeTableColumn<Node, String> nID = new JFXTreeTableColumn<>("Node ID");
-        nID.setPrefWidth(125);
-        nID.setCellValueFactory((TreeTableColumn.CellDataFeatures<Node, String> param) -> {
-            StringProperty var = new SimpleStringProperty(param.getValue().getValue().getNodeID());
-            return var;
-        });
-
-        JFXTreeTableColumn<Node, String> nX = new JFXTreeTableColumn<>("X");
-        nX.setPrefWidth(125);
-        nX.setCellValueFactory((TreeTableColumn.CellDataFeatures<Node, String> param) -> {
-            StringProperty var = new SimpleStringProperty(String.valueOf(param.getValue().getValue().getXPos()));
-            return var;
-        });
-
-        JFXTreeTableColumn<Node, String> nY = new JFXTreeTableColumn<>("Y");
-        nY.setPrefWidth(125);
-        nY.setCellValueFactory((TreeTableColumn.CellDataFeatures<Node, String> param) -> {
-            StringProperty var = new SimpleStringProperty(String.valueOf(param.getValue().getValue().getYPos()));
-            return var;
-        });
-
-        JFXTreeTableColumn<Node, String> nFloor = new JFXTreeTableColumn<>("Floor");
-        nFloor.setPrefWidth(125);
-        nFloor.setCellValueFactory((TreeTableColumn.CellDataFeatures<Node, String> param) -> {
-            StringProperty var = new SimpleStringProperty(param.getValue().getValue().getFloor());
-            return var;
-        });
-
-        JFXTreeTableColumn<Node, String> nBuilding = new JFXTreeTableColumn<>("Building");
-        nBuilding.setPrefWidth(125);
-        nBuilding.setCellValueFactory((TreeTableColumn.CellDataFeatures<Node, String> param) -> {
-            StringProperty var = new SimpleStringProperty(param.getValue().getValue().getBuilding());
-            return var;
-        });
-
-        JFXTreeTableColumn<Node, String> nType = new JFXTreeTableColumn<>("Node Type");
-        nType.setPrefWidth(125);
-        nType.setCellValueFactory((TreeTableColumn.CellDataFeatures<Node, String> param) -> {
-            StringProperty var = new SimpleStringProperty(param.getValue().getValue().getNodeType());
-            return var;
-        });
-
-        JFXTreeTableColumn<Node, String> nLongName = new JFXTreeTableColumn<>("Long Name");
-        nLongName.setPrefWidth(125);
-        nLongName.setCellValueFactory((TreeTableColumn.CellDataFeatures<Node, String> param) -> {
-            StringProperty var = new SimpleStringProperty(param.getValue().getValue().getLongName());
-            return var;
-        });
-
-        JFXTreeTableColumn<Node, String> nShortName = new JFXTreeTableColumn<>("Short Name");
-        nShortName.setPrefWidth(125);
-        nShortName.setCellValueFactory((TreeTableColumn.CellDataFeatures<Node, String> param) -> {
-            StringProperty var = new SimpleStringProperty(param.getValue().getValue().getShortName());
-            return var;
-        });
-
-        tree.getColumns().addAll(nID,nX,nY,nFloor,nBuilding,nType,nLongName,nShortName);
+    private void handleXChange(JFXTextField textField, NodeInfo node) {
+        String text = textField.getText();
+        if (mapService != null) {
+            try {
+                int newX = Integer.parseInt(text);
+                mapService.setNodePosition(node.getNodeID(), newX, node.getYPos());
+                onUpdate.onUpdate();
+            } catch (NumberFormatException e) {
+                textField.setText(String.valueOf(node.getXPos()));
+            } catch (SQLException throwables) {
+                textField.setText(String.valueOf(node.getXPos()));
+                throwables.printStackTrace();
+            }
+        }
     }
+
+    private void handleFloorChange(JFXTextField textField, NodeInfo node) {
+        String text = textField.getText();
+        if (mapService != null) {
+            try {
+                mapService.setNodeFloor(node.getNodeID(), text);
+                onUpdate.onUpdate();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                textField.setText(node.getFloor());
+            }
+        }
+    }
+
+    private void handleBuildingChange(JFXTextField textField, NodeInfo node) {
+        String text = textField.getText();
+        if (mapService != null) {
+            try {
+                mapService.setNodeBuilding(node.getNodeID(), text);
+                onUpdate.onUpdate();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                textField.setText(node.getBuilding());
+            }
+        }
+    }
+
+    private void handleTypeChange(JFXTextField textField, NodeInfo node) {
+        String text = textField.getText();
+        if (mapService != null) {
+            try {
+                mapService.setNodeType(node.getNodeID(), text);
+                onUpdate.onUpdate();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                textField.setText(node.getNodeType());
+            }
+        }
+    }
+
+    private void handleSNChange(JFXTextField textField, NodeInfo node) {
+        String text = textField.getText();
+        if (mapService != null) {
+            try {
+                mapService.setNodeShortName(node.getNodeID(), text);
+                onUpdate.onUpdate();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                textField.setText(node.getShortName());
+            }
+        }
+    }
+
+    private void handleIDChange(JFXTextField textField, NodeInfo node) {
+        String text = textField.getText();
+        if (mapService != null) {
+            try {
+                if (mapService.nodeExists(text)) throw new SQLException();
+                mapService.setNodeID(node.getNodeID(), text);
+                onUpdate.onUpdate();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                textField.setText(node.getNodeID());
+            }
+        }
+    }
+
+    private void handleLNChange(JFXTextField textField, NodeInfo node) {
+        String text = textField.getText();
+        if (mapService != null) {
+            try {
+                mapService.setNodeLongName(node.getNodeID(), text);
+                onUpdate.onUpdate();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                textField.setText(node.getLongName());
+            }
+        }
+    }
+
 
 }

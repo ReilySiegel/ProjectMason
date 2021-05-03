@@ -1,93 +1,123 @@
 package edu.wpi.teamo.views;
 
+import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.controls.JFXTreeTableColumn;
-import com.jfoenix.controls.JFXTreeTableView;
-import com.jfoenix.controls.RecursiveTreeItem;
-import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
-import edu.wpi.teamo.database.map.Edge;
 import edu.wpi.teamo.database.map.EdgeInfo;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeTableColumn;
+import edu.wpi.teamo.database.map.IMapService;
+import edu.wpi.teamo.database.map.EdgeInfo;
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 
-import java.util.function.Consumer;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.sql.SQLException;
+import java.util.Locale;
 
-public class EdgeTable {
-    JFXTreeTableView<Edge> tree;
+public class EdgeTable extends SearchSelect<EdgeInfo, HBox> {
 
-    public EdgeTable(JFXTreeTableView<Edge> edgeTree) {
-        tree = edgeTree;
-        initColumns();
+    private final IMapService mapService;
+
+    double columnWidth = 200;
+
+    public static interface OnUpdate {
+        void onUpdate();
+    }
+    OnUpdate onUpdate = null;
+
+    public EdgeTable(JFXTextField searchBar, JFXListView<HBox> table, OnUpdate onUpdate, IMapService mapService) {
+        super(searchBar, table, null, null);
+        setCellCreator(this::createRow);
+        this.mapService = mapService;
+        setMatcher(this::nodeMatches);
+        setHeaderCellCreator(this::createHeader);
+        this.onUpdate = onUpdate;
     }
 
-    public void initClickListener(
-            JFXTextField editEdgeID,
-            JFXTextField editNode1,
-            JFXTextField editNode2,
-            Consumer<EdgeInfo> onClickEdge
-    ) {
-        //Set original node ID, X, and Y in the Edit and Delete box to selected value.
-        tree.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<Edge>>() {
-            @Override
-            public void changed(ObservableValue<? extends TreeItem<Edge>> observable, TreeItem<Edge> oldValue, TreeItem<Edge> newValue) {
-                if(newValue != null){
-                    editEdgeID.setText(newValue.getValue().getEdgeID());
-                    editNode1.setText(newValue.getValue().getStartNodeID());
-                    editNode2.setText(newValue.getValue().getEndNodeID());
-                    onClickEdge.accept(newValue.getValue());
-                }
-            }
-        });
+    private boolean nodeMatches(EdgeInfo edge, String text) {
+        boolean matching = false;
+
+        text = text.toLowerCase(Locale.ROOT);
+
+        matching |= edge.getEdgeID().toLowerCase(Locale.ROOT).contains(text);
+        matching |= edge.getStartNodeID().toLowerCase(Locale.ROOT).contains(text);
+        matching |= edge.getEndNodeID().toLowerCase(Locale.ROOT).contains(text);
+
+        return matching;
     }
 
-    public void update(Stream<EdgeInfo> edgeStream){
-        if (edgeStream == null) return;
+    private HBox createHeader() {
+        Label idField = new Label("id");
+        idField.setMinWidth(columnWidth);
+        Label startNodeIDField = new Label("startNodeID");
+        startNodeIDField.setMinWidth(columnWidth);
+        Label endNodeIDField = new Label("endNodeID");
+        endNodeIDField.setMinWidth(columnWidth);
 
-        ObservableList<Edge> data = FXCollections.observableArrayList();
+        HBox row = new HBox(idField, startNodeIDField, endNodeIDField);
+        return row;
+    }
 
-        //Display all Node ID, X, Y, Floor, Building, LongName, and ShortName
-        for(EdgeInfo edge : edgeStream.collect(Collectors.toList())){
-            if(!edge.getEdgeID().isEmpty()){
-                data.add(new Edge(edge.getEdgeID(),edge.getStartNodeID(),edge.getEndNodeID()));
+    private HBox createRow(EdgeInfo edge, boolean isSelected) {
+
+        JFXTextField idField = new JFXTextField();
+        idField.setText(edge.getEdgeID());
+        idField.setOnAction(event -> handleIDChange(idField, edge));
+        idField.setMinWidth(columnWidth);
+
+        JFXTextField startIDField = new JFXTextField();
+        startIDField.setText(edge.getStartNodeID());
+        startIDField.setOnAction(event -> handleStartIDChange(startIDField, edge));
+        startIDField.setMinWidth(columnWidth);
+
+        JFXTextField endIDField = new JFXTextField();
+        endIDField.setText(edge.getEndNodeID());
+        endIDField.setOnAction(event -> handleEndIDChange(endIDField, edge));
+        endIDField.setMinWidth(columnWidth);
+
+        HBox row = new HBox(idField, startIDField, endIDField);
+        row.setStyle("-fx-background-color: rgba(132,252,248, 0.4)");
+
+        return row;
+    }
+
+
+    private void handleStartIDChange(JFXTextField textField, EdgeInfo edge) {
+        String text = textField.getText();
+        if (mapService != null) {
+            try {
+                mapService.setEdgeStartID(edge.getEdgeID(), text);
+                onUpdate.onUpdate();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                textField.setText(edge.getStartNodeID());
             }
         }
-
-        // checks to see if tree has been initialized and wont make dupe columns
-        TreeItem<Edge> root = new RecursiveTreeItem<>(data, RecursiveTreeObject::getChildren);
-        tree.setRoot(root);
-        tree.setShowRoot(false);
     }
 
-    private void initColumns() {
-        JFXTreeTableColumn<Edge, String> eID = new JFXTreeTableColumn<>("Edge ID");
-        eID.setPrefWidth(125);
-        eID.setCellValueFactory((TreeTableColumn.CellDataFeatures<Edge, String> param) -> {
-            StringProperty var = new SimpleStringProperty(param.getValue().getValue().getEdgeID());
-            return var;
-        });
-
-        JFXTreeTableColumn<Edge, String> eStart = new JFXTreeTableColumn<>("Start Node");
-        eStart.setPrefWidth(125);
-        eStart.setCellValueFactory((TreeTableColumn.CellDataFeatures<Edge, String> param) -> {
-            StringProperty var = new SimpleStringProperty(param.getValue().getValue().getStartNodeID());
-            return var;
-        });
-
-        JFXTreeTableColumn<Edge, String> eEnd = new JFXTreeTableColumn<>("End Node");
-        eEnd.setPrefWidth(125);
-        eEnd.setCellValueFactory((TreeTableColumn.CellDataFeatures<Edge, String> param) -> {
-            StringProperty var = new SimpleStringProperty(param.getValue().getValue().getEndNodeID());
-            return var;
-        });
-
-        tree.getColumns().addAll(eID,eStart, eEnd);
+    private void handleEndIDChange(JFXTextField textField, EdgeInfo edge) {
+        String text = textField.getText();
+        if (mapService != null) {
+            try {
+                mapService.setEdgeEndID(edge.getEdgeID(), text);
+                onUpdate.onUpdate();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                textField.setText(edge.getEndNodeID());
+            }
+        }
     }
+
+    private void handleIDChange(JFXTextField textField, EdgeInfo edge) {
+        String text = textField.getText();
+        if (mapService != null) {
+            try {
+                if (mapService.edgeExists(text)) throw new SQLException();
+                mapService.setNodeID(edge.getEdgeID(), text);
+                onUpdate.onUpdate();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                textField.setText(edge.getEdgeID());
+            }
+        }
+    }
+
 }
