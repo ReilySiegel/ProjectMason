@@ -91,16 +91,6 @@ public class App extends Application {
 
       System.out.println("Pathfinder Service Initialized");
 
-      // when the application starts, it will provide a list of nodes that are isolated(could be empty if there isn't any)
-      DFSManager explorer = new DFSManager(mapService);
-      LinkedList<AlgoNode> allIsolatedNodes = explorer.getIsolatedNodes();
-      isolatedNodes = allIsolatedNodes;
-
-      for (AlgoNode n: allIsolatedNodes){
-        System.out.println();
-        System.out.println(n.getID());
-      }
-
     }
   }
 

@@ -14,13 +14,12 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import edu.wpi.teamo.database.map.Edge;
-import edu.wpi.teamo.database.map.EdgeInfo;
-import edu.wpi.teamo.database.map.Node;
+import edu.wpi.teamo.algos.AlgoNode;
+import edu.wpi.teamo.algos.DFSManager;
+import edu.wpi.teamo.database.map.*;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 
-import edu.wpi.teamo.database.map.NodeInfo;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ContextMenu;
@@ -162,6 +161,10 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
     AlignmentTool alignmentTool = null;
 
+
+    public static LinkedList<AlgoNode> isolatedNodes;
+
+
     /**
      * Set validators to insure that the x and y coordinate fields are numbers
      */
@@ -259,6 +262,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         updateNodeTreeDisplay();
         updateEdgeTreeDisplay();
         updateMap();
+
     }
 
     void updateMap() {
@@ -267,9 +271,19 @@ public class MapEditorPage extends SubPageController implements Initializable{
         try {
             List<NodeInfo> nodeList = App.mapService.getAllNodes().collect(Collectors.toList());
             List<EdgeInfo> edgeList = App.mapService.getAllEdges().collect(Collectors.toList());
+            DFSManager explorer = new DFSManager(App.mapService);
+            LinkedList<AlgoNode> allIsolatedNodes = explorer.getIsolatedNodes();
+            isolatedNodes = allIsolatedNodes;
+
+            for (AlgoNode n: allIsolatedNodes){
+                setIsolated(n.getID(), nodeList);
+            }
             map.clearShapes();
             map.drawEdges(nodeList, edgeList, selectedFloor);
             map.drawNodes(nodeList, selectedFloor);
+
+
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -352,6 +366,36 @@ public class MapEditorPage extends SubPageController implements Initializable{
     void onDrawNode(Pair<Circle, NodeInfo> p) {
             Circle circle = p.getKey();
             NodeInfo node = p.getValue();
+
+            switch (node.getNodeType()) {
+                case "PARK":
+                    circle.setFill(Color.BLACK);
+                    break;
+                case "DEPT":
+                    circle.setFill(Color.BLUE);
+                    break;
+                case "HALL":
+                    circle.setFill(Color.TRANSPARENT);
+                    break;
+                case "CONF":
+                    circle.setFill(Color.RED);
+                    break;
+                case "REST":
+                    circle.setFill(Color.YELLOW);
+                    break;
+                case "LABS":
+                    circle.setFill(Color.GREEN);
+                    break;
+                case "CITY":
+                    circle.setFill(Color.ORANGE);
+                    break;
+                case "ISOLATED":
+                    circle.setFill(Color.DARKOLIVEGREEN);
+                    break;
+                default:
+                    circle.setFill(Color.CYAN);
+                    break;
+            }
 
             circle.setOnMouseEntered(event -> {
                 circle.setRadius(circle.getRadius() * 2);
@@ -448,7 +492,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         else if (e.getButton() == MouseButton.SECONDARY) {
             nodeContextMenu(e, circle, node);
         }
-        else if (alignmentTool != null) {
+        else if (alignmentTool == null) {
             openNodeEditor(node);
         }
     }
@@ -548,7 +592,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         if (e.getButton() == MouseButton.SECONDARY) {
             edgeContextMenu(e, edge);
         }
-        else if (alignmentTool != null) {
+        else if (alignmentTool == null) {
             openEdgeEditor(edge);
         }
     }
@@ -901,4 +945,12 @@ public class MapEditorPage extends SubPageController implements Initializable{
         errorWindow.show();
     }
 
+
+    private void setIsolated(String NodeID, List<NodeInfo> nodes){
+        for (NodeInfo n : nodes) {
+            if (n.getNodeID().equals(NodeID)) {
+                n.setNodeType("ISOLATED");
+            }
+        }
+    }
 }

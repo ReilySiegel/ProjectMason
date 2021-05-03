@@ -7,6 +7,7 @@ public interface NodeInfo extends Comparable<NodeInfo> {
     String getLongName();
     String getNodeID();
     String getFloor();
+    void setNodeType(String nodeType);
     int getYPos();
     int getXPos();
 }
