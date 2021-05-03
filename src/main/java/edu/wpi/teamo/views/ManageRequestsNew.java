@@ -8,6 +8,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.MenuButton;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -18,13 +20,16 @@ import java.util.ResourceBundle;
 public class ManageRequestsNew implements Initializable {
 
     @FXML
-    private JFXListView<HBox> reqDisplayListView;
+    private JFXListView<VBox> reqDisplayListView;
 
     @FXML
     private JFXListView<JFXCheckBox> typeFilterSelection;
 
     @FXML
     private JFXCheckBox showCompleted;
+
+    @FXML
+    private StackPane stackPane;
 
     JFXCheckBox medCheck;
     JFXCheckBox sanCheck;
@@ -40,7 +45,7 @@ public class ManageRequestsNew implements Initializable {
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
-        requestDisplay = new RequestDisplay(reqDisplayListView, false);
+        requestDisplay = new RequestDisplay(reqDisplayListView, false, stackPane);
 
         HashMap<String, Boolean> selectedTypes = new HashMap<String, Boolean>();
         selectedTypes.put("Medicine", true);

@@ -85,6 +85,12 @@ public class App extends Application {
       e.printStackTrace();
     }
 
+    try {
+      Session.login("admin","admin");
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
     /* instantiate the aStar service, set to a static variable that can be accessed from the handlers */
     if (mapService != null) {
 

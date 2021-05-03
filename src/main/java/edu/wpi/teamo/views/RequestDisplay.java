@@ -1,7 +1,8 @@
 package edu.wpi.teamo.views;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXListView;
+import com.jfoenix.controls.*;
+import edu.wpi.teamo.App;
+import edu.wpi.teamo.Pages;
 import edu.wpi.teamo.database.request.*;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -9,29 +10,38 @@ import javafx.event.EventHandler;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 import java.awt.*;
 import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class RequestDisplay {
 
-    JFXListView<HBox> reqList;
+    JFXListView<VBox> reqList;
 
     HashMap<String, Boolean> types;
 
     Boolean showComplete;
 
-    public RequestDisplay(JFXListView<HBox> reqList, Boolean showComplete) {
+    StackPane stackPane;
+
+
+    public RequestDisplay(JFXListView<VBox> reqList, Boolean showComplete, StackPane stackPane) {
         this.reqList = reqList;
         this.showComplete = showComplete;
+        this.stackPane = stackPane;
 
         this.types = new HashMap<String, Boolean>();
         this.types.put("Medicine", true);
@@ -50,7 +60,6 @@ public class RequestDisplay {
     }
 
     public void update(HashMap<String, Boolean> selectedTypes) throws SQLException {
-
         reqList.getItems().clear();
 
         Stream<MedicineRequest> medRequests = MedicineRequest.getAll();
@@ -63,19 +72,19 @@ public class RequestDisplay {
         Stream<MaintenanceRequest> maintRequests = MaintenanceRequest.getAll();
         Stream<ReligiousRequest> religRequests = ReligiousRequest.getAll();
 
-        if (selectedTypes.get("Medicine")) medRequests.forEach(r -> makeSRBox(r, "Medicine Request"));
-        if (selectedTypes.get("Sanitation")) sanRequests.forEach(r -> makeSRBox(r, "Sanitation Request"));
-        if (selectedTypes.get("Security")) secRequests.forEach(r -> makeSRBox(r, "Security Request"));
-        if (selectedTypes.get("Food")) foodRequests.forEach(r -> makeSRBox(r, "Food Request"));
-        if (selectedTypes.get("Gift")) giftRequests.forEach(r -> makeSRBox(r, "Gift Request"));
-        if (selectedTypes.get("Interpreter")) interpRequests.forEach(r -> makeSRBox(r, "Interpreter Request"));
-        if (selectedTypes.get("Laundry")) laundryRequests.forEach(r -> makeSRBox(r, "Laundry Request"));
-        if (selectedTypes.get("Maintenance")) maintRequests.forEach(r -> makeSRBox(r, "Maintenance Request"));
-        if (selectedTypes.get("Religious")) religRequests.forEach(r -> makeSRBox(r, "Religious Request"));
+        if (selectedTypes.get("Medicine")) medRequests.forEach(r -> makeSRBox(r, "Medicine Request", stackPane));
+        if (selectedTypes.get("Sanitation")) sanRequests.forEach(r -> makeSRBox(r, "Sanitation Request", stackPane));
+        if (selectedTypes.get("Security")) secRequests.forEach(r -> makeSRBox(r, "Security Request", stackPane));
+        if (selectedTypes.get("Food")) foodRequests.forEach(r -> makeSRBox(r, "Food Request", stackPane));
+        if (selectedTypes.get("Gift")) giftRequests.forEach(r -> makeSRBox(r, "Gift Request", stackPane));
+        if (selectedTypes.get("Interpreter")) interpRequests.forEach(r -> makeSRBox(r, "Interpreter Request", stackPane));
+        if (selectedTypes.get("Laundry")) laundryRequests.forEach(r -> makeSRBox(r, "Laundry Request", stackPane));
+        if (selectedTypes.get("Maintenance")) maintRequests.forEach(r -> makeSRBox(r, "Maintenance Request", stackPane));
+        if (selectedTypes.get("Religious")) religRequests.forEach(r -> makeSRBox(r, "Religious Request", stackPane));
 
     }
 
-    public void makeSRBox(ExtendedBaseRequest m, String type) {
+    public void makeSRBox(ExtendedBaseRequest m, String type, StackPane stackPane) {
 
         boolean passFilter = true;
 
@@ -84,39 +93,58 @@ public class RequestDisplay {
         }
 
         if (passFilter) {
+            JFXButton expand = new JFXButton("+");
+            expand.setMinWidth(30);
+            expand.setPrefWidth(30);
+            expand.setMinHeight(30);
+            expand.setPrefHeight(30);
+
+            //text displaying type of request
             Text typeText = new Text(type);
             typeText.setFont(new Font(20));
 
             HBox typeBox = new HBox(typeText);
             typeBox.setMinWidth(200);
 
-            Stream<String> locs = m.getLocations();
-
+            //room/nodes display
             Text locText = new Text(m.getLocations().collect(Collectors.joining(", ")).toString());
             locText.setWrappingWidth(100);
 
+            //assigned person display
             Text assignedText = new Text(m.getAssigned());
             HBox assignedBox = new HBox(assignedText);
-            assignedBox.setMinWidth(170);
-            assignedBox.setPrefWidth(170);
-            assignedBox.setMaxWidth(170);
+            assignedBox.setMinWidth(100);
+            assignedBox.setPrefWidth(100);
+            assignedBox.setMaxWidth(100);
 
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy, " + "H:m:s");
+            Text dueText = new Text(m.getDue().format(formatter));
+            dueText.setWrappingWidth(140);
+            HBox dateBox = new HBox(dueText);
+            dateBox.setMinWidth(150);
+            dateBox.setPrefWidth(150);
+            dateBox.setMaxWidth(150);
+
+
+            //status (is complete)
             Text statusText;
 
             if (m.isComplete()) statusText = new Text("Complete");
             else statusText = new Text("In progress");
 
-            HBox mbox = new HBox(typeBox, locText, assignedBox, statusText);
-            mbox.setStyle("-fx-padding: 10px");
+            HBox mbox = new HBox(expand, typeBox, locText, assignedBox, dateBox, statusText);
+            mbox.setSpacing(10);
 
-            MenuItem edit = new MenuItem("Edit");
+            VBox mContainer = new VBox(mbox);
+            mContainer.setStyle("-fx-padding: 10px; -fx-background-color: #e5e5e5; -fx-effect: dropshadow(gaussian, rgba(170, 170, 170, 0.3), 10, 0.5, 0.0, 0.0)");
+            mContainer.setSpacing(7);
+
+            MenuItem edit = new MenuItem("Reassign");
             MenuItem markComplete = new MenuItem("Mark as Complete");
-            MenuItem delete = new MenuItem("Delete");
 
             ContextMenu srContextMenu = new ContextMenu();
             srContextMenu.getItems().add(edit);
             srContextMenu.getItems().add(markComplete);
-            srContextMenu.getItems().add(delete);
 
             markComplete.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
@@ -130,6 +158,121 @@ public class RequestDisplay {
                 }
             });
 
+            edit.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    assignedBox.getChildren().clear();
+                    JFXTextField editAssignee = new JFXTextField(m.getAssigned());
+                    editAssignee.setOnKeyPressed(new EventHandler<KeyEvent>() {
+                        @Override
+                        public void handle(KeyEvent event) {
+                            if (event.getCode().equals(KeyCode.ENTER)) {
+                                try {
+                                    m.setAssigned(editAssignee.getText());
+                                    update(types);
+                                } catch (SQLException throwables) {
+                                    throwables.printStackTrace();
+                                }
+                            }
+                        }
+                    });
+                    assignedBox.getChildren().add(editAssignee);
+                }
+            });
+
+            expand.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    mContainer.getChildren().clear();
+                    mContainer.getChildren().add(mbox);
+
+                    if (expand.getText().equals("+")) {
+                        expand.setText("-");
+
+                        switch (type) {
+                            case "Medicine Request":
+                                try {
+                                    mContainer.getChildren().add(new Text("Type: " + MedicineRequest.getByID(m.getID()).getType()));
+                                    mContainer.getChildren().add(new Text("Amount: " + MedicineRequest.getByID(m.getID()).getAmount()));
+                                } catch (SQLException throwables) {
+                                    throwables.printStackTrace();
+                                }
+                                break;
+                            case "Sanitation Request":
+                                try {
+                                    mContainer.getChildren().add(new Text("Recurring: " + SanitationRequest.getByID(m.getID()).isRecurring()));
+                                } catch (SQLException throwables) {
+                                    throwables.printStackTrace();
+                                }
+                                break;
+                            case "Security Request":
+                                try {
+                                    mContainer.getChildren().add(new Text("Emergency: " + SecurityRequest.getByID(m.getID()).isEmergency()));
+                                } catch (SQLException throwables) {
+                                    throwables.printStackTrace();
+                                }
+                                break;
+                            case "Food Request":
+                                try {
+                                    mContainer.getChildren().add(new Text("Dietary Restrictions: " + FoodRequest.getByID(m.getID()).getdR()));
+                                    mContainer.getChildren().add(new Text("Appetizer: " + FoodRequest.getByID(m.getID()).getAppetizer()));
+                                    mContainer.getChildren().add(new Text("Entree: " + FoodRequest.getByID(m.getID()).getEntre()));
+                                    mContainer.getChildren().add(new Text("Dessert: " + FoodRequest.getByID(m.getID()).getDessert()));
+                                } catch (SQLException throwables) {
+                                    throwables.printStackTrace();
+                                }
+                                break;
+                            case "Gift Request":
+                                if (type.equals("Gift Request")) {
+                                    try {
+                                        mContainer.getChildren().add(new Text("Recipient: " + GiftRequest.getByID(m.getID()).getRecipient()));
+                                        mContainer.getChildren().add(new Text("Tracking ID: " + GiftRequest.getByID(m.getID()).getTrackingID()));
+                                    } catch (SQLException throwables) {
+                                        throwables.printStackTrace();
+                                    }
+                                }
+                                break;
+                            case "Interpreter Request":
+                                try {
+                                    mContainer.getChildren().add(new Text("Language: " + InterpreterRequest.getByID(m.getID()).getLanguage()));
+                                    mContainer.getChildren().add(new Text("Type: " + InterpreterRequest.getByID(m.getID()).getType()));
+                                } catch (SQLException throwables) {
+                                    throwables.printStackTrace();
+                                }
+                                break;
+                            case "Laundry Request":
+                                try {
+                                    mContainer.getChildren().add(new Text("Gown: " + LaundryRequest.getByID(m.getID()).getGown()));
+                                    mContainer.getChildren().add(new Text("Bedding: " + LaundryRequest.getByID(m.getID()).getBedding()));
+                                } catch (SQLException throwables) {
+                                    throwables.printStackTrace();
+                                }
+                                break;
+                            case "Maintenance Request":
+                                try {
+                                    mContainer.getChildren().add(new Text("Type: " + MaintenanceRequest.getByID(m.getID()).getType()));
+                                } catch (SQLException throwables) {
+                                    throwables.printStackTrace();
+                                }
+                                break;
+                            case "Religious Request":
+                                try {
+                                    mContainer.getChildren().add(new Text("Service: " + ReligiousRequest.getByID(m.getID()).getService()));
+                                    mContainer.getChildren().add(new Text("Figure: " + ReligiousRequest.getByID(m.getID()).getFigure()));
+                                    mContainer.getChildren().add(new Text("Last Rites: " + ReligiousRequest.getByID(m.getID()).isLastRites()));
+                                } catch (SQLException throwables) {
+                                    throwables.printStackTrace();
+                                }
+                                break;
+                        }
+
+                        mContainer.getChildren().add(new Text("Details: " + m.getDetails()));
+                    } else {
+                        expand.setText("+");
+                    }
+                }
+            });
+
             mbox.setOnMousePressed(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
@@ -137,7 +280,7 @@ public class RequestDisplay {
                         srContextMenu.show(mbox, event.getScreenX(), event.getScreenY());
                 }
             });
-            reqList.getItems().add(mbox);
+            reqList.getItems().add(mContainer);
         }
     }
 
