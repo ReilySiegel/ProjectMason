@@ -82,16 +82,16 @@
 }
 
 .jfx-scroll-pane .main-header{
-    -fx-background-color: transparent;
-    -fx-background:transparent;
+    -fx-background-color: rgba(255, 239, 239, 0.9);
+    -fx-background: rgba(255, 239, 239, 0.9);
     -fx-fill: transparent;
     -fx-border-color: rgba(255, 255, 255, 0.9);
     -fx-effect: dropshadow(gaussian, rgba(100, 100, 100, 0.3), 10, 0.5, 0.0, 0.0);
 }
 
 .jfx-scroll-pane .condensed-header{
-    -fx-background-color: transparent;
-    -fx-background:transparent;
+    -fx-background-color: rgba(255, 239, 239, 0.9);
+    -fx-background: rgba(255, 239, 239, 0.9);
     -fx-fill: transparent;
     -fx-border-color: rgba(255, 255, 255, 0.9);
     -fx-effect: dropshadow(gaussian, rgba(100, 100, 100, 0.3), 10, 0.5, 0.0, 0.0);

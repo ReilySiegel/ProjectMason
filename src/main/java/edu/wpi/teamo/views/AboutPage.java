@@ -27,6 +27,7 @@ public class AboutPage implements Initializable {
         Label label1 = new Label("About Page");
         label1.setFont(font);
         JFXScrollPane.smoothScrolling((ScrollPane) scrollPane.getChildren().get(0));
+        scrollPane.getTopBar().setPickOnBounds(true);
         scrollPane.getMainHeader().getChildren().add(label1);
     }
 }
