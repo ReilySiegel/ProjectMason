@@ -214,6 +214,7 @@ public class LaundryRequestPage extends ServiceRequestPage implements Initializa
         content.setHeading(new Text(App.resourceBundle.getString("key.help_laundry_request")));
         content.setBody(new Text(App.resourceBundle.getString("key.room_help") +
                 App.resourceBundle.getString("key.assignee_help") +
+                App.resourceBundle.getString("key.room_help")  +
                 App.resourceBundle.getString("key.laundry_check_help")));
 
         JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
