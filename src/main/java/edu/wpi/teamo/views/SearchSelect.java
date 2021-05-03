@@ -32,11 +32,6 @@ public class SearchSelect<T, Cell> {
     }
     CellCreator<T, Cell> cellCreator;
 
-    public interface HeaderCellCreator<T, Cell> {
-        Cell makeCell();
-    }
-    HeaderCellCreator<T, Cell> headerCellCreator = null;
-
     public interface ItemSorter<T> {
         List<T> sort(List<T> itemList);
     }
@@ -68,7 +63,7 @@ public class SearchSelect<T, Cell> {
         this.matcher = matcher;
         this.cellCreator = cellCreator;
 
-        this.searchBar.setOnKeyTyped(event -> updateFromSearchBar());
+        this.searchBar.setOnKeyTyped(event -> update());
     }
 
     public void setItemSorter(ItemSorter<T> itemSorter) {
@@ -82,11 +77,7 @@ public class SearchSelect<T, Cell> {
      */
     public void setItems(List<T> items) {
         this.items = items;
-        updateFromSearchBar();
-    }
-
-    public void setHeaderCellCreator(HeaderCellCreator<T, Cell> headerCellCreator) {
-        this.headerCellCreator = headerCellCreator;
+        update();
     }
 
     public List<T> getSelectedItems() {
@@ -95,55 +86,48 @@ public class SearchSelect<T, Cell> {
 
     public void clearSelectedItems() {
         selectedItems = new LinkedList<>();
-        updateFromSearchBar();
+        update();
     }
 
-    public void updateFromSearchBar() {
+    public void update() {
+        if (!enabled) return;
+        if (matcher == null) { throw new InvalidParameterException("Matcher has not been set"); }
+        if (cellCreator == null) { throw new InvalidParameterException("Cell creator has not been set"); }
+
         String searchText = searchBar.getText();
         List<T> matchingItems = filterMatchingItems(searchText, items);
-        updateMatchingItems(matchingItems);
-    }
-
-    private List<T> filterMatchingItems(String text, List<T> items) {
-        if (!enabled) return items;
-
-        if (matcher == null) {
-            throw new InvalidParameterException("Matcher has not been set");
-        }
-
-        return items.stream()
-                    .filter((T item) -> matcher.isMatching(item, text))
-                    .collect(Collectors.toList());
-    }
-
-    private void updateMatchingItems(List<T> matchingItems) {
-        if (!enabled) return;
-
-        if (cellCreator == null) {
-            throw new InvalidParameterException("Cell creator has not been set");
-        }
-
-        resultsList.getItems().clear();
-
-        if (headerCellCreator != null) {
-            Cell cell = headerCellCreator.makeCell();
-            resultsList.getItems().add(cell);
-        }
-
-        for (T item : selectedItems) {
-            Cell cell = cellCreator.makeCell(item, true);
-            resultsList.getItems().add(cell);
-        }
 
         if (itemSorter != null) {
             matchingItems = itemSorter.sort(matchingItems);
         }
 
+        resultsList.getItems().clear();
+        displayItems(matchingItems);
+    }
+
+    private List<T> filterMatchingItems(String text, List<T> items) {
+        return items.stream()
+                    .filter((T item) -> matcher.isMatching(item, text))
+                    .collect(Collectors.toList());
+    }
+
+    protected void displayItems(List<T> matchingItems) {
+        displaySelectedItems();
+        displayMatchingItems(matchingItems);
+    }
+
+    protected void displaySelectedItems() {
+        for (T item : selectedItems) {
+            Cell cell = cellCreator.makeCell(item, true);
+            resultsList.getItems().add(cell);
+        }
+    }
+
+    protected void displayMatchingItems(List<T> matchingItems) {
         for (T item : matchingItems) {
             Cell cell = cellCreator.makeCell(item, false);
             resultsList.getItems().add(cell);
         }
-
     }
 
     public void selectItem(T item) {

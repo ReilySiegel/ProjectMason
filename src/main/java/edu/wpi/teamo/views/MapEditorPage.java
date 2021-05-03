@@ -221,8 +221,8 @@ public class MapEditorPage extends SubPageController implements Initializable{
         edgeTable = new EdgeTable(tableSearchBar, tableView, this::update, App.mapService);
         /* if we want to use the search bar for both we must set the handler here */
         tableSearchBar.setOnKeyTyped(event -> {
-            nodeTable.updateFromSearchBar();
-            edgeTable.updateFromSearchBar();
+            nodeTable.update();
+            edgeTable.update();
         });
 
         tableTypeBox.getItems().add(tableNodeKey);

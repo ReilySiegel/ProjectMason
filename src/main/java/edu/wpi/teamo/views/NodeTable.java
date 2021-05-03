@@ -11,7 +11,7 @@ import javafx.scene.paint.Color;
 import java.sql.SQLException;
 import java.util.Locale;
 
-public class NodeTable extends SearchSelect<NodeInfo, HBox> {
+public class NodeTable extends TableSearcher<NodeInfo, HBox> {
 
     private final IMapService mapService;
 
@@ -23,11 +23,11 @@ public class NodeTable extends SearchSelect<NodeInfo, HBox> {
     OnUpdate onUpdate = null;
 
     public NodeTable(JFXTextField searchBar, JFXListView<HBox> table, OnUpdate onUpdate, IMapService mapService) {
-        super(searchBar, table, null, null);
-        setCellCreator(this::createRow);
-        this.mapService = mapService;
-        setMatcher(this::nodeMatches);
+        super(searchBar, table, null, null, null);
         setHeaderCellCreator(this::createHeader);
+        setCellCreator(this::createRow);
+        setMatcher(this::nodeMatches);
+        this.mapService = mapService;
         this.onUpdate = onUpdate;
     }
 

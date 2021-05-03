@@ -12,23 +12,23 @@ import javafx.scene.paint.Color;
 import java.sql.SQLException;
 import java.util.Locale;
 
-public class EdgeTable extends SearchSelect<EdgeInfo, HBox> {
+public class EdgeTable extends TableSearcher<EdgeInfo, HBox> {
 
     private final IMapService mapService;
 
     double columnWidth = 200;
 
-    public static interface OnUpdate {
+    public interface OnUpdate {
         void onUpdate();
     }
     OnUpdate onUpdate = null;
 
     public EdgeTable(JFXTextField searchBar, JFXListView<HBox> table, OnUpdate onUpdate, IMapService mapService) {
-        super(searchBar, table, null, null);
-        setCellCreator(this::createRow);
-        this.mapService = mapService;
-        setMatcher(this::nodeMatches);
+        super(searchBar, table, null, null, null);
         setHeaderCellCreator(this::createHeader);
+        setCellCreator(this::createRow);
+        setMatcher(this::nodeMatches);
+        this.mapService = mapService;
         this.onUpdate = onUpdate;
     }
 
