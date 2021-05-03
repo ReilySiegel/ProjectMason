@@ -286,7 +286,7 @@ public class TextDirManagerTests {
         List<String> textualDirections = TextDirManager.getTextualDirections(pathP1_P4);
         assertEquals("Proceed 1.27 meter(s) towards Floor1RightParking2",textualDirections.get(0));
         assertEquals("Proceed to floor F2 and head to Floor1RightParking3",textualDirections.get(1));
-        assertEquals("Proceed 1.28 meter(s) rightwards to Floor1RightParking4",textualDirections.get(2));
+        assertEquals("Proceed 1.28 meter(s) forward to Floor1RightParking4",textualDirections.get(2));
         assertEquals("You have arrived at your destination.",textualDirections.get(3));
 
     }

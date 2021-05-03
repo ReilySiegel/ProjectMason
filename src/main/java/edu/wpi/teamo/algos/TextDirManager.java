@@ -35,6 +35,7 @@ public class TextDirManager {
             //If we are changing floors
             if(!pathToParse.get(i + 1).getFloor().equals(pathToParse.get(i).getFloor())){
                 directions.add("Proceed to floor " + pathToParse.get(i + 1).getFloor() + " and head to " + pathToParse.get(i + 1).getLongName());
+                lastQuadrant = getQuadrant(pathToParse.get(i), pathToParse.get(i + 1));
                 continue;
             }
 
@@ -46,8 +47,10 @@ public class TextDirManager {
                 System.out.println("Quadrant: "+ lastQuadrant.getKey()+ " Angle: " + lastQuadrant.getValue());
                 continue;
             }
+
             Pair<Integer,Double> currentQuadrant = getQuadrant(pathToParse.get(i), pathToParse.get(i + 1));
             System.out.println("Quadrant: "+ currentQuadrant.getKey()+ " Angle: " + currentQuadrant.getValue());
+
             //Determine direction based on quadrant and angle
             switch(lastQuadrant.getKey()){
                 case 0:{
@@ -55,6 +58,7 @@ public class TextDirManager {
                     break;
                 }
                 case 1:{
+                    //if(Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) > 0.1 && lastQuadrant.getKey().equals(currentQuadrant.getKey()))
                     if(currentQuadrant.getKey() == 4 || currentQuadrant.getKey() == 5 || (Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) > 0 && currentQuadrant.getKey() == 1))
                         directions.add("Proceed " + currentDistance+ " meter(s) leftwards to " + pathToParse.get(i + 1).getLongName());
                     else if(currentQuadrant.getKey() == 2 || currentQuadrant.getKey() == 6 || (Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) < 0 && currentQuadrant.getKey() == 1))
@@ -176,7 +180,18 @@ public class TextDirManager {
             else if (next.getX() - current.getX() < 0 && !vertical) return new Pair<>(7, 0.0);
             else return new Pair<>(0, 0.0);
         }
+    }
 
+    /**
+     * Utility function for returning proper turning direction based on given node-edge-node quadrants.
+     * @param lastQuadrant the quadrant of last edge segment
+     * @param currentQuadrant the current edge segment connected to last segment
+     * @param minimal flag determining if the turn is "minimal" (e.g. slightly turn to the left)
+     * @return the proper direction string.
+     */
+    private static String determineDirection(Pair<Integer, Double> lastQuadrant, Pair<Integer, Double> currentQuadrant, boolean minimal) {
+
+        return "";
     }
 
 }
