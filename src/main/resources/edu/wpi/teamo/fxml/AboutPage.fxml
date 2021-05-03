@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.AboutPage">
+<StackPane stylesheets="@CSS/about.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.AboutPage">
    <children>
-      <JFXScrollPane fx:id="scrollPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: rgba(255, 255, 255, 0.9);" />
+      <JFXScrollPane fx:id="scrollPane" />
       <VBox fx:id="vbox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
          <children>
             <Label text="%key.about_this_application" VBox.vgrow="ALWAYS">
@@ -34,7 +34,10 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label text="%key.team" VBox.vgrow="ALWAYS" />
+            <Label text="%key.team" VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets top="3.0" />
+               </VBox.margin></Label>
             <Label text="%key.application_purpose" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets top="5.0" />
@@ -56,7 +59,10 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label text="%key.about_text_BandW1" VBox.vgrow="ALWAYS" />
+            <Label text="%key.about_text_BandW1" VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets top="3.0" />
+               </VBox.margin></Label>
             <Label text="%key.about_text_BandW2" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets top="3.0" />
@@ -67,11 +73,25 @@
                   <Insets top="3.0" />
                </VBox.margin>
             </Label>
+            <Label text="%key.mass_general_brigham" VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label text="%key.mass_general_text1" VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets top="3.0" />
+               </VBox.margin>
+            </Label>
+            <Label text="%key.mass_general_text2" VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets top="3.0" />
+               </VBox.margin>
+            </Label>
          </children>
       </VBox>
    </children>
-   <stylesheets>
-      <URL value="@CSS/MainPage.css" />
-      <URL value="@CSS/about.css" />
-   </stylesheets>
 </StackPane>
