@@ -122,7 +122,7 @@ public class CovidSurveyPage extends ServiceRequestPage implements Initializable
 
     public void handleSubmit(javafx.event.ActionEvent actionEvent) {
         JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text("Thank you for submitting your response."));
+        content.setHeading(new Text(App.resourceBundle.getString("key.thanks_for_submitting_response")));
 
 
 
@@ -131,23 +131,19 @@ public class CovidSurveyPage extends ServiceRequestPage implements Initializable
             if(Session.isLoggedIn()){
                 Session.getAccount().setUseEmergencyEntrance(true);
             }
-            content.setBody(new Text("Please enter the hospital through the back entrance. \n" +
-                    "Please wear a mask and maintain a 6-foot distance between all hospital staff \n" +
-                    "and patients unless instructed otherwise"));
+            content.setBody(new Text(App.resourceBundle.getString("key.survey_back_entrance")));
         }
         else{
             if(Session.isLoggedIn()){
                 Session.getAccount().setUseEmergencyEntrance(false);
             }
-            content.setBody(new Text("Please enter the hospital through the front entrance \n" +
-                    "Please wear a mask and maintain a 6-foot distance between all hospital staff \n" +
-                    "and patients unless instructed otherwise"));
+            content.setBody(new Text(App.resourceBundle.getString("key.survey_front_entrance")));
         }
 
         JFXDialog errorWindow = new JFXDialog(parentStackPane, content, JFXDialog.DialogTransition.TOP);
         content.setStyle("-fx-background-color: #d8dee9");
 
-        JFXButton closeButton = new JFXButton("Close");
+        JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
         closeButton.setStyle("-fx-background-color: #434c5e; -fx-text-fill: #d8dee9");
         closeButton.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
             @Override
