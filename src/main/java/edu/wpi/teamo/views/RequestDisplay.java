@@ -22,6 +22,7 @@ import javafx.scene.text.Text;
 
 import java.awt.*;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.stream.Collectors;
@@ -35,13 +36,13 @@ public class RequestDisplay {
 
     Boolean showComplete;
 
-    StackPane stackPane;
+    LocalDateTime latestTime;
 
 
-    public RequestDisplay(JFXListView<VBox> reqList, Boolean showComplete, StackPane stackPane) {
+    public RequestDisplay(JFXListView<VBox> reqList, Boolean showComplete, LocalDateTime latestTime) {
         this.reqList = reqList;
         this.showComplete = showComplete;
-        this.stackPane = stackPane;
+        this.latestTime = latestTime;
 
         this.types = new HashMap<String, Boolean>();
         this.types.put("Medicine", true);
@@ -59,8 +60,9 @@ public class RequestDisplay {
         this.showComplete = showComplete;
     }
 
-    public void update(HashMap<String, Boolean> selectedTypes) throws SQLException {
+    public void update(HashMap<String, Boolean> selectedTypes, LocalDateTime dueBy) throws SQLException {
         reqList.getItems().clear();
+        latestTime = dueBy;
 
         Stream<MedicineRequest> medRequests = MedicineRequest.getAll();
         Stream<SanitationRequest> sanRequests = SanitationRequest.getAll();
@@ -72,25 +74,27 @@ public class RequestDisplay {
         Stream<MaintenanceRequest> maintRequests = MaintenanceRequest.getAll();
         Stream<ReligiousRequest> religRequests = ReligiousRequest.getAll();
 
-        if (selectedTypes.get("Medicine")) medRequests.forEach(r -> makeSRBox(r, "Medicine Request", stackPane));
-        if (selectedTypes.get("Sanitation")) sanRequests.forEach(r -> makeSRBox(r, "Sanitation Request", stackPane));
-        if (selectedTypes.get("Security")) secRequests.forEach(r -> makeSRBox(r, "Security Request", stackPane));
-        if (selectedTypes.get("Food")) foodRequests.forEach(r -> makeSRBox(r, "Food Request", stackPane));
-        if (selectedTypes.get("Gift")) giftRequests.forEach(r -> makeSRBox(r, "Gift Request", stackPane));
-        if (selectedTypes.get("Interpreter")) interpRequests.forEach(r -> makeSRBox(r, "Interpreter Request", stackPane));
-        if (selectedTypes.get("Laundry")) laundryRequests.forEach(r -> makeSRBox(r, "Laundry Request", stackPane));
-        if (selectedTypes.get("Maintenance")) maintRequests.forEach(r -> makeSRBox(r, "Maintenance Request", stackPane));
-        if (selectedTypes.get("Religious")) religRequests.forEach(r -> makeSRBox(r, "Religious Request", stackPane));
+        if (selectedTypes.get("Medicine")) medRequests.forEach(r -> makeSRBox(r, "Medicine Request"));
+        if (selectedTypes.get("Sanitation")) sanRequests.forEach(r -> makeSRBox(r, "Sanitation Request"));
+        if (selectedTypes.get("Security")) secRequests.forEach(r -> makeSRBox(r, "Security Request"));
+        if (selectedTypes.get("Food")) foodRequests.forEach(r -> makeSRBox(r, "Food Request"));
+        if (selectedTypes.get("Gift")) giftRequests.forEach(r -> makeSRBox(r, "Gift Request"));
+        if (selectedTypes.get("Interpreter")) interpRequests.forEach(r -> makeSRBox(r, "Interpreter Request"));
+        if (selectedTypes.get("Laundry")) laundryRequests.forEach(r -> makeSRBox(r, "Laundry Request"));
+        if (selectedTypes.get("Maintenance")) maintRequests.forEach(r -> makeSRBox(r, "Maintenance Request"));
+        if (selectedTypes.get("Religious")) religRequests.forEach(r -> makeSRBox(r, "Religious Request"));
 
     }
 
-    public void makeSRBox(ExtendedBaseRequest m, String type, StackPane stackPane) {
+    public void makeSRBox(ExtendedBaseRequest m, String type) {
 
         boolean passFilter = true;
 
         if (!showComplete) {
             if (m.isComplete()) passFilter = false;
         }
+
+        if (latestTime.isBefore(m.getDue())) passFilter = false;
 
         if (passFilter) {
             JFXButton expand = new JFXButton("+");
@@ -107,18 +111,18 @@ public class RequestDisplay {
             typeBox.setMinWidth(200);
 
             //room/nodes display
-            Text locText = new Text(m.getLocations().collect(Collectors.joining(", ")).toString());
+            Text locText = new Text("At " + m.getLocations().collect(Collectors.joining(", ")).toString());
             locText.setWrappingWidth(100);
 
             //assigned person display
-            Text assignedText = new Text(m.getAssigned());
+            Text assignedText = new Text("Assigned to: " + m.getAssigned());
             HBox assignedBox = new HBox(assignedText);
             assignedBox.setMinWidth(100);
             assignedBox.setPrefWidth(100);
             assignedBox.setMaxWidth(100);
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy, " + "H:m:s");
-            Text dueText = new Text(m.getDue().format(formatter));
+            Text dueText = new Text("Due: " + m.getDue().format(formatter));
             dueText.setWrappingWidth(140);
             HBox dateBox = new HBox(dueText);
             dateBox.setMinWidth(150);
@@ -151,7 +155,7 @@ public class RequestDisplay {
                 public void handle(ActionEvent event) {
                     try {
                         BaseRequest.getByID(m.getID()).setComplete(true);
-                        update(types);
+                        update(types, latestTime);
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
                     }
@@ -169,7 +173,7 @@ public class RequestDisplay {
                             if (event.getCode().equals(KeyCode.ENTER)) {
                                 try {
                                     m.setAssigned(editAssignee.getText());
-                                    update(types);
+                                    update(types, latestTime);
                                 } catch (SQLException throwables) {
                                     throwables.printStackTrace();
                                 }

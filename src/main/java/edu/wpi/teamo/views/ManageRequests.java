@@ -1,8 +1,6 @@
 package edu.wpi.teamo.views;
 
-import com.jfoenix.controls.JFXCheckBox;
-import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXListView;
+import com.jfoenix.controls.*;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckMenuItem;
@@ -13,6 +11,8 @@ import javafx.scene.layout.VBox;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
@@ -29,7 +29,13 @@ public class ManageRequests implements Initializable {
     private JFXCheckBox showCompleted;
 
     @FXML
-    private StackPane stackPane;
+    private JFXDatePicker datePicker;
+
+    @FXML
+    private JFXTimePicker timePicker;
+
+    @FXML
+    private JFXCheckBox filterTime;
 
     JFXCheckBox medCheck;
     JFXCheckBox sanCheck;
@@ -45,7 +51,7 @@ public class ManageRequests implements Initializable {
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
-        requestDisplay = new RequestDisplay(reqDisplayListView, false, stackPane);
+        requestDisplay = new RequestDisplay(reqDisplayListView, false, LocalDateTime.MAX);
 
         HashMap<String, Boolean> selectedTypes = new HashMap<String, Boolean>();
         selectedTypes.put("Medicine", true);
@@ -59,7 +65,7 @@ public class ManageRequests implements Initializable {
         selectedTypes.put("Religious", true);
 
         try {
-            requestDisplay.update(selectedTypes);
+            requestDisplay.update(selectedTypes, LocalDateTime.MAX);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -111,6 +117,24 @@ public class ManageRequests implements Initializable {
         selectedTypes.put("Religious", religCheck.isSelected());
 
         requestDisplay.setShowComplete(showCompleted.isSelected());
-        requestDisplay.update(selectedTypes);
+
+        if (filterTime.isSelected()) {
+            if (timePicker.getValue() == null || datePicker.getValue() == null) {
+                requestDisplay.update(selectedTypes, LocalDateTime.MAX);
+            } else {
+                LocalTime curTime = timePicker.getValue();
+                LocalDateTime curDate = datePicker.getValue().atTime(curTime);
+                requestDisplay.update(selectedTypes, curDate);
+            }
+        } else {
+            requestDisplay.update(selectedTypes, LocalDateTime.MAX);
+        }
+
+
+
+
+
+
+
     }
 }
