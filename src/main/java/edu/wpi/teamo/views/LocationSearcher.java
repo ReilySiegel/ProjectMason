@@ -6,11 +6,9 @@ import com.jfoenix.controls.JFXTextField;
 import edu.wpi.teamo.database.map.NodeInfo;
 import javafx.geometry.Insets;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
+import java.util.*;
 
 public class LocationSearcher extends SearchSelect<NodeInfo, JFXCheckBox> {
     Consumer<NodeInfo> onCheckNode = null;
@@ -27,6 +25,13 @@ public class LocationSearcher extends SearchSelect<NodeInfo, JFXCheckBox> {
 
         setCellCreator(this::makeCheckbox);
         setMatcher(this::nodeMatchesText);
+        setItemSorter(this::sortAlphabeticalOrder);
+    }
+
+    public List<NodeInfo> sortAlphabeticalOrder(List<NodeInfo> nodes) {
+        NodeInfo[] nodeArray = nodes.toArray(new NodeInfo[0]);
+        HeapSort.sort(nodeArray);
+        return Arrays.asList(nodeArray);
     }
 
     public JFXCheckBox makeCheckbox(NodeInfo node, boolean isSelected) {

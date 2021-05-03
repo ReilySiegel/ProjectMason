@@ -1,6 +1,6 @@
 package edu.wpi.teamo.database.map;
 
-public interface NodeInfo {
+public interface NodeInfo extends Comparable<NodeInfo> {
     String getShortName();
     String getNodeType();
     String getBuilding();

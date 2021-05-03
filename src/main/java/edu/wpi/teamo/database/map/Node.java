@@ -241,5 +241,10 @@ public class Node extends RecursiveTreeObject<Node> implements NodeInfo {
     public void setShortName(String shortName) {
         this.shortName = shortName;
     }
+
+    @Override
+    public int compareTo(NodeInfo otherNode) {
+        return longName.compareToIgnoreCase(otherNode.getLongName());
+    }
 }
 

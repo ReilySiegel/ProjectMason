@@ -30,6 +30,11 @@ public class SearchSelect<T, Cell> {
     }
     CellCreator<T, Cell> cellCreator;
 
+    public interface ItemSorter<T> {
+        List<T> sort(List<T> itemList);
+    }
+    ItemSorter<T> itemSorter = null;
+
     /**
      * An object that handles searching and selecting multiple items.
      * Give it your search input, and a list to display the search results.
@@ -57,6 +62,10 @@ public class SearchSelect<T, Cell> {
         this.cellCreator = cellCreator;
 
         this.searchBar.setOnKeyTyped(event -> updateFromSearchBar());
+    }
+
+    public void setItemSorter(ItemSorter<T> itemSorter) {
+        this.itemSorter = itemSorter;
     }
 
     /**
@@ -94,7 +103,7 @@ public class SearchSelect<T, Cell> {
                     .collect(Collectors.toList());
     }
 
-    private void updateMatchingItems(List<T> matchingLocations) {
+    private void updateMatchingItems(List<T> matchingItems) {
         if (cellCreator == null) {
             throw new InvalidParameterException("Cell creator has not been set");
         }
@@ -106,7 +115,11 @@ public class SearchSelect<T, Cell> {
             resultsList.getItems().add(cell);
         }
 
-        for (T item : matchingLocations) {
+        if (itemSorter != null) {
+            matchingItems = itemSorter.sort(matchingItems);
+        }
+
+        for (T item : matchingItems) {
             Cell cell = cellCreator.makeCell(item, false);
             resultsList.getItems().add(cell);
         }
