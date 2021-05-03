@@ -1,11 +1,9 @@
 package edu.wpi.teamo.views;
 
 import com.jfoenix.controls.*;
-import com.jfoenix.validation.NumberValidator;
 import edu.wpi.teamo.App;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -19,8 +17,6 @@ import java.util.stream.Stream;
 import edu.wpi.teamo.database.map.Edge;
 import edu.wpi.teamo.database.map.EdgeInfo;
 import edu.wpi.teamo.database.map.Node;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 
@@ -29,7 +25,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.SplitPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
@@ -165,6 +160,8 @@ public class MapEditorPage extends SubPageController implements Initializable{
     HashMap<String, List<Line>> associatedEdgeBeginnings;
     HashMap<String, List<Line>> associatedEdgeEndings;
 
+    AlignmentTool alignmentTool = null;
+
     /**
      * Set validators to insure that the x and y coordinate fields are numbers
      */
@@ -285,24 +282,59 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
     /* gets cast to a consumer */
     void onMapClicked(MouseEvent e) {
+        double paneX = e.getX();
+        double paneY = e.getY();
+
         int mapX = (int) Map.transform((int) e.getX(), map.getWidth(), Map.imageWidth);
         int mapY = (int) Map.transform((int) e.getY(), map.getWidth(), Map.imageWidth);
 
-        if (addingEdge) {
-            nodePane.getChildren().remove(addingEdgeLine);
-            addingEdgeStartNode = null;
-            addingEdgeLine = null;
-            addingEdge = false;
+        switch (e.getButton()) {
+            case PRIMARY: {
+                if (addingEdge) {
+                    nodePane.getChildren().remove(addingEdgeLine);
+                    addingEdgeStartNode = null;
+                    addingEdgeLine = null;
+                    addingEdge = false;
+                }
+                else {
+                    edgeEditorWindow.setVisible(false);
+                    nodeEditorWindow.setVisible(false);
+                    tableWindow.setVisible(false);
+                }
+                break;
+            }
+            case SECONDARY: {
+                mapContextMenu(e, mapX, mapY);
+            }
         }
-        else if (e.getButton() == MouseButton.SECONDARY) {
-            mapContextMenu(e, mapX, mapY);
-        }
-        else {
-            edgeEditorWindow.setVisible(false);
-            nodeEditorWindow.setVisible(false);
-            tableWindow.setVisible(false);
-        }
+    }
 
+    void handleAlignNode(Circle circle, NodeInfo node) {
+        if (alignmentTool == null) {
+            alignmentTool = new AlignmentTool(associatedEdgeBeginnings,
+                                              associatedEdgeEndings,
+                                              circle.getCenterX(),
+                                              circle.getCenterY(),
+                                              App.mapService,
+                                              map);
+        }
+        alignmentTool.addAlignee(circle, node);
+    }
+
+    void handleConfirmAlignment() {
+        try {
+            alignmentTool.confirmAlignment();
+        } catch (Exception throwables) {
+            showError("Alignment failed: " + throwables.getMessage());
+        }
+        finally {
+            clearAlignmentTool();
+        }
+    }
+
+    void clearAlignmentTool() {
+        alignmentTool = null;
+        update();
     }
 
     void onMouseMoved(Pair<Double, Double> p) {
@@ -311,6 +343,9 @@ public class MapEditorPage extends SubPageController implements Initializable{
         if (addingEdgeLine != null) {
             addingEdgeLine.setEndX(x);
             addingEdgeLine.setEndY(y);
+        }
+        else if (alignmentTool != null) {
+            alignmentTool.onMouseMoved(x, y);
         }
     }
 
@@ -334,7 +369,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
             });
 
             circle.setOnMouseDragged((MouseEvent e) -> {
-                onDraggingNode(node, circle, e);
+                if (alignmentTool == null) onDraggingNode(node, circle, e);
                 e.consume();
             });
 
@@ -349,13 +384,18 @@ public class MapEditorPage extends SubPageController implements Initializable{
     private void nodeContextMenu(MouseEvent e, Circle circle, NodeInfo node) {
         ContextMenu menu = new ContextMenu();
 
-        MenuItem deleteItem = new MenuItem(App.resourceBundle.getString("key.delete"));
-        deleteItem.setOnAction(event -> confirmDeleteNode(node));
-
         MenuItem addEdgeItem = new MenuItem(App.resourceBundle.getString("key.add_edge"));
         addEdgeItem.setOnAction(event -> handleAddingEdge(circle, node));
 
+        String alignmentKey = (alignmentTool == null) ? "key.begin_alignment" : "key.add_to_alignment";
+        MenuItem alignmentItem = new MenuItem(App.resourceBundle.getString(alignmentKey));
+        alignmentItem.setOnAction(event -> handleAlignNode(circle, node));
+
+        MenuItem deleteItem = new MenuItem(App.resourceBundle.getString("key.delete"));
+        deleteItem.setOnAction(event -> confirmDeleteNode(node));
+
         menu.getItems().add(addEdgeItem);
+        menu.getItems().add(alignmentItem);
         menu.getItems().add(deleteItem);
         menu.show(nodePane.getScene().getWindow(), e.getScreenX(), e.getScreenY());
     }
@@ -376,11 +416,24 @@ public class MapEditorPage extends SubPageController implements Initializable{
         MenuItem addNodeItem = new MenuItem(App.resourceBundle.getString("key.add_node"));
         addNodeItem.setOnAction(event -> handleAddingNode(x, y));
 
-        menu.getItems().add(addNodeItem);
+        MenuItem confirmAlignmentItem = new MenuItem(App.resourceBundle.getString("key.confirm_alignment"));
+        confirmAlignmentItem.setOnAction(event -> handleConfirmAlignment());
+
+        MenuItem cancelAlignmentItem = new MenuItem(App.resourceBundle.getString("key.cancel_alignment"));
+        cancelAlignmentItem.setOnAction(event -> clearAlignmentTool());
+
+        if (alignmentTool != null) {
+            menu.getItems().add(confirmAlignmentItem);
+            menu.getItems().add(cancelAlignmentItem);
+        }
+        else {
+            menu.getItems().add(addNodeItem);
+        }
+
         menu.show(
-                nodePane.getScene().getWindow(),
-                e.getScreenX(),
-                e.getScreenY()
+            nodePane.getScene().getWindow(),
+            e.getScreenX(),
+            e.getScreenY()
         );
     }
 
@@ -395,7 +448,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         else if (e.getButton() == MouseButton.SECONDARY) {
             nodeContextMenu(e, circle, node);
         }
-        else {
+        else if (alignmentTool != null) {
             openNodeEditor(node);
         }
     }
@@ -495,7 +548,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         if (e.getButton() == MouseButton.SECONDARY) {
             edgeContextMenu(e, edge);
         }
-        else {
+        else if (alignmentTool != null) {
             openEdgeEditor(edge);
         }
     }
