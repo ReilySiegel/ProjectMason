@@ -105,7 +105,7 @@ public class MainPage implements Initializable {
     }
 
     private void handleAccountManagerButton(ActionEvent actionEvent) {
-        setManageRequests();
+        setManageAccounts();
     }
 
     private void handleRequestManagerButton(ActionEvent actionEvent) {
@@ -167,6 +167,11 @@ public class MainPage implements Initializable {
         SubPageContainer.switchPage(Pages.MANAGEREQUESTS);
     }
 
+    public void setManageAccounts() {
+        hidePages();
+        SubPageContainer.switchPage(Pages.MANAGEACCOUNTS);
+    }
+  
     public void setCovidSurvey() {
         hidePages();
         SubPageContainer.switchPage(Pages.SURVEY);

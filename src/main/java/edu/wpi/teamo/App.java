@@ -58,6 +58,7 @@ public class App extends Application {
     pagePaths.put(Pages.GIFTS, "/edu/wpi/teamo/fxml/GiftRequest.fxml");
     pagePaths.put(Pages.FOOD,"/edu/wpi/teamo/fxml/FoodRequestPage.fxml");
     pagePaths.put(Pages.MAIN, "/edu/wpi/teamo/fxml/MainPage.fxml");
+    pagePaths.put(Pages.MANAGEACCOUNTS, "/edu/wpi/teamo/fxml/ManageAccounts.fxml");
     pagePaths.put(Pages.ABOUT, "/edu/wpi/teamo/fxml/AboutPage.fxml");
 
     System.out.println("Starting Up");

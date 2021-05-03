@@ -6,9 +6,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
+import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import edu.wpi.teamo.database.Database;
 
-public class Account {
+public class Account extends RecursiveTreeObject<Account> {
     private String username;
     private String passwordHash;
     private boolean isAdmin;

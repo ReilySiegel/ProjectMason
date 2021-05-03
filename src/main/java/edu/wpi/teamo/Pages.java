@@ -21,5 +21,6 @@ public enum Pages {
     GIFTS,
     FOOD,
     MAIN,
+    MANAGEACCOUNTS,
     ABOUT
 }
