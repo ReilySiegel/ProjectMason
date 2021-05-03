@@ -69,9 +69,9 @@
                         <Insets />
                      </VBox.margin>
                   </HBox>
-                  <HBox alignment="TOP_CENTER">
+                  <HBox fx:id="assignedBox" alignment="TOP_CENTER">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.assignee_name" textAlignment="RIGHT" wrappingWidth="170.0">
+                        <Text fx:id="assignedLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.assignee_name" textAlignment="RIGHT" wrappingWidth="170.0">
                            <font>
                               <Font name="Arial" size="18.0" />
                            </font>

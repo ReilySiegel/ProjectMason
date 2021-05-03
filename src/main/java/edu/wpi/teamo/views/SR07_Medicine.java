@@ -4,6 +4,7 @@ import com.jfoenix.controls.*;
 import edu.wpi.teamo.App;
 
 import edu.wpi.teamo.Pages;
+import edu.wpi.teamo.Session;
 import edu.wpi.teamo.database.map.NodeInfo;
 
 import edu.wpi.teamo.database.request.BaseRequest;
@@ -14,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import java.time.LocalDateTime;
@@ -69,7 +71,10 @@ public class SR07_Medicine extends ServiceRequestPage implements Initializable {
     private Text assigneeErrorText;
 
     @FXML
-    private MenuButton locationBox;
+    private Text assignedLabel;
+
+    @FXML
+    private HBox assignedBox;
 
     @FXML
     private JFXListView<JFXCheckBox> roomList;
@@ -94,6 +99,12 @@ public class SR07_Medicine extends ServiceRequestPage implements Initializable {
         updateLocations();
 
         validRequest = true;
+
+        if (Session.getAccount() == null || !Session.getAccount().hasEmployeeAccess()) {
+            assignedBox.setVisible(false);
+            assignedBox.setManaged(false);
+        }
+
     }
 
     private void updateLocations() {
@@ -163,8 +174,7 @@ public class SR07_Medicine extends ServiceRequestPage implements Initializable {
             validRequest = false;
         }
         if (assignName.equals("")) {
-            assigneeErrorText.setText(App.resourceBundle.getString("key.no_assignee_specified"));
-            validRequest = false;
+            assignName = "Unassigned";
         }
 
         if (validRequest) {

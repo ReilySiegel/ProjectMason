@@ -1,5 +1,6 @@
 package edu.wpi.teamo.views;
 
+import edu.wpi.teamo.Session;
 import javafx.scene.text.FontWeight;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Label;
@@ -44,21 +45,24 @@ public class serviceRequestHubPage implements Initializable {
     private EnumMap<Pages, String> titleMap;
     private EnumMap<Pages, Image> iconMap;
 
+    private boolean empAccess;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        empAccess = Session.isLoggedIn() && Session.getAccount().hasEmployeeAccess();
 
         backButton.setOnAction(this::handleBacktoMain);
         helpButton.setOnAction(this::handleHelp);
 
         List<Pages> serviceRequestPages = new LinkedList<>();
         serviceRequestPages.add(Pages.LANGUAGEINTERPRETER);
-        serviceRequestPages.add(Pages.TRANSPORTATION);
-        serviceRequestPages.add(Pages.MAINTENANCE);
+        if (empAccess) serviceRequestPages.add(Pages.TRANSPORTATION);
+        if (empAccess) serviceRequestPages.add(Pages.MAINTENANCE);
         serviceRequestPages.add(Pages.SANITATION);
         serviceRequestPages.add(Pages.RELIGIOUS);
         serviceRequestPages.add(Pages.SECURITY);
-        serviceRequestPages.add(Pages.MEDICINE);
+        if (empAccess) serviceRequestPages.add(Pages.MEDICINE);
         serviceRequestPages.add(Pages.LAUNDRY);
         serviceRequestPages.add(Pages.GIFTS);
         serviceRequestPages.add(Pages.FOOD);
@@ -85,36 +89,36 @@ public class serviceRequestHubPage implements Initializable {
     private void populateMaps(List<Pages> serviceRequestPages) {
         //TODO make this more reliable by looping through the given pages and setting wit a switch case
         iconMap.put(Pages.LANGUAGEINTERPRETER, new Image("edu/wpi/teamo/images/Icons/icons8-collaboration-96.png"));
-        iconMap.put(Pages.TRANSPORTATION, new Image("edu/wpi/teamo/images/Icons/icons8-ambulance-100.png"));
-        iconMap.put(Pages.MAINTENANCE, new Image("edu/wpi/teamo/images/Icons/icons8-maintenance-96.png"));
+        if (empAccess) iconMap.put(Pages.TRANSPORTATION, new Image("edu/wpi/teamo/images/Icons/icons8-ambulance-100.png"));
+        if (empAccess) iconMap.put(Pages.MAINTENANCE, new Image("edu/wpi/teamo/images/Icons/icons8-maintenance-96.png"));
         iconMap.put(Pages.SANITATION, new Image("edu/wpi/teamo/images/Icons/icons8-housekeeping-96.png"));
         iconMap.put(Pages.SECURITY, new Image("edu/wpi/teamo/images/Icons/icons8-police-badge-96.png"));
         iconMap.put(Pages.RELIGIOUS, new Image("edu/wpi/teamo/images/Icons/icons8-holy-bible-96.png"));
-        iconMap.put(Pages.MEDICINE, new Image("edu/wpi/teamo/images/Icons/icons8-pill-100.png"));
+        if (empAccess) iconMap.put(Pages.MEDICINE, new Image("edu/wpi/teamo/images/Icons/icons8-pill-100.png"));
         iconMap.put(Pages.LAUNDRY, new Image("edu/wpi/teamo/images/Icons/icons8-hanger-96.png"));
         iconMap.put(Pages.FOOD, new Image("edu/wpi/teamo/images/Icons/icons8-hamburger-96.png"));
         iconMap.put(Pages.GIFTS, new Image("edu/wpi/teamo/images/Icons/icons8-gift-100.png"));
 
         descriptionMap.put(Pages.LANGUAGEINTERPRETER, App.resourceBundle.getString("key.language_description"));
-        descriptionMap.put(Pages.TRANSPORTATION, App.resourceBundle.getString("key.transportation_description"));
-        descriptionMap.put(Pages.MAINTENANCE, App.resourceBundle.getString("key.maintenance_description"));
+        if (empAccess) descriptionMap.put(Pages.TRANSPORTATION, App.resourceBundle.getString("key.transportation_description"));
+        if (empAccess) descriptionMap.put(Pages.MAINTENANCE, App.resourceBundle.getString("key.maintenance_description"));
         descriptionMap.put(Pages.SANITATION, App.resourceBundle.getString("key.sanitation_description"));
         descriptionMap.put(Pages.RELIGIOUS, App.resourceBundle.getString("key.religious_description"));
         descriptionMap.put(Pages.SECURITY, App.resourceBundle.getString("key.security_description"));
-        descriptionMap.put(Pages.MEDICINE, App.resourceBundle.getString("key.medicine_description"));
+        if (empAccess) descriptionMap.put(Pages.MEDICINE, App.resourceBundle.getString("key.medicine_description"));
         descriptionMap.put(Pages.LAUNDRY, App.resourceBundle.getString("key.laundry_description"));
         descriptionMap.put(Pages.GIFTS, App.resourceBundle.getString("key.gift_description"));
         descriptionMap.put(Pages.FOOD, App.resourceBundle.getString("key.food_description"));
 
         titleMap.put(Pages.LANGUAGEINTERPRETER, App.resourceBundle.getString("key.language_interpreter"));
-        titleMap.put(Pages.TRANSPORTATION, App.resourceBundle.getString("key.patient_transportation"));
+        if (empAccess) titleMap.put(Pages.TRANSPORTATION, App.resourceBundle.getString("key.patient_transportation"));
         titleMap.put(Pages.RELIGIOUS, App.resourceBundle.getString("key.religious_requests"));
-        titleMap.put(Pages.MAINTENANCE, App.resourceBundle.getString("key.maintenance"));
+        if (empAccess) titleMap.put(Pages.MAINTENANCE, App.resourceBundle.getString("key.maintenance"));
         titleMap.put(Pages.SANITATION, App.resourceBundle.getString("key.sanitation"));
         titleMap.put(Pages.GIFTS, App.resourceBundle.getString("key.gift_delivery"));
         titleMap.put(Pages.FOOD, App.resourceBundle.getString("key.food_delivery"));
         titleMap.put(Pages.SECURITY, App.resourceBundle.getString("key.security"));
-        titleMap.put(Pages.MEDICINE, App.resourceBundle.getString("key.medicine"));
+        if (empAccess) titleMap.put(Pages.MEDICINE, App.resourceBundle.getString("key.medicine"));
         titleMap.put(Pages.LAUNDRY, App.resourceBundle.getString("key.laundry"));
     }
 
@@ -132,6 +136,7 @@ public class serviceRequestHubPage implements Initializable {
     }
 
     private JFXButton makeButton(Pages page, boolean isSelected) {
+
         Label description = new Label(descriptionMap.get(page));
         Label title = new Label(titleMap.get(page));
 

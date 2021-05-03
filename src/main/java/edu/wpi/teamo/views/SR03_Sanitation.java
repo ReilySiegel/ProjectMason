@@ -3,6 +3,7 @@ package edu.wpi.teamo.views;
 import com.jfoenix.controls.*;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.Pages;
+import edu.wpi.teamo.Session;
 import edu.wpi.teamo.database.map.NodeInfo;
 import edu.wpi.teamo.database.request.BaseRequest;
 import edu.wpi.teamo.database.request.SanitationRequest;
@@ -89,6 +90,9 @@ public class SR03_Sanitation extends ServiceRequestPage implements Initializable
     @FXML
     private JFXListView<JFXCheckBox> roomList;
 
+    @FXML
+    private HBox assignedBox;
+
     LocationSearcher locationSearcher;
 
     private boolean validRequest;
@@ -106,6 +110,11 @@ public class SR03_Sanitation extends ServiceRequestPage implements Initializable
         bottomHbox.getStyleClass().add("vbox");
         midVbox.getStyleClass().add("text-area");
         recurCheck.getStyleClass().add("check-box");
+
+        if (Session.getAccount() == null || !Session.getAccount().hasEmployeeAccess()) {
+            assignedBox.setVisible(false);
+            assignedBox.setManaged(false);
+        }
 
         recurCheck.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
@@ -176,8 +185,7 @@ public class SR03_Sanitation extends ServiceRequestPage implements Initializable
         }
 
         if (assigned.equals("")) {
-            assignedErrorText.setText(App.resourceBundle.getString("key.no_assignee_specified"));
-            validRequest = false;
+            assigned = "Unassigned";
         }
 
         if (validRequest) {

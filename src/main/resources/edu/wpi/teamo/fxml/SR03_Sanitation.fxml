@@ -59,7 +59,7 @@
                               <Insets />
                            </VBox.margin>
                         </HBox>
-                        <HBox prefHeight="50.0" prefWidth="200.0">
+                        <HBox fx:id="assignedBox" prefHeight="50.0" prefWidth="200.0">
                            <children>
                               <AnchorPane prefHeight="50.0" prefWidth="700.0">
                                  <children>
