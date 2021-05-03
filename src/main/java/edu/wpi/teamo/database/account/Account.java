@@ -13,6 +13,7 @@ public class Account extends RecursiveTreeObject<Account> {
     private String username;
     private String passwordHash;
     private boolean isAdmin;
+    private boolean useEmergencyEntrance = false;
     private String firstName;
     private String lastName;
     private String role;
@@ -143,6 +144,9 @@ public class Account extends RecursiveTreeObject<Account> {
         this.update();
     }
 
+    public boolean getUseEmergencyEntrance(){return this.useEmergencyEntrance;}
+
+    public void setUseEmergencyEntrance(boolean useEmergencyEntrance){this.useEmergencyEntrance = useEmergencyEntrance;}
     public String getLastName() {
         return lastName;
     }

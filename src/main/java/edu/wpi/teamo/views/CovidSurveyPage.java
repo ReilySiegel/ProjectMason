@@ -1,6 +1,7 @@
 package edu.wpi.teamo.views;
 
 import com.jfoenix.controls.*;
+import edu.wpi.teamo.Session;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.Pages;
 import javafx.beans.value.ChangeListener;
@@ -124,11 +125,13 @@ public class CovidSurveyPage extends ServiceRequestPage implements Initializable
         content.setHeading(new Text("Thank you for submitting your response."));
 
         if(Q1Check || Q2Check || Q3Check || Q4Check || Q5Check){
+            Session.getAccount().setUseEmergencyEntrance(true);
             content.setBody(new Text("Please enter the hospital through the back entrance. \n" +
                     "Please wear a mask and maintain a 6-foot distance between all hospital staff \n" +
                     "and patients unless instructed otherwise"));
         }
         else{
+            Session.getAccount().setUseEmergencyEntrance(false);
             content.setBody(new Text("Please enter the hospital through the front entrance \n" +
                     "Please wear a mask and maintain a 6-foot distance between all hospital staff \n" +
                     "and patients unless instructed otherwise"));
@@ -144,8 +147,6 @@ public class CovidSurveyPage extends ServiceRequestPage implements Initializable
             public void handle(javafx.event.ActionEvent event) {
                 App.switchPage(Pages.MAIN);
             }
-
-
         });
 
         content.setActions(closeButton);
