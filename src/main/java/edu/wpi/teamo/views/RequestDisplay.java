@@ -7,6 +7,7 @@ import edu.wpi.teamo.database.request.*;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.geometry.Side;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
@@ -123,11 +124,11 @@ public class RequestDisplay {
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy, " + "H:m:s");
             Text dueText = new Text("Due: " + m.getDue().format(formatter));
-            dueText.setWrappingWidth(140);
+            dueText.setWrappingWidth(130);
             HBox dateBox = new HBox(dueText);
-            dateBox.setMinWidth(150);
-            dateBox.setPrefWidth(150);
-            dateBox.setMaxWidth(150);
+            dateBox.setMinWidth(130);
+            dateBox.setPrefWidth(130);
+            dateBox.setMaxWidth(130);
 
 
             //status (is complete)
@@ -136,7 +137,11 @@ public class RequestDisplay {
             if (m.isComplete()) statusText = new Text("Complete");
             else statusText = new Text("In progress");
 
-            HBox mbox = new HBox(expand, typeBox, locText, assignedBox, dateBox, statusText);
+            JFXButton viewContextMenu = new JFXButton("...");
+            viewContextMenu.setStyle("-fx-border-radius: 5; -fx-background-radius: 5");
+            expand.setStyle("-fx-border-radius: 5; -fx-background-radius: 5");
+
+            HBox mbox = new HBox(expand, typeBox, locText, assignedBox, dateBox, statusText, viewContextMenu);
             mbox.setSpacing(10);
 
             VBox mContainer = new VBox(mbox);
@@ -153,6 +158,7 @@ public class RequestDisplay {
             markComplete.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
+                    srContextMenu.hide();
                     try {
                         BaseRequest.getByID(m.getID()).setComplete(true);
                         update(types, latestTime);
@@ -165,6 +171,7 @@ public class RequestDisplay {
             edit.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
+                    srContextMenu.hide();
                     assignedBox.getChildren().clear();
                     JFXTextField editAssignee = new JFXTextField(m.getAssigned());
                     editAssignee.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -277,14 +284,21 @@ public class RequestDisplay {
                 }
             });
 
-            mbox.setOnMousePressed(new EventHandler<MouseEvent>() {
+//            mbox.setOnMousePressed(new EventHandler<MouseEvent>() {
+//                @Override
+//                public void handle(MouseEvent event) {
+//                    if (event.isSecondaryButtonDown())
+//                        srContextMenu.show(mbox, event.getScreenX(), event.getScreenY());
+//                }
+//            });
+            reqList.getItems().add(mContainer);
+
+            viewContextMenu.setOnMousePressed(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    if (event.isSecondaryButtonDown())
-                        srContextMenu.show(mbox, event.getScreenX(), event.getScreenY());
+                    srContextMenu.show(viewContextMenu, event.getScreenX(), event.getScreenY());
                 }
             });
-            reqList.getItems().add(mContainer);
         }
     }
 
