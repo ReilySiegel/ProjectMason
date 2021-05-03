@@ -20,5 +20,6 @@ public enum Pages {
     TRANSPORTATION,
     GIFTS,
     FOOD,
-    MAIN
+    MAIN,
+    ABOUT
 }

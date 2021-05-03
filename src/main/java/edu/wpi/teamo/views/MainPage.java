@@ -154,7 +154,7 @@ public class MainPage implements Initializable {
 
     public void setAbout() {
         hidePages();
-        SubPageContainer.switchPage(Pages.MEDICINE);
+        SubPageContainer.switchPage(Pages.ABOUT);
     }
 
     public void setServiceRequest() {
