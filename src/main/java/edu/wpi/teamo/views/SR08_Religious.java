@@ -141,7 +141,7 @@ public class SR08_Religious extends ServiceRequestPage implements Initializable 
 
     private void receiptPopup(String serviceName, List<String> locationIDs, String assigned, String details) {
         JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text(App.resourceBundle.getString("key.sanitation_request_submitted")));
+        content.setHeading(new Text(App.resourceBundle.getString("key.religious_request_submitted")));
         content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
                 App.resourceBundle.getString("key.type_of_service") + serviceName + "\n" +
                 App.resourceBundle.getString("key.persons_assigned_semicolon") + assigned + "\n" +
@@ -168,8 +168,8 @@ public class SR08_Religious extends ServiceRequestPage implements Initializable 
     private boolean validateRequest() {
         validRequest = true;
 
-        if (service.equals("")) {
-            typeErrorText.setText(App.resourceBundle.getString("key.no_sanitation_type_specified"));
+        if (service.getText().equals("")) {
+            typeErrorText.setText(App.resourceBundle.getString("key.no_religion_type_specified"));
             validRequest = false;
         }
 

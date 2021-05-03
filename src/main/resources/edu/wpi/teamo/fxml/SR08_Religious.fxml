@@ -105,7 +105,7 @@
                               <AnchorPane prefHeight="50.0" prefWidth="309.0">
                                  <children>
                                     <JFXTextField fx:id="service" focusColor="BLACK" layoutY="2.0" minWidth="300.0" prefHeight="25.0" prefWidth="349.0" promptText="%key.name_of_service" unFocusColor="BLACK" AnchorPane.rightAnchor="0.0" />
-                                    <Text fx:id="typeErrorText" fill="RED" layoutX="94.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                                    <Text fx:id="typeErrorText" fill="RED" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                                  </children>
                                  <HBox.margin>
                                     <Insets />
