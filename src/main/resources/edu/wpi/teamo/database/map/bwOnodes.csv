@@ -434,7 +434,7 @@ GHALL01103,1628,2070,3,Shapiro,HALL,Hallway Node 11 Floor 3,Hall
 GHALL01303,1580,2006,3,Shapiro,HALL,Hallway Node 13 Floor 3,Hall
 GREST01203,1628,2052,3,Shapiro,REST,Restroom Node 12 Floor 3,Restroom Shapiro Floor 3
 GSERV01603,1580,1858,3,Shapiro,SERV,The Porch Node 16 Floor 3,The Porch
-GSTAI00903,1685,2052,3,Shapiro,STAI,Staircase Node 9 Floor 3,Floor 3 Stairs 
+GSTAI00903,1685,2052,3,Shapiro,STAI,Staircase Node 9 Floor 3,Floor 3 Stairs
 GELEV00QL1,1637,2116,L1,Shapiro,ELEV,Elevator Q MapNode 7 Floor L1,Elevator Q L1
 GEXIT001L1,1702,2260,L1,Shapiro,EXIT,Fenwood Road Exit MapNode 1 Floor L1,Fenwood Road EntranceExit L1
 GHALL002L1,1702,2167,L1,Shapiro,HALL,Hallway MapNode 2 Floor L1,Hall
@@ -605,6 +605,7 @@ oPARK02201,587,1928,1,Parking,PARK,Floor1LeftParking7,F1LeftP7
 oPARK02301,587,2021,1,Parking,PARK,Floor1LeftParking8,F1LeftP8
 oPARK02401,587,2106,1,Parking,PARK,Floor1LeftParking9,F1LeftP9
 oPARK02501,587,2212,1,Parking,PARK,Floor1LeftParking10,F1LeftP10
+oEXIT00101,1748,1334,1,Parking(T),EXIT,75 Lobby entrance,75LobbyEntrance
 oEXIT00201,2104,1352,1,Parking(T),EXIT,Emergency room entrance,EREntrance
 oWALK00101,3187,1337,1,Parking(T),WALK,IntermediateNode1,IN1
 oWALK00201,3111,1400,1,Parking(T),WALK,IntermediateNode2,IN2
@@ -634,5 +635,5 @@ oWALK02501,1043,1570,1,CITY,WALK,IntermediateNode25,IN25
 oWALK02601,1113,1630,1,CITY,WALK,IntermediateNode26,IN26
 oWALK02801,1195,1462,1,CITY,WALK,IntermediateNode28,IN28
 oWALK02901,1299,1346,1,CITY,WALK,IntermediateNode29,IN29
-oWALK03001,1743,1373,1,CITY,WALK,IntermediateNode30,IN30
+oWALK03001,1761,1383,1,CITY,WALK,IntermediateNode30,IN30
 oWALK02701,1113,1562,1,CITY,Node Type,IntermediateNode27,IN27
