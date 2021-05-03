@@ -124,14 +124,21 @@ public class CovidSurveyPage extends ServiceRequestPage implements Initializable
         JFXDialogLayout content = new JFXDialogLayout();
         content.setHeading(new Text("Thank you for submitting your response."));
 
+
+
         if(Q1Check || Q2Check || Q3Check || Q4Check || Q5Check){
-            Session.getAccount().setUseEmergencyEntrance(true);
+
+            if(Session.isLoggedIn()){
+                Session.getAccount().setUseEmergencyEntrance(true);
+            }
             content.setBody(new Text("Please enter the hospital through the back entrance. \n" +
                     "Please wear a mask and maintain a 6-foot distance between all hospital staff \n" +
                     "and patients unless instructed otherwise"));
         }
         else{
-            Session.getAccount().setUseEmergencyEntrance(false);
+            if(Session.isLoggedIn()){
+                Session.getAccount().setUseEmergencyEntrance(false);
+            }
             content.setBody(new Text("Please enter the hospital through the front entrance \n" +
                     "Please wear a mask and maintain a 6-foot distance between all hospital staff \n" +
                     "and patients unless instructed otherwise"));
