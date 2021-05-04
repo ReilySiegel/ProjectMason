@@ -76,7 +76,7 @@ public class App extends Application {
       MaintenanceRequest.initTable();
       ReligiousRequest.initTable();
       FoodRequest.initTable();
-      new Account("admin", "admin", true, "Willson", "Wong", "admin").update();
+      new Account("admin", "admin", true, "Wilson", "Wong", "admin").update();
       new Account("patient", "patient", false, "Nestor", "Lopez", "patient").update();
       new Account("employee", "employee", false, "Reily", "Siegel", "employee").update();
       new Account("guest", "guest", false, "guest", "guest", "guest").update();

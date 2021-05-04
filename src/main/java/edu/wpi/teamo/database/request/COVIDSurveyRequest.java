@@ -61,7 +61,7 @@ public class COVIDSurveyRequest extends ExtendedBaseRequest<COVIDSurveyRequest>{
         } catch (SQLException e) {
             // Item with this ID already exists in the DB, try insert.
             String sql = String.join(" ",
-                    "UPDATE InterpreterRequest SET",
+                    "UPDATE EntranceRequest SET",
                     "id = ?, language = ?, type = ?",
                     "WHERE id = ?");
             PreparedStatement pstmt = Database.prepareStatement(sql);
@@ -75,7 +75,7 @@ public class COVIDSurveyRequest extends ExtendedBaseRequest<COVIDSurveyRequest>{
     }
 
     public void delete() throws SQLException {
-        Database.processUpdate(String.format("DELETE FROM InterpreterRequest WHERE id = '%s'", this.base.getId()));
+        Database.processUpdate(String.format("DELETE FROM EntranceRequest WHERE id = '%s'", this.base.getId()));
         this.base.delete();
     }
 
