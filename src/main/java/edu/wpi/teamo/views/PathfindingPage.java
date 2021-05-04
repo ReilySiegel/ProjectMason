@@ -8,8 +8,13 @@ import edu.wpi.teamo.database.map.NodeInfo;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.util.Pair;
@@ -122,6 +127,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
         update();
     }
 
+
     private void handleAlgoSwitch(ActionEvent actionEvent) {
         App.context.switchAlgoManagerByCode(algoSwitcher.getValue());
     }
@@ -177,14 +183,14 @@ public class PathfindingPage extends SubPageController implements Initializable 
             event.consume();
         });
 
-        circle.setOnMousePressed(event -> {
-            onClickNode(node);
-            event.consume();
+        circle.setOnMousePressed((MouseEvent e) -> {
+            onRightClickNode(e, circle, node);
+            e.consume();
         });
     }
 
     //    Consumer<NodeInfo> onClickNode = (NodeInfo node) -> System.out.println("Node " + node.getNodeID() + "was clicked");
-    void onClickNode(NodeInfo node) {
+    void onClickNode( NodeInfo node) {
         if (selectingStart) {
             chooseStartButton.setText(node.getShortName());
             selectedStartID = node.getNodeID();
@@ -199,6 +205,32 @@ public class PathfindingPage extends SubPageController implements Initializable 
         chooseStartButton.setDisable(selectingStart);
         chooseEndButton.setDisable(selectingEnd);
         locationSearcher.clearSelectedLocations();
+    }
+
+    void onRightClickNode(MouseEvent e, Circle circle, NodeInfo node){
+        if(e.isSecondaryButtonDown()){
+            nodeContextMenu(e, circle, node);
+        }
+    }
+
+
+    void nodeContextMenu( MouseEvent e, Circle circle, NodeInfo node){
+        ContextMenu menu = new ContextMenu();
+
+        MenuItem assignParkingNode = new MenuItem(App.resourceBundle.getString("key.assignParking"));
+        assignParkingNode.setOnAction(event -> handleAssignParkingSpot(circle, node));
+
+        menu.getItems().add(assignParkingNode);
+        menu.show(pathPane.getScene().getWindow(), e.getScreenX(), e.getScreenY());
+
+    }
+
+
+    private void handleAssignParkingSpot(Circle circle, NodeInfo node){
+        Session.getAccount().addParkingNodeID(node);
+        if(Session.getAccount().getParkingSpots().size() > 0 && Session.getAccount().getParkingSpots().size() <= 2) {
+            circle.setFill(Color.BLACK);
+        }
     }
 
     private void handleChooseStart(ActionEvent e) {

@@ -4,10 +4,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.stream.Stream;
 
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import edu.wpi.teamo.database.Database;
+import edu.wpi.teamo.database.map.Node;
+import edu.wpi.teamo.database.map.NodeInfo;
 
 public class Account extends RecursiveTreeObject<Account> {
     private String username;
@@ -17,6 +20,7 @@ public class Account extends RecursiveTreeObject<Account> {
     private String firstName;
     private String lastName;
     private String role;
+    private LinkedList<String> parkingSpots = new LinkedList<>();
 
     public Account (String username,
                     String passwordHash,
@@ -163,5 +167,21 @@ public class Account extends RecursiveTreeObject<Account> {
     public void setRole(String role) throws SQLException {
         this.role = role;
         this.update();
+    }
+
+    public void addParkingNodeID(NodeInfo node){
+        if(node.getNodeType().equals("PARK") && this.parkingSpots.size() <= 2){
+        this.parkingSpots.add(node.getNodeID());
+        System.out.println("Parking Spot Assigned!");
+
+        }else if(this.parkingSpots.size() > 2){
+            System.out.println("You have hit your parking spots limit!");}
+        else {
+            System.out.println("Not a parking spot!");
+        }
+    }
+
+    public LinkedList<String> getParkingSpots() {
+        return this.parkingSpots;
     }
 }
