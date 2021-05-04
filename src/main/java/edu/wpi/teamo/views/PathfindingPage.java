@@ -12,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -69,7 +70,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
     private JFXListView<JFXCheckBox> searchResultsView;
 
     @FXML
-    private JFXListView<String> textualDirView;
+    private JFXListView<HBox> textualDirView;
 
     @FXML
     private HBox algoSwitchWindow;
@@ -340,8 +341,91 @@ public class PathfindingPage extends SubPageController implements Initializable 
         else textualUnitsBtn.setText(App.resourceBundle.getString("key.units_us"));
         if(textualDirView.getItems().size() > 0 && calculatedPath != null) {
             textualDirView.getItems().remove(0, textualDirView.getItems().size() - 1);
-            textualDirView.getItems().setAll(TextDirManager.getTextualDirections(calculatedPath, metric));
+            populateTextualView(calculatedPath);
         }
+    }
+
+    private void populateTextualView(List<AlgoNode> path) {
+        List<HBox> viewableList = new LinkedList<>();
+        List<String> directionsRaw = TextDirManager.getTextualDirections(path, metric);
+        for(String s : directionsRaw) {
+            if(s.toLowerCase().contains("slightly leftwards")) {
+                Image ico = new Image("edu/wpi/teamo/images/Icons/icons8-up-left-96.png");
+                ImageView icon = new ImageView();
+                icon.setImage(ico);
+                icon.setFitWidth(20);
+                icon.setFitHeight(20);
+                HBox hbox = new HBox(icon, new Text(s));
+                viewableList.add(hbox);
+            }
+            else if(s.toLowerCase().contains("slightly rightwards")) {
+                Image ico = new Image("edu/wpi/teamo/images/Icons/icons8-up-right-96.png");
+                ImageView icon = new ImageView();
+                icon.setImage(ico);
+                icon.setFitWidth(20);
+                icon.setFitHeight(20);
+                HBox hbox = new HBox(icon, new Text(s));
+                viewableList.add(hbox);
+            }
+            else if(s.toLowerCase().contains("backwards and to the left")) {
+                Image ico = new Image("edu/wpi/teamo/images/Icons/icons8-up-left-96.png");
+                ImageView icon = new ImageView();
+                icon.setImage(ico);
+                icon.setRotate(90);
+                icon.setFitWidth(20);
+                icon.setFitHeight(20);
+                HBox hbox = new HBox(icon, new Text(s));
+                viewableList.add(hbox);
+            }
+            else if(s.toLowerCase().contains("backwards and to the right")) {
+                Image ico = new Image("edu/wpi/teamo/images/Icons/icons8-up-right-96.png");
+                ImageView icon = new ImageView();
+                icon.setImage(ico);
+                icon.setRotate(90);
+                icon.setFitWidth(20);
+                icon.setFitHeight(20);
+                HBox hbox = new HBox(icon, new Text(s));
+                viewableList.add(hbox);
+            }
+            else if(s.toLowerCase().contains("leftwards")) {
+                Image ico = new Image("edu/wpi/teamo/images/Icons/icons8-up-sharp-left-96.png");
+                ImageView icon = new ImageView();
+                icon.setImage(ico);
+                icon.setFitWidth(20);
+                icon.setFitHeight(20);
+                HBox hbox = new HBox(icon, new Text(s));
+                viewableList.add(hbox);
+            }
+            else if(s.toLowerCase().contains("rightwards")) {
+                Image ico = new Image("edu/wpi/teamo/images/Icons/icons8-up-sharp-right-96.png");
+                ImageView icon = new ImageView();
+                icon.setImage(ico);
+                icon.setFitWidth(20);
+                icon.setFitHeight(20);
+                HBox hbox = new HBox(icon, new Text(s));
+                viewableList.add(hbox);
+            }
+            else if(s.toLowerCase().contains("backwards")) {
+                Image ico = new Image("edu/wpi/teamo/images/Icons/icons8-up-arrow-96.png");
+                ImageView icon = new ImageView();
+                icon.setImage(ico);
+                icon.setRotate(180);
+                icon.setFitWidth(20);
+                icon.setFitHeight(20);
+                HBox hbox = new HBox(icon, new Text(s));
+                viewableList.add(hbox);
+            }
+            else{
+                Image ico = new Image("edu/wpi/teamo/images/Icons/icons8-up-arrow-96.png");
+                ImageView icon = new ImageView();
+                icon.setImage(ico);
+                icon.setFitWidth(20);
+                icon.setFitHeight(20);
+                HBox hbox = new HBox(icon, new Text(s));
+                viewableList.add(hbox);
+            }
+        }
+        textualDirView.getItems().setAll(viewableList);
     }
 
     void findPath(String startID, String endID) {
@@ -358,7 +442,8 @@ public class PathfindingPage extends SubPageController implements Initializable 
         }
 
         textualWindow.setVisible(true);
-        textualDirView.getItems().setAll(TextDirManager.getTextualDirections(path, metric));
+        populateTextualView(path);
+        //textualDirView.getItems().setAll();
 
         List<String> floors = new LinkedList<>();
         for (AlgoNode node : path) {
