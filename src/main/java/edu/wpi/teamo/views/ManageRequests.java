@@ -1,6 +1,9 @@
 package edu.wpi.teamo.views;
 
 import com.jfoenix.controls.*;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckMenuItem;
@@ -46,6 +49,7 @@ public class ManageRequests implements Initializable {
     JFXCheckBox laundryCheck;
     JFXCheckBox maintCheck;
     JFXCheckBox religCheck;
+    JFXCheckBox covidCheck;
 
     RequestDisplay requestDisplay;
 
@@ -63,6 +67,7 @@ public class ManageRequests implements Initializable {
         selectedTypes.put("Laundry", true);
         selectedTypes.put("Maintenance", true);
         selectedTypes.put("Religious", true);
+        selectedTypes.put("COVID Survey", true);
 
         try {
             requestDisplay.update(selectedTypes, LocalDateTime.MAX);
@@ -90,6 +95,32 @@ public class ManageRequests implements Initializable {
         maintCheck.setSelected(true);
         religCheck = new JFXCheckBox("Religious");
         religCheck.setSelected(true);
+        covidCheck = new JFXCheckBox("COVID Survey");
+        covidCheck.setSelected(true);
+
+        EventHandler filterCheck = new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                try {
+                    applyFilter();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+        };
+
+        medCheck.setOnAction(filterCheck);
+        sanCheck.setOnAction(filterCheck);
+        secCheck.setOnAction(filterCheck);
+        foodCheck.setOnAction(filterCheck);
+        giftCheck.setOnAction(filterCheck);
+        interpCheck.setOnAction(filterCheck);
+        laundryCheck.setOnAction(filterCheck);
+        maintCheck.setOnAction(filterCheck);
+        religCheck.setOnAction(filterCheck);
+        covidCheck.setOnAction(filterCheck);
+        showCompleted.setOnAction(filterCheck);
+
 
         typeFilterSelection.getItems().add(medCheck);
         typeFilterSelection.getItems().add(sanCheck);
@@ -100,6 +131,7 @@ public class ManageRequests implements Initializable {
         typeFilterSelection.getItems().add(laundryCheck);
         typeFilterSelection.getItems().add(maintCheck);
         typeFilterSelection.getItems().add(religCheck);
+        typeFilterSelection.getItems().add(covidCheck);
     }
 
     @FXML
@@ -115,6 +147,7 @@ public class ManageRequests implements Initializable {
         selectedTypes.put("Laundry", laundryCheck.isSelected());
         selectedTypes.put("Maintenance", maintCheck.isSelected());
         selectedTypes.put("Religious", religCheck.isSelected());
+        selectedTypes.put("COVID Survey", covidCheck.isSelected());
 
         requestDisplay.setShowComplete(showCompleted.isSelected());
 

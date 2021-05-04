@@ -55,6 +55,7 @@ public class RequestDisplay {
         this.types.put("Maintenance", true);
         this.types.put("Interpreter", true);
         this.types.put("Reilgious", true);
+        this.types.put("COVID Survey", true);
     }
 
     public void setShowComplete(Boolean showComplete) {
@@ -74,6 +75,7 @@ public class RequestDisplay {
         Stream<LaundryRequest> laundryRequests = LaundryRequest.getAll();
         Stream<MaintenanceRequest> maintRequests = MaintenanceRequest.getAll();
         Stream<ReligiousRequest> religRequests = ReligiousRequest.getAll();
+        //Stream<COVIDSurveyRequest> covidRequests = COVIDSurveyRequest.getAll();
 
         if (selectedTypes.get("Medicine")) medRequests.forEach(r -> makeSRBox(r, "Medicine Request"));
         if (selectedTypes.get("Sanitation")) sanRequests.forEach(r -> makeSRBox(r, "Sanitation Request"));
@@ -84,6 +86,7 @@ public class RequestDisplay {
         if (selectedTypes.get("Laundry")) laundryRequests.forEach(r -> makeSRBox(r, "Laundry Request"));
         if (selectedTypes.get("Maintenance")) maintRequests.forEach(r -> makeSRBox(r, "Maintenance Request"));
         if (selectedTypes.get("Religious")) religRequests.forEach(r -> makeSRBox(r, "Religious Request"));
+
 
     }
 
@@ -300,6 +303,10 @@ public class RequestDisplay {
                 }
             });
         }
+    }
+
+    public void makeSurveyBox(COVIDSurveyRequest c) {
+
     }
 
 }
