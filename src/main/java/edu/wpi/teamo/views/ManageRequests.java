@@ -51,6 +51,7 @@ public class ManageRequests implements Initializable {
     JFXCheckBox maintCheck;
     JFXCheckBox religCheck;
     JFXCheckBox covidCheck;
+    JFXCheckBox transCheck;
 
     RequestDisplay requestDisplay;
 
@@ -68,6 +69,7 @@ public class ManageRequests implements Initializable {
         selectedTypes.put("Laundry", true);
         selectedTypes.put("Maintenance", true);
         selectedTypes.put("Religious", true);
+        selectedTypes.put("Transportation", true);
         selectedTypes.put("COVID Survey", true);
 
         try {
@@ -96,6 +98,8 @@ public class ManageRequests implements Initializable {
         maintCheck.setSelected(true);
         religCheck = new JFXCheckBox(App.resourceBundle.getString("key.religious"));
         religCheck.setSelected(true);
+        transCheck = new JFXCheckBox(App.resourceBundle.getString("key.trans"));
+        transCheck.setSelected(true);
         covidCheck = new JFXCheckBox(App.resourceBundle.getString("key.covid_survey"));
         covidCheck.setSelected(true);
 
@@ -119,6 +123,7 @@ public class ManageRequests implements Initializable {
         laundryCheck.setOnAction(filterCheck);
         maintCheck.setOnAction(filterCheck);
         religCheck.setOnAction(filterCheck);
+        transCheck.setOnAction(filterCheck);
         covidCheck.setOnAction(filterCheck);
         showCompleted.setOnAction(filterCheck);
 
@@ -132,6 +137,7 @@ public class ManageRequests implements Initializable {
         typeFilterSelection.getItems().add(laundryCheck);
         typeFilterSelection.getItems().add(maintCheck);
         typeFilterSelection.getItems().add(religCheck);
+        typeFilterSelection.getItems().add(transCheck);
         typeFilterSelection.getItems().add(covidCheck);
     }
 
@@ -148,6 +154,7 @@ public class ManageRequests implements Initializable {
         selectedTypes.put("Laundry", laundryCheck.isSelected());
         selectedTypes.put("Maintenance", maintCheck.isSelected());
         selectedTypes.put("Religious", religCheck.isSelected());
+        selectedTypes.put("Transportation", transCheck.isSelected());
         selectedTypes.put("COVID Survey", covidCheck.isSelected());
 
         requestDisplay.setShowComplete(showCompleted.isSelected());

@@ -55,6 +55,7 @@ public class RequestDisplay {
         this.types.put("Maintenance", true);
         this.types.put("Interpreter", true);
         this.types.put("Reilgious", true);
+        this.types.put("Transportation", true);
         this.types.put("COVID Survey", true);
     }
 
@@ -75,6 +76,7 @@ public class RequestDisplay {
         Stream<LaundryRequest> laundryRequests = LaundryRequest.getAll();
         Stream<MaintenanceRequest> maintRequests = MaintenanceRequest.getAll();
         Stream<ReligiousRequest> religRequests = ReligiousRequest.getAll();
+        Stream<TransportationRequest> transRequests = TransportationRequest.getAll();
         Stream<COVIDSurveyRequest> covidRequests = COVIDSurveyRequest.getAll();
 
         if (selectedTypes.get("Medicine")) medRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.med_sr")));
@@ -85,8 +87,9 @@ public class RequestDisplay {
         if (selectedTypes.get("Interpreter")) interpRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.int_sr")));
         if (selectedTypes.get("Laundry")) laundryRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.laun_sr")));
         if (selectedTypes.get("Maintenance")) maintRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.main_sr")));
-        if (selectedTypes.get("Religious")) religRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.rel_sr")));
+        if (selectedTypes.get("Transportation")) transRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.transportation_request")));
         if (selectedTypes.get("COVID Survey")) covidRequests.forEach(r -> makeSurveyBox(r));
+        if (selectedTypes.get("Religious")) religRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.rel_sr")));
     }
 
     public void makeSRBox(ExtendedBaseRequest m, String type) {
@@ -206,8 +209,8 @@ public class RequestDisplay {
                             case "Medicine Request":
                             case "Medicamento":
                                 try {
-                                    mContainer.getChildren().add(new Text(App.resourceBundle.getString("key.type_semicolon") + MedicineRequest.getByID(m.getID()).getType()));
-                                    mContainer.getChildren().add(new Text(App.resourceBundle.getString("key.amount_semicolon") + MedicineRequest.getByID(m.getID()).getAmount()));
+                                    mContainer.getChildren().add(new Text("Type: " + MedicineRequest.getByID(m.getID()).getType()));
+                                    mContainer.getChildren().add(new Text("Amount: " + MedicineRequest.getByID(m.getID()).getAmount()));
                                 } catch (SQLException throwables) {
                                     throwables.printStackTrace();
                                 }
@@ -286,6 +289,13 @@ public class RequestDisplay {
                                     throwables.printStackTrace();
                                 }
                                 break;
+                            case "Transportation Request":
+                            case "Solicitude de transporte":
+                                try {
+                                    mContainer.getChildren().add(new Text(App.resourceBundle.getString("key.destination_semicolon") + TransportationRequest.getByID(m.getID()).getDestination()));
+                                } catch (SQLException throwables) {
+                                    throwables.printStackTrace();
+                                }
                         }
                         mContainer.getChildren().add(new Text(App.resourceBundle.getString("key.details_semicolon") + m.getDetails()));
                         mContainer.getChildren().add(new Text(App.resourceBundle.getString("key.id_semicolon") + m.getID()));

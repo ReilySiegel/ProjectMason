@@ -112,7 +112,7 @@ public class PatientTransportation extends ServiceRequestPage implements Initial
 
             new TransportationRequest(
                     destination,
-                    baseRequest);
+                    baseRequest).update();
 
             System.out.println("Patient Transportation request submitted");
 
