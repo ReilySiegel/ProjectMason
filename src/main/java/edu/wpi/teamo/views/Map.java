@@ -73,10 +73,17 @@ public class Map  {
     public Map(AnchorPane nodePane) {
         this.nodePane = nodePane;
         setNodePaneSize(paneWidth, paneHeight);
-        scaleMap(300);
         nodePane.setOnMouseDragged((MouseEvent e) -> translateMap(e.getScreenX(), e.getScreenY()));
         nodePane.setOnMouseReleased((MouseEvent e) -> resetInitialDragData());
         nodePane.setOnScroll((ScrollEvent e) -> scaleMap(e.getDeltaY()));
+
+        double middleOfPagePlusHalfPaneWidth  = (App.getPrimaryStage().getScene().getWidth()  / 2) - (paneWidth  / 2);
+        double middleOfPagePlusHalfPaneHeight = (App.getPrimaryStage().getScene().getHeight() / 2) - (paneHeight / 2);
+
+        translateMap(0, 0);
+        translateMap(middleOfPagePlusHalfPaneWidth, middleOfPagePlusHalfPaneHeight);
+        resetInitialDragData();
+//        scaleMap(300);
     }
 
     public double getHeight() {
