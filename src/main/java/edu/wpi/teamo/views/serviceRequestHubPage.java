@@ -142,7 +142,7 @@ public class serviceRequestHubPage implements Initializable {
         Label description = new Label(descriptionMap.get(page));
         Label title = new Label(titleMap.get(page));
 
-        Font font2 = Font.font("System", FontWeight.NORMAL, 10);
+        Font font2 = Font.font("System", FontWeight.NORMAL, 15);
         Font font = Font.font("System", FontWeight.NORMAL, 20);
         description.setFont(font2);
         title.setFont(font);
@@ -155,6 +155,7 @@ public class serviceRequestHubPage implements Initializable {
 
         HBox hbox = new HBox(icon, vbox);
         hboxSize.setPrefWidth(768);
+        hbox.setPadding(new Insets(0.0,0.0,0.0,5));
 
         JFXButton button = new JFXButton("", hbox);
         button.setOnAction(actionEvent -> SubPageContainer.switchPage(page));
