@@ -59,7 +59,7 @@
                                     <Insets />
                                  </VBox.margin>
                               </ImageView>
-                              <JFXButton fx:id="pathfinderButton" buttonType="RAISED" layoutX="25.0" layoutY="25.0" prefHeight="40.0" prefWidth="120.0" text="Pathfinding">
+                              <JFXButton fx:id="pathfinderButton" buttonType="RAISED" layoutX="25.0" layoutY="25.0" prefHeight="40.0" prefWidth="120.0" text="%key.pathfinding">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -67,7 +67,7 @@
                                     <Insets />
                                  </VBox.margin>
                               </JFXButton>
-                              <JFXButton fx:id="serviceRequestButton" buttonType="RAISED" layoutX="10.0" layoutY="79.0" prefHeight="40.0" prefWidth="120.0" text="Service Requests">
+                              <JFXButton fx:id="serviceRequestButton" buttonType="RAISED" layoutX="10.0" layoutY="79.0" prefHeight="40.0" prefWidth="120.0" text="%key.service_requests">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -75,7 +75,7 @@
                                     <Insets />
                                  </VBox.margin>
                               </JFXButton>
-                              <JFXButton fx:id="aboutButton" buttonType="RAISED" prefHeight="40.0" prefWidth="120.0" text="About">
+                              <JFXButton fx:id="aboutButton" buttonType="RAISED" prefHeight="40.0" prefWidth="120.0" text="%key.about">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -83,7 +83,7 @@
                                     <Insets />
                                  </VBox.margin>
                               </JFXButton>
-                              <JFXButton fx:id="mapEditorButton" buttonType="RAISED" prefHeight="40.0" prefWidth="120.0" text="Map Editor">
+                              <JFXButton fx:id="mapEditorButton" buttonType="RAISED" prefHeight="40.0" prefWidth="120.0" text="%key.map_editor">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -91,7 +91,7 @@
                                     <Insets />
                                  </VBox.margin>
                               </JFXButton>
-                              <JFXButton fx:id="requestManagerButton" buttonType="RAISED" layoutX="10.0" layoutY="118.0" prefHeight="40.0" prefWidth="120.0" text="Request Manager">
+                              <JFXButton fx:id="requestManagerButton" buttonType="RAISED" layoutX="10.0" layoutY="118.0" prefHeight="40.0" prefWidth="120.0" text="%key.request_manager">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -99,7 +99,7 @@
                                     <Insets />
                                  </VBox.margin>
                               </JFXButton>
-                              <JFXButton fx:id="accountManagerButton" buttonType="RAISED" prefHeight="40.0" prefWidth="120.0" text="Account Manager">
+                              <JFXButton fx:id="accountManagerButton" buttonType="RAISED" prefHeight="40.0" prefWidth="120.0" text="%key.account_manager">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -107,7 +107,7 @@
                                     <Insets />
                                  </VBox.margin>
                               </JFXButton>
-                              <JFXButton buttonType="RAISED" onAction="#setCovidSurvey" prefHeight="40.0" prefWidth="120.0" text="COVID Survey">
+                              <JFXButton buttonType="RAISED" onAction="#setCovidSurvey" prefHeight="40.0" prefWidth="120.0" text="%key.covid_survey">
                                  <font>
                                     <Font size="18.0" />
                                  </font>

@@ -30,7 +30,7 @@
                   <children>
                       <VBox prefHeight="538.0" prefWidth="702.0" styleClass="requestDisplayPane">
                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.employees">
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.account_list">
                                   <font>
                                       <Font name="Arial" size="20.0" />
                                   </font>
