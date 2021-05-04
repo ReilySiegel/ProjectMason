@@ -20,7 +20,9 @@ import edu.wpi.teamo.database.map.*;
 import edu.wpi.teamo.database.map.Edge;
 import edu.wpi.teamo.database.map.EdgeInfo;
 import edu.wpi.teamo.database.map.Node;
+
 import javafx.event.Event;
+
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 

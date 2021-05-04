@@ -5,10 +5,14 @@ import com.jfoenix.controls.*;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.Pages;
 import edu.wpi.teamo.database.map.NodeInfo;
+import edu.wpi.teamo.database.request.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.CheckMenuItem;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -23,38 +27,41 @@ import java.util.LinkedList;
 import java.util.List;
 
 import java.util.ResourceBundle;
+import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class PatientTransportation extends ServiceRequestPage implements Initializable{
     @FXML
     private StackPane stackPane;
 
     @FXML
-    private JFXTextField service;
-
-    @FXML
-    private VBox topVbox;
-
-    @FXML
-    private VBox midVbox;
-
-    @FXML
-    private HBox bottomHbox;
-
-    @FXML
     private JFXTextField assignee;
-
-    @FXML
-    private JFXTimePicker time = new JFXTimePicker();
-
-    @FXML
-    private JFXDatePicker date = new JFXDatePicker();
 
     @FXML
     private JFXTextField notes;
 
+
+    @FXML
+    private JFXCheckBox emergencyCheckbox;
+
+    @FXML
+    private JFXListView<JFXCheckBox> roomList;
+
+    @FXML
+    private JFXTextField room;
+
+    @FXML
+    private JFXTextField patientDestination;
+
     @FXML
     private Text typeErrorText;
+
+    private boolean isEmergency;
+
+    private boolean validRequest;
+
+    LocationSearcher locationSearcher;
 
     @FXML
     private Text roomErrorText;
@@ -62,30 +69,106 @@ public class PatientTransportation extends ServiceRequestPage implements Initial
     @FXML
     private Text assignedErrorText;
 
-
-    @FXML
-    private JFXTextField locationLine;
-
-    @FXML
-
-    private JFXCheckBox recurCheck;
-
-    @FXML
-    private JFXListView<JFXCheckBox> roomList;
-
     @FXML
     private JFXButton backButton;
 
-    LocationSearcher locationSearcher;
-
-
-    private boolean validRequest;
-
-    @Override
+    @FXML
     public void initialize(URL location, ResourceBundle resources) {
+
         backButton.setOnAction(actionEvent -> SubPageContainer.switchPage(Pages.SERVICEREQUEST));
+        emergencyCheckbox.getStyleClass().add("check-box");
+        locationSearcher = new LocationSearcher(room, roomList);
+        updateLocations();
+
     }
 
+    private void updateLocations() {
+        try {
+            locationSearcher.setLocations(App.mapService.getAllNodes().collect(Collectors.toList()));
+        } catch (SQLException throwables) {
+            locationSearcher.setLocations(new LinkedList<>());
+            throwables.printStackTrace();
+        }
+    }
+
+
+    @FXML
+    private void handleSubmission(ActionEvent e) throws SQLException {
+        String destination = patientDestination.getText();
+        String assigned = assignee.getText();
+        String details = notes.getText();
+
+        List<NodeInfo> locations = locationSearcher.getSelectedLocations();
+        List<String> locationIDs = locationSearcher.getSelectedLocationIDs();
+
+        if (validateRequest()) {
+
+            BaseRequest baseRequest = new BaseRequest(UUID.randomUUID().toString(),
+                    details,
+                    locationIDs.stream(),
+                    assigned,
+                    false
+            );
+
+            new TransportationRequest(
+                    destination,
+                    baseRequest);
+
+            System.out.println("Patient Transportation request submitted");
+
+            resetFields();
+
+            receiptPopup(destination, locationIDs, assigned, details);
+        }
+    }
+
+
+    private void receiptPopup(String destination, List<String> locationIDs, String assigned, String details) {
+        JFXDialogLayout content = new JFXDialogLayout();
+        content.setHeading(new Text(App.resourceBundle.getString("key.transportation_request_submitted")));
+        content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
+                App.resourceBundle.getString("key.persons_assigned_semicolon") + assigned + "\n" +
+                App.resourceBundle.getString("key.additional_notes")+ details + "\n" +
+                App.resourceBundle.getString("key.room_semicolon") + String.join(", ", locationIDs) + "\n" +
+                App.resourceBundle.getString("key.destination_semicolon") + destination));
+        JFXDialog popup = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
+
+        JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
+        JFXButton backButton = new JFXButton(App.resourceBundle.getString("key.back_to_main"));
+
+        closeButton.setStyle("-fx-background-color: #F40F19; -fx-text-fill: #fff");
+        backButton.setStyle("-fx-background-color: #333333; -fx-text-fill: #fff");
+
+        closeButton.setOnAction(event -> popup.close());
+
+        backButton.setOnAction(event -> App.switchPage(Pages.SERVICEREQUEST));
+
+        content.setActions(closeButton, backButton);
+        popup.show();
+    }
+
+    private boolean validateRequest() {
+        validRequest = true;
+
+        if (patientDestination.equals("")) {
+            typeErrorText.setText(App.resourceBundle.getString("key.no_destination"));
+            validRequest = false;
+        }
+
+        if (locationSearcher.getSelectedLocationIDs().size() == 0) {
+            roomErrorText.setText(App.resourceBundle.getString("key.no_room_specified"));
+            validRequest = false;
+        }
+
+        return validRequest;
+    }
+
+    public void resetFields() {
+        locationSearcher.clearSelectedLocations();
+        patientDestination.setText("");
+        assignee.setText("");
+        notes.setText("");
+    }
 
     @FXML
     private void handleHelp(ActionEvent e) {
