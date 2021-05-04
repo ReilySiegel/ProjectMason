@@ -3,6 +3,7 @@ package edu.wpi.teamo.database.map;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import edu.wpi.teamo.database.Database;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -18,9 +19,10 @@ public class Node extends RecursiveTreeObject<Node> implements NodeInfo {
     private String nodeType;
     private String longName;
     private String shortName;
+    boolean valid;
 
     public Node(String nodeID, int xPos, int yPos, String floor,
-                String building, String nodeType, String longName, String shortName ){
+                String building, String nodeType, String longName, String shortName, boolean valid){
         this.shortName = shortName;
         this.nodeType = nodeType;
         this.building = building;
@@ -29,6 +31,20 @@ public class Node extends RecursiveTreeObject<Node> implements NodeInfo {
         this.floor = floor;
         this.yPos = yPos;
         this.xPos = xPos;
+        this.valid = valid;
+    }
+
+    public Node(String nodeID, int xPos, int yPos, String floor,
+                String building, String nodeType, String longName, String shortName){
+        this.shortName = shortName;
+        this.nodeType = nodeType;
+        this.building = building;
+        this.longName = longName;
+        this.nodeID = nodeID;
+        this.floor = floor;
+        this.yPos = yPos;
+        this.xPos = xPos;
+        this.valid = true;
     }
 
     /**
@@ -37,7 +53,7 @@ public class Node extends RecursiveTreeObject<Node> implements NodeInfo {
      * @return True if the table was created successfully.
      */
     public static void initTable(Database db) throws SQLException {
-        db.processUpdate("CREATE TABLE AlgoNode ("
+        db.processUpdate("CREATE TABLE Node ("
                 + "nodeID VARCHAR(255) PRIMARY KEY, "
                 + "xcoord INT, "
                 + "ycoord INT, "
@@ -45,7 +61,8 @@ public class Node extends RecursiveTreeObject<Node> implements NodeInfo {
                 + "building VARCHAR(255), "
                 + "nodeType VARCHAR(255), "
                 + "longName VARCHAR(255), "
-                + "shortName VARCHAR(255))"
+                + "shortName VARCHAR(255), "
+                + "valid boolean)"
         );
     }
 
@@ -57,7 +74,7 @@ public class Node extends RecursiveTreeObject<Node> implements NodeInfo {
      * @throws SQLException When the id is incorrect, or database is not properly initialized.
      */
     public static Node getByID (Database db, String id) throws SQLException {
-        ResultSet rs = db.processQuery("SELECT * FROM AlgoNode WHERE AlgoNode.nodeID = '" + id + "'");
+        ResultSet rs = db.processQuery("SELECT * FROM Node WHERE Node.nodeID = '" + id + "'");
         if (!rs.next())
             throw new SQLException();
 
@@ -69,7 +86,8 @@ public class Node extends RecursiveTreeObject<Node> implements NodeInfo {
             rs.getString("building"),
             rs.getString("nodeType"),
             rs.getString("longName"),
-            rs.getString("shortName")
+            rs.getString("shortName"),
+            rs.getBoolean("valid")
         );
     }
 
@@ -81,7 +99,7 @@ public class Node extends RecursiveTreeObject<Node> implements NodeInfo {
      */
     public static Stream<Node> getAll(Database db) throws SQLException {
         ArrayList<Node> nodes = new ArrayList<>();
-        ResultSet rs = db.processQuery("SELECT * FROM AlgoNode");
+        ResultSet rs = db.processQuery("SELECT * FROM Node");
         while (rs.next())
             nodes.add(new Node(
                 rs.getString("nodeID"),
@@ -91,7 +109,8 @@ public class Node extends RecursiveTreeObject<Node> implements NodeInfo {
                 rs.getString("building"),
                 rs.getString("nodeType"),
                 rs.getString("longName"),
-                rs.getString("shortName")
+                rs.getString("shortName"),
+                rs.getBoolean("valid")
             ));
         return nodes.stream();
     }
@@ -113,58 +132,44 @@ public class Node extends RecursiveTreeObject<Node> implements NodeInfo {
 
         // Apache Derby does not have upsert, so we must try both an insert and update.
         try {
-            db.processUpdate("INSERT INTO AlgoNode (nodeID, xcoord, ycoord, floor, building, nodeType, " +
-                    "longName, shortName) VALUES " +
-                    String.format("('%s',%s,%s,'%s','%s','%s','%s','%s')",
-                            this.nodeID,
-                            this.xPos,
-                            this.yPos,
-                            this.floor,
-                            this.building,
-                            this.nodeType,
-                            this.longName,
-                            this.shortName));
+            String sql = String.join (" ",
+                    "INSERT INTO Node ",
+                    "(nodeID, xcoord, ycoord, floor, building, nodeType, longName, shortName, valid)",
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            PreparedStatement pstmt = Database.prepareStatement(sql);
+            pstmt.setString(1, this.nodeID);
+            pstmt.setInt(2, this.xPos);
+            pstmt.setInt(3, this.yPos);
+            pstmt.setString(4, this.floor);
+            pstmt.setString(5, this.building);
+            pstmt.setString(6, this.nodeType);
+            pstmt.setString(7, this.longName);
+            pstmt.setString(8, this.shortName);
+            pstmt.setBoolean(9, this.valid);
+            pstmt.execute();
         } catch (SQLException e) {
             // Item with this ID already exists in the DB, try insert.
-            db.processUpdate("UPDATE AlgoNode SET " +
-                    String.format("nodeID = '%s', xcoord = %s, ycoord = %s, floor = '%s', " +
-                                    "building = '%s', nodeType = '%s', longName = '%s', " +
-                                    "shortName = '%s' ",
-                            this.nodeID,
-                            this.xPos,
-                            this.yPos,
-                            this.floor,
-                            this.building,
-                            this.nodeType,
-                            this.longName,
-                            this.shortName)
-                    + "WHERE AlgoNode.nodeID = '" + this.nodeID+ "'");
-
+            String sql = String.join (" ",
+                    "UPDATE Node SET",
+                    "nodeID = ?, xcoord = ?, ycoord = ?, floor = ?, building = ?, nodeType = ?,",
+                    "longName = ?, shortName = ?, valid = ? WHERE nodeID = ?");
+            PreparedStatement pstmt = Database.prepareStatement(sql);
+            pstmt.setString(1, this.nodeID);
+            pstmt.setInt(2, this.xPos);
+            pstmt.setInt(3, this.yPos);
+            pstmt.setString(4, this.floor);
+            pstmt.setString(5, this.building);
+            pstmt.setString(6, this.nodeType);
+            pstmt.setString(7, this.longName);
+            pstmt.setString(8, this.shortName);
+            pstmt.setBoolean(9, this.valid);
+            pstmt.setString(10, this.nodeID);
+            pstmt.execute();
         }
     }
 
     public void delete(Database db) throws SQLException {
-        db.processUpdate(String.format("DELETE FROM AlgoNode WHERE nodeID = '%s'", this.nodeID));
-    }
-
-    // TODO: Fix the update method's error detection so the set function is not needed
-    //had to add this because the try catch above was not working
-    public void set(Database db) throws SQLException {
-
-        db.processUpdate("UPDATE AlgoNode SET " +
-                String.format("nodeID = '%s', xcoord = %s, ycoord = %s, floor = '%s', " +
-                                "building = '%s', nodeType = '%s', longName = '%s', " +
-                                "shortName = '%s' ",
-                        this.nodeID,
-                        this.xPos,
-                        this.yPos,
-                        this.floor,
-                        this.building,
-                        this.nodeType,
-                        this.longName,
-                        this.shortName)
-                + "WHERE AlgoNode.nodeID = '" + this.nodeID+ "'");
-
+        db.processUpdate(String.format("DELETE FROM Node WHERE nodeID = '%s'", this.nodeID));
     }
 
     /**
@@ -245,6 +250,15 @@ public class Node extends RecursiveTreeObject<Node> implements NodeInfo {
     @Override
     public int compareTo(NodeInfo otherNode) {
         return longName.compareToIgnoreCase(otherNode.getLongName());
+    }
+
+    public void setValid(boolean valid) {
+        this.valid = valid;
+    }
+
+    @Override
+    public boolean isValid() {
+        return valid;
     }
 }
 

@@ -249,6 +249,13 @@ public class MapDB implements IMapService {
         node.update(db);
     }
 
+    @Override
+    public void setNodeValid(String id, boolean valid) throws SQLException {
+        Node node = Node.getByID(db, id);
+        node.setValid(valid);
+        node.update(db);
+    }
+
     public void setEdgeID(String oldID, String newID) throws SQLException {
         /* get edge object from database */
         Edge edge = Edge.getByID(db, oldID);
@@ -260,6 +267,13 @@ public class MapDB implements IMapService {
         edge.setEdgeID(newID);
 
         /* update database */
+        edge.update(db);
+    }
+
+    @Override
+    public void setEdgeValid(String id, boolean valid) throws SQLException {
+        Edge edge = Edge.getByID(db, id);
+        edge.setValid(valid);
         edge.update(db);
     }
 

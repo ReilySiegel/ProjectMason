@@ -28,11 +28,13 @@ public interface IMapService {
     void setNodeFloor(String id, String floor) throws SQLException, IllegalArgumentException;
     void setNodeID(String oldID, String newID) throws SQLException, IllegalArgumentException;
     void setNodeType(String id, String type) throws SQLException, IllegalArgumentException;
+    void setNodeValid(String id, boolean valid) throws SQLException;
 
     /* the edge setters */
     void setEdgeStartID(String edgeID, String startNodeID) throws SQLException, IllegalArgumentException;
     void setEdgeEndID(String edgeID, String endNodeID) throws SQLException, IllegalArgumentException;
     void setEdgeID(String oldID, String newID) throws SQLException, IllegalArgumentException;
+    void setEdgeValid(String id, boolean valid) throws SQLException;
 
     /* the makers */
     void writeNodesToCSV(String filepath) throws SQLException, IOException;

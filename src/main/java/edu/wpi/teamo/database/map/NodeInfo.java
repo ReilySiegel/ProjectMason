@@ -10,4 +10,5 @@ public interface NodeInfo extends Comparable<NodeInfo> {
     void setNodeType(String nodeType);
     int getYPos();
     int getXPos();
+    boolean isValid();
 }

@@ -3,6 +3,7 @@ package edu.wpi.teamo.database.map;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import edu.wpi.teamo.database.Database;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,11 +14,20 @@ public class Edge extends RecursiveTreeObject<Edge> implements EdgeInfo {
     String startNodeID;
     String endNodeID;
     String edgeID;
+    boolean valid;
+
+    public Edge(String edgeID, String startNodeID,  String endNodeID, boolean valid) {
+        this.startNodeID = startNodeID;
+        this.endNodeID = endNodeID;
+        this.edgeID = edgeID;
+        this.valid = valid;
+    }
 
     public Edge(String edgeID, String startNodeID,  String endNodeID) {
         this.startNodeID = startNodeID;
         this.endNodeID = endNodeID;
         this.edgeID = edgeID;
+        this.valid = true;
     }
 
     /**
@@ -29,7 +39,8 @@ public class Edge extends RecursiveTreeObject<Edge> implements EdgeInfo {
         db.processUpdate("CREATE TABLE Edge ("
                 + "edgeID varchar(255) primary key, "
                 + "startNode varchar(255), "
-                + "endNode varchar(255))"
+                + "endNode varchar(255), "
+                + "valid boolean)"
         );
     }
 
@@ -46,7 +57,8 @@ public class Edge extends RecursiveTreeObject<Edge> implements EdgeInfo {
             throw new SQLException();
         return new Edge(rs.getString("edgeID"),
                 rs.getString("startNode"),
-                rs.getString("endNode"));
+                rs.getString("endNode"),
+                rs.getBoolean("valid"));
     }
 
     /**
@@ -61,7 +73,8 @@ public class Edge extends RecursiveTreeObject<Edge> implements EdgeInfo {
         while (rs.next())
             edges.add(new Edge(rs.getString("edgeID"),
                     rs.getString("startNode"),
-                    rs.getString("endNode")));
+                    rs.getString("endNode"),
+                    rs.getBoolean("valid")));
         return edges.stream();
     }
 
@@ -82,20 +95,29 @@ public class Edge extends RecursiveTreeObject<Edge> implements EdgeInfo {
 
         // Apache Derby does not have upsert, so we must try both an insert and update.
         try {
-            db.processUpdate("INSERT INTO Edge (edgeID, startNode, endNode) VALUES " +
-                    String.format("('%s', '%s', '%s')",
-                            this.edgeID,
-                            this.startNodeID,
-                            this.endNodeID));
+            String sql = String.join(" ",
+                                     "INSERT INTO Edge ",
+                                     "(edgeID, startNode, endNode, valid)",
+                                     "VALUES (?, ?, ?, ?)");
+            PreparedStatement pstmt = Database.prepareStatement(sql);
+            pstmt.setString(1, this.edgeID);
+            pstmt.setString(2, this.startNodeID);
+            pstmt.setString(3, this.endNodeID);
+            pstmt.setBoolean(4, this.valid);
+            pstmt.execute();
         } catch (SQLException e) {
             // Item with this ID already exists in the DB, try insert.
-            db.processUpdate("UPDATE Edge SET " +
-                    String.format("edgeID = '%s', startNode = '%s', endNode = '%s' ",
-                            this.edgeID,
-                            this.startNodeID,
-                            this.endNodeID)  +
-                    "WHERE Edge.edgeID = '" + this.edgeID + "'");
-
+            String sql = String.join (" ",
+                                      "UPDATE Edge SET ",
+                                      "edgeID = ?, startNode = ?, endNode = ?, valid = ? ",
+                                      "WHERE edgeID = ?");
+            PreparedStatement pstmt = Database.prepareStatement(sql);
+            pstmt.setString(1, this.edgeID);
+            pstmt.setString(2, this.startNodeID);
+            pstmt.setString(3, this.endNodeID);
+            pstmt.setBoolean(4, this.valid);
+            pstmt.setString(5, this.edgeID);
+            pstmt.execute();
         }
     }
 
@@ -129,5 +151,14 @@ public class Edge extends RecursiveTreeObject<Edge> implements EdgeInfo {
 
     public void setEndID(String endNodeID) {
         this.endNodeID = endNodeID;
+    }
+
+    public void setValid(boolean valid) {
+        this.valid = valid;
+    }
+
+    @Override
+    public boolean isValid() {
+        return valid;
     }
 }
