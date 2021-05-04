@@ -330,21 +330,21 @@ public class RequestDisplay {
         expand.setMinHeight(30);
         expand.setPrefHeight(30);
 
-        Text typeText = new Text("COVID Survey Request");
+        Text typeText = new Text(App.resourceBundle.getString("key.COVID_survey_requests"));
         typeText.setFont(new Font(20));
 
         HBox typeBox = new HBox(typeText);
         typeBox.setMinWidth(200);
 
         //assigned person display
-        Text userText = new Text("User: " + c.getUsername());
+        Text userText = new Text(App.resourceBundle.getString("key.user_semicolon") + c.getUsername());
         HBox userBox = new HBox(userText);
         userBox.setMinWidth(100);
         userBox.setPrefWidth(100);
         userBox.setMaxWidth(100);
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy, " + "H:m:s");
-        Text timeText = new Text("Submitted at: " + c.getTimestamp().format(formatter));
+        Text timeText = new Text(App.resourceBundle.getString("key.submitted_at_semicolon") + c.getTimestamp().format(formatter));
         timeText.setWrappingWidth(130);
         HBox dateBox = new HBox(timeText);
         dateBox.setMinWidth(130);
@@ -353,8 +353,8 @@ public class RequestDisplay {
 
         Text emergencyEntrance = new Text();
 
-        if (c.getUseEmergencyEntrance()) emergencyEntrance.setText("Entrance: Emergency");
-        else emergencyEntrance.setText("Entrance: Normal");
+        if (c.getUseEmergencyEntrance()) emergencyEntrance.setText(App.resourceBundle.getString("key.entrance_normal"));
+        else emergencyEntrance.setText(App.resourceBundle.getString("key.entrance_emergency"));
 
         HBox mbox = new HBox(expand, typeBox, userBox, dateBox, emergencyEntrance);
         mbox.setSpacing(10);
@@ -367,7 +367,7 @@ public class RequestDisplay {
             @Override
             public void handle(ActionEvent event) {
                 if (expand.getText().equals("+")) {
-                    mContainer.getChildren().add(new Text("ID: " + c.getId()));
+                    mContainer.getChildren().add(new Text(App.resourceBundle.getString("key.ID_semicolon") + c.getId()));
                     expand.setText("-");
                 } else {
                     mContainer.getChildren().clear();
