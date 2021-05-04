@@ -128,13 +128,13 @@
             </StackPane>
             <HBox alignment="CENTER" pickOnBounds="false" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
                <children>
-                  <VBox alignment="CENTER" pickOnBounds="false" prefHeight="94.0" prefWidth="810.0">
+                  <VBox alignment="TOP_CENTER" pickOnBounds="false" prefHeight="94.0" prefWidth="810.0">
                      <children>
-                        <HBox fx:id="controlWindow" alignment="CENTER" prefHeight="94.0" prefWidth="754.0" styleClass="pane">
+                        <HBox fx:id="controlWindow" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="85.0" prefWidth="754.0" spacing="10.0" styleClass="pane">
                            <children>
                               <JFXButton fx:id="openTableButton" buttonType="RAISED" prefHeight="39.0" prefWidth="135.0" text="%key.open_table">
                                  <HBox.margin>
-                                    <Insets left="10.0" right="10.0" />
+                                    <Insets />
                                  </HBox.margin>
                               </JFXButton>
                               <JFXButton fx:id="loadNodeCSVButton" buttonType="RAISED" prefHeight="39.0" prefWidth="120.0" styleClass="csv-button" text="%key.load_node_csv">
@@ -142,7 +142,7 @@
                                     <Font size="18.0" />
                                  </font>
                                  <HBox.margin>
-                                    <Insets left="10.0" right="10.0" />
+                                    <Insets />
                                  </HBox.margin>
                               </JFXButton>
                               <JFXButton fx:id="saveNodeCSVButton" buttonType="RAISED" prefHeight="39.0" prefWidth="120.0" styleClass="csv-button" text="%key.save_node_csv">
@@ -150,7 +150,7 @@
                                     <Font size="18.0" />
                                  </font>
                                  <HBox.margin>
-                                    <Insets left="10.0" right="10.0" />
+                                    <Insets />
                                  </HBox.margin>
                               </JFXButton>
                               <JFXButton fx:id="saveEdgeCSVButton" buttonType="RAISED" prefHeight="39.0" prefWidth="120.0" styleClass="csv-button" text="%key.save_edge_csv">
@@ -158,7 +158,7 @@
                                     <Font size="18.0" />
                                  </font>
                                  <HBox.margin>
-                                    <Insets left="10.0" right="10.0" />
+                                    <Insets />
                                  </HBox.margin>
                               </JFXButton>
                               <JFXButton fx:id="loadEdgeCSVButton" buttonType="RAISED" prefHeight="39.0" prefWidth="120.0" styleClass="csv-button" text="%key.load_edge_csv">
@@ -166,23 +166,32 @@
                                     <Font size="18.0" />
                                  </font>
                                  <HBox.margin>
-                                    <Insets left="10.0" right="10.0" />
+                                    <Insets />
                                  </HBox.margin>
                               </JFXButton>
                            </children>
                            <VBox.margin>
-                              <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                              <Insets />
                            </VBox.margin>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
                         </HBox>
                      </children>
                   </VBox>
                </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <GridPane.margin>
+                  <Insets top="20.0" />
+               </GridPane.margin>
             </HBox>
-            <HBox alignment="CENTER" pickOnBounds="false" prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="TOP_RIGHT" pickOnBounds="false" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <VBox alignment="CENTER" pickOnBounds="false" prefHeight="94.0" prefWidth="193.0">
+                  <VBox alignment="TOP_RIGHT" pickOnBounds="false" prefHeight="94.0" prefWidth="193.0">
                      <children>
-                        <HBox alignment="CENTER" prefHeight="63.0" prefWidth="193.0" styleClass="pane">
+                        <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="85.0" prefWidth="193.0" styleClass="pane">
                            <children>
                               <JFXButton fx:id="helpButton" buttonType="RAISED" prefHeight="39.0" prefWidth="42.0" text="?">
                                  <font>
@@ -207,22 +216,37 @@
                      </children>
                   </VBox>
                </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <GridPane.margin>
+                  <Insets right="20.0" top="20.0" />
+               </GridPane.margin>
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2">
                <children>
-                  <VBox prefHeight="94.0" prefWidth="162.0">
+                  <VBox alignment="TOP_CENTER" prefHeight="94.0" prefWidth="162.0">
                      <children>
-                        <HBox alignment="CENTER" prefHeight="64.0" prefWidth="267.0" styleClass="pane">
+                        <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="85.0" prefWidth="267.0" styleClass="pane">
                            <VBox.margin>
-                              <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                              <Insets />
                            </VBox.margin>
                            <children>
-                              <JFXButton fx:id="troubleshootButton" prefHeight="39.0" prefWidth="107.0" text="%key.troubleshoot" />
+                              <JFXButton fx:id="troubleshootButton" buttonType="RAISED" prefHeight="39.0" prefWidth="120.0" text="%key.troubleshoot">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin></JFXButton>
                            </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
                         </HBox>
                      </children>
                   </VBox>
                </children>
+               <GridPane.margin>
+                  <Insets left="20.0" top="20.0" />
+               </GridPane.margin>
             </HBox>
          </children>
       </GridPane>

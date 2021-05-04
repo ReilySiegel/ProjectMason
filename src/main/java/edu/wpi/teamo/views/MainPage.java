@@ -158,6 +158,10 @@ public class MainPage implements Initializable {
             Node mapEditorPage = FXMLLoader.load(getClass().getResource("/edu/wpi/teamo/fxml/MapEditorPage.fxml"),
                     App.resourceBundle);
             backgroundPane.getChildren().setAll(mapEditorPage);
+            backgroundPane.setTopAnchor(mapEditorPage, 0.0);
+            backgroundPane.setBottomAnchor(mapEditorPage, 0.0);
+            backgroundPane.setLeftAnchor(mapEditorPage, 0.0);
+            backgroundPane.setRightAnchor(mapEditorPage, 0.0);
             new FadeIn(backgroundPane).play();
         } catch (IOException e) {
             e.printStackTrace();
@@ -174,6 +178,11 @@ public class MainPage implements Initializable {
             Node pathfindingPage = FXMLLoader.load(getClass().getResource("/edu/wpi/teamo/fxml/PathfindingPage.fxml"),
                     App.resourceBundle);
             backgroundPane.getChildren().setAll(pathfindingPage);
+            backgroundPane.setTopAnchor(pathfindingPage, 0.0);
+            backgroundPane.setBottomAnchor(pathfindingPage, 0.0);
+            backgroundPane.setLeftAnchor(pathfindingPage, 0.0);
+            backgroundPane.setRightAnchor(pathfindingPage, 0.0);
+
             new FadeIn(backgroundPane).play();
         } catch (IOException e) {
             e.printStackTrace();
