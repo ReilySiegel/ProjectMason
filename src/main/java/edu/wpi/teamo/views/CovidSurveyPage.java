@@ -130,6 +130,10 @@ public class CovidSurveyPage extends ServiceRequestPage implements Initializable
 
 
         if(Q1Check || Q2Check || Q3Check || Q4Check || Q5Check){
+            if(Session.isLoggedIn()){
+                Session.getAccount().setUseEmergencyEntrance(true);
+            }
+            content.setBody(new Text(App.resourceBundle.getString("key.survey_back_entrance")));
 
             if(Session.isLoggedIn()){
                 Session.getAccount().setUseEmergencyEntrance(true);

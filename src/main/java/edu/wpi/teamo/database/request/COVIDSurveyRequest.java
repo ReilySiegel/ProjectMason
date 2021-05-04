@@ -6,43 +6,54 @@ import edu.wpi.teamo.database.account.Account;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.UUID;
 import java.util.stream.Stream;
 
-public class COVIDSurveyRequest extends ExtendedBaseRequest<COVIDSurveyRequest>{
+public class COVIDSurveyRequest {
+    String id;
     String username;
     boolean useEmergencyEntrance;
+    LocalDateTime timestamp;
+    boolean isComplete;
 
-    public COVIDSurveyRequest(String username, boolean useEmergencyEntrance, BaseRequest base) {
-        super(base);
+    public COVIDSurveyRequest(String id, String username, boolean useEmergencyEntrance, LocalDateTime timestamp, boolean isComplete) {
+        this.id = id;
+        this.timestamp = timestamp;
         this.username = username;
         this.useEmergencyEntrance = useEmergencyEntrance;
+        this.isComplete = isComplete;
+    }
+
+    public COVIDSurveyRequest(String username, boolean useEmergencyEntrance){
+        this(UUID.randomUUID().toString(),username,useEmergencyEntrance,LocalDateTime.now(), false);
     }
 
     public static void initTable() throws SQLException {
         String sql = String.join (", ",
                 "CREATE TABLE EntranceRequest (id varchar(255) primary key",
                 "username varchar(255)",
-                "emergencyEntrance boolean)");
+                "useEmergencyEntrance boolean",
+                "timestamp varchar(35)",
+                "isComplete boolean)");
         Database.processUpdate(sql);
     }
 
-    public static InterpreterRequest getByID(String id) throws SQLException {
+    public static COVIDSurveyRequest getByID(String id) throws SQLException {
         ResultSet rs = Database.processQuery("SELECT * FROM EntranceRequest WHERE ID = '" + id + "'");
         if (!rs.next())
             throw new SQLException();
-        return new InterpreterRequest(rs.getString("username"),
-                rs.getString("emergencyEntrance"),
-                BaseRequest.getByID(rs.getString("ID")));
+        return new COVIDSurveyRequest(rs.getString("id"), rs.getString("username"),
+                rs.getBoolean("useEmergencyEntrance"), LocalDateTime.parse(rs.getString("timestamp")), rs.getBoolean("isComplete"));
     }
 
-    public static Stream<InterpreterRequest> getAll() throws SQLException {
+    public static Stream<COVIDSurveyRequest> getAll() throws SQLException {
         ResultSet rs = Database.processQuery("SELECT * FROM EntranceRequest");
-        ArrayList<InterpreterRequest> reqs = new ArrayList<>();
+        ArrayList<COVIDSurveyRequest> reqs = new ArrayList<>();
         while (rs.next())
-            reqs.add(new InterpreterRequest(rs.getString("username"),
-                    rs.getString("emergencyEntrance"),
-                    BaseRequest.getByID(rs.getString("id"))));
+            reqs.add(new COVIDSurveyRequest(rs.getString("ID"), rs.getString("username"),
+                    rs.getBoolean("useEmergencyEntrance"), LocalDateTime.parse(rs.getString("timestamp")), rs.getBoolean("isComplete")));
         return reqs.stream();
     }
 
@@ -51,32 +62,36 @@ public class COVIDSurveyRequest extends ExtendedBaseRequest<COVIDSurveyRequest>{
         try {
             String sql = String.join (" ",
                     "INSERT INTO EntranceRequest",
-                    "(id, username, emergencyEntrance)",
-                    "VALUES (?, ?, ?)");
+                    "(id, username, useEmergencyEntrance, timestamp, isComplete)",
+                    "VALUES (?, ?, ?, ?, ?)");
             PreparedStatement pstmt = Database.prepareStatement(sql);
-            pstmt.setString(1, this.base.getId());
+            pstmt.setString(1, id);
             pstmt.setString(2, this.username);
-            pstmt.setString(3, String.valueOf(this.useEmergencyEntrance));
+            pstmt.setBoolean(3, this.useEmergencyEntrance);
+            pstmt.setString(4,this.timestamp.toString());
+            pstmt.setBoolean(5, this.isComplete);
             pstmt.execute();
         } catch (SQLException e) {
             // Item with this ID already exists in the DB, try insert.
             String sql = String.join(" ",
                     "UPDATE EntranceRequest SET",
-                    "id = ?, language = ?, type = ?",
+                    "id = ?, username = ?, useEmergencyEntrance = ?, timestamp = ?, isComplete = ?",
                     "WHERE id = ?");
             PreparedStatement pstmt = Database.prepareStatement(sql);
-            pstmt.setString(1, this.base.getId());
+            pstmt.setString(1, this.id);
             pstmt.setString(2, this.username);
-            pstmt.setString(3, String.valueOf(this.useEmergencyEntrance));
-            pstmt.setString(4, this.base.getId());
+            pstmt.setBoolean(3, this.useEmergencyEntrance);
+            pstmt.setString(4, this.timestamp.toString());
+            pstmt.setBoolean(5, this.isComplete);
+            pstmt.setString(6, this.id);
             pstmt.execute();
         }
-        this.base.update();
+
     }
 
     public void delete() throws SQLException {
-        Database.processUpdate(String.format("DELETE FROM EntranceRequest WHERE id = '%s'", this.base.getId()));
-        this.base.delete();
+        Database.processUpdate(String.format("DELETE FROM EntranceRequest WHERE id = '%s'", this.id));
+
     }
 
     public boolean getUseEmergencyEntrance(){
@@ -87,12 +102,27 @@ public class COVIDSurveyRequest extends ExtendedBaseRequest<COVIDSurveyRequest>{
         return this.username;
     }
 
-    public void setUseEmergencyEntrance(boolean useEmergencyEntrance){
+    public void setUseEmergencyEntrance(boolean useEmergencyEntrance) throws SQLException {
         this.useEmergencyEntrance = useEmergencyEntrance;
+        this.update();
     }
 
-    public void setAccount(String username){
+    public void setAccount(String username) throws SQLException {
         this.username = username;
+        this.update();
+    }
+
+    public String getId(){
+        return this.id;
+    }
+
+    public void setComplete(boolean isComplete) throws SQLException {
+        this.isComplete = isComplete;
+        this.update();
+    }
+
+    public boolean getIsComplete(){
+        return this.isComplete;
     }
 
 
