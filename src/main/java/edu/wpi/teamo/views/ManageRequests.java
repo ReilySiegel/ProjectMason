@@ -14,6 +14,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import java.net.URL;
+import java.sql.Array;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -57,7 +58,6 @@ public class ManageRequests implements Initializable {
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
-        requestDisplay = new RequestDisplay(reqDisplayListView, false, LocalDateTime.MAX);
 
         HashMap<String, Boolean> selectedTypes = new HashMap<String, Boolean>();
         selectedTypes.put("Medicine", true);
@@ -72,6 +72,8 @@ public class ManageRequests implements Initializable {
         selectedTypes.put("Transportation", true);
         selectedTypes.put("COVID Survey", true);
 
+        requestDisplay = new RequestDisplay(reqDisplayListView, false, LocalDateTime.MAX, selectedTypes);
+
         try {
             requestDisplay.update(selectedTypes, LocalDateTime.MAX);
         } catch (SQLException throwables) {
@@ -80,28 +82,31 @@ public class ManageRequests implements Initializable {
 
         typeFilterSelection.getItems().clear();
 
+        ArrayList<JFXCheckBox> filterCheckBoxes = new ArrayList<JFXCheckBox>();
+
         medCheck = new JFXCheckBox(App.resourceBundle.getString("key.medicine"));
-        medCheck.setSelected(true);
         sanCheck = new JFXCheckBox(App.resourceBundle.getString("key.sanitation"));
-        sanCheck.setSelected(true);
         secCheck = new JFXCheckBox(App.resourceBundle.getString("key.security"));
-        secCheck.setSelected(true);
         foodCheck = new JFXCheckBox(App.resourceBundle.getString("key.food"));
-        foodCheck.setSelected(true);
         giftCheck = new JFXCheckBox(App.resourceBundle.getString("key.gift"));
-        giftCheck.setSelected(true);
         interpCheck = new JFXCheckBox(App.resourceBundle.getString("key.interpreter"));
-        interpCheck.setSelected(true);
         laundryCheck = new JFXCheckBox(App.resourceBundle.getString("key.laundry"));
-        laundryCheck.setSelected(true);
         maintCheck = new JFXCheckBox(App.resourceBundle.getString("key.maintenance"));
-        maintCheck.setSelected(true);
         religCheck = new JFXCheckBox(App.resourceBundle.getString("key.religious"));
-        religCheck.setSelected(true);
         transCheck = new JFXCheckBox(App.resourceBundle.getString("key.trans"));
-        transCheck.setSelected(true);
         covidCheck = new JFXCheckBox(App.resourceBundle.getString("key.covid_survey"));
-        covidCheck.setSelected(true);
+
+        filterCheckBoxes.add(medCheck);
+        filterCheckBoxes.add(sanCheck);
+        filterCheckBoxes.add(secCheck);
+        filterCheckBoxes.add(foodCheck);
+        filterCheckBoxes.add(giftCheck);
+        filterCheckBoxes.add(interpCheck);
+        filterCheckBoxes.add(laundryCheck);
+        filterCheckBoxes.add(maintCheck);
+        filterCheckBoxes.add(religCheck);
+        filterCheckBoxes.add(transCheck);
+        filterCheckBoxes.add(covidCheck);
 
         EventHandler filterCheck = new EventHandler() {
             @Override
@@ -114,31 +119,13 @@ public class ManageRequests implements Initializable {
             }
         };
 
-        medCheck.setOnAction(filterCheck);
-        sanCheck.setOnAction(filterCheck);
-        secCheck.setOnAction(filterCheck);
-        foodCheck.setOnAction(filterCheck);
-        giftCheck.setOnAction(filterCheck);
-        interpCheck.setOnAction(filterCheck);
-        laundryCheck.setOnAction(filterCheck);
-        maintCheck.setOnAction(filterCheck);
-        religCheck.setOnAction(filterCheck);
-        transCheck.setOnAction(filterCheck);
-        covidCheck.setOnAction(filterCheck);
+        for (JFXCheckBox checkBox : filterCheckBoxes) {
+            checkBox.setSelected(true);
+            checkBox.setOnAction(filterCheck);
+            typeFilterSelection.getItems().add(checkBox);
+        }
+
         showCompleted.setOnAction(filterCheck);
-
-
-        typeFilterSelection.getItems().add(medCheck);
-        typeFilterSelection.getItems().add(sanCheck);
-        typeFilterSelection.getItems().add(secCheck);
-        typeFilterSelection.getItems().add(foodCheck);
-        typeFilterSelection.getItems().add(giftCheck);
-        typeFilterSelection.getItems().add(interpCheck);
-        typeFilterSelection.getItems().add(laundryCheck);
-        typeFilterSelection.getItems().add(maintCheck);
-        typeFilterSelection.getItems().add(religCheck);
-        typeFilterSelection.getItems().add(transCheck);
-        typeFilterSelection.getItems().add(covidCheck);
     }
 
     @FXML
@@ -170,12 +157,6 @@ public class ManageRequests implements Initializable {
         } else {
             requestDisplay.update(selectedTypes, LocalDateTime.MAX);
         }
-
-
-
-
-
-
 
     }
 }
