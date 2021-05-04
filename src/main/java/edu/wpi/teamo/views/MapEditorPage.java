@@ -7,10 +7,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -121,8 +119,8 @@ public class MapEditorPage extends SubPageController implements Initializable{
     @FXML
     private JFXButton helpButton;
 
-//    @FXML
-//    private JFXButton exitButton;
+    @FXML
+    private JFXButton troubleshootButton;
 
     @FXML
     private StackPane tableWindow;
@@ -132,7 +130,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
     @FXML
     private JFXComboBox<String> floorSwitcher;
-    String selectedFloor = "1";
+    String selectedFloor = Map.floor1Key;
 
     @FXML
     private AnchorPane nodePane;
@@ -144,6 +142,12 @@ public class MapEditorPage extends SubPageController implements Initializable{
     private JFXComboBox<String> tableTypeBox;
 
     @FXML
+    private JFXComboBox<String> tableFloorFilter;
+
+    @FXML
+    private JFXComboBox<String> tableValidityFilter;
+
+    @FXML
     private JFXListView<HBox> tableView;
 
     private NodeTable nodeTable;
@@ -151,6 +155,10 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
     private static final String tableEdgeKey = "Edge";
     private static final String tableNodeKey = "Node";
+    public static final String allFloorsKey = "All";
+    public static final String invalidKey = "Invalid";
+    public static final String allValidityKey = "All";
+    public static final String validKey   = "Valid";
 
     Map map;
     boolean dragging = false;
@@ -169,10 +177,6 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
     AlignmentTool alignmentTool = null;
 
-
-    public static LinkedList<AlgoNode> isolatedNodes;
-
-
     /**
      * Set validators to insure that the x and y coordinate fields are numbers
      */
@@ -181,13 +185,13 @@ public class MapEditorPage extends SubPageController implements Initializable{
         gridPane.setPickOnBounds(false);
 
         floorSwitcher.setOnAction(this::onFloorSwitch);
+        floorSwitcher.getItems().add(Map.floorL2Key);
+        floorSwitcher.getItems().add(Map.floorL1Key);
+        floorSwitcher.getItems().add(Map.floorGKey);
+        floorSwitcher.getItems().add(Map.floor1Key);
+        floorSwitcher.getItems().add(Map.floor2Key);
+        floorSwitcher.getItems().add(Map.floor3Key);
         floorSwitcher.setValue(selectedFloor);
-        floorSwitcher.getItems().add("L2");
-        floorSwitcher.getItems().add("L1");
-        floorSwitcher.getItems().add("G");
-        floorSwitcher.getItems().add("1");
-        floorSwitcher.getItems().add("2");
-        floorSwitcher.getItems().add("3");
 
         map = new Map(nodePane);
         map.setOnMapClicked(this::onMapClicked);
@@ -201,19 +205,25 @@ public class MapEditorPage extends SubPageController implements Initializable{
         edgeEditorSubmitButton.setOnAction(this::handleEdgeEditSubmit);
         nodeEditorDeleteButton.setOnAction(this::handleNodeEditDelete);
         edgeEditorDeleteButton.setOnAction(this::handleEdgeEditDelete);
+        troubleshootButton.setOnAction(this::handleTroubleshootButton);
         loadNodeCSVButton.setOnAction(this::handleLoadNodeCSV);
         loadEdgeCSVButton.setOnAction(this::handleLoadEdgeCSV);
         saveNodeCSVButton.setOnAction(this::handleSaveNodeCSV);
         saveEdgeCSVButton.setOnAction(this::handleSaveEdgeCSV);
         tableTypeBox.setOnAction(this::handleTableTypeSwitch);
-        openTableButton.setOnAction(this::handleOpenTable);
+        openTableButton.setOnAction(this::handleToggleTable);
 
         nodeEditorWindow.setVisible(false);
         edgeEditorWindow.setVisible(false);
-        tableWindow.setVisible(false);
+        closeTable();
 
         nodeTable = new NodeTable(tableSearchBar, tableView, this::update, App.mapService);
         edgeTable = new EdgeTable(tableSearchBar, tableView, this::update, App.mapService);
+        edgeTable.setValidityFilter(tableValidityFilter);
+        nodeTable.setValidityFilter(tableValidityFilter);
+        nodeTable.setFloorFilter(tableFloorFilter);
+        edgeTable.setFloorFilter(tableFloorFilter);
+
         /* if we want to use the search bar for both we must set the handler here */
         tableSearchBar.setOnKeyTyped(event -> {
             nodeTable.update();
@@ -222,19 +232,90 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
         tableTypeBox.getItems().add(tableNodeKey);
         tableTypeBox.getItems().add(tableEdgeKey);
-
         tableTypeBox.setValue(tableNodeKey);
         edgeTable.setEnabled(false);
+
+        tableValidityFilter.setOnAction(event -> { nodeTable.update(); edgeTable.update(); });
+        tableValidityFilter.getItems().add(allValidityKey);
+        tableValidityFilter.getItems().add(invalidKey);
+        tableValidityFilter.getItems().add(validKey);
+        tableValidityFilter.setValue(allValidityKey);
+
+        tableFloorFilter.setOnAction(event -> { nodeTable.update(); edgeTable.update(); });
+        tableFloorFilter.getItems().add(Map.floorL2Key);
+        tableFloorFilter.getItems().add(Map.floorL1Key);
+        tableFloorFilter.getItems().add(Map.floorGKey);
+        tableFloorFilter.getItems().add(Map.floor1Key);
+        tableFloorFilter.getItems().add(Map.floor2Key);
+        tableFloorFilter.getItems().add(Map.floor3Key);
+        tableFloorFilter.getItems().add(allFloorsKey);
+        tableFloorFilter.setValue(allFloorsKey);
 
         App.getPrimaryStage().getScene().setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ESCAPE) {
                 edgeEditorWindow.setVisible(false);
                 nodeEditorWindow.setVisible(false);
-                tableWindow.setVisible(false);
+                closeTable();
             }
         });
 
         update();
+    }
+
+    private void handleTroubleshootButton(ActionEvent actionEvent) {
+        List<String> newInvalidNodeIDs = new LinkedList<>();
+        List<String> oldInvalidNodeIDs = queryAllNodes().filter(node -> !node.isValid())
+                                                            .map(NodeInfo::getNodeID)
+                                                            .collect(Collectors.toList());
+
+        List<AlgoNode> isolatedNodes     = findIsolatedNodes();
+        List<NodeInfo> invalidFloorNodes = findInvalidFloorNodes().collect(Collectors.toList());
+        List<NodeInfo> outOfBoundsNodes  = findOutOfBoundsNodes().collect(Collectors.toList());
+
+        Consumer<String> addIfNotThere = (string) -> {
+            if (!newInvalidNodeIDs.contains(string)) newInvalidNodeIDs.add(string);
+        };
+        isolatedNodes.forEach    (node -> addIfNotThere.accept(node.getID()));
+        invalidFloorNodes.forEach(node -> addIfNotThere.accept(node.getNodeID()));
+        outOfBoundsNodes.forEach (node -> addIfNotThere.accept(node.getNodeID()));
+
+        newInvalidNodeIDs.forEach(id -> setNodeValidity(id, false));
+
+        for (String id : oldInvalidNodeIDs) {
+            if (!newInvalidNodeIDs.contains(id)) {
+                setNodeValidity(id, true);
+            }
+        }
+
+        update();
+    }
+
+    private Stream<NodeInfo> findOutOfBoundsNodes() {
+        Stream<NodeInfo> nodes = queryAllNodes();
+        return nodes.filter(node -> !Map.isWithinMapBounds(node.getXPos(), node.getYPos()));
+    }
+
+    private Stream<NodeInfo> findInvalidFloorNodes() {
+        Stream<NodeInfo> nodes = queryAllNodes();
+        List<String> validFloors = Arrays.asList(Map.floorKeys);
+        return nodes.filter(node -> !validFloors.contains(node.getFloor()));
+    }
+
+    private List<AlgoNode> findIsolatedNodes() {
+        try {
+            return (new DFSManager(App.mapService)).getIsolatedNodes();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return new LinkedList<>();
+        }
+    }
+
+    private void setNodeValidity(String id, boolean valid) {
+        try {
+            App.mapService.setNodeValid(id, valid);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     private void handleTableTypeSwitch(Event event) {
@@ -255,8 +336,23 @@ public class MapEditorPage extends SubPageController implements Initializable{
         }
     }
 
-    private void handleOpenTable(ActionEvent actionEvent) {
+    private void closeTable() {
+        openTableButton.setText(App.resourceBundle.getString("key.open_table"));
+        tableWindow.setVisible(false);
+    }
+
+    private void openTable() {
+        openTableButton.setText(App.resourceBundle.getString("key.close_table"));
         tableWindow.setVisible(true);
+    }
+
+    private void handleToggleTable(ActionEvent actionEvent) {
+        if (tableWindow.isVisible()) {
+            closeTable();
+        }
+        else {
+            openTable();
+        }
     }
 
     private void handleNodeEditDelete(ActionEvent actionEvent) {
@@ -284,22 +380,13 @@ public class MapEditorPage extends SubPageController implements Initializable{
     void updateMap() {
         associatedEdgeBeginnings = new HashMap<>();
         associatedEdgeEndings = new HashMap<>();
-        try {
-            List<NodeInfo> nodeList = App.mapService.getAllNodes().collect(Collectors.toList());
-            List<EdgeInfo> edgeList = App.mapService.getAllEdges().collect(Collectors.toList());
-            DFSManager explorer = new DFSManager(App.mapService);
-            LinkedList<AlgoNode> allIsolatedNodes = explorer.getIsolatedNodes();
-            isolatedNodes = allIsolatedNodes;
 
-            for (AlgoNode n: allIsolatedNodes){
-                setIsolated(n.getID(), nodeList);
-            }
-            map.clearShapes();
-            map.drawEdges(nodeList, edgeList, selectedFloor);
-            map.drawNodes(nodeList, selectedFloor);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        List<NodeInfo> nodeList = queryAllNodes().collect(Collectors.toList());
+        List<EdgeInfo> edgeList = queryAllEdges().collect(Collectors.toList());
+
+        map.clearShapes();
+        map.drawEdges(nodeList, edgeList, selectedFloor);
+        map.drawNodes(nodeList, selectedFloor);
     }
 
     void onFloorSwitch(ActionEvent event) {
@@ -326,7 +413,6 @@ public class MapEditorPage extends SubPageController implements Initializable{
                 else {
                     edgeEditorWindow.setVisible(false);
                     nodeEditorWindow.setVisible(false);
-                    tableWindow.setVisible(false);
                 }
                 break;
             }
@@ -380,13 +466,9 @@ public class MapEditorPage extends SubPageController implements Initializable{
             Circle circle = p.getKey();
             NodeInfo node = p.getValue();
 
-            switch (node.getNodeType()) {
-                case "ISOLATED":
-                    circle.setFill(Color.BLACK);
-                    break;
-                default:
-                    circle.setFill(Color.BLUE);
-                    break;
+            if (!node.isValid()) {
+                circle.setFill(Color.RED);
+                circle.setRadius(circle.getRadius() * 2);
             }
 
             circle.setOnMouseEntered(event -> {
@@ -872,26 +954,34 @@ public class MapEditorPage extends SubPageController implements Initializable{
         }
     }
 
-    @FXML
-    void updateNodeTable() {
-        Stream<NodeInfo> nodeStream = null;
+    private Stream<NodeInfo> queryAllNodes() {
         try {
-            nodeStream = App.mapService.getAllNodes();
-            nodeTable.setItems(nodeStream.collect(Collectors.toList()));
+            return App.mapService.getAllNodes();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            return Stream.empty();
+        }
+    }
+
+    private Stream<EdgeInfo> queryAllEdges() {
+        try {
+            return App.mapService.getAllEdges();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return Stream.empty();
         }
     }
 
     @FXML
+    void updateNodeTable() {
+        List<NodeInfo> nodes = queryAllNodes().collect(Collectors.toList());
+        nodeTable.setItems(nodes);
+    }
+
+    @FXML
     void updateEdgeTable() {
-        Stream<EdgeInfo> edgeStream = null;
-        try {
-            edgeStream = App.mapService.getAllEdges();
-            edgeTable.setItems(edgeStream.collect(Collectors.toList()));
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        List<EdgeInfo> edges = queryAllEdges().collect(Collectors.toList());
+        edgeTable.setItems(edges);
     }
 
     @FXML
@@ -935,14 +1025,5 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
         content.setActions(closeButton);
         errorWindow.show();
-    }
-
-
-    private void setIsolated(String NodeID, List<NodeInfo> nodes){
-        for (NodeInfo n : nodes) {
-            if (n.getNodeID().equals(NodeID)) {
-                n.setNodeType("ISOLATED");
-            }
-        }
     }
 }

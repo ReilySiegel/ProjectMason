@@ -34,7 +34,6 @@ public class App extends Application {
   public static ResourceBundle resourceBundle;
   public static LocaleType selectedLocale;
   private static final String localesPath = "edu.wpi.teamo.locales.";
-  public static LinkedList<AlgoNode> isolatedNodes;
 
   @Override
   public void init() throws SQLException {

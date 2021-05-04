@@ -47,6 +47,14 @@ public class Map  {
     static Image L1FloorImage = null;
     static Image L2FloorImage = null;
 
+    public static final String floorL2Key = "L2";
+    public static final String floorL1Key = "L1";
+    public static final String floorGKey = "G";
+    public static final String floor1Key = "1";
+    public static final String floor2Key = "2";
+    public static final String floor3Key = "3";
+    public static final String[] floorKeys = { floorL2Key, floorL1Key, floorGKey, floor1Key, floor2Key, floor3Key };
+
     private final AnchorPane nodePane;
 
     /* variables used to calculate the zoom and pan transforms */
@@ -194,7 +202,13 @@ public class Map  {
         boolean inBounds = true;
         if (x < 0 || x > getWidth()) inBounds = false;
         if (y < 0 || y > getHeight()) inBounds = false;
+        return inBounds;
+    }
 
+    public static boolean isWithinMapBounds(int x, int y) {
+        boolean inBounds = true;
+        if (x < 0 || x > mapWidth)  inBounds = false;
+        if (y < 0 || y > mapHeight) inBounds = false;
         return inBounds;
     }
 
@@ -317,22 +331,22 @@ public class Map  {
         if (imagesLoaded) {
             Image imageToSet = null;
             switch (floor) {
-                case "L1":
+                case floorL1Key:
                     imageToSet = L1FloorImage;
                     break;
-                case "L2":
+                case floorL2Key:
                     imageToSet = L2FloorImage;
                     break;
-                case "G":
+                case floorGKey:
                     imageToSet = groundFloorImage;
                     break;
-                case "1":
+                case floor1Key:
                     imageToSet = firstFloorImage;
                     break;
-                case "2":
+                case floor2Key:
                     imageToSet = secondFloorImage;
                     break;
-                case "3":
+                case floor3Key:
                     imageToSet = thirdFloorImage;
                     break;
             }

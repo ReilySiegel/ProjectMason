@@ -114,6 +114,8 @@
                            <children>
                               <JFXTextField fx:id="tableSearchBar" prefHeight="27.0" prefWidth="190.0" />
                               <JFXComboBox fx:id="tableTypeBox" focusColor="BLACK" style="-fx-border-color: grey;" />
+                              <JFXComboBox fx:id="tableFloorFilter" style="-fx-border-color: grey;" />
+                              <JFXComboBox fx:id="tableValidityFilter" style="-fx-border-color: grey;" />
                            </children>
                            <padding>
                               <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
@@ -200,6 +202,22 @@
                                     <Insets left="10.0" right="10.0" />
                                  </HBox.margin>
                               </JFXComboBox>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2">
+               <children>
+                  <VBox prefHeight="94.0" prefWidth="162.0">
+                     <children>
+                        <HBox alignment="CENTER" prefHeight="64.0" prefWidth="267.0" styleClass="pane">
+                           <VBox.margin>
+                              <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                           </VBox.margin>
+                           <children>
+                              <JFXButton fx:id="troubleshootButton" prefHeight="39.0" prefWidth="107.0" text="%key.troubleshoot" />
                            </children>
                         </HBox>
                      </children>

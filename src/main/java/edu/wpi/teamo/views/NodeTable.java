@@ -1,19 +1,24 @@
 package edu.wpi.teamo.views;
 
-import com.jfoenix.controls.JFXListView;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.teamo.database.map.IMapService;
 import edu.wpi.teamo.database.map.NodeInfo;
+import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.JFXListView;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
-
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.Locale;
+import java.util.List;
+
 
 public class NodeTable extends TableSearcher<NodeInfo, HBox> {
 
     private final IMapService mapService;
+
+    private JFXComboBox<String> validityFilter = null;
+    private JFXComboBox<String> floorFilter = null;
 
     double columnWidth = 200;
 
@@ -45,27 +50,34 @@ public class NodeTable extends TableSearcher<NodeInfo, HBox> {
         matching |= node.getNodeID().toLowerCase(Locale.ROOT).contains(text);
         matching |= node.getFloor().toLowerCase(Locale.ROOT).contains(text);
 
+        if (!floorFilter.getValue().equals(MapEditorPage.allFloorsKey)) {
+            matching &= node.getFloor().equals(floorFilter.getValue());
+        }
+
+        if (!validityFilter.getValue().equals(MapEditorPage.allValidityKey)) {
+            matching &= ( node.isValid() && validityFilter.getValue().equals(MapEditorPage.validKey  )) ||
+                        (!node.isValid() && validityFilter.getValue().equals(MapEditorPage.invalidKey));
+        }
+
         return matching;
     }
 
     private HBox createHeader() {
-        Label idField = new Label("id");
-        idField.setMinWidth(columnWidth);
-        Label longNameField = new Label("longName");
-        longNameField.setMinWidth(columnWidth);
-        Label shortNameField = new Label("shortName");
-        shortNameField.setMinWidth(columnWidth);
-        Label typeField = new Label("type");
-        typeField.setMinWidth(columnWidth);
-        Label buildingField = new Label("building");
-        buildingField.setMinWidth(columnWidth);
-        Label floorField = new Label("floor");
-        floorField.setMinWidth(columnWidth);
-        Label xField = new Label("x");
-        xField.setMinWidth(columnWidth);
-        Label yField = new Label("y");
-        yField.setMinWidth(columnWidth);
-        HBox row = new HBox(idField, longNameField, shortNameField, typeField, buildingField, floorField, xField, yField);
+        List<Label> columns = new LinkedList<>();
+
+        columns.add(new Label("id"));
+        columns.add(new Label("longName"));
+        columns.add(new Label("shortName"));
+        columns.add(new Label("type"));
+        columns.add(new Label("building"));
+        columns.add(new Label("floor"));
+        columns.add(new Label("x"));
+        columns.add(new Label("y"));
+
+        columns.forEach(column -> column.setMinWidth(columnWidth));
+        HBox row = new HBox();
+        row.getChildren().addAll(columns);
+
         return row;
     }
 
@@ -112,7 +124,13 @@ public class NodeTable extends TableSearcher<NodeInfo, HBox> {
         yField.setMinWidth(columnWidth);
 
         HBox row = new HBox(idField, longNameField, shortNameField, typeField, buildingField, floorField, xField, yField);
-        row.setStyle("-fx-background-color: rgba(132,252,248, 0.4)");
+
+        if (node.isValid()) {
+            row.setStyle("-fx-background-color: rgba(132,252,248, 0.4)");
+        }
+        else {
+            row.setStyle("-fx-background-color: rgb(252,132,132)");
+        }
 
         return row;
     }
@@ -228,5 +246,11 @@ public class NodeTable extends TableSearcher<NodeInfo, HBox> {
         }
     }
 
+    public void setFloorFilter(JFXComboBox floorFilter) {
+        this.floorFilter = floorFilter;
+    }
 
+    public void setValidityFilter(JFXComboBox validityFilter) {
+        this.validityFilter = validityFilter;
+    }
 }

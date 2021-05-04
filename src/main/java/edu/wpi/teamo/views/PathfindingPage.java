@@ -133,14 +133,14 @@ public class PathfindingPage extends SubPageController implements Initializable 
     }
 
     private void initFloorSwitcher() {
-        floorComboBox.getItems().add("L2");
-        floorComboBox.getItems().add("L1");
-        floorComboBox.getItems().add("G");
-        floorComboBox.getItems().add("1");
-        floorComboBox.getItems().add("2");
-        floorComboBox.getItems().add("3");
-        floorComboBox.setValue("1");
-        floor = "1";
+        floorComboBox.getItems().add(Map.floorL2Key);
+        floorComboBox.getItems().add(Map.floorL1Key);
+        floorComboBox.getItems().add(Map.floorGKey);
+        floorComboBox.getItems().add(Map.floor1Key);
+        floorComboBox.getItems().add(Map.floor2Key);
+        floorComboBox.getItems().add(Map.floor3Key);
+        floorComboBox.setValue(Map.floor1Key);
+        floor = Map.floor1Key;
     }
 
     private void initAlgoSwitcher() {
