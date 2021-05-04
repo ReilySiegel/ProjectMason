@@ -40,6 +40,9 @@ public class Map  {
     static public final double paneHeight = 720;
     static public final double paneWidth = paneHeight * mapAspectRatio;
 
+    static public final double maxScale = 10;
+    static public final double minScale = 0.5;
+
     static Image groundFloorImage = null;
     static Image secondFloorImage = null;
     static Image firstFloorImage = null;
@@ -293,22 +296,32 @@ public class Map  {
         double dS = scroll * scale / 500;
         scale += dS;
 
-        /* scale the views from the center */
-        nodePane.setScaleX(scale);
-        nodePane.setScaleY(scale);
+        if (scale > maxScale) {
+            scale = maxScale;
+        }
+        else if (scale < minScale) {
+            scale = minScale;
+        }
+        else {
 
-        for (javafx.scene.Node thing : nodePane.getChildren()) {
-            if (thing.getClass() == Circle.class) {
-                ((Circle) thing).setRadius(defaultRadius/scale);
-            }
-            else if (thing.getClass() == Line.class) {
-                ((Line) thing).setStrokeWidth(defaultStrokeWidth/scale);
-            }
-        };
+            /* scale the views from the center */
+            nodePane.setScaleX(scale);
+            nodePane.setScaleY(scale);
 
-        /* must translate based on how much the current point moved from the scale */
-        nodePane.setTranslateX ( nodePane.getTranslateX() + (nodePane.getTranslateX() /scale) * dS);
-        nodePane.setTranslateY ( nodePane.getTranslateY() + (nodePane.getTranslateY() /scale) * dS);
+            for (javafx.scene.Node thing : nodePane.getChildren()) {
+                if (thing.getClass() == Circle.class) {
+                    ((Circle) thing).setRadius(defaultRadius / scale);
+                } else if (thing.getClass() == Line.class) {
+                    ((Line) thing).setStrokeWidth(defaultStrokeWidth / scale);
+                }
+            }
+
+
+            /* must translate based on how much the current point moved from the scale */
+            nodePane.setTranslateX(nodePane.getTranslateX() + (nodePane.getTranslateX() / scale) * dS);
+            nodePane.setTranslateY(nodePane.getTranslateY() + (nodePane.getTranslateY() / scale) * dS);
+
+        }
     }
 
     public void setOnMouseMoved(Consumer<Pair<Double, Double>> onMouseMoved) {
