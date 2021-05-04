@@ -325,7 +325,6 @@ public class PathfindingPage extends SubPageController implements Initializable 
         content.setBody(new Text(App.resourceBundle.getString("key.pathfinding_help")));
         JFXDialog errorWindow = new JFXDialog(parentStackPane, content, JFXDialog.DialogTransition.TOP);
 
-
         JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
         closeButton.setOnAction(event -> errorWindow.close());
         closeButton.setStyle("-jfx-button-type: RAISED");

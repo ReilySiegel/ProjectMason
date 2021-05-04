@@ -209,7 +209,7 @@ public class SR11_Security extends ServiceRequestPage implements Initializable {
 
         closeButton.setOnAction(event -> popup.close());
 
-        backButton.setOnAction(event -> App.switchPage(Pages.SERVICEREQUEST));
+        backButton.setOnAction(event -> SubPageContainer.switchPage(Pages.SERVICEREQUEST));
 
         content.setActions(closeButton, backButton);
         popup.show();
