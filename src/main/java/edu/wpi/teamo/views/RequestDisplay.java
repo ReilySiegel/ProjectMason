@@ -54,7 +54,7 @@ public class RequestDisplay {
         this.types.put("Laundry", true);
         this.types.put("Maintenance", true);
         this.types.put("Interpreter", true);
-        this.types.put("Reilgious", true);
+        this.types.put("Religious", true);
         this.types.put("Transportation", true);
         this.types.put("COVID Survey", true);
     }
