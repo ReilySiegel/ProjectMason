@@ -162,7 +162,7 @@ public class LaundryRequestPage extends ServiceRequestPage implements Initializa
         if (validRequest) {
             LocalDateTime now = LocalDateTime.now();
             BaseRequest br = new BaseRequest(UUID.randomUUID().toString(), note, locations.stream(), assignName, false, now);
-            new LaundryRequest(gownCheck, sheetCheck, br);
+            new LaundryRequest(gownCheck, sheetCheck, br).update();
 
 
             assigneeErrorText.setText("");
