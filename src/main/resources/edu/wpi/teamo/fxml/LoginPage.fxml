@@ -34,12 +34,12 @@
                         <Font size="32.0" />
                      </font>
                   </Label>
-                  <JFXTextField fx:id="username" focusColor="BLACK" promptText="%key.username" style="-fx-background-color: transparent; -fx-border-color: BLACK; -fx-border-width: 3;" unFocusColor="#f0f0f000">
+                  <JFXTextField fx:id="username" focusColor="BLACK" promptText="%key.username" style="-fx-background-color: transparent; -fx-border-color: BLACK;" unFocusColor="#f0f0f000">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </JFXTextField>
-                  <JFXPasswordField fx:id="password" focusColor="BLACK" promptText="%key.password" style="-fx-background-color: transparent; -fx-border-color: BLACK; -fx-border-width: 3;" unFocusColor="#f0f0f000">
+                  <JFXPasswordField fx:id="password" focusColor="BLACK" promptText="%key.password" style="-fx-background-color: transparent; -fx-border-color: BLACK;" unFocusColor="#f0f0f000">
                      <font>
                         <Font size="16.0" />
                      </font>
