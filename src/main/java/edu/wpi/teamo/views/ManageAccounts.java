@@ -86,6 +86,7 @@ public class ManageAccounts implements Initializable {
         roles.add("patient");
         roleBox.setItems(FXCollections.observableArrayList(roles));
 
+
         makeAccountButton.setOnAction(event -> createAccount());
         deleteAccountButton.setOnAction(event -> deleteAccount());
         promoteButton.setOnAction(event -> updateAccess());

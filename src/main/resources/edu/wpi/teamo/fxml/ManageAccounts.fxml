@@ -40,7 +40,7 @@
                                       <Insets bottom="15.0" />
                                   </VBox.margin>
                               </Text>
-                        <JFXTreeTableView fx:id="acctTree" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: rgba(255, 255, 255, 0.8);" VBox.vgrow="ALWAYS" />
+                        <JFXTreeTableView fx:id="acctTree" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: rgba(255, 255, 255, 0.8);" stylesheets="@CSS/accountManagerText.css" VBox.vgrow="ALWAYS" />
                           </children>
                           <padding>
                               <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />

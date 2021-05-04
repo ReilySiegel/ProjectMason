@@ -1,0 +1,7 @@
+.tree-table-view{
+    -fx-font: 12px "Arial";
+    -fx-stroke: #eeeeee;
+    -fx-background-color: brown;
+    -fx-text-fill: navajowhite;
+    -fx-font-size: 12;
+}
