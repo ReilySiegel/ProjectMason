@@ -52,10 +52,7 @@ public class SR12_MaintenancePage extends ServiceRequestPage implements Initiali
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         backButton.setOnAction(actionEvent -> SubPageContainer.switchPage(Pages.SERVICEREQUEST));
-
         type = SR12Type.NULL;
-        //Override CSS
-
         this.resources = resources;
         String elevatorM = resources.getString("key.maintenance_elevator");
         String powerM = resources.getString("key.maintenance_power");
@@ -131,10 +128,15 @@ public class SR12_MaintenancePage extends ServiceRequestPage implements Initiali
 
     }
 
-    private void promptSuccess() {
+    private void promptSuccess(String sr_type, LocalDateTime time, List<String> selectedNodes) {
         JFXDialogLayout content = new JFXDialogLayout();
         content.setHeading(new Text(resources.getString("key.confirm_success_title")));
-        content.setBody(new Text(resources.getString("key.confirm_success_details")));
+        content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
+                App.resourceBundle.getString("key.type_semicolon") + sr_type + "\n" +
+                App.resourceBundle.getString("key.location_generic") + String.join(", ", selectedNodes) + "\n" +
+                App.resourceBundle.getString("key.persons_assigned_semicolon")  + assignee.getText() + "\n" +
+                App.resourceBundle.getString("key.time") + ": " +  time.toString() + "\n" +
+                App.resourceBundle.getString("key.notes") + ": " + notes.getText()));
         JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
         JFXButton closeButton = new JFXButton(resources.getString("key.close"));
         closeButton.setStyle("-fx-background-color: #f40f19");
@@ -165,7 +167,7 @@ public class SR12_MaintenancePage extends ServiceRequestPage implements Initiali
                UUID.randomUUID().toString(), sub_notes, selectedNodes.stream(), sub_assignee, false, localDateTime));
             try{
                 MR.update();
-                promptSuccess();
+                promptSuccess(str_type,localDateTime,selectedNodes);
                 resetFields();
             }
             catch(SQLException e){
@@ -222,13 +224,6 @@ public class SR12_MaintenancePage extends ServiceRequestPage implements Initiali
         closeButton.setOnAction(event -> helpWindow.close());
         content.setActions(closeButton);
         helpWindow.show();
-    }
-
-    @FXML
-    private void handleBackToServicePageM(ActionEvent e) {
-        //Remove CSS from this page to prevent override on other pages
-        App.getPrimaryStage().getScene().getStylesheets().remove("edu/wpi/teamo/fxml/CSS/MaintenancePage.css");
-        App.switchPage(Pages.SERVICEREQUEST);
     }
 
     private enum SR12Type {
