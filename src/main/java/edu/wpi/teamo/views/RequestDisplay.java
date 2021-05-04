@@ -40,23 +40,12 @@ public class RequestDisplay {
     LocalDateTime latestTime;
 
 
-    public RequestDisplay(JFXListView<VBox> reqList, Boolean showComplete, LocalDateTime latestTime) {
+    public RequestDisplay(JFXListView<VBox> reqList, Boolean showComplete, LocalDateTime latestTime, HashMap<String, Boolean> types) {
         this.reqList = reqList;
         this.showComplete = showComplete;
         this.latestTime = latestTime;
 
-        this.types = new HashMap<String, Boolean>();
-        this.types.put("Medicine", true);
-        this.types.put("Sanitation", true);
-        this.types.put("Security", true);
-        this.types.put("Food", true);
-        this.types.put("Gift", true);
-        this.types.put("Laundry", true);
-        this.types.put("Maintenance", true);
-        this.types.put("Interpreter", true);
-        this.types.put("Religious", true);
-        this.types.put("Transportation", true);
-        this.types.put("COVID Survey", true);
+        this.types = types;
     }
 
     public void setShowComplete(Boolean showComplete) {
