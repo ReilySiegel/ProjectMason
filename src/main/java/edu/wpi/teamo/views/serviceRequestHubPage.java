@@ -1,5 +1,7 @@
 package edu.wpi.teamo.views;
 
+
+import animatefx.animation.FadeOut;
 import edu.wpi.teamo.Session;
 import javafx.scene.text.FontWeight;
 import javafx.scene.image.ImageView;
@@ -167,8 +169,10 @@ public class serviceRequestHubPage implements Initializable {
     }
 
     void handleBacktoMain(ActionEvent event) {
-        App.switchPage(Pages.MAIN);
+        stackPane.setMouseTransparent(true);
+        new FadeOut(stackPane).play();
     }
+
 
     private void handleHelp(ActionEvent e) {
         JFXDialogLayout content = new JFXDialogLayout();

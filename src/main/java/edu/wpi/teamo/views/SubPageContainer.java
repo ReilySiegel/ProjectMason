@@ -1,5 +1,9 @@
 package edu.wpi.teamo.views;
 
+import animatefx.animation.Bounce;
+import animatefx.animation.FadeIn;
+import animatefx.animation.FadeOut;
+import animatefx.animation.FadeOutDownBig;
 import edu.wpi.teamo.Pages;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -28,9 +32,7 @@ public class SubPageContainer {
         this.containerPane = containerPane;
     }
 
-    public static void switchPage(Pages page) {
-        getInstance().loadPageAndShow(App.getPagePath(page));
-    }
+    public static void switchPage(Pages page) { getInstance().loadPageAndShow(App.getPagePath(page)); }
 
     public void loadPage(String fxmlPath) {
         try {
@@ -56,6 +58,7 @@ public class SubPageContainer {
     public void show() {
         containerVBox.setMouseTransparent(false);
         containerVBox.setVisible(true);
+        new FadeIn(containerVBox).play();
     }
 
     public void hide() {

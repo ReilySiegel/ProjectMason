@@ -1,5 +1,8 @@
 package edu.wpi.teamo.views;
 
+import animatefx.animation.Bounce;
+import animatefx.animation.FadeIn;
+import animatefx.animation.FadeOut;
 import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.Pages;
@@ -18,6 +21,8 @@ import javafx.scene.text.Text;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import static java.lang.Thread.sleep;
 
 public class MainPage implements Initializable {
 
@@ -63,12 +68,19 @@ public class MainPage implements Initializable {
     @FXML
     private Text usernameLabel;
 
+    boolean mapEditorLoaded;
+    boolean pathfindingLoaded;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        mapEditorLoaded = false;
+        pathfindingLoaded = false;
         SubPageContainer.newInstance(containerPane, containerVBox);
 
         boolean isAdmin = Session.isLoggedIn() && Session.getAccount().isAdmin();
-        setAdminButtonVisibility(isAdmin);
+        setAdminButtonAnimation(isAdmin);
+
         updateAccountWindow();
 
         //Enable clicking through the gridpane overlaying the whole page
@@ -135,21 +147,29 @@ public class MainPage implements Initializable {
             Node mapEditorPage = FXMLLoader.load(getClass().getResource("/edu/wpi/teamo/fxml/MapEditorPage.fxml"),
                     App.resourceBundle);
             backgroundPane.getChildren().setAll(mapEditorPage);
+            new FadeIn(backgroundPane).play();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public void setPathfinding() {
+
         hidePages();
         backgroundPane.setVisible(true);
+
+
         try {
             Node pathfindingPage = FXMLLoader.load(getClass().getResource("/edu/wpi/teamo/fxml/PathfindingPage.fxml"),
                     App.resourceBundle);
             backgroundPane.getChildren().setAll(pathfindingPage);
+            new FadeIn(backgroundPane).play();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
+
     }
 
     public void setAbout() {
@@ -196,12 +216,28 @@ public class MainPage implements Initializable {
     }
 
     private void setAdminButtonVisibility(boolean visible) {
+        if(visible){
+            FadeOut fadeOut = new FadeOut(mainMenuButtonBox);
+            fadeOut.setOnFinished(event -> setAdminButtonAnimation(visible));
+            mainMenuButtonBox.setMouseTransparent(true);
+            fadeOut.play();
+        }
+        else{
+            setAdminButtonAnimation(visible);
+        }
+    }
+
+    private void setAdminButtonAnimation(boolean visible){
         accountManagerButton.setVisible(visible);
         accountManagerButton.setManaged(visible);
         requestManagerButton.setVisible(visible);
         requestManagerButton.setManaged(visible);
         mapEditorButton.setVisible(visible);
         mapEditorButton.setManaged(visible);
+
+
+        mainMenuButtonBox.setMouseTransparent(false);
+        new FadeIn(mainMenuButtonBox).play();
     }
 
     private void handleLogin(ActionEvent e) {
@@ -211,7 +247,6 @@ public class MainPage implements Initializable {
 
     private void handleLogout(ActionEvent e){
         Session.logout();
-
         setAdminButtonVisibility(false);
         updateAccountWindow();
         hidePages();

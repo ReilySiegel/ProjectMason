@@ -88,7 +88,7 @@
                <bottom>
                   <HBox fx:id="bottomHbox" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                      <children>
-                        <JFXButton buttonType="RAISED" onAction="#backToMain" prefHeight="40.0" prefWidth="100.0" text="%key.back">
+                        <JFXButton fx:id="backButton" buttonType="RAISED" prefHeight="40.0" prefWidth="100.0" text="%key.back">
                            <font>
                               <Font size="18.0" />
                            </font>
