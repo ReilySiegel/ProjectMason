@@ -80,7 +80,12 @@ public class PathfindingPage extends SubPageController implements Initializable 
     @FXML
     private VBox textualWindow;
 
+    @FXML
+    private JFXButton textualUnitsBtn;
+
     private LocationSearcher locationSearcher;
+
+    private boolean metric = true;
 
     LinkedList<AlgoNode> calculatedPath = null;
 
@@ -329,6 +334,17 @@ public class PathfindingPage extends SubPageController implements Initializable 
         errorWindow.show();
     }
 
+    @FXML
+    private void textualUnitsOnClick(MouseEvent e) {
+        metric = !metric;
+        if(metric) textualUnitsBtn.setText(App.resourceBundle.getString("key.units_metric"));
+        else textualUnitsBtn.setText(App.resourceBundle.getString("key.units_us"));
+        if(textualDirView.getItems().size() > 0 && calculatedPath != null) {
+            textualDirView.getItems().remove(0, textualDirView.getItems().size() - 1);
+            textualDirView.getItems().setAll(TextDirManager.getTextualDirections(calculatedPath, metric));
+        }
+    }
+
     void findPath(String startID, String endID) {
 
         LinkedList<AlgoNode> path = new LinkedList<>();
@@ -343,7 +359,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
         }
 
         textualWindow.setVisible(true);
-        textualDirView.getItems().setAll(TextDirManager.getTextualDirections(path));
+        textualDirView.getItems().setAll(TextDirManager.getTextualDirections(path, metric));
 
         List<String> floors = new LinkedList<>();
         for (AlgoNode node : path) {
