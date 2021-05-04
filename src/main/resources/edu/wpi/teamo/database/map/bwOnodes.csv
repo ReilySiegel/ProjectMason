@@ -356,8 +356,8 @@ GCONF02001,1493,2117,1,Shapiro,CONF,Shapiro Board Room MapNode 20 Floor 1,Shapir
 GDEPT01901,1570,2104,1,Shapiro,DEPT,Zinner Breakout Room MapNode 19 Floor 1,Zinner Breakout Room
 GELEV00N01,1647,1928,1,Shapiro,ELEV,Elevator N MapNode 26 Floor 1,Hall
 GELEV00Q01,1651,2127,1,Shapiro,ELEV,Elevator Q MapNode 18 Floor 1,Elevator Q Floor 1
-GEXIT00101,1751,1825,1,Shapiro,EXIT,Francis Street Exit MapNode 1 Floor 1,Francis Street Exit Floor 1
-GHALL00201,1722,1832,1,Shapiro,HALL,Hallway MapNode 2 Floor 1,Hall
+GEXIT00101,1757,1814,1,Shapiro,EXIT,Francis Street Exit MapNode 1 Floor 1,Francis Street Exit Floor 1
+GHALL00201,1724,1831,1,Shapiro,HALL,Hallway MapNode 2 Floor 1,Hall
 GHALL00301,1705,1831,1,Shapiro,HALL,Hallway MapNode 3 Floor 1,Hall
 GHALL00601,1707,2015,1,Shapiro,HALL,Hallway MapNode 6 Floor 1,Hall
 GHALL00701,1708,2092,1,Shapiro,HALL,Hallway MapNode 7 Floor 1,Hall
@@ -616,10 +616,9 @@ oWALK00801,1908,1544,1,CITY,WALK,IntermediateNode8,IN8
 oWALK00901,1909,1602,1,CITY,WALK,IntermediateNode9,IN9
 oWALK01001,1909,1677,1,CITY,WALK,IntermediateNode10,IN10
 oWALK01101,1839,1677,1,CITY,WALK,IntermediateNode11,IN11
-oWALK01201,1727,1674,1,CITY,WALK,IntermediateNode12,IN12
 oWALK01301,1726,1596,1,CITY,WALK,IntermediateNode13,IN13
 oWALK01401,1724,1549,1,CITY,WALK,IntermediateNode14,IN14
-oWALK01501,1677,1707,1,CITY,WALK,IntermediateNode15,IN15
+oWALK01501,1736,1681,1,CITY,WALK,IntermediateNode15,IN15
 oWALK01601,1420,1700,1,CITY,WALK,IntermediateNode16,IN16
 oWALK01701,1116,1698,1,CITY,WALK,IntermediateNode17,IN17
 oWALK01801,1011,1699,1,CITY,WALK,IntermediateNode18,IN18
@@ -634,3 +633,4 @@ oWALK02801,1195,1462,1,CITY,WALK,IntermediateNode28,IN28
 oWALK02901,1313,1362,1,CITY,WALK,IntermediateNode29,IN29
 oWALK03001,1748,1363,1,CITY,WALK,IntermediateNode30,IN30
 oWALK02701,1115,1561,1,CITY,Node Type,IntermediateNode27,IN27
+1_1024_1581_default,1025,1563,1,building,DEFAULT,1_1024_1581_default,1_1024_1581_default
