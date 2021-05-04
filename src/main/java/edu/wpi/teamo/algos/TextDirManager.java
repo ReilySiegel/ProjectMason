@@ -81,10 +81,10 @@ public class TextDirManager {
                         else directions.add("Proceed " + currentDistance+ " meter(s) forward to " + pathToParse.get(i + 1).getLongName());
                     }
                     //Backwards turns
-                    else if(lastQuadrant.getKey().equals(3) || lastQuadrant.getKey().equals(7) || lastQuadrant.getKey().equals(8)) {
-                        if(lastQuadrant.getKey().equals(8) || (Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) < 0 && lastQuadrant.getKey().equals(3)))
+                    else if(currentQuadrant.getKey().equals(3) || currentQuadrant.getKey().equals(7) || currentQuadrant.getKey().equals(8)) {
+                        if(currentQuadrant.getKey().equals(8) || (Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) < 0 && currentQuadrant.getKey().equals(3)))
                             directions.add("Proceed " + currentDistance+ " meter(s) backwards and to the left to " + pathToParse.get(i + 1).getLongName());
-                        else if(lastQuadrant.getKey().equals(7) || (Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) > 0 && lastQuadrant.getKey().equals(3)))
+                        else if(currentQuadrant.getKey().equals(7) || (Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) > 0 && currentQuadrant.getKey().equals(3)))
                             directions.add("Proceed " + currentDistance+ " meter(s) backwards and to the right to " + pathToParse.get(i + 1).getLongName());
                         else directions.add("Proceed " + currentDistance+ " meter(s) backwards to " + pathToParse.get(i + 1).getLongName());
                     }
@@ -100,7 +100,7 @@ public class TextDirManager {
                 }
                 case 2:{
                     //Slight turns
-                    if(Math.abs(Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue())) <= 0.2 && lastQuadrant.getKey().equals(2)){
+                    if((Math.abs(Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue())) <= 0.2 || Math.abs(Math.abs(lastQuadrant.getValue()) - (Math.PI / 2)) <= 0.2) && lastQuadrant.getKey().equals(2)){
                         if(Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) < 0 && currentQuadrant.getKey() == 2)
                             directions.add("Proceed " + currentDistance+ " meter(s) slightly leftwards to " + pathToParse.get(i + 1).getLongName());
                         else if(Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) > 0 && currentQuadrant.getKey() == 2)
@@ -108,10 +108,10 @@ public class TextDirManager {
                         else directions.add("Proceed " + currentDistance+ " meter(s) forward to " + pathToParse.get(i + 1).getLongName());
                     }
                     //Backwards turns
-                    else if(lastQuadrant.getKey().equals(4) || lastQuadrant.getKey().equals(8) || lastQuadrant.getKey().equals(5)){
-                        if(lastQuadrant.getKey().equals(5) || (Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) < 0 && lastQuadrant.getKey().equals(4)))
+                    else if(currentQuadrant.getKey().equals(4) || currentQuadrant.getKey().equals(8) || currentQuadrant.getKey().equals(5)){
+                        if(currentQuadrant.getKey().equals(5) || (Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) < 0 && currentQuadrant.getKey().equals(4)))
                             directions.add("Proceed " + currentDistance+ " meter(s) backwards and to the left to " + pathToParse.get(i + 1).getLongName());
-                        else if(lastQuadrant.getKey().equals(8) || (Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) > 0 && lastQuadrant.getKey().equals(4)))
+                        else if(currentQuadrant.getKey().equals(8) || (Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) > 0 && currentQuadrant.getKey().equals(4)))
                             directions.add("Proceed " + currentDistance+ " meter(s) backwards and to the right to " + pathToParse.get(i + 1).getLongName());
                         else directions.add("Proceed " + currentDistance+ " meter(s) backwards to " + pathToParse.get(i + 1).getLongName());
                     }
@@ -136,10 +136,10 @@ public class TextDirManager {
                         else directions.add("Proceed " + currentDistance+ " meter(s) forward to " + pathToParse.get(i + 1).getLongName());
                     }
                     //Backwards turns
-                    else if(lastQuadrant.getKey().equals(1) || lastQuadrant.getKey().equals(6) || lastQuadrant.getKey().equals(5)){
-                        if(lastQuadrant.getKey().equals(6) || (Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) < 0 && lastQuadrant.getKey().equals(1)))
+                    else if(currentQuadrant.getKey().equals(1) || currentQuadrant.getKey().equals(6) || currentQuadrant.getKey().equals(5)){
+                        if(currentQuadrant.getKey().equals(6) || (Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) < 0 && currentQuadrant.getKey().equals(1)))
                             directions.add("Proceed " + currentDistance+ " meter(s) backwards and to the left to " + pathToParse.get(i + 1).getLongName());
-                        else if(lastQuadrant.getKey().equals(5) || (Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) > 0 && lastQuadrant.getKey().equals(1)))
+                        else if(currentQuadrant.getKey().equals(5) || (Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) > 0 && currentQuadrant.getKey().equals(1)))
                             directions.add("Proceed " + currentDistance+ " meter(s) backwards and to the right to " + pathToParse.get(i + 1).getLongName());
                         else directions.add("Proceed " + currentDistance+ " meter(s) backwards to " + pathToParse.get(i + 1).getLongName());
                     }
@@ -156,7 +156,7 @@ public class TextDirManager {
                 }
                 case 4:{
                     //Slight turns
-                    if(Math.abs(Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue())) <= 0.2 && lastQuadrant.getKey().equals(4)){
+                    if((Math.abs(Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue())) <= 0.2 || Math.abs(Math.abs(lastQuadrant.getValue()) - (Math.PI / 2)) <= 0.2) && lastQuadrant.getKey().equals(4)){
                         if(Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) < 0 && currentQuadrant.getKey() == 4)
                             directions.add("Proceed " + currentDistance+ " meter(s) slightly leftwards to " + pathToParse.get(i + 1).getLongName());
                         else if(Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) > 0 && currentQuadrant.getKey() == 4)
@@ -164,10 +164,10 @@ public class TextDirManager {
                         else directions.add("Proceed " + currentDistance+ " meter(s) forward to " + pathToParse.get(i + 1).getLongName());
                     }
                     //Backwards turns
-                    else if(lastQuadrant.getKey().equals(2) || lastQuadrant.getKey().equals(6) || lastQuadrant.getKey().equals(7)){
-                        if(lastQuadrant.getKey().equals(7) || (Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) < 0 && lastQuadrant.getKey().equals(2)))
+                    else if(currentQuadrant.getKey().equals(2) || currentQuadrant.getKey().equals(6) || currentQuadrant.getKey().equals(7)){
+                        if(currentQuadrant.getKey().equals(7) || (Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) < 0 && currentQuadrant.getKey().equals(2)))
                             directions.add("Proceed " + currentDistance+ " meter(s) backwards and to the left to " + pathToParse.get(i + 1).getLongName());
-                        else if(lastQuadrant.getKey().equals(6) || (Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) > 0 && lastQuadrant.getKey().equals(2)))
+                        else if(currentQuadrant.getKey().equals(6) || (Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) > 0 && currentQuadrant.getKey().equals(2)))
                             directions.add("Proceed " + currentDistance+ " meter(s) backwards and to the right to " + pathToParse.get(i + 1).getLongName());
                         else directions.add("Proceed " + currentDistance+ " meter(s) backwards to " + pathToParse.get(i + 1).getLongName());
                     }
@@ -184,7 +184,7 @@ public class TextDirManager {
                 }
                 case 5:{
                     //Slight turns
-                    if(Math.abs(currentQuadrant.getValue()) < 0.2){
+                    if(Math.abs(currentQuadrant.getValue()) < 0.2 && Math.abs(currentQuadrant.getValue()) != 0){
                         if(currentQuadrant.getKey() == 4)
                             directions.add("Proceed " + currentDistance+ " meter(s) slightly leftwards to " + pathToParse.get(i + 1).getLongName());
                         else if(currentQuadrant.getKey() == 1)
@@ -193,10 +193,10 @@ public class TextDirManager {
                             directions.add("Proceed " + currentDistance+ " meter(s) forward to " + pathToParse.get(i + 1).getLongName());
                     }
                     //Backwards
-                    else if(lastQuadrant.getKey().equals(2) || lastQuadrant.getKey().equals(3) || lastQuadrant.getKey().equals(7)){
-                        if(lastQuadrant.getKey().equals(3))
+                    else if(currentQuadrant.getKey().equals(2) || currentQuadrant.getKey().equals(3) || currentQuadrant.getKey().equals(7)){
+                        if(currentQuadrant.getKey().equals(3))
                             directions.add("Proceed " + currentDistance+ " meter(s) backwards and to the left to " + pathToParse.get(i + 1).getLongName());
-                        else if(lastQuadrant.getKey().equals(2))
+                        else if(currentQuadrant.getKey().equals(2))
                             directions.add("Proceed " + currentDistance+ " meter(s) backwards and to the right to " + pathToParse.get(i + 1).getLongName());
                         else directions.add("Proceed " + currentDistance+ " meter(s) backwards to " + pathToParse.get(i + 1).getLongName());
                     }
@@ -222,10 +222,10 @@ public class TextDirManager {
                             directions.add("Proceed " + currentDistance+ " meter(s) forward to " + pathToParse.get(i + 1).getLongName());
                     }
                     //Backwards
-                    else if(lastQuadrant.getKey().equals(4) || lastQuadrant.getKey().equals(3) || lastQuadrant.getKey().equals(8)){
-                        if(lastQuadrant.getKey().equals(4))
+                    else if(currentQuadrant.getKey().equals(4) || currentQuadrant.getKey().equals(3) || currentQuadrant.getKey().equals(8)){
+                        if(currentQuadrant.getKey().equals(4))
                             directions.add("Proceed " + currentDistance+ " meter(s) backwards and to the left to " + pathToParse.get(i + 1).getLongName());
-                        else if(lastQuadrant.getKey().equals(3))
+                        else if(currentQuadrant.getKey().equals(3))
                             directions.add("Proceed " + currentDistance+ " meter(s) backwards and to the right to " + pathToParse.get(i + 1).getLongName());
                         else directions.add("Proceed " + currentDistance+ " meter(s) backwards to " + pathToParse.get(i + 1).getLongName());
                     }
@@ -242,7 +242,7 @@ public class TextDirManager {
                 }
                 case 7:{
                     //Slight turns
-                    if(Math.abs(currentQuadrant.getValue()) < 0.2){
+                    if(Math.abs(currentQuadrant.getValue()) < 0.2 && Math.abs(currentQuadrant.getValue()) != 0){
                         if(currentQuadrant.getKey() == 2)
                             directions.add("Proceed " + currentDistance+ " meter(s) slightly leftwards to " + pathToParse.get(i + 1).getLongName());
                         else if(currentQuadrant.getKey() == 3)
@@ -251,10 +251,10 @@ public class TextDirManager {
                             directions.add("Proceed " + currentDistance+ " meter(s) forward to " + pathToParse.get(i + 1).getLongName());
                     }
                     //Backwards
-                    else if(lastQuadrant.getKey().equals(4) || lastQuadrant.getKey().equals(1) || lastQuadrant.getKey().equals(5)){
-                        if(lastQuadrant.getKey().equals(1))
+                    else if(currentQuadrant.getKey().equals(4) || currentQuadrant.getKey().equals(1) || currentQuadrant.getKey().equals(5)){
+                        if(currentQuadrant.getKey().equals(1))
                             directions.add("Proceed " + currentDistance+ " meter(s) backwards and to the left to " + pathToParse.get(i + 1).getLongName());
-                        else if(lastQuadrant.getKey().equals(4))
+                        else if(currentQuadrant.getKey().equals(4))
                             directions.add("Proceed " + currentDistance+ " meter(s) backwards and to the right to " + pathToParse.get(i + 1).getLongName());
                         else directions.add("Proceed " + currentDistance+ " meter(s) backwards to " + pathToParse.get(i + 1).getLongName());
                     }
@@ -280,10 +280,10 @@ public class TextDirManager {
                             directions.add("Proceed " + currentDistance+ " meter(s) forward to " + pathToParse.get(i + 1).getLongName());
                     }
                     //Backwards
-                    else if(lastQuadrant.getKey().equals(2) || lastQuadrant.getKey().equals(1) || lastQuadrant.getKey().equals(6)){
-                        if(lastQuadrant.getKey().equals(2))
+                    else if(currentQuadrant.getKey().equals(2) || currentQuadrant.getKey().equals(1) || currentQuadrant.getKey().equals(6)){
+                        if(currentQuadrant.getKey().equals(2))
                             directions.add("Proceed " + currentDistance+ " meter(s) backwards and to the left to " + pathToParse.get(i + 1).getLongName());
-                        else if(lastQuadrant.getKey().equals(1))
+                        else if(currentQuadrant.getKey().equals(1))
                             directions.add("Proceed " + currentDistance+ " meter(s) backwards and to the right to " + pathToParse.get(i + 1).getLongName());
                         else directions.add("Proceed " + currentDistance+ " meter(s) backwards to " + pathToParse.get(i + 1).getLongName());
                     }
