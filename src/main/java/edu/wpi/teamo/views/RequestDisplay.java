@@ -298,7 +298,7 @@ public class RequestDisplay {
                                 }
                         }
                         mContainer.getChildren().add(new Text(App.resourceBundle.getString("key.details_semicolon") + m.getDetails()));
-                        mContainer.getChildren().add(new Text(App.resourceBundle.getString("key.id_semicolon") + m.getID()));
+                        mContainer.getChildren().add(new Text(App.resourceBundle.getString("key.ID_semicolon") + m.getID()));
                     } else {
                         expand.setText("+");
                     }

@@ -27,13 +27,14 @@ public class LoginPage extends SubPageController{
         String usernameString = username.getText();
         String passwordString = password.getText();
 
+
         try{
             Session.login(usernameString,passwordString);
             if(Session.getAccount().hasEmployeeAccess()){
                 App.switchPage(Pages.MAIN);
             }
             else{
-                App.switchPage(Pages.SURVEY);
+                SubPageContainer.switchPage(Pages.SURVEY);
             }
 
 

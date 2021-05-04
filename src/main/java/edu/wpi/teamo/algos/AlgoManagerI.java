@@ -1,5 +1,7 @@
 package edu.wpi.teamo.algos;
 
+import edu.wpi.teamo.App;
+import edu.wpi.teamo.Session;
 import edu.wpi.teamo.database.map.Edge;
 import edu.wpi.teamo.database.map.EdgeInfo;
 import edu.wpi.teamo.database.map.IMapService;
@@ -43,6 +45,16 @@ public abstract class AlgoManagerI implements IStrategyPathfinding {
     protected void conditionSetup() throws SQLException {
         List<NodeInfo> rawNodes = DBService.getAllNodes().collect(Collectors.toList());
         List<EdgeInfo> rawEdges = DBService.getAllEdges().collect(Collectors.toList());
+
+        boolean mightBeSick = true;
+        if (Session.isLoggedIn()) {
+            mightBeSick = Session.getAccount().getUseEmergencyEntrance();
+        }
+
+        String entranceToFilterOut = mightBeSick ? App.normalEntrance : App.emergencyEntrance;
+        rawNodes = rawNodes.stream()
+                           .filter(node -> !node.getNodeID().equals(entranceToFilterOut))
+                           .collect(Collectors.toList());
 
         //Convert Database types to Algorithm-friendly types
         LinkedList<AlgoNode> allNodes = new LinkedList<>();
