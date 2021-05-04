@@ -81,11 +81,16 @@ public class App extends Application {
       new Account("patient", "patient", false, "Nestor", "Lopez", "patient").update();
       new Account("staff", "staff", false, "Reily", "Siegel", "employee").update();
       new Account("guest", "guest", false, "guest", "guest", "guest").update();
+      Session.login("guest", "guest");
       System.out.println("Database Services Initialized");
     } catch (SQLException e) {
       System.out.println("ERROR: FAILED TO INIT DATABASE SERVICES");
       e.printStackTrace();
+    } catch (Exception exception){
+      System.out.println("ERROR: GUEST LOGIN FAILED");
+      exception.printStackTrace();
     }
+
 
     /* instantiate the aStar service, set to a static variable that can be accessed from the handlers */
     if (mapService != null) {

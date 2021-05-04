@@ -214,7 +214,7 @@ public class MainPage implements Initializable {
     }
 
     private void updateAccountWindow() {
-        if(Session.isLoggedIn()) {
+        if(Session.isLoggedIn() && !Session.getAccount().getRole().equals("guest")) {
             loginButton.setText(App.resourceBundle.getString("key.logout"));
             usernameLabel.setText(Session.getAccount().getUsername());
             loginButton.setOnAction(this::handleLogout);
@@ -258,6 +258,12 @@ public class MainPage implements Initializable {
 
     private void handleLogout(ActionEvent e){
         Session.logout();
+        try{
+            Session.login("guest", "guest");
+        }
+        catch (Exception exception){
+            exception.printStackTrace();
+        }
         setAdminButtonVisibility(false);
         updateAccountWindow();
         hidePages();
