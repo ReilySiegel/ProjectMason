@@ -141,14 +141,14 @@ public class CovidSurveyPage extends ServiceRequestPage implements Initializable
                 Session.getAccount().setUseEmergencyEntrance(true);
                 new COVIDSurveyRequest(Session.getAccount().getUsername(), true).update();
             }
-            content.setBody(new Text(App.resourceBundle.getString("key.survey_back_entrance")));
+            content.setBody(new Text(App.resourceBundle.getString("key.survey_await_response")));
         }
         else{
             if(Session.isLoggedIn()){
                 Session.getAccount().setUseEmergencyEntrance(false);
                 new COVIDSurveyRequest(Session.getAccount().getUsername(), false).update();
             }
-            content.setBody(new Text(App.resourceBundle.getString("key.survey_front_entrance")));
+            content.setBody(new Text(App.resourceBundle.getString("key.survey_await_response")));
         }
 
         JFXDialog errorWindow = new JFXDialog(parentStackPane, content, JFXDialog.DialogTransition.TOP);
