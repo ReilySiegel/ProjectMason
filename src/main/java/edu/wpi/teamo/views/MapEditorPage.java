@@ -919,11 +919,11 @@ public class MapEditorPage extends SubPageController implements Initializable{
         content.setHeading(new Text(App.resourceBundle.getString("key.help_map_editor")));
         content.setBody(new Text(App.resourceBundle.getString("key.help_map_editor_text")));
 
-
         JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 
         JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
-        closeButton.setStyle("-fx-background-color: #F40F19; -fx-text-fill: #ffffff");
+        closeButton.setStyle("-jfx-button-type: RAISED");
+
         closeButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {

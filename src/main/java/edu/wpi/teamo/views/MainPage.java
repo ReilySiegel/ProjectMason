@@ -7,6 +7,8 @@ import com.jfoenix.controls.JFXButton;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.Pages;
 import edu.wpi.teamo.Session;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -98,6 +100,15 @@ public class MainPage implements Initializable {
         pathfinderButton.setOnAction(this::handlePathfinderButton);
         mapEditorButton.setOnAction(this::handleMapEditorButton);
         aboutButton.setOnAction(this::handleAboutButton);
+
+        final BooleanProperty initialFocus = new SimpleBooleanProperty(true);
+
+        pathfinderButton.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue && initialFocus.get()) {
+                containerVBox.requestFocus();
+                initialFocus.setValue(false);
+            }
+        });
 
         //commented out because right now these guys need the primary scene which is not yet set if this is the first page being loaded
 //        try {

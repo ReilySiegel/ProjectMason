@@ -244,8 +244,8 @@ public class PathfindingPage extends SubPageController implements Initializable 
 
 
         JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
-        closeButton.setStyle("-fx-background-color: #F40F19");
         closeButton.setOnAction(event -> errorWindow.close());
+        closeButton.setStyle("-jfx-button-type: RAISED");
 
         content.setActions(closeButton);
         errorWindow.show();
