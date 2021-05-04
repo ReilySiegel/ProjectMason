@@ -38,7 +38,7 @@
 .text-field {
     /*-fx-background-color: #88C0D0;*/
     -fx-border-color: #777777;
-    -fx-border-width: 1;
+    -fx-border-width: 0.5;
 }
 
 .requestDisplayPane {

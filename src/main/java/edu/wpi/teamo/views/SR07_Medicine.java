@@ -210,9 +210,6 @@ public class SR07_Medicine extends ServiceRequestPage implements Initializable {
             JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
             JFXButton backButton = new JFXButton(App.resourceBundle.getString("key.back_to_main"));
 
-            closeButton.setStyle("-fx-background-color: #F40F19; -fx-text-fill: #fff");
-            backButton.setStyle("-fx-background-color: #333333; -fx-text-fill: #fff");
-
             closeButton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {

@@ -220,7 +220,6 @@ public class SR12_MaintenancePage extends ServiceRequestPage implements Initiali
         content.setBody(new Text(resources.getString("key.maintenance_help")));
         JFXDialog helpWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
         JFXButton closeButton = new JFXButton(resources.getString("key.close"));
-        closeButton.setStyle("-fx-background-color: #f40f19");
         closeButton.setOnAction(event -> helpWindow.close());
         content.setActions(closeButton);
         helpWindow.show();
