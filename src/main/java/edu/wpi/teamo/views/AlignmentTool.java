@@ -69,8 +69,8 @@ public class AlignmentTool {
 
     public void confirmAlignment() throws SQLException {
         for (Alignee alignee : alignees) {
-            int mapX = (int) Map.transform((int) alignee.circle.getCenterX(), map.getWidth(), Map.imageWidth);
-            int mapY = (int) Map.transform((int) alignee.circle.getCenterY(), map.getHeight(), Map.imageHeight);
+            int mapX = (int) Map.transform((int) alignee.circle.getCenterX(), map.getWidth(), Map.mapWidth);
+            int mapY = (int) Map.transform((int) alignee.circle.getCenterY(), map.getHeight(), Map.mapHeight);
             mapService.setNodePosition(alignee.node.getNodeID(), mapX, mapY);
         }
     }

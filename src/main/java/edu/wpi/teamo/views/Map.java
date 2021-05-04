@@ -14,16 +14,16 @@ import javafx.scene.image.ImageView;
 import edu.wpi.teamo.algos.AlgoNode;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
+
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.shape.Circle;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
-import java.io.FileInputStream;
 import java.util.LinkedList;
-
-import javafx.scene.shape.Rectangle;
-import javafx.scene.transform.Transform;
 import javafx.util.Pair;
 import java.util.List;
 
@@ -33,8 +33,12 @@ public class Map  {
     private Consumer<Pair<Line, EdgeInfo>> onDrawEdge = null;
 
     static private boolean imagesLoaded = false;
-    static public final int imageHeight = 3400;
-    static public final int imageWidth = 5000;
+
+    static public final int mapHeight = 3400;
+    static public final int mapWidth = 5000;
+    static public final double mapAspectRatio = (double) mapWidth / mapHeight;
+    static public final double paneHeight = 720;
+    static public final double paneWidth = paneHeight * mapAspectRatio;
 
     static Image groundFloorImage = null;
     static Image secondFloorImage = null;
@@ -44,7 +48,6 @@ public class Map  {
     static Image L2FloorImage = null;
 
     private final AnchorPane nodePane;
-    private final ImageView imageView;
 
     /* variables used to calculate the zoom and pan transforms */
     private Double initialTranslateX = null;
@@ -59,42 +62,38 @@ public class Map  {
     public double defaultStrokeWidth = 5;
     public double defaultRadius = 5;
 
-    public Map(ImageView imageView, AnchorPane nodePane) {
-        this.imageView = imageView;
+    public Map(AnchorPane nodePane) {
         this.nodePane = nodePane;
-//        translateMap(nodePane.getHeight()/2,nodePane.getWidth()/2); //this does not work. 
-        scaleMap(-100);
+        setNodePaneSize(paneWidth, paneHeight);
+        scaleMap(300);
         nodePane.setOnMouseDragged((MouseEvent e) -> translateMap(e.getScreenX(), e.getScreenY()));
         nodePane.setOnMouseReleased((MouseEvent e) -> resetInitialDragData());
         nodePane.setOnScroll((ScrollEvent e) -> scaleMap(e.getDeltaY()));
-
-        updateSize();
     }
 
     public double getHeight() {
-        return imageView.getFitHeight();
+        return paneHeight;
     }
 
     public double getWidth() {
-        return imageView.getFitWidth();
+        return paneWidth;
     }
 
-    public void updateSize() {
-        nodePane.setMinHeight(getHeight());
-        nodePane.setMaxHeight(getHeight());
-        nodePane.setMinWidth(getWidth());
-        nodePane.setMaxWidth(getWidth());
+    private void setNodePaneSize(double x, double y) {
+        nodePane.setMinHeight(y);
+        nodePane.setMaxHeight(y);
+        nodePane.setMinWidth(x);
+        nodePane.setMaxWidth(x);
     }
 
     public void drawPath(LinkedList<AlgoNode> path, String floor) {
-        updateSize();
         for(int i = 0;  i < (path.size() - 1); i++) {
             Color lineColor = path.get(i).getFloor().equals(floor) ? Color.RED : Color.GRAY;
 
-            double firstX = transform(path.get(i).getX(), imageWidth, getWidth());
-            double firstY = transform(path.get(i).getY(), imageHeight, getHeight());
-            double secondX = transform(path.get(i + 1).getX(), imageWidth, getWidth());
-            double secondY = transform(path.get(i + 1).getY(), imageHeight, getHeight());
+            double firstX  = mapToPaneX(path.get(i).getX());
+            double firstY  = mapToPaneY(path.get(i).getY());
+            double secondX = mapToPaneX(path.get(i + 1).getX());
+            double secondY = mapToPaneY(path.get(i + 1).getY());
 
             Line line = createLine(firstX, firstY, secondX, secondY, null, lineColor);
             nodePane.getChildren().add(line);
@@ -104,7 +103,6 @@ public class Map  {
     }
 
     public void drawNodes(List<NodeInfo> allNodes, String floor) {
-        updateSize();
         List<NodeInfo> floorNodes = filterFloor(allNodes, floor);
 
         switchFloorImage(floor);
@@ -116,7 +114,6 @@ public class Map  {
 
 
     public void drawEdges(List<NodeInfo> allNodes, List<EdgeInfo> edges, String floor) {
-        updateSize();
         List<NodeInfo> floorNodes = filterFloor(allNodes, floor);
 
         switchFloorImage(floor);
@@ -137,10 +134,10 @@ public class Map  {
             NodeInfo endNode = findNode(edge.getEndNodeID(), nodes);
 
             if (startNode != null && endNode != null) {
-                double tfStartX = transform(startNode.getXPos(), imageWidth, getWidth());
-                double tfStartY = transform(startNode.getYPos(), imageHeight, getHeight());
-                double tfEndX = transform(endNode.getXPos(), imageWidth, getWidth());
-                double tfEndY = transform(endNode.getYPos(), imageHeight, getHeight());
+                double tfStartX = mapToPaneX(startNode.getXPos());
+                double tfStartY = mapToPaneY(startNode.getYPos());
+                double tfEndX = mapToPaneX(endNode.getXPos());
+                double tfEndY = mapToPaneY(endNode.getYPos());
                 Line line = createLine(tfStartX, tfStartY, tfEndX, tfEndY, edge, defaultLineColor);
                 if (line != null) {
                     nodePane.getChildren().add(line);
@@ -169,8 +166,8 @@ public class Map  {
 
     private void addCircles(List<NodeInfo> nodes) {
         for (NodeInfo node : nodes) {
-            double transformedX = transform(node.getXPos(), imageWidth,  getWidth());
-            double transformedY = transform(node.getYPos(), imageHeight, getHeight());
+            double transformedX = mapToPaneX(node.getXPos());
+            double transformedY = mapToPaneY(node.getYPos());
             Circle circle = createCircle(transformedX, transformedY, node);
             if (circle != null) {
                 nodePane.getChildren().add(circle);
@@ -222,7 +219,23 @@ public class Map  {
         return foundNode;
     }
 
-    public static double transform(int val, double from, double to) {
+    public double mapToPaneX(int val) {
+        return transform(val, mapWidth, getWidth());
+    }
+
+    public double mapToPaneY(int val) {
+        return transform(val, mapHeight, getHeight());
+    }
+
+    public int paneToMapX(double val) {
+        return (int) transform(val, getWidth(), mapWidth);
+    }
+
+    public int paneToMapY(double val) {
+        return (int) transform(val, getHeight(), mapHeight);
+    }
+
+    public static double transform(double val, double from, double to) {
         return val * (to / from);
     }
 
@@ -251,8 +264,6 @@ public class Map  {
 
             nodePane.setTranslateX (initialTranslateX + screenDisplacementX);
             nodePane.setTranslateY (initialTranslateY + screenDisplacementY);
-            imageView.setTranslateX(initialTranslateX    + screenDisplacementX);
-            imageView.setTranslateY(initialTranslateY    + screenDisplacementY);
         }
     }
 
@@ -262,8 +273,6 @@ public class Map  {
         scale += dS;
 
         /* scale the views from the center */
-        imageView.setScaleX(scale);
-        imageView.setScaleY(scale);
         nodePane.setScaleX(scale);
         nodePane.setScaleY(scale);
 
@@ -279,8 +288,6 @@ public class Map  {
         /* must translate based on how much the current point moved from the scale */
         nodePane.setTranslateX ( nodePane.getTranslateX() + (nodePane.getTranslateX() /scale) * dS);
         nodePane.setTranslateY ( nodePane.getTranslateY() + (nodePane.getTranslateY() /scale) * dS);
-        imageView.setTranslateX(imageView.getTranslateX() + (imageView.getTranslateX()/scale) * dS);
-        imageView.setTranslateY(imageView.getTranslateY() + (imageView.getTranslateY()/scale) * dS);
     }
 
     public void setOnMouseMoved(Consumer<Pair<Double, Double>> onMouseMoved) {
@@ -308,26 +315,45 @@ public class Map  {
 
     public void switchFloorImage(String floor){
         if (imagesLoaded) {
+            Image imageToSet = null;
             switch (floor) {
                 case "L1":
-                    imageView.setImage(L1FloorImage);
+                    imageToSet = L1FloorImage;
                     break;
                 case "L2":
-                    imageView.setImage(L2FloorImage);
+                    imageToSet = L2FloorImage;
                     break;
                 case "G":
-                    imageView.setImage(groundFloorImage);
+                    imageToSet = groundFloorImage;
                     break;
                 case "1":
-                    imageView.setImage(firstFloorImage);
+                    imageToSet = firstFloorImage;
                     break;
                 case "2":
-                    imageView.setImage(secondFloorImage);
+                    imageToSet = secondFloorImage;
                     break;
                 case "3":
-                    imageView.setImage(thirdFloorImage);
+                    imageToSet = thirdFloorImage;
                     break;
             }
+
+            if (imageToSet != null) {
+
+//                ImageView imageView = new ImageView(imageToSet);
+//                imageView.setPreserveRatio(false);
+//                imageView.setFitWidth(nodePane.getWidth());
+//                imageView.setFitHeight(nodePane.getHeight());
+//                imageToSet = imageView.snapshot(null, null);
+
+                BackgroundSize brs = new BackgroundSize(100, 100, true, true, true, false);
+                BackgroundImage bri = new BackgroundImage(imageToSet, null, null, null, brs);
+                nodePane.setBackground(new Background(bri));
+            }
+            else {
+                throw new Error("imageToSet not set!");
+            }
+
+
         }
         else {
             System.out.println("ERROR: IMAGES NOT LOADED, CANNOT SWITCH FLOOR IMAGE");

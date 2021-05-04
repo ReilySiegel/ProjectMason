@@ -29,7 +29,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -134,9 +133,6 @@ public class MapEditorPage extends SubPageController implements Initializable{
     String selectedFloor = "1";
 
     @FXML
-    private ImageView mapImage;
-
-    @FXML
     private AnchorPane nodePane;
 
     @FXML
@@ -191,10 +187,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         floorSwitcher.getItems().add("2");
         floorSwitcher.getItems().add("3");
 
-        mapImage.setFitHeight(App.getPrimaryStage().getHeight());
-        mapImage.setFitWidth(App.getPrimaryStage().getWidth());
-
-        map = new Map(mapImage, nodePane);
+        map = new Map(nodePane);
         map.setOnMapClicked(this::onMapClicked);
         map.setOnDrawNode(this::onDrawNode);
         map.setOnDrawEdge(this::onDrawEdge);
@@ -317,8 +310,8 @@ public class MapEditorPage extends SubPageController implements Initializable{
         double paneX = e.getX();
         double paneY = e.getY();
 
-        int mapX = (int) Map.transform((int) e.getX(), map.getWidth(), Map.imageWidth);
-        int mapY = (int) Map.transform((int) e.getY(), map.getWidth(), Map.imageWidth);
+        int mapX = map.paneToMapX(e.getX());
+        int mapY = map.paneToMapY(e.getY());
 
         switch (e.getButton()) {
             case PRIMARY: {
@@ -572,8 +565,8 @@ public class MapEditorPage extends SubPageController implements Initializable{
     }
 
     void onDraggedNodeDrop(NodeInfo node, MouseEvent e) {
-        int mapX = (int) Map.transform((int) e.getX(), map.getWidth(), Map.imageWidth);
-        int mapY = (int) Map.transform((int) e.getY(), map.getHeight(), Map.imageHeight);
+        int mapX = map.paneToMapX(e.getX());
+        int mapY = map.paneToMapY(e.getY());
         try {
             App.mapService.setNodePosition(node.getNodeID(), mapX, mapY);
         } catch (SQLException throwables) {

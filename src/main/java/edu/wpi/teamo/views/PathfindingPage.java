@@ -8,7 +8,6 @@ import edu.wpi.teamo.database.map.NodeInfo;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
@@ -48,9 +47,6 @@ public class PathfindingPage extends SubPageController implements Initializable 
 
     @FXML
     JFXButton findPathButton;
-
-    @FXML
-    private ImageView imageView;
 
     @FXML
     private AnchorPane pathPane;
@@ -121,9 +117,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
             }
         });
 
-        imageView.setFitHeight(App.getPrimaryStage().getHeight());
-        imageView.setFitWidth(App.getPrimaryStage().getWidth());
-        map = new Map(imageView, pathPane);
+        map = new Map(pathPane);
         map.setOnDrawNode(this::onDrawNode);
         update();
     }
