@@ -143,7 +143,7 @@ public class PatientTransportation extends ServiceRequestPage implements Initial
 
         closeButton.setOnAction(event -> popup.close());
 
-        backButton.setOnAction(event -> App.switchPage(Pages.SERVICEREQUEST));
+        backButton.setOnAction(event -> SubPageContainer.switchPage(Pages.SERVICEREQUEST));
 
         content.setActions(closeButton, backButton);
         popup.show();

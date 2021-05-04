@@ -205,7 +205,7 @@ public class SR02_LanguageInterpreter extends ServiceRequestPage implements Init
             backButton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    App.switchPage(Pages.SERVICEREQUEST);
+                    SubPageContainer.switchPage(Pages.SERVICEREQUEST);
                 }
             });
 

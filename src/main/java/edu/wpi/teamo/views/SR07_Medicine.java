@@ -223,7 +223,7 @@ public class SR07_Medicine extends ServiceRequestPage implements Initializable {
             backButton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    App.switchPage(Pages.SERVICEREQUEST);
+                    SubPageContainer.switchPage(Pages.SERVICEREQUEST);
                 }
             });
 

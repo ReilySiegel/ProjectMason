@@ -48,7 +48,7 @@ public class TextDirManagerTests {
 
         AStarManager asm = new AStarManager(mdb);
         LinkedList<AlgoNode> pathP10_P5 = asm.getPath("oPARK01001","oPARK00501");
-        List<String> textualPath = TextDirManager.getTextualDirections(pathP10_P5);
+        List<String> textualPath = TextDirManager.getTextualDirections(pathP10_P5, true);
         /*
         assertEquals("Proceed 19.37 meter(s) towards Floor1RightParking8",textualPath.get(0));
         assertEquals("Proceed 2.81 meter(s) rightwards to Floor1RightParking7",textualPath.get(1));
@@ -84,7 +84,7 @@ public class TextDirManagerTests {
 
         AStarManager asm = new AStarManager(mdb);
         LinkedList<AlgoNode> pathP1_P6 = asm.getPath("oPARK00101","oPARK00601");
-        List<String> textualPath = TextDirManager.getTextualDirections(pathP1_P6);
+        List<String> textualPath = TextDirManager.getTextualDirections(pathP1_P6, true);
         /*
         assertEquals("Proceed 3.06 meter(s) towards Floor1RightParking2",textualPath.get(0));
         assertEquals("Proceed 0.89 meter(s) leftwards to Floor1RightParking3",textualPath.get(1));
@@ -108,7 +108,7 @@ public class TextDirManagerTests {
         mdb.addEdge("oPARK00101_oPARK00101","oPARK00101","oPARK00101");
         AStarManager asm = new AStarManager(mdb);
         LinkedList<AlgoNode> pathP1_P1 = asm.getPath("oPARK00101","oPARK00101");
-        List<String> textualPath = TextDirManager.getTextualDirections(pathP1_P1);
+        List<String> textualPath = TextDirManager.getTextualDirections(pathP1_P1,true);
         //assertEquals("You have arrived at your destination.",textualPath.get(0));
     }
 
@@ -135,7 +135,7 @@ public class TextDirManagerTests {
 
         AStarManager asm = new AStarManager(mdb);
         LinkedList<AlgoNode> pathP1_P6 = asm.getPath("oPARK00101","oPARK00601");
-        List<String> textualPath = TextDirManager.getTextualDirections(pathP1_P6);
+        List<String> textualPath = TextDirManager.getTextualDirections(pathP1_P6,true);
         /*
         assertEquals("Proceed 1.8 meter(s) towards Floor1RightParking2",textualPath.get(0));
         assertEquals("Proceed 0.9 meter(s) backwards to Floor1RightParking3",textualPath.get(1));
@@ -169,7 +169,7 @@ public class TextDirManagerTests {
         mdb.addEdge("oPARK00501_oPARK00601","oPARK00501","oPARK00601");
         AStarManager asm = new AStarManager(mdb);
         LinkedList<AlgoNode> pathP1_P6 = asm.getPath("oPARK00101","oPARK00601");
-        List<String> textualPath = TextDirManager.getTextualDirections(pathP1_P6);
+        List<String> textualPath = TextDirManager.getTextualDirections(pathP1_P6, true);
         /*
         assertEquals("Proceed 1.28 meter(s) towards Floor1RightParking2",textualPath.get(0));
         assertEquals("Proceed 1.28 meter(s) leftwards to Floor1RightParking3",textualPath.get(1));
@@ -299,7 +299,7 @@ public class TextDirManagerTests {
 
         AStarManager asm = new AStarManager(mdb);
         LinkedList<AlgoNode> pathP1_P4 = asm.getPath("oPARK00101","oPARK00401");
-        List<String> textualDirections = TextDirManager.getTextualDirections(pathP1_P4);
+        List<String> textualDirections = TextDirManager.getTextualDirections(pathP1_P4, true);
         /*
         assertEquals("Proceed 1.27 meter(s) towards Floor1RightParking2",textualDirections.get(0));
         assertEquals("Proceed to floor F2 and head to Floor1RightParking3",textualDirections.get(1));
@@ -313,7 +313,7 @@ public class TextDirManagerTests {
      */
     @Test
     public void nullTest() {
-        List<String> textualDirections = TextDirManager.getTextualDirections(null);
+        List<String> textualDirections = TextDirManager.getTextualDirections(null, true);
         assertEquals(textualDirections.get(0), "No path exists/provided.");
     }
     /**
@@ -321,7 +321,7 @@ public class TextDirManagerTests {
      */
     @Test
     public void emptyTest() {
-        List<String> textualDirections = TextDirManager.getTextualDirections(new LinkedList<>());
+        List<String> textualDirections = TextDirManager.getTextualDirections(new LinkedList<>(), true);
         assertEquals(textualDirections.get(0), "No path exists.");
     }
 }

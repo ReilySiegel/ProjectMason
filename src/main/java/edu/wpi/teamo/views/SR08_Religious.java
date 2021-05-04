@@ -129,7 +129,7 @@ public class SR08_Religious extends ServiceRequestPage implements Initializable 
             new ReligiousRequest(service.getText(),
                                  religiousFigure.getText(),
                                  lastRites.isSelected(),
-                                 baseRequest);
+                                 baseRequest).update();
 
             System.out.println("Religious request submitted");
 
@@ -159,7 +159,7 @@ public class SR08_Religious extends ServiceRequestPage implements Initializable 
 
         closeButton.setOnAction(event -> popup.close());
 
-        backButton.setOnAction(event -> App.switchPage(Pages.SERVICEREQUEST));
+        backButton.setOnAction(event -> SubPageContainer.switchPage(Pages.SERVICEREQUEST));
 
         content.setActions(closeButton, backButton);
         popup.show();

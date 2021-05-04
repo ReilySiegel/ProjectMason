@@ -139,11 +139,22 @@
                   </HBox>
                   <VBox fx:id="textualWindow" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="237.0" prefWidth="334.0" styleClass="pane" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Textual Directions:" textAlignment="CENTER">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.textual_directions" textAlignment="CENTER" translateY="22.5" wrappingWidth="137.45263671875">
                            <font>
                               <Font size="17.0" />
                            </font>
+                           <VBox.margin>
+                              <Insets right="140.0" />
+                           </VBox.margin>
                         </Text>
+                        <JFXButton fx:id="textualUnitsBtn" alignment="CENTER" buttonType="RAISED" onMouseClicked="#textualUnitsOnClick" prefHeight="26.0" prefWidth="152.0" text="%key.units_metric">
+                           <font>
+                              <Font name="Century" size="15.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="170.0" />
+                           </VBox.margin>
+                        </JFXButton>
                         <JFXListView fx:id="textualDirView" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="200.0" prefWidth="302.0" stylesheets="@CSS/LocationSearch.css" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

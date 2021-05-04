@@ -198,7 +198,7 @@ public class LaundryRequestPage extends ServiceRequestPage implements Initializa
             backButton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    App.switchPage(Pages.SERVICEREQUEST);
+                    SubPageContainer.switchPage(Pages.SERVICEREQUEST);
                 }
             });
 

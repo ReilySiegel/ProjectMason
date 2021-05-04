@@ -47,7 +47,7 @@
                         <AnchorPane fx:id="containerPane" pickOnBounds="false" VBox.vgrow="ALWAYS" />
                      </children>
                   </VBox>
-                  <VBox alignment="CENTER" pickOnBounds="false" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <VBox alignment="CENTER" maxWidth="-Infinity" pickOnBounds="false" prefHeight="200.0" prefWidth="154.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
                         <VBox fx:id="mainMenuButtonBox" alignment="CENTER" spacing="15.0" styleClass="pane" stylesheets="@CSS/MainPage.css">
                            <children>

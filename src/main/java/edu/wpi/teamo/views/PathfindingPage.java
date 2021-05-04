@@ -80,7 +80,12 @@ public class PathfindingPage extends SubPageController implements Initializable 
     @FXML
     private VBox textualWindow;
 
+    @FXML
+    private JFXButton textualUnitsBtn;
+
     private LocationSearcher locationSearcher;
+
+    private boolean metric = true;
 
     LinkedList<AlgoNode> calculatedPath = null;
 
@@ -320,13 +325,23 @@ public class PathfindingPage extends SubPageController implements Initializable 
         content.setBody(new Text(App.resourceBundle.getString("key.pathfinding_help")));
         JFXDialog errorWindow = new JFXDialog(parentStackPane, content, JFXDialog.DialogTransition.TOP);
 
-
         JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
         closeButton.setOnAction(event -> errorWindow.close());
         closeButton.setStyle("-jfx-button-type: RAISED");
 
         content.setActions(closeButton);
         errorWindow.show();
+    }
+
+    @FXML
+    private void textualUnitsOnClick(MouseEvent e) {
+        metric = !metric;
+        if(metric) textualUnitsBtn.setText(App.resourceBundle.getString("key.units_metric"));
+        else textualUnitsBtn.setText(App.resourceBundle.getString("key.units_us"));
+        if(textualDirView.getItems().size() > 0 && calculatedPath != null) {
+            textualDirView.getItems().remove(0, textualDirView.getItems().size() - 1);
+            textualDirView.getItems().setAll(TextDirManager.getTextualDirections(calculatedPath, metric));
+        }
     }
 
     void findPath(String startID, String endID) {
@@ -343,7 +358,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
         }
 
         textualWindow.setVisible(true);
-        textualDirView.getItems().setAll(TextDirManager.getTextualDirections(path));
+        textualDirView.getItems().setAll(TextDirManager.getTextualDirections(path, metric));
 
         List<String> floors = new LinkedList<>();
         for (AlgoNode node : path) {

@@ -73,6 +73,11 @@
                                     <JFXTextField fx:id="appetizerBox" focusColor="BLACK" layoutY="1.0" promptText="%key.appetizer" unFocusColor="BLACK" />
                                  </children>
                               </AnchorPane>
+                              <Text fx:id="foodErrorText" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="199.0">
+                                 <HBox.margin>
+                                    <Insets left="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </Text>
                            </children>
                         </HBox>
                         <HBox>
@@ -141,6 +146,11 @@
                                               <Insets />
                                           </HBox.margin>
                                       </AnchorPane>
+                              <Text fx:id="timeErrorText" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0">
+                                 <HBox.margin>
+                                    <Insets left="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </Text>
                                   </children>
                                   <VBox.margin>
                                       <Insets bottom="10.0" />
@@ -164,6 +174,11 @@
                                     <JFXDatePicker fx:id="deliveryDate" defaultColor="BLACK" layoutY="1.0" promptText="%key.delivery_date" />
                                  </children>
                                       </AnchorPane>
+                              <Text fx:id="dateErrorText" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0">
+                                 <HBox.margin>
+                                    <Insets left="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </Text>
                                   </children>
                               </HBox>
                               <HBox>
