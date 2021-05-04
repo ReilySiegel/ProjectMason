@@ -77,17 +77,15 @@ public class RequestDisplay {
         Stream<ReligiousRequest> religRequests = ReligiousRequest.getAll();
         //Stream<COVIDSurveyRequest> covidRequests = COVIDSurveyRequest.getAll();
 
-        if (selectedTypes.get("Medicine")) medRequests.forEach(r -> makeSRBox(r, "Medicine Request"));
-        if (selectedTypes.get("Sanitation")) sanRequests.forEach(r -> makeSRBox(r, "Sanitation Request"));
-        if (selectedTypes.get("Security")) secRequests.forEach(r -> makeSRBox(r, "Security Request"));
-        if (selectedTypes.get("Food")) foodRequests.forEach(r -> makeSRBox(r, "Food Request"));
-        if (selectedTypes.get("Gift")) giftRequests.forEach(r -> makeSRBox(r, "Gift Request"));
-        if (selectedTypes.get("Interpreter")) interpRequests.forEach(r -> makeSRBox(r, "Interpreter Request"));
-        if (selectedTypes.get("Laundry")) laundryRequests.forEach(r -> makeSRBox(r, "Laundry Request"));
-        if (selectedTypes.get("Maintenance")) maintRequests.forEach(r -> makeSRBox(r, "Maintenance Request"));
-        if (selectedTypes.get("Religious")) religRequests.forEach(r -> makeSRBox(r, "Religious Request"));
-
-
+        if (selectedTypes.get("Medicine")) medRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.med_sr")));
+        if (selectedTypes.get("Sanitation")) sanRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.san_sr")));
+        if (selectedTypes.get("Security")) secRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.sec_sr")));
+        if (selectedTypes.get("Food")) foodRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.food_sr")));
+        if (selectedTypes.get("Gift")) giftRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.gift_sr")));
+        if (selectedTypes.get("Interpreter")) interpRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.int_sr")));
+        if (selectedTypes.get("Laundry")) laundryRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.laun_sr")));
+        if (selectedTypes.get("Maintenance")) maintRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.main_sr")));
+        if (selectedTypes.get("Religious")) religRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.rel_sr")));
     }
 
     public void makeSRBox(ExtendedBaseRequest m, String type) {
