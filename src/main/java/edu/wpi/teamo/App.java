@@ -35,6 +35,9 @@ public class App extends Application {
   public static LocaleType selectedLocale;
   private static final String localesPath = "edu.wpi.teamo.locales.";
 
+  public static final String normalEntrance = "FEXIT00201";
+  public static final String emergencyEntrance = "FEXIT00301";
+
   @Override
   public void init() throws SQLException {
     pagePaths.put(Pages.SERVICEREQUEST, "/edu/wpi/teamo/fxml/serviceRequestHubPage.fxml");
