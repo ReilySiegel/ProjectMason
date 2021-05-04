@@ -77,8 +77,9 @@ public class RequestDisplay {
         if (selectedTypes.get("Laundry")) laundryRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.laun_sr")));
         if (selectedTypes.get("Maintenance")) maintRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.main_sr")));
         if (selectedTypes.get("Transportation")) transRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.transportation_request")));
-        if (selectedTypes.get("COVID Survey")) covidRequests.forEach(r -> makeSurveyBox(r));
         if (selectedTypes.get("Religious")) religRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.rel_sr")));
+        if (selectedTypes.get("COVID Survey")) covidRequests.forEach(r -> makeSurveyBox(r));
+
     }
 
     public void makeSRBox(ExtendedBaseRequest m, String type) {
@@ -313,61 +314,104 @@ public class RequestDisplay {
     }
 
     public void makeSurveyBox(COVIDSurveyRequest c) {
-        JFXButton expand = new JFXButton("+");
-        expand.setMinWidth(30);
-        expand.setPrefWidth(30);
-        expand.setMinHeight(30);
-        expand.setPrefHeight(30);
+        boolean passFilter = true;
 
-        Text typeText = new Text(App.resourceBundle.getString("key.COVID_survey_requests"));
-        typeText.setFont(new Font(20));
+        if (!showComplete && c.getIsComplete()) passFilter = false;
+        if (passFilter) {
+            JFXButton expand = new JFXButton("+");
+            expand.setMinWidth(30);
+            expand.setPrefWidth(30);
+            expand.setMinHeight(30);
+            expand.setPrefHeight(30);
 
-        HBox typeBox = new HBox(typeText);
-        typeBox.setMinWidth(200);
+            Text typeText = new Text(App.resourceBundle.getString("key.COVID_survey_requests"));
+            typeText.setFont(new Font(20));
 
-        //assigned person display
-        Text userText = new Text(App.resourceBundle.getString("key.user_semicolon") + c.getUsername());
-        HBox userBox = new HBox(userText);
-        userBox.setMinWidth(100);
-        userBox.setPrefWidth(100);
-        userBox.setMaxWidth(100);
+            HBox typeBox = new HBox(typeText);
+            typeBox.setMinWidth(200);
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy, " + "H:m:s");
-        Text timeText = new Text(App.resourceBundle.getString("key.submitted_at_semicolon") + c.getTimestamp().format(formatter));
-        timeText.setWrappingWidth(130);
-        HBox dateBox = new HBox(timeText);
-        dateBox.setMinWidth(130);
-        dateBox.setPrefWidth(130);
-        dateBox.setMaxWidth(130);
+            //assigned person display
+            Text userText = new Text(App.resourceBundle.getString("key.user_semicolon") + c.getUsername());
+            HBox userBox = new HBox(userText);
+            userBox.setMinWidth(100);
+            userBox.setPrefWidth(100);
+            userBox.setMaxWidth(100);
 
-        Text emergencyEntrance = new Text();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy, " + "H:m:s");
+            Text timeText = new Text(App.resourceBundle.getString("key.submitted_at_semicolon") + c.getTimestamp().format(formatter));
+            timeText.setWrappingWidth(130);
+            HBox dateBox = new HBox(timeText);
+            dateBox.setMinWidth(100);
+            dateBox.setPrefWidth(100);
+            dateBox.setMaxWidth(100);
 
-        if (c.getUseEmergencyEntrance()) emergencyEntrance.setText(App.resourceBundle.getString("key.entrance_normal"));
-        else emergencyEntrance.setText(App.resourceBundle.getString("key.entrance_emergency"));
+            Text emergencyEntrance = new Text();
 
-        HBox mbox = new HBox(expand, typeBox, userBox, dateBox, emergencyEntrance);
-        mbox.setSpacing(10);
+            if (c.getUseEmergencyEntrance())
+                emergencyEntrance.setText(App.resourceBundle.getString("key.entrance_normal"));
+            else emergencyEntrance.setText(App.resourceBundle.getString("key.entrance_emergency"));
+            emergencyEntrance.setWrappingWidth(120);
 
-        VBox mContainer = new VBox(mbox);
-        mContainer.setStyle("-fx-padding: 10px; -fx-background-color: #e5e5e5; -fx-effect: dropshadow(gaussian, rgba(170, 170, 170, 0.3), 10, 0.5, 0.0, 0.0)");
-        mContainer.setSpacing(7);
+            HBox entranceBox = new HBox(emergencyEntrance);
+            entranceBox.setMinWidth(130);
+            entranceBox.setPrefWidth(130);
+            entranceBox.setMaxWidth(130);
 
-        expand.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if (expand.getText().equals("+")) {
-                    mContainer.getChildren().add(new Text(App.resourceBundle.getString("key.ID_semicolon") + c.getId()));
-                    expand.setText("-");
-                } else {
-                    mContainer.getChildren().clear();
-                    mContainer.getChildren().add(mbox);
-                    expand.setText("+");
+            Text statusText = new Text();
+            if (c.getIsComplete()) statusText.setText("Complete");
+            else statusText.setText("In progress");
+
+            JFXButton viewContextMenu = new JFXButton("...");
+            viewContextMenu.setStyle("-fx-border-radius: 5; -fx-background-radius: 5");
+            expand.setStyle("-fx-border-radius: 5; -fx-background-radius: 5");
+
+            ContextMenu contextMenu = new ContextMenu();
+            MenuItem markComplete = new MenuItem("Mark as Complete");
+            markComplete.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    try {
+                        COVIDSurveyRequest.getByID(c.getId()).setComplete(true);
+                        update(types, latestTime);
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
                 }
-            }
-        });
+            });
 
-        reqList.getItems().add(mContainer);
-        System.out.println(c.getTimestamp());
+            contextMenu.getItems().add(markComplete);
+
+            viewContextMenu.setOnMousePressed(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    contextMenu.show(viewContextMenu, event.getScreenX(), event.getScreenY());
+                }
+            });
+
+            HBox mbox = new HBox(expand, typeBox, userBox, dateBox, entranceBox, statusText, viewContextMenu);
+            mbox.setSpacing(10);
+
+            VBox mContainer = new VBox(mbox);
+            mContainer.setStyle("-fx-padding: 10px; -fx-background-color: #e5e5e5; -fx-effect: dropshadow(gaussian, rgba(170, 170, 170, 0.3), 10, 0.5, 0.0, 0.0)");
+            mContainer.setSpacing(7);
+
+            expand.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    if (expand.getText().equals("+")) {
+                        mContainer.getChildren().add(new Text(App.resourceBundle.getString("key.ID_semicolon") + c.getId()));
+                        expand.setText("-");
+                    } else {
+                        mContainer.getChildren().clear();
+                        mContainer.getChildren().add(mbox);
+                        expand.setText("+");
+                    }
+                }
+            });
+
+            reqList.getItems().add(mContainer);
+            System.out.println(c.getTimestamp());
+        }
     }
 
 }
