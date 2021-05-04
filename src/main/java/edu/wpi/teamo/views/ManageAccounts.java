@@ -34,6 +34,8 @@ import javafx.util.Callback;
 import javax.swing.*;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -55,6 +57,21 @@ public class ManageAccounts implements Initializable {
     @FXML
     StackPane stackPane;
 
+    @FXML
+    JFXTextField usernameBox;
+
+    @FXML
+    JFXTextField passwordBox;
+
+    @FXML
+    JFXTextField firstNameBox;
+
+    @FXML
+    JFXTextField lastNameBox;
+
+    @FXML
+    JFXComboBox<String> roleBox;
+
     private boolean correctPassword;
 
     @Override
@@ -63,9 +80,15 @@ public class ManageAccounts implements Initializable {
 
         correctPassword = false;
 
+
+        List<String> roles = new ArrayList<>();
+        roles.add("employee");
+        roles.add("patient");
+        roleBox.setItems(FXCollections.observableArrayList(roles));
+
         makeAccountButton.setOnAction(event -> createAccount());
         deleteAccountButton.setOnAction(event -> deleteAccount());
-        promoteButton.setOnAction(event -> handleVerify());
+        promoteButton.setOnAction(event -> updateAccess());
         updateAccountTable();
     }
 
@@ -203,6 +226,15 @@ public class ManageAccounts implements Initializable {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+
+
+        acctUsers.setStyle("-fx-background-color: rgba(255, 255, 255, 0.7);");
+        acctFirst.setStyle("-fx-background-color: rgba(255, 255, 255, 0.7)");
+        acctLast.setStyle("-fx-background-color: rgba(255, 255, 255, 0.7)");
+        acctRole.setStyle("-fx-background-color: rgba(255, 255, 255, 0.7)");
+        acctAdmin.setStyle("-fx-background-color: rgba(255, 255, 255, 0.7)");
+
+
         final TreeItem<Account> root = new RecursiveTreeItem<Account>(accountList, RecursiveTreeObject::getChildren);
         acctTree.getColumns().setAll(acctUsers, acctFirst, acctLast, acctRole, acctAdmin);
         acctTree.setRoot(root);
@@ -214,32 +246,45 @@ public class ManageAccounts implements Initializable {
     }
 
     private void createAccount(){
-        try{
-            new Account("default", "default", false,
-                    "default", "default", "default").update();
-        }
-        catch(SQLException e){
-            e.printStackTrace();
-        }
+        String user  = usernameBox.getText();
+        String pass  = passwordBox.getText();
+        String first = firstNameBox.getText();
+        String last  = lastNameBox.getText();
+        String role = roleBox.getValue();
 
 
-        this.updateAccountTable();
+        if(user.equals("") || pass.equals("") ||
+        first.equals("") || last.equals("") || role == null){
+            handleError();
+        }
+        else{
+            try{
+                new Account(user, pass, false,
+                        first, last, role).update();
+                this.updateAccountTable();
+            }
+            catch(SQLException e){
+                e.printStackTrace();
+            }
+        }
+
     }
 
 
     private void deleteAccount(){
-        try{
-            acctTree.getSelectionModel().getSelectedItem().getValue().delete();
-            this.updateAccountTable();
+        if (Session.getAccount().isAdmin() && acctTree.getSelectionModel().getSelectedItem() != null) {
+            try{
+                acctTree.getSelectionModel().getSelectedItem().getValue().delete();
+                this.updateAccountTable();
+            }
+            catch (SQLException e){
+                e.printStackTrace();
+            }
         }
-        catch (SQLException e){
-            e.printStackTrace();
-        }
-
     }
 
     private void updateAccess() {
-        if (Session.getAccount().isAdmin() && correctPassword) {
+        if (Session.getAccount().isAdmin() && acctTree.getSelectionModel().getSelectedItem() != null) {
             try {
                 acctTree.getSelectionModel().getSelectedItem().getValue().setAdmin(!acctTree.getSelectionModel().getSelectedItem().getValue().isAdmin());
                 updateAccountTable();
@@ -248,10 +293,11 @@ public class ManageAccounts implements Initializable {
             }
         }
         else{
-            System.out.println("You aren't an admin, how did you get here?");
+            //System.out.println("You aren't an admin, how did you get here?");
         }
     }
 
+    /*
     private void handleVerify() {
 
         if(!correctPassword) {
@@ -270,7 +316,7 @@ public class ManageAccounts implements Initializable {
 
 
             JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
-            closeButton.setStyle("-fx-background-color: #F40F19; -fx-text-fill: #fff");
+            closeButton.setStyle("-fx-background-color: #ba1b26; -fx-text-fill: #000000");
             closeButton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
@@ -279,7 +325,7 @@ public class ManageAccounts implements Initializable {
             });
 
             JFXButton submitButton = new JFXButton(App.resourceBundle.getString("key.submit"));
-            submitButton.setStyle("-fx-background-color: rgb(62, 234, 105); -fx-text-fill: #fff");
+            submitButton.setStyle("-fx-background-color: rgb(44,147,71); -fx-text-fill: #000000");
             submitButton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
@@ -302,5 +348,26 @@ public class ManageAccounts implements Initializable {
         else{
             updateAccess();
         }
+    } */
+
+    private void handleError() {
+
+        JFXDialogLayout content = new JFXDialogLayout();
+        content.setHeading(new Text(App.resourceBundle.getString("key.addErrorMessage")));
+        content.setBody(new Text(
+                App.resourceBundle.getString("key.please_fill_out_all_fields_with_valid_arguments")));
+        JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
+
+        JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
+        closeButton.setStyle("-fx-background-color: #F40F19; -fx-text-fill: #fff");
+        closeButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                errorWindow.close();
+            }
+        });
+
+        content.setActions(closeButton);
+        errorWindow.show();
     }
 }
