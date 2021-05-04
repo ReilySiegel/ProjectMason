@@ -1,5 +1,6 @@
 package edu.wpi.teamo.database.account;
 
+import java.security.InvalidParameterException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,7 +21,7 @@ public class Account extends RecursiveTreeObject<Account> {
     private String firstName;
     private String lastName;
     private String role;
-    private LinkedList<String> parkingSpots = new LinkedList<>();
+    private String parkingSpot = null;
 
     public Account (String username,
                     String passwordHash,
@@ -169,19 +170,16 @@ public class Account extends RecursiveTreeObject<Account> {
         this.update();
     }
 
-    public void addParkingNodeID(NodeInfo node){
-        if(node.getNodeType().equals("PARK") && this.parkingSpots.size() <= 2){
-        this.parkingSpots.add(node.getNodeID());
-        System.out.println("Parking Spot Assigned!");
-
-        }else if(this.parkingSpots.size() > 2){
-            System.out.println("You have hit your parking spots limit!");}
+    public void setParkingSpot(NodeInfo node) throws InvalidParameterException {
+        if(node.getNodeType().equals("PARK")) {
+            this.parkingSpot = node.getNodeID();
+        }
         else {
-            System.out.println("Not a parking spot!");
+            throw new InvalidParameterException("Not a parking spot.");
         }
     }
 
-    public LinkedList<String> getParkingSpots() {
-        return this.parkingSpots;
+    public String getParkingSpot() {
+        return this.parkingSpot;
     }
 }

@@ -6,10 +6,12 @@ import edu.wpi.teamo.Session;
 import edu.wpi.teamo.algos.*;
 import edu.wpi.teamo.database.map.NodeInfo;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -20,6 +22,7 @@ import javafx.scene.text.Text;
 import javafx.util.Pair;
 
 import java.net.URL;
+import java.security.InvalidParameterException;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
@@ -81,6 +84,11 @@ public class PathfindingPage extends SubPageController implements Initializable 
 
     LinkedList<AlgoNode> calculatedPath = null;
 
+    @FXML
+    private JFXButton selectParkingSpotButton;
+
+    String parkingSpotID = null;
+
     boolean selectingStart = false;
     boolean selectingEnd = false;
 
@@ -93,11 +101,14 @@ public class PathfindingPage extends SubPageController implements Initializable 
     public void initialize(URL location, ResourceBundle resources) {
         gridPane.setPickOnBounds(false);
 
+        setSelectParkingSpotButtonVisibility(false);
+
         initFloorSwitcher();
         initAlgoSwitcher();
 
         textualWindow.setVisible(false);
 
+        selectParkingSpotButton.setOnAction(this::handleSelectParkingSpot);
         chooseStartButton.setOnAction(this::handleChooseStart);
         floorComboBox.setOnAction(this::handleFloorSwitch);
         chooseEndButton.setOnAction(this::handleChoseEnd);
@@ -127,6 +138,17 @@ public class PathfindingPage extends SubPageController implements Initializable 
         update();
     }
 
+    private void handleSelectParkingSpot(ActionEvent actionEvent) {
+        try {
+            if (Session.isLoggedIn() && Session.getAccount().getParkingSpot() != null) {
+                String id = Session.getAccount().getParkingSpot();
+                NodeInfo node = App.mapService.getNode(id);
+                onClickNode(node);
+            }
+        } catch (Exception throwables) {
+            throwables.printStackTrace();
+        }
+    }
 
     private void handleAlgoSwitch(ActionEvent actionEvent) {
         App.context.switchAlgoManagerByCode(algoSwitcher.getValue());
@@ -173,6 +195,11 @@ public class PathfindingPage extends SubPageController implements Initializable 
         Circle circle = p.getKey();
         NodeInfo node = p.getValue();
 
+        if (parkingSpotID != null && node.getNodeID().equals(parkingSpotID)) {
+            circle.setRadius(circle.getRadius() * 3);
+            circle.setFill(Color.BLACK);
+        }
+
         circle.setOnMouseEntered(event -> {
             circle.setRadius(circle.getRadius() * 2);
             event.consume();
@@ -184,13 +211,14 @@ public class PathfindingPage extends SubPageController implements Initializable 
         });
 
         circle.setOnMousePressed((MouseEvent e) -> {
+            onClickNode(node);
             onRightClickNode(e, circle, node);
             e.consume();
         });
     }
 
     //    Consumer<NodeInfo> onClickNode = (NodeInfo node) -> System.out.println("Node " + node.getNodeID() + "was clicked");
-    void onClickNode( NodeInfo node) {
+    void onClickNode(NodeInfo node) {
         if (selectingStart) {
             chooseStartButton.setText(node.getShortName());
             selectedStartID = node.getNodeID();
@@ -205,6 +233,13 @@ public class PathfindingPage extends SubPageController implements Initializable 
         chooseStartButton.setDisable(selectingStart);
         chooseEndButton.setDisable(selectingEnd);
         locationSearcher.clearSelectedLocations();
+        setSelectParkingSpotButtonVisibility(false);
+    }
+
+    private void setSelectParkingSpotButtonVisibility(boolean visible) {
+        if (!Session.isLoggedIn() || Session.getAccount().getParkingSpot() == null) visible = false;
+        selectParkingSpotButton.setVisible(visible);
+        selectParkingSpotButton.setManaged(visible);
     }
 
     void onRightClickNode(MouseEvent e, Circle circle, NodeInfo node){
@@ -227,10 +262,19 @@ public class PathfindingPage extends SubPageController implements Initializable 
 
 
     private void handleAssignParkingSpot(Circle circle, NodeInfo node){
-        Session.getAccount().addParkingNodeID(node);
-        if(Session.getAccount().getParkingSpots().size() > 0 && Session.getAccount().getParkingSpots().size() <= 2) {
-            circle.setFill(Color.BLACK);
+        try {
+            if (Session.isLoggedIn()) {
+                Session.getAccount().setParkingSpot(node);
+                update();
+            }
+            else {
+                showError(App.resourceBundle.getString("key.log_in_to_use_this_feature"));
+            }
         }
+        catch (InvalidParameterException e) {
+            showError(App.resourceBundle.getString("key.parking_spot_error"));
+        }
+
     }
 
     private void handleChooseStart(ActionEvent e) {
@@ -245,6 +289,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
         chooseStartButton.setDisable(selectingStart);
         chooseEndButton.setDisable(selectingEnd);
         textualWindow.setVisible(false);
+        setSelectParkingSpotButtonVisibility(true);
     }
 
     private void handleChoseEnd(ActionEvent e) {
@@ -259,6 +304,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
         chooseEndButton.setDisable(selectingEnd);
         chooseStartButton.setDisable(selectingStart);
         textualWindow.setVisible(false);
+        setSelectParkingSpotButtonVisibility(true);
     }
 
     private void handleFindPath(ActionEvent e) {
@@ -314,6 +360,11 @@ public class PathfindingPage extends SubPageController implements Initializable 
     }
 
     void update() {
+
+        if (Session.isLoggedIn() && Session.getAccount() != null) {
+            parkingSpotID = Session.getAccount().getParkingSpot();
+        }
+
         LinkedList<NodeInfo> nodes = new LinkedList<>();
         try {
             nodes = App.mapService.getAllNodes().collect(Collectors.toCollection(LinkedList::new));
@@ -341,4 +392,22 @@ public class PathfindingPage extends SubPageController implements Initializable 
         searchWindow.setVisible(visible);
     }
 
+    void showError(String message) {
+        JFXDialogLayout content = new JFXDialogLayout();
+        content.setHeading(new Text(App.resourceBundle.getString("key.error")));
+        content.setBody(new Text(message));
+        JFXDialog errorWindow = new JFXDialog(parentStackPane, content, JFXDialog.DialogTransition.TOP);
+
+        JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
+        closeButton.setStyle("-fx-background-color: #f40f19");
+        closeButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                errorWindow.close();
+            }
+        });
+
+        content.setActions(closeButton);
+        errorWindow.show();
+    }
 }
