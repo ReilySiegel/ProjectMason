@@ -125,5 +125,8 @@ public class COVIDSurveyRequest {
         return this.isComplete;
     }
 
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
 
 }

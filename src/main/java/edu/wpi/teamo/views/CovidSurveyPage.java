@@ -5,6 +5,7 @@ import com.jfoenix.controls.*;
 import edu.wpi.teamo.Session;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.Pages;
+import edu.wpi.teamo.database.request.COVIDSurveyRequest;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -123,7 +124,7 @@ public class CovidSurveyPage extends ServiceRequestPage implements Initializable
 
     }
 
-    public void handleSubmit(javafx.event.ActionEvent actionEvent) {
+    public void handleSubmit(javafx.event.ActionEvent actionEvent) throws SQLException {
         JFXDialogLayout content = new JFXDialogLayout();
         content.setHeading(new Text(App.resourceBundle.getString("key.thanks_for_submitting_response")));
 
@@ -132,17 +133,20 @@ public class CovidSurveyPage extends ServiceRequestPage implements Initializable
         if(Q1Check || Q2Check || Q3Check || Q4Check || Q5Check){
             if(Session.isLoggedIn()){
                 Session.getAccount().setUseEmergencyEntrance(true);
+                new COVIDSurveyRequest(Session.getAccount().getUsername(), true).update();
             }
             content.setBody(new Text(App.resourceBundle.getString("key.survey_back_entrance")));
 
             if(Session.isLoggedIn()){
                 Session.getAccount().setUseEmergencyEntrance(true);
+                new COVIDSurveyRequest(Session.getAccount().getUsername(), true).update();
             }
             content.setBody(new Text(App.resourceBundle.getString("key.survey_back_entrance")));
         }
         else{
             if(Session.isLoggedIn()){
                 Session.getAccount().setUseEmergencyEntrance(false);
+                new COVIDSurveyRequest(Session.getAccount().getUsername(), false).update();
             }
             content.setBody(new Text(App.resourceBundle.getString("key.survey_front_entrance")));
         }

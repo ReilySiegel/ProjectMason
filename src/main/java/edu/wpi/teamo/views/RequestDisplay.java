@@ -75,7 +75,7 @@ public class RequestDisplay {
         Stream<LaundryRequest> laundryRequests = LaundryRequest.getAll();
         Stream<MaintenanceRequest> maintRequests = MaintenanceRequest.getAll();
         Stream<ReligiousRequest> religRequests = ReligiousRequest.getAll();
-        //Stream<COVIDSurveyRequest> covidRequests = COVIDSurveyRequest.getAll();
+        Stream<COVIDSurveyRequest> covidRequests = COVIDSurveyRequest.getAll();
 
         if (selectedTypes.get("Medicine")) medRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.med_sr")));
         if (selectedTypes.get("Sanitation")) sanRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.san_sr")));
@@ -86,6 +86,7 @@ public class RequestDisplay {
         if (selectedTypes.get("Laundry")) laundryRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.laun_sr")));
         if (selectedTypes.get("Maintenance")) maintRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.main_sr")));
         if (selectedTypes.get("Religious")) religRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.rel_sr")));
+        if (selectedTypes.get("COVID Survey")) covidRequests.forEach(r -> makeSurveyBox(r));
     }
 
     public void makeSRBox(ExtendedBaseRequest m, String type) {
@@ -279,6 +280,7 @@ public class RequestDisplay {
                         }
 
                         mContainer.getChildren().add(new Text("Details: " + m.getDetails()));
+                        mContainer.getChildren().add(new Text("ID: " + m.getID()));
                     } else {
                         expand.setText("+");
                     }
@@ -304,7 +306,61 @@ public class RequestDisplay {
     }
 
     public void makeSurveyBox(COVIDSurveyRequest c) {
+        JFXButton expand = new JFXButton("+");
+        expand.setMinWidth(30);
+        expand.setPrefWidth(30);
+        expand.setMinHeight(30);
+        expand.setPrefHeight(30);
 
+        Text typeText = new Text("COVID Survey Request");
+        typeText.setFont(new Font(20));
+
+        HBox typeBox = new HBox(typeText);
+        typeBox.setMinWidth(200);
+
+        //assigned person display
+        Text userText = new Text("User: " + c.getUsername());
+        HBox userBox = new HBox(userText);
+        userBox.setMinWidth(100);
+        userBox.setPrefWidth(100);
+        userBox.setMaxWidth(100);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy, " + "H:m:s");
+        Text timeText = new Text("Submitted at: " + c.getTimestamp().format(formatter));
+        timeText.setWrappingWidth(130);
+        HBox dateBox = new HBox(timeText);
+        dateBox.setMinWidth(130);
+        dateBox.setPrefWidth(130);
+        dateBox.setMaxWidth(130);
+
+        Text emergencyEntrance = new Text();
+
+        if (c.getUseEmergencyEntrance()) emergencyEntrance.setText("Entrance: Emergency");
+        else emergencyEntrance.setText("Entrance: Normal");
+
+        HBox mbox = new HBox(expand, typeBox, userBox, dateBox, emergencyEntrance);
+        mbox.setSpacing(10);
+
+        VBox mContainer = new VBox(mbox);
+        mContainer.setStyle("-fx-padding: 10px; -fx-background-color: #e5e5e5; -fx-effect: dropshadow(gaussian, rgba(170, 170, 170, 0.3), 10, 0.5, 0.0, 0.0)");
+        mContainer.setSpacing(7);
+
+        expand.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (expand.getText().equals("+")) {
+                    mContainer.getChildren().add(new Text("ID: " + c.getId()));
+                    expand.setText("-");
+                } else {
+                    mContainer.getChildren().clear();
+                    mContainer.getChildren().add(mbox);
+                    expand.setText("+");
+                }
+            }
+        });
+
+        reqList.getItems().add(mContainer);
+        System.out.println(c.getTimestamp());
     }
 
 }
