@@ -92,7 +92,16 @@ public class PathfindingPage extends SubPageController implements Initializable 
 
     @FXML
     private JFXButton selectParkingSpotButton;
+    @FXML
+    private JFXButton directForward;
 
+    @FXML
+    private JFXButton directBack;
+
+    int directionIterator = 0;
+    int directionMax = 0;
+    int directionMin = 0;
+    AlgoNode lastNode = null;
     String parkingSpotID = null;
 
     boolean selectingStart = false;
@@ -121,6 +130,8 @@ public class PathfindingPage extends SubPageController implements Initializable 
         findPathButton.setOnAction(this::handleFindPath);
         algoSwitcher.setOnAction(this::handleAlgoSwitch);
         helpButton.setOnAction(this::handleHelpButton);
+        directBack.setOnAction(this::handleStepBack);
+        directForward.setOnAction(this::handleStepForward);
 
         locationSearcher = new LocationSearcher(searchBar, searchResultsView);
         locationSearcher.setOnCheckNode(this::onClickNode);
@@ -138,7 +149,8 @@ public class PathfindingPage extends SubPageController implements Initializable 
                 locationSearcher.clearSelectedLocations();
             }
         });
-
+        directBack.setVisible(false);
+        directForward.setVisible(false);
         map = new Map(pathPane);
         map.setOnDrawNode(this::onDrawNode);
         update();
@@ -266,6 +278,34 @@ public class PathfindingPage extends SubPageController implements Initializable 
 
     }
 
+    public void handleStepForward(ActionEvent e)
+    {
+        //lastNode = calculatedPath.get(directionIterator);
+        if(directionIterator<directionMax-1) {
+            stepDirection(true);
+        }
+    }
+
+    public void handleStepBack(ActionEvent e)
+    {
+        //lastNode = calculatedPath.get(directionIterator);
+        if(directionIterator>directionMin) {
+            stepDirection(false);
+        }
+    }
+    private void stepDirection(boolean forward)
+    {
+
+        if (forward)
+        {
+            directionIterator++;
+        }
+        else{
+            directionIterator--;
+        }
+        floor = calculatedPath.get(directionIterator).getFloor();
+        update();
+    }
 
     private void handleAssignParkingSpot(Circle circle, NodeInfo node){
         try {
@@ -451,6 +491,9 @@ public class PathfindingPage extends SubPageController implements Initializable 
                 floors.add(node.getFloor());
             }
         }
+        directionMax = calculatedPath.size();
+        directForward.setVisible(true);
+        directBack.setVisible(true);
         update();
     }
 
@@ -480,7 +523,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
 
     public void displayPath(LinkedList<AlgoNode> path) {
         if (path != null) {
-            map.drawPath(path, floor);
+            map.drawPath(path, floor,directionIterator);
             StringBuilder text = new StringBuilder("Directions:\n");
             for (AlgoNode node : path) {
                 text.append(node.getLongName()).append("\n");

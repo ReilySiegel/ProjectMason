@@ -24,6 +24,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import java.util.LinkedList;
+
+import javafx.scene.shape.Polygon;
 import javafx.util.Pair;
 import java.util.List;
 
@@ -104,7 +106,7 @@ public class Map  {
         nodePane.setMaxWidth(x);
     }
 
-    public void drawPath(LinkedList<AlgoNode> path, String floor) {
+    public void drawPath(LinkedList<AlgoNode> path, String floor,int index) {
         for(int i = 0;  i < (path.size() - 1); i++) {
             Color lineColor = path.get(i).getFloor().equals(floor) ? Color.RED : Color.GRAY;
 
@@ -113,7 +115,16 @@ public class Map  {
             double secondX = mapToPaneX(path.get(i + 1).getX());
             double secondY = mapToPaneY(path.get(i + 1).getY());
 
-            Line line = createLine(firstX, firstY, secondX, secondY, null, lineColor);
+            Line line;
+            if(index  == i)
+            {
+                line = createLine(firstX, firstY, secondX, secondY, null,Color.BLUE);
+                createTriangle(firstX,firstY,secondX,secondY,6,Color.BLUE);
+            }
+            else{
+                line = createLine(firstX, firstY, secondX, secondY, null, lineColor);
+                createTriangle(firstX,firstY,secondX,secondY,4,lineColor);
+            }
             nodePane.getChildren().add(line);
         }
 
@@ -207,6 +218,60 @@ public class Map  {
             return null;
         }
     }
+    public void createTriangle(double beginx, double beginy, double endx, double endy,double size, Color lineColor )
+    {
+        double from, to, transX , transY, dist_tri_center;
+
+        double halfX= (endx-beginx)/2;
+        double halfY = (endy-beginy)/2;
+        double rads = Math.atan2((endy-beginy),(endx -beginx));
+        double distance = Math.sqrt(Math.pow((endx-beginx),2)+Math.pow(endy-beginy,2));
+
+        transX = halfX+beginx;
+        transY= halfY+beginy;
+        //dist_tri_center = 3;
+        Polygon tri = drawTriangle(transX, transY,size,rads,lineColor);
+
+        if(distance > 15)
+        {
+            nodePane.getChildren().add(tri);
+        }
+
+
+
+    }
+
+    public Polygon drawTriangle(double x, double y, double size, double radians, Paint color)
+    {
+
+
+        double firstX,firstY,secondX,secondY,thirdX,thirdY;
+        double[] corn = new double[6];
+        firstX  =x +size *Math.cos(radians);
+        firstY = y+size*Math.sin(radians);
+        secondX = x+size*Math.cos(radians+2*Math.PI/3);
+        secondY = y+size*Math.sin(radians+2*Math.PI/3);
+        thirdX = x+size*Math.cos(radians+4*Math.PI/3);
+        thirdY = y+size*Math.sin(radians+4*Math.PI/3);
+        corn[0] = firstX;
+        corn[1] = firstY;
+        corn[2] = secondX;
+        corn[3] = secondY;
+        corn[4] = thirdX;
+        corn[5] = thirdY;
+        Polygon p = new Polygon(corn);
+        p.setStroke(color);
+        p.setFill(color);
+
+        if (isWithinPaneBounds(x, y) && isWithinPaneBounds(x,y)) {
+            return p;
+        }
+        else {
+            return null;
+        }
+
+    }
+
 
     private boolean isWithinPaneBounds(double x, double y) {
         boolean inBounds = true;
