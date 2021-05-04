@@ -78,7 +78,7 @@ public class App extends Application {
       COVIDSurveyRequest.initTable();
       new Account("admin", "admin", true, "Wilson", "Wong", "admin").update();
       new Account("patient", "patient", false, "Nestor", "Lopez", "patient").update();
-      new Account("employee", "employee", false, "Reily", "Siegel", "employee").update();
+      new Account("staff", "staff", false, "Reily", "Siegel", "employee").update();
       new Account("guest", "guest", false, "guest", "guest", "guest").update();
       System.out.println("Database Services Initialized");
     } catch (SQLException e) {
