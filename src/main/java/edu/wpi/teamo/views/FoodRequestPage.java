@@ -23,6 +23,7 @@ import javafx.util.Pair;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -63,8 +64,25 @@ public class FoodRequestPage extends ServiceRequestPage implements Initializable
 
     LocationSearcher locationSearcher;
 
+    @FXML
+    private Text timeErrorText;
+
+    @FXML
+    private Text dateErrorText;
+
+    @FXML
+    private Text roomErrorText;
+
+    @FXML
+    private Text foodErrorText;
+
+    @FXML
+    private JFXTextField patientNameBox;
+
     public static LocaleType selectedLocale;
     Locale locale;
+
+    private boolean validRequest;
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
@@ -81,6 +99,9 @@ public class FoodRequestPage extends ServiceRequestPage implements Initializable
         List<NodeInfo> locations = locationSearcher.getSelectedLocations();
         List<String> locationIDs = locationSearcher.getSelectedLocationIDs();
 
+        LocalTime curTime = deliveryTime.getValue();
+        LocalDateTime curDate = deliveryDate.getValue().atTime(curTime);
+
         String appetizer = appetizerBox.getText();
 
         String dessert = dessertBox.getText();
@@ -89,14 +110,88 @@ public class FoodRequestPage extends ServiceRequestPage implements Initializable
 
         String dR = dRBox.getText();
 
-        BaseRequest br = new BaseRequest(UUID.randomUUID().toString(), "", locationIDs.stream(), "", false, deliveryDate.getValue().atTime(deliveryTime.getValue()));
-        FoodRequest fr = new FoodRequest(appetizer, entree, dessert, dR, br);
+        String patientName = patientNameBox.getText();
 
-        try {
-            fr.update();
-            System.out.println("Request Successful");
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        validRequest = true;
+
+        if ((appetizer.equals("")) && (dessert.equals("")) && (entree.equals(""))) {
+            foodErrorText.setText(App.resourceBundle.getString("key.no_meal_specified"));
+            validRequest = false;
+        }
+
+        if(deliveryTime.getValue() == null){
+            timeErrorText.setText(App.resourceBundle.getString("key.no_time_specified"));
+            validRequest = false;
+        }
+
+        if(deliveryDate.getValue() == null){
+            dateErrorText.setText(App.resourceBundle.getString("key.no_date_specified"));
+            validRequest = false;
+        }
+
+
+        if (locations.size() == 0) {
+            roomErrorText.setText(App.resourceBundle.getString("key.no_room_specified"));
+            validRequest = false;
+        }
+
+        if(validRequest) {
+            BaseRequest br = new BaseRequest(UUID.randomUUID().toString(), "", locationIDs.stream(), "", false, curDate);
+            FoodRequest fr = new FoodRequest(appetizer, entree, dessert, dR, br);
+
+            try {
+                fr.update();
+                System.out.println("Request Successful");
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+
+            timeErrorText.setText("");
+            dateErrorText.setText("");
+            foodErrorText.setText("");
+            roomErrorText.setText("");
+
+            System.out.println("request successful");
+            appetizerBox.setText("");
+            entreeBox.setText("");
+            dessertBox.setText("");
+            dRBox.setText("");
+            patientNameBox.setText("");
+
+
+            JFXDialogLayout content = new JFXDialogLayout();
+            content.setHeading(new Text(App.resourceBundle.getString("key.food_request_submitted")));
+            content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
+                    App.resourceBundle.getString("key.patient_name_semicolon") + patientName + "\n" +
+                    App.resourceBundle.getString("key.appetizer_semicolon")  + appetizer + "\n" +
+                    App.resourceBundle.getString("key.entree_semicolon")  + entree + "\n" +
+                    App.resourceBundle.getString("key.dessert_semicolon")  + dessert + "\n" +
+                    App.resourceBundle.getString("key.room_semicolon") + String.join(", ", locationIDs) + "\n" +
+                    App.resourceBundle.getString("key.time") + ": " +  curDate.toString()));
+            JFXDialog popup = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
+
+            JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
+            JFXButton backButton = new JFXButton(App.resourceBundle.getString("key.back_to_main"));
+
+            closeButton.setStyle("-fx-background-color: #F40F19; -fx-text-fill: #fff");
+            backButton.setStyle("-fx-background-color: #333333; -fx-text-fill: #fff");
+
+            closeButton.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    popup.close();
+                }
+            });
+
+            backButton.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    App.switchPage(Pages.SERVICEREQUEST);
+                }
+            });
+
+            content.setActions(closeButton, backButton);
+            popup.show();
         }
     }
 
