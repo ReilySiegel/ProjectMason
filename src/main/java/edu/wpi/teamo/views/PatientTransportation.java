@@ -22,6 +22,8 @@ import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.sql.Time;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 
 import java.util.List;
@@ -193,5 +195,42 @@ public class PatientTransportation extends ServiceRequestPage implements Initial
         errorWindow.show();
 
     }
+
+    private boolean validEntry(String s)
+    {
+        return s != "";
+    }
+
+    private void resetErrorText()
+    {
+        roomErrorText.setText("");
+        assignedErrorText.setText("");
+    }
+
+    private void handleSubmission(ActionEvent e)
+    {
+        validRequest = true;
+        String n = notes.getText();
+        String assigned = assignee.getText();
+        boolean emergency  = emergencyCheckbox.isSelected();
+        List<String>  ids = locationSearcher.getSelectedLocationIDs();
+
+        if (!validEntry(assigned))
+        {
+            validRequest = false;
+            assignedErrorText.setText("please enter an assignee");
+        }
+        if(ids.size() == 0)
+        {
+            roomErrorText.setText(" please set a location");
+        }
+        if(validRequest)
+        {
+            LocalDateTime now = LocalDateTime.now();
+            //BaseRequest br = new BaseRequest(UUID.randomUUID().toString(), n, locations.stream(), assignName, false, now);
+            //new TransportationRequest(gownCheck, sheetCheck, br).update();
+        }
+    }
+
 
 }
