@@ -114,18 +114,18 @@ public class RequestDisplay {
             typeBox.setMinWidth(200);
 
             //room/nodes display
-            Text locText = new Text("At " + m.getLocations().collect(Collectors.joining(", ")).toString());
+            Text locText = new Text(App.resourceBundle.getString("key.at_semicolon") + m.getLocations().collect(Collectors.joining(", ")).toString());
             locText.setWrappingWidth(100);
 
             //assigned person display
-            Text assignedText = new Text("Assigned to: " + m.getAssigned());
+            Text assignedText = new Text(App.resourceBundle.getString("key.assigned_semicolon") + m.getAssigned());
             HBox assignedBox = new HBox(assignedText);
             assignedBox.setMinWidth(100);
             assignedBox.setPrefWidth(100);
             assignedBox.setMaxWidth(100);
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy, " + "H:m:s");
-            Text dueText = new Text("Due: " + m.getDue().format(formatter));
+            Text dueText = new Text(App.resourceBundle.getString("key.due_semicolon") + m.getDue().format(formatter));
             dueText.setWrappingWidth(130);
             HBox dateBox = new HBox(dueText);
             dateBox.setMinWidth(130);
@@ -136,8 +136,8 @@ public class RequestDisplay {
             //status (is complete)
             Text statusText;
 
-            if (m.isComplete()) statusText = new Text("Complete");
-            else statusText = new Text("In progress");
+            if (m.isComplete()) statusText = new Text(App.resourceBundle.getString("key.complete"));
+            else statusText = new Text(App.resourceBundle.getString("key.in_progress"));
 
             JFXButton viewContextMenu = new JFXButton("...");
             viewContextMenu.setStyle("-fx-border-radius: 5; -fx-background-radius: 5");
@@ -150,8 +150,8 @@ public class RequestDisplay {
             mContainer.setStyle("-fx-padding: 10px; -fx-background-color: #e5e5e5; -fx-effect: dropshadow(gaussian, rgba(170, 170, 170, 0.3), 10, 0.5, 0.0, 0.0)");
             mContainer.setSpacing(7);
 
-            MenuItem edit = new MenuItem("Reassign");
-            MenuItem markComplete = new MenuItem("Mark as Complete");
+            MenuItem edit = new MenuItem(App.resourceBundle.getString("key.reassign"));
+            MenuItem markComplete = new MenuItem(App.resourceBundle.getString("key.mark_as_complete"));
 
             ContextMenu srContextMenu = new ContextMenu();
             srContextMenu.getItems().add(edit);
@@ -204,83 +204,91 @@ public class RequestDisplay {
 
                         switch (type) {
                             case "Medicine Request":
+                            case "Medicamento":
                                 try {
-                                    mContainer.getChildren().add(new Text("Type: " + MedicineRequest.getByID(m.getID()).getType()));
-                                    mContainer.getChildren().add(new Text("Amount: " + MedicineRequest.getByID(m.getID()).getAmount()));
+                                    mContainer.getChildren().add(new Text(App.resourceBundle.getString("key.type_semicolon") + MedicineRequest.getByID(m.getID()).getType()));
+                                    mContainer.getChildren().add(new Text(App.resourceBundle.getString("key.amount_semicolon") + MedicineRequest.getByID(m.getID()).getAmount()));
                                 } catch (SQLException throwables) {
                                     throwables.printStackTrace();
                                 }
                                 break;
                             case "Sanitation Request":
+                            case "Saneamiento":
                                 try {
-                                    mContainer.getChildren().add(new Text("Recurring: " + SanitationRequest.getByID(m.getID()).isRecurring()));
+                                    mContainer.getChildren().add(new Text(App.resourceBundle.getString("key.recurring_semicolon") + SanitationRequest.getByID(m.getID()).isRecurring()));
                                 } catch (SQLException throwables) {
                                     throwables.printStackTrace();
                                 }
                                 break;
                             case "Security Request":
+                            case "Seguridad":
                                 try {
-                                    mContainer.getChildren().add(new Text("Emergency: " + SecurityRequest.getByID(m.getID()).isEmergency()));
+                                    mContainer.getChildren().add(new Text(App.resourceBundle.getString("key.emergency_semicolon") + SecurityRequest.getByID(m.getID()).isEmergency()));
                                 } catch (SQLException throwables) {
                                     throwables.printStackTrace();
                                 }
                                 break;
                             case "Food Request":
+                            case "Alimento":
                                 try {
-                                    mContainer.getChildren().add(new Text("Dietary Restrictions: " + FoodRequest.getByID(m.getID()).getdR()));
-                                    mContainer.getChildren().add(new Text("Appetizer: " + FoodRequest.getByID(m.getID()).getAppetizer()));
-                                    mContainer.getChildren().add(new Text("Entree: " + FoodRequest.getByID(m.getID()).getEntre()));
-                                    mContainer.getChildren().add(new Text("Dessert: " + FoodRequest.getByID(m.getID()).getDessert()));
+                                    mContainer.getChildren().add(new Text(App.resourceBundle.getString("key.dietary_restrictions_semicolon") + FoodRequest.getByID(m.getID()).getdR()));
+                                    mContainer.getChildren().add(new Text(App.resourceBundle.getString("key.appetizer_semicolon") + FoodRequest.getByID(m.getID()).getAppetizer()));
+                                    mContainer.getChildren().add(new Text(App.resourceBundle.getString("key.entree_semicolon") + FoodRequest.getByID(m.getID()).getEntre()));
+                                    mContainer.getChildren().add(new Text(App.resourceBundle.getString("key.dessert_semicolon") + FoodRequest.getByID(m.getID()).getDessert()));
                                 } catch (SQLException throwables) {
                                     throwables.printStackTrace();
                                 }
                                 break;
                             case "Gift Request":
+                            case "Regalo":
                                 if (type.equals("Gift Request")) {
                                     try {
-                                        mContainer.getChildren().add(new Text("Recipient: " + GiftRequest.getByID(m.getID()).getRecipient()));
-                                        mContainer.getChildren().add(new Text("Tracking ID: " + GiftRequest.getByID(m.getID()).getTrackingID()));
+                                        mContainer.getChildren().add(new Text(App.resourceBundle.getString("key.recipient_semicolon") + GiftRequest.getByID(m.getID()).getRecipient()));
+                                        mContainer.getChildren().add(new Text(App.resourceBundle.getString("key.tracking_id_semicolon") + GiftRequest.getByID(m.getID()).getTrackingID()));
                                     } catch (SQLException throwables) {
                                         throwables.printStackTrace();
                                     }
                                 }
                                 break;
                             case "Interpreter Request":
+                            case "Intérprete":
                                 try {
-                                    mContainer.getChildren().add(new Text("Language: " + InterpreterRequest.getByID(m.getID()).getLanguage()));
-                                    mContainer.getChildren().add(new Text("Type: " + InterpreterRequest.getByID(m.getID()).getType()));
+                                    mContainer.getChildren().add(new Text(App.resourceBundle.getString("key.language_semicolon") + InterpreterRequest.getByID(m.getID()).getLanguage()));
+                                    mContainer.getChildren().add(new Text(App.resourceBundle.getString("key.type_semicolon")  + InterpreterRequest.getByID(m.getID()).getType()));
                                 } catch (SQLException throwables) {
                                     throwables.printStackTrace();
                                 }
                                 break;
                             case "Laundry Request":
+                            case "Lavado de Ropa":
                                 try {
-                                    mContainer.getChildren().add(new Text("Gown: " + LaundryRequest.getByID(m.getID()).getGown()));
-                                    mContainer.getChildren().add(new Text("Bedding: " + LaundryRequest.getByID(m.getID()).getBedding()));
+                                    mContainer.getChildren().add(new Text(App.resourceBundle.getString("key.gown_semicolon") + LaundryRequest.getByID(m.getID()).getGown()));
+                                    mContainer.getChildren().add(new Text(App.resourceBundle.getString("key.bedding_semicolon") + LaundryRequest.getByID(m.getID()).getBedding()));
                                 } catch (SQLException throwables) {
                                     throwables.printStackTrace();
                                 }
                                 break;
                             case "Maintenance Request":
+                            case "Mantenimiento":
                                 try {
-                                    mContainer.getChildren().add(new Text("Type: " + MaintenanceRequest.getByID(m.getID()).getType()));
+                                    mContainer.getChildren().add(new Text(App.resourceBundle.getString("key.type_semicolon") + MaintenanceRequest.getByID(m.getID()).getType()));
                                 } catch (SQLException throwables) {
                                     throwables.printStackTrace();
                                 }
                                 break;
                             case "Religious Request":
+                            case "Religión":
                                 try {
-                                    mContainer.getChildren().add(new Text("Service: " + ReligiousRequest.getByID(m.getID()).getService()));
-                                    mContainer.getChildren().add(new Text("Figure: " + ReligiousRequest.getByID(m.getID()).getFigure()));
-                                    mContainer.getChildren().add(new Text("Last Rites: " + ReligiousRequest.getByID(m.getID()).isLastRites()));
+                                    mContainer.getChildren().add(new Text(App.resourceBundle.getString("key.service_semicolon") + ReligiousRequest.getByID(m.getID()).getService()));
+                                    mContainer.getChildren().add(new Text(App.resourceBundle.getString("key.figure_semicolon") + ReligiousRequest.getByID(m.getID()).getFigure()));
+                                    mContainer.getChildren().add(new Text(App.resourceBundle.getString("key.last_rights_semicolon") + ReligiousRequest.getByID(m.getID()).isLastRites()));
                                 } catch (SQLException throwables) {
                                     throwables.printStackTrace();
                                 }
                                 break;
                         }
-
-                        mContainer.getChildren().add(new Text("Details: " + m.getDetails()));
-                        mContainer.getChildren().add(new Text("ID: " + m.getID()));
+                        mContainer.getChildren().add(new Text(App.resourceBundle.getString("key.details_semicolon") + m.getDetails()));
+                        mContainer.getChildren().add(new Text(App.resourceBundle.getString("key.id_semicolon") + m.getID()));
                     } else {
                         expand.setText("+");
                     }

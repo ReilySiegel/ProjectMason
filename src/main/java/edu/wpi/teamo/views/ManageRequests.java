@@ -1,6 +1,7 @@
 package edu.wpi.teamo.views;
 
 import com.jfoenix.controls.*;
+import edu.wpi.teamo.App;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -77,25 +78,25 @@ public class ManageRequests implements Initializable {
 
         typeFilterSelection.getItems().clear();
 
-        medCheck = new JFXCheckBox("Medicine");
+        medCheck = new JFXCheckBox(App.resourceBundle.getString("key.medicine"));
         medCheck.setSelected(true);
-        sanCheck = new JFXCheckBox("Sanitation");
+        sanCheck = new JFXCheckBox(App.resourceBundle.getString("key.sanitation"));
         sanCheck.setSelected(true);
-        secCheck = new JFXCheckBox("Security");
+        secCheck = new JFXCheckBox(App.resourceBundle.getString("key.security"));
         secCheck.setSelected(true);
-        foodCheck = new JFXCheckBox("Food");
+        foodCheck = new JFXCheckBox(App.resourceBundle.getString("key.food"));
         foodCheck.setSelected(true);
-        giftCheck = new JFXCheckBox("Gift");
+        giftCheck = new JFXCheckBox(App.resourceBundle.getString("key.gift"));
         giftCheck.setSelected(true);
-        interpCheck = new JFXCheckBox("Interpreter");
+        interpCheck = new JFXCheckBox(App.resourceBundle.getString("key.interpreter"));
         interpCheck.setSelected(true);
-        laundryCheck = new JFXCheckBox("laundry");
+        laundryCheck = new JFXCheckBox(App.resourceBundle.getString("key.laundry"));
         laundryCheck.setSelected(true);
-        maintCheck = new JFXCheckBox("Maintenance");
+        maintCheck = new JFXCheckBox(App.resourceBundle.getString("key.maintenance"));
         maintCheck.setSelected(true);
-        religCheck = new JFXCheckBox("Religious");
+        religCheck = new JFXCheckBox(App.resourceBundle.getString("key.religious"));
         religCheck.setSelected(true);
-        covidCheck = new JFXCheckBox("COVID Survey");
+        covidCheck = new JFXCheckBox(App.resourceBundle.getString("key.covid_survey"));
         covidCheck.setSelected(true);
 
         EventHandler filterCheck = new EventHandler() {
