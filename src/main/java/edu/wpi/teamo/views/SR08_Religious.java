@@ -178,6 +178,12 @@ public class SR08_Religious extends ServiceRequestPage implements Initializable 
             validRequest = false;
         }
 
+        /*
+        if(assigneeName.getText().equals("")){
+            assignedErrorText.setText(App.resourceBundle.getString("key.no_assignee_specified"));
+            validRequest = false;
+        } */
+
         return validRequest;
     }
 
@@ -202,6 +208,8 @@ public class SR08_Religious extends ServiceRequestPage implements Initializable 
         assigneeName.setText("");
         religiousFigure.setText("");
         notes.setText("");
+        typeErrorText.setText("");
+        roomErrorText.setText("");
     }
 
 }
