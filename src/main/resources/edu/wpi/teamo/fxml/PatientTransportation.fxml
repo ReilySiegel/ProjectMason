@@ -6,7 +6,6 @@
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -106,9 +105,6 @@
                           <BorderPane.margin>
                               <Insets />
                           </BorderPane.margin>
-                          <effect>
-                              <DropShadow blurType="GAUSSIAN" color="#323232" height="40.0" radius="19.5" width="40.0" />
-                          </effect>
                       </VBox>
                   </center>
                   <bottom>
