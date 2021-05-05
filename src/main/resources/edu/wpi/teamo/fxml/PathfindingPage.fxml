@@ -120,7 +120,7 @@
                            </HBox.margin></JFXComboBox>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" maxHeight="-Infinity" prefHeight="43.0" prefWidth="213.0" styleClass="pane" GridPane.halignment="LEFT">
+                  <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="43.0" prefWidth="231.0" styleClass="pane" GridPane.halignment="LEFT">
                      <GridPane.margin>
                         <Insets bottom="30.0" left="30.0" right="160.0" top="30.0" />
                      </GridPane.margin>
