@@ -73,8 +73,6 @@ public class SR11_Security extends ServiceRequestPage implements Initializable {
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
 
-
-
         /* add styles */
         locationErrorText.setStyle("-fx-text-fill: red;");
         bottomButtonBar.getStyleClass().add("vbox");
