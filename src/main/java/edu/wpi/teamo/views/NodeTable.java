@@ -65,14 +65,14 @@ public class NodeTable extends TableSearcher<NodeInfo, HBox> {
     private HBox createHeader() {
         List<Label> columns = new LinkedList<>();
 
-        columns.add(new Label("id"));
-        columns.add(new Label("longName"));
-        columns.add(new Label("shortName"));
-        columns.add(new Label("type"));
-        columns.add(new Label("building"));
-        columns.add(new Label("floor"));
-        columns.add(new Label("x"));
-        columns.add(new Label("y"));
+        columns.add(new Label("ID"));
+        columns.add(new Label("Long Name"));
+        columns.add(new Label("Short Name"));
+        columns.add(new Label("Type"));
+        columns.add(new Label("Building"));
+        columns.add(new Label("Floor"));
+        columns.add(new Label("X"));
+        columns.add(new Label("Y"));
 
         columns.forEach(column -> column.setMinWidth(columnWidth));
         HBox row = new HBox();
@@ -126,10 +126,10 @@ public class NodeTable extends TableSearcher<NodeInfo, HBox> {
         HBox row = new HBox(idField, longNameField, shortNameField, typeField, buildingField, floorField, xField, yField);
 
         if (node.isValid()) {
-            row.setStyle("-fx-background-color: rgba(132,252,248, 0.4)");
+            row.setStyle("-fx-background-color: rgba(219,219,219,0.8)");
         }
         else {
-            row.setStyle("-fx-background-color: rgb(252,132,132)");
+            row.setStyle("-fx-background-color: rgba(252,132,132,0.8)");
         }
 
         return row;

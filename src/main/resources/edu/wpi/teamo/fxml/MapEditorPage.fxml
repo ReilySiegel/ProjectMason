@@ -35,7 +35,7 @@
          <children>
             <VBox pickOnBounds="false" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <children>
-                  <VBox fx:id="nodeEditorWindow" prefHeight="391.0" prefWidth="375.0" spacing="10.0" styleClass="pane">
+                  <VBox fx:id="nodeEditorWindow" prefHeight="391.0" prefWidth="375.0" spacing="10.0" styleClass="murkier-pane">
                      <VBox.margin>
                         <Insets left="30.0" right="30.0" />
                      </VBox.margin>
@@ -68,7 +68,7 @@
                         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                      </padding>
                   </VBox>
-                  <VBox fx:id="edgeEditorWindow" prefHeight="200.0" prefWidth="100.0" spacing="10.0" styleClass="pane">
+                  <VBox fx:id="edgeEditorWindow" prefHeight="200.0" prefWidth="100.0" spacing="10.0" styleClass="murkier-pane">
                      <children>
                         <Text fx:id="edgeEditorHeadingText" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.editing_edge" wrappingWidth="263.9999752640724">
                            <font>
@@ -100,7 +100,7 @@
                      </padding>
                   </VBox>
                </children></VBox>
-            <StackPane fx:id="tableWindow" pickOnBounds="false" prefHeight="150.0" prefWidth="200.0" styleClass="pane" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <StackPane fx:id="tableWindow" pickOnBounds="false" prefHeight="150.0" prefWidth="200.0" styleClass="murkier-pane" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
                </GridPane.margin>

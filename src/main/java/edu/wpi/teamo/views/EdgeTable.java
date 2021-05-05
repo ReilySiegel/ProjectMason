@@ -60,9 +60,9 @@ public class EdgeTable extends TableSearcher<EdgeInfo, HBox> {
     private HBox createHeader() {
         List<Label> columns = new LinkedList<>();
 
-        columns.add(new Label("id"));
-        columns.add(new Label("startNodeID"));
-        columns.add(new Label("endNodeID"));
+        columns.add(new Label("ID"));
+        columns.add(new Label("Start Node ID"));
+        columns.add(new Label("End Node ID"));
 
         columns.forEach(column -> column.setMinWidth(columnWidth));
         HBox row = new HBox();
@@ -91,10 +91,10 @@ public class EdgeTable extends TableSearcher<EdgeInfo, HBox> {
         HBox row = new HBox(idField, startIDField, endIDField);
 
         if (edge.isValid()) {
-            row.setStyle("-fx-background-color: rgba(132,252,248, 0.4)");
+            row.setStyle("-fx-background-color: rgba(219,219,219,0.8)");
         }
         else {
-            row.setStyle("-fx-background-color: rgb(252,132,132)");
+            row.setStyle("-fx-background-color: rgba(252,132,132,0.8)");
         }
 
         return row;
