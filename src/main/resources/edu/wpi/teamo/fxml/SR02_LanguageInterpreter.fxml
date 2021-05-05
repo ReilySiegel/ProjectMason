@@ -55,7 +55,7 @@
                         </AnchorPane>
                      </children>
                   </HBox>
-                        <HBox prefWidth="727.0">
+                        <HBox fx:id="assignedBox" prefWidth="727.0">
                             <children>
                         <Label prefWidth="200.0" text="%key.assignee_name" textAlignment="RIGHT">
                            <font>

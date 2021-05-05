@@ -55,7 +55,7 @@
                               </AnchorPane>
                            </children>
                         </HBox>
-                              <HBox>
+                              <HBox fx:id="assignedBox">
                                   <children>
                                       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.assignee_name" textAlignment="RIGHT" wrappingWidth="190.0">
                                           <font>

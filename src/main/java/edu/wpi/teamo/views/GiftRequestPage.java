@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXTextField;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.Pages;
+import edu.wpi.teamo.Session;
 import edu.wpi.teamo.database.map.NodeInfo;
 import edu.wpi.teamo.database.request.BaseRequest;
 import edu.wpi.teamo.database.request.GiftRequest;
@@ -17,6 +18,7 @@ import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
@@ -52,11 +54,19 @@ public class GiftRequestPage extends ServiceRequestPage implements Initializable
     @FXML
     private JFXButton backButton;
 
+    @FXML
+    private HBox assignedBox;
+
     private boolean validRequest;
 
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
+
+        if (Session.getAccount() == null || !Session.getAccount().hasEmployeeAccess()) {
+            assignedBox.setVisible(false);
+            assignedBox.setManaged(false);
+        }
 
         backButton.setOnAction(actionEvent -> SubPageContainer.switchPage(Pages.SERVICEREQUEST));
         validRequest = true;

@@ -3,6 +3,7 @@ package edu.wpi.teamo.views;
 import com.jfoenix.controls.*;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.Pages;
+import edu.wpi.teamo.Session;
 import edu.wpi.teamo.database.map.NodeInfo;
 import edu.wpi.teamo.database.request.BaseRequest;
 import edu.wpi.teamo.database.request.ReligiousRequest;
@@ -83,9 +84,17 @@ public class SR08_Religious extends ServiceRequestPage implements Initializable 
     @FXML
     private JFXButton backButton;
 
+    @FXML
+    private HBox assignedBox;
+
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
+
+        if (Session.getAccount() == null || !Session.getAccount().hasEmployeeAccess()) {
+            assignedBox.setVisible(false);
+            assignedBox.setManaged(false);
+        }
 
         backButton.setOnAction(actionEvent -> SubPageContainer.switchPage(Pages.SERVICEREQUEST));
 

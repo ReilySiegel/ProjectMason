@@ -36,7 +36,7 @@
               <center>
                   <VBox fillWidth="false" prefHeight="345.0" prefWidth="708.0" spacing="10.0" BorderPane.alignment="TOP_CENTER">
                       <children>
-                          <HBox prefHeight="45.0" prefWidth="652.0">
+                          <HBox fx:id="assignedBox" prefHeight="45.0" prefWidth="652.0">
                               <children>
                                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.assignee_name" textAlignment="RIGHT" wrappingWidth="190.0">
                                       <font>

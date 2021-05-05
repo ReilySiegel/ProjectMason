@@ -3,6 +3,7 @@ package edu.wpi.teamo.views;
 import com.jfoenix.controls.*;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.Pages;
+import edu.wpi.teamo.Session;
 import edu.wpi.teamo.database.map.NodeInfo;
 import edu.wpi.teamo.database.request.BaseRequest;
 import edu.wpi.teamo.database.request.LaundryRequest;
@@ -14,6 +15,7 @@ import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
@@ -65,6 +67,9 @@ public class LaundryRequestPage extends ServiceRequestPage implements Initializa
     @FXML
     private JFXTextField locationSearchBox;
 
+    @FXML
+    private HBox assignedBox;
+
 
     private boolean validRequest;
 
@@ -73,6 +78,11 @@ public class LaundryRequestPage extends ServiceRequestPage implements Initializa
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
+
+        if (Session.getAccount() == null || !Session.getAccount().hasEmployeeAccess()) {
+            assignedBox.setVisible(false);
+            assignedBox.setManaged(false);
+        }
 
         backButton.setOnAction(actionEvent -> SubPageContainer.switchPage(Pages.SERVICEREQUEST));
 
@@ -155,8 +165,7 @@ public class LaundryRequestPage extends ServiceRequestPage implements Initializa
             validRequest = false;
         }
         if (assignName.equals("")) {
-            assigneeErrorText.setText(App.resourceBundle.getString("key.no_laundry_checked"));
-            validRequest = false;
+            assignName = "Unassigned";
         }
 
         if (validRequest) {
