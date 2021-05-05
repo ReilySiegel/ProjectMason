@@ -151,12 +151,12 @@ public class PatientTransportation extends ServiceRequestPage implements Initial
         validRequest = true;
 
         if (patientDestination.equals("")) {
-            typeErrorText.setText(App.resourceBundle.getString("key.no_destination"));
+            //typeErrorText.setText(App.resourceBundle.getString("key.no_destination"));
             validRequest = false;
         }
 
         if (locationSearcher.getSelectedLocationIDs().size() == 0) {
-            roomErrorText.setText(App.resourceBundle.getString("key.no_room_specified"));
+            //roomErrorText.setText(App.resourceBundle.getString("key.no_room_specified"));
             validRequest = false;
         }
 

@@ -99,8 +99,7 @@ public class FoodRequestPage extends ServiceRequestPage implements Initializable
         List<NodeInfo> locations = locationSearcher.getSelectedLocations();
         List<String> locationIDs = locationSearcher.getSelectedLocationIDs();
 
-        LocalTime curTime = deliveryTime.getValue();
-        LocalDateTime curDate = deliveryDate.getValue().atTime(curTime);
+
 
         String appetizer = appetizerBox.getText();
 
@@ -135,7 +134,18 @@ public class FoodRequestPage extends ServiceRequestPage implements Initializable
             validRequest = false;
         }
 
+        if(deliveryTime.getValue() == null){
+            validRequest = false;
+        }
+
+        if(deliveryDate.getValue() == null){
+            validRequest = false;
+        }
+
         if(validRequest) {
+
+            LocalTime curTime = deliveryTime.getValue();
+            LocalDateTime curDate = deliveryDate.getValue().atTime(curTime);
             BaseRequest br = new BaseRequest(UUID.randomUUID().toString(), "", locationIDs.stream(), "", false, curDate);
             FoodRequest fr = new FoodRequest(appetizer, entree, dessert, dR, br);
 
