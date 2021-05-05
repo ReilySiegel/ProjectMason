@@ -18,6 +18,7 @@ public class Account extends RecursiveTreeObject<Account> {
     private String passwordHash;
     private boolean isAdmin;
     private boolean useEmergencyEntrance = false;
+    private boolean takenSurvey = false;
     private String firstName;
     private String lastName;
     private String role;
@@ -29,12 +30,25 @@ public class Account extends RecursiveTreeObject<Account> {
                     String firstName,
                     String lastName,
                     String role) {
+        this(username,passwordHash,isAdmin,firstName,lastName,role,false,false);
+    }
+
+    public Account (String username,
+                    String passwordHash,
+                    boolean isAdmin,
+                    String firstName,
+                    String lastName,
+                    String role,
+                    boolean useEmergencyEntrance,
+                    boolean takenSurvey) {
         this.username = username;
         this.passwordHash = passwordHash;
         this.isAdmin =         isAdmin;
         this.firstName = firstName;
         this.lastName = lastName;
         this.role = role;
+        this.useEmergencyEntrance = useEmergencyEntrance;
+        this.takenSurvey = takenSurvey;
     }
 
     public static void initTable() throws SQLException {
@@ -42,6 +56,8 @@ public class Account extends RecursiveTreeObject<Account> {
                                  "CREATE TABLE Account (username varchar(255) primary key",
                                  "passwordHash varchar(255)",
                                  "isAdmin boolean",
+                                 "useEmergencyEntrance boolean",
+                                 "takenSurvey boolean",
                                  "firstName varchar(255)",
                                  "lastName varchar(255)",
                                  "role varchar(255))");
@@ -57,7 +73,9 @@ public class Account extends RecursiveTreeObject<Account> {
                             rs.getBoolean("isAdmin"),
                             rs.getString("firstName"),
                             rs.getString("lastName"),
-                            rs.getString("role"));
+                            rs.getString("role"),
+                rs.getBoolean("useEmergencyEntrance"),
+                rs.getBoolean("takenSurvey"));
     }
     public static Stream<Account> getAll() throws SQLException {
         ResultSet rs = Database.processQuery("SELECT * FROM Account");
@@ -68,7 +86,9 @@ public class Account extends RecursiveTreeObject<Account> {
                                   rs.getBoolean("isAdmin"),
                                   rs.getString("firstName"),
                                   rs.getString("lastName"),
-                                  rs.getString("role")));
+                                  rs.getString("role"),
+                    rs.getBoolean("useEmergencyEntrance"),
+                    rs.getBoolean("takenSurvey")));
         return reqs.stream();
     }
 
@@ -77,8 +97,8 @@ public class Account extends RecursiveTreeObject<Account> {
         try {
             String sql = String.join (" ",
                                       "INSERT INTO Account ",
-                                      "(username, passwordHash, isAdmin, firstName, lastName, role)",
-                                      "VALUES (?, ?, ?, ?, ?, ?)");
+                                      "(username, passwordHash, isAdmin, firstName, lastName, role, useEmergencyEntrance, takenSurvey)",
+                                      "VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
             PreparedStatement pstmt = Database.prepareStatement(sql);
             pstmt.setString(1, this.username);
             pstmt.setString(2, this.passwordHash);
@@ -86,13 +106,15 @@ public class Account extends RecursiveTreeObject<Account> {
             pstmt.setString(4, this.firstName);
             pstmt.setString(5, this.lastName);
             pstmt.setString(6, this.role);
+            pstmt.setBoolean(7, this.useEmergencyEntrance);
+            pstmt.setBoolean(8, this.takenSurvey);
             pstmt.execute();
         } catch (SQLException e) {
             // Item with this ID already exists in the DB, try insert.
             String sql = String.join (" ",
                                       "UPDATE Account SET",
                                       "username = ?, passwordHash = ?, isAdmin = ?, firstName = ?,",
-                                      "lastName = ?, role = ? WHERE username = ?");
+                                      "lastName = ?, role = ?, useEmergencyEntrance = ?, takenSurvey = ? WHERE username = ?");
             PreparedStatement pstmt = Database.prepareStatement(sql);
             pstmt.setString(1, this.username);
             pstmt.setString(2, this.passwordHash);
@@ -100,7 +122,9 @@ public class Account extends RecursiveTreeObject<Account> {
             pstmt.setString(4, this.firstName);
             pstmt.setString(5, this.lastName);
             pstmt.setString(6, this.role);
-            pstmt.setString(7, this.username);
+            pstmt.setBoolean(7, this.useEmergencyEntrance);
+            pstmt.setBoolean(8, this.takenSurvey);
+            pstmt.setString(9, this.username);
             pstmt.execute();
         }
     }
@@ -151,7 +175,11 @@ public class Account extends RecursiveTreeObject<Account> {
 
     public boolean getUseEmergencyEntrance(){return this.useEmergencyEntrance;}
 
-    public void setUseEmergencyEntrance(boolean useEmergencyEntrance){this.useEmergencyEntrance = useEmergencyEntrance;}
+    public void setUseEmergencyEntrance(boolean useEmergencyEntrance) throws SQLException {
+        this.useEmergencyEntrance = useEmergencyEntrance;
+        this.update();
+    }
+
     public String getLastName() {
         return lastName;
     }
@@ -177,6 +205,15 @@ public class Account extends RecursiveTreeObject<Account> {
         else {
             throw new InvalidParameterException("Not a parking spot.");
         }
+    }
+
+    public boolean getTakenSurvey() {
+        return takenSurvey;
+    }
+
+    public void setTakenSurvey(boolean takenSurvey) throws SQLException {
+        this.takenSurvey = takenSurvey;
+        this.update();
     }
 
     public String getParkingSpot() {
