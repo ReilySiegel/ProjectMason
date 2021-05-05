@@ -175,12 +175,20 @@ public class RequestDisplay {
                         @Override
                         public void handle(KeyEvent event) {
                             if (event.getCode().equals(KeyCode.ENTER)) {
-                                try {
-                                    m.setAssigned(editAssignee.getText());
-                                    update(types, latestTime);
-                                } catch (SQLException throwables) {
-                                    throwables.printStackTrace();
+                                if (editAssignee.getText().isEmpty()) {
+                                    assignedBox.getChildren().clear();
+                                    assignedBox.getChildren().add(assignedText);
+                                } else {
+                                    try {
+                                        m.setAssigned(editAssignee.getText());
+                                        update(types, latestTime);
+                                    } catch (SQLException throwables) {
+                                        throwables.printStackTrace();
+                                    }
                                 }
+                            } else if (event.getCode().equals(KeyCode.ESCAPE)) {
+                                assignedBox.getChildren().clear();
+                                assignedBox.getChildren().add(assignedText);
                             }
                         }
                     });
