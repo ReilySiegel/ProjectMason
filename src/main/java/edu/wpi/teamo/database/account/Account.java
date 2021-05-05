@@ -30,7 +30,7 @@ public class Account extends RecursiveTreeObject<Account> {
                     String firstName,
                     String lastName,
                     String role) {
-        this(username,passwordHash,isAdmin,firstName,lastName,role,false,false);
+        this(username,passwordHash,isAdmin,firstName,lastName,role,true,false);
     }
 
     public Account (String username,

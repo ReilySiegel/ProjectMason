@@ -4,12 +4,15 @@ import animatefx.animation.Bounce;
 import animatefx.animation.FadeIn;
 import animatefx.animation.FadeOut;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialogLayout;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.Pages;
 import edu.wpi.teamo.Session;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -27,6 +30,9 @@ import java.util.ResourceBundle;
 import static java.lang.Thread.sleep;
 
 public class MainPage implements Initializable {
+
+    @FXML
+    private StackPane parentStackPane;
 
     @FXML
     private ImageView imageView;
@@ -144,7 +150,14 @@ public class MainPage implements Initializable {
     }
 
     private void handlePathfinderButton(ActionEvent actionEvent) {
-        setPathfinding();
+
+        if (Session.isLoggedIn() && !Session.getAccount().getTakenSurvey()) {
+            App.showError(App.resourceBundle.getString("key.please_take_covid_survey"), parentStackPane);
+        }
+        else {
+            setPathfinding();
+        }
+
     }
 
     private void handleServiceRequestButton(ActionEvent actionEvent) {
@@ -283,4 +296,5 @@ public class MainPage implements Initializable {
         backgroundPane.getChildren().clear();
         backgroundPane.setVisible(false);
     }
+
 }

@@ -3,6 +3,7 @@ package edu.wpi.teamo.views;
 import com.jfoenix.controls.*;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.Pages;
+import edu.wpi.teamo.database.account.Account;
 import edu.wpi.teamo.database.request.*;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -366,20 +367,31 @@ public class RequestDisplay {
             expand.setStyle("-fx-border-radius: 5; -fx-background-radius: 5");
 
             ContextMenu contextMenu = new ContextMenu();
-            MenuItem markComplete = new MenuItem("Mark as Complete");
-            markComplete.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    try {
-                        COVIDSurveyRequest.getByID(c.getId()).setComplete(true);
-                        update(types, latestTime);
-                    } catch (SQLException throwables) {
-                        throwables.printStackTrace();
-                    }
+
+            MenuItem approveItem = new MenuItem("Cleared for Entry");
+            approveItem.setOnAction(event -> {
+                try {
+                    COVIDSurveyRequest.getByID(c.getId()).setComplete(true);
+                    Account.getByUsername(c.getUsername()).setUseEmergencyEntrance(false);
+                    update(types, latestTime);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
                 }
             });
 
-            contextMenu.getItems().add(markComplete);
+            MenuItem rejectItem = new MenuItem("Possibly Sick");
+            rejectItem.setOnAction(event -> {
+                try {
+                    COVIDSurveyRequest.getByID(c.getId()).setComplete(true);
+                    Account.getByUsername(c.getUsername()).setUseEmergencyEntrance(true);
+                    update(types, latestTime);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            });
+
+            contextMenu.getItems().add(approveItem);
+            contextMenu.getItems().add(rejectItem);
 
             viewContextMenu.setOnMousePressed(new EventHandler<MouseEvent>() {
                 @Override

@@ -1,5 +1,8 @@
 package edu.wpi.teamo;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialogLayout;
 import edu.wpi.teamo.algos.*;
 import edu.wpi.teamo.database.account.Account;
 import edu.wpi.teamo.database.request.*;
@@ -9,11 +12,15 @@ import edu.wpi.teamo.database.Database;
 import edu.wpi.teamo.views.LocaleType;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import java.sql.SQLException;
 import java.io.IOException;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import java.util.*;
 
@@ -174,4 +181,22 @@ public class App extends Application {
   public void stop() {
     System.out.println("Shutting Down");
   }
+
+  public static void showError(String message, StackPane stackPane) {
+    JFXDialogLayout content = new JFXDialogLayout();
+    content.setHeading(new Text(App.resourceBundle.getString("key.error")));
+    content.setBody(new Text(message));
+    JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
+    JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
+//    closeButton.setStyle("-fx-background-color: rgb(128,232,255)");
+    closeButton.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent event) {
+        errorWindow.close();
+      }
+    });
+    content.setActions(closeButton);
+    errorWindow.show();
+  }
+
 }

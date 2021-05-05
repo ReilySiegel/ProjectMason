@@ -298,11 +298,11 @@ public class PathfindingPage extends SubPageController implements Initializable 
                     update();
                 }
                 else {
-                    showError(App.resourceBundle.getString("key.log_in_to_use_this_feature"));
+                    App.showError(App.resourceBundle.getString("key.log_in_to_use_this_feature"), parentStackPane);
                 }
             }
             catch (InvalidParameterException e) {
-                showError(App.resourceBundle.getString("key.parking_spot_error"));
+                App.showError(App.resourceBundle.getString("key.parking_spot_error"), parentStackPane);
             }
             selectingParkingSpot = false;
         }
@@ -373,11 +373,11 @@ public class PathfindingPage extends SubPageController implements Initializable 
                 update();
             }
             else {
-                showError(App.resourceBundle.getString("key.log_in_to_use_this_feature"));
+                App.showError(App.resourceBundle.getString("key.log_in_to_use_this_feature"), parentStackPane);
             }
         }
         catch (InvalidParameterException e) {
-            showError(App.resourceBundle.getString("key.parking_spot_error"));
+            App.showError(App.resourceBundle.getString("key.parking_spot_error"), parentStackPane);
         }
     }
 
@@ -595,24 +595,5 @@ public class PathfindingPage extends SubPageController implements Initializable 
 
     private void setSearchWindowVisibility(boolean visible) {
         searchWindow.setVisible(visible);
-    }
-
-    void showError(String message) {
-        JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text(App.resourceBundle.getString("key.error")));
-        content.setBody(new Text(message));
-        JFXDialog errorWindow = new JFXDialog(parentStackPane, content, JFXDialog.DialogTransition.TOP);
-
-        JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
-        closeButton.setStyle("-fx-background-color: #f40f19");
-        closeButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                errorWindow.close();
-            }
-        });
-
-        content.setActions(closeButton);
-        errorWindow.show();
     }
 }

@@ -128,40 +128,20 @@ public class CovidSurveyPage extends ServiceRequestPage implements Initializable
         JFXDialogLayout content = new JFXDialogLayout();
         content.setHeading(new Text(App.resourceBundle.getString("key.thanks_for_submitting_response")));
 
+        boolean mayBeSick = Q1Check || Q2Check || Q3Check || Q4Check || Q5Check;
 
-
-        if(Q1Check || Q2Check || Q3Check || Q4Check || Q5Check){
-            if(Session.isLoggedIn()){
-                Session.getAccount().setUseEmergencyEntrance(true);
-                new COVIDSurveyRequest(Session.getAccount().getUsername(), true).update();
-            }
-            content.setBody(new Text(App.resourceBundle.getString("key.survey_back_entrance")));
-
-            if(Session.isLoggedIn()){
-                Session.getAccount().setUseEmergencyEntrance(true);
-                new COVIDSurveyRequest(Session.getAccount().getUsername(), true).update();
-            }
-            content.setBody(new Text(App.resourceBundle.getString("key.survey_await_response")));
+        if(Session.isLoggedIn()){
+            Session.getAccount().setTakenSurvey(true);
+            new COVIDSurveyRequest(Session.getAccount().getUsername(), mayBeSick).update();
         }
-        else{
-            if(Session.isLoggedIn()){
-                Session.getAccount().setUseEmergencyEntrance(false);
-                new COVIDSurveyRequest(Session.getAccount().getUsername(), false).update();
-            }
-            content.setBody(new Text(App.resourceBundle.getString("key.survey_await_response")));
-        }
+        content.setBody(new Text(App.resourceBundle.getString("key.survey_await_response")));
 
         JFXDialog errorWindow = new JFXDialog(parentStackPane, content, JFXDialog.DialogTransition.TOP);
         content.setStyle("-fx-background-color: #d8dee9");
 
         JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
         closeButton.setStyle("-fx-background-color: #434c5e; -fx-text-fill: #d8dee9");
-        closeButton.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
-            @Override
-            public void handle(javafx.event.ActionEvent event) {
-                App.switchPage(Pages.MAIN);
-            }
-        });
+        closeButton.setOnAction(event -> App.switchPage(Pages.MAIN));
 
         content.setActions(closeButton);
         errorWindow.show();

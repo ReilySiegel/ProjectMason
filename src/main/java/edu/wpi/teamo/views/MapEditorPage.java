@@ -42,7 +42,7 @@ import javax.activity.InvalidActivityException;
 public class MapEditorPage extends SubPageController implements Initializable{
 
     @FXML
-    private StackPane stackPane;
+    private StackPane parentStackPane;
 
     @FXML
     private GridPane gridPane;
@@ -438,7 +438,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         try {
             alignmentTool.confirmAlignment();
         } catch (Exception throwables) {
-            showError("Alignment failed: " + throwables.getMessage());
+            App.showError("Alignment failed: " + throwables.getMessage(), parentStackPane);
         }
         finally {
             clearAlignmentTool();
@@ -693,7 +693,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         content.setBody(new Text(App.resourceBundle.getString("key.deleting_a_node") +
                 App.resourceBundle.getString("key.ID_semicolon")+ node.getNodeID() + "\n" +
                 App.resourceBundle.getString("key.name_semicolon") + node.getLongName() + "\n"));
-        JFXDialog deleteConfirmationWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
+        JFXDialog deleteConfirmationWindow = new JFXDialog(parentStackPane, content, JFXDialog.DialogTransition.TOP);
 
         JFXButton cancelButton = new JFXButton(App.resourceBundle.getString("key.cancel"));
         cancelButton.setStyle("-fx-background-color: #004cff; -fx-text-fill: #ffffff");
@@ -705,7 +705,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
             try {
                 deleteNode(node.getNodeID());
             } catch (SQLException throwables) {
-                showError(App.resourceBundle.getString("key.there_was_a_delete_error"));
+                App.showError(App.resourceBundle.getString("key.there_was_a_delete_error"), parentStackPane);
                 throwables.printStackTrace();
             }
             deleteConfirmationWindow.close();
@@ -722,7 +722,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         content.setHeading(new Text(App.resourceBundle.getString("key.confirm_edge_deletion")));
         content.setBody(new Text(App.resourceBundle.getString("key.deleting_an_edge") +
                 App.resourceBundle.getString("key.ID_semicolon") + edge.getEdgeID() + "\n"));
-        JFXDialog deleteConfirmationWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
+        JFXDialog deleteConfirmationWindow = new JFXDialog(parentStackPane, content, JFXDialog.DialogTransition.TOP);
 
         JFXButton cancelButton = new JFXButton(App.resourceBundle.getString("key.cancel"));
         cancelButton.setStyle("-fx-background-color: #004cff; -fx-text-fill: #ffffff");
@@ -734,7 +734,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
             try {
                 deleteEdge(edge.getEdgeID());
             } catch (SQLException throwables) {
-                showError(App.resourceBundle.getString("key.there_was_a_delete_error"));
+                App.showError(App.resourceBundle.getString("key.there_was_a_delete_error"), parentStackPane);
                 throwables.printStackTrace();
             }
             deleteConfirmationWindow.close();
@@ -762,7 +762,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         try {
             addNode(id, x, y, selectedFloor, defaultBulding, defaultType, id, id);
         } catch (SQLException throwables) {
-            showError(App.resourceBundle.getString("key.error_saving_node"));
+            App.showError(App.resourceBundle.getString("key.error_saving_node"), parentStackPane);
             throwables.printStackTrace();
         }
     }
@@ -788,7 +788,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         try {
             App.mapService.addEdge(edgeID, startNodeID, endNodeID);
         } catch (SQLException | IllegalArgumentException e) {
-            showError(App.resourceBundle.getString("key.error_saving_edge"));
+            App.showError(App.resourceBundle.getString("key.error_saving_edge"), parentStackPane);
         }
         update();
     }
@@ -823,7 +823,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
                 }
             }
             else {
-                showError(App.resourceBundle.getString("key.node_id_exists"));
+                App.showError(App.resourceBundle.getString("key.node_id_exists"), parentStackPane);
             }
         }
 
@@ -839,7 +839,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
         }
         catch (SQLException | IllegalArgumentException | AssertionError e){
             e.printStackTrace();
-            showError(App.resourceBundle.getString("key.please_fill_out_all_fields_with_valid_arguments"));
+            App.showError(App.resourceBundle.getString("key.please_fill_out_all_fields_with_valid_arguments"), parentStackPane);
         }
 
         update();
@@ -852,7 +852,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
         try {
             if (App.mapService.edgeExists(newEditEdgeID) && !newEditEdgeID.equals(edgeBeingEdited.getEdgeID())) {
-                showError(App.resourceBundle.getString("key.edge_id_exists"));
+                App.showError(App.resourceBundle.getString("key.edge_id_exists"), parentStackPane);
             }
             else {
                 App.mapService.setEdgeID(edgeBeingEdited.getEdgeID(), newEditEdgeID);
@@ -864,7 +864,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
             }
         } catch (SQLException | IllegalArgumentException e) {
-            showError(App.resourceBundle.getString("key.please_fill_out_all_fields_with_valid_arguments"));
+            App.showError(App.resourceBundle.getString("key.please_fill_out_all_fields_with_valid_arguments"), parentStackPane);
             return;
         }
         update();
@@ -888,7 +888,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
             //App.mapService.loadNodesFromFile("src/test/resources/edu/wpi/teamo/map/database/testNodes.csv");
         }
         catch(IOException | NullPointerException | SQLException | IllegalArgumentException e){
-            showError(App.resourceBundle.getString("key.select_a_valid_file"));
+            App.showError(App.resourceBundle.getString("key.select_a_valid_file"), parentStackPane);
             return;
         }
 
@@ -911,7 +911,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
             App.mapService.writeNodesToCSV(path);
         }
         catch(NullPointerException | SQLException | IOException e){
-            showError(App.resourceBundle.getString("key.save_aborted"));
+            App.showError(App.resourceBundle.getString("key.save_aborted"), parentStackPane);
         }
     }
 
@@ -932,7 +932,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
             String path = f.getPath();
             App.mapService.loadEdgesFromFile(path);
         } catch (IOException | SQLException | NullPointerException | IllegalArgumentException e)  {
-            showError(App.resourceBundle.getString("key.select_a_valid_file"));
+            App.showError(App.resourceBundle.getString("key.select_a_valid_file"), parentStackPane);
             return;
         }
         update();
@@ -950,7 +950,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
             String path = f.getPath();
             App.mapService.writeEdgesToCSV(path);
         } catch (IOException | SQLException | NullPointerException e ) {
-            showError(App.resourceBundle.getString("key.save_aborted"));
+            App.showError(App.resourceBundle.getString("key.save_aborted"), parentStackPane);
         }
     }
 
@@ -985,33 +985,13 @@ public class MapEditorPage extends SubPageController implements Initializable{
     }
 
     @FXML
-    void showError(String message) {
-        JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text(App.resourceBundle.getString("key.error")));
-        content.setBody(new Text(message));
-        JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
-
-        JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
-        closeButton.setStyle("-fx-background-color: #f40f19");
-        closeButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                errorWindow.close();
-            }
-        });
-
-        content.setActions(closeButton);
-        errorWindow.show();
-    }
-
-    @FXML
     private void handleHelp(ActionEvent e) {
 
         JFXDialogLayout content = new JFXDialogLayout();
         content.setHeading(new Text(App.resourceBundle.getString("key.help_map_editor")));
         content.setBody(new Text(App.resourceBundle.getString("key.help_map_editor_text")));
 
-        JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
+        JFXDialog errorWindow = new JFXDialog(parentStackPane, content, JFXDialog.DialogTransition.TOP);
 
         JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
         closeButton.setStyle("-jfx-button-type: RAISED");

@@ -108,14 +108,11 @@ public class ManageRequests implements Initializable {
         filterCheckBoxes.add(transCheck);
         filterCheckBoxes.add(covidCheck);
 
-        EventHandler filterCheck = new EventHandler() {
-            @Override
-            public void handle(Event event) {
-                try {
-                    applyFilter();
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
-                }
+        EventHandler filterCheck = event -> {
+            try {
+                applyFilter();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
             }
         };
 
