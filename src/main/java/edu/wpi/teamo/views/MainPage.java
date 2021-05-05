@@ -87,7 +87,10 @@ public class MainPage implements Initializable {
         SubPageContainer.newInstance(containerPane, containerVBox);
 
         boolean isAdmin = Session.isLoggedIn() && Session.getAccount().isAdmin();
+        boolean isStaff = Session.isLoggedIn() && Session.getAccount().hasEmployeeAccess();
+
         setAdminButtonAnimation(isAdmin);
+        setStaffButtonAnimation(isStaff);
 
         updateAccountWindow();
 
@@ -273,6 +276,26 @@ public class MainPage implements Initializable {
         new FadeIn(mainMenuButtonBox).play();
     }
 
+    private void setStaffButtonVisibility(boolean visible) {
+        if(visible){
+            FadeOut fadeOut = new FadeOut(mainMenuButtonBox);
+            fadeOut.setOnFinished(event -> setStaffButtonAnimation(visible));
+            mainMenuButtonBox.setMouseTransparent(true);
+            fadeOut.play();
+        }
+        else{
+            setStaffButtonAnimation(visible);
+        }
+    }
+
+    private void setStaffButtonAnimation(boolean visible) {
+        requestManagerButton.setVisible(visible);
+        requestManagerButton.setManaged(visible);
+
+        mainMenuButtonBox.setMouseTransparent(false);
+        new FadeIn(mainMenuButtonBox).play();
+    }
+
     private void handleLogin(ActionEvent e) {
         hidePages();
         SubPageContainer.switchPage(Pages.LOGIN);
@@ -287,6 +310,7 @@ public class MainPage implements Initializable {
             exception.printStackTrace();
         }
         setAdminButtonVisibility(false);
+        setStaffButtonVisibility(false);
         updateAccountWindow();
         hidePages();
     }
