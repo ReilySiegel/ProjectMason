@@ -151,7 +151,7 @@ public class MainPage implements Initializable {
 
     private void handlePathfinderButton(ActionEvent actionEvent) {
 
-        if (Session.isLoggedIn() && !Session.getAccount().getTakenSurvey()) {
+        if (Session.isLoggedIn() && !Session.getAccount().getTakenSurvey() && !Session.getAccount().isAdmin()) {
             App.showError(App.resourceBundle.getString("key.please_take_covid_survey"), parentStackPane);
         }
         else {

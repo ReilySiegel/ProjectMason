@@ -3,6 +3,7 @@ package edu.wpi.teamo.views;
 import com.jfoenix.controls.*;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.Pages;
+import edu.wpi.teamo.Session;
 import edu.wpi.teamo.database.account.Account;
 import edu.wpi.teamo.database.request.*;
 import javafx.event.ActionEvent;
@@ -349,8 +350,8 @@ public class RequestDisplay {
             Text emergencyEntrance = new Text();
 
             if (c.getUseEmergencyEntrance())
-                emergencyEntrance.setText(App.resourceBundle.getString("key.entrance_normal"));
-            else emergencyEntrance.setText(App.resourceBundle.getString("key.entrance_emergency"));
+                emergencyEntrance.setText(App.resourceBundle.getString("key.entrance_emergency"));
+            else emergencyEntrance.setText(App.resourceBundle.getString("key.entrance_normal"));
             emergencyEntrance.setWrappingWidth(120);
 
             HBox entranceBox = new HBox(emergencyEntrance);
@@ -373,6 +374,7 @@ public class RequestDisplay {
                 try {
                     COVIDSurveyRequest.getByID(c.getId()).setComplete(true);
                     Account.getByUsername(c.getUsername()).setUseEmergencyEntrance(false);
+                    Account.getByUsername(c.getUsername()).setTakenSurvey(true);
                     update(types, latestTime);
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
@@ -384,6 +386,7 @@ public class RequestDisplay {
                 try {
                     COVIDSurveyRequest.getByID(c.getId()).setComplete(true);
                     Account.getByUsername(c.getUsername()).setUseEmergencyEntrance(true);
+                    Account.getByUsername(c.getUsername()).setTakenSurvey(true);
                     update(types, latestTime);
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();

@@ -128,10 +128,9 @@ public class CovidSurveyPage extends ServiceRequestPage implements Initializable
         JFXDialogLayout content = new JFXDialogLayout();
         content.setHeading(new Text(App.resourceBundle.getString("key.thanks_for_submitting_response")));
 
-        boolean mayBeSick = Q1Check || Q2Check || Q3Check || Q4Check || Q5Check;
+        boolean mayBeSick = Q1.isSelected() || Q2.isSelected() || Q3.isSelected() || Q4.isSelected() || Q5.isSelected();
 
         if(Session.isLoggedIn()){
-            Session.getAccount().setTakenSurvey(true);
             new COVIDSurveyRequest(Session.getAccount().getUsername(), mayBeSick).update();
         }
         content.setBody(new Text(App.resourceBundle.getString("key.survey_await_response")));

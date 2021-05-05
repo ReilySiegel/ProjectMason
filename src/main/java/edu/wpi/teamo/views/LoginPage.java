@@ -30,7 +30,7 @@ public class LoginPage extends SubPageController{
 
         try{
             Session.login(usernameString,passwordString);
-            if(Session.getAccount().hasEmployeeAccess()){
+            if(Session.getAccount().hasEmployeeAccess() || !Session.getAccount().getUseEmergencyEntrance()){
                 App.switchPage(Pages.MAIN);
             }
             else{
