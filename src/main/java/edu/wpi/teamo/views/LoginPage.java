@@ -34,6 +34,7 @@ public class LoginPage extends SubPageController{
                 App.switchPage(Pages.MAIN);
             }
             else{
+                App.switchPage(Pages.MAIN);
                 SubPageContainer.switchPage(Pages.SURVEY);
             }
 
