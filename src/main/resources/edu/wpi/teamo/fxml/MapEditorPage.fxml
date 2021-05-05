@@ -206,7 +206,7 @@
                                     <Font name="System Bold" size="13.0" />
                                  </font>
                               </Text>
-                              <JFXComboBox fx:id="floorSwitcher" focusColor="#405aa800" prefHeight="39.0" prefWidth="48.0" styleClass="button" unFocusColor="#4d4d4d00">
+                              <JFXComboBox fx:id="floorSwitcher" focusColor="#405aa800" maxWidth="-Infinity" prefHeight="39.0" prefWidth="56.0" styleClass="button" unFocusColor="#4d4d4d00">
                                  <HBox.margin>
                                     <Insets left="10.0" right="10.0" />
                                  </HBox.margin>

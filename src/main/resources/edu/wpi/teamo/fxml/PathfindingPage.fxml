@@ -120,9 +120,9 @@
                            </HBox.margin></JFXComboBox>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="43.0" prefWidth="211.0" styleClass="pane" GridPane.halignment="LEFT">
+                  <HBox alignment="CENTER" maxHeight="-Infinity" prefHeight="43.0" prefWidth="213.0" styleClass="pane" GridPane.halignment="LEFT">
                      <GridPane.margin>
-                        <Insets bottom="30.0" left="30.0" right="180.0" top="30.0" />
+                        <Insets bottom="30.0" left="30.0" right="160.0" top="30.0" />
                      </GridPane.margin>
                      <children>
                         <JFXButton fx:id="helpButton" buttonType="RAISED" text="?" textFill="WHITE">
@@ -141,7 +141,7 @@
                               <Insets right="10.0" />
                            </HBox.margin>
                         </Text>
-                        <JFXComboBox fx:id="floorComboBox" focusColor="#405aa800" styleClass="pane" unFocusColor="#4d4d4d00">
+                        <JFXComboBox fx:id="floorComboBox" focusColor="#405aa800" prefWidth="75.0" styleClass="pane" unFocusColor="#4d4d4d00">
                            <HBox.margin>
                               <Insets right="10.0" />
                            </HBox.margin></JFXComboBox>
