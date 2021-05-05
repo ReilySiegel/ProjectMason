@@ -144,6 +144,7 @@ public class SR02_LanguageInterpreter extends ServiceRequestPage implements Init
 
     @FXML
     private void handleSubmission(ActionEvent e) throws SQLException {
+
         String assigned = assignee.getText();
         String selectedLanguage = languageBox.getSelectionModel().getSelectedItem();
         String selectedJob = jobBox.getSelectionModel().getSelectedItem();
@@ -152,16 +153,14 @@ public class SR02_LanguageInterpreter extends ServiceRequestPage implements Init
         List<NodeInfo> locations = locationSearcher.getSelectedLocations();
         List<String> locationIDs = locationSearcher.getSelectedLocationIDs();
 
-        LocalTime curTime = timepicker.getValue();
-        LocalDateTime curDate = datepicker.getValue().atTime(curTime);
 
         validRequest = true;
-        if (selectedLanguage.equals("")) {
+        if (selectedLanguage == null) {
             langErrorText.setText(App.resourceBundle.getString("key.no_language_specified"));
             validRequest = false;
         }
 
-        if (selectedJob.equals("")) {
+        if (selectedJob == null) {
             jobErrorText.setText(App.resourceBundle.getString("key.no_job_type_specified"));
             validRequest = false;
         }
@@ -173,8 +172,19 @@ public class SR02_LanguageInterpreter extends ServiceRequestPage implements Init
         if (assigned.equals("")) {
             assigned = "Unassigned";
         }
+        if(timepicker.getValue() == null){
+            validRequest = false;
+        }
+
+        if(datepicker.getValue() == null){
+            validRequest = false;
+        }
 
        if (validRequest) {
+
+           LocalTime curTime = timepicker.getValue();
+           LocalDateTime curDate = datepicker.getValue().atTime(curTime);
+
            BaseRequest baseRequest = new BaseRequest(UUID.randomUUID().toString(), details, locationIDs.stream(),
                   assigned, false, curDate);
 
