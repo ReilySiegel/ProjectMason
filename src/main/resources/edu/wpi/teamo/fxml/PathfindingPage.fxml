@@ -62,7 +62,7 @@
                      <children>
                         <HBox fx:id="pathStepHBox" alignment="CENTER" prefHeight="60.0" prefWidth="332.0" spacing="20.0">
                            <children>
-                              <JFXButton fx:id="directBack" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="39.0" prefWidth="81.0" text="%key.step_back_directions" />
+                              <JFXButton fx:id="directBack" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="38.0" prefWidth="81.0" text="%key.step_back_directions" />
                               <JFXButton fx:id="directForward" buttonType="RAISED" prefHeight="39.0" prefWidth="161.0" text="%key.step_through_directions">
                                  <font>
                                     <Font name="Century" size="21.0" />
@@ -147,8 +147,13 @@
                            </HBox.margin></JFXComboBox>
                      </children>
                   </HBox>
-                  <VBox fx:id="textualWindow" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="237.0" prefWidth="334.0" styleClass="pane" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+                  <VBox fx:id="textualWindow" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="290.0" prefWidth="334.0" styleClass="pane" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
                      <children>
+                        <HBox fx:id="currentDisplay" prefHeight="95.0" prefWidth="312.0">
+                           <VBox.margin>
+                              <Insets bottom="-20.0" top="5.0" />
+                           </VBox.margin>
+                        </HBox>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.textual_directions" textAlignment="CENTER" translateY="22.5" wrappingWidth="137.45263671875">
                            <font>
                               <Font size="17.0" />
@@ -165,7 +170,7 @@
                               <Insets left="170.0" />
                            </VBox.margin>
                         </JFXButton>
-                        <JFXListView fx:id="textualDirView" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="200.0" prefWidth="302.0" stylesheets="@CSS/LocationSearch.css" VBox.vgrow="ALWAYS">
+                        <JFXListView fx:id="textualDirView" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="210.0" prefWidth="302.0" stylesheets="@CSS/LocationSearch.css" VBox.vgrow="ALWAYS">
                            <VBox.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </VBox.margin>

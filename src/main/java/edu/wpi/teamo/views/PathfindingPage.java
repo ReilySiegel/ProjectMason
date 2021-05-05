@@ -10,6 +10,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -92,14 +93,13 @@ public class PathfindingPage extends SubPageController implements Initializable 
 
     @FXML
     private JFXButton selectParkingSpotButton;
-
-    public List<Circle> parkingSpots;
-
     @FXML
     private JFXButton directForward;
 
     @FXML
     private JFXButton directBack;
+
+    public List<Circle> parkingSpots;
 
     @FXML
     private HBox pathStepHBox;
@@ -108,6 +108,9 @@ public class PathfindingPage extends SubPageController implements Initializable 
     int directionMax = 0;
     int directionMin = 0;
     AlgoNode lastNode = null;
+
+    @FXML
+    private HBox currentDisplay;
 
     String parkingSpotID = null;
 
@@ -354,7 +357,6 @@ public class PathfindingPage extends SubPageController implements Initializable 
     }
     private void stepDirection(boolean forward)
     {
-
         if (forward)
         {
             directionIterator++;
@@ -363,7 +365,19 @@ public class PathfindingPage extends SubPageController implements Initializable 
             directionIterator--;
         }
         floor = calculatedPath.get(directionIterator).getFloor();
-        update();
+        for(HBox h: textualDirView.getItems())
+        {
+            h.setBackground(null);
+        }
+        BackgroundFill fill  = new BackgroundFill(new Color(0,0,0,.10),null,null);
+        textualDirView.getItems().get(directionIterator).setBackground(new Background(fill,null));
+
+        ImageView icon = new ImageView(((ImageView) textualDirView.getItems().get(directionIterator).getChildren().get(0)).getImage());
+        icon.setFitWidth(40);
+        icon.setFitHeight(40);
+        Text s = new Text(((Text) textualDirView.getItems().get(directionIterator).getChildren().get(1)).getText());
+        currentDisplay.getChildren().setAll(icon,s);
+               update();
     }
 
     private void handleAssignParkingSpot(Circle circle, NodeInfo node){
@@ -554,6 +568,9 @@ public class PathfindingPage extends SubPageController implements Initializable 
         directionIterator = 0;
         directionMax = calculatedPath.size();
         setPathStepButtonVisibility(true);
+        stepDirection(true);
+        stepDirection(false);
+
         update();
     }
 
@@ -580,7 +597,9 @@ public class PathfindingPage extends SubPageController implements Initializable 
         displayPath(calculatedPath);
         floorComboBox.setValue(floor);
         locationSearcher.setLocations(nodes);
-        map.hideNodes();
+        if (!selectingEnd && !selectingStart) {
+            map.hideNodes();
+        }
     }
 
     public void displayPath(LinkedList<AlgoNode> path) {

@@ -257,6 +257,8 @@ public class Map  {
             nodePane.getChildren().add(tri);
         }
 
+
+
     }
 
     public Polygon drawTriangle(double x, double y, double size, double radians, Paint color)
