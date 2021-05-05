@@ -14,23 +14,23 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane fx:id="stackPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.ManageAccounts">
+<StackPane fx:id="stackPane" prefHeight="804.0" prefWidth="1061.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.ManageAccounts">
    <children>
-      <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="648.0" prefWidth="768.0" stylesheets="@CSS/MainPage.css">
+      <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="776.0" prefWidth="1023.0" stylesheets="@CSS/MainPage.css">
           <columnConstraints>
               <ColumnConstraints hgrow="SOMETIMES" maxWidth="935.0" minWidth="0.0" prefWidth="0.0" />
-              <ColumnConstraints hgrow="SOMETIMES" maxWidth="935.0" minWidth="10.0" prefWidth="768.0" />
-              <ColumnConstraints hgrow="SOMETIMES" maxWidth="935.0" minWidth="0.0" prefWidth="0.0" />
+              <ColumnConstraints hgrow="SOMETIMES" maxWidth="1010.0" minWidth="10.0" prefWidth="984.0" />
+              <ColumnConstraints hgrow="SOMETIMES" maxWidth="935.0" minWidth="0.0" prefWidth="37.0" />
           </columnConstraints>
           <rowConstraints>
-              <RowConstraints maxHeight="211.0" minHeight="0.0" prefHeight="83.0" vgrow="SOMETIMES" />
-              <RowConstraints maxHeight="583.0" minHeight="10.0" prefHeight="500.0" vgrow="SOMETIMES" />
-              <RowConstraints maxHeight="264.0" minHeight="0.0" prefHeight="66.0" vgrow="SOMETIMES" />
+              <RowConstraints maxHeight="211.0" minHeight="0.0" prefHeight="90.0" vgrow="SOMETIMES" />
+              <RowConstraints maxHeight="682.0" minHeight="10.0" prefHeight="581.0" vgrow="SOMETIMES" />
+              <RowConstraints maxHeight="264.0" minHeight="0.0" prefHeight="105.0" vgrow="SOMETIMES" />
           </rowConstraints>
           <children>
               <HBox prefHeight="526.0" prefWidth="182.0" styleClass="requestDisplayWrapper" GridPane.columnIndex="1" GridPane.rowIndex="1">
                   <children>
-                      <VBox prefHeight="538.0" prefWidth="702.0" styleClass="requestDisplayPane">
+                      <VBox prefHeight="572.0" prefWidth="843.0" styleClass="requestDisplayPane">
                           <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.account_list">
                                   <font>
@@ -46,7 +46,7 @@
                               <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                           </padding>
                       </VBox>
-                      <VBox alignment="TOP_CENTER" prefHeight="538.0" prefWidth="394.0" styleClass="filterPane">
+                      <VBox alignment="TOP_CENTER" prefHeight="572.0" prefWidth="257.0" styleClass="filterPane">
                           <children>
                         <JFXTextField fx:id="usernameBox" focusColor="BLACK" labelFloat="true" promptText="%key.username">
                            <VBox.margin>
