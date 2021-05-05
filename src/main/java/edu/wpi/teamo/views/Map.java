@@ -70,10 +70,16 @@ public class Map  {
     private boolean dragging = false;
     private double scale = 1;
 
-    private Paint defaultCircleColor = Color.BLUE;
-    public Paint defaultLineColor = Color.RED;
+    private Paint otherFloorPathColor = Color.GRAY;
+    private Paint sameFloorPathColor = Color.RED;
+    private Paint circleColor = Color.BLUE;
+    private Paint lineColor = Color.RED;
+
     public double defaultStrokeWidth = 5;
     public double defaultRadius = 5;
+
+    public List<Circle> circles;
+    public List<Line> lines;
 
     public Map(AnchorPane nodePane) {
         this.nodePane = nodePane;
@@ -107,8 +113,9 @@ public class Map  {
     }
 
     public void drawPath(LinkedList<AlgoNode> path, String floor,int index) {
+        lines = new LinkedList<>();
         for(int i = 0;  i < (path.size() - 1); i++) {
-            Color lineColor = path.get(i).getFloor().equals(floor) ? Color.RED : Color.GRAY;
+            Paint lineColor = path.get(i).getFloor().equals(floor) ? sameFloorPathColor : otherFloorPathColor;
 
             double firstX  = mapToPaneX(path.get(i).getX());
             double firstY  = mapToPaneY(path.get(i).getY());
@@ -126,6 +133,15 @@ public class Map  {
                 createTriangle(firstX,firstY,secondX,secondY,4,lineColor);
             }
             nodePane.getChildren().add(line);
+            lines.add(line);
+
+            if (i == 0) {
+                nodePane.getChildren().add(new Circle(firstX, firstY, defaultRadius * 2, circleColor));
+            }
+            else if (i == path.size() - 2) {
+                nodePane.getChildren().add(new Circle(secondX, secondY, defaultRadius * 2, circleColor));
+            }
+
         }
 
         scaleMap(0);
@@ -157,6 +173,7 @@ public class Map  {
     }
 
     private void addLines(List<EdgeInfo> edges, List<NodeInfo> nodes) {
+        lines = new LinkedList<>();
 
         for (EdgeInfo edge : edges) {
             NodeInfo startNode = findNode(edge.getStartNodeID(), nodes);
@@ -167,9 +184,10 @@ public class Map  {
                 double tfStartY = mapToPaneY(startNode.getYPos());
                 double tfEndX = mapToPaneX(endNode.getXPos());
                 double tfEndY = mapToPaneY(endNode.getYPos());
-                Line line = createLine(tfStartX, tfStartY, tfEndX, tfEndY, edge, defaultLineColor);
+                Line line = createLine(tfStartX, tfStartY, tfEndX, tfEndY, edge, lineColor);
                 if (line != null) {
                     nodePane.getChildren().add(line);
+                    lines.add(line);
                 }
             }
         }
@@ -194,18 +212,20 @@ public class Map  {
     }
 
     private void addCircles(List<NodeInfo> nodes) {
+        circles = new LinkedList<>();
         for (NodeInfo node : nodes) {
             double transformedX = mapToPaneX(node.getXPos());
             double transformedY = mapToPaneY(node.getYPos());
             Circle circle = createCircle(transformedX, transformedY, node);
             if (circle != null) {
                 nodePane.getChildren().add(circle);
+                circles.add(circle);
             }
         }
     }
 
     private Circle createCircle(double x, double y, NodeInfo node) {
-        Circle circle = new Circle(x, y, defaultRadius, defaultCircleColor);
+        Circle circle = new Circle(x, y, defaultRadius, circleColor);
 
         if (onDrawNode != null) {
             onDrawNode.accept(new Pair<>(circle, node));
@@ -218,7 +238,7 @@ public class Map  {
             return null;
         }
     }
-    public void createTriangle(double beginx, double beginy, double endx, double endy,double size, Color lineColor )
+    public void createTriangle(double beginx, double beginy, double endx, double endy,double size, Paint lineColor )
     {
         double from, to, transX , transY, dist_tri_center;
 
@@ -236,8 +256,6 @@ public class Map  {
         {
             nodePane.getChildren().add(tri);
         }
-
-
 
     }
 
@@ -479,5 +497,49 @@ public class Map  {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void showNodes() {
+        for (Circle circle : circles) {
+            circle.setVisible(true);
+        }
+    }
+
+    public void hideNodes() {
+        for (Circle circle : circles) {{
+            circle.setVisible(false);
+        }}
+    }
+
+    public Paint getOtherFloorPathColor() {
+        return otherFloorPathColor;
+    }
+
+    public void setOtherFloorPathColor(Paint otherFloorPathColor) {
+        this.otherFloorPathColor = otherFloorPathColor;
+    }
+
+    public Paint getSameFloorPathColor() {
+        return sameFloorPathColor;
+    }
+
+    public void setSameFloorPathColor(Paint sameFloorPathColor) {
+        this.sameFloorPathColor = sameFloorPathColor;
+    }
+
+    public Paint getCircleColor() {
+        return circleColor;
+    }
+
+    public void setCircleColor(Paint circleColor) {
+        this.circleColor = circleColor;
+    }
+
+    public Paint getLineColor() {
+        return lineColor;
+    }
+
+    public void setLineColor(Paint lineColor) {
+        this.lineColor = lineColor;
     }
 }

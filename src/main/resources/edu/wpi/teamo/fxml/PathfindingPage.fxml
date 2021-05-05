@@ -60,9 +60,9 @@
                   </VBox>
                   <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="169.0" prefWidth="334.0" styleClass="pane" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
                      <children>
-                        <HBox alignment="CENTER" prefHeight="60.0" prefWidth="332.0" spacing="20.0">
+                        <HBox fx:id="pathStepHBox" alignment="CENTER" prefHeight="60.0" prefWidth="332.0" spacing="20.0">
                            <children>
-                              <JFXButton fx:id="directBack" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="38.0" prefWidth="81.0" text="%key.step_back_directions" />
+                              <JFXButton fx:id="directBack" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="39.0" prefWidth="81.0" text="%key.step_back_directions" />
                               <JFXButton fx:id="directForward" buttonType="RAISED" prefHeight="39.0" prefWidth="161.0" text="%key.step_through_directions">
                                  <font>
                                     <Font name="Century" size="21.0" />
@@ -88,7 +88,7 @@
                         </JFXButton>
                         <HBox alignment="CENTER" prefHeight="60.0" prefWidth="332.0" spacing="20.0">
                            <children>
-                              <JFXButton fx:id="selectParkingSpotButton" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="38.0" prefWidth="93.0" text="%key.select_parking_spot" />
+                              <JFXButton fx:id="selectParkingSpotButton" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="39.0" prefWidth="93.0" text="%key.select_parking_spot" />
                               <JFXButton fx:id="findPathButton" buttonType="RAISED" prefHeight="39.0" prefWidth="161.0" text="%key.find_path">
                                  <font>
                                     <Font name="Century" size="21.0" />

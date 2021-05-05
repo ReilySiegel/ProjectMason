@@ -92,16 +92,23 @@ public class PathfindingPage extends SubPageController implements Initializable 
 
     @FXML
     private JFXButton selectParkingSpotButton;
+
+    public List<Circle> parkingSpots;
+
     @FXML
     private JFXButton directForward;
 
     @FXML
     private JFXButton directBack;
 
+    @FXML
+    private HBox pathStepHBox;
+
     int directionIterator = 0;
     int directionMax = 0;
     int directionMin = 0;
     AlgoNode lastNode = null;
+
     String parkingSpotID = null;
 
     boolean selectingStart = false;
@@ -110,13 +117,15 @@ public class PathfindingPage extends SubPageController implements Initializable 
     String selectedStartID = null;
     String selectedEndID = null;
 
+    boolean selectingParkingSpot = false;
+
     Map map;
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
         gridPane.setPickOnBounds(false);
 
-        setSelectParkingSpotButtonVisibility(false);
+        setSelectParkingSpotButtonVisibility(Session.isLoggedIn());
 
         initFloorSwitcher();
         initAlgoSwitcher();
@@ -149,23 +158,43 @@ public class PathfindingPage extends SubPageController implements Initializable 
                 locationSearcher.clearSelectedLocations();
             }
         });
-        directBack.setVisible(false);
-        directForward.setVisible(false);
+        setPathStepButtonVisibility(false);
         map = new Map(pathPane);
         map.setOnDrawNode(this::onDrawNode);
         update();
+        map.hideNodes();
+    }
+
+    private void setPathStepButtonVisibility(boolean visible) {
+        directForward.setVisible(visible);
+        directForward.setManaged(visible);
+        directBack.setVisible(visible);
+        directBack.setManaged(visible);
+        pathStepHBox.setVisible(visible);
+        pathStepHBox.setManaged(visible);
     }
 
     private void handleSelectParkingSpot(ActionEvent actionEvent) {
         try {
-            if (Session.isLoggedIn() && Session.getAccount().getParkingSpot() != null) {
-                String id = Session.getAccount().getParkingSpot();
-                NodeInfo node = App.mapService.getNode(id);
-                onClickNode(node);
+            if (selectingStart || selectingEnd) {
+                if (Session.isLoggedIn() && Session.getAccount().getParkingSpot() != null) {
+                    String id = Session.getAccount().getParkingSpot();
+                    NodeInfo node = App.mapService.getNode(id);
+                    onClickNode(node);
+                }
             }
-        } catch (Exception throwables) {
-            throwables.printStackTrace();
+            else if (selectingParkingSpot) {
+                selectingParkingSpot = false;
+            }
+            else {
+                selectingParkingSpot = true;
+                showParkingSpots();
+            }
         }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void handleAlgoSwitch(ActionEvent actionEvent) {
@@ -233,29 +262,59 @@ public class PathfindingPage extends SubPageController implements Initializable 
             onRightClickNode(e, circle, node);
             e.consume();
         });
+
+        if (parkingSpots != null && node.getNodeType().equals("PARK")) {
+            parkingSpots.add(circle);
+        }
+
+    }
+
+    public void showParkingSpots() {
+        for (Circle circle : parkingSpots) {
+            circle.setVisible(true);
+        }
     }
 
     //    Consumer<NodeInfo> onClickNode = (NodeInfo node) -> System.out.println("Node " + node.getNodeID() + "was clicked");
     void onClickNode(NodeInfo node) {
         if (selectingStart) {
+            selectingParkingSpot = false;
             chooseStartButton.setText(node.getShortName());
             selectedStartID = node.getNodeID();
             selectingStart = false;
+            map.hideNodes();
         }
         if (selectingEnd) {
+            selectingParkingSpot = false;
             chooseEndButton.setText(node.getShortName());
             selectedEndID = node.getNodeID();
             selectingEnd = false;
+            map.hideNodes();
         }
+        if (selectingParkingSpot) {
+            try {
+                if (Session.isLoggedIn()) {
+                    Session.getAccount().setParkingSpot(node);
+                    update();
+                }
+                else {
+                    showError(App.resourceBundle.getString("key.log_in_to_use_this_feature"));
+                }
+            }
+            catch (InvalidParameterException e) {
+                showError(App.resourceBundle.getString("key.parking_spot_error"));
+            }
+            selectingParkingSpot = false;
+        }
+
+
         setSearchWindowVisibility(false);
         chooseStartButton.setDisable(selectingStart);
         chooseEndButton.setDisable(selectingEnd);
         locationSearcher.clearSelectedLocations();
-        setSelectParkingSpotButtonVisibility(false);
     }
 
     private void setSelectParkingSpotButtonVisibility(boolean visible) {
-        if (!Session.isLoggedIn() || Session.getAccount().getParkingSpot() == null) visible = false;
         selectParkingSpotButton.setVisible(visible);
         selectParkingSpotButton.setManaged(visible);
     }
@@ -320,7 +379,6 @@ public class PathfindingPage extends SubPageController implements Initializable 
         catch (InvalidParameterException e) {
             showError(App.resourceBundle.getString("key.parking_spot_error"));
         }
-
     }
 
     private void handleChooseStart(ActionEvent e) {
@@ -328,14 +386,15 @@ public class PathfindingPage extends SubPageController implements Initializable 
             selectingStart = false;
         }
         else {
+            selectingParkingSpot = false;
             selectingStart = true;
             selectingEnd = false;
+            map.showNodes();
         }
         setSearchWindowVisibility(true);
         chooseStartButton.setDisable(selectingStart);
         chooseEndButton.setDisable(selectingEnd);
         textualWindow.setVisible(false);
-        setSelectParkingSpotButtonVisibility(true);
     }
 
     private void handleChoseEnd(ActionEvent e) {
@@ -343,14 +402,15 @@ public class PathfindingPage extends SubPageController implements Initializable 
             selectingEnd = false;
         }
         else {
+            selectingParkingSpot = false;
             selectingStart = false;
             selectingEnd = true;
+            map.showNodes();
         }
         setSearchWindowVisibility(true);
         chooseEndButton.setDisable(selectingEnd);
         chooseStartButton.setDisable(selectingStart);
         textualWindow.setVisible(false);
-        setSelectParkingSpotButtonVisibility(true);
     }
 
     private void handleFindPath(ActionEvent e) {
@@ -478,7 +538,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
                 calculatedPath = path;
             }
         } catch (SQLException | NullPointerException throwables) {
-            throwables.printStackTrace();
+            System.out.println("No path calculated");
         }
 
         textualWindow.setVisible(true);
@@ -491,9 +551,9 @@ public class PathfindingPage extends SubPageController implements Initializable 
                 floors.add(node.getFloor());
             }
         }
+        directionIterator = 0;
         directionMax = calculatedPath.size();
-        directForward.setVisible(true);
-        directBack.setVisible(true);
+        setPathStepButtonVisibility(true);
         update();
     }
 
@@ -503,6 +563,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
     }
 
     void update() {
+        parkingSpots = new LinkedList<>();
 
         if (Session.isLoggedIn() && Session.getAccount() != null) {
             parkingSpotID = Session.getAccount().getParkingSpot();
@@ -519,6 +580,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
         displayPath(calculatedPath);
         floorComboBox.setValue(floor);
         locationSearcher.setLocations(nodes);
+        map.hideNodes();
     }
 
     public void displayPath(LinkedList<AlgoNode> path) {
