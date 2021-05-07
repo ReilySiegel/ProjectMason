@@ -147,7 +147,7 @@
                            </HBox.margin></JFXComboBox>
                      </children>
                   </HBox>
-                  <VBox fx:id="textualWindow" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="290.0" prefWidth="334.0" styleClass="pane" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+                  <VBox fx:id="textualWindow" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="290.0" prefWidth="334.0" styleClass="murkier-pane" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
                      <children>
                         <HBox fx:id="currentDisplay" prefHeight="95.0" prefWidth="312.0">
                            <VBox.margin>

@@ -20,7 +20,7 @@
 }
 
 .button {
-    -fx-background-color: rgba(255, 239, 239, 0.9);
+    -fx-background-color: rgb(216, 248, 255);
     -fx-font-size: 12;
     -fx-font-family: Arial;
     -fx-text-fill: #000000;

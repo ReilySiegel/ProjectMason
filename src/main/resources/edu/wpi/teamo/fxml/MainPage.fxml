@@ -21,10 +21,10 @@
          <children>
             <ImageView fx:id="imageView" fitHeight="720.0" fitWidth="1280.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <effect>
-                  <GaussianBlur radius="12.25" />
+                  <GaussianBlur radius="0.0" />
                </effect>
                <image>
-                  <Image url="@../images/asdkjlfalsdf.gif" />
+                  <Image url="@../images/sky2.png" />
                </image>
             </ImageView>
             <AnchorPane fx:id="backgroundPane" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
