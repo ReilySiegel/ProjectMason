@@ -30,7 +30,7 @@
          <children>
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Profile Information" wrappingWidth="226.6708984375">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.profile_information" wrappingWidth="226.6708984375">
                      <font>
                         <Font name="Arial" size="20.0" />
                      </font>
@@ -38,7 +38,7 @@
                         <Insets left="15.0" top="15.0" />
                      </VBox.margin>
                   </Text>
-                  <Text fx:id="usernameLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="Username" wrappingWidth="226.6708984375">
+                  <Text fx:id="usernameLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.username_semicolon" wrappingWidth="226.6708984375">
                      <font>
                         <Font name="Arial" size="20.0" />
                      </font>
@@ -46,7 +46,7 @@
                         <Insets left="15.0" top="25.0" />
                      </VBox.margin>
                   </Text>
-                  <Text fx:id="firstNameLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="Firstname" wrappingWidth="226.6708984375">
+                  <Text fx:id="firstNameLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.firstname_semicolon" wrappingWidth="226.6708984375">
                      <font>
                         <Font name="Arial" size="20.0" />
                      </font>
@@ -54,7 +54,7 @@
                         <Insets left="15.0" top="25.0" />
                      </VBox.margin>
                   </Text>
-                  <Text fx:id="lastNameLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="Lastname" wrappingWidth="226.6708984375">
+                  <Text fx:id="lastNameLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.lastname_semicolon" wrappingWidth="226.6708984375">
                      <font>
                         <Font name="Arial" size="20.0" />
                      </font>
@@ -66,7 +66,7 @@
             </VBox>
             <VBox prefHeight="538.0" prefWidth="800.0" styleClass="requestDisplayPane">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="User's Requests">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.users_requests">
                      <font>
                         <Font name="Arial" size="20.0" />
                      </font>
@@ -82,7 +82,7 @@
             </VBox>
             <VBox prefHeight="538.0" prefWidth="200.0" styleClass="filterPane">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Filter">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.filter">
                      <font>
                         <Font name="Arial" size="20.0" />
                      </font>
@@ -90,7 +90,7 @@
                         <Insets bottom="15.0" />
                      </VBox.margin>
                   </Text>
-                  <JFXCheckBox fx:id="filterTime" text="Only show requests due before:">
+                  <JFXCheckBox fx:id="filterTime" text="%key.only_show_requests">
                      <font>
                         <Font name="Arial" size="12.0" />
                      </font>
@@ -108,7 +108,7 @@
                         <Insets bottom="15.0" />
                      </VBox.margin>
                   </JFXTimePicker>
-                  <JFXButton onAction="#applyFilter" prefHeight="40.0" prefWidth="70.0" style="-fx-background-color: #ddd; -fx-border-radius: 0; -fx-background-radius: 0;" text="Apply">
+                  <JFXButton onAction="#applyFilter" prefHeight="40.0" prefWidth="70.0" style="-fx-background-color: #ddd; -fx-border-radius: 0; -fx-background-radius: 0;" text="%key.apply">
                      <font>
                         <Font name="Arial" size="15.0" />
                      </font>
@@ -116,7 +116,7 @@
                         <Insets bottom="20.0" />
                      </VBox.margin>
                   </JFXButton>
-                  <JFXCheckBox fx:id="showCompleted" text="Show Completed Requests">
+                  <JFXCheckBox fx:id="showCompleted" text="%key.show_completed_requests">
                      <font>
                         <Font name="Arial" size="14.0" />
                      </font>
@@ -124,7 +124,7 @@
                         <Insets bottom="20.0" />
                      </VBox.margin>
                   </JFXCheckBox>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Visible Request Types:">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.visible_request_types">
                      <VBox.margin>
                         <Insets bottom="10.0" />
                      </VBox.margin>

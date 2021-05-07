@@ -79,9 +79,9 @@ public class ProfileInformationPage implements Initializable {
         selectedTypes.put("Transportation", true);
         selectedTypes.put("COVID Survey", true);
 
-        usernameLabel.setText("Username: " + Session.getAccount().getUsername());
-        firstNameLabel.setText("First name: " + Session.getAccount().getFirstName());
-        lastNameLabel.setText("Last name: " + Session.getAccount().getLastName());
+        usernameLabel.setText(App.resourceBundle.getString("key.username_semicolon") + Session.getAccount().getUsername());
+        firstNameLabel.setText(App.resourceBundle.getString("key.firstname_semicolon") + Session.getAccount().getFirstName());
+        lastNameLabel.setText(App.resourceBundle.getString("key.lastname_semicolon") + Session.getAccount().getLastName());
 
         requestDisplay = new RequestDisplay(reqDisplayListView, false, LocalDateTime.MAX, selectedTypes);
 
