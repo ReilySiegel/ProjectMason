@@ -192,7 +192,7 @@ public class LaundryRequestPage extends ServiceRequestPage implements Initializa
             JFXDialog popup = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 
             JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
-            JFXButton backButton = new JFXButton(App.resourceBundle.getString("key.back_to_main"));
+            JFXButton backButton = new JFXButton(App.resourceBundle.getString("key.back_to_menu"));
 
             closeButton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
@@ -226,7 +226,6 @@ public class LaundryRequestPage extends ServiceRequestPage implements Initializa
         JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 
         JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
-        closeButton.setStyle("-fx-background-color: #F40F19; -fx-text-fill: #fff");
         closeButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {

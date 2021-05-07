@@ -136,10 +136,8 @@ public class CovidSurveyPage extends ServiceRequestPage implements Initializable
         content.setBody(new Text(App.resourceBundle.getString("key.survey_await_response")));
 
         JFXDialog errorWindow = new JFXDialog(parentStackPane, content, JFXDialog.DialogTransition.TOP);
-        content.setStyle("-fx-background-color: #d8dee9");
 
         JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
-        closeButton.setStyle("-fx-background-color: #434c5e; -fx-text-fill: #d8dee9");
         closeButton.setOnAction(event -> App.switchPage(Pages.MAIN));
 
         content.setActions(closeButton);

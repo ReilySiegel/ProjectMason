@@ -181,10 +181,7 @@ public class FoodRequestPage extends ServiceRequestPage implements Initializable
             JFXDialog popup = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 
             JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
-            JFXButton backButton = new JFXButton(App.resourceBundle.getString("key.back_to_main"));
-
-            closeButton.setStyle("-fx-background-color: #F40F19; -fx-text-fill: #fff");
-            backButton.setStyle("-fx-background-color: #333333; -fx-text-fill: #fff");
+            JFXButton backButton = new JFXButton(App.resourceBundle.getString("key.back_to_menu"));
 
             closeButton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
@@ -227,7 +224,6 @@ public class FoodRequestPage extends ServiceRequestPage implements Initializable
         JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 
         JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
-        closeButton.setStyle("-fx-background-color: #F40F19; -fx-text-fill: #fff");
         closeButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -250,7 +246,6 @@ public class FoodRequestPage extends ServiceRequestPage implements Initializable
         JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 
         JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
-        closeButton.setStyle("-fx-background-color: #F40F19; -fx-text-fill: #fff");
         closeButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {

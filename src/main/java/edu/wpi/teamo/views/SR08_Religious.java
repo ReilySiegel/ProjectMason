@@ -161,7 +161,7 @@ public class SR08_Religious extends ServiceRequestPage implements Initializable 
         JFXDialog popup = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 
         JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
-        JFXButton backButton = new JFXButton(App.resourceBundle.getString("key.back_to_main"));
+        JFXButton backButton = new JFXButton(App.resourceBundle.getString("key.back_to_menu"));
 
         closeButton.setOnAction(event -> popup.close());
 
@@ -201,7 +201,6 @@ public class SR08_Religious extends ServiceRequestPage implements Initializable 
         JFXDialog helpWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 
         JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
-        closeButton.setStyle("-fx-background-color: #f40f19");
         closeButton.setOnAction(event -> helpWindow.close());
 
         content.setActions(closeButton);

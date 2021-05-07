@@ -115,8 +115,6 @@ public class SR12_MaintenancePage extends ServiceRequestPage implements Initiali
         JFXButton closeButton = new JFXButton(resources.getString("key.close"));
         JFXButton submitButton = new JFXButton(resources.getString("key.submit"));
         closeButton.setLayoutX(0);
-        closeButton.setStyle("-fx-background-color: #f40f19");
-        submitButton.setStyle("-fx-background-color: #5ab04c");
         closeButton.setOnAction(event -> confirmWindow.close());
         submitButton.setOnAction(event -> {
             confirmSubmission();
@@ -139,7 +137,8 @@ public class SR12_MaintenancePage extends ServiceRequestPage implements Initiali
                 App.resourceBundle.getString("key.notes") + ": " + notes.getText()));
         JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
         JFXButton closeButton = new JFXButton(resources.getString("key.close"));
-        closeButton.setStyle("-fx-background-color: #f40f19");
+        JFXButton backButton = new JFXButton(App.resourceBundle.getString("key.back_to_menu"));
+        backButton.setOnAction(event -> SubPageContainer.switchPage(Pages.SERVICEREQUEST));
         closeButton.setOnAction(event -> errorWindow.close());
         content.setActions(closeButton);
         errorWindow.show();
@@ -184,7 +183,6 @@ public class SR12_MaintenancePage extends ServiceRequestPage implements Initiali
         content.setBody(new Text(resources.getString("key.sql_error_details")));
         JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
         JFXButton closeButton = new JFXButton(resources.getString("key.close"));
-        closeButton.setStyle("-fx-background-color: #f40f19");
         closeButton.setOnAction(event -> errorWindow.close());
         content.setActions(closeButton);
         errorWindow.show();
@@ -207,7 +205,6 @@ public class SR12_MaintenancePage extends ServiceRequestPage implements Initiali
         content.setBody(new Text(resources.getString("key.maintenance_error")));
         JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
         JFXButton closeButton = new JFXButton(resources.getString("key.close"));
-        closeButton.setStyle("-fx-background-color: #f40f19");
         closeButton.setOnAction(event -> errorWindow.close());
         content.setActions(closeButton);
         errorWindow.show();
