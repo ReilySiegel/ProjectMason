@@ -83,7 +83,7 @@ public class ProfileInformationPage implements Initializable {
         firstNameLabel.setText(App.resourceBundle.getString("key.firstname_semicolon") + Session.getAccount().getFirstName());
         lastNameLabel.setText(App.resourceBundle.getString("key.lastname_semicolon") + Session.getAccount().getLastName());
 
-        requestDisplay = new RequestDisplay(reqDisplayListView, false, LocalDateTime.MAX, selectedTypes);
+        requestDisplay = new RequestDisplay(reqDisplayListView, false, LocalDateTime.MAX, selectedTypes, Session.getAccount().getUsername());
 
         try {
             requestDisplay.update(selectedTypes, LocalDateTime.MAX);

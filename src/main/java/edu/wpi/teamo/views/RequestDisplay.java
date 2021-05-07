@@ -25,6 +25,7 @@ import javafx.scene.text.Text;
 
 import java.awt.*;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -40,14 +41,23 @@ public class RequestDisplay {
     Boolean showComplete;
 
     LocalDateTime latestTime;
+    String user;
 
 
     public RequestDisplay(JFXListView<VBox> reqList, Boolean showComplete, LocalDateTime latestTime, HashMap<String, Boolean> types) {
         this.reqList = reqList;
         this.showComplete = showComplete;
         this.latestTime = latestTime;
-
         this.types = types;
+        this.user = "";
+    }
+
+    public RequestDisplay(JFXListView<VBox> reqList, Boolean showComplete, LocalDateTime latestTime, HashMap<String, Boolean> types, String user) {
+        this.reqList = reqList;
+        this.showComplete = showComplete;
+        this.latestTime = latestTime;
+        this.types = types;
+        this.user = user;
     }
 
     public void setShowComplete(Boolean showComplete) {
@@ -80,7 +90,7 @@ public class RequestDisplay {
         if (selectedTypes.get("Maintenance")) maintRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.main_sr")));
         if (selectedTypes.get("Transportation")) transRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.transportation_request")));
         if (selectedTypes.get("Religious")) religRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.rel_sr")));
-        if (selectedTypes.get("COVID Survey")) covidRequests.forEach(r -> makeSurveyBox(r));
+        if (selectedTypes.get("COVID Survey")) covidRequests.forEach(r -> makeSurveyBox(r, user));
 
     }
 
@@ -93,6 +103,12 @@ public class RequestDisplay {
         }
 
         if (latestTime.isBefore(m.getDue())) passFilter = false;
+
+        if (!user.isEmpty()) {
+            if (!m.getAssigned().equals(user)) {
+                passFilter = false;
+            }
+        }
 
         if (passFilter) {
             JFXButton expand = new JFXButton("+");
@@ -138,7 +154,11 @@ public class RequestDisplay {
             viewContextMenu.setStyle("-fx-border-radius: 5; -fx-background-radius: 5");
             expand.setStyle("-fx-border-radius: 5; -fx-background-radius: 5");
 
-            HBox mbox = new HBox(expand, typeBox, locText, assignedBox, dateBox, statusText, viewContextMenu);
+            HBox mbox;
+
+            if (user.isEmpty()) mbox = new HBox(expand, typeBox, locText, assignedBox, dateBox, statusText, viewContextMenu);
+            else mbox = new HBox(expand, typeBox, locText, assignedBox, dateBox, statusText);
+
             mbox.setSpacing(10);
 
             VBox mContainer = new VBox(mbox);
@@ -323,10 +343,14 @@ public class RequestDisplay {
         }
     }
 
-    public void makeSurveyBox(COVIDSurveyRequest c) {
+    public void makeSurveyBox(COVIDSurveyRequest c, String user) {
         boolean passFilter = true;
 
         if (!showComplete && c.getIsComplete()) passFilter = false;
+        if (!user.isEmpty()) {
+            if (!user.equals(c.getUsername())) passFilter = false;
+        }
+
         if (passFilter) {
             JFXButton expand = new JFXButton("+");
             expand.setMinWidth(30);
