@@ -105,3 +105,8 @@
 .text {
     -fx-font-family: Roboto;
 }
+
+.headerText {
+    -fx-font-size: 34;
+    -fx-font-family: Roboto;
+}

@@ -25,8 +25,8 @@
       <GridPane fx:id="gridPane" prefHeight="720.0" prefWidth="1280.0">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="1175.0" minWidth="0.0" prefWidth="218.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="1175.0" minWidth="0.0" prefWidth="627.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="1281.0" minWidth="10.0" prefWidth="435.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="1175.0" minWidth="0.0" prefWidth="741.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="1281.0" minWidth="10.0" prefWidth="321.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints maxHeight="572.0" minHeight="10.0" prefHeight="94.0" vgrow="SOMETIMES" />
@@ -126,11 +126,11 @@
                   </VBox>
                </children>
             </StackPane>
-            <HBox alignment="CENTER" pickOnBounds="false" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
+            <HBox alignment="CENTER" pickOnBounds="false" prefHeight="100.0" prefWidth="755.0" GridPane.columnIndex="1">
                <children>
-                  <VBox alignment="TOP_CENTER" pickOnBounds="false" prefHeight="94.0" prefWidth="810.0">
+                  <VBox alignment="TOP_CENTER" pickOnBounds="false" prefHeight="94.0" prefWidth="798.0">
                      <children>
-                        <HBox fx:id="controlWindow" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="85.0" prefWidth="754.0" spacing="10.0" styleClass="pane">
+                        <HBox fx:id="controlWindow" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="85.0" prefWidth="752.0" spacing="10.0" styleClass="pane">
                            <children>
                               <JFXButton fx:id="openTableButton" buttonType="RAISED" prefHeight="39.0" prefWidth="135.0" text="%key.open_table">
                                  <HBox.margin>
@@ -169,6 +169,10 @@
                                     <Insets />
                                  </HBox.margin>
                               </JFXButton>
+                              <JFXButton fx:id="troubleshootButton" buttonType="RAISED" prefHeight="39.0" prefWidth="120.0" text="%key.troubleshoot">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin></JFXButton>
                            </children>
                            <VBox.margin>
                               <Insets />
@@ -225,24 +229,7 @@
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2">
                <children>
-                  <VBox alignment="TOP_CENTER" prefHeight="94.0" prefWidth="162.0">
-                     <children>
-                        <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="85.0" prefWidth="267.0" styleClass="pane">
-                           <VBox.margin>
-                              <Insets />
-                           </VBox.margin>
-                           <children>
-                              <JFXButton fx:id="troubleshootButton" buttonType="RAISED" prefHeight="39.0" prefWidth="120.0" text="%key.troubleshoot">
-                                 <HBox.margin>
-                                    <Insets />
-                                 </HBox.margin></JFXButton>
-                           </children>
-                           <padding>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                           </padding>
-                        </HBox>
-                     </children>
-                  </VBox>
+                  <VBox alignment="TOP_CENTER" prefHeight="94.0" prefWidth="162.0" />
                </children>
                <GridPane.margin>
                   <Insets left="20.0" top="20.0" />

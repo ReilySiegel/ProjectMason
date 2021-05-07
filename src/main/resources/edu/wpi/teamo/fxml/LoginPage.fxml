@@ -29,7 +29,7 @@
          <children>
             <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="288.0" prefWidth="400.0" spacing="20.0" styleClass="pane" stylesheets="@CSS/MainPage.css" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
-                  <Label alignment="CENTER" text="%key.sign_in" textAlignment="CENTER">
+                  <Label alignment="CENTER" styleClass="headerText" text="%key.sign_in" textAlignment="CENTER">
                      <font>
                         <Font size="32.0" />
                      </font>
