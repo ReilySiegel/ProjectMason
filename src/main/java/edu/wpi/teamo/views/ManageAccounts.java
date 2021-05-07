@@ -229,13 +229,6 @@ public class ManageAccounts implements Initializable {
         }
 
 
-        acctUsers.setStyle("-fx-background-color: rgba(255, 255, 255, 0.7);");
-        acctFirst.setStyle("-fx-background-color: rgba(255, 255, 255, 0.7)");
-        acctLast.setStyle("-fx-background-color: rgba(255, 255, 255, 0.7)");
-        acctRole.setStyle("-fx-background-color: rgba(255, 255, 255, 0.7)");
-        acctAdmin.setStyle("-fx-background-color: rgba(255, 255, 255, 0.7)");
-
-
         final TreeItem<Account> root = new RecursiveTreeItem<Account>(accountList, RecursiveTreeObject::getChildren);
         acctTree.getColumns().setAll(acctUsers, acctFirst, acctLast, acctRole, acctAdmin);
         acctTree.setRoot(root);
@@ -299,6 +292,9 @@ public class ManageAccounts implements Initializable {
     }
 
     /*
+
+    Verifies the password of the admin before allowing promotion of others to admin status
+    removed because it is redundant on an admin-only page
     private void handleVerify() {
 
         if(!correctPassword) {
