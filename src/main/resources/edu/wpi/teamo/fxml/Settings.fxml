@@ -52,7 +52,7 @@
                   <Font size="24.0" />
                </font>
                <VBox.margin>
-                  <Insets left="5.0" />
+                  <Insets left="5.0" top="30.0" />
                </VBox.margin>
             </Label>
             <HBox prefHeight="33.0" prefWidth="598.0">
@@ -70,7 +70,7 @@
             <HBox prefHeight="153.0" prefWidth="598.0" VBox.vgrow="ALWAYS" />
             <HBox alignment="BOTTOM_RIGHT" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                <children>
-                  <JFXButton onAction="#handleConfirm" text="%key.confirm">
+                  <JFXButton onAction="#handleConfirm" prefHeight="40.0" prefWidth="120.0" text="%key.confirm">
                      <HBox.margin>
                         <Insets bottom="5.0" right="5.0" />
                      </HBox.margin>
