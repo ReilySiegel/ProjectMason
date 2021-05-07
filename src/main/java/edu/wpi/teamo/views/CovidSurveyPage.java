@@ -53,75 +53,8 @@ public class CovidSurveyPage extends ServiceRequestPage implements Initializable
     @FXML
     JFXButton backButton;
 
-    private boolean Q1Check = false;
-    private boolean Q2Check = false;
-    private boolean Q3Check = false;
-    private boolean Q4Check = false;
-    private boolean Q5Check = false;
-
-
-    @FXML
     public void initialize(URL location, ResourceBundle resources) {
-
         backButton.setOnAction(this::handleBack);
-
-        Q1.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if (newValue) {
-                    Q1Check = true;
-                } else {
-                    Q1Check = false;
-                }
-            }
-        });
-
-        Q2.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if (newValue) {
-                    Q2Check = true;
-                } else {
-                    Q2Check = false;
-                }
-            }
-        });
-
-        Q3.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if (newValue) {
-                    Q3Check = true;
-                } else {
-                    Q3Check = false;
-                }
-            }
-        });
-
-        Q4.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if (newValue) {
-                    Q4Check = true;
-                } else {
-                    Q4Check = false;
-                }
-            }
-        });
-
-        Q5.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if (newValue) {
-                    Q5Check = true;
-                } else {
-                    Q5Check = false;
-                }
-            }
-        });
-
-
-
     }
 
     public void handleSubmit(javafx.event.ActionEvent actionEvent) throws SQLException {
