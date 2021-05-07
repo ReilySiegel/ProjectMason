@@ -79,6 +79,10 @@
     -fx-padding: 8;
 }
 
+.jfx-check-box{
+    -jfx-checked-color: #5e81ac
+}
+
 
 .tree-table-view{
     -fx-font: 12px "Arial";

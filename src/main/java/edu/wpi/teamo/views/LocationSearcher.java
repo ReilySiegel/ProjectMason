@@ -40,7 +40,6 @@ public class LocationSearcher extends SearchSelect<NodeInfo, JFXCheckBox> {
         JFXCheckBox checkBox = new JFXCheckBox();
         checkBox.setPadding(new Insets(10));
         checkBox.setSelected(isSelected);
-        checkBox.setStyle("-jfx-checked-color: #5e81ac");
         checkBox.setText(text);
 
         checkBox.setOnAction(event -> {
