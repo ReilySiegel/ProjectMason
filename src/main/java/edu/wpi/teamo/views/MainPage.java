@@ -208,6 +208,11 @@ public class MainPage implements Initializable {
 
     }
 
+    public void setProfile(){
+        hidePages();
+        SubPageContainer.switchPage(Pages.PROFILE);
+    }
+
     public void setAbout() {
         hidePages();
         SubPageContainer.switchPage(Pages.ABOUT);

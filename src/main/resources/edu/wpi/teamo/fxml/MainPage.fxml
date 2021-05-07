@@ -117,6 +117,7 @@
                                     <Font size="18.0" />
                                  </font>
                               </JFXButton>
+                              <JFXButton buttonType="RAISED" onAction="#setProfile" prefHeight="40.0" prefWidth="120.0" text="%key.profile" />
                            </children>
                            <VBox.margin>
                               <Insets />

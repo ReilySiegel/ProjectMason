@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXTimePicker?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="648.0" prefWidth="1000.0" stylesheets="@CSS/MainPage.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.ProfileInformationPage">
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="935.0" minWidth="0.0" prefWidth="0.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="998.0" minWidth="10.0" prefWidth="998.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="935.0" minWidth="0.0" prefWidth="0.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints maxHeight="211.0" minHeight="0.0" prefHeight="83.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="583.0" minHeight="10.0" prefHeight="500.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="264.0" minHeight="0.0" prefHeight="66.0" vgrow="SOMETIMES" />
+   </rowConstraints>
+   <children>
+      <HBox prefHeight="526.0" prefWidth="182.0" styleClass="murkier-pane" GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <children>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Profile Information" wrappingWidth="226.6708984375">
+                     <font>
+                        <Font name="Arial" size="20.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="15.0" top="15.0" />
+                     </VBox.margin>
+                  </Text>
+                  <Text fx:id="usernameLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="Username" wrappingWidth="226.6708984375">
+                     <font>
+                        <Font name="Arial" size="20.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="15.0" top="25.0" />
+                     </VBox.margin>
+                  </Text>
+                  <Text fx:id="firstNameLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="Firstname" wrappingWidth="226.6708984375">
+                     <font>
+                        <Font name="Arial" size="20.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="15.0" top="25.0" />
+                     </VBox.margin>
+                  </Text>
+                  <Text fx:id="lastNameLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="Lastname" wrappingWidth="226.6708984375">
+                     <font>
+                        <Font name="Arial" size="20.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="15.0" top="25.0" />
+                     </VBox.margin>
+                  </Text>
+               </children>
+            </VBox>
+            <VBox prefHeight="538.0" prefWidth="800.0" styleClass="requestDisplayPane">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="User's Requests">
+                     <font>
+                        <Font name="Arial" size="20.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="15.0" />
+                     </VBox.margin>
+                  </Text>
+                  <JFXListView fx:id="reqDisplayListView" minHeight="-Infinity" minWidth="-Infinity" prefHeight="431.0" prefWidth="419.0" stylesheets="@CSS/LocationSearch.css" />
+               </children>
+               <padding>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </padding>
+            </VBox>
+            <VBox prefHeight="538.0" prefWidth="200.0" styleClass="filterPane">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Filter">
+                     <font>
+                        <Font name="Arial" size="20.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="15.0" />
+                     </VBox.margin>
+                  </Text>
+                  <JFXCheckBox fx:id="filterTime" text="Only show requests due before:">
+                     <font>
+                        <Font name="Arial" size="12.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </JFXCheckBox>
+                  <JFXDatePicker fx:id="datePicker">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </JFXDatePicker>
+                  <JFXTimePicker fx:id="timePicker">
+                     <VBox.margin>
+                        <Insets bottom="15.0" />
+                     </VBox.margin>
+                  </JFXTimePicker>
+                  <JFXButton onAction="#applyFilter" prefHeight="40.0" prefWidth="70.0" style="-fx-background-color: #ddd; -fx-border-radius: 0; -fx-background-radius: 0;" text="Apply">
+                     <font>
+                        <Font name="Arial" size="15.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="20.0" />
+                     </VBox.margin>
+                  </JFXButton>
+                  <JFXCheckBox fx:id="showCompleted" text="Show Completed Requests">
+                     <font>
+                        <Font name="Arial" size="14.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="20.0" />
+                     </VBox.margin>
+                  </JFXCheckBox>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Visible Request Types:">
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="Arial" size="14.0" />
+                     </font>
+                  </Text>
+                  <JFXListView fx:id="typeFilterSelection" stylesheets="@CSS/LocationSearch.css">
+                     <VBox.margin>
+                        <Insets bottom="20.0" />
+                     </VBox.margin>
+                  </JFXListView>
+               </children>
+               <padding>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </padding>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</GridPane>

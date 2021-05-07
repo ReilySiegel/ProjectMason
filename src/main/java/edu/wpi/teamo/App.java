@@ -70,6 +70,7 @@ public class App extends Application {
     pagePaths.put(Pages.MANAGEACCOUNTS, "/edu/wpi/teamo/fxml/ManageAccounts.fxml");
     pagePaths.put(Pages.ABOUT, "/edu/wpi/teamo/fxml/AboutPage.fxml");
     pagePaths.put(Pages.SETTINGS, "/edu/wpi/teamo/fxml/Settings.fxml");
+    pagePaths.put(Pages.PROFILE, "/edu/wpi/teamo/fxml/ProfileInformationPage.fxml");
 
     System.out.println("Starting Up");
 

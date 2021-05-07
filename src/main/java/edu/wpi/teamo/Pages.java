@@ -23,5 +23,6 @@ public enum Pages {
     MAIN,
     MANAGEACCOUNTS,
     ABOUT,
-    SETTINGS
+    SETTINGS,
+    PROFILE,
 }
