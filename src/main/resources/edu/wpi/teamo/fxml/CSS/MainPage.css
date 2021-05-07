@@ -1,5 +1,4 @@
 @font-face {
-    font-family: Roboto;
     src: url('../../fonts/Roboto-Regular.ttf');
 }
 
@@ -27,7 +26,7 @@
 .button {
     -fx-background-color: rgb(216, 248, 255);
     -fx-font-size: 12;
-    -fx-font-family: Roboto;
+    -fx-font-family: "Roboto Regular";
     -fx-text-fill: #000000;
     -fx-border-radius: 0;
     -fx-background-radius: 0;
@@ -74,7 +73,7 @@
     -fx-border-color: rgba(255, 255, 255, 0.9);
     -fx-border-width: 0.5;
     -fx-effect: dropshadow(gaussian, rgba(100, 100, 100, 0.3), 10, 0.5, 0.0, 0.0);
-    -fx-font-family: Roboto;
+    -fx-font-family: "Roboto Regular";
     -fx-font-size: 18;
 }
 
@@ -90,23 +89,19 @@
 
 
 .tree-table-view{
-    -fx-font: 12px "Arial";
+    -fx-font: 12px "Roboto Regular";
     -fx-font-size: 12;
     -fx-background-color: rgba(255, 255, 255, 0.7);
     -fx-border-color: rgba(255, 255, 255, 0.7);
 }
 
 .tree-table-row-cell {
-    -fx-font: 12px "Arial";
+    -fx-font: 12px "Roboto Regular";
     -fx-background: rgba(255, 255, 255, 0);
     -fx-border-color: rgba(255, 255, 255, 0.7);
 }
 
-.text {
-    -fx-font-family: Roboto;
-}
-
 .headerText {
     -fx-font-size: 34;
-    -fx-font-family: Roboto;
+    -fx-font-family: "Roboto Regular";
 }
