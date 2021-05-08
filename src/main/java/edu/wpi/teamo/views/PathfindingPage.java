@@ -6,11 +6,9 @@ import edu.wpi.teamo.Session;
 import edu.wpi.teamo.algos.*;
 import edu.wpi.teamo.database.map.NodeInfo;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -18,7 +16,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.util.Pair;
@@ -26,9 +23,7 @@ import javafx.util.Pair;
 import java.net.URL;
 import java.security.InvalidParameterException;
 import java.sql.SQLException;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class PathfindingPage extends SubPageController implements Initializable {
@@ -124,6 +119,13 @@ public class PathfindingPage extends SubPageController implements Initializable 
 
     Map map;
 
+    private List<HBox> viewableList;
+    private List<List<HBox>> floorPaths;
+    private int currentIndex;
+
+    private String activeFloor;
+    private int adjustedDirIterator;
+
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
         gridPane.setPickOnBounds(false);
@@ -148,6 +150,10 @@ public class PathfindingPage extends SubPageController implements Initializable 
         locationSearcher = new LocationSearcher(searchBar, searchResultsView);
         locationSearcher.setOnCheckNode(this::onClickNode);
         setSearchWindowVisibility(false);
+
+        viewableList = new LinkedList<>();
+        floorPaths = new ArrayList<>();
+        currentIndex = 0;
 
         App.getPrimaryStage().getScene().setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ESCAPE) {
@@ -360,24 +366,46 @@ public class PathfindingPage extends SubPageController implements Initializable 
         if (forward)
         {
             directionIterator++;
+            adjustedDirIterator++;
         }
         else{
             directionIterator--;
+            adjustedDirIterator--;
         }
         floor = calculatedPath.get(directionIterator).getFloor();
+
+        //Monitor
+        if(!activeFloor.equals(floor)) {
+            textualDirView.getItems().remove(0, textualDirView.getItems().size() - 1);
+            if(adjustedDirIterator >= floorPaths.get(currentIndex).size() - 1) {
+                currentIndex++;
+                adjustedDirIterator = 0;
+            }
+            else {
+                currentIndex--;
+                adjustedDirIterator = floorPaths.get(currentIndex).size() - 1;
+            }
+            textualDirView.getItems().setAll(floorPaths.get(currentIndex));
+            activeFloor = floor;
+        }
+
         for(HBox h: textualDirView.getItems())
         {
             h.setBackground(null);
         }
         BackgroundFill fill  = new BackgroundFill(new Color(0,0,0,.10),null,null);
-        textualDirView.getItems().get(directionIterator).setBackground(new Background(fill,null));
+        textualDirView.getItems().get(adjustedDirIterator).setBackground(new Background(fill,null));
+        updateCurrentDisplay();
 
-        ImageView icon = new ImageView(((ImageView) textualDirView.getItems().get(directionIterator).getChildren().get(0)).getImage());
+        update();
+    }
+
+    private void updateCurrentDisplay() {
+        ImageView icon = new ImageView(((ImageView) textualDirView.getItems().get(adjustedDirIterator).getChildren().get(0)).getImage());
         icon.setFitWidth(40);
         icon.setFitHeight(40);
-        Text s = new Text(((Text) textualDirView.getItems().get(directionIterator).getChildren().get(1)).getText());
+        Text s = new Text(((Text) textualDirView.getItems().get(adjustedDirIterator).getChildren().get(1)).getText());
         currentDisplay.getChildren().setAll(icon,s);
-               update();
     }
 
     private void handleAssignParkingSpot(Circle circle, NodeInfo node){
@@ -456,13 +484,23 @@ public class PathfindingPage extends SubPageController implements Initializable 
         if(textualDirView.getItems().size() > 0 && calculatedPath != null) {
             textualDirView.getItems().remove(0, textualDirView.getItems().size() - 1);
             populateTextualView(calculatedPath);
+            updateCurrentDisplay();
         }
     }
 
     private void populateTextualView(List<AlgoNode> path) {
-        List<HBox> viewableList = new LinkedList<>();
+        int index = 0, floorPathsIndex = -1;
+        floorPaths.clear();
+        viewableList.clear();
+        String currentFloor = "";
         List<String> directionsRaw = TextDirManager.getTextualDirections(path, metric);
         for(String s : directionsRaw) {
+            if(!currentFloor.equals(path.get(index).getFloor())) {
+                floorPaths.add(new LinkedList<>());
+                floorPathsIndex++;
+                currentFloor = path.get(index).getFloor();
+            }
+            index++;
             if(s.toLowerCase().contains("slightly leftwards")) {
                 Image ico = new Image("edu/wpi/teamo/images/Icons/icons8-up-left-96.png");
                 ImageView icon = new ImageView();
@@ -471,6 +509,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
                 icon.setFitHeight(20);
                 HBox hbox = new HBox(icon, new Text(s));
                 viewableList.add(hbox);
+                floorPaths.get(floorPathsIndex).add(hbox);
             }
             else if(s.toLowerCase().contains("slightly rightwards")) {
                 Image ico = new Image("edu/wpi/teamo/images/Icons/icons8-up-right-96.png");
@@ -480,6 +519,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
                 icon.setFitHeight(20);
                 HBox hbox = new HBox(icon, new Text(s));
                 viewableList.add(hbox);
+                floorPaths.get(floorPathsIndex).add(hbox);
             }
             else if(s.toLowerCase().contains("backwards and to the left")) {
                 Image ico = new Image("edu/wpi/teamo/images/Icons/icons8-up-left-96.png");
@@ -490,6 +530,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
                 icon.setFitHeight(20);
                 HBox hbox = new HBox(icon, new Text(s));
                 viewableList.add(hbox);
+                floorPaths.get(floorPathsIndex).add(hbox);
             }
             else if(s.toLowerCase().contains("backwards and to the right")) {
                 Image ico = new Image("edu/wpi/teamo/images/Icons/icons8-up-right-96.png");
@@ -500,6 +541,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
                 icon.setFitHeight(20);
                 HBox hbox = new HBox(icon, new Text(s));
                 viewableList.add(hbox);
+                floorPaths.get(floorPathsIndex).add(hbox);
             }
             else if(s.toLowerCase().contains("leftwards")) {
                 Image ico = new Image("edu/wpi/teamo/images/Icons/icons8-up-sharp-left-96.png");
@@ -509,6 +551,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
                 icon.setFitHeight(20);
                 HBox hbox = new HBox(icon, new Text(s));
                 viewableList.add(hbox);
+                floorPaths.get(floorPathsIndex).add(hbox);
             }
             else if(s.toLowerCase().contains("rightwards")) {
                 Image ico = new Image("edu/wpi/teamo/images/Icons/icons8-up-sharp-right-96.png");
@@ -518,6 +561,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
                 icon.setFitHeight(20);
                 HBox hbox = new HBox(icon, new Text(s));
                 viewableList.add(hbox);
+                floorPaths.get(floorPathsIndex).add(hbox);
             }
             else if(s.toLowerCase().contains("backwards")) {
                 Image ico = new Image("edu/wpi/teamo/images/Icons/icons8-up-arrow-96.png");
@@ -528,6 +572,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
                 icon.setFitHeight(20);
                 HBox hbox = new HBox(icon, new Text(s));
                 viewableList.add(hbox);
+                floorPaths.get(floorPathsIndex).add(hbox);
             }
             else{
                 Image ico = new Image("edu/wpi/teamo/images/Icons/icons8-up-arrow-96.png");
@@ -537,13 +582,16 @@ public class PathfindingPage extends SubPageController implements Initializable 
                 icon.setFitHeight(20);
                 HBox hbox = new HBox(icon, new Text(s));
                 viewableList.add(hbox);
+                floorPaths.get(floorPathsIndex).add(hbox);
             }
         }
-        textualDirView.getItems().setAll(viewableList);
+        textualDirView.getItems().setAll(floorPaths.get(currentIndex));
+        if(activeFloor == null) activeFloor = path.get(0).getFloor();
     }
 
     void findPath(String startID, String endID) {
-
+        currentIndex = 0;
+        adjustedDirIterator = 0;
         LinkedList<AlgoNode> path = new LinkedList<>();
         try {
             path = App.context.getPath(startID, endID);
@@ -557,7 +605,6 @@ public class PathfindingPage extends SubPageController implements Initializable 
 
         textualWindow.setVisible(true);
         populateTextualView(path);
-        //textualDirView.getItems().setAll();
 
         List<String> floors = new LinkedList<>();
         for (AlgoNode node : path) {
