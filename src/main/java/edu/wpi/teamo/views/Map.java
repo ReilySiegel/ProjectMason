@@ -84,15 +84,14 @@ public class Map  {
     public Map(AnchorPane nodePane) {
         this.nodePane = nodePane;
         setNodePaneSize(paneWidth, paneHeight);
-        nodePane.setOnMouseDragged((MouseEvent e) -> translateMap(e.getScreenX(), e.getScreenY()));
+        nodePane.setOnMouseDragged((MouseEvent e) -> handleDrag(e.getScreenX(), e.getScreenY()));
         nodePane.setOnMouseReleased((MouseEvent e) -> resetInitialDragData());
         nodePane.setOnScroll((ScrollEvent e) -> scaleMap(e.getDeltaY()));
 
-        double middleOfPagePlusHalfPaneWidth  = (App.getPrimaryStage().getScene().getWidth()  / 2) - (paneWidth  / 2);
-        double middleOfPagePlusHalfPaneHeight = (App.getPrimaryStage().getScene().getHeight() / 2) - (paneHeight / 2);
+        double middleOfPageMinusHalfPaneWidth  = (App.getPrimaryStage().getScene().getWidth()  / 2) - (paneWidth  / 2);
+        double middleOfPageMinusHalfPaneHeight = (App.getPrimaryStage().getScene().getHeight() / 2) - (paneHeight / 2);
 
-        translateMap(0, 0);
-        translateMap(middleOfPagePlusHalfPaneWidth, middleOfPagePlusHalfPaneHeight);
+        setMapTranslate(middleOfPageMinusHalfPaneWidth, middleOfPageMinusHalfPaneHeight);
         resetInitialDragData();
 //        scaleMap(300);
     }
@@ -263,8 +262,6 @@ public class Map  {
 
     public Polygon drawTriangle(double x, double y, double size, double radians, Paint color)
     {
-
-
         double firstX,firstY,secondX,secondY,thirdX,thirdY;
         double[] corn = new double[6];
         firstX  =x +size *Math.cos(radians);
@@ -357,7 +354,7 @@ public class Map  {
         dragging = false;
     }
 
-    public void translateMap(double screenX, double screenY) {
+    public void handleDrag(double screenX, double screenY) {
         /* if the drag was just initiated, must save initial conditions */
         if (initialTranslateX == null) {
             initialTranslateX = nodePane.getTranslateX();
@@ -371,9 +368,16 @@ public class Map  {
             double screenDisplacementX = screenX - initialScreenX;
             double screenDisplacementY = screenY - initialScreenY;
 
-            nodePane.setTranslateX (initialTranslateX + screenDisplacementX);
-            nodePane.setTranslateY (initialTranslateY + screenDisplacementY);
+            setMapTranslate(
+                    initialTranslateX + screenDisplacementX,
+                    initialTranslateY + screenDisplacementY
+            );
         }
+    }
+
+    public void setMapTranslate(double x,double y) {
+        nodePane.setTranslateX(x);
+        nodePane.setTranslateY(y);
     }
 
     public void scaleMap(double scroll) {
@@ -543,5 +547,30 @@ public class Map  {
 
     public void setLineColor(Paint lineColor) {
         this.lineColor = lineColor;
+    }
+
+    public void centerOnMapCoords(int x, int y) {
+        /* convert to nodePane coords */
+        double pX = mapToPaneX(x);
+        double pY = mapToPaneY(y);
+
+        /* convert coords to coords relative to center of nodePane */
+        pX = pX - getWidth()  / 2;
+        pY = pY - getHeight() / 2;
+
+        /* scale */
+        pX *= scale;
+        pY *= scale;
+
+        /* translate pane to center of screen */
+        double tX = App.getPrimaryStage().getScene().getWidth()  / 2 - getWidth() / 2;
+        double tY = App.getPrimaryStage().getScene().getHeight() / 2 - getHeight() / 2;
+
+        /* translate by the node coords */
+        tX = tX - pX;
+        tY = tY - pY;
+
+        /* translate */
+        setMapTranslate(tX, tY);
     }
 }
