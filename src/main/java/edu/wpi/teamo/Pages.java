@@ -22,4 +22,5 @@ public enum Pages {
     ABOUT,
     SETTINGS,
     PROFILE,
+    CREDITS
 }
