@@ -399,8 +399,9 @@ public class PathfindingPage extends SubPageController implements Initializable 
         icon.setFitWidth(40);
         icon.setFitHeight(40);
         Text s = new Text(((Text) textualDirView.getItems().get(adjustedDirIterator).getChildren().get(1)).getText());
-        if(s.getText().toLowerCase().contains("backwards and to the right") || s.getText().toLowerCase().contains("backwards and to the left")) icon.setRotate(90);
-        else if(s.getText().toLowerCase().contains("backwards")) icon.setRotate(180);
+        if(s.getText().toLowerCase().contains(App.resourceBundle.getString("key.back_right_turn"))) icon.setRotate(90);
+        else if(s.getText().toLowerCase().contains(App.resourceBundle.getString("key.back_left_turn"))) icon.setRotate(270);
+        else if(s.getText().toLowerCase().contains(App.resourceBundle.getString("key.backwards"))) icon.setRotate(180);
         currentDisplay.getChildren().setAll(icon,s);
     }
 
@@ -468,7 +469,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
                 currentFloor = path.get(index).getFloor();
             }
             index++;
-            if(s.toLowerCase().contains("slightly leftwards")) {
+            if(s.toLowerCase().contains(App.resourceBundle.getString("key.slight_left_turn"))) {
                 Image ico = new Image("edu/wpi/teamo/images/Icons/icons8-up-left-96.png");
                 ImageView icon = new ImageView();
                 icon.setImage(ico);
@@ -478,7 +479,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
                 viewableList.add(hbox);
                 floorPaths.get(floorPathsIndex).add(hbox);
             }
-            else if(s.toLowerCase().contains("slightly rightwards")) {
+            else if(s.toLowerCase().contains(App.resourceBundle.getString("key.slight_right_turn"))) {
                 Image ico = new Image("edu/wpi/teamo/images/Icons/icons8-up-right-96.png");
                 ImageView icon = new ImageView();
                 icon.setImage(ico);
@@ -488,18 +489,18 @@ public class PathfindingPage extends SubPageController implements Initializable 
                 viewableList.add(hbox);
                 floorPaths.get(floorPathsIndex).add(hbox);
             }
-            else if(s.toLowerCase().contains("backwards and to the left")) {
+            else if(s.toLowerCase().contains(App.resourceBundle.getString("key.back_left_turn"))) {
                 Image ico = new Image("edu/wpi/teamo/images/Icons/icons8-up-left-96.png");
                 ImageView icon = new ImageView();
                 icon.setImage(ico);
-                icon.setRotate(90);
+                icon.setRotate(270);
                 icon.setFitWidth(20);
                 icon.setFitHeight(20);
                 HBox hbox = new HBox(icon, new Text(s));
                 viewableList.add(hbox);
                 floorPaths.get(floorPathsIndex).add(hbox);
             }
-            else if(s.toLowerCase().contains("backwards and to the right")) {
+            else if(s.toLowerCase().contains(App.resourceBundle.getString("key.back_right_turn"))) {
                 Image ico = new Image("edu/wpi/teamo/images/Icons/icons8-up-right-96.png");
                 ImageView icon = new ImageView();
                 icon.setImage(ico);
@@ -510,7 +511,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
                 viewableList.add(hbox);
                 floorPaths.get(floorPathsIndex).add(hbox);
             }
-            else if(s.toLowerCase().contains("leftwards")) {
+            else if(s.toLowerCase().contains(App.resourceBundle.getString("key.left_turn"))) {
                 Image ico = new Image("edu/wpi/teamo/images/Icons/icons8-up-sharp-left-96.png");
                 ImageView icon = new ImageView();
                 icon.setImage(ico);
@@ -520,7 +521,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
                 viewableList.add(hbox);
                 floorPaths.get(floorPathsIndex).add(hbox);
             }
-            else if(s.toLowerCase().contains("rightwards")) {
+            else if(s.toLowerCase().contains(App.resourceBundle.getString("key.right_turn"))) {
                 Image ico = new Image("edu/wpi/teamo/images/Icons/icons8-up-sharp-right-96.png");
                 ImageView icon = new ImageView();
                 icon.setImage(ico);
@@ -530,7 +531,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
                 viewableList.add(hbox);
                 floorPaths.get(floorPathsIndex).add(hbox);
             }
-            else if(s.toLowerCase().contains("backwards")) {
+            else if(s.toLowerCase().contains(App.resourceBundle.getString("key.backwards"))) {
                 Image ico = new Image("edu/wpi/teamo/images/Icons/icons8-up-arrow-96.png");
                 ImageView icon = new ImageView();
                 icon.setImage(ico);
@@ -559,6 +560,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
     void findPath(String startID, String endID) {
         currentIndex = 0;
         adjustedDirIterator = 0;
+        activeFloor = null;
         LinkedList<AlgoNode> path = new LinkedList<>();
         try {
             path = App.context.getPath(startID, endID);
