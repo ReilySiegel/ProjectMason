@@ -248,6 +248,11 @@ public class MainPage implements Initializable {
         SubPageContainer.switchPage(Pages.CREDITS);
     }
 
+    public void setCovidInfo(){
+        hidePages();
+        SubPageContainer.switchPage(Pages.INFO);
+    }
+
 
     private void updateAccountWindow() {
         if(Session.isLoggedIn() && !Session.getAccount().getRole().equals("guest")) {
