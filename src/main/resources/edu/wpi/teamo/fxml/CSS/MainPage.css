@@ -130,3 +130,7 @@
     -fx-pref-height: 30;
     -fx-pref-width: 60;
 }
+
+.combo-box-popup .list-view .list-cell {
+    -fx-background-color: #fff;
+}
