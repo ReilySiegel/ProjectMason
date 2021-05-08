@@ -84,8 +84,9 @@
 }
 
 .jfx-check-box{
-    -jfx-checked-color: #5e81ac
+    -jfx-checked-color: #5e81ac;
 }
+
 
 
 .tree-table-view{
@@ -101,7 +102,27 @@
     -fx-border-color: rgba(255, 255, 255, 0.7);
 }
 
+
+.jfx-date-picker{
+    -jfx-default-color: #5e81ac;
+}
+
+.jfx-time-picker{
+    -jfx-default-color: #5e81ac;
+}
+
+.date-picker-popup .left-button,
+.date-picker-popup .right-button  {
+    -fx-background-color: #5e81ac;
+}
+
+.date-picker-popup .left-button .jfx-svg-glyph,
+.date-picker-popup .right-button .jfx-svg-glyph {
+    -fx-background-color: #ffffff;
+}
+
 .headerText {
     -fx-font-size: 34;
     -fx-font-family: "Roboto Regular";
 }
+
