@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -17,12 +18,12 @@ public class CovidInfoPage extends ServiceRequestPage implements Initializable {
     private JFXScrollPane scrollPane;
 
     @FXML
-    private VBox vbox;
+    private HBox hbox;
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
         Font font = Font.font("System", FontWeight.NORMAL, 45);
-        scrollPane.setContent(vbox);
+        scrollPane.setContent(hbox);
         Label label1 = new Label("Covid Information Page");
         label1.setFont(font);
         JFXScrollPane.smoothScrolling((ScrollPane) scrollPane.getChildren().get(0));
