@@ -1,21 +1,23 @@
 package edu.wpi.teamo.views.pathfindingpage;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXCheckBox;
-import com.jfoenix.controls.JFXListView;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.*;
 import edu.wpi.teamo.database.map.NodeInfo;
 import edu.wpi.teamo.views.LocationSearcher;
 import javafx.event.ActionEvent;
 import javafx.scene.layout.VBox;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 public class PathSelection {
+
+    private static final String allTypesKey = "All";
 
     private final LocationSearcher locationSearcher;
     private final JFXButton chooseStartButton;
     private final JFXButton chooseEndButton;
+    JFXComboBox<String> nodeTypeFilterBox;
     private final JFXTextField searchBar;
     private final VBox searchWindow;
 
@@ -38,11 +40,13 @@ public class PathSelection {
                          VBox searchWindow,
                          JFXTextField searchBar,
                          JFXListView<JFXCheckBox> searchResultsView,
+                         JFXComboBox<String> nodeTypeFilterBox,
                          Runnable onSelectStart,
                          Runnable onSelectEnd,
                          Runnable onChoosing) {
 
         this.chooseStartButton = chooseStartButton;
+        this.nodeTypeFilterBox = nodeTypeFilterBox;
         this.chooseEndButton = chooseEndButton;
         this.onSelectStart = onSelectStart;
         this.searchWindow = searchWindow;
@@ -52,10 +56,22 @@ public class PathSelection {
 
         chooseStartButton.setOnAction(this::handleChooseStartButton);
         chooseEndButton.setOnAction(this::handleChooseEndButton);
+        nodeTypeFilterBox.setOnAction(this::handleSwitchTypeFilter);
 
         this.locationSearcher = new LocationSearcher(searchBar, searchResultsView);
         locationSearcher.setOnCheckNode(this::onClickNode);
+        locationSearcher.addHardFilter((node) -> {
+            String typeFilter = nodeTypeFilterBox.getValue();
+            return    typeFilter == null
+                   || typeFilter.equals(allTypesKey)
+                   || typeFilter.equals(node.getNodeType());
+        });
+
         reset();
+    }
+
+    private void handleSwitchTypeFilter(ActionEvent actionEvent) {
+        locationSearcher.update();
     }
 
     public void onClickNode(NodeInfo node) {
@@ -135,6 +151,11 @@ public class PathSelection {
     }
 
     public void openSearchWindow() {
+        if (!nodeTypeFilterBox.getItems().contains(allTypesKey)) {
+            nodeTypeFilterBox.getItems().add(allTypesKey);
+        }
+        nodeTypeFilterBox.setValue(allTypesKey);
+
         searchBar.clear();
         locationSearcher.update();
         searchWindow.setVisible(true);
@@ -158,6 +179,15 @@ public class PathSelection {
     }
 
     public void setLocations(LinkedList<NodeInfo> nodes) {
+        /* fill the type filter box with the available types for filtering */
+        List<String> types = new LinkedList<>();
+        types.add(allTypesKey);
+        nodes.forEach(node -> {
+            if (!types.contains(node.getNodeType())) types.add(node.getNodeType());
+        });
+        nodeTypeFilterBox.getItems().setAll(types);
+        nodeTypeFilterBox.setValue(allTypesKey);
+
         locationSearcher.setLocations(nodes);
     }
 }

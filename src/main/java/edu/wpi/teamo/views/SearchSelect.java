@@ -18,6 +18,7 @@ public class SearchSelect<T, Cell> {
     public interface Matcher<T> extends ItemSearch.TextMatcher<T> {
         boolean isMatching(T item, String text);
     }
+    Sift.Filter<T> textMatchFilter; /*keep a reference so we can reset it and keep any other hard filters*/
 
     /**
      * An object that handles searching and selecting multiple items.
@@ -84,8 +85,17 @@ public class SearchSelect<T, Cell> {
     }
 
     public void setMatcher(Matcher<T> matcher) {
-        itemSifter.clearHardFilters();
-        itemSifter.addHardFilter(item -> matcher.isMatching(item, searchBar.getText()));
+        itemSifter.removeHardFilter(textMatchFilter);
+        this.textMatchFilter = (item) -> matcher.isMatching(item, searchBar.getText());
+        itemSifter.addHardFilter(textMatchFilter);
+    }
+
+    public void addHardFilter(Sift.Filter<T> filter) {
+        itemSifter.addHardFilter(filter);
+    }
+
+    public void addSoftFilter(Sift.Filter<T> filter) {
+        itemSifter.addSoftFilter(filter);
     }
 
     public void setCellCreator(SelectionListDisplay.SelectionCellCreator<T, Cell> cellCreator) {

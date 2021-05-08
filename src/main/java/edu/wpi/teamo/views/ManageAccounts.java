@@ -140,13 +140,25 @@ public class ManageAccounts implements Initializable {
         JFXTreeTableColumn<Account, Boolean> acctAdmin = new JFXTreeTableColumn<>("Admin");
         acctAdmin.setPrefWidth(150);
         //acctAdmin.setCellFactory(CheckBoxTreeTableCell.forTreeTableColumn(acctAdmin));
-            acctAdmin.setCellValueFactory(param -> {
-                if(param.getValue().getValue().isAdmin()) {
-                    return new SimpleBooleanProperty(true);
-                } else {
-                    return new SimpleBooleanProperty(false);
-                }
-            });
+        acctAdmin.setCellValueFactory(param -> {
+            if(param.getValue().getValue().isAdmin()) {
+                return new SimpleBooleanProperty(true);
+            } else {
+                return new SimpleBooleanProperty(false);
+            }
+        });
+
+        JFXTreeTableColumn<Account, String> acctCleared = new JFXTreeTableColumn<>("Entry Status");
+        acctCleared.setPrefWidth(100);
+        acctCleared.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Account, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Account, String> param) {
+                StringProperty strProp;
+                if (param.getValue().getValue().clearedPastEntry()) strProp = new SimpleStringProperty("Cleared Past Entry");
+                else strProp = new SimpleStringProperty("Pending");
+                return strProp;
+            }
+        });
 
 
 
@@ -230,7 +242,7 @@ public class ManageAccounts implements Initializable {
 
 
         final TreeItem<Account> root = new RecursiveTreeItem<Account>(accountList, RecursiveTreeObject::getChildren);
-        acctTree.getColumns().setAll(acctUsers, acctFirst, acctLast, acctRole, acctAdmin);
+        acctTree.getColumns().setAll(acctUsers, acctFirst, acctLast, acctRole, acctAdmin, acctCleared);
         acctTree.setRoot(root);
         acctTree.setShowRoot(false);
 
