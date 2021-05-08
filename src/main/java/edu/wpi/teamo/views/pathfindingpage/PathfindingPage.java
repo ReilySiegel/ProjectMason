@@ -54,6 +54,9 @@ public class PathfindingPage extends SubPageController implements Initializable 
     JFXButton chooseEndButton;
 
     @FXML
+    private JFXComboBox<String> nodeTypeFilterBox;
+
+    @FXML
     JFXButton findPathButton;
 
     @FXML
@@ -96,7 +99,6 @@ public class PathfindingPage extends SubPageController implements Initializable 
     @FXML
     private JFXButton directBack;
 
-
     @FXML
     private HBox pathStepHBox;
 
@@ -134,6 +136,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
                                           searchWindow,
                                           searchBar,
                                           searchResultsView,
+                                          nodeTypeFilterBox,
                                           this::handleSelectedStart,
                                           this::handleSelectedEnd,
                                           this::handleChoosing);
