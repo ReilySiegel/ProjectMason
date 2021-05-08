@@ -235,12 +235,12 @@
                         </VBox>
                         <HBox>
                            <children>
-                              <JFXButton fx:id="backButton" buttonType="RAISED" prefHeight="25.0" prefWidth="112.0" styleClass="submit-button" stylesheets="@CSS/MainPage.css" text="%key.back">
+                              <JFXButton fx:id="backButton" buttonType="RAISED" prefHeight="25.0" prefWidth="112.0" styleClass="button-small" stylesheets="@CSS/MainPage.css" text="%key.back">
                                  <HBox.margin>
                                     <Insets right="20.0" />
                                  </HBox.margin>
                               </JFXButton>
-                              <JFXButton fx:id="submitButton" buttonType="RAISED" onAction="#handleSubmission" prefHeight="25.0" prefWidth="112.0" styleClass="submit-button" stylesheets="@CSS/MainPage.css" text="%key.submit">
+                              <JFXButton fx:id="submitButton" buttonType="RAISED" onAction="#handleSubmission" prefHeight="25.0" prefWidth="112.0" styleClass="button-small" stylesheets="@CSS/MainPage.css" text="%key.submit">
                                  <HBox.margin>
                                     <Insets right="80.0" />
                                  </HBox.margin>
