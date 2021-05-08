@@ -405,6 +405,8 @@ public class PathfindingPage extends SubPageController implements Initializable 
         icon.setFitWidth(40);
         icon.setFitHeight(40);
         Text s = new Text(((Text) textualDirView.getItems().get(adjustedDirIterator).getChildren().get(1)).getText());
+        if(s.getText().toLowerCase().contains("backwards and to the right") || s.getText().toLowerCase().contains("backwards and to the left")) icon.setRotate(90);
+        else if(s.getText().toLowerCase().contains("backwards")) icon.setRotate(180);
         currentDisplay.getChildren().setAll(icon,s);
     }
 
