@@ -1,10 +1,13 @@
-package edu.wpi.teamo.views;
+package edu.wpi.teamo.views.pathfindingpage;
 
 import com.jfoenix.controls.*;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.Session;
 import edu.wpi.teamo.algos.*;
 import edu.wpi.teamo.database.map.NodeInfo;
+import edu.wpi.teamo.views.LocationSearcher;
+import edu.wpi.teamo.views.Map;
+import edu.wpi.teamo.views.SubPageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -80,44 +83,40 @@ public class PathfindingPage extends SubPageController implements Initializable 
     @FXML
     private JFXButton textualUnitsBtn;
 
-    private LocationSearcher locationSearcher;
-
     private boolean metric = true;
 
     LinkedList<AlgoNode> calculatedPath = null;
 
     @FXML
     private JFXButton selectParkingSpotButton;
+
     @FXML
     private JFXButton directForward;
 
     @FXML
     private JFXButton directBack;
 
-    public List<Circle> parkingSpots;
 
     @FXML
     private HBox pathStepHBox;
+
+    @FXML
+    private HBox currentDisplay;
+
+    PathSelection pathSelection;
+
+    public List<Circle> parkingSpots;
 
     int directionIterator = 0;
     int directionMax = 0;
     int directionMin = 0;
     AlgoNode lastNode = null;
 
-    @FXML
-    private HBox currentDisplay;
-
     String parkingSpotID = null;
-
-    boolean selectingStart = false;
-    boolean selectingEnd = false;
-
-    String selectedStartID = null;
-    String selectedEndID = null;
 
     boolean selectingParkingSpot = false;
 
-    Map map;
+    edu.wpi.teamo.views.Map map;
 
     private List<HBox> viewableList;
     private List<List<HBox>> floorPaths;
@@ -130,6 +129,15 @@ public class PathfindingPage extends SubPageController implements Initializable 
     public void initialize(URL location, ResourceBundle resources) {
         gridPane.setPickOnBounds(false);
 
+        pathSelection = new PathSelection(chooseStartButton,
+                                          chooseEndButton,
+                                          searchWindow,
+                                          searchBar,
+                                          searchResultsView,
+                                          this::handleSelectedStart,
+                                          this::handleSelectedEnd,
+                                          this::handleChoosing);
+
         setSelectParkingSpotButtonVisibility(Session.isLoggedIn());
 
         initFloorSwitcher();
@@ -138,18 +146,12 @@ public class PathfindingPage extends SubPageController implements Initializable 
         textualWindow.setVisible(false);
 
         selectParkingSpotButton.setOnAction(this::handleSelectParkingSpot);
-        chooseStartButton.setOnAction(this::handleChooseStart);
         floorComboBox.setOnAction(this::handleFloorSwitch);
-        chooseEndButton.setOnAction(this::handleChoseEnd);
         findPathButton.setOnAction(this::handleFindPath);
         algoSwitcher.setOnAction(this::handleAlgoSwitch);
         helpButton.setOnAction(this::handleHelpButton);
         directBack.setOnAction(this::handleStepBack);
         directForward.setOnAction(this::handleStepForward);
-
-        locationSearcher = new LocationSearcher(searchBar, searchResultsView);
-        locationSearcher.setOnCheckNode(this::onClickNode);
-        setSearchWindowVisibility(false);
 
         viewableList = new LinkedList<>();
         floorPaths = new ArrayList<>();
@@ -158,20 +160,26 @@ public class PathfindingPage extends SubPageController implements Initializable 
         App.getPrimaryStage().getScene().setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ESCAPE) {
                 textualWindow.setVisible(false);
-                searchWindow.setVisible(false);
-                selectingStart = false;
-                selectingEnd = false;
-                setSearchWindowVisibility(false);
-                chooseStartButton.setDisable(selectingStart);
-                chooseEndButton.setDisable(selectingEnd);
-                locationSearcher.clearSelectedLocations();
+                pathSelection.reset();
             }
         });
         setPathStepButtonVisibility(false);
-        map = new Map(pathPane);
+        map = new edu.wpi.teamo.views.Map(pathPane);
         map.setOnDrawNode(this::onDrawNode);
         update();
         map.hideNodes();
+    }
+
+    private void handleSelectedStart() {
+        map.hideNodes();
+    }
+
+    private void handleSelectedEnd() {
+        map.hideNodes();
+    }
+
+    private void handleChoosing() {
+        map.showNodes();
     }
 
     private void setPathStepButtonVisibility(boolean visible) {
@@ -185,7 +193,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
 
     private void handleSelectParkingSpot(ActionEvent actionEvent) {
         try {
-            if (selectingStart || selectingEnd) {
+            if (pathSelection.getState() != PathSelection.SelectionState.IDLE) {
                 if (Session.isLoggedIn() && Session.getAccount().getParkingSpot() != null) {
                     String id = Session.getAccount().getParkingSpot();
                     NodeInfo node = App.mapService.getNode(id);
@@ -211,13 +219,13 @@ public class PathfindingPage extends SubPageController implements Initializable 
     }
 
     private void initFloorSwitcher() {
-        floorComboBox.getItems().add(Map.floorL2Key);
-        floorComboBox.getItems().add(Map.floorL1Key);
-        floorComboBox.getItems().add(Map.floorGKey);
-        floorComboBox.getItems().add(Map.floor1Key);
-        floorComboBox.getItems().add(Map.floor2Key);
-        floorComboBox.getItems().add(Map.floor3Key);
-        floorComboBox.setValue(Map.floor1Key);
+        floorComboBox.getItems().add(edu.wpi.teamo.views.Map.floorL2Key);
+        floorComboBox.getItems().add(edu.wpi.teamo.views.Map.floorL1Key);
+        floorComboBox.getItems().add(edu.wpi.teamo.views.Map.floorGKey);
+        floorComboBox.getItems().add(edu.wpi.teamo.views.Map.floor1Key);
+        floorComboBox.getItems().add(edu.wpi.teamo.views.Map.floor2Key);
+        floorComboBox.getItems().add(edu.wpi.teamo.views.Map.floor3Key);
+        floorComboBox.setValue(edu.wpi.teamo.views.Map.floor1Key);
         floor = Map.floor1Key;
     }
 
@@ -286,20 +294,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
 
     //    Consumer<NodeInfo> onClickNode = (NodeInfo node) -> System.out.println("Node " + node.getNodeID() + "was clicked");
     void onClickNode(NodeInfo node) {
-        if (selectingStart) {
-            selectingParkingSpot = false;
-            chooseStartButton.setText(node.getShortName());
-            selectedStartID = node.getNodeID();
-            selectingStart = false;
-            map.hideNodes();
-        }
-        if (selectingEnd) {
-            selectingParkingSpot = false;
-            chooseEndButton.setText(node.getShortName());
-            selectedEndID = node.getNodeID();
-            selectingEnd = false;
-            map.hideNodes();
-        }
+        pathSelection.onClickNode(node);
         if (selectingParkingSpot) {
             try {
                 if (Session.isLoggedIn()) {
@@ -315,12 +310,6 @@ public class PathfindingPage extends SubPageController implements Initializable 
             }
             selectingParkingSpot = false;
         }
-
-
-        setSearchWindowVisibility(false);
-        chooseStartButton.setDisable(selectingStart);
-        chooseEndButton.setDisable(selectingEnd);
-        locationSearcher.clearSelectedLocations();
     }
 
     private void setSelectParkingSpotButtonVisibility(boolean visible) {
@@ -425,41 +414,12 @@ public class PathfindingPage extends SubPageController implements Initializable 
         }
     }
 
-    private void handleChooseStart(ActionEvent e) {
-        if (selectingStart) {
-            selectingStart = false;
-        }
-        else {
-            selectingParkingSpot = false;
-            selectingStart = true;
-            selectingEnd = false;
-            map.showNodes();
-        }
-        setSearchWindowVisibility(true);
-        chooseStartButton.setDisable(selectingStart);
-        chooseEndButton.setDisable(selectingEnd);
-        textualWindow.setVisible(false);
-    }
-
-    private void handleChoseEnd(ActionEvent e) {
-        if (selectingEnd) {
-            selectingEnd = false;
-        }
-        else {
-            selectingParkingSpot = false;
-            selectingStart = false;
-            selectingEnd = true;
-            map.showNodes();
-        }
-        setSearchWindowVisibility(true);
-        chooseEndButton.setDisable(selectingEnd);
-        chooseStartButton.setDisable(selectingStart);
-        textualWindow.setVisible(false);
-    }
-
     private void handleFindPath(ActionEvent e) {
-        if (selectedStartID != null && selectedEndID != null) {
-            findPath(selectedStartID, selectedEndID);
+        NodeInfo startNode = pathSelection.getSelectedStartNode();
+        NodeInfo endNode = pathSelection.getSelectedEndNode();
+
+        if (startNode != null && endNode != null) {
+            findPath(startNode.getNodeID(), endNode.getNodeID());
         }
     }
 
@@ -641,12 +601,15 @@ public class PathfindingPage extends SubPageController implements Initializable 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+
         map.clearShapes();
         map.drawNodes(nodes, floor);
         displayPath(calculatedPath);
+
+        pathSelection.setLocations(nodes);
         floorComboBox.setValue(floor);
-        locationSearcher.setLocations(nodes);
-        if (!selectingEnd && !selectingStart) {
+
+        if (pathSelection.getState() == PathSelection.SelectionState.IDLE) {
             map.hideNodes();
         }
     }
@@ -659,9 +622,5 @@ public class PathfindingPage extends SubPageController implements Initializable 
                 text.append(node.getLongName()).append("\n");
             }
         }
-    }
-
-    private void setSearchWindowVisibility(boolean visible) {
-        searchWindow.setVisible(visible);
     }
 }

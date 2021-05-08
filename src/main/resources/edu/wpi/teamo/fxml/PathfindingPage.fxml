@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="parentNode" prefHeight="677.0" prefWidth="1028.0" stylesheets="@CSS/MainPage.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.PathfindingPage">
+<AnchorPane fx:id="parentNode" prefHeight="677.0" prefWidth="1028.0" stylesheets="@CSS/MainPage.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.pathfindingpage.PathfindingPage">
    <children>
       <StackPane fx:id="parentStackPane" alignment="TOP_LEFT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
