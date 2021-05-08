@@ -78,8 +78,8 @@
 }
 
 .jfx-dialog-layout > .jfx-layout-actions .jfx-button {
-    -fx-pref-height: 40;
-    -fx-pref-width: 120;
+    -fx-pref-height: 30;
+    -fx-pref-width: 100;
     -fx-padding: 8;
 }
 
@@ -126,3 +126,7 @@
     -fx-font-family: "Roboto Regular";
 }
 
+.button-small {
+    -fx-pref-height: 30;
+    -fx-pref-width: 60;
+}

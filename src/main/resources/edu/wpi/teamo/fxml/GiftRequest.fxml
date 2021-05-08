@@ -176,12 +176,12 @@
                               <Insets />
                            </HBox.margin>
                            <children>
-                                    <JFXButton fx:id="backButton" buttonType="RAISED" text="%key.back" textFill="WHITE">
+                                    <JFXButton fx:id="backButton" buttonType="RAISED" styleClass="button-small" text="%key.back" textFill="WHITE">
                                         <font>
                                             <Font size="18.0" />
                                         </font>
                                     </JFXButton>
-                                    <JFXButton buttonType="RAISED" onAction="#handleSubmission" styleClass="submit-button" text="%key.submit" textFill="WHITE">
+                                    <JFXButton buttonType="RAISED" onAction="#handleSubmission" styleClass="button-small" text="%key.submit" textFill="WHITE">
                                         <font>
                                             <Font size="18.0" />
                                         </font>

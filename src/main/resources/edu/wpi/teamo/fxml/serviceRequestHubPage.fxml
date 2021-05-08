@@ -65,12 +65,12 @@
                   </HBox>
                   <HBox alignment="CENTER_LEFT">
                      <children>
-                        <JFXButton fx:id="backButton" buttonType="RAISED" prefHeight="30.0" prefWidth="111.0" text="%key.back" HBox.hgrow="ALWAYS">
+                        <JFXButton fx:id="backButton" buttonType="RAISED" prefHeight="35.0" prefWidth="70.0" text="%key.back" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="10.0" right="20.0" />
                            </HBox.margin>
                         </JFXButton>
-                        <JFXButton fx:id="helpButton" buttonType="RAISED" contentDisplay="TOP" prefHeight="37.0" prefWidth="74.0" text="%key.help" textFill="WHITE" HBox.hgrow="ALWAYS">
+                        <JFXButton fx:id="helpButton" buttonType="RAISED" contentDisplay="TOP" prefHeight="35.0" prefWidth="70.0" text="%key.help" textFill="WHITE" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets left="5.0" right="10.0" />
                            </HBox.margin>
