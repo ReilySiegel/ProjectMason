@@ -21,18 +21,18 @@ public class Settings implements Initializable {
     }
 
     private void fillLangBox() {
-        langBox.getItems().add("English");
-        langBox.getItems().add("Español");
+        langBox.getItems().add(App.resourceBundle.getString("key.english"));
+        langBox.getItems().add(App.resourceBundle.getString("key.spanish"));
         langBox.getSelectionModel().selectFirst();
     }
 
     @FXML
     private void handleConfirm(ActionEvent e) {
-        if(langBox.getValue().equals("English")) {
-            App.switchLocale("en", "US", LocaleType.es_ES, false);
+        if(langBox.getValue().equals(App.resourceBundle.getString("key.english"))) {
+            App.switchLocale("en", "US", LocaleType.en_US, false);
         }
-        else if (langBox.getValue().equals("Español")) {
-            App.switchLocale("es", "ES", LocaleType.en_US, false);
+        else if (langBox.getValue().equals(App.resourceBundle.getString("key.spanish"))) {
+            App.switchLocale("es", "ES", LocaleType.es_ES, false);
         }
     }
 }
