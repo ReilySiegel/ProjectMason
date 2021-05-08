@@ -25,13 +25,7 @@ public class LocationSearcher extends SearchSelect<NodeInfo, JFXCheckBox> {
 
         setCellCreator(this::makeCheckbox);
         setMatcher(this::nodeMatchesText);
-        setItemSorter(this::sortAlphabeticalOrder);
-    }
-
-    public List<NodeInfo> sortAlphabeticalOrder(List<NodeInfo> nodes) {
-        NodeInfo[] nodeArray = nodes.toArray(new NodeInfo[0]);
-        HeapSort.sort(nodeArray);
-        return Arrays.asList(nodeArray);
+        setComparator((n1, n2) -> n1.getLongName().compareToIgnoreCase(n2.getLongName()));
     }
 
     public JFXCheckBox makeCheckbox(NodeInfo node, boolean isSelected) {

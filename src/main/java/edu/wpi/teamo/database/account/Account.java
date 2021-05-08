@@ -17,8 +17,9 @@ public class Account extends RecursiveTreeObject<Account> {
     private String username;
     private String passwordHash;
     private boolean isAdmin;
-    private boolean useEmergencyEntrance = false;
-    private boolean takenSurvey = false;
+    private boolean useEmergencyEntrance;
+    private boolean takenSurvey;
+    private boolean clearedPastEntry;
     private String firstName;
     private String lastName;
     private String role;
@@ -30,7 +31,7 @@ public class Account extends RecursiveTreeObject<Account> {
                     String firstName,
                     String lastName,
                     String role) {
-        this(username,passwordHash,isAdmin,firstName,lastName,role,true,false);
+        this(username,passwordHash,isAdmin,firstName,lastName,role,true,false,false);
     }
 
     public Account (String username,
@@ -40,7 +41,8 @@ public class Account extends RecursiveTreeObject<Account> {
                     String lastName,
                     String role,
                     boolean useEmergencyEntrance,
-                    boolean takenSurvey) {
+                    boolean takenSurvey,
+                    boolean clearedPastEntry) {
         this.username = username;
         this.passwordHash = passwordHash;
         this.isAdmin =         isAdmin;
@@ -49,6 +51,7 @@ public class Account extends RecursiveTreeObject<Account> {
         this.role = role;
         this.useEmergencyEntrance = useEmergencyEntrance;
         this.takenSurvey = takenSurvey;
+        this.clearedPastEntry = clearedPastEntry;
     }
 
     public static void initTable() throws SQLException {
@@ -58,6 +61,7 @@ public class Account extends RecursiveTreeObject<Account> {
                                  "isAdmin boolean",
                                  "useEmergencyEntrance boolean",
                                  "takenSurvey boolean",
+                                 "clearedPastEntry boolean",
                                  "firstName varchar(255)",
                                  "lastName varchar(255)",
                                  "role varchar(255))");
@@ -75,7 +79,8 @@ public class Account extends RecursiveTreeObject<Account> {
                             rs.getString("lastName"),
                             rs.getString("role"),
                 rs.getBoolean("useEmergencyEntrance"),
-                rs.getBoolean("takenSurvey"));
+                rs.getBoolean("takenSurvey"),
+                rs.getBoolean("clearedPastEntry"));
     }
     public static Stream<Account> getAll() throws SQLException {
         ResultSet rs = Database.processQuery("SELECT * FROM Account");
@@ -88,7 +93,8 @@ public class Account extends RecursiveTreeObject<Account> {
                                   rs.getString("lastName"),
                                   rs.getString("role"),
                     rs.getBoolean("useEmergencyEntrance"),
-                    rs.getBoolean("takenSurvey")));
+                    rs.getBoolean("takenSurvey"),
+                    rs.getBoolean("clearedPastEntry")));
         return reqs.stream();
     }
 
@@ -97,8 +103,8 @@ public class Account extends RecursiveTreeObject<Account> {
         try {
             String sql = String.join (" ",
                                       "INSERT INTO Account ",
-                                      "(username, passwordHash, isAdmin, firstName, lastName, role, useEmergencyEntrance, takenSurvey)",
-                                      "VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                                      "(username, passwordHash, isAdmin, firstName, lastName, role, useEmergencyEntrance, takenSurvey, clearedPastEntry)",
+                                      "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
             PreparedStatement pstmt = Database.prepareStatement(sql);
             pstmt.setString(1, this.username);
             pstmt.setString(2, this.passwordHash);
@@ -108,13 +114,14 @@ public class Account extends RecursiveTreeObject<Account> {
             pstmt.setString(6, this.role);
             pstmt.setBoolean(7, this.useEmergencyEntrance);
             pstmt.setBoolean(8, this.takenSurvey);
+            pstmt.setBoolean(9,this.clearedPastEntry);
             pstmt.execute();
         } catch (SQLException e) {
             // Item with this ID already exists in the DB, try insert.
             String sql = String.join (" ",
                                       "UPDATE Account SET",
                                       "username = ?, passwordHash = ?, isAdmin = ?, firstName = ?,",
-                                      "lastName = ?, role = ?, useEmergencyEntrance = ?, takenSurvey = ? WHERE username = ?");
+                                      "lastName = ?, role = ?, useEmergencyEntrance = ?, takenSurvey = ?, clearedPastEntry = ? WHERE username = ?");
             PreparedStatement pstmt = Database.prepareStatement(sql);
             pstmt.setString(1, this.username);
             pstmt.setString(2, this.passwordHash);
@@ -124,7 +131,8 @@ public class Account extends RecursiveTreeObject<Account> {
             pstmt.setString(6, this.role);
             pstmt.setBoolean(7, this.useEmergencyEntrance);
             pstmt.setBoolean(8, this.takenSurvey);
-            pstmt.setString(9, this.username);
+            pstmt.setBoolean(9,this.clearedPastEntry);
+            pstmt.setString(10, this.username);
             pstmt.execute();
         }
     }
@@ -170,6 +178,15 @@ public class Account extends RecursiveTreeObject<Account> {
 
     public void setFirstName(String firstName)throws SQLException {
         this.firstName = firstName;
+        this.update();
+    }
+
+    public boolean clearedPastEntry() {
+        return clearedPastEntry;
+    }
+
+    public void setIsClearedPastEntry(boolean clearedPastEntry) throws SQLException {
+        this.clearedPastEntry = clearedPastEntry;
         this.update();
     }
 
