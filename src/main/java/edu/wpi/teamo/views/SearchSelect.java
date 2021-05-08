@@ -1,41 +1,23 @@
 package edu.wpi.teamo.views;
 
+import edu.wpi.teamo.utils.itemsifters.displays.SelectionListDisplay;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTextField;
-
-import java.security.InvalidParameterException;
-import java.util.LinkedList;
+import edu.wpi.teamo.utils.itemsifters.*;
+import java.util.Comparator;
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.stream.Collectors;
+
 
 public class SearchSelect<T, Cell> {
-
     private boolean enabled = true;
 
-    JFXListView<Cell> resultsList;
-    JFXTextField searchBar;
+    private final ItemSifter<T> itemSifter;
+    private final SelectionListDisplay<T, Cell> display;
+    private final JFXTextField searchBar;
 
-    List<T> selectedItems;
-    List<T> items;
-
-    Consumer<T> onClickItem = null;
-    Consumer<Cell> onMakeCheckbox = null;
-
-    public interface Matcher<T> {
+    public interface Matcher<T> extends ItemSearch.TextMatcher<T> {
         boolean isMatching(T item, String text);
     }
-    Matcher<T> matcher;
-
-    public interface CellCreator<T, Cell> {
-        Cell makeCell(T item, boolean selected);
-    }
-    CellCreator<T, Cell> cellCreator;
-
-    public interface ItemSorter<T> {
-        List<T> sort(List<T> itemList);
-    }
-    ItemSorter<T> itemSorter = null;
 
     /**
      * An object that handles searching and selecting multiple items.
@@ -45,29 +27,27 @@ public class SearchSelect<T, Cell> {
      * @param searchResultsList a JFXListView<JFXCheckBox> object that will list the search results and allow selection.
      * @param matcher a function that takes an item (of the defined type) and a string,
  *                    and returns true if the string, or any other filters in the scope of the definition, match the item.
-     * @param cellCreator a function that defines the list items.
-     *                    It must take an item, and return the list cell.
+     * @param selectionCellCreator a function that defines the list items.
+     *                    It must take an item, and a boolean representing if it is selected, and return the list cell.
      *                    The returned cell's type must be the same as the cells of the ListView you are using.
      */
     public SearchSelect(JFXTextField searchBar,
                         JFXListView<Cell> searchResultsList,
                         Matcher<T> matcher,
-                        CellCreator<T, Cell> cellCreator) {
+                        SelectionListDisplay.SelectionCellCreator<T, Cell> selectionCellCreator) {
+        itemSifter = new ItemSifter<>();
+        setMatcher(matcher);
 
-        this.resultsList = searchResultsList;
         this.searchBar = searchBar;
 
-        this.selectedItems = new LinkedList<>();
-        this.items = new LinkedList<>();
+        display = new SelectionListDisplay<>(searchResultsList, selectionCellCreator);
+        itemSifter.addDisplay(display);
 
-        this.matcher = matcher;
-        this.cellCreator = cellCreator;
-
-        this.searchBar.setOnKeyTyped(event -> update());
+        searchBar.setOnKeyTyped(event -> update());
     }
 
-    public void setItemSorter(ItemSorter<T> itemSorter) {
-        this.itemSorter = itemSorter;
+    public void setComparator(Comparator<T> comparator) {
+        this.itemSifter.setComparator(comparator);
     }
 
     /**
@@ -76,74 +56,40 @@ public class SearchSelect<T, Cell> {
      * @param items List of T objects to be searched and selected.
      */
     public void setItems(List<T> items) {
-        this.items = items;
+        itemSifter.clearItems();
+        itemSifter.addItems(items.stream());
         update();
     }
 
     public List<T> getSelectedItems() {
-        return selectedItems;
+        return display.getSelectedItems();
     }
 
     public void clearSelectedItems() {
-        selectedItems = new LinkedList<>();
+        display.clearSelectedItems();
         update();
     }
 
     public void update() {
         if (!enabled) return;
-        if (matcher == null) { throw new InvalidParameterException("Matcher has not been set"); }
-        if (cellCreator == null) { throw new InvalidParameterException("Cell creator has not been set"); }
-
-        String searchText = searchBar.getText();
-        List<T> matchingItems = filterMatchingItems(searchText, items);
-
-        if (itemSorter != null) {
-            matchingItems = itemSorter.sort(matchingItems);
-        }
-
-        resultsList.getItems().clear();
-        displayItems(matchingItems);
-    }
-
-    private List<T> filterMatchingItems(String text, List<T> items) {
-        return items.stream()
-                    .filter((T item) -> matcher.isMatching(item, text))
-                    .collect(Collectors.toList());
-    }
-
-    protected void displayItems(List<T> matchingItems) {
-        displaySelectedItems();
-        displayMatchingItems(matchingItems);
-    }
-
-    protected void displaySelectedItems() {
-        for (T item : selectedItems) {
-            Cell cell = cellCreator.makeCell(item, true);
-            resultsList.getItems().add(cell);
-        }
-    }
-
-    protected void displayMatchingItems(List<T> matchingItems) {
-        for (T item : matchingItems) {
-            Cell cell = cellCreator.makeCell(item, false);
-            resultsList.getItems().add(cell);
-        }
+        itemSifter.update();
     }
 
     public void selectItem(T item) {
-        selectedItems.add(item);
+        display.selectItem(item);
     }
 
     public void deSelectItem(T item) {
-        selectedItems.remove(item);
+        display.deSelectItem(item);
     }
 
     public void setMatcher(Matcher<T> matcher) {
-        this.matcher = matcher;
+        itemSifter.clearHardFilters();
+        itemSifter.addHardFilter(item -> matcher.isMatching(item, searchBar.getText()));
     }
 
-    public void setCellCreator(CellCreator<T, Cell> cellCreator) {
-        this.cellCreator = cellCreator;
+    public void setCellCreator(SelectionListDisplay.SelectionCellCreator<T, Cell> cellCreator) {
+        display.setSelectionCellCreator(cellCreator);
     }
 
     public void setEnabled(boolean enabled) {
