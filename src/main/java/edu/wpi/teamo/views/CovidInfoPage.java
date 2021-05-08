@@ -29,4 +29,5 @@ public class CovidInfoPage extends ServiceRequestPage implements Initializable {
         scrollPane.getTopBar().setPickOnBounds(true);
         scrollPane.getMainHeader().getChildren().add(label1);
     }
+    //t
 }
