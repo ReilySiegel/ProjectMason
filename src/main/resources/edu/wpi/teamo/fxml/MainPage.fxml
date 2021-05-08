@@ -118,6 +118,7 @@
                                  </font>
                               </JFXButton>
                               <JFXButton buttonType="RAISED" onAction="#setProfile" prefHeight="40.0" prefWidth="120.0" text="%key.profile" />
+                              <JFXButton buttonType="RAISED" onAction="#setCredits" prefHeight="40.0" prefWidth="120.0" text="%key.credits" />
                            </children>
                            <VBox.margin>
                               <Insets />

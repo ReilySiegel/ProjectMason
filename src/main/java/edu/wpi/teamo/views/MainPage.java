@@ -243,6 +243,12 @@ public class MainPage implements Initializable {
         SubPageContainer.switchPage(Pages.SETTINGS);
     }
 
+    public void setCredits(){
+        hidePages();
+        SubPageContainer.switchPage(Pages.CREDITS);
+    }
+
+
     private void updateAccountWindow() {
         if(Session.isLoggedIn() && !Session.getAccount().getRole().equals("guest")) {
             loginButton.setText(App.resourceBundle.getString("key.logout"));
