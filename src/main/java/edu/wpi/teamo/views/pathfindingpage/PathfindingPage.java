@@ -389,6 +389,8 @@ public class PathfindingPage extends SubPageController implements Initializable 
         textualDirView.getItems().get(adjustedDirIterator).setBackground(new Background(fill,null));
         updateCurrentDisplay();
 
+        focusMapOnNode(calculatedPath.get(directionIterator));
+
         update();
     }
 
@@ -560,8 +562,9 @@ public class PathfindingPage extends SubPageController implements Initializable 
         LinkedList<AlgoNode> path = new LinkedList<>();
         try {
             path = App.context.getPath(startID, endID);
-            if (path != null) {
+            if (path != null && path.size() > 0) {
                 floor = path.get(0).getFloor();
+                focusMapOnNode(path.get(0));
                 calculatedPath = path;
             }
         } catch (SQLException | NullPointerException throwables) {
@@ -584,6 +587,10 @@ public class PathfindingPage extends SubPageController implements Initializable 
         stepDirection(false);
 
         update();
+    }
+
+    void focusMapOnNode(AlgoNode node) {
+        map.centerOnMapCoords(node.getX(), node.getY());
     }
 
     void handleFloorSwitch(ActionEvent e) {
