@@ -22,6 +22,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.util.StringConverter;
 
 import java.awt.*;
 import java.sql.SQLException;
@@ -42,6 +43,8 @@ public class RequestDisplay {
 
     LocalDateTime latestTime;
     String user;
+
+    Stream<Account> acctStream;
 
 
     public RequestDisplay(JFXListView<VBox> reqList, Boolean showComplete, LocalDateTime latestTime, HashMap<String, Boolean> types) {
@@ -67,6 +70,7 @@ public class RequestDisplay {
     public void update(HashMap<String, Boolean> selectedTypes, LocalDateTime dueBy) throws SQLException {
         reqList.getItems().clear();
         latestTime = dueBy;
+        this.acctStream = Account.getAll().filter(a -> a.hasEmployeeAccess());
 
         Stream<MedicineRequest> medRequests = MedicineRequest.getAll();
         Stream<SanitationRequest> sanRequests = SanitationRequest.getAll();
@@ -190,29 +194,53 @@ public class RequestDisplay {
                 public void handle(ActionEvent event) {
                     srContextMenu.hide();
                     assignedBox.getChildren().clear();
-                    JFXTextField editAssignee = new JFXTextField(m.getAssigned());
-                    editAssignee.setOnKeyPressed(new EventHandler<KeyEvent>() {
+                    JFXComboBox<Label> editAssigneeDrop = new JFXComboBox<Label>();
+                    editAssigneeDrop.setStyle("-fx-prompt-text-fill: white");
+
+                    try {
+                        Stream<Account> acctStream = Account.getAll();
+                        acctStream.forEach(a -> {
+                            Label item = new Label(a.getUsername());
+                            editAssigneeDrop.getItems().add(new Label(a.getUsername()));
+                        });
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+
+                    editAssigneeDrop.setConverter(new StringConverter<Label>() {
                         @Override
-                        public void handle(KeyEvent event) {
-                            if (event.getCode().equals(KeyCode.ENTER)) {
-                                if (editAssignee.getText().isEmpty()) {
-                                    assignedBox.getChildren().clear();
-                                    assignedBox.getChildren().add(assignedText);
-                                } else {
-                                    try {
-                                        m.setAssigned(editAssignee.getText());
-                                        update(types, latestTime);
-                                    } catch (SQLException throwables) {
-                                        throwables.printStackTrace();
-                                    }
+                        public String toString(Label object) {
+                            return object==null? "" : object.getText();
+                        }
+                        @Override
+                        public Label fromString(String string) {
+                            return new Label(string);
+                        }
+                    });
+
+                    JFXButton submitChange = new JFXButton("Apply");
+                    submitChange.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent event) {
+                            if (!editAssigneeDrop.getValue().getText().isEmpty()) {
+
+                                try {
+                                    m.setAssigned(editAssigneeDrop.getValue().getText());
+                                } catch (SQLException throwables) {
+                                    throwables.printStackTrace();
                                 }
-                            } else if (event.getCode().equals(KeyCode.ESCAPE)) {
-                                assignedBox.getChildren().clear();
-                                assignedBox.getChildren().add(assignedText);
+
+                                try {
+                                    update(types, latestTime);
+                                } catch (SQLException throwables) {
+                                    throwables.printStackTrace();
+                                }
                             }
                         }
                     });
-                    assignedBox.getChildren().add(editAssignee);
+
+                    assignedBox.getChildren().add(editAssigneeDrop);
+                    assignedBox.getChildren().add(submitChange);
                 }
             });
 
@@ -435,7 +463,13 @@ public class RequestDisplay {
                 }
             });
 
-            HBox mbox = new HBox(expand, typeBox, userBox, dateBox, entranceBox, statusText, viewContextMenu);
+            HBox mbox;
+            if (user.isEmpty()) {
+                mbox = new HBox(expand, typeBox, userBox, dateBox, entranceBox, statusText, viewContextMenu);
+            } else {
+                mbox = new HBox(expand, typeBox, userBox, dateBox, entranceBox, statusText);
+            }
+
             mbox.setSpacing(10);
 
             VBox mContainer = new VBox(mbox);
