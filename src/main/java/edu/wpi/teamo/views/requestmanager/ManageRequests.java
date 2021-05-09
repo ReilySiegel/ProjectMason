@@ -1,20 +1,13 @@
-package edu.wpi.teamo.views;
+package edu.wpi.teamo.views.requestmanager;
 
 import com.jfoenix.controls.*;
 import edu.wpi.teamo.App;
-import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.CheckMenuItem;
-import javafx.scene.control.MenuButton;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import java.net.URL;
-import java.sql.Array;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
