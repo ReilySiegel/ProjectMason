@@ -163,7 +163,7 @@
                   </HBox>
                   <VBox fx:id="textualWindow" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="520.0" minWidth="520.0" prefHeight="268.0" prefWidth="370.0" styleClass="murkier-pane" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
                      <children>
-                        <HBox fx:id="currentDisplay" prefHeight="95.0" prefWidth="312.0">
+                        <HBox fx:id="currentDirectionDisplay" prefHeight="95.0" prefWidth="312.0">
                            <VBox.margin>
                               <Insets bottom="-20.0" top="5.0" />
                            </VBox.margin>
@@ -176,7 +176,7 @@
                               <Insets right="140.0" />
                            </VBox.margin>
                         </Text>
-                        <JFXButton fx:id="textualUnitsBtn" alignment="CENTER" buttonType="RAISED" onMouseClicked="#textualUnitsOnClick" prefHeight="26.0" prefWidth="152.0" text="%key.units_metric">
+                        <JFXButton fx:id="textualUnitsBtn" alignment="CENTER" buttonType="RAISED" prefHeight="26.0" prefWidth="152.0" text="%key.units_metric">
                            <font>
                               <Font name="Century" size="15.0" />
                            </font>

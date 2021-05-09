@@ -72,9 +72,6 @@ public class PathfindingPage extends SubPageController implements Initializable 
     private JFXListView<JFXCheckBox> searchResultsView;
 
     @FXML
-    private JFXListView<HBox> textualDirView;
-
-    @FXML
     private HBox algoSwitchWindow;
 
     @FXML
@@ -84,9 +81,10 @@ public class PathfindingPage extends SubPageController implements Initializable 
     private VBox textualWindow;
 
     @FXML
-    private JFXButton textualUnitsBtn;
+    private JFXListView<HBox> textualDirView;
 
-    private boolean metric = true;
+    @FXML
+    private JFXButton textualUnitsBtn;
 
     LinkedList<AlgoNode> calculatedPath = null;
 
@@ -103,9 +101,11 @@ public class PathfindingPage extends SubPageController implements Initializable 
     private HBox pathStepHBox;
 
     @FXML
-    private HBox currentDisplay;
+    private HBox currentDirectionDisplay;
 
     PathSelection pathSelection;
+
+    TextualDirections textualDirections;
 
     public List<Circle> parkingSpots;
 
@@ -120,12 +120,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
 
     edu.wpi.teamo.views.Map map;
 
-    private List<HBox> viewableList;
-    private List<List<HBox>> floorPaths;
-    private int currentIndex;
 
-    private String activeFloor;
-    private int adjustedDirIterator;
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
@@ -141,12 +136,18 @@ public class PathfindingPage extends SubPageController implements Initializable 
                                           this::handleSelectedEnd,
                                           this::handleChoosing);
 
+        textualDirections = new TextualDirections(textualWindow,
+                                                  textualDirView,
+                                                  textualUnitsBtn,
+                                                  currentDirectionDisplay);
+
+
         setSelectParkingSpotButtonVisibility(Session.isLoggedIn());
 
         initFloorSwitcher();
         initAlgoSwitcher();
 
-        textualWindow.setVisible(false);
+        textualDirections.hide();
 
         selectParkingSpotButton.setOnAction(this::handleSelectParkingSpot);
         floorComboBox.setOnAction(this::handleFloorSwitch);
@@ -155,10 +156,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
         helpButton.setOnAction(this::handleHelpButton);
         directBack.setOnAction(this::handleStepBack);
         directForward.setOnAction(this::handleStepForward);
-
-        viewableList = new LinkedList<>();
-        floorPaths = new ArrayList<>();
-        currentIndex = 0;
+        textualUnitsBtn.setOnAction(this::handleUnitSwitch);
 
         App.getPrimaryStage().getScene().setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ESCAPE) {
@@ -358,51 +356,18 @@ public class PathfindingPage extends SubPageController implements Initializable 
         if (forward)
         {
             directionIterator++;
-            adjustedDirIterator++;
         }
-        else{
+        else {
             directionIterator--;
-            adjustedDirIterator--;
         }
+
         floor = calculatedPath.get(directionIterator).getFloor();
 
-        //Monitor
-        if(!activeFloor.equals(floor)) {
-            textualDirView.getItems().remove(0, textualDirView.getItems().size() - 1);
-            if(adjustedDirIterator >= floorPaths.get(currentIndex).size() - 1) {
-                currentIndex++;
-                adjustedDirIterator = 0;
-            }
-            else {
-                currentIndex--;
-                adjustedDirIterator = floorPaths.get(currentIndex).size() - 1;
-            }
-            textualDirView.getItems().setAll(floorPaths.get(currentIndex));
-            activeFloor = floor;
-        }
-
-        for(HBox h: textualDirView.getItems())
-        {
-            h.setBackground(null);
-        }
-        BackgroundFill fill  = new BackgroundFill(new Color(0,0,0,.10),null,null);
-        textualDirView.getItems().get(adjustedDirIterator).setBackground(new Background(fill,null));
-        updateCurrentDisplay();
+        textualDirections.update(directionIterator, floor);
 
         focusMapOnNode(calculatedPath.get(directionIterator));
 
         update();
-    }
-
-    private void updateCurrentDisplay() {
-        ImageView icon = new ImageView(((ImageView) textualDirView.getItems().get(adjustedDirIterator).getChildren().get(0)).getImage());
-        icon.setFitWidth(40);
-        icon.setFitHeight(40);
-        Text s = new Text(((Text) textualDirView.getItems().get(adjustedDirIterator).getChildren().get(1)).getText());
-        if(s.getText().toLowerCase().contains(App.resourceBundle.getString("key.back_right_turn"))) icon.setRotate(90);
-        else if(s.getText().toLowerCase().contains(App.resourceBundle.getString("key.back_left_turn"))) icon.setRotate(270);
-        else if(s.getText().toLowerCase().contains(App.resourceBundle.getString("key.backwards"))) icon.setRotate(180);
-        currentDisplay.getChildren().setAll(icon,s);
     }
 
     private void handleAssignParkingSpot(Circle circle, NodeInfo node){
@@ -444,123 +409,11 @@ public class PathfindingPage extends SubPageController implements Initializable 
         errorWindow.show();
     }
 
-    @FXML
-    private void textualUnitsOnClick(MouseEvent e) {
-        metric = !metric;
-        if(metric) textualUnitsBtn.setText(App.resourceBundle.getString("key.units_metric"));
-        else textualUnitsBtn.setText(App.resourceBundle.getString("key.units_us"));
-        if(textualDirView.getItems().size() > 0 && calculatedPath != null) {
-            textualDirView.getItems().remove(0, textualDirView.getItems().size() - 1);
-            populateTextualView(calculatedPath);
-            updateCurrentDisplay();
-        }
-    }
-
-    private void populateTextualView(List<AlgoNode> path) {
-        int index = 0, floorPathsIndex = -1;
-        floorPaths.clear();
-        viewableList.clear();
-        String currentFloor = "";
-        List<String> directionsRaw = TextDirManager.getTextualDirections(path, metric);
-        for(String s : directionsRaw) {
-            if(!currentFloor.equals(path.get(index).getFloor())) {
-                floorPaths.add(new LinkedList<>());
-                floorPathsIndex++;
-                currentFloor = path.get(index).getFloor();
-            }
-            index++;
-            if(s.toLowerCase().contains(App.resourceBundle.getString("key.slight_left_turn"))) {
-                Image ico = new Image("edu/wpi/teamo/images/Icons/icons8-up-left-96.png");
-                ImageView icon = new ImageView();
-                icon.setImage(ico);
-                icon.setFitWidth(20);
-                icon.setFitHeight(20);
-                HBox hbox = new HBox(icon, new Text(s));
-                viewableList.add(hbox);
-                floorPaths.get(floorPathsIndex).add(hbox);
-            }
-            else if(s.toLowerCase().contains(App.resourceBundle.getString("key.slight_right_turn"))) {
-                Image ico = new Image("edu/wpi/teamo/images/Icons/icons8-up-right-96.png");
-                ImageView icon = new ImageView();
-                icon.setImage(ico);
-                icon.setFitWidth(20);
-                icon.setFitHeight(20);
-                HBox hbox = new HBox(icon, new Text(s));
-                viewableList.add(hbox);
-                floorPaths.get(floorPathsIndex).add(hbox);
-            }
-            else if(s.toLowerCase().contains(App.resourceBundle.getString("key.back_left_turn"))) {
-                Image ico = new Image("edu/wpi/teamo/images/Icons/icons8-up-left-96.png");
-                ImageView icon = new ImageView();
-                icon.setImage(ico);
-                icon.setRotate(270);
-                icon.setFitWidth(20);
-                icon.setFitHeight(20);
-                HBox hbox = new HBox(icon, new Text(s));
-                viewableList.add(hbox);
-                floorPaths.get(floorPathsIndex).add(hbox);
-            }
-            else if(s.toLowerCase().contains(App.resourceBundle.getString("key.back_right_turn"))) {
-                Image ico = new Image("edu/wpi/teamo/images/Icons/icons8-up-right-96.png");
-                ImageView icon = new ImageView();
-                icon.setImage(ico);
-                icon.setRotate(90);
-                icon.setFitWidth(20);
-                icon.setFitHeight(20);
-                HBox hbox = new HBox(icon, new Text(s));
-                viewableList.add(hbox);
-                floorPaths.get(floorPathsIndex).add(hbox);
-            }
-            else if(s.toLowerCase().contains(App.resourceBundle.getString("key.left_turn"))) {
-                Image ico = new Image("edu/wpi/teamo/images/Icons/icons8-up-sharp-left-96.png");
-                ImageView icon = new ImageView();
-                icon.setImage(ico);
-                icon.setFitWidth(20);
-                icon.setFitHeight(20);
-                HBox hbox = new HBox(icon, new Text(s));
-                viewableList.add(hbox);
-                floorPaths.get(floorPathsIndex).add(hbox);
-            }
-            else if(s.toLowerCase().contains(App.resourceBundle.getString("key.right_turn"))) {
-                Image ico = new Image("edu/wpi/teamo/images/Icons/icons8-up-sharp-right-96.png");
-                ImageView icon = new ImageView();
-                icon.setImage(ico);
-                icon.setFitWidth(20);
-                icon.setFitHeight(20);
-                HBox hbox = new HBox(icon, new Text(s));
-                viewableList.add(hbox);
-                floorPaths.get(floorPathsIndex).add(hbox);
-            }
-            else if(s.toLowerCase().contains(App.resourceBundle.getString("key.backwards"))) {
-                Image ico = new Image("edu/wpi/teamo/images/Icons/icons8-up-arrow-96.png");
-                ImageView icon = new ImageView();
-                icon.setImage(ico);
-                icon.setRotate(180);
-                icon.setFitWidth(20);
-                icon.setFitHeight(20);
-                HBox hbox = new HBox(icon, new Text(s));
-                viewableList.add(hbox);
-                floorPaths.get(floorPathsIndex).add(hbox);
-            }
-            else{
-                Image ico = new Image("edu/wpi/teamo/images/Icons/icons8-up-arrow-96.png");
-                ImageView icon = new ImageView();
-                icon.setImage(ico);
-                icon.setFitWidth(20);
-                icon.setFitHeight(20);
-                HBox hbox = new HBox(icon, new Text(s));
-                viewableList.add(hbox);
-                floorPaths.get(floorPathsIndex).add(hbox);
-            }
-        }
-        textualDirView.getItems().setAll(floorPaths.get(currentIndex));
-        if(activeFloor == null) activeFloor = path.get(0).getFloor();
+    private void handleUnitSwitch(ActionEvent e) {
+        textualDirections.toggleUnit(calculatedPath, directionIterator, floor);
     }
 
     void findPath(String startID, String endID) {
-        currentIndex = 0;
-        adjustedDirIterator = 0;
-        activeFloor = null;
         LinkedList<AlgoNode> path = new LinkedList<>();
         try {
             path = App.context.getPath(startID, endID);
@@ -573,15 +426,10 @@ public class PathfindingPage extends SubPageController implements Initializable 
             System.out.println("No path calculated");
         }
 
-        textualWindow.setVisible(true);
-        populateTextualView(path);
+        textualDirections.loadDirections(path);
+        textualDirections.update(0, floor);
+        textualDirections.show();
 
-        List<String> floors = new LinkedList<>();
-        for (AlgoNode node : path) {
-            if (!floors.contains(node.getFloor())) {
-                floors.add(node.getFloor());
-            }
-        }
         directionIterator = 0;
         directionMax = calculatedPath.size();
         setPathStepButtonVisibility(true);
