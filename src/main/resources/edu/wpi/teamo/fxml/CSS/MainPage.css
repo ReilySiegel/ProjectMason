@@ -136,13 +136,13 @@
 }
 
 .jfx-combo-box{
-    -jfx-focus-color: #a5efff;
+    -jfx-focus-color: #000000;
 }
 
 .jfx-text-field{
-    -jfx-focus-color: #a5efff;
+    -jfx-focus-color: #000000;
 }
 
 .jfx-password-field{
-    -jfx-focus-color: #a5efff;
+    -jfx-focus-color: #000000;
 }
