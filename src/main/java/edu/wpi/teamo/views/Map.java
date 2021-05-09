@@ -4,6 +4,8 @@ import edu.wpi.teamo.App;
 import edu.wpi.teamo.database.map.EdgeInfo;
 import edu.wpi.teamo.database.map.NodeInfo;
 import com.jfoenix.controls.JFXTextArea;
+import javafx.animation.Animation;
+import javafx.animation.TranslateTransition;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.ScrollEvent;
@@ -26,6 +28,7 @@ import javafx.scene.shape.Line;
 import java.util.LinkedList;
 
 import javafx.scene.shape.Polygon;
+import javafx.util.Duration;
 import javafx.util.Pair;
 import java.util.List;
 
@@ -380,6 +383,13 @@ public class Map  {
         nodePane.setTranslateY(y);
     }
 
+    public void smoothTranslate(double x, double y,double millis){
+        TranslateTransition translateTransition = new TranslateTransition(Duration.millis(millis), nodePane);
+        translateTransition.setToX(x);
+        translateTransition.setToY(y);
+        translateTransition.play();
+    }
+
     public void scaleMap(double scroll) {
         /* scroll is proportional to current scale to keep zoom speed the same */
         double dS = scroll * scale / 500;
@@ -571,6 +581,6 @@ public class Map  {
         tY = tY - pY;
 
         /* translate */
-        setMapTranslate(tX, tY);
+        smoothTranslate(tX, tY, 500);
     }
 }
