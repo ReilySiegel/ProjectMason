@@ -132,11 +132,20 @@
 }
 
 .combo-box-popup .list-view .list-cell {
-    -fx-background-color: #fff;
+    -fx-background-color: #f6f6f6;
 }
 
 .jfx-combo-box{
     -jfx-focus-color: #000000;
+}
+
+.jfx-combo-box .cell:selected {
+    -fx-text-fill: #150f0f;
+}
+
+.combo-box-popup .list-view .list-cell:hover {
+    -fx-text-fill: #150f0f;
+    -fx-background-color: #a5efff;
 }
 
 .jfx-text-field{
