@@ -582,5 +582,6 @@ public class Map  {
 
         /* translate */
         smoothTranslate(tX, tY, 500);
+
     }
 }
