@@ -1,4 +1,4 @@
-package edu.wpi.teamo.views;
+package edu.wpi.teamo.views.requests;
 
 import com.jfoenix.controls.*;
 import edu.wpi.teamo.App;
@@ -6,10 +6,10 @@ import edu.wpi.teamo.Pages;
 import edu.wpi.teamo.database.map.NodeInfo;
 import edu.wpi.teamo.database.request.BaseRequest;
 import edu.wpi.teamo.database.request.MaintenanceRequest;
-import javafx.collections.FXCollections;
+import edu.wpi.teamo.views.LocationSearcher;
+import edu.wpi.teamo.views.SubPageContainer;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
-import javafx.scene.control.*;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 

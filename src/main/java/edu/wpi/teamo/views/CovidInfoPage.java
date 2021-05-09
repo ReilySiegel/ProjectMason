@@ -1,12 +1,12 @@
 package edu.wpi.teamo.views;
 
 import com.jfoenix.controls.JFXScrollPane;
+import edu.wpi.teamo.views.requests.ServiceRequestPage;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 

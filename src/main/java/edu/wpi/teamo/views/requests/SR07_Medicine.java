@@ -1,58 +1,48 @@
-package edu.wpi.teamo.views;
+package edu.wpi.teamo.views.requests;
 
 import com.jfoenix.controls.*;
 import edu.wpi.teamo.App;
+
 import edu.wpi.teamo.Pages;
 import edu.wpi.teamo.Session;
 import edu.wpi.teamo.database.map.NodeInfo;
+
 import edu.wpi.teamo.database.request.BaseRequest;
-import edu.wpi.teamo.database.request.SanitationRequest;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import edu.wpi.teamo.database.request.MedicineRequest;
+import edu.wpi.teamo.views.LocaleType;
+import edu.wpi.teamo.views.LocationSearcher;
+import edu.wpi.teamo.views.SubPageContainer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-
+import java.time.LocalDateTime;
 import java.net.URL;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-public class SR03_Sanitation extends ServiceRequestPage implements Initializable {
+public class SR07_Medicine extends ServiceRequestPage implements Initializable {
 
     @FXML
     private StackPane stackPane;
 
     @FXML
-    private JFXTextField service;
+    private JFXTextField medName;
 
     @FXML
-    private VBox topVbox;
-
-    @FXML
-    private VBox midVbox;
-
-    @FXML
-    private HBox bottomHbox;
+    private JFXTextField medAmount;
 
     @FXML
     private JFXTextField assignee;
 
     @FXML
-    private JFXButton backButton;
+    private JFXTextField notes;
 
     @FXML
     private JFXTimePicker timePicker = new JFXTimePicker();
@@ -61,13 +51,13 @@ public class SR03_Sanitation extends ServiceRequestPage implements Initializable
     private JFXDatePicker datePicker = new JFXDatePicker();
 
     @FXML
-    private JFXTextField notes;
+    private Text medErrorText;
 
     @FXML
-    private Text typeErrorText;
+    private Text amountErrorText;
 
     @FXML
-    private Text roomErrorText;
+    private Text locationErrorText;
 
     @FXML
     private Text dateErrorText;
@@ -76,68 +66,45 @@ public class SR03_Sanitation extends ServiceRequestPage implements Initializable
     private Text timeErrorText;
 
     @FXML
-    private Text assignedErrorText;
+    private Text assigneeErrorText;
 
     @FXML
-    private JFXTextField locationLine;
+    private Text assignedLabel;
 
     @FXML
-    private JFXCheckBox recurCheck;
+    private HBox assignedBox;
 
     @FXML
     private JFXListView<JFXCheckBox> roomList;
 
     @FXML
-    private HBox assignedBox;
+    private JFXTextField locationSearchBox;
 
-    LocationSearcher locationSearcher;
+    @FXML
+    private JFXButton backButton;
 
     private boolean validRequest;
 
-    private boolean recurring = false;
+    LocationSearcher locationSearcher;
 
-    private String recurMsg = App.resourceBundle.getString("key.is_not_recurring");
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
 
         backButton.setOnAction(actionEvent -> SubPageContainer.switchPage(Pages.SERVICEREQUEST));
 
-        topVbox.getStyleClass().add("vbox");
-        bottomHbox.getStyleClass().add("vbox");
-        midVbox.getStyleClass().add("text-area");
-        recurCheck.getStyleClass().add("check-box");
+        locationSearcher = new LocationSearcher(locationSearchBox, roomList);
+        updateLocations();
+        updateLocale();
+
+        validRequest = true;
 
         if (Session.getAccount() == null || !Session.getAccount().hasEmployeeAccess()) {
             assignedBox.setVisible(false);
             assignedBox.setManaged(false);
         }
 
-        recurCheck.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if (newValue){
-                    recurring = true;
-                    recurMsg = App.resourceBundle.getString("key.is_recurring");
-                }
-                else{
-                    recurring = false;
-                    recurMsg = App.resourceBundle.getString("key.is_not_recurring");
-                }
-            }
-        });
-
-
-
-
-        locationSearcher = new LocationSearcher(locationLine, roomList);
-        updateLocations();
-        updateLocale();
-
-
-        validRequest = true;
     }
-
 
     private void updateLocations() {
         try {
@@ -149,20 +116,40 @@ public class SR03_Sanitation extends ServiceRequestPage implements Initializable
     }
 
     @FXML
+    private void clearMedError(KeyEvent e) {
+        medErrorText.setText("");
+    }
+
+    @FXML
+    private void clearAmountError(KeyEvent e) {
+        amountErrorText.setText("");
+    }
+
+//    @FXML
+//    private void clearRoomError(ActionEvent e) {
+//        roomErrorText.setText("");
+//    }
+
+    @FXML
+    private void clearAssigneeError(KeyEvent e) {
+        assigneeErrorText.setText("");
+    }
+
+    @FXML
     private void handleSubmission(ActionEvent e) throws SQLException {
-        String serviceName = service.getText();
-        String assigned = assignee.getText();
-        String details = notes.getText();
+        String medicine = medName.getText();
+        String amount = medAmount.getText();
+        String assignName = assignee.getText();
+        String medNotes = notes.getText();
+
 
         List<NodeInfo>          locations = locationSearcher.getSelectedLocations();
         List<String> locationIDs = locationSearcher.getSelectedLocationIDs();
 
-
-
         validRequest = true;
 
-        if (serviceName.equals("")) {
-            typeErrorText.setText(App.resourceBundle.getString("key.no_sanitation_type_specified"));
+        if (medicine.equals("")) {
+            medErrorText.setText(App.resourceBundle.getString("key.no_medicine_specified"));
             validRequest = false;
         }
 
@@ -176,52 +163,53 @@ public class SR03_Sanitation extends ServiceRequestPage implements Initializable
             validRequest = false;
         }
 
-
-        if (locations.size() == 0) {
-            roomErrorText.setText(App.resourceBundle.getString("key.no_room_specified"));
+        if (amount.equals("")) {
+            amountErrorText.setText(App.resourceBundle.getString("key.no_amount_specified"));
             validRequest = false;
         }
 
-        if (assigned.equals("")) {
-            assigned = "Unassigned";
+        if (locations.size() == 0) {
+            locationErrorText.setText(App.resourceBundle.getString("key.no_room_specified"));
+            validRequest = false;
+        }
+        if (assignName.equals("")) {
+            assignName = "Unassigned";
         }
 
         if (validRequest) {
 
-            //Clear earlier error texts
-            typeErrorText.setText("");
-            timeErrorText.setText("");
-            dateErrorText.setText("");
-            roomErrorText.setText("");
-            assignedErrorText.setText("");
-
-
             LocalTime curTime = timePicker.getValue();
             LocalDateTime curDate = datePicker.getValue().atTime(curTime);
 
-            BaseRequest baseRequest = new BaseRequest(UUID.randomUUID().toString(), serviceName + ", " + details, locationIDs.stream(),
-                    assigned, false, curDate);
+            BaseRequest br = new BaseRequest(UUID.randomUUID().toString(), medNotes, locationIDs.stream(), assignName, false, curDate);
+            new MedicineRequest(medicine, amount, br).update();
 
-            new SanitationRequest(recurring, baseRequest).update();
-            System.out.println("Sanitation request submitted");
+            timeErrorText.setText("");
+            dateErrorText.setText("");
+            medErrorText.setText("");
+            amountErrorText.setText("");
+            assigneeErrorText.setText("");
+            locationErrorText.setText("");
 
-            service.setText("");
+            System.out.println("request successful");
+            medName.setText("");
+            medAmount.setText("");
             assignee.setText("");
             notes.setText("");
 
             JFXDialogLayout content = new JFXDialogLayout();
-            content.setHeading(new Text(App.resourceBundle.getString("key.sanitation_request_submitted")));
+            content.setHeading(new Text(App.resourceBundle.getString("key.medicine_request_submitted")));
             content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
-                    App.resourceBundle.getString("key.type_of_sanitation") + ": " +  serviceName + "\n" +
+                    App.resourceBundle.getString("key.type_semicolon") + medicine + "\n" +
+                    App.resourceBundle.getString("key.amount_semicolon")  + amount + "\n" +
                     App.resourceBundle.getString("key.room_semicolon") + String.join(", ", locationIDs) + "\n" +
-                    App.resourceBundle.getString("key.persons_assigned_semicolon") + assigned + "\n" +
-                    App.resourceBundle.getString("key.time") + ": " + curDate.toString() + "\n" +
-                    recurMsg + "\n" +
-                    App.resourceBundle.getString("key.additional_notes") + details));
+                    App.resourceBundle.getString("key.persons_assigned_semicolon")  + assignName + "\n" +
+                    App.resourceBundle.getString("key.time") + ": " +  curDate.toString() + "\n" +
+                    App.resourceBundle.getString("key.notes") + ": " + medNotes));
             JFXDialog popup = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 
             JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
-            JFXButton backButton = new JFXButton(App.resourceBundle.getString("key.back_to_menu"));
+            JFXButton backButton = new JFXButton(App.resourceBundle.getString("key.back_to_main"));
 
             closeButton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
@@ -246,8 +234,9 @@ public class SR03_Sanitation extends ServiceRequestPage implements Initializable
     private void handleHelp(ActionEvent e) {
 
         JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text(App.resourceBundle.getString("key.help_sanitation")));
-        content.setBody(new Text(App.resourceBundle.getString("key.sanitation_type_help") +
+        content.setHeading(new Text(App.resourceBundle.getString("key.help_medicine_request")));
+        content.setBody(new Text(App.resourceBundle.getString("key.medicine_name_help") +
+                App.resourceBundle.getString("key.amount_help") +
                 App.resourceBundle.getString("key.room_help") +
                 App.resourceBundle.getString("key.assignee_help")));
         JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
@@ -263,6 +252,7 @@ public class SR03_Sanitation extends ServiceRequestPage implements Initializable
         content.setActions(closeButton);
         errorWindow.show();
     }
+
     public void updateLocale() {
         if (App.selectedLocale == LocaleType.en_US) {
             Locale.setDefault(new Locale("en", "US"));
@@ -271,5 +261,4 @@ public class SR03_Sanitation extends ServiceRequestPage implements Initializable
             Locale.setDefault(new Locale("es", "US"));
         }
     }
-
 }

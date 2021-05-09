@@ -1,7 +1,8 @@
-package edu.wpi.teamo.views;
+package edu.wpi.teamo.views.requests;
 
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.Pages;
+import edu.wpi.teamo.views.SubPageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

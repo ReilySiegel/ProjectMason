@@ -1,11 +1,10 @@
-package edu.wpi.teamo.views;
+package edu.wpi.teamo.views.requests;
 
-import edu.wpi.teamo.database.map.Node;
 import edu.wpi.teamo.database.map.NodeInfo;
 import edu.wpi.teamo.database.request.BaseRequest;
-import edu.wpi.teamo.database.request.MedicineRequest;
 import edu.wpi.teamo.database.request.SecurityRequest;
-import javafx.geometry.Insets;
+import edu.wpi.teamo.views.LocationSearcher;
+import edu.wpi.teamo.views.SubPageContainer;
 import javafx.scene.control.*;
 
 import java.time.LocalDateTime;
@@ -16,7 +15,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
-import javafx.event.ActionEvent;
 
 import java.util.stream.Stream;
 
