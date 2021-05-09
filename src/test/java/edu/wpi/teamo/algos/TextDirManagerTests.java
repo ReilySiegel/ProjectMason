@@ -1,6 +1,8 @@
 package edu.wpi.teamo.algos;
 
+import edu.wpi.teamo.App;
 import edu.wpi.teamo.database.map.MapDB;
+import edu.wpi.teamo.views.LocaleType;
 import javafx.util.Pair;
 import org.junit.jupiter.api.Test;
 
@@ -48,6 +50,7 @@ public class TextDirManagerTests {
 
         AStarManager asm = new AStarManager(mdb);
         LinkedList<AlgoNode> pathP10_P5 = asm.getPath("oPARK01001","oPARK00501");
+        App.switchLocale("en", "US", LocaleType.en_US, true);
         List<String> textualPath = TextDirManager.getTextualDirections(pathP10_P5, true);
         /*
         assertEquals("Proceed 19.37 meter(s) towards Floor1RightParking8",textualPath.get(0));
@@ -84,6 +87,7 @@ public class TextDirManagerTests {
 
         AStarManager asm = new AStarManager(mdb);
         LinkedList<AlgoNode> pathP1_P6 = asm.getPath("oPARK00101","oPARK00601");
+        App.switchLocale("en", "US", LocaleType.en_US, true);
         List<String> textualPath = TextDirManager.getTextualDirections(pathP1_P6, true);
         /*
         assertEquals("Proceed 3.06 meter(s) towards Floor1RightParking2",textualPath.get(0));
@@ -108,6 +112,7 @@ public class TextDirManagerTests {
         mdb.addEdge("oPARK00101_oPARK00101","oPARK00101","oPARK00101");
         AStarManager asm = new AStarManager(mdb);
         LinkedList<AlgoNode> pathP1_P1 = asm.getPath("oPARK00101","oPARK00101");
+        App.switchLocale("en", "US", LocaleType.en_US, true);
         List<String> textualPath = TextDirManager.getTextualDirections(pathP1_P1,true);
         //assertEquals("You have arrived at your destination.",textualPath.get(0));
     }
@@ -135,6 +140,7 @@ public class TextDirManagerTests {
 
         AStarManager asm = new AStarManager(mdb);
         LinkedList<AlgoNode> pathP1_P6 = asm.getPath("oPARK00101","oPARK00601");
+        App.switchLocale("en", "US", LocaleType.en_US, true);
         List<String> textualPath = TextDirManager.getTextualDirections(pathP1_P6,true);
         /*
         assertEquals("Proceed 1.8 meter(s) towards Floor1RightParking2",textualPath.get(0));
@@ -169,6 +175,7 @@ public class TextDirManagerTests {
         mdb.addEdge("oPARK00501_oPARK00601","oPARK00501","oPARK00601");
         AStarManager asm = new AStarManager(mdb);
         LinkedList<AlgoNode> pathP1_P6 = asm.getPath("oPARK00101","oPARK00601");
+        App.switchLocale("en", "US", LocaleType.en_US, true);
         List<String> textualPath = TextDirManager.getTextualDirections(pathP1_P6, true);
         /*
         assertEquals("Proceed 1.28 meter(s) towards Floor1RightParking2",textualPath.get(0));
@@ -299,6 +306,7 @@ public class TextDirManagerTests {
 
         AStarManager asm = new AStarManager(mdb);
         LinkedList<AlgoNode> pathP1_P4 = asm.getPath("oPARK00101","oPARK00401");
+        App.switchLocale("en", "US", LocaleType.en_US, true);
         List<String> textualDirections = TextDirManager.getTextualDirections(pathP1_P4, true);
         /*
         assertEquals("Proceed 1.27 meter(s) towards Floor1RightParking2",textualDirections.get(0));
@@ -313,6 +321,7 @@ public class TextDirManagerTests {
      */
     @Test
     public void nullTest() {
+        App.switchLocale("en", "US", LocaleType.en_US, true);
         List<String> textualDirections = TextDirManager.getTextualDirections(null, true);
         assertEquals(textualDirections.get(0), "No path exists/provided.");
     }
@@ -321,6 +330,7 @@ public class TextDirManagerTests {
      */
     @Test
     public void emptyTest() {
+        App.switchLocale("en", "US", LocaleType.en_US, true);
         List<String> textualDirections = TextDirManager.getTextualDirections(new LinkedList<>(), true);
         assertEquals(textualDirections.get(0), "No path exists.");
     }
