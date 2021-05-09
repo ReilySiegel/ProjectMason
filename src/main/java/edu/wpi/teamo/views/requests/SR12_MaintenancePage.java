@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.*;
 
-public class SR12_MaintenancePage extends ServiceRequestPage implements Initializable {
+public class SR12_MaintenancePage implements Initializable {
 
     @FXML
     private StackPane stackPane;

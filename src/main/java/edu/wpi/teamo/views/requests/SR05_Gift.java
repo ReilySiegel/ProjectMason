@@ -25,7 +25,7 @@ import java.util.ResourceBundle;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class SR05_Gift extends ServiceRequestPage implements Initializable {
+public class SR05_Gift implements Initializable {
 
     @FXML
     private StackPane stackPane;

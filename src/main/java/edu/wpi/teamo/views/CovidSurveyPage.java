@@ -6,7 +6,6 @@ import edu.wpi.teamo.Session;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.Pages;
 import edu.wpi.teamo.database.request.COVIDSurveyRequest;
-import edu.wpi.teamo.views.requests.ServiceRequestPage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -18,7 +17,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class CovidSurveyPage extends ServiceRequestPage implements Initializable {
+public class CovidSurveyPage implements Initializable {
 
     @FXML
     StackPane parentStackPane;

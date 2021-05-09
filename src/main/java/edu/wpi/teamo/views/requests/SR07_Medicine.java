@@ -27,7 +27,7 @@ import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class SR07_Medicine extends ServiceRequestPage implements Initializable {
+public class SR07_Medicine implements Initializable {
 
     @FXML
     private StackPane stackPane;

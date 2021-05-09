@@ -28,7 +28,7 @@ import java.util.ResourceBundle;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class SR04_Laundry extends ServiceRequestPage implements Initializable {
+public class SR04_Laundry implements Initializable {
 
     @FXML
     private StackPane stackPane;

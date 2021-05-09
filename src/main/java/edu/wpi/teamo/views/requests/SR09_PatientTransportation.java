@@ -26,7 +26,7 @@ import java.util.ResourceBundle;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class SR09_PatientTransportation extends ServiceRequestPage implements Initializable{
+public class SR09_PatientTransportation implements Initializable{
     @FXML
     private StackPane stackPane;
 

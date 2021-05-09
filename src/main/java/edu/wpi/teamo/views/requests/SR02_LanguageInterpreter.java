@@ -26,7 +26,7 @@ import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class SR02_LanguageInterpreter extends ServiceRequestPage implements Initializable {
+public class SR02_LanguageInterpreter implements Initializable {
 
     @FXML
     private StackPane stackPane;

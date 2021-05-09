@@ -1,9 +1,10 @@
-package edu.wpi.teamo.views;
+package edu.wpi.teamo.views.requests;
 
 
 import animatefx.animation.FadeOut;
 import edu.wpi.teamo.Session;
 import edu.wpi.teamo.utils.itemsifters.SearchSelect;
+import edu.wpi.teamo.views.SubPageContainer;
 import javafx.scene.text.FontWeight;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Label;

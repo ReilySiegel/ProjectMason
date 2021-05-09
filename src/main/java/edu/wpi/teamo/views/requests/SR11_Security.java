@@ -28,7 +28,7 @@ import javafx.fxml.FXML;
 
 import java.net.URL;
 
-public class SR11_Security extends ServiceRequestPage implements Initializable {
+public class SR11_Security implements Initializable {
 
     @FXML
     private StackPane parentStackPane;

@@ -23,7 +23,7 @@ import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class SR01_FoodRequestPage extends ServiceRequestPage implements Initializable {
+public class SR01_FoodRequestPage implements Initializable {
 
     @FXML
     private JFXTextField appetizerBox;

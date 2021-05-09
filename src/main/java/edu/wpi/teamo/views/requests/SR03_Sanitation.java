@@ -28,7 +28,7 @@ import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class SR03_Sanitation extends ServiceRequestPage implements Initializable {
+public class SR03_Sanitation implements Initializable {
 
     @FXML
     private StackPane stackPane;

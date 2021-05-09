@@ -26,7 +26,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 
-public class SR08_Religious extends ServiceRequestPage implements Initializable {
+public class SR08_Religious implements Initializable {
     @FXML
     private StackPane stackPane;
 
