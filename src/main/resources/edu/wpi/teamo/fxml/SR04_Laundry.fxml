@@ -197,7 +197,7 @@
                       <children>
                         <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="541.0">
                            <children>
-                                <JFXButton buttonType="RAISED" onAction="#handleHelp" style="-fx-border-radius: 25; -fx-background-radius: 25;" text="?" textFill="WHITE">
+                                <JFXButton buttonType="RAISED" onAction="#handleHelp" styleClass="help-button" text="?" textFill="WHITE">
                                     <font>
                                         <Font name="Arial Bold" size="24.0" />
                                     </font>

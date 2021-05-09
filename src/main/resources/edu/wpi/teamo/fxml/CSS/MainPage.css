@@ -27,6 +27,7 @@
     -fx-background-color: rgb(216, 248, 255);
     -fx-font-size: 12;
     -fx-font-family: "Roboto Regular";
+    -fx-font-weight: normal;
     -fx-text-fill: #000000;
     -fx-border-radius: 0;
     -fx-background-radius: 0;
@@ -154,4 +155,13 @@
 
 .jfx-password-field{
     -jfx-focus-color: #000000;
+}
+
+.help-button {
+    -fx-min-height: 50;
+    -fx-min-width: 50;
+    -fx-border-radius: 25;
+    -fx-background-radius: 25;
+    -fx-font-size: 20;
+    -fx-font-family: Roboto Regular;
 }
