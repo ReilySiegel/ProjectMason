@@ -50,8 +50,8 @@ public class App extends Application {
   public static final String normalEntrance = "FEXIT00201";
   public static final String emergencyEntrance = "FEXIT00301";
 
-  private static String theme1Url = App.class.getResource("/edu/wpi/teamo/fxml/css/MainPage.css").toExternalForm();
-  private static String theme2Url = App.class.getResource("/edu/wpi/teamo/fxml/css/MainPage2.css").toExternalForm();
+  private static String theme1Url = App.class.getResource("/edu/wpi/teamo/fxml/CSS/MainPage.css").toExternalForm();
+  private static String theme2Url = App.class.getResource("/edu/wpi/teamo/fxml/CSS/MainPage2.css").toExternalForm();
 
   @Override
   public void init() throws SQLException {
@@ -79,8 +79,8 @@ public class App extends Application {
     pagePaths.put(Pages.CREDITS, "/edu/wpi/teamo/fxml/CreditsPage.fxml");
     pagePaths.put(Pages.INFO, "/edu/wpi/teamo/fxml/CovidInfoPage.fxml");
 
-    themeMap.put(Theme.BLUE_SKY, "/edu/wpi/teamo/fxml/css/MainPage.css");
-    themeMap.put(Theme.CLOUDS, "/edu/wpi/teamo/fxml/css/MainPage2.css");
+    themeMap.put(Theme.BLUE_SKY, "/edu/wpi/teamo/fxml/CSS/MainPage.css");
+    themeMap.put(Theme.CLOUDS, "/edu/wpi/teamo/fxml/CSS/MainPage2.css");
 
     bgMap.put(Theme.BLUE_SKY, "/edu/wpi/teamo/images/sky2.png");
     bgMap.put(Theme.CLOUDS, "/edu/wpi/teamo/images/clouds.jpg");
