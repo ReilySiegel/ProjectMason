@@ -7,7 +7,7 @@ import edu.wpi.teamo.Session;
 import edu.wpi.teamo.database.map.NodeInfo;
 import edu.wpi.teamo.database.request.BaseRequest;
 import edu.wpi.teamo.database.request.GiftRequest;
-import edu.wpi.teamo.views.LocationSearcher;
+import edu.wpi.teamo.utils.itemsifters.LocationSearcher;
 import edu.wpi.teamo.views.SubPageContainer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

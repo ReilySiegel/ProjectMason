@@ -3,7 +3,7 @@ package edu.wpi.teamo.views.requests;
 import edu.wpi.teamo.database.map.NodeInfo;
 import edu.wpi.teamo.database.request.BaseRequest;
 import edu.wpi.teamo.database.request.SecurityRequest;
-import edu.wpi.teamo.views.LocationSearcher;
+import edu.wpi.teamo.utils.itemsifters.LocationSearcher;
 import edu.wpi.teamo.views.SubPageContainer;
 import javafx.scene.control.*;
 

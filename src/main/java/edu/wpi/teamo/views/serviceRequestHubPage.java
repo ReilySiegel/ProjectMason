@@ -3,6 +3,7 @@ package edu.wpi.teamo.views;
 
 import animatefx.animation.FadeOut;
 import edu.wpi.teamo.Session;
+import edu.wpi.teamo.utils.itemsifters.SearchSelect;
 import javafx.scene.text.FontWeight;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Label;
