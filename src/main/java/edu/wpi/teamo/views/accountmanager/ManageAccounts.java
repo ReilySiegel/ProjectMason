@@ -1,4 +1,4 @@
-package edu.wpi.teamo.views;
+package edu.wpi.teamo.views.accountmanager;
 
 import com.jfoenix.controls.*;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
