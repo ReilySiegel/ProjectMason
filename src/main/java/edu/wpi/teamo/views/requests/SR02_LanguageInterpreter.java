@@ -37,6 +37,9 @@ public class SR02_LanguageInterpreter implements Initializable {
     @FXML
     private Text assigneeErrorText;
 
+    @FXML
+    private Text DateTimeErrorText;
+
     private boolean validRequest;
 
     @FXML
@@ -171,10 +174,12 @@ public class SR02_LanguageInterpreter implements Initializable {
         }
         if(timepicker.getValue() == null){
             validRequest = false;
+            DateTimeErrorText.setText(App.resourceBundle.getString("key.missing_date/time"));
         }
 
         if(datepicker.getValue() == null){
             validRequest = false;
+            DateTimeErrorText.setText(App.resourceBundle.getString("key.missing_date/time"));
         }
 
        if (validRequest) {
