@@ -1,24 +1,20 @@
-package edu.wpi.teamo.views;
+package edu.wpi.teamo.views.requests;
 
 import com.jfoenix.controls.*;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.Pages;
-import edu.wpi.teamo.algos.AlgoNode;
-import edu.wpi.teamo.database.map.EdgeInfo;
 import edu.wpi.teamo.database.map.NodeInfo;
 import edu.wpi.teamo.database.request.BaseRequest;
 import edu.wpi.teamo.database.request.FoodRequest;
-import edu.wpi.teamo.database.request.MedicineRequest;
+import edu.wpi.teamo.views.LocaleType;
+import edu.wpi.teamo.views.SubPageContainer;
+import edu.wpi.teamo.utils.itemsifters.LocationSearcher;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
-import javafx.util.Pair;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -27,7 +23,7 @@ import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class FoodRequestPage extends ServiceRequestPage implements Initializable {
+public class SR01_FoodRequestPage implements Initializable {
 
     @FXML
     private JFXTextField appetizerBox;

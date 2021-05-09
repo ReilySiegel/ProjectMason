@@ -18,7 +18,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane fx:id="stackPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.SR12_MaintenancePage">
+<StackPane fx:id="stackPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.requests.SR12_MaintenancePage">
     <children>
       <GridPane prefHeight="576.0" prefWidth="738.0">
         <columnConstraints>
@@ -101,7 +101,7 @@
                                       </AnchorPane>
                                   </children>
                               </HBox>
-                              <HBox prefHeight="45.0" prefWidth="893.0">
+                              <HBox prefHeight="45.0" prefWidth="893.0" VBox.vgrow="ALWAYS">
                                   <children>
                                       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.room" textAlignment="RIGHT" wrappingWidth="190.0">
                                           <font>
@@ -111,22 +111,19 @@
                                               <Insets right="20.0" />
                                           </HBox.margin>
                                       </Text>
-                                      <AnchorPane prefHeight="45.0" prefWidth="594.0">
-                                          <children>
-                                              <Text fx:id="roomErrorText" fill="RED" layoutX="76.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-                                    <JFXTextField fx:id="nodeSearchField" focusColor="BLACK" prefHeight="27.0" prefWidth="358.0" promptText="%key.search" unFocusColor="#4d4d4d00" />
-                                          </children>
-                                      </AnchorPane>
+                              <VBox>
+                                 <children>
+                                            <AnchorPane prefHeight="45.0" prefWidth="594.0">
+                                                <children>
+                                                    <Text fx:id="roomErrorText" fill="RED" layoutX="76.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                                          <JFXTextField fx:id="nodeSearchField" focusColor="BLACK" prefHeight="27.0" prefWidth="358.0" promptText="%key.search" unFocusColor="#4d4d4d00" />
+                                                </children>
+                                            </AnchorPane>
+                                    <JFXListView fx:id="listOfSearched" maxHeight="1.7976931348623157E308" prefHeight="176.0" prefWidth="527.0" stylesheets="@CSS/LocationSearch.css" VBox.vgrow="ALWAYS" />
+                                 </children>
+                              </VBox>
                                   </children>
-                                  <VBox.margin>
-                                      <Insets bottom="10.0" />
-                                  </VBox.margin>
                               </HBox>
-                        <HBox alignment="CENTER_RIGHT" prefHeight="177.0" prefWidth="677.0">
-                           <children>
-                              <JFXListView fx:id="listOfSearched" maxHeight="1.7976931348623157E308" prefHeight="176.0" prefWidth="527.0" stylesheets="@CSS/LocationSearch.css" />
-                           </children>
-                        </HBox>
                           </children>
                           <BorderPane.margin>
                               <Insets left="30.0" right="30.0" />

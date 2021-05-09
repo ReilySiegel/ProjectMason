@@ -1,7 +1,8 @@
-package edu.wpi.teamo.views;
+package edu.wpi.teamo.views.mapeditor;
 
 import edu.wpi.teamo.database.map.IMapService;
 import edu.wpi.teamo.database.map.NodeInfo;
+import edu.wpi.teamo.views.Map;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 

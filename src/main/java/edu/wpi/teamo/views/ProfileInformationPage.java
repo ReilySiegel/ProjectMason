@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXTimePicker;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.Session;
+import edu.wpi.teamo.views.requestmanager.RequestDisplay;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

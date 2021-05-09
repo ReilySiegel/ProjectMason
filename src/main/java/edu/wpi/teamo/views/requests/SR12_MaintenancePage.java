@@ -1,4 +1,4 @@
-package edu.wpi.teamo.views;
+package edu.wpi.teamo.views.requests;
 
 import com.jfoenix.controls.*;
 import edu.wpi.teamo.App;
@@ -6,10 +6,10 @@ import edu.wpi.teamo.Pages;
 import edu.wpi.teamo.database.map.NodeInfo;
 import edu.wpi.teamo.database.request.BaseRequest;
 import edu.wpi.teamo.database.request.MaintenanceRequest;
-import javafx.collections.FXCollections;
+import edu.wpi.teamo.utils.itemsifters.LocationSearcher;
+import edu.wpi.teamo.views.SubPageContainer;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
-import javafx.scene.control.*;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.*;
 
-public class SR12_MaintenancePage extends ServiceRequestPage implements Initializable {
+public class SR12_MaintenancePage implements Initializable {
 
     @FXML
     private StackPane stackPane;
@@ -195,7 +195,7 @@ public class SR12_MaintenancePage extends ServiceRequestPage implements Initiali
     }
 
     private void validateFields() {
-        validRequest = type != SR12Type.NULL && !notes.textProperty().getValue().equals("") &&
+        validRequest = type != SR12Type.NULL &&
                 !assignee.textProperty().getValue().equals("") && ls.getSelectedLocations().size() != 0;
     }
 

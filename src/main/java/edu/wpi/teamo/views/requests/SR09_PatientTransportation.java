@@ -1,4 +1,4 @@
-package edu.wpi.teamo.views;
+package edu.wpi.teamo.views.requests;
 
 
 import com.jfoenix.controls.*;
@@ -6,17 +6,13 @@ import edu.wpi.teamo.App;
 import edu.wpi.teamo.Pages;
 import edu.wpi.teamo.database.map.NodeInfo;
 import edu.wpi.teamo.database.request.*;
+import edu.wpi.teamo.views.SubPageContainer;
+import edu.wpi.teamo.utils.itemsifters.LocationSearcher;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.CheckMenuItem;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 
@@ -29,9 +25,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-public class PatientTransportation extends ServiceRequestPage implements Initializable{
+public class SR09_PatientTransportation implements Initializable{
     @FXML
     private StackPane stackPane;
 

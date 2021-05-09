@@ -1,4 +1,4 @@
-package edu.wpi.teamo.views;
+package edu.wpi.teamo.views.requestmanager;
 
 import com.jfoenix.controls.*;
 import edu.wpi.teamo.App;

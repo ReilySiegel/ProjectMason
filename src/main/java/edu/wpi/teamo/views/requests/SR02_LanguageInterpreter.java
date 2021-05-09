@@ -1,4 +1,4 @@
-package edu.wpi.teamo.views;
+package edu.wpi.teamo.views.requests;
 
 import com.jfoenix.controls.*;
 import edu.wpi.teamo.App;
@@ -7,15 +7,13 @@ import edu.wpi.teamo.Session;
 import edu.wpi.teamo.database.map.NodeInfo;
 import edu.wpi.teamo.database.request.BaseRequest;
 import edu.wpi.teamo.database.request.InterpreterRequest;
-import edu.wpi.teamo.database.request.SanitationRequest;
+import edu.wpi.teamo.utils.itemsifters.LocationSearcher;
+import edu.wpi.teamo.views.LocaleType;
+import edu.wpi.teamo.views.SubPageContainer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.CheckMenuItem;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -27,9 +25,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-public class SR02_LanguageInterpreter extends ServiceRequestPage implements Initializable {
+public class SR02_LanguageInterpreter implements Initializable {
 
     @FXML
     private StackPane stackPane;

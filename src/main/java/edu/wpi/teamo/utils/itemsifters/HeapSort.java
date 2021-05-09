@@ -1,4 +1,4 @@
-package edu.wpi.teamo.views;
+package edu.wpi.teamo.utils.itemsifters;
 
 public class HeapSort {
     public static void sort(Comparable[] a)

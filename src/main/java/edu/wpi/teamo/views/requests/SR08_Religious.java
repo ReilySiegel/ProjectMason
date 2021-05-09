@@ -1,4 +1,4 @@
-package edu.wpi.teamo.views;
+package edu.wpi.teamo.views.requests;
 
 import com.jfoenix.controls.*;
 import edu.wpi.teamo.App;
@@ -7,14 +7,10 @@ import edu.wpi.teamo.Session;
 import edu.wpi.teamo.database.map.NodeInfo;
 import edu.wpi.teamo.database.request.BaseRequest;
 import edu.wpi.teamo.database.request.ReligiousRequest;
-import edu.wpi.teamo.database.request.SanitationRequest;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import edu.wpi.teamo.utils.itemsifters.LocationSearcher;
+import edu.wpi.teamo.views.SubPageContainer;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Labeled;
-import javafx.scene.control.MenuButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.fxml.FXML;
@@ -23,8 +19,6 @@ import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -32,7 +26,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 
-public class SR08_Religious extends ServiceRequestPage implements Initializable {
+public class SR08_Religious implements Initializable {
     @FXML
     private StackPane stackPane;
 

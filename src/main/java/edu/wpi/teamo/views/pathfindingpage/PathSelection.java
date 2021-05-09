@@ -2,11 +2,10 @@ package edu.wpi.teamo.views.pathfindingpage;
 
 import com.jfoenix.controls.*;
 import edu.wpi.teamo.database.map.NodeInfo;
-import edu.wpi.teamo.views.LocationSearcher;
+import edu.wpi.teamo.utils.itemsifters.LocationSearcher;
 import javafx.event.ActionEvent;
 import javafx.scene.layout.VBox;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package edu.wpi.teamo.views;
+package edu.wpi.teamo.utils.itemsifters;
 
 import edu.wpi.teamo.utils.itemsifters.displays.SelectionListDisplay;
 import com.jfoenix.controls.JFXListView;
