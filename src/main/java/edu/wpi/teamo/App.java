@@ -59,10 +59,10 @@ public class App extends Application {
     pagePaths.put(Pages.MAINTENANCE, "/edu/wpi/teamo/fxml/SR12_MaintenancePage.fxml");
     pagePaths.put(Pages.SURVEY, "/edu/wpi/teamo/fxml/CovidSurveyPage.fxml");
     pagePaths.put(Pages.SECURITY, "/edu/wpi/teamo/fxml/SR11_Security.fxml");
-    pagePaths.put(Pages.LAUNDRY, "/edu/wpi/teamo/fxml/LaundryRequestPage.fxml");
-    pagePaths.put(Pages.TRANSPORTATION,"/edu/wpi/teamo/fxml/PatientTransportation.fxml");
-    pagePaths.put(Pages.GIFTS, "/edu/wpi/teamo/fxml/GiftRequest.fxml");
-    pagePaths.put(Pages.FOOD,"/edu/wpi/teamo/fxml/FoodRequestPage.fxml");
+    pagePaths.put(Pages.LAUNDRY, "/edu/wpi/teamo/fxml/SR04_Laundry.fxml");
+    pagePaths.put(Pages.TRANSPORTATION, "/edu/wpi/teamo/fxml/SR09_PatientTransportation.fxml");
+    pagePaths.put(Pages.GIFTS, "/edu/wpi/teamo/fxml/SR05_Gift.fxml");
+    pagePaths.put(Pages.FOOD, "/edu/wpi/teamo/fxml/SR01_FoodRequestPage.fxml");
     pagePaths.put(Pages.MAIN, "/edu/wpi/teamo/fxml/MainPage.fxml");
     pagePaths.put(Pages.MANAGEACCOUNTS, "/edu/wpi/teamo/fxml/ManageAccounts.fxml");
     pagePaths.put(Pages.ABOUT, "/edu/wpi/teamo/fxml/AboutPage.fxml");

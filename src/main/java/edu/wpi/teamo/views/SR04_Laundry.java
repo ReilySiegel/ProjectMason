@@ -29,7 +29,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class LaundryRequestPage extends ServiceRequestPage implements Initializable {
+public class SR04_Laundry extends ServiceRequestPage implements Initializable {
 
     @FXML
     private StackPane stackPane;
@@ -68,6 +68,9 @@ public class LaundryRequestPage extends ServiceRequestPage implements Initializa
     private JFXTextField locationSearchBox;
 
     @FXML
+    private JFXListView<JFXCheckBox> roomList;
+
+    @FXML
     private HBox assignedBox;
 
 
@@ -86,44 +89,21 @@ public class LaundryRequestPage extends ServiceRequestPage implements Initializa
 
         backButton.setOnAction(actionEvent -> SubPageContainer.switchPage(Pages.SERVICEREQUEST));
 
-        try {
-
-            this.resetLocationBox();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        //locationSearcher = new LocationSearcher(locationSearchBox, roomList);
-        // updateLocations();
+        locationSearcher = new LocationSearcher(locationSearchBox, roomList);
+        updateLocations();
 
         validRequest = true;
     }
 
-    private void resetLocationBox() throws SQLException {
-        LinkedList<NodeInfo> nodes = App.mapService.getAllNodes().collect(Collectors.toCollection(LinkedList::new));
-        locationBox.getItems().removeAll(locationBox.getItems());
-
-        for (NodeInfo node : nodes) {
-            CheckMenuItem menuItem = new CheckMenuItem();
-            menuItem.setText(node.getNodeID());
-
-            menuItem.setOnAction(event -> {
-                locationBox.setText(locationBox.getItems().stream()
-                        .map((MenuItem mI) -> (CheckMenuItem) mI)
-                        .filter(CheckMenuItem::isSelected)
-                        .map(CheckMenuItem::getText)
-                        .collect(Collectors.joining(", ")));
-            });
-
-            locationBox.getItems().add(menuItem);
+    private void updateLocations() {
+        try {
+            locationSearcher.setLocations(App.mapService.getAllNodes().collect(Collectors.toList()));
+        } catch (SQLException throwables) {
+            locationSearcher.setLocations(new LinkedList<>());
+            throwables.printStackTrace();
         }
-
     }
 
-
-//    @FXML
-//    private void clearRoomError(ActionEvent e) {
-//        roomErrorText.setText("");
-//    }
 
     @FXML
     private void clearAssigneeError(KeyEvent e) {
@@ -138,12 +118,9 @@ public class LaundryRequestPage extends ServiceRequestPage implements Initializa
         String note = notes.getText();
         String laundryChecked = "";
 
-        //List<NodeInfo> locations = locationSearcher.getSelectedLocations();
-        //List<String> locationIDs = locationSearcher.getSelectedLocationIDs();
-        List<MenuItem> mItems = locationBox.getItems();
-        Stream<CheckMenuItem> cMItems = mItems.stream().map((MenuItem mI) -> (CheckMenuItem) mI);
-        Stream<CheckMenuItem> checked = cMItems.filter(CheckMenuItem::isSelected);
-        List<String> locations = checked.map(CheckMenuItem::getText).collect(Collectors.toList());
+        List<NodeInfo> locations = locationSearcher.getSelectedLocations();
+        List<String> locationIDs = locationSearcher.getSelectedLocationIDs();
+
         validRequest = true;
         if (!gownCheck && !sheetCheck) {
             validRequest = false;
@@ -170,7 +147,7 @@ public class LaundryRequestPage extends ServiceRequestPage implements Initializa
 
         if (validRequest) {
             LocalDateTime now = LocalDateTime.now();
-            BaseRequest br = new BaseRequest(UUID.randomUUID().toString(), note, locations.stream(), assignName, false, now);
+            BaseRequest br = new BaseRequest(UUID.randomUUID().toString(), note, locationIDs.stream(), assignName, false, now);
             new LaundryRequest(gownCheck, sheetCheck, br).update();
 
 
@@ -186,7 +163,7 @@ public class LaundryRequestPage extends ServiceRequestPage implements Initializa
             content.setHeading(new Text(App.resourceBundle.getString("key.laundry_request_submitted")));
             content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
                     App.resourceBundle.getString("key.laundry_checked") + laundryChecked + "\n" +
-                    App.resourceBundle.getString("key.room_semicolon") + String.join(", ", locations) + "\n" +
+                    App.resourceBundle.getString("key.room_semicolon") + String.join(", ", locationIDs) + "\n" +
                     App.resourceBundle.getString("key.persons_assigned_semicolon") + assignName + "\n" +
                     App.resourceBundle.getString("key.notes") + ": " + note));
             JFXDialog popup = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);

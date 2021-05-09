@@ -31,7 +31,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class PatientTransportation extends ServiceRequestPage implements Initializable{
+public class SR09_PatientTransportation extends ServiceRequestPage implements Initializable{
     @FXML
     private StackPane stackPane;
 

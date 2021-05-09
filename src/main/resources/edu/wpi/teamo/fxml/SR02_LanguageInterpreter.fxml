@@ -123,30 +123,33 @@
                            </children></AnchorPane>
                      </children>
                   </HBox>
-                  <HBox>
+                  <VBox VBox.vgrow="ALWAYS">
                      <children>
-                        <AnchorPane>
+                        <HBox>
                            <children>
-                              <Label layoutY="4.0" prefWidth="200.0" text="%key.room" textAlignment="RIGHT">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Label>
-                              <VBox layoutX="200.0" layoutY="2.0">
+                              <AnchorPane>
                                  <children>
-                                    <JFXTextField fx:id="locationLine" minWidth="300.0" prefWidth="0.0" promptText="%key.search" />
-                                    <Text fx:id="roomErrorText" fill="#cd0000" strokeType="OUTSIDE" strokeWidth="0.0" />
+                                    <Label layoutY="4.0" prefWidth="200.0" text="%key.room" textAlignment="RIGHT">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <VBox layoutX="200.0" layoutY="2.0">
+                                       <children>
+                                          <JFXTextField fx:id="locationLine" minWidth="300.0" prefWidth="0.0" promptText="%key.search" />
+                                          <Text fx:id="roomErrorText" fill="#cd0000" strokeType="OUTSIDE" strokeWidth="0.0" />
+                                       </children>
+                                    </VBox>
                                  </children>
-                              </VBox>
+                              </AnchorPane>
                            </children>
-                        </AnchorPane>
+                        </HBox>
+                        <JFXListView fx:id="roomList" maxHeight="1.7976931348623157E308" maxWidth="608.0" prefHeight="131.0" prefWidth="588.0" stylesheets="@CSS/LocationSearch.css" VBox.vgrow="ALWAYS">
+                           <VBox.margin>
+                              <Insets left="180.0" right="30.0" />
+                           </VBox.margin></JFXListView>
                      </children>
-                  </HBox>
-                  <HBox alignment="CENTER_RIGHT" prefHeight="147.0" prefWidth="768.0">
-                     <children>
-                        <JFXListView fx:id="roomList" maxWidth="608.0" prefHeight="131.0" prefWidth="588.0" stylesheets="@CSS/LocationSearch.css" />
-                     </children>
-                  </HBox>
+                  </VBox>
                     </children>
                     <BorderPane.margin>
                         <Insets />

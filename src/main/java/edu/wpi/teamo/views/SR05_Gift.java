@@ -1,9 +1,6 @@
 package edu.wpi.teamo.views;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDialog;
-import com.jfoenix.controls.JFXDialogLayout;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.*;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.Pages;
 import edu.wpi.teamo.Session;
@@ -31,7 +28,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class GiftRequestPage extends ServiceRequestPage implements Initializable {
+public class SR05_Gift extends ServiceRequestPage implements Initializable {
 
     @FXML
     private StackPane stackPane;
@@ -49,16 +46,23 @@ public class GiftRequestPage extends ServiceRequestPage implements Initializable
     private JFXTextField notes;
 
     @FXML
-    private MenuButton locationBox;
-
-    @FXML
     private JFXButton backButton;
 
     @FXML
     private HBox assignedBox;
 
+    @FXML
+    private JFXTextField roomSearch;
+
+    @FXML
+    private JFXListView<JFXCheckBox> locationList;
+
+    @FXML
+    private Text targetErrorText, idErrorText, roomErrorText;
+
     private boolean validRequest;
 
+    LocationSearcher locationSearcher;
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
@@ -70,32 +74,18 @@ public class GiftRequestPage extends ServiceRequestPage implements Initializable
 
         backButton.setOnAction(actionEvent -> SubPageContainer.switchPage(Pages.SERVICEREQUEST));
         validRequest = true;
-        try {
-            resetLocationBox();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
+        locationSearcher = new LocationSearcher(roomSearch, locationList);
+        updateLocations();
     }
 
-    private void resetLocationBox() throws SQLException {
-        LinkedList<NodeInfo> nodes = App.mapService.getAllNodes().collect(Collectors.toCollection(LinkedList::new));
-        locationBox.getItems().removeAll(locationBox.getItems());
-
-        for (NodeInfo node : nodes) {
-            CheckMenuItem menuItem = new CheckMenuItem();
-            menuItem.setText(node.getNodeID());
-
-            menuItem.setOnAction(event -> {
-                locationBox.setText(locationBox.getItems().stream()
-                        .map((MenuItem mI) -> (CheckMenuItem) mI)
-                        .filter(CheckMenuItem::isSelected)
-                        .map(CheckMenuItem::getText)
-                        .collect(Collectors.joining(", ")));
-            });
-
-            locationBox.getItems().add(menuItem);
+    private void updateLocations() {
+        try {
+            locationSearcher.setLocations(App.mapService.getAllNodes().collect(Collectors.toList()));
+        } catch (SQLException throwables) {
+            locationSearcher.setLocations(new LinkedList<>());
+            throwables.printStackTrace();
         }
-
     }
 
 
@@ -105,14 +95,28 @@ public class GiftRequestPage extends ServiceRequestPage implements Initializable
         String trackingIDText = giftTrackingID.getText();
         String assignName = assignee.getText();
 
-        List<MenuItem>        mItems    = locationBox.getItems();
-        Stream<CheckMenuItem> cMItems   = mItems.stream().map((MenuItem mI) -> (CheckMenuItem) mI);
-        Stream<CheckMenuItem> checked   = cMItems.filter(CheckMenuItem::isSelected);
-        List<String>          locations = checked.map(CheckMenuItem::getText).collect(Collectors.toList());
+        List<NodeInfo> locations = locationSearcher.getSelectedLocations();
+        List<String>   locationIDs = locationSearcher.getSelectedLocationIDs();
 
         validRequest = true;
 
         System.out.println("requesting");
+
+        if(deliverToText.equals("")){
+            targetErrorText.setText(App.resourceBundle.getString("key.recipient_error"));
+            validRequest = false;
+        }
+        if(trackingIDText.equals("")){
+            idErrorText.setText(App.resourceBundle.getString("key.ID_error"));
+            validRequest = false;
+        }
+        if (assignName.equals("")) {
+            assignName = "Unassigned";
+        }
+        if(locations.size() == 0){
+            roomErrorText.setText(App.resourceBundle.getString("key.no_room_specified"));
+            validRequest = false;
+        }
 
         if (validRequest) {
             new GiftRequest(
@@ -121,22 +125,34 @@ public class GiftRequestPage extends ServiceRequestPage implements Initializable
                     new BaseRequest(
                             UUID.randomUUID().toString(),
                             notes.getText(),
-                            locations.stream(),
+                            locationIDs.stream(),
                             assignName,
                             false))
                     .update();
             System.out.println("request successful");
             giftDeliverTo.setText("");
+            targetErrorText.setText("");
+            idErrorText.setText("");
+            roomErrorText.setText("");
             giftTrackingID.setText("");
             assignee.setText("");
 
             JFXDialogLayout content = new JFXDialogLayout();
             content.setHeading(new Text(App.resourceBundle.getString("key.medicine_request_submitted")));
-            content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
-                    App.resourceBundle.getString("key.deliver_to_semicolon")  + deliverToText + "\n" +
-                    App.resourceBundle.getString("key.tracking_id_semicolon")  + trackingIDText + "\n" +
-                    App.resourceBundle.getString("key.room_semicolon")  + String.join(", ", locations) + "\n" +
-                    App.resourceBundle.getString("key.persons_assigned_semicolon")  + assignName));
+            if(!Session.getAccount().hasEmployeeAccess()){
+                content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
+                        App.resourceBundle.getString("key.deliver_to_semicolon")  + deliverToText + "\n" +
+                        App.resourceBundle.getString("key.tracking_id_semicolon")  + trackingIDText + "\n" +
+                        App.resourceBundle.getString("key.room_semicolon")  + String.join(", ", locationIDs)));
+            }
+            else{
+                content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
+                        App.resourceBundle.getString("key.deliver_to_semicolon")  + deliverToText + "\n" +
+                        App.resourceBundle.getString("key.tracking_id_semicolon")  + trackingIDText + "\n" +
+                        App.resourceBundle.getString("key.room_semicolon")  + String.join(", ", locationIDs) + "\n" +
+                        App.resourceBundle.getString("key.persons_assigned_semicolon")  + assignName));
+            }
+
             JFXDialog popup = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 
             JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));

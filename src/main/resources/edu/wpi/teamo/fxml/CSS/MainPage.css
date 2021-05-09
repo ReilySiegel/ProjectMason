@@ -84,7 +84,7 @@
 }
 
 .jfx-check-box{
-    -jfx-checked-color: #5e81ac;
+    -jfx-checked-color: #a5efff;
 }
 
 
@@ -140,5 +140,9 @@
 }
 
 .jfx-text-field{
+    -jfx-focus-color: #a5efff;
+}
+
+.jfx-password-field{
     -jfx-focus-color: #a5efff;
 }

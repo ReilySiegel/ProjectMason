@@ -2,11 +2,10 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.jfoenix.controls.JFXListView?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -18,7 +17,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane fx:id="stackPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.LaundryRequestPage">
+<StackPane fx:id="stackPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.SR04_Laundry">
 <children>
       <GridPane prefHeight="576.0" prefWidth="768.0" stylesheets="@CSS/MainPage.css">
         <columnConstraints>
@@ -48,7 +47,7 @@
                                   </Text>
                                   <AnchorPane>
                                       <children>
-                                          <JFXTextField fx:id="assignee" focusColor="WHITE" prefHeight="25.0" prefWidth="200.0" promptText="%key.name_of_assignee" unFocusColor="#eceff4" />
+                                          <JFXTextField fx:id="assignee" focusColor="WHITE" prefHeight="25.0" prefWidth="200.0" promptText="%key.name_of_assignee" unFocusColor="BLACK" />
                                           <Text fx:id="assigneeErrorText" fill="RED" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                                       </children>
                                       <HBox.margin>
@@ -72,39 +71,13 @@
                                   </Text>
                                   <AnchorPane>
                                       <children>
-                                          <JFXTextField fx:id="notes" focusColor="WHITE" prefHeight="25.0" prefWidth="200.0" promptText="%key.notes" unFocusColor="#eceff4" />
+                                          <JFXTextField fx:id="notes" focusColor="WHITE" prefHeight="25.0" prefWidth="200.0" promptText="%key.notes" unFocusColor="BLACK" />
                                       </children>
                                       <HBox.margin>
                                           <Insets />
                                       </HBox.margin>
                                   </AnchorPane>
                               </children>
-                          </HBox>
-                          <HBox>
-                              <children>
-                                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.room" textAlignment="RIGHT" wrappingWidth="190.0">
-                                      <font>
-                                          <Font name="Arial" size="18.0" />
-                                      </font>
-                                      <HBox.margin>
-                                          <Insets right="20.0" />
-                                      </HBox.margin>
-                                  </Text>
-                                  <AnchorPane prefHeight="45.0" prefWidth="127.0">
-                                      <children>
-                                          <Text fx:id="roomErrorText" fill="RED" layoutX="-1.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-                                          <MenuButton id="rooms" fx:id="locationBox" layoutY="2.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0">
-                                              <items>
-                                                  <MenuItem mnemonicParsing="false" text="Action 1" />
-                                                  <MenuItem mnemonicParsing="false" text="Action 2" />
-                                              </items>
-                                          </MenuButton>
-                                      </children>
-                                  </AnchorPane>
-                              </children>
-                              <VBox.margin>
-                                  <Insets bottom="10.0" />
-                              </VBox.margin>
                           </HBox>
                         <HBox prefHeight="45.0" prefWidth="507.0">
                            <children>
@@ -133,9 +106,35 @@
                               </AnchorPane>
                            </children>
                         </HBox>
+                          <HBox maxWidth="-Infinity" prefWidth="652.0" VBox.vgrow="ALWAYS">
+                              <children>
+                                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.room" textAlignment="RIGHT" wrappingWidth="190.0">
+                                      <font>
+                                          <Font name="Arial" size="18.0" />
+                                      </font>
+                                      <HBox.margin>
+                                          <Insets right="20.0" />
+                                      </HBox.margin>
+                                  </Text>
+                              <VBox>
+                                 <children>
+                                    <JFXTextField fx:id="locationSearchBox" maxWidth="-Infinity" prefWidth="200.0" promptText="%key.room" />
+                                          <Text fx:id="roomErrorText" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" top="5.0" />
+                                       </VBox.margin>
+                                    </Text>
+                                    <JFXListView fx:id="roomList" maxWidth="-Infinity" prefWidth="570.0" stylesheets="@CSS/LocationSearch.css" VBox.vgrow="ALWAYS" />
+                                 </children>
+                              </VBox>
+                              </children>
+                              <VBox.margin>
+                                  <Insets />
+                              </VBox.margin>
+                          </HBox>
                       </children>
                       <padding>
-                          <Insets bottom="10.0" left="20.0" right="10.0" top="30.0" />
+                          <Insets bottom="10.0" left="20.0" right="10.0" />
                       </padding>
                       <BorderPane.margin>
                           <Insets bottom="20.0" left="30.0" right="30.0" />

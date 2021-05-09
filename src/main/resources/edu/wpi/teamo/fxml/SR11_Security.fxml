@@ -33,7 +33,7 @@
          <children>
               <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="557.0" prefWidth="768.0" styleClass="pane" stylesheets="@CSS/MainPage.css" GridPane.columnIndex="1" GridPane.rowIndex="1">
                   <center>
-                      <VBox fx:id="midVBox" prefHeight="553.0" prefWidth="685.0" spacing="10.0" style="-fx-background-color: transparent;" BorderPane.alignment="TOP_CENTER">
+                      <VBox fx:id="midVBox" maxHeight="1.7976931348623157E308" prefHeight="553.0" prefWidth="685.0" spacing="10.0" style="-fx-background-color: transparent;" BorderPane.alignment="TOP_CENTER">
                           <children>
                         <JFXCheckBox fx:id="emergencyCheckbox" checkedColor="RED" nodeOrientation="LEFT_TO_RIGHT" prefHeight="38.0" prefWidth="117.0" scaleX="2.0" scaleY="2.0" text="%key.emergency" unCheckedColor="BLACK">
                            <font>
@@ -73,22 +73,22 @@
                                               <Insets />
                                           </HBox.margin>
                                       </Text>
-                                      <AnchorPane prefHeight="47.0" prefWidth="444.0">
-                                          <children>
-                                              <Text fx:id="locationErrorText" fill="RED" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-                                    <JFXTextField fx:id="locationSearchBox" focusColor="BLACK" layoutY="1.0" prefHeight="27.0" prefWidth="444.0" promptText="%key.search" unFocusColor="BLACK" />
-                                          </children>
-                                      </AnchorPane>
+                              <VBox HBox.hgrow="ALWAYS">
+                                 <children>
+                                            <AnchorPane prefHeight="47.0" prefWidth="444.0">
+                                                <children>
+                                                    <Text fx:id="locationErrorText" fill="RED" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                                          <JFXTextField fx:id="locationSearchBox" focusColor="BLACK" layoutY="1.0" maxWidth="-Infinity" prefHeight="27.0" prefWidth="444.0" promptText="%key.search" unFocusColor="BLACK" />
+                                                </children>
+                                            </AnchorPane>
+                                    <JFXListView fx:id="searchResults" maxWidth="570.0" prefHeight="288.0" prefWidth="571.0" stylesheets="@CSS/LocationSearch.css" VBox.vgrow="ALWAYS" />
+                                 </children>
+                              </VBox>
                                   </children>
                                   <VBox.margin>
                                       <Insets bottom="10.0" />
                                   </VBox.margin>
                               </HBox>
-                        <HBox alignment="CENTER_RIGHT" prefHeight="288.0" prefWidth="970.0">
-                           <children>
-                              <JFXListView fx:id="searchResults" prefHeight="288.0" prefWidth="571.0" stylesheets="@CSS/LocationSearch.css" />
-                           </children>
-                        </HBox>
                           </children>
                           <BorderPane.margin>
                               <Insets bottom="20.0" left="30.0" right="30.0" />
