@@ -47,7 +47,7 @@
                                           <Text fx:id="typeErrorText" fill="#cd0000" strokeType="OUTSIDE" strokeWidth="0.0" />
                                        </children>
                                     </VBox>
-                                    <Label prefHeight="21.0" prefWidth="83.0" text="%key.mainten_service">
+                                    <Label text="%key.mainten_service">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
