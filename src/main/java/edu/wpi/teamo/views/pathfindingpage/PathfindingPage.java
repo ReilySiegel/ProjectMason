@@ -32,6 +32,9 @@ public class PathfindingPage extends SubPageController implements Initializable 
     private JFXButton helpButton;
 
     @FXML
+    private JFXButton helpForExercise;
+
+    @FXML
     private JFXComboBox<String> floorComboBox;
     String floor;
 
@@ -100,6 +103,10 @@ public class PathfindingPage extends SubPageController implements Initializable 
     @FXML
     private HBox currentDirectionDisplay;
 
+    @FXML
+    private JFXToggleButton exerciseMode;
+
+
     PathSelection pathSelection;
 
     TextualDirections textualDirections;
@@ -121,6 +128,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
+        exerciseMode.setSelected(false);
         gridPane.setPickOnBounds(false);
 
         pathSelection = new PathSelection(chooseStartButton,
@@ -151,9 +159,11 @@ public class PathfindingPage extends SubPageController implements Initializable 
         findPathButton.setOnAction(this::handleFindPath);
         algoSwitcher.setOnAction(this::handleAlgoSwitch);
         helpButton.setOnAction(this::handleHelpButton);
+        helpForExercise.setOnAction(this::handleExerciseHelpButton);
         directBack.setOnAction(this::handleStepBack);
         directForward.setOnAction(this::handleStepForward);
         textualUnitsBtn.setOnAction(this::handleUnitSwitch);
+        exerciseMode.setOnAction(this::handleExerciseMode);
 
         App.getPrimaryStage().getScene().setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ESCAPE) {
@@ -213,6 +223,9 @@ public class PathfindingPage extends SubPageController implements Initializable 
     }
 
     private void handleAlgoSwitch(ActionEvent actionEvent) {
+        if (algoSwitcher.getValue() != Context.dfsCode){
+            exerciseMode.setSelected(false);
+        }
         App.context.switchAlgoManagerByCode(algoSwitcher.getValue());
     }
 
@@ -231,15 +244,15 @@ public class PathfindingPage extends SubPageController implements Initializable 
         algoSwitchWindow.setVisible(Session.isLoggedIn() && Session.getAccount().isAdmin());
 
         algoSwitcher.getItems().add(Context.aStarCode);
-        algoSwitcher.getItems().add(Context.dfsCode);
+        //algoSwitcher.getItems().add(Context.dfsCode);
         algoSwitcher.getItems().add(Context.bfsCode);
         algoSwitcher.getItems().add(Context.bestFirstCode);
         algoSwitcher.getItems().add(Context.DijkstraCode);
 
-        if (App.context.getAlgoManager().getClass() == DFSManager.class) {
+        /*if (App.context.getAlgoManager().getClass() == DFSManager.class) {
             algoSwitcher.setValue(Context.dfsCode);
-        }
-        else if (App.context.getAlgoManager().getClass() == BFSManager.class) {
+        }*/
+        if (App.context.getAlgoManager().getClass() == BFSManager.class) {
             algoSwitcher.setValue(Context.bfsCode);
         }
         else if (App.context.getAlgoManager().getClass() == AStarManager.class) {
@@ -251,6 +264,13 @@ public class PathfindingPage extends SubPageController implements Initializable 
         else if (App.context.getAlgoManager().getClass() == DijkstraManager.class) {
             algoSwitcher.setValue(Context.DijkstraCode);
         }
+    }
+
+    private void handleExerciseMode(ActionEvent e){
+        if (exerciseMode.isSelected()){
+            algoSwitcher.setValue(Context.dfsCode);
+        }
+        else algoSwitcher.setValue(Context.aStarCode);
     }
 
     void onDrawNode(Pair<Circle, NodeInfo> p) {
@@ -405,6 +425,23 @@ public class PathfindingPage extends SubPageController implements Initializable 
         content.setActions(closeButton);
         errorWindow.show();
     }
+
+
+    @FXML
+    private void handleExerciseHelpButton(ActionEvent e){
+        JFXDialogLayout content = new JFXDialogLayout();
+        content.setHeading(new Text(App.resourceBundle.getString("key.help")));
+        content.setBody(new Text(App.resourceBundle.getString("key.exercise_help")));
+        JFXDialog errorWindow = new JFXDialog(parentStackPane, content, JFXDialog.DialogTransition.TOP);
+
+        JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
+        closeButton.setOnAction(event -> errorWindow.close());
+        closeButton.setStyle("-jfx-button-type: RAISED");
+
+        content.setActions(closeButton);
+        errorWindow.show();
+    }
+
 
     private void handleUnitSwitch(ActionEvent e) {
         textualDirections.toggleUnit(calculatedPath, directionIterator, floor);

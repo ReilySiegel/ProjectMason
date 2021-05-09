@@ -13,7 +13,7 @@ public class Context {
     private IStrategyPathfinding pathfindingAlgo;
 
     /* i use the codes because the combo box selector needs strings */
-    public static final String dfsCode = "DFS";
+    public static final String dfsCode = "Exercise Mode";
     public static final String bfsCode = "BFS";
     public static final String aStarCode = "AStar";
     public static final String bestFirstCode = "BestFirst";
