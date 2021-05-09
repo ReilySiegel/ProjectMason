@@ -195,7 +195,7 @@ public class SR12_MaintenancePage implements Initializable {
     }
 
     private void validateFields() {
-        validRequest = type != SR12Type.NULL && !notes.textProperty().getValue().equals("") &&
+        validRequest = type != SR12Type.NULL &&
                 !assignee.textProperty().getValue().equals("") && ls.getSelectedLocations().size() != 0;
     }
 
