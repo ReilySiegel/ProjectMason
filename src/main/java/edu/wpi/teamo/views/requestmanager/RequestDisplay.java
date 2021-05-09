@@ -122,6 +122,7 @@ public class RequestDisplay {
         VBox sRBox = new VBox();
         sRBox.setSpacing(10);
         sRBox.setAlignment(Pos.CENTER_LEFT);
+        sRBox.setStyle("-fx-padding: 10px; -fx-background-color: #e5e5e5; -fx-effect: dropshadow(gaussian, rgba(170, 170, 170, 0.3), 10, 0.5, 0.0, 0.0)");
 
         //make expand button
         JFXButton expand = new JFXButton("+");

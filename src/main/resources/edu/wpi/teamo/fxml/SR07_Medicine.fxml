@@ -58,7 +58,7 @@
                            <children>
                               <VBox layoutX="8.0" prefHeight="50.0" prefWidth="365.0" AnchorPane.rightAnchor="37.0">
                                  <children>
-                                    <JFXTextField fx:id="medName" focusColor="BLACK" minWidth="300.0" onKeyTyped="#clearMedError" prefHeight="27.0" prefWidth="419.0" promptText="%key.name_of_medicine" styleClass="inputs" unFocusColor="BLACK" />
+                                    <JFXTextField fx:id="medName" focusColor="BLACK" minWidth="300.0" onKeyTyped="#clearMedError" prefHeight="27.0" prefWidth="419.0" promptText="%key.name_of_medicine" unFocusColor="BLACK" />
                                     <Text fx:id="medErrorText" fill="#cd0000" strokeType="OUTSIDE" strokeWidth="0.0" />
                                  </children>
                               </VBox>
@@ -83,7 +83,7 @@
                            <children>
                               <VBox layoutX="38.0" prefHeight="50.0" prefWidth="365.0" AnchorPane.rightAnchor="31.0">
                                  <children>
-                                    <JFXTextField fx:id="assignee" focusColor="BLACK" minWidth="300.0" onKeyTyped="#clearAssigneeError" prefHeight="27.0" prefWidth="357.0" promptText="%key.name_of_assignee" styleClass="inputs" unFocusColor="TRANSPARENT" />
+                                    <JFXTextField fx:id="assignee" focusColor="BLACK" minWidth="300.0" onKeyTyped="#clearAssigneeError" prefHeight="27.0" prefWidth="357.0" promptText="%key.name_of_assignee" unFocusColor="TRANSPARENT" />
                                     <Text fx:id="assigneeErrorText" fill="#cd0000" strokeType="OUTSIDE" strokeWidth="0.0" />
                                  </children>
                               </VBox>
@@ -108,7 +108,7 @@
                            <children>
                               <VBox layoutX="7.0" prefHeight="50.0" prefWidth="415.0" AnchorPane.rightAnchor="47.0">
                                  <children>
-                                    <JFXDatePicker fx:id="datePicker" defaultColor="BLACK" prefHeight="27.0" prefWidth="396.0" promptText="%key.enter_date" styleClass="inputs" />
+                                    <JFXDatePicker fx:id="datePicker" defaultColor="BLACK" prefHeight="27.0" prefWidth="396.0" promptText="%key.enter_date" />
                                     <Text fx:id="dateErrorText" fill="#cd0000" strokeType="OUTSIDE" strokeWidth="0.0" />
                                  </children>
                               </VBox>
@@ -133,7 +133,7 @@
                            <children>
                               <VBox layoutX="81.0" prefHeight="50.0" prefWidth="479.0" AnchorPane.rightAnchor="0.0">
                                  <children>
-                                    <JFXTimePicker fx:id="timePicker" defaultColor="BLACK" prefHeight="28.0" prefWidth="396.0" promptText="%key.enter_time" styleClass="inputs" />
+                                    <JFXTimePicker fx:id="timePicker" defaultColor="BLACK" prefHeight="28.0" prefWidth="396.0" promptText="%key.enter_time" />
                                     <Text fx:id="timeErrorText" fill="#cd0000" strokeType="OUTSIDE" strokeWidth="0.0" />
                                  </children>
                               </VBox>
@@ -158,7 +158,7 @@
                            <children>
                               <VBox prefHeight="50.0" prefWidth="365.0" AnchorPane.rightAnchor="20.0">
                                  <children>
-                                    <JFXTextField fx:id="medAmount" focusColor="BLACK" minWidth="300.0" onKeyTyped="#clearAmountError" prefHeight="27.0" prefWidth="365.0" promptText="%key.amount" styleClass="inputs" unFocusColor="BLACK" />
+                                    <JFXTextField fx:id="medAmount" focusColor="BLACK" minWidth="300.0" onKeyTyped="#clearAmountError" prefHeight="27.0" prefWidth="365.0" promptText="%key.amount" unFocusColor="BLACK" />
                                     <Text fx:id="amountErrorText" fill="#cd0000" strokeType="OUTSIDE" strokeWidth="0.0" />
                                  </children>
                               </VBox>
@@ -183,7 +183,7 @@
                            <children>
                               <VBox prefHeight="50.0" prefWidth="365.0" AnchorPane.rightAnchor="26.0">
                                  <children>
-                                    <JFXTextField fx:id="notes" focusColor="BLACK" minWidth="300.0" onKeyTyped="#clearAmountError" prefHeight="25.0" prefWidth="600.0" promptText="%key.notes" styleClass="inputs" unFocusColor="BLACK" />
+                                    <JFXTextField fx:id="notes" focusColor="BLACK" minWidth="300.0" onKeyTyped="#clearAmountError" prefHeight="25.0" prefWidth="600.0" promptText="%key.notes" unFocusColor="BLACK" />
                                  </children>
                               </VBox>
                            </children>
@@ -205,7 +205,7 @@
                         </Text>
                         <AnchorPane prefHeight="45.0" prefWidth="359.0">
                            <children>
-                              <JFXTextField fx:id="locationSearchBox" focusColor="BLACK" layoutX="1.0" layoutY="-4.0" prefHeight="27.0" prefWidth="365.0" promptText="%key.search" styleClass="inputs" unFocusColor="BLACK" AnchorPane.rightAnchor="0.0" />
+                              <JFXTextField fx:id="locationSearchBox" focusColor="BLACK" layoutX="1.0" layoutY="-4.0" prefHeight="27.0" prefWidth="365.0" promptText="%key.search" unFocusColor="BLACK" AnchorPane.rightAnchor="0.0" />
                               <Text fx:id="locationErrorText" fill="#cd0000" layoutX="76.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" AnchorPane.leftAnchor="0.0" />
                            </children>
                         </AnchorPane>

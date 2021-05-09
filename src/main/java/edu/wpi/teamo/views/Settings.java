@@ -37,6 +37,7 @@ public class Settings implements Initializable {
 
         themeSelect.getItems().add(new Label("Theme 1"));
         themeSelect.getItems().add(new Label("Theme 2"));
+        themeSelect.getSelectionModel().selectFirst();
     }
 
     private void fillLangBox() {
