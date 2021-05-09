@@ -4,6 +4,8 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.Pages;
+import edu.wpi.teamo.Session;
+import edu.wpi.teamo.Theme;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -48,16 +50,12 @@ public class Settings implements Initializable {
         String theme1 = App.class.getResource("/edu/wpi/teamo/fxml/css/MainPage.css").toExternalForm();
         String theme2 = App.class.getResource("/edu/wpi/teamo/fxml/css/MainPage2.css").toExternalForm();
 
-        String image = "/edu/wpi/teamo/images/sky2.png";
-
         switch (themeSelect.getValue().getText()) {
             case "Theme 1":
-                App.switchTheme(langBox.getScene(), theme1);
-                image = "/edu/wpi/teamo/images/sky2.png";
+                Session.getAccount().setTheme(Theme.BLUE_SKY);
                 break;
             case "Theme 2":
-                App.switchTheme(langBox.getScene(), theme2);
-                image = "/edu/wpi/teamo/images/clouds.jpg";
+                Session.getAccount().setTheme(Theme.CLOUDS);
                 break;
         }
 
@@ -68,7 +66,7 @@ public class Settings implements Initializable {
             App.switchLocale("es", "ES", LocaleType.es_ES, false);
         }
 
-        App.switchPage(Pages.MAIN, image);
+        App.switchPage(Pages.MAIN);
 
     }
 

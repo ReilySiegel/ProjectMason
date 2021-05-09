@@ -33,6 +33,8 @@ import static edu.wpi.teamo.views.Map.loadImages;
 public class App extends Application {
 
   private static final EnumMap<Pages, String> pagePaths = new EnumMap<>(Pages.class);
+  private static final EnumMap<Theme, String> themeMap = new EnumMap<>(Theme.class);
+  private static final EnumMap<Theme, String> bgMap = new EnumMap<>(Theme.class);
   public static IRequestService requestService = null;
   public static IStrategyPathfinding IStrategyPathfinding = null;
   public static IMapService mapService = null;
@@ -76,6 +78,15 @@ public class App extends Application {
     pagePaths.put(Pages.PROFILE, "/edu/wpi/teamo/fxml/ProfileInformationPage.fxml");
     pagePaths.put(Pages.CREDITS, "/edu/wpi/teamo/fxml/CreditsPage.fxml");
     pagePaths.put(Pages.INFO, "/edu/wpi/teamo/fxml/CovidInfoPage.fxml");
+
+    themeMap.put(Theme.BLUE_SKY, "/edu/wpi/teamo/fxml/css/MainPage.css");
+    themeMap.put(Theme.CLOUDS, "/edu/wpi/teamo/fxml/css/MainPage2.css");
+
+    bgMap.put(Theme.BLUE_SKY, "/edu/wpi/teamo/images/sky2.png");
+    bgMap.put(Theme.CLOUDS, "/edu/wpi/teamo/images/clouds.jpg");
+
+
+
 
     System.out.println("Starting Up");
 
@@ -152,18 +163,9 @@ public class App extends Application {
     try {
       Parent root = FXMLLoader.load(App.class.getResource(pagePath),resourceBundle);
       App.getPrimaryStage().getScene().setRoot(root);
-    } catch (IOException ex) {
-      ex.printStackTrace();
-    }
-  }
-
-  public static void switchPage(Pages page, String bg) {
-    String pagePath = pagePaths.get(page);
-    try {
-      Parent root = FXMLLoader.load(App.class.getResource(pagePath),resourceBundle);
-      App.getPrimaryStage().getScene().setRoot(root);
-      ImageView imageView = (ImageView)root.lookup("#imageView");
-      imageView.setImage(new Image(bg));
+      App.getPrimaryStage().getScene().getStylesheets().clear();
+      App.getPrimaryStage().getScene().getStylesheets().add(getCSSPath(Session.getAccount().getTheme()));
+      System.out.println(getCSSPath(Session.getAccount().getTheme()));
     } catch (IOException ex) {
       ex.printStackTrace();
     }
@@ -179,6 +181,10 @@ public class App extends Application {
   public static String getPagePath(Pages page) {
     return pagePaths.get(page);
   }
+
+  public static String getCSSPath(Theme theme) { return themeMap.get(theme); }
+
+  public static String getImagePath(Theme theme) { return bgMap.get(theme); }
 
   /**
    * Switch between different languages, falls back to en_US if lang or country parameters are malformed

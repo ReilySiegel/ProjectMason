@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.stream.Stream;
 
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+import edu.wpi.teamo.Theme;
 import edu.wpi.teamo.database.Database;
 import edu.wpi.teamo.database.map.Node;
 import edu.wpi.teamo.database.map.NodeInfo;
@@ -24,6 +25,7 @@ public class Account extends RecursiveTreeObject<Account> {
     private String lastName;
     private String role;
     private String parkingSpot = null;
+    private Theme theme;
 
     public Account (String username,
                     String passwordHash,
@@ -52,6 +54,7 @@ public class Account extends RecursiveTreeObject<Account> {
         this.useEmergencyEntrance = useEmergencyEntrance;
         this.takenSurvey = takenSurvey;
         this.clearedPastEntry = clearedPastEntry;
+        this.theme = Theme.BLUE_SKY;
     }
 
     public static void initTable() throws SQLException {
@@ -236,4 +239,13 @@ public class Account extends RecursiveTreeObject<Account> {
     public String getParkingSpot() {
         return this.parkingSpot;
     }
+
+    public Theme getTheme() {
+        return theme;
+    }
+
+    public void setTheme(Theme theme) {
+        this.theme = theme;
+    }
+
 }
