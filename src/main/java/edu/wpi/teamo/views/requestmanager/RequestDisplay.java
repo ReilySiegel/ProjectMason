@@ -10,6 +10,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.control.Label;
 import javafx.event.EventHandler;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.event.ActionEvent;
 import java.time.LocalDateTime;
@@ -159,15 +161,23 @@ public class RequestDisplay {
         // style expand button
         expand.setMinWidth(30);
         expand.setPrefWidth(30);
-        expand.setMinHeight(30);
-        expand.setPrefHeight(30);
+//        expand.setMinHeight(30);
+//        expand.setPrefHeight(30);
         expand.setStyle("-fx-border-radius: 5; -fx-background-radius: 5");
         hb.getChildren().add(expand);
 
         //text displaying type of request
         Text typeText = new Text(type);
         typeText.setFont(new Font(20));
-        hb.getChildren().add(typeText);
+        HBox typeBox = new HBox(typeText);
+        typeBox.setMinWidth(200);
+        hb.getChildren().add(typeBox);
+
+        HBox spacer = new HBox();
+        hb.getChildren().add(spacer);
+
+        spacer.setMinWidth(100);
+        hb.setHgrow(spacer, Priority.ALWAYS);
 
         //time
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy, " + "H:m:s");
@@ -179,7 +189,9 @@ public class RequestDisplay {
                                          : new Text(App.resourceBundle.getString("key.in_progress"));
         hb.getChildren().add(statusText);
 
-        hb.setSpacing(10);
+        hb.setMargin(statusText, new Insets(0, 10, 0, 0));
+
+        hb.setSpacing(30);
         return hb;
     }
 
