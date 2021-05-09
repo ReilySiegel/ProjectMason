@@ -9,7 +9,7 @@ import javafx.scene.layout.VBox;
 import java.util.LinkedList;
 import java.util.List;
 
-public class PathSelection {
+public class PathSelectionControls {
 
     private static final String allTypesKey = "All";
 
@@ -34,15 +34,15 @@ public class PathSelection {
     private NodeInfo selectedStartNode = null;
     private NodeInfo selectedEndNode = null;
 
-    public PathSelection(JFXButton chooseStartButton,
-                         JFXButton chooseEndButton,
-                         VBox searchWindow,
-                         JFXTextField searchBar,
-                         JFXListView<JFXCheckBox> searchResultsView,
-                         JFXComboBox<String> nodeTypeFilterBox,
-                         Runnable onSelectStart,
-                         Runnable onSelectEnd,
-                         Runnable onChoosing) {
+    public PathSelectionControls(JFXButton chooseStartButton,
+                                 JFXButton chooseEndButton,
+                                 VBox searchWindow,
+                                 JFXTextField searchBar,
+                                 JFXListView<JFXCheckBox> searchResultsView,
+                                 JFXComboBox<String> nodeTypeFilterBox,
+                                 Runnable onSelectStart,
+                                 Runnable onSelectEnd,
+                                 Runnable onChoosing) {
 
         this.chooseStartButton = chooseStartButton;
         this.nodeTypeFilterBox = nodeTypeFilterBox;
@@ -177,7 +177,7 @@ public class PathSelection {
         return state;
     }
 
-    public void setLocations(LinkedList<NodeInfo> nodes) {
+    public void setLocations(List<NodeInfo> nodes) {
         /* fill the type filter box with the available types for filtering */
         List<String> types = new LinkedList<>();
         types.add(allTypesKey);

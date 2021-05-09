@@ -1,22 +1,20 @@
 package edu.wpi.teamo.views.pathfindingpage;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXListView;
-import edu.wpi.teamo.App;
-import edu.wpi.teamo.algos.AlgoNode;
-import edu.wpi.teamo.algos.TextDirManager;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import edu.wpi.teamo.algos.TextDirManager;
+import com.jfoenix.controls.JFXListView;
+import com.jfoenix.controls.JFXButton;
+import javafx.scene.layout.Background;
+import javafx.scene.image.ImageView;
+import edu.wpi.teamo.algos.AlgoNode;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.HashMap;
+import edu.wpi.teamo.App;
 import java.util.List;
 
 public class TextualDirections {
@@ -78,7 +76,7 @@ public class TextualDirections {
         }
     }
 
-    public void toggleUnit(LinkedList<AlgoNode> calculatedPath, int directionIterator, String floor) {
+    public void toggleUnit(List<AlgoNode> calculatedPath, int directionIterator, String floor) {
         metric = !metric;
         if (metric) textualUnitsBtn.setText(App.resourceBundle.getString("key.units_metric"));
         else textualUnitsBtn.setText(App.resourceBundle.getString("key.units_us"));
@@ -167,4 +165,7 @@ public class TextualDirections {
         textualWindow.setVisible(false);
     }
 
+    public JFXButton getTextualUnitsBtn() {
+        return textualUnitsBtn;
+    }
 }
