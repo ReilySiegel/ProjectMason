@@ -1,9 +1,6 @@
 package edu.wpi.teamo.views;
 
-import com.jfoenix.controls.JFXCheckBox;
-import com.jfoenix.controls.JFXDatePicker;
-import com.jfoenix.controls.JFXListView;
-import com.jfoenix.controls.JFXTimePicker;
+import com.jfoenix.controls.*;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.Session;
 import edu.wpi.teamo.views.requestmanager.RequestDisplay;
@@ -50,122 +47,49 @@ public class ProfileInformationPage implements Initializable {
     @FXML
     private Text lastNameLabel;
 
-
-    JFXCheckBox medCheck;
-    JFXCheckBox sanCheck;
-    JFXCheckBox secCheck;
-    JFXCheckBox foodCheck;
-    JFXCheckBox giftCheck;
-    JFXCheckBox interpCheck;
-    JFXCheckBox laundryCheck;
-    JFXCheckBox maintCheck;
-    JFXCheckBox religCheck;
-    JFXCheckBox covidCheck;
-    JFXCheckBox transCheck;
+    @FXML
+    private JFXButton applyFilterButton;
 
     RequestDisplay requestDisplay;
 
+    HashMap<String, JFXCheckBox> typeCheckboxes;
+
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
-        HashMap<String, Boolean> selectedTypes = new HashMap<String, Boolean>();
-        selectedTypes.put("Medicine", true);
-        selectedTypes.put("Sanitation", true);
-        selectedTypes.put("Security", true);
-        selectedTypes.put("Food", true);
-        selectedTypes.put("Gift", true);
-        selectedTypes.put("Interpreter", true);
-        selectedTypes.put("Laundry", true);
-        selectedTypes.put("Maintenance", true);
-        selectedTypes.put("Religious", true);
-        selectedTypes.put("Transportation", true);
-        selectedTypes.put("COVID Survey", true);
-
         usernameLabel.setText(App.resourceBundle.getString("key.username_semicolon") + Session.getAccount().getUsername());
         firstNameLabel.setText(App.resourceBundle.getString("key.firstname_semicolon") + Session.getAccount().getFirstName());
         lastNameLabel.setText(App.resourceBundle.getString("key.lastname_semicolon") + Session.getAccount().getLastName());
 
-        requestDisplay = new RequestDisplay(reqDisplayListView, false, LocalDateTime.MAX, selectedTypes, Session.getAccount().getUsername());
+        typeCheckboxes = new HashMap<>();
+        typeCheckboxes.put("Medicine",       new JFXCheckBox(App.resourceBundle.getString("key.medicine")));
+        typeCheckboxes.put("Sanitation",     new JFXCheckBox(App.resourceBundle.getString("key.sanitation")));
+        typeCheckboxes.put("Security",       new JFXCheckBox(App.resourceBundle.getString("key.security")));
+        typeCheckboxes.put("Food",           new JFXCheckBox(App.resourceBundle.getString("key.food")));
+        typeCheckboxes.put("Gift",           new JFXCheckBox(App.resourceBundle.getString("key.gift")));
+        typeCheckboxes.put("Interpreter",    new JFXCheckBox(App.resourceBundle.getString("key.interpreter")));
+        typeCheckboxes.put("Laundry",        new JFXCheckBox(App.resourceBundle.getString("key.laundry")));
+        typeCheckboxes.put("Maintenance",    new JFXCheckBox(App.resourceBundle.getString("key.maintenance")));
+        typeCheckboxes.put("Religious",      new JFXCheckBox(App.resourceBundle.getString("key.religious")));
+        typeCheckboxes.put("Transportation", new JFXCheckBox(App.resourceBundle.getString("key.trans")));
+        typeCheckboxes.put("COVID Survey",   new JFXCheckBox(App.resourceBundle.getString("key.covid_survey")));
 
-        try {
-            requestDisplay.update(selectedTypes, LocalDateTime.MAX);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        requestDisplay = new RequestDisplay(reqDisplayListView,
+                                            typeCheckboxes,
+                                            showCompleted,
+                                            timePicker,
+                                            datePicker,
+                                            filterTime,
+                                            Session.getAccount().getUsername());
+        requestDisplay.update();
+
+
+        for (JFXCheckBox box : typeCheckboxes.values()) {
+            box.setOnAction(event -> requestDisplay.update());
+            typeFilterSelection.getItems().add(box);
+            box.setSelected(true);
         }
 
-        typeFilterSelection.getItems().clear();
-
-        ArrayList<JFXCheckBox> filterCheckBoxes = new ArrayList<JFXCheckBox>();
-
-        medCheck = new JFXCheckBox(App.resourceBundle.getString("key.medicine"));
-        sanCheck = new JFXCheckBox(App.resourceBundle.getString("key.sanitation"));
-        secCheck = new JFXCheckBox(App.resourceBundle.getString("key.security"));
-        foodCheck = new JFXCheckBox(App.resourceBundle.getString("key.food"));
-        giftCheck = new JFXCheckBox(App.resourceBundle.getString("key.gift"));
-        interpCheck = new JFXCheckBox(App.resourceBundle.getString("key.interpreter"));
-        laundryCheck = new JFXCheckBox(App.resourceBundle.getString("key.laundry"));
-        maintCheck = new JFXCheckBox(App.resourceBundle.getString("key.maintenance"));
-        religCheck = new JFXCheckBox(App.resourceBundle.getString("key.religious"));
-        transCheck = new JFXCheckBox(App.resourceBundle.getString("key.trans"));
-        covidCheck = new JFXCheckBox(App.resourceBundle.getString("key.covid_survey"));
-
-        filterCheckBoxes.add(medCheck);
-        filterCheckBoxes.add(sanCheck);
-        filterCheckBoxes.add(secCheck);
-        filterCheckBoxes.add(foodCheck);
-        filterCheckBoxes.add(giftCheck);
-        filterCheckBoxes.add(interpCheck);
-        filterCheckBoxes.add(laundryCheck);
-        filterCheckBoxes.add(maintCheck);
-        filterCheckBoxes.add(religCheck);
-        filterCheckBoxes.add(transCheck);
-        filterCheckBoxes.add(covidCheck);
-
-        EventHandler filterCheck = event -> {
-            try {
-                applyFilter();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-        };
-
-        for (JFXCheckBox checkBox : filterCheckBoxes) {
-            checkBox.setSelected(true);
-            checkBox.setOnAction(filterCheck);
-            typeFilterSelection.getItems().add(checkBox);
-        }
-
-        showCompleted.setOnAction(filterCheck);
+        applyFilterButton.setOnAction(event -> requestDisplay.update());
+        showCompleted.setOnAction(event -> requestDisplay.update());
     }
-
-    public void applyFilter() throws SQLException {
-
-        HashMap<String, Boolean> selectedTypes =  new HashMap<String, Boolean>();
-        selectedTypes.put("Medicine", medCheck.isSelected());
-        selectedTypes.put("Sanitation", sanCheck.isSelected());
-        selectedTypes.put("Security", secCheck.isSelected());
-        selectedTypes.put("Food", foodCheck.isSelected());
-        selectedTypes.put("Gift", giftCheck.isSelected());
-        selectedTypes.put("Interpreter", interpCheck.isSelected());
-        selectedTypes.put("Laundry", laundryCheck.isSelected());
-        selectedTypes.put("Maintenance", maintCheck.isSelected());
-        selectedTypes.put("Religious", religCheck.isSelected());
-        selectedTypes.put("Transportation", transCheck.isSelected());
-        selectedTypes.put("COVID Survey", covidCheck.isSelected());
-
-        requestDisplay.setShowComplete(showCompleted.isSelected());
-
-        if (filterTime.isSelected()) {
-            if (timePicker.getValue() == null || datePicker.getValue() == null) {
-                requestDisplay.update(selectedTypes, LocalDateTime.MAX);
-            } else {
-                LocalTime curTime = timePicker.getValue();
-                LocalDateTime curDate = datePicker.getValue().atTime(curTime);
-                requestDisplay.update(selectedTypes, curDate);
-            }
-        } else {
-            requestDisplay.update(selectedTypes, LocalDateTime.MAX);
-        }
-
-    }
-
 }
