@@ -125,7 +125,7 @@ public class Map  {
             double secondY = mapToPaneY(path.get(i + 1).getY());
 
             Line line;
-            if(index  == i)
+            if(index == i)
             {
                 line = createLine(firstX, firstY, secondX, secondY, null,Color.BLUE);
                 createTriangle(firstX,firstY,secondX,secondY,6,Color.BLUE);
@@ -137,13 +137,17 @@ public class Map  {
             nodePane.getChildren().add(line);
             lines.add(line);
 
+            /* draw a circle at the start and end of the path */
             if (i == 0) {
-                nodePane.getChildren().add(new Circle(firstX, firstY, defaultRadius * 2, circleColor));
+                Circle circle = new Circle(firstX, firstY, defaultRadius * 2, circleColor);
+                circle.setMouseTransparent(true);
+                nodePane.getChildren().add(circle);
             }
             else if (i == path.size() - 2) {
-                nodePane.getChildren().add(new Circle(secondX, secondY, defaultRadius * 2, circleColor));
+                Circle circle = new Circle(secondX, secondY, defaultRadius * 2, circleColor);
+                circle.setMouseTransparent(true);
+                nodePane.getChildren().add(circle);
             }
-
         }
 
         scaleMap(0);
@@ -258,9 +262,6 @@ public class Map  {
         {
             nodePane.getChildren().add(tri);
         }
-
-
-
     }
 
     public Polygon drawTriangle(double x, double y, double size, double radians, Paint color)
