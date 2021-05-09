@@ -37,6 +37,43 @@
               <center>
                   <VBox fillWidth="false" prefHeight="345.0" spacing="10.0" BorderPane.alignment="TOP_CENTER">
                       <children>
+                        <HBox prefHeight="45.0" prefWidth="507.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.laundry_type" textAlignment="RIGHT" wrappingWidth="190.0">
+                                 <font>
+                                    <Font name="Arial" size="18.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="20.0" />
+                                 </HBox.margin>
+                              </Text>
+                              <VBox>
+                                 <children>
+                                    <JFXCheckBox fx:id="sheets" text="Sheets">
+                                       <font>
+                                          <Font name="Arial" size="18.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </VBox.margin>
+                                    </JFXCheckBox>
+                                    <JFXCheckBox fx:id="gown" text="Gown">
+                                       <font>
+                                          <Font name="Arial" size="18.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </VBox.margin>
+                                    </JFXCheckBox>
+                                 </children>
+                              </VBox>
+                              <Text fx:id="checkError" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </Text>
+                           </children>
+                        </HBox>
                           <HBox fx:id="assignedBox" prefHeight="45.0">
                               <children>
                                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.assignee_name" textAlignment="RIGHT" wrappingWidth="190.0">
@@ -60,19 +97,6 @@
                               <VBox.margin>
                                   <Insets bottom="10.0" />
                               </VBox.margin>
-                          </HBox>
-                          <HBox>
-                              <children>
-                                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.notes" textAlignment="RIGHT" wrappingWidth="190.0">
-                                      <font>
-                                          <Font name="Arial" size="18.0" />
-                                      </font>
-                                 <HBox.margin>
-                                    <Insets right="15.0" />
-                                 </HBox.margin>
-                                  </Text>
-                                    <JFXTextField fx:id="notes" focusColor="WHITE" prefHeight="25.0" prefWidth="396.0" promptText="%key.notes" unFocusColor="BLACK" />
-                              </children>
                           </HBox>
                         <HBox alignment="TOP_CENTER">
                            <children>
@@ -120,43 +144,19 @@
                               </AnchorPane>
                            </children>
                         </HBox>
-                        <HBox prefHeight="45.0" prefWidth="507.0">
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.laundry_type" textAlignment="RIGHT" wrappingWidth="190.0">
-                                 <font>
-                                    <Font name="Arial" size="18.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets right="20.0" />
-                                 </HBox.margin>
-                              </Text>
-                              <VBox>
-                                 <children>
-                                    <JFXCheckBox fx:id="sheets" text="Sheets">
-                                       <font>
+                          <HBox>
+                              <children>
+                                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.notes" textAlignment="RIGHT" wrappingWidth="190.0">
+                                      <font>
                                           <Font name="Arial" size="18.0" />
-                                       </font>
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                       </VBox.margin>
-                                    </JFXCheckBox>
-                                    <JFXCheckBox fx:id="gown" text="Gown">
-                                       <font>
-                                          <Font name="Arial" size="18.0" />
-                                       </font>
-                                       <VBox.margin>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                       </VBox.margin>
-                                    </JFXCheckBox>
-                                 </children>
-                              </VBox>
-                              <Text fx:id="checkError" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0">
+                                      </font>
                                  <HBox.margin>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                    <Insets right="15.0" />
                                  </HBox.margin>
-                              </Text>
-                           </children>
-                        </HBox>
+                                  </Text>
+                                    <JFXTextField fx:id="notes" focusColor="WHITE" prefHeight="25.0" prefWidth="396.0" promptText="%key.notes" unFocusColor="BLACK" />
+                              </children>
+                          </HBox>
                           <HBox maxWidth="-Infinity" prefWidth="652.0" VBox.vgrow="ALWAYS">
                               <children>
                                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.room" textAlignment="RIGHT" wrappingWidth="190.0">
