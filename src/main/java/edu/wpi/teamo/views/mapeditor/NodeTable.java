@@ -1,10 +1,12 @@
-package edu.wpi.teamo.views;
+package edu.wpi.teamo.views.mapeditor;
 
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.teamo.database.map.IMapService;
 import edu.wpi.teamo.database.map.NodeInfo;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXListView;
+import edu.wpi.teamo.views.TableSearcher;
+import edu.wpi.teamo.views.mapeditor.MapEditorPage;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import java.sql.SQLException;

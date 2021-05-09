@@ -1,4 +1,4 @@
-package edu.wpi.teamo.views;
+package edu.wpi.teamo.views.mapeditor;
 
 import com.jfoenix.controls.*;
 import edu.wpi.teamo.App;
@@ -14,11 +14,10 @@ import java.util.stream.Stream;
 
 import edu.wpi.teamo.algos.AlgoNode;
 import edu.wpi.teamo.algos.DFSManager;
-import edu.wpi.teamo.database.map.*;
-import edu.wpi.teamo.database.map.Edge;
 import edu.wpi.teamo.database.map.EdgeInfo;
-import edu.wpi.teamo.database.map.Node;
 
+import edu.wpi.teamo.views.Map;
+import edu.wpi.teamo.views.SubPageController;
 import javafx.event.Event;
 
 import javafx.event.EventHandler;
@@ -37,7 +36,6 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.util.Pair;
-import javax.activity.InvalidActivityException;
 
 public class MapEditorPage extends SubPageController implements Initializable{
 
@@ -130,7 +128,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
     @FXML
     private JFXComboBox<String> floorSwitcher;
-    String selectedFloor = Map.floor1Key;
+    String selectedFloor = edu.wpi.teamo.views.Map.floor1Key;
 
     @FXML
     private AnchorPane nodePane;
@@ -160,7 +158,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
     public static final String allValidityKey = "All";
     public static final String validKey   = "Valid";
 
-    Map map;
+    edu.wpi.teamo.views.Map map;
     boolean dragging = false;
 
     NodeInfo addingEdgeStartNode = null;
@@ -185,15 +183,15 @@ public class MapEditorPage extends SubPageController implements Initializable{
         gridPane.setPickOnBounds(false);
 
         floorSwitcher.setOnAction(this::onFloorSwitch);
-        floorSwitcher.getItems().add(Map.floorL2Key);
-        floorSwitcher.getItems().add(Map.floorL1Key);
-        floorSwitcher.getItems().add(Map.floorGKey);
-        floorSwitcher.getItems().add(Map.floor1Key);
-        floorSwitcher.getItems().add(Map.floor2Key);
-        floorSwitcher.getItems().add(Map.floor3Key);
+        floorSwitcher.getItems().add(edu.wpi.teamo.views.Map.floorL2Key);
+        floorSwitcher.getItems().add(edu.wpi.teamo.views.Map.floorL1Key);
+        floorSwitcher.getItems().add(edu.wpi.teamo.views.Map.floorGKey);
+        floorSwitcher.getItems().add(edu.wpi.teamo.views.Map.floor1Key);
+        floorSwitcher.getItems().add(edu.wpi.teamo.views.Map.floor2Key);
+        floorSwitcher.getItems().add(edu.wpi.teamo.views.Map.floor3Key);
         floorSwitcher.setValue(selectedFloor);
 
-        map = new Map(nodePane);
+        map = new edu.wpi.teamo.views.Map(nodePane);
         map.setOnMapClicked(this::onMapClicked);
         map.setOnDrawNode(this::onDrawNode);
         map.setOnDrawEdge(this::onDrawEdge);
@@ -242,12 +240,12 @@ public class MapEditorPage extends SubPageController implements Initializable{
         tableValidityFilter.setValue(allValidityKey);
 
         tableFloorFilter.setOnAction(event -> { nodeTable.update(); edgeTable.update(); });
-        tableFloorFilter.getItems().add(Map.floorL2Key);
-        tableFloorFilter.getItems().add(Map.floorL1Key);
-        tableFloorFilter.getItems().add(Map.floorGKey);
-        tableFloorFilter.getItems().add(Map.floor1Key);
-        tableFloorFilter.getItems().add(Map.floor2Key);
-        tableFloorFilter.getItems().add(Map.floor3Key);
+        tableFloorFilter.getItems().add(edu.wpi.teamo.views.Map.floorL2Key);
+        tableFloorFilter.getItems().add(edu.wpi.teamo.views.Map.floorL1Key);
+        tableFloorFilter.getItems().add(edu.wpi.teamo.views.Map.floorGKey);
+        tableFloorFilter.getItems().add(edu.wpi.teamo.views.Map.floor1Key);
+        tableFloorFilter.getItems().add(edu.wpi.teamo.views.Map.floor2Key);
+        tableFloorFilter.getItems().add(edu.wpi.teamo.views.Map.floor3Key);
         tableFloorFilter.getItems().add(allFloorsKey);
         tableFloorFilter.setValue(allFloorsKey);
 
@@ -292,7 +290,7 @@ public class MapEditorPage extends SubPageController implements Initializable{
 
     private Stream<NodeInfo> findOutOfBoundsNodes() {
         Stream<NodeInfo> nodes = queryAllNodes();
-        return nodes.filter(node -> !Map.isWithinMapBounds(node.getXPos(), node.getYPos()));
+        return nodes.filter(node -> !edu.wpi.teamo.views.Map.isWithinMapBounds(node.getXPos(), node.getYPos()));
     }
 
     private Stream<NodeInfo> findInvalidFloorNodes() {
