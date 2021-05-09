@@ -19,9 +19,12 @@ import java.sql.SQLException;
 import java.io.IOException;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
 import java.util.*;
 
 import static edu.wpi.teamo.views.Map.loadImages;
@@ -44,6 +47,9 @@ public class App extends Application {
 
   public static final String normalEntrance = "FEXIT00201";
   public static final String emergencyEntrance = "FEXIT00301";
+
+  private static String theme1Url = App.class.getResource("/edu/wpi/teamo/fxml/css/MainPage.css").toExternalForm();
+  private static String theme2Url = App.class.getResource("/edu/wpi/teamo/fxml/css/MainPage2.css").toExternalForm();
 
   @Override
   public void init() throws SQLException {
@@ -151,6 +157,25 @@ public class App extends Application {
     }
   }
 
+  public static void switchPage(Pages page, String bg) {
+    String pagePath = pagePaths.get(page);
+    try {
+      Parent root = FXMLLoader.load(App.class.getResource(pagePath),resourceBundle);
+      App.getPrimaryStage().getScene().setRoot(root);
+      ImageView imageView = (ImageView)root.lookup("#imageView");
+      imageView.setImage(new Image(bg));
+    } catch (IOException ex) {
+      ex.printStackTrace();
+    }
+  }
+
+  public static void switchTheme(Scene root, String theme) {
+
+    root.getStylesheets().clear();
+    root.getStylesheets().add(theme);
+
+  }
+
   public static String getPagePath(Pages page) {
     return pagePaths.get(page);
   }
@@ -173,7 +198,7 @@ public class App extends Application {
       selectedLocale = LocaleType.en_US;
     }
     //Update main page
-    if(!isDebug) switchPage(Pages.MAIN);
+    //if(!isDebug) switchPage(Pages.MAIN);
   }
 
   @Override

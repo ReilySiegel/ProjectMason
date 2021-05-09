@@ -19,7 +19,7 @@
    <children>
       <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="720.0" prefWidth="1280.0">
          <children>
-            <ImageView fx:id="imageView" fitHeight="720.0" fitWidth="1280.0" pickOnBounds="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <ImageView fx:id="imageView" fitHeight="720.0" fitWidth="1280.0" pickOnBounds="true">
                <effect>
                   <GaussianBlur radius="0.0" />
                </effect>
