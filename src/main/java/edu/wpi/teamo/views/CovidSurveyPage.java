@@ -13,8 +13,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+
+import javax.mail.*;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
 public class CovidSurveyPage implements Initializable {
@@ -53,7 +59,7 @@ public class CovidSurveyPage implements Initializable {
         backButton.setOnAction(this::handleBack);
     }
 
-    public void handleSubmit(javafx.event.ActionEvent actionEvent) throws SQLException {
+    public void handleSubmit(javafx.event.ActionEvent actionEvent) throws SQLException, MessagingException {
         JFXDialogLayout content = new JFXDialogLayout();
         content.setHeading(new Text(App.resourceBundle.getString("key.thanks_for_submitting_response")));
 
@@ -68,7 +74,7 @@ public class CovidSurveyPage implements Initializable {
 
         JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
         closeButton.setOnAction(event -> App.switchPage(Pages.MAIN));
-
+        emailSender.sendCovidMail("mason");
         content.setActions(closeButton);
         errorWindow.show();
     }
