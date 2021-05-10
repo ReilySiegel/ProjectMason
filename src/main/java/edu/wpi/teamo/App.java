@@ -106,10 +106,10 @@ public class App extends Application {
       FoodRequest.initTable();
       COVIDSurveyRequest.initTable();
       TransportationRequest.initTable();
-      new Account("admin", "admin", true, "Wilson", "Wong", "admin").update();
-      new Account("patient", "patient", false, "Nestor", "Lopez", "patient").update();
-      new Account("staff", "staff", false, "Reily", "Siegel", "employee").update();
-      new Account("guest", "guest", false, "guest", "guest", "guest").update();
+      new Account("admin", "admin", true, "Wilson", "Wong", "admin", "genericemail@gmail.com").update();
+      new Account("patient", "patient", false, "Nestor", "Lopez", "patient","genericemail@gmail.com").update();
+      new Account("staff", "staff", false, "Reily", "Siegel", "employee","genericemail@gmail.com").update();
+      new Account("guest", "guest", false, "guest", "guest", "guest","genericemail@gmail.com").update();
       Session.login("guest", "guest");
       System.out.println("Database Services Initialized");
     } catch (SQLException e) {
