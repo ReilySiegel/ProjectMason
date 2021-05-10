@@ -173,6 +173,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
         pathDisplayControls.hide();
         map = new Map(pathPane);
         map.setOnDrawNode(this::onDrawNode);
+
         update();
         map.hideNodes();
     }
@@ -184,14 +185,20 @@ public class PathfindingPage extends SubPageController implements Initializable 
 
     private void handleSelectedStart() {
         map.hideNodes();
+        if (map.getEndingNodeCircle() != null) map.getEndingNodeCircle().setVisible(true);
+        if (map.getStartingNodeCircle() != null) map.getStartingNodeCircle().setVisible(true);
     }
 
     private void handleSelectedEnd() {
         map.hideNodes();
+        if (map.getEndingNodeCircle() != null) map.getEndingNodeCircle().setVisible(true);
+        if (map.getStartingNodeCircle() != null) map.getStartingNodeCircle().setVisible(true);
     }
 
     private void handleChoosing() {
         map.showNodes();
+        if (map.getEndingNodeCircle() != null) map.getEndingNodeCircle().setVisible(false);
+        if (map.getStartingNodeCircle() != null) map.getStartingNodeCircle().setVisible(false);
     }
 
     private void handleSelectParkingSpot(ActionEvent actionEvent) {
