@@ -149,6 +149,21 @@ public class TextualDirections {
             icon.setFitWidth(20);
             icon.setFitHeight(20);
         }
+        else if(direction.contains(App.resourceBundle.getString("key.floor_switch_1"))){
+            icon = new ImageView(new Image("edu/wpi/teamo/images/Icons/floorswitch2.png"));
+            icon.setFitWidth(20);
+            icon.setFitHeight(20);
+        }
+        else if(direction.contains(App.resourceBundle.getString("key.destination_arrival"))){
+            icon = new ImageView(new Image("edu/wpi/teamo/images/Icons/checkmark2.png"));
+            icon.setFitWidth(20);
+            icon.setFitHeight(20);
+        }
+        else if(direction.contains(App.resourceBundle.getString("key.no_path_exists")) || direction.contains(App.resourceBundle.getString("key.no_path_provided"))){
+            icon = new ImageView(new Image("edu/wpi/teamo/images/Icons/nopath2.png"));
+            icon.setFitWidth(20);
+            icon.setFitHeight(20);
+        }
         else{
             icon = new ImageView(new Image("edu/wpi/teamo/images/Icons/icons8-up-arrow-96.png"));
             icon.setFitWidth(20);
