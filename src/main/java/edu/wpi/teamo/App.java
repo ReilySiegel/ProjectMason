@@ -111,6 +111,7 @@ public class App extends Application {
       new Account("staff", "staff", false, "Reily", "Siegel", "employee","genericemail@gmail.com").update();
       new Account("guest", "guest", false, "guest", "guest", "guest","genericemail@gmail.com").update();
       Session.login("guest", "guest");
+
       System.out.println("Database Services Initialized");
     } catch (SQLException e) {
       System.out.println("ERROR: FAILED TO INIT DATABASE SERVICES");

@@ -2,13 +2,16 @@ package edu.wpi.teamo.views.pathfindingpage;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import edu.wpi.teamo.App;
 import edu.wpi.teamo.algos.AlgoNode;
 import javafx.event.ActionEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 import java.util.List;
 
 public class PathDisplayControls {
+    private final VBox pathDisplayControlWindow;
     private final TextualDirections textualDirections;
     private final JFXButton backwardStepButton;
     private final JFXButton forwardStepButton;
@@ -22,12 +25,14 @@ public class PathDisplayControls {
     int directionMin = 0;
     Runnable onStep;
 
-    public PathDisplayControls(JFXButton forwardStepButton,
+    public PathDisplayControls(VBox pathDisplayControlWindow,
+                               JFXButton forwardStepButton,
                                JFXButton backwardStepButton,
                                TextualDirections textualDirections,
                                HBox pathStepHBox,
                                JFXComboBox<String> floorComboBox,
                                Runnable onStep) {
+        this.pathDisplayControlWindow = pathDisplayControlWindow;
         this.backwardStepButton = backwardStepButton;
         this.textualDirections = textualDirections;
         this.forwardStepButton = forwardStepButton;
@@ -45,12 +50,10 @@ public class PathDisplayControls {
 
         textualDirections.loadDirections(displayedPath);
         textualDirections.update(0, floorComboBox.getValue());
-        textualDirections.show();
+        show();
 
         directionIterator = 0;
         directionMax = displayedPath.size();
-        stepDirection(true);
-        stepDirection(false);
     }
 
     public void handleStepForward(ActionEvent e)
@@ -69,6 +72,8 @@ public class PathDisplayControls {
 
     private void stepDirection(boolean forward)
     {
+        if (displayedPath == null || displayedPath.size() == 0) return;
+
         if (forward)
         {
             directionIterator++;
@@ -95,13 +100,13 @@ public class PathDisplayControls {
     }
 
     public void hide() {
+        pathDisplayControlWindow.setVisible(false);
         setPathStepButtonVisibility(false);
-        textualDirections.hide();
     }
 
     public void show() {
+        pathDisplayControlWindow.setVisible(true);
         setPathStepButtonVisibility(true);
-        textualDirections.show();
     }
 
     public AlgoNode getNodeInFocus() {
