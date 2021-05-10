@@ -4,6 +4,7 @@ package edu.wpi.teamo.views.requests;
 import com.jfoenix.controls.*;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.Pages;
+import edu.wpi.teamo.Session;
 import edu.wpi.teamo.database.map.NodeInfo;
 import edu.wpi.teamo.database.request.*;
 import edu.wpi.teamo.views.SubPageContainer;
@@ -18,6 +19,7 @@ import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 
 import java.util.List;
@@ -111,8 +113,8 @@ public class SR09_PatientTransportation implements Initializable{
                     details,
                     locationIDs.stream(),
                     assigned,
-                    false
-            );
+                    false, LocalDateTime.now(), Session.getAccount().getUsername());
+
 
             new TransportationRequest(
                     destination,

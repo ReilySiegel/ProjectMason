@@ -169,9 +169,9 @@ public class SR02_LanguageInterpreter implements Initializable {
             roomErrorText.setText(App.resourceBundle.getString("key.no_room_specified"));
             validRequest = false;
         }
-        if (assigned.equals("")) {
-            assigned = "Unassigned";
-        }
+
+        assigned = "Unassigned";
+
         if(timepicker.getValue() == null){
             validRequest = false;
             DateTimeErrorText.setText(App.resourceBundle.getString("key.missing_date/time"));
@@ -188,13 +188,13 @@ public class SR02_LanguageInterpreter implements Initializable {
            LocalDateTime curDate = datepicker.getValue().atTime(curTime);
 
            BaseRequest baseRequest = new BaseRequest(UUID.randomUUID().toString(), details, locationIDs.stream(),
-                  assigned, false, curDate);
+                  assigned, false, curDate, Session.getAccount().getUsername());
 
             new InterpreterRequest(selectedLanguage, selectedJob, baseRequest).update();
             langErrorText.setText("");
             jobErrorText.setText("");
             roomErrorText.setText("");
-            assigneeErrorText.setText("");
+            ///assigneeErrorText.setText("");
             notes.setText("");
             System.out.println("request successful");
             assignee.setText("");

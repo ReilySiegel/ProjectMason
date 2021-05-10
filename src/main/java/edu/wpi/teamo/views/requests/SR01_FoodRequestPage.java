@@ -3,6 +3,7 @@ package edu.wpi.teamo.views.requests;
 import com.jfoenix.controls.*;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.Pages;
+import edu.wpi.teamo.Session;
 import edu.wpi.teamo.database.map.NodeInfo;
 import edu.wpi.teamo.database.request.BaseRequest;
 import edu.wpi.teamo.database.request.FoodRequest;
@@ -142,7 +143,7 @@ public class SR01_FoodRequestPage implements Initializable {
 
             LocalTime curTime = deliveryTime.getValue();
             LocalDateTime curDate = deliveryDate.getValue().atTime(curTime);
-            BaseRequest br = new BaseRequest(UUID.randomUUID().toString(), "", locationIDs.stream(), "", false, curDate);
+            BaseRequest br = new BaseRequest(UUID.randomUUID().toString(), "", locationIDs.stream(), "", false, curDate, Session.getAccount().getUsername());
             FoodRequest fr = new FoodRequest(appetizer, entree, dessert, dR, br);
 
             try {

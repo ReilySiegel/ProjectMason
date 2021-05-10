@@ -197,7 +197,7 @@ public class SR03_Sanitation implements Initializable {
             LocalDateTime curDate = datePicker.getValue().atTime(curTime);
 
             BaseRequest baseRequest = new BaseRequest(UUID.randomUUID().toString(), serviceName + ", " + details, locationIDs.stream(),
-                    assigned, false, curDate);
+                    assigned, false, curDate, Session.getAccount().getUsername());
 
             new SanitationRequest(recurring, baseRequest).update();
             System.out.println("Sanitation request submitted");
