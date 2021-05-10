@@ -1,0 +1,12 @@
+.find-path-button {
+    -fx-background-color: rgb(216, 248, 255);
+    -fx-font-size: 20;
+    -fx-font-family: "Roboto Regular";
+    -fx-font-weight: normal;
+    -fx-text-fill: #000000;
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
+    margin: 15px 15px 15px 15px;
+    /*-fx-border-color: #000000;*/
+    /*-fx-border-width: 2;*/
+}

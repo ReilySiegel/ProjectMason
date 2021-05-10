@@ -1,5 +1,6 @@
 package edu.wpi.teamo.views.pathfindingpage;
 
+import javafx.geometry.Pos;
 import javafx.scene.layout.BackgroundFill;
 import edu.wpi.teamo.algos.TextDirManager;
 import com.jfoenix.controls.JFXListView;
@@ -22,17 +23,15 @@ public class TextualDirections {
     private JFXListView<HBox> textualDirView;
     private HBox currentDirectionDisplay;
     private JFXButton textualUnitsBtn;
-    private VBox textualWindow;
 
     private HashMap<String, List<HBox>> directionHBoxesByFloor;
     private List<HBox> allDirectionHBoxes;
     private boolean metric = true;
 
-    public TextualDirections(VBox textualWindow, JFXListView<HBox> textualDirView, JFXButton textualUnitsBtn, HBox currentDirectionDisplay) {
+    public TextualDirections(JFXListView<HBox> textualDirView, JFXButton textualUnitsBtn, HBox currentDirectionDisplay) {
         this.currentDirectionDisplay = currentDirectionDisplay;
         this.textualUnitsBtn = textualUnitsBtn;
         this.textualDirView = textualDirView;
-        this.textualWindow = textualWindow;
     }
 
     public void update(int iterator, String floor) {
@@ -107,6 +106,7 @@ public class TextualDirections {
         else if(s.getText().toLowerCase().contains(App.resourceBundle.getString("key.back_left_turn"))) icon.setRotate(270);
         else if(s.getText().toLowerCase().contains(App.resourceBundle.getString("key.backwards"))) icon.setRotate(180);
         currentDirectionDisplay.getChildren().setAll(icon,s);
+        currentDirectionDisplay.setAlignment(Pos.CENTER_LEFT);
     }
 
     private HBox createHBoxFromDirection(String direction) {
@@ -155,14 +155,6 @@ public class TextualDirections {
             icon.setFitHeight(20);
         }
         return new HBox(icon, new Text(direction));
-    }
-
-    public void show() {
-        textualWindow.setVisible(true);
-    }
-
-    public void hide() {
-        textualWindow.setVisible(false);
     }
 
     public JFXButton getTextualUnitsBtn() {
