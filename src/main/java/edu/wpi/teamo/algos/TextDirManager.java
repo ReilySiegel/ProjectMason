@@ -95,7 +95,7 @@ public class TextDirManager {
                 }
                 case 1:{
                     //Slight turns
-                    if(Math.abs(Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue())) <= 0.2 && lastQuadrant.getKey().equals(1)){
+                    if(Math.abs(lastQuadrant.getValue() - currentQuadrant.getValue()) <= 0.2 && lastQuadrant.getKey().equals(1)){
                         if(Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) > 0 && currentQuadrant.getKey() == 1)
                             directions.add(App.resourceBundle.getString("key.proceed") + dist+ " " + unit + App.resourceBundle.getString("key.slight_left_turn") + nextNode);
                         else if(Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) < 0 && currentQuadrant.getKey() == 1)
@@ -122,7 +122,7 @@ public class TextDirManager {
                 }
                 case 2:{
                     //Slight turns
-                    if((Math.abs(Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue())) <= 0.2 || Math.abs(Math.abs(lastQuadrant.getValue()) - (Math.PI / 2)) <= 0.2) && lastQuadrant.getKey().equals(2)){
+                    if((Math.abs(lastQuadrant.getValue() - currentQuadrant.getValue()) <= 0.2 || Math.abs(Math.abs(lastQuadrant.getValue()) - (Math.PI / 2)) <= 0.2) && lastQuadrant.getKey().equals(2)){
                         if(Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) < 0 && currentQuadrant.getKey() == 2)
                             directions.add(App.resourceBundle.getString("key.proceed") + dist+ " " + unit + App.resourceBundle.getString("key.slight_left_turn") + nextNode);
                         else if(Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) > 0 && currentQuadrant.getKey() == 2)
@@ -150,7 +150,7 @@ public class TextDirManager {
                 }
                 case 3:{
                     //Slight turns
-                    if(Math.abs(Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue())) <= 0.2 && lastQuadrant.getKey().equals(3)){
+                    if(Math.abs(lastQuadrant.getValue() - currentQuadrant.getValue()) <= 0.2 && lastQuadrant.getKey().equals(3)){
                         if(Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) > 0 && currentQuadrant.getKey() == 3)
                             directions.add(App.resourceBundle.getString("key.proceed") + dist+ " " + unit + App.resourceBundle.getString("key.slight_left_turn") + nextNode);
                         else if(Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) < 0 && currentQuadrant.getKey() == 3)
@@ -178,7 +178,7 @@ public class TextDirManager {
                 }
                 case 4:{
                     //Slight turns
-                    if((Math.abs(Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue())) <= 0.2 || Math.abs(Math.abs(lastQuadrant.getValue()) - (Math.PI / 2)) <= 0.2) && lastQuadrant.getKey().equals(4)){
+                    if((Math.abs(lastQuadrant.getValue() - currentQuadrant.getValue()) <= 0.2 || Math.abs(Math.abs(lastQuadrant.getValue()) - (Math.PI / 2)) <= 0.2) && lastQuadrant.getKey().equals(4)){
                         if(Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) < 0 && currentQuadrant.getKey() == 4)
                             directions.add(App.resourceBundle.getString("key.proceed") + dist+ " " + unit + App.resourceBundle.getString("key.slight_left_turn") + nextNode);
                         else if(Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) > 0 && currentQuadrant.getKey() == 4)
