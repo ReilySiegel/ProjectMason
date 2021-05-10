@@ -27,22 +27,12 @@
                   <Insets top="3.0" />
                </VBox.margin>
             </Label>
-            <Label text="%key.resources">
+            <Label text="%key.resources_and_APIs">
                <VBox.margin>
                   <Insets top="20.0" />
                </VBox.margin>
             </Label>
-            <Label text="%key.list_of_resources">
-               <VBox.margin>
-                  <Insets top="3.0" />
-               </VBox.margin>
-            </Label>
-            <Label text="%key.APIs">
-               <VBox.margin>
-                  <Insets top="20.0" />
-               </VBox.margin>
-            </Label>
-            <Label text="%key.list_of_APIs">
+            <Label text="%key.list_of_resources_APIs">
                <VBox.margin>
                   <Insets top="3.0" />
                </VBox.margin>
