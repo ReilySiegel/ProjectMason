@@ -181,7 +181,7 @@ public class SR07_Medicine implements Initializable {
             LocalTime curTime = timePicker.getValue();
             LocalDateTime curDate = datePicker.getValue().atTime(curTime);
 
-            BaseRequest br = new BaseRequest(UUID.randomUUID().toString(), medNotes, locationIDs.stream(), assignName, false, curDate);
+            BaseRequest br = new BaseRequest(UUID.randomUUID().toString(), medNotes, locationIDs.stream(), assignName, false, curDate, Session.getAccount().getUsername());
             new MedicineRequest(medicine, amount, br).update();
 
             timeErrorText.setText("");

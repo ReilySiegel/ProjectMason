@@ -169,7 +169,7 @@ public class SR04_Laundry implements Initializable {
             LocalDateTime curDate = datePicker.getValue().atTime(curTime);
             BaseRequest br =
                     new BaseRequest(UUID.randomUUID().toString(), note, locationIDs.stream(),
-                            assignName, false, curDate);
+                            assignName, false, curDate, Session.getAccount().getUsername());
             new LaundryRequest(gownCheck, sheetCheck, br).update();
 
 

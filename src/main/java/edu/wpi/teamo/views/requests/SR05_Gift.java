@@ -19,6 +19,8 @@ import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -116,16 +118,12 @@ public class SR05_Gift implements Initializable {
         }
 
         if (validRequest) {
+
             new GiftRequest(
                     deliverToText,
                     trackingIDText,
-                    new BaseRequest(
-                            UUID.randomUUID().toString(),
-                            notes.getText(),
-                            locationIDs.stream(),
-                            assignName,
-                            false))
-                    .update();
+                    new BaseRequest(UUID.randomUUID().toString(),notes.getText(), locationIDs.stream(),
+                            assignName, false, LocalDateTime.now(), Session.getAccount().getUsername())).update();
             System.out.println("request successful");
             giftDeliverTo.setText("");
             targetErrorText.setText("");

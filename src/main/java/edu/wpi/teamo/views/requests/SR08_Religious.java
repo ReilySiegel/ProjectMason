@@ -19,6 +19,7 @@ import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -126,7 +127,7 @@ public class SR08_Religious implements Initializable {
                                                       serviceName + ", " + details,
                                                       locationIDs.stream(),
                                                       assigned,
-                                                      false
+                                                      false, LocalDateTime.now(), Session.getAccount().getUsername()
                                                       );
 
             new ReligiousRequest(service.getText(),
