@@ -63,6 +63,13 @@ public class RequestDisplay {
         this.user = user;
     }
 
+    public RequestDisplay(JFXListView<VBox> reqList, Boolean showComplete, LocalDateTime latestTime, String user) {
+        this.reqList = reqList;
+        this.showComplete = showComplete;
+        this.latestTime = latestTime;
+        this.user = user;
+    }
+
     public void setShowComplete(Boolean showComplete) {
         this.showComplete = showComplete;
     }
@@ -84,16 +91,26 @@ public class RequestDisplay {
         Stream<TransportationRequest> transRequests = TransportationRequest.getAll();
         Stream<COVIDSurveyRequest> covidRequests = COVIDSurveyRequest.getAll();
 
-        if (selectedTypes.get("Medicine")) medRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.med_sr")));
-        if (selectedTypes.get("Sanitation")) sanRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.san_sr")));
-        if (selectedTypes.get("Security")) secRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.sec_sr")));
-        if (selectedTypes.get("Food")) foodRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.food_sr")));
-        if (selectedTypes.get("Gift")) giftRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.gift_sr")));
-        if (selectedTypes.get("Interpreter")) interpRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.int_sr")));
-        if (selectedTypes.get("Laundry")) laundryRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.laun_sr")));
-        if (selectedTypes.get("Maintenance")) maintRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.main_sr")));
-        if (selectedTypes.get("Transportation")) transRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.transportation_request")));
-        if (selectedTypes.get("Religious")) religRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.rel_sr")));
+        if (selectedTypes.get("Medicine"))
+            medRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.med_sr")));
+        if (selectedTypes.get("Sanitation"))
+            sanRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.san_sr")));
+        if (selectedTypes.get("Security"))
+            secRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.sec_sr")));
+        if (selectedTypes.get("Food"))
+            foodRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.food_sr")));
+        if (selectedTypes.get("Gift"))
+            giftRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.gift_sr")));
+        if (selectedTypes.get("Interpreter"))
+            interpRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.int_sr")));
+        if (selectedTypes.get("Laundry"))
+            laundryRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.laun_sr")));
+        if (selectedTypes.get("Maintenance"))
+            maintRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.main_sr")));
+        if (selectedTypes.get("Transportation"))
+            transRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.transportation_request")));
+        if (selectedTypes.get("Religious"))
+            religRequests.forEach(r -> makeSRBox(r, App.resourceBundle.getString("key.rel_sr")));
         if (selectedTypes.get("COVID Survey")) covidRequests.forEach(r -> makeSurveyBox(r, user));
 
     }
