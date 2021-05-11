@@ -132,16 +132,16 @@
 
 
 .jfx-date-picker{
-    -jfx-default-color: #a5efff;
+    -jfx-default-color: #4793e9; !important
 }
 
 .jfx-time-picker{
-    -jfx-default-color: #a5efff;
+    -jfx-default-color: #4793e9; !important
 }
 
 .date-picker-popup .left-button,
 .date-picker-popup .right-button  {
-    -fx-background-color: #a5efff;
+    --jfx-default-color: #4793e9; !important
 }
 
 .date-picker-popup .left-button .jfx-svg-glyph,
@@ -173,7 +173,7 @@
 
 .combo-box-popup .list-view .list-cell:hover {
     -fx-text-fill: white;
-    -fx-background-color: #a5efff;
+    -fx-background-color: #282b3b;
 }
 
 .jfx-text-field{
