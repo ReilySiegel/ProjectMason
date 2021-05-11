@@ -82,6 +82,7 @@ public class Settings implements Initializable {
         themeSelect.getItems().add("Theme 2");
         themeSelect.getItems().add("Dark");
         themeSelect.getItems().add("Holiday");
+        themeSelect.getItems().add("Wong");
         themeSelect.getSelectionModel().selectFirst();
     }
 
@@ -130,7 +131,10 @@ public class Settings implements Initializable {
                     break;
                 case "Dark":
                     Session.getAccount().setTheme(Theme.DARK);
-                break;
+                    break;
+                case "Wong":
+                    Session.getAccount().setTheme(Theme.WONG);
+                    break;
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
