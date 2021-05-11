@@ -2,6 +2,12 @@
     src: url('../../fonts/Roboto-Regular.ttf');
 }
 
+.root {
+    -fx-dark-text-color: white !important;
+    -fx-mid-text-color: white !important;
+    -fx-light-text-color: white !important;
+}
+
 .pane {
     -fx-background-color: rgba(62, 62, 62, 0.5) !important;
     -fx-border-color: rgba(95, 95, 95, 0.9) !important;
@@ -20,6 +26,13 @@
 .murkier-pane {
     -fx-background-color: rgba(62, 62, 62, 0.8) !important;
     -fx-border-color: rgba(95, 95, 95, 0.9) !important;
+    -fx-border-width: 0.5;
+    -fx-effect: dropshadow(gaussian, rgba(100, 100, 100, 0.3), 10, 0.5, 0.0, 0.0);
+}
+
+.stupidThickPane {
+    -fx-background-color: rgb(43, 43, 43) !important;
+    -fx-border-color: rgb(95, 95, 95) !important;
     -fx-border-width: 0.5;
     -fx-effect: dropshadow(gaussian, rgba(100, 100, 100, 0.3), 10, 0.5, 0.0, 0.0);
 }
@@ -119,16 +132,16 @@
 
 
 .jfx-date-picker{
-    -jfx-default-color: #a5efff;
+    -jfx-default-color: #4793e9; !important
 }
 
 .jfx-time-picker{
-    -jfx-default-color: #a5efff;
+    -jfx-default-color: #4793e9; !important
 }
 
 .date-picker-popup .left-button,
 .date-picker-popup .right-button  {
-    -fx-background-color: #a5efff;
+    --jfx-default-color: #4793e9; !important
 }
 
 .date-picker-popup .left-button .jfx-svg-glyph,
@@ -160,7 +173,7 @@
 
 .combo-box-popup .list-view .list-cell:hover {
     -fx-text-fill: white;
-    -fx-background-color: #a5efff;
+    -fx-background-color: #282b3b;
 }
 
 .jfx-text-field{
@@ -194,6 +207,7 @@
 
 .text {
     -fx-text-fill: white !important;
+    -fx-text-background-color: white !important;
 }
 
 .annoyingText {

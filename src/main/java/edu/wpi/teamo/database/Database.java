@@ -1,26 +1,63 @@
 package edu.wpi.teamo.database;
 
+import edu.wpi.teamo.Session;
+import edu.wpi.teamo.database.account.Account;
+import edu.wpi.teamo.database.map.Edge;
+import edu.wpi.teamo.database.map.Node;
+import edu.wpi.teamo.database.request.*;
+
 import java.nio.file.Paths;
 import java.sql.*;
 
 public class Database {
     Connection conn;
-    private static Database db = new Database();
+    private static Database db;
+
+    static {
+        try {
+            db = new Database();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     private static String defaultFilePath () {
         return Paths.get(System.getProperty("user.home"), ".oxblood", "db").toString();
     }
 
-    private Database () {
+    private Database () throws Exception {
         this("jdbc:derby:" + defaultFilePath() +  ";create=true");
     }
 
-    private Database (String uri) {
+    private Database (String uri) throws Exception {
+        Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+        Class.forName("org.apache.derby.jdbc.ClientDriver");
+        conn = DriverManager.getConnection(uri);
+    }
+
+    public static void init() throws SQLException {
+        Node.initTable(getInstance());
+        Edge.initTable(getInstance());
+        Account.initTable();
+        BaseRequest.initTable();
+        SanitationRequest.initTable();
+        MedicineRequest.initTable();
+        SecurityRequest.initTable();
+        InterpreterRequest.initTable();
+        GiftRequest.initTable();
+        LaundryRequest.initTable();
+        MaintenanceRequest.initTable();
+        ReligiousRequest.initTable();
+        FoodRequest.initTable();
+        COVIDSurveyRequest.initTable();
+        TransportationRequest.initTable();
+        new Account("admin", "admin", true, "Wilson", "Wong", "admin", "example@example.com", false, true ,true).update();
+        new Account("patient", "patient", false, "Nestor", "Lopez", "patient", "example@example.com").update();
+        new Account("staff", "staff", false, "Reily", "Siegel", "employee", "example@example.com", false, true, true).update();
+        new Account("guest", "guest", false, "guest", "guest", "guest", "example@example.com").update();
         try {
-            Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
-            conn = DriverManager.getConnection(uri);
+            Session.login("guest", "guest");
         } catch (Exception e) {
-            System.out.println("Failed to create DB");
             e.printStackTrace();
         }
     }
@@ -30,11 +67,25 @@ public class Database {
     }
 
     public static synchronized void setTesting (String dbname) {
+        setDB(getMemoryURIFromName(dbname));
+    }
+
+    public static synchronized  void setEmbeddedDB () {
+        setDB("jdbc:derby:" + defaultFilePath() +  ";create=true");
+    }
+
+    public static synchronized  void setRemoteDB (String host, String dbname) {
+        setDB("jdbc:derby://" + host + "/" + dbname + ";create=true");
+    }
+
+    public static synchronized void setDB (String uri) {
         try {
+            Database newDB = new Database(uri);
             db.close();
+            db = newDB;
+            init();
         } catch (Exception e) {
         }
-        db = new Database(getMemoryURIFromName(dbname));
     }
 
     public static ResultSet processQuery (String s) throws SQLException {
