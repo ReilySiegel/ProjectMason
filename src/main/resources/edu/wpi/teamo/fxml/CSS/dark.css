@@ -30,6 +30,13 @@
     -fx-effect: dropshadow(gaussian, rgba(100, 100, 100, 0.3), 10, 0.5, 0.0, 0.0);
 }
 
+.stupidThickPane {
+    -fx-background-color: rgb(43, 43, 43) !important;
+    -fx-border-color: rgb(95, 95, 95) !important;
+    -fx-border-width: 0.5;
+    -fx-effect: dropshadow(gaussian, rgba(100, 100, 100, 0.3), 10, 0.5, 0.0, 0.0);
+}
+
 .button {
     -fx-background-color: rgb(93, 93, 93) !important;
     -fx-font-size: 12;

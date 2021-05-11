@@ -96,28 +96,14 @@ public class App extends Application {
 
     /* instantiate the database services, set to static variables that can be accessed from the handlers */
     try {
+      Database.init();
       requestService = new RequestDB(Database.getInstance());
       mapService = new MapDB(Database.getInstance());
-      Account.initTable();
-      SecurityRequest.initTable();
-      InterpreterRequest.initTable();
-      GiftRequest.initTable();
-      LaundryRequest.initTable();
-      MaintenanceRequest.initTable();
-      ReligiousRequest.initTable();
-      FoodRequest.initTable();
-      COVIDSurveyRequest.initTable();
-      TransportationRequest.initTable();
-      new Account("admin", "admin", true, "Wilson", "Wong", "admin", "genericemail@gmail.com").update();
-      new Account("patient", "patient", false, "Nestor", "Lopez", "patient","genericemail@gmail.com").update();
-      new Account("staff", "staff", false, "Reily", "Siegel", "employee","genericemail@gmail.com").update();
-      new Account("guest", "guest", false, "guest", "guest", "guest","genericemail@gmail.com").update();
-      Session.login("guest", "guest");
 
       System.out.println("Database Services Initialized");
     } catch (SQLException e) {
-      System.out.println("ERROR: FAILED TO INIT DATABASE SERVICES");
-      e.printStackTrace();
+        System.out.println("ERROR: FAILED TO INIT DATABASE SERVICES");
+        e.printStackTrace();
     } catch (Exception exception){
       System.out.println("ERROR: GUEST LOGIN FAILED");
       exception.printStackTrace();
@@ -127,7 +113,7 @@ public class App extends Application {
     /* instantiate the aStar service, set to a static variable that can be accessed from the handlers */
     if (mapService != null) {
 
-      context = new Context(new BFSManager(mapService), new DFSManager(mapService), new AStarManager(mapService), new BestFirstManager(mapService), new DijkstraManager(mapService));
+      context = new Context(new BFSManager(mapService), new DFSManager(mapService), new AStarManager(mapService), new BestFirstManager(mapService), new DijkstraManager(mapService), new GreedyDFSManager(mapService));
 
       System.out.println("Pathfinder Service Initialized");
 
