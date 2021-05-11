@@ -1,5 +1,8 @@
 package edu.wpi.teamo.algos;
 
+import edu.wpi.teamo.algos.AStar.AStar;
+import edu.wpi.teamo.algos.Dijkstra.Dijkstra;
+import edu.wpi.teamo.algos.Dijkstra.DijkstraManager;
 import edu.wpi.teamo.database.map.Edge;
 
 import edu.wpi.teamo.database.map.EdgeInfo;

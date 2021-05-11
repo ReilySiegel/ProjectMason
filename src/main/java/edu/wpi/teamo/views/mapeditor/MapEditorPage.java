@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import edu.wpi.teamo.algos.AlgoNode;
-import edu.wpi.teamo.algos.DFSManager;
+import edu.wpi.teamo.algos.DFS.DFSManager;
 import edu.wpi.teamo.database.map.EdgeInfo;
 
 import edu.wpi.teamo.views.Map;

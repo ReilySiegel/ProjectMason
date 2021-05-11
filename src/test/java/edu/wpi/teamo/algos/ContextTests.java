@@ -1,5 +1,10 @@
 package edu.wpi.teamo.algos;
 
+import edu.wpi.teamo.algos.AStar.AStarManager;
+import edu.wpi.teamo.algos.BFS.BFSManager;
+import edu.wpi.teamo.algos.BestFirst.BestFirstManager;
+import edu.wpi.teamo.algos.DFS.DFSManager;
+import edu.wpi.teamo.algos.Dijkstra.DijkstraManager;
 import edu.wpi.teamo.database.map.MapDB;
 import org.junit.jupiter.api.Test;
 

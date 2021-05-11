@@ -2,7 +2,7 @@ package edu.wpi.teamo.views.mapeditor;
 
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.algos.AlgoNode;
-import edu.wpi.teamo.algos.DFSManager;
+import edu.wpi.teamo.algos.DFS.DFSManager;
 import edu.wpi.teamo.database.map.EdgeInfo;
 import edu.wpi.teamo.database.map.NodeInfo;
 import edu.wpi.teamo.views.Map;

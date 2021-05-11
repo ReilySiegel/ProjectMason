@@ -1,6 +1,11 @@
 package edu.wpi.teamo.algos;
 
-import edu.wpi.teamo.App;
+import edu.wpi.teamo.algos.AStar.AStarManager;
+import edu.wpi.teamo.algos.BFS.BFSManager;
+import edu.wpi.teamo.algos.BestFirst.BestFirstManager;
+import edu.wpi.teamo.algos.DFS.DFSManager;
+import edu.wpi.teamo.algos.DFS.GreedyDFSManager;
+import edu.wpi.teamo.algos.Dijkstra.DijkstraManager;
 
 import java.sql.SQLException;
 import java.util.LinkedList;

@@ -1,5 +1,6 @@
-package edu.wpi.teamo.algos;
+package edu.wpi.teamo.algos.DFS;
 
+import edu.wpi.teamo.algos.AlgoNode;
 import edu.wpi.teamo.database.map.Edge;
 import javafx.util.Pair;
 

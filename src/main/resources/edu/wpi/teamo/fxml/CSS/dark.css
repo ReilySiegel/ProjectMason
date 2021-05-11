@@ -50,6 +50,51 @@
     /*-fx-border-width: 2;*/
 }
 
+.map-editor-node {
+    -fx-fill: rgba(216, 248, 255, 1) !important;
+    -fx-stroke: rgba(0, 0, 0, 1);
+}
+
+.map-editor-edge {
+    -fx-fill: rgb(255, 255, 255);
+    -fx-stroke: rgb(255, 255, 255) !important;
+}
+
+.pathfinder-node {
+    -fx-fill: rgba(15, 221, 255, 0.7) !important;
+    -fx-stroke: rgba(0, 0, 0, 1);
+}
+
+.path-same-floor {
+    -fx-fill: rgb(143, 243, 255);
+    -fx-stroke: rgb(151, 231, 255) !important;
+}
+
+.path-diff-floor {
+    -fx-fill: rgba(191, 191, 191, 0.7);
+    -fx-stroke: rgba(212, 212, 212, 0.7) !important;
+}
+
+.path-highlight {
+    -fx-fill: rgb(89, 103, 255) !important;
+    -fx-stroke: rgb(0, 55, 255);
+}
+
+.path-arrow {
+    -fx-fill: rgb(113, 127, 255) !important;
+    -fx-stroke: rgb(0, 55, 255);
+}
+
+.path-start {
+    -fx-fill: rgb(0, 0, 0);
+    -fx-stroke: rgb(255, 255, 255) !important;
+}
+
+.path-end {
+    -fx-fill: rgba(255, 255, 255, 1);
+    -fx-stroke: rgb(0, 0, 0);
+}
+
 .inputs {
     -fx-background-color: rgba(255, 255, 255, 0.3);
     -fx-border-color: rgba(255, 255, 255, 0.9);

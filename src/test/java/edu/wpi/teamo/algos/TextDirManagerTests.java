@@ -1,6 +1,7 @@
 package edu.wpi.teamo.algos;
 
 import edu.wpi.teamo.App;
+import edu.wpi.teamo.algos.AStar.AStarManager;
 import edu.wpi.teamo.database.map.MapDB;
 import edu.wpi.teamo.views.LocaleType;
 import javafx.util.Pair;

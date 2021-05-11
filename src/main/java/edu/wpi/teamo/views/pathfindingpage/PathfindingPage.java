@@ -4,6 +4,11 @@ import com.jfoenix.controls.*;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.Session;
 import edu.wpi.teamo.algos.*;
+import edu.wpi.teamo.algos.AStar.AStarManager;
+import edu.wpi.teamo.algos.BFS.BFSManager;
+import edu.wpi.teamo.algos.BestFirst.BestFirstManager;
+import edu.wpi.teamo.algos.DFS.GreedyDFSManager;
+import edu.wpi.teamo.algos.Dijkstra.DijkstraManager;
 import edu.wpi.teamo.database.map.NodeInfo;
 import edu.wpi.teamo.views.Map;
 import edu.wpi.teamo.views.SubPageController;
@@ -16,7 +21,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.text.Text;
 import javafx.util.Pair;
 
 import java.net.URL;
@@ -25,9 +29,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class PathfindingPage extends SubPageController implements Initializable {
-
-    @FXML
-    private JFXButton clearPathButton;
 
     @FXML
     private Label promptText;
@@ -183,7 +184,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
         floorComboBox.setOnAction(this::handleFloorSwitch);
         algoSwitcher.setOnAction(this::handleAlgoSwitch);
         helpButton.setOnAction(this::handleHelpButton);
-        clearPathButton.setOnAction(this::handleClearPath);
+        //clearPathButton.setOnAction(this::handleClearPath);
 
         App.getPrimaryStage().getScene().setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ESCAPE) {
@@ -345,15 +346,19 @@ public class PathfindingPage extends SubPageController implements Initializable 
     }
 
     private void handlePlanNewPath() {
+        clearPath();
+        map.centerMap();
         pathDisplayControls.hide();
     }
 
 
     // clear the path
-    void handleClearPath(ActionEvent e){
+    void clearPath(){
         LinkedList<AlgoNode> path = new LinkedList<>();
         pathDisplayControls.setDisplayedPath(path);
-        calculatedPath.clear();
+        if(calculatedPath != null) {
+            calculatedPath.clear();
+        }
         update();
     }
 

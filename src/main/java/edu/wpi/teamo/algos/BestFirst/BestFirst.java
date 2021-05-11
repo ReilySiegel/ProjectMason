@@ -1,4 +1,6 @@
-package edu.wpi.teamo.algos;
+package edu.wpi.teamo.algos.BestFirst;
+
+import edu.wpi.teamo.algos.AlgoNode;
 
 import java.util.LinkedList;
 

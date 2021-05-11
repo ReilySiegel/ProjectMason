@@ -1,11 +1,14 @@
-package edu.wpi.teamo.algos;
+package edu.wpi.teamo.algos.BestFirst;
 
+import edu.wpi.teamo.algos.AlgoManagerI;
+import edu.wpi.teamo.algos.AlgoNode;
+import edu.wpi.teamo.algos.BestFirst.BestFirst;
 import edu.wpi.teamo.database.map.IMapService;
 
 import java.sql.SQLException;
 import java.util.LinkedList;
 
-public class BestFirstManager extends AlgoManagerI{
+public class BestFirstManager extends AlgoManagerI {
 
     public BestFirstManager(IMapService service){super(service);}
 
