@@ -113,11 +113,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
 
     PathDisplayControls pathDisplayControls;
 
-    public List<Circle> parkingSpots;
-
-    String parkingSpotID = null;
-
-    boolean selectingParkingSpot = false;
+    ParkingSpotControls parkingSpotControls;
 
     edu.wpi.teamo.views.Map map;
 
@@ -153,13 +149,21 @@ public class PathfindingPage extends SubPageController implements Initializable 
                                                       floorComboBox,
                                                       this::handleStep);
 
-        setSelectParkingSpotButtonVisibility(Session.isLoggedIn());
+        parkingSpotControls = new ParkingSpotControls(selectSavedParkingSpotButton,
+                                                      saveNewParkingSpotButton,
+                                                      parkingWindow,
+                                                      parentStackPane,
+                                                      this::onPickParkingSpot);
+
+        if (Session.isLoggedIn()) {
+            parkingSpotControls.show();
+        } else {
+            parkingSpotControls.hide();
+        }
 
         initFloorSwitcher();
         initAlgoSwitcher();
 
-        selectSavedParkingSpotButton.setOnAction(this::handleSelectParkingSpot);
-        saveNewParkingSpotButton.setOnAction(this::handleSaveNewParkingSpot);
         floorComboBox.setOnAction(this::handleFloorSwitch);
         algoSwitcher.setOnAction(this::handleAlgoSwitch);
         helpButton.setOnAction(this::handleHelpButton);
@@ -201,29 +205,8 @@ public class PathfindingPage extends SubPageController implements Initializable 
         if (map.getStartingNodeCircle() != null) map.getStartingNodeCircle().setVisible(false);
     }
 
-    private void handleSelectParkingSpot(ActionEvent actionEvent) {
-        try {
-            if (pathSelection.getState() != PathSelectionControls.SelectionState.IDLE) {
-                if (Session.isLoggedIn() && Session.getAccount().getParkingSpot() != null) {
-                    String id = Session.getAccount().getParkingSpot();
-                    NodeInfo node = App.mapService.getNode(id);
-                    onClickNode(node);
-                }
-            }
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void handleSaveNewParkingSpot(ActionEvent actionEvent) {
-        if (selectingParkingSpot) {
-            selectingParkingSpot = false;
-        }
-        else {
-            selectingParkingSpot = true;
-            showParkingSpots();
-        }
+    private void onPickParkingSpot(NodeInfo parkingSpot) {
+        onClickNode(parkingSpot);
     }
 
     private void handleAlgoSwitch(ActionEvent actionEvent) {
@@ -270,9 +253,11 @@ public class PathfindingPage extends SubPageController implements Initializable 
         Circle circle = p.getKey();
         NodeInfo node = p.getValue();
 
-        if (parkingSpotID != null && node.getNodeID().equals(parkingSpotID)) {
-            circle.setRadius(circle.getRadius() * 3);
-            circle.setFill(Color.BLACK);
+        if (parkingSpotControls.hasParkingSpot()) {
+            if (node.getNodeID().equals(parkingSpotControls.getSavedParkingSpotID())) {
+                circle.setRadius(circle.getRadius() * 3);
+                circle.setFill(Color.BLACK);
+            }
         }
 
         circle.setOnMouseEntered(event -> {
@@ -287,76 +272,17 @@ public class PathfindingPage extends SubPageController implements Initializable 
 
         circle.setOnMousePressed((MouseEvent e) -> {
             onClickNode(node);
-            onRightClickNode(e, circle, node);
             e.consume();
         });
 
-        if (parkingSpots != null && node.getNodeType().equals("PARK")) {
-            parkingSpots.add(circle);
+        if (node.getNodeType().equals("PARK")) {
+            parkingSpotControls.addParkingSpotCircle(circle);
         }
     }
 
-    public void showParkingSpots() {
-        for (Circle circle : parkingSpots) {
-            circle.setVisible(true);
-        }
-    }
-
-    //    Consumer<NodeInfo> onClickNode = (NodeInfo node) -> System.out.println("Node " + node.getNodeID() + "was clicked");
     void onClickNode(NodeInfo node) {
         pathSelection.onClickNode(node);
-        if (selectingParkingSpot) {
-            try {
-                if (Session.isLoggedIn()) {
-                    Session.getAccount().setParkingSpot(node);
-                    update();
-                }
-                else {
-                    App.showError(App.resourceBundle.getString("key.log_in_to_use_this_feature"), parentStackPane);
-                }
-            }
-            catch (InvalidParameterException e) {
-                App.showError(App.resourceBundle.getString("key.parking_spot_error"), parentStackPane);
-            }
-            selectingParkingSpot = false;
-        }
-    }
-
-    private void setSelectParkingSpotButtonVisibility(boolean visible) {
-        parkingWindow.setManaged(visible);
-        parkingWindow.setVisible(visible);
-    }
-
-    void onRightClickNode(MouseEvent e, Circle circle, NodeInfo node){
-        if(e.isSecondaryButtonDown()){
-            nodeContextMenu(e, circle, node);
-        }
-    }
-
-    void nodeContextMenu( MouseEvent e, Circle circle, NodeInfo node){
-        ContextMenu menu = new ContextMenu();
-
-        MenuItem assignParkingNode = new MenuItem(App.resourceBundle.getString("key.assignParking"));
-        assignParkingNode.setOnAction(event -> handleAssignParkingSpot(circle, node));
-
-        menu.getItems().add(assignParkingNode);
-        menu.show(pathPane.getScene().getWindow(), e.getScreenX(), e.getScreenY());
-
-    }
-
-    private void handleAssignParkingSpot(Circle circle, NodeInfo node){
-        try {
-            if (Session.isLoggedIn()) {
-                Session.getAccount().setParkingSpot(node);
-                update();
-            }
-            else {
-                App.showError(App.resourceBundle.getString("key.log_in_to_use_this_feature"), parentStackPane);
-            }
-        }
-        catch (InvalidParameterException e) {
-            App.showError(App.resourceBundle.getString("key.parking_spot_error"), parentStackPane);
-        }
+        parkingSpotControls.onClickNode(node);
     }
 
     private void handlePlanNewPath() {
@@ -391,9 +317,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
     }
 
     void update() {
-        parkingSpots = new LinkedList<>();
-
-        parkingSpotID = getSavedParkingSpot();
+        parkingSpotControls.clearParkingSpotCircles();
 
         List<NodeInfo> nodes = getAllNodes();
 
@@ -410,14 +334,6 @@ public class PathfindingPage extends SubPageController implements Initializable 
         }
 
         pathSelection.setLocations(nodes);
-    }
-
-    private static String getSavedParkingSpot() {
-        String parkingSpotID = null;
-        if (Session.isLoggedIn() && Session.getAccount() != null) {
-            parkingSpotID = Session.getAccount().getParkingSpot();
-        }
-        return parkingSpotID;
     }
 
     private List<NodeInfo> getAllNodes() {
