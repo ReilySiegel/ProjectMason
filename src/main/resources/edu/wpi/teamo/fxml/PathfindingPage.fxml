@@ -4,6 +4,7 @@
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXListView?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -52,7 +53,8 @@
                         <JFXComboBox fx:id="algoSwitcher" focusColor="#405aa800" prefHeight="39.0" prefWidth="130.0" styleClass="pane" unFocusColor="#4d4d4d00">
                            <HBox.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                           </HBox.margin></JFXComboBox>
+                           </HBox.margin>
+                        </JFXComboBox>
                      </children>
                   </HBox>
                   <StackPane pickOnBounds="false" GridPane.columnIndex="2" GridPane.rowIndex="1">
@@ -200,10 +202,33 @@
                               <Insets bottom="10.0" left="50.0" right="50.0" />
                            </VBox.margin>
                            <children>
+                              <HBox prefHeight="100.0" prefWidth="612.0">
+                                 <children>
+                                    <JFXToggleButton fx:id="exerciseMode" text="%key.exercise_mode">
+                                       <HBox.margin>
+                                          <Insets left="230.0" />
+                                       </HBox.margin>
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </JFXToggleButton>
+                                    <JFXButton fx:id="helpForExercise" buttonType="RAISED" text="?" textFill="WHITE">
+                                       <font>
+                                          <Font name="Century" size="18.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets left="15.0" top="18.0" />
+                                       </HBox.margin>
+                                    </JFXButton>
+                                 </children>
+                              </HBox>
                               <JFXButton fx:id="findPathButton" buttonType="RAISED" prefHeight="50.0" prefWidth="401.0" styleClass="find-path-button" stylesheets="@CSS/PathfindingPage.css" text="%key.find_path">
                                  <font>
                                     <Font name="Century" size="21.0" />
                                  </font>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
                               </JFXButton>
                            </children>
                         </VBox>

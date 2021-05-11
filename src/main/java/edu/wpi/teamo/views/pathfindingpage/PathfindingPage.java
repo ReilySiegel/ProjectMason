@@ -25,6 +25,11 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class PathfindingPage extends SubPageController implements Initializable {
+    // new fields for Exercise Mode
+    @FXML
+    private JFXButton helpForExercise;
+    @FXML
+    private JFXToggleButton exerciseMode;
 
     @FXML
     private JFXButton helpButton;
@@ -161,6 +166,10 @@ public class PathfindingPage extends SubPageController implements Initializable 
         initFloorSwitcher();
         initAlgoSwitcher();
 
+        // actions added for Exercise Mode
+        helpForExercise.setOnAction(this::handleExerciseHelpButton);
+        exerciseMode.setOnAction(this::handleExerciseMode);
+
         floorComboBox.setOnAction(this::handleFloorSwitch);
         algoSwitcher.setOnAction(this::handleAlgoSwitch);
         helpButton.setOnAction(this::handleHelpButton);
@@ -178,6 +187,29 @@ public class PathfindingPage extends SubPageController implements Initializable 
         update();
         map.hideNodes();
     }
+
+    // methods added for Exercise Mode
+    private void handleExerciseMode(ActionEvent e){
+        if (exerciseMode.isSelected()){
+            algoSwitcher.setValue(Context.dfsCode);
+        }
+        else algoSwitcher.setValue(Context.aStarCode);
+    }
+
+    private void handleExerciseHelpButton(ActionEvent e){
+        JFXDialogLayout content = new JFXDialogLayout();
+        content.setHeading(new Text(App.resourceBundle.getString("key.help")));
+        content.setBody(new Text(App.resourceBundle.getString("key.exercise_help")));
+        JFXDialog errorWindow = new JFXDialog(parentStackPane, content, JFXDialog.DialogTransition.TOP);
+
+        JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
+        closeButton.setOnAction(event -> errorWindow.close());
+        closeButton.setStyle("-jfx-button-type: RAISED");
+
+        content.setActions(closeButton);
+        errorWindow.show();
+    }
+
 
     private void handleStep() {
         update();
@@ -210,6 +242,10 @@ public class PathfindingPage extends SubPageController implements Initializable 
     }
 
     private void handleAlgoSwitch(ActionEvent actionEvent) {
+        // if statement to handle Exercise Mode
+        if (algoSwitcher.getValue() != Context.dfsCode){
+            exerciseMode.setSelected(false);
+        }
         App.context.switchAlgoManagerByCode(algoSwitcher.getValue());
     }
 
@@ -227,15 +263,16 @@ public class PathfindingPage extends SubPageController implements Initializable 
         algoSwitchWindow.setVisible(Session.isLoggedIn() && Session.getAccount().isAdmin());
 
         algoSwitcher.getItems().add(Context.aStarCode);
-        algoSwitcher.getItems().add(Context.dfsCode);
+       // algoSwitcher.getItems().add(Context.dfsCode);
         algoSwitcher.getItems().add(Context.bfsCode);
         algoSwitcher.getItems().add(Context.bestFirstCode);
         algoSwitcher.getItems().add(Context.DijkstraCode);
+        algoSwitcher.getItems().add(Context.GreedyDFSCode);
 
-        if (App.context.getAlgoManager().getClass() == DFSManager.class) {
+        /*if (App.context.getAlgoManager().getClass() == DFSManager.class) {
             algoSwitcher.setValue(Context.dfsCode);
-        }
-        else if (App.context.getAlgoManager().getClass() == BFSManager.class) {
+        }*/
+        if (App.context.getAlgoManager().getClass() == BFSManager.class) {
             algoSwitcher.setValue(Context.bfsCode);
         }
         else if (App.context.getAlgoManager().getClass() == AStarManager.class) {
@@ -246,6 +283,9 @@ public class PathfindingPage extends SubPageController implements Initializable 
         }
         else if (App.context.getAlgoManager().getClass() == DijkstraManager.class) {
             algoSwitcher.setValue(Context.DijkstraCode);
+        }
+        else if (App.context.getAlgoManager().getClass() == GreedyDFSManager.class){
+            algoSwitcher.setValue(Context.GreedyDFSCode);
         }
     }
 

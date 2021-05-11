@@ -113,7 +113,7 @@ public class App extends Application {
     /* instantiate the aStar service, set to a static variable that can be accessed from the handlers */
     if (mapService != null) {
 
-      context = new Context(new BFSManager(mapService), new DFSManager(mapService), new AStarManager(mapService), new BestFirstManager(mapService), new DijkstraManager(mapService));
+      context = new Context(new BFSManager(mapService), new DFSManager(mapService), new AStarManager(mapService), new BestFirstManager(mapService), new DijkstraManager(mapService), new GreedyDFSManager(mapService));
 
       System.out.println("Pathfinder Service Initialized");
 
