@@ -4,7 +4,6 @@ import com.jfoenix.controls.*;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.Pages;
 import edu.wpi.teamo.Session;
-import edu.wpi.teamo.database.account.Account;
 import edu.wpi.teamo.database.map.NodeInfo;
 import edu.wpi.teamo.database.request.BaseRequest;
 import edu.wpi.teamo.database.request.MaintenanceRequest;
@@ -27,7 +26,7 @@ public class SR12_MaintenancePage implements Initializable {
     private StackPane stackPane;
 
     @FXML
-    private JFXComboBox<String> assigneeBox;
+    private JFXTextField assignee;
 
     @FXML
     private JFXTextField notes;
@@ -72,8 +71,6 @@ public class SR12_MaintenancePage implements Initializable {
         });
         ls = new LocationSearcher(nodeSearchField, listOfSearched);
         initLocationSearcher();
-
-        initAsigneeBox();
     }
 
     private void initLocationSearcher() {
@@ -110,19 +107,6 @@ public class SR12_MaintenancePage implements Initializable {
             }
     }
 
-    private void initAsigneeBox() {
-        Stream<Account> employees = Stream.empty();
-        try {
-            employees = Account.getAll().filter(Account::hasEmployeeAccess);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        employees.forEach(employee -> {
-            assigneeBox.getItems().add(employee.getUsername());
-        });
-    }
-
     @FXML
     private void submitBtnOnClick(ActionEvent actionEvent) {
         JFXDialogLayout submissionContent = new JFXDialogLayout();
@@ -143,13 +127,13 @@ public class SR12_MaintenancePage implements Initializable {
 
     }
 
-    private void promptSuccess(String sr_type, String assignee, LocalDateTime time, List<String> selectedNodes) {
+    private void promptSuccess(String sr_type, LocalDateTime time, List<String> selectedNodes) {
         JFXDialogLayout content = new JFXDialogLayout();
         content.setHeading(new Text(resources.getString("key.confirm_success_title")));
         content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
                 App.resourceBundle.getString("key.type_semicolon") + sr_type + "\n" +
                 App.resourceBundle.getString("key.location_generic") + String.join(", ", selectedNodes) + "\n" +
-                App.resourceBundle.getString("key.persons_assigned_semicolon")  + assignee + "\n" +
+                App.resourceBundle.getString("key.persons_assigned_semicolon")  + assignee.getText() + "\n" +
                 App.resourceBundle.getString("key.time") + ": " +  time.toString() + "\n" +
                 App.resourceBundle.getString("key.notes") + ": " + notes.getText()));
         JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
@@ -175,19 +159,15 @@ public class SR12_MaintenancePage implements Initializable {
                     break;
                 }
             }
-            String sub_assignee = assigneeBox.getValue();
+            String sub_assignee = assignee.getText();
             String sub_notes = notes.getText();
             List<String> selectedNodes = ls.getSelectedLocationIDs();
             LocalDateTime localDateTime = LocalDateTime.now();
-
-            if(sub_assignee == null){
-                sub_assignee = "Unassigned";
-            }
             MaintenanceRequest MR = new MaintenanceRequest(str_type, new BaseRequest(
                UUID.randomUUID().toString(), sub_notes, selectedNodes.stream(), sub_assignee, false, localDateTime, Session.getAccount().getUsername()));
             try{
                 MR.update();
-                promptSuccess(str_type,sub_assignee,localDateTime,selectedNodes);
+                promptSuccess(str_type,localDateTime,selectedNodes);
                 resetFields();
             }
             catch(SQLException e){
@@ -210,12 +190,14 @@ public class SR12_MaintenancePage implements Initializable {
     }
 
     private void resetFields() {
+        assignee.textProperty().setValue("");
         notes.textProperty().setValue("");
         nodeSearchField.textProperty().setValue("");
     }
 
     private void validateFields() {
-        validRequest = type != SR12Type.NULL && ls.getSelectedLocations().size() != 0;
+        validRequest = type != SR12Type.NULL &&
+                !assignee.textProperty().getValue().equals("") && ls.getSelectedLocations().size() != 0;
     }
 
     private void promptError() {

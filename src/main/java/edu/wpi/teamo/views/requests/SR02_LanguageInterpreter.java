@@ -4,10 +4,8 @@ import com.jfoenix.controls.*;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.Pages;
 import edu.wpi.teamo.Session;
-import edu.wpi.teamo.database.account.Account;
 import edu.wpi.teamo.database.map.NodeInfo;
 import edu.wpi.teamo.database.request.BaseRequest;
-import edu.wpi.teamo.database.request.ExtendedBaseRequest;
 import edu.wpi.teamo.database.request.InterpreterRequest;
 import edu.wpi.teamo.utils.itemsifters.LocationSearcher;
 import edu.wpi.teamo.views.LocaleType;
@@ -27,7 +25,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class SR02_LanguageInterpreter implements Initializable {
 
@@ -35,7 +32,7 @@ public class SR02_LanguageInterpreter implements Initializable {
     private StackPane stackPane;
 
     @FXML
-    private JFXComboBox<String> assigneeBox;
+    private JFXTextField assignee;
 
     @FXML
     private Text assigneeErrorText;
@@ -101,8 +98,6 @@ public class SR02_LanguageInterpreter implements Initializable {
             assignedBox.setManaged(false);
         }
 
-        initAsigneeBox();
-
         backButton.setOnAction(actionEvent -> SubPageContainer.switchPage(Pages.SERVICEREQUEST));
 
         topVbox.getStyleClass().add("vbox");
@@ -146,24 +141,11 @@ public class SR02_LanguageInterpreter implements Initializable {
         jobBox.getItems().add("Documentation");
     }
 
-    private void initAsigneeBox() {
-        Stream<Account> employees = Stream.empty();
-        try {
-            employees = Account.getAll().filter(Account::hasEmployeeAccess);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        employees.forEach(employee -> {
-            assigneeBox.getItems().add(employee.getUsername());
-        });
-    }
-
 
     @FXML
     private void handleSubmission(ActionEvent e) throws SQLException {
 
-        String assigned = assigneeBox.getValue();
+        String assigned = assignee.getText();
         String selectedLanguage = languageBox.getSelectionModel().getSelectedItem();
         String selectedJob = jobBox.getSelectionModel().getSelectedItem();
         String details = notes.getText();
@@ -188,9 +170,7 @@ public class SR02_LanguageInterpreter implements Initializable {
             validRequest = false;
         }
 
-        if(assigned == null){
-            assigned = "Unassigned";
-        }
+        assigned = "Unassigned";
 
         if(timepicker.getValue() == null){
             validRequest = false;
@@ -217,6 +197,7 @@ public class SR02_LanguageInterpreter implements Initializable {
             ///assigneeErrorText.setText("");
             notes.setText("");
             System.out.println("request successful");
+            assignee.setText("");
 
             JFXDialogLayout content = new JFXDialogLayout();
             content.setHeading(new Text(App.resourceBundle.getString("key.language_request_submitted")));

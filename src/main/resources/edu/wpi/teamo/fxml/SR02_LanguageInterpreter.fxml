@@ -62,7 +62,14 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXComboBox fx:id="assigneeBox" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="33.0" prefWidth="335.0" promptText="%key.assignee_username" />
+                                <AnchorPane>
+                                    <children>
+                                        <JFXTextField fx:id="assignee" layoutX="32.0" layoutY="1.0" minWidth="251.0" prefHeight="25.0" prefWidth="251.0" promptText="%key.name_of_assignee" AnchorPane.rightAnchor="267.0" />
+                                    </children>
+                                    <HBox.margin>
+                                        <Insets />
+                                    </HBox.margin>
+                                </AnchorPane>
                             </children>
                             <VBox.margin>
                                 <Insets />
@@ -87,7 +94,7 @@
                         </HBox>
                   <HBox>
                      <children>
-                        <Label maxWidth="-Infinity" minWidth="200.0" prefWidth="200.0" text="%key.time" textAlignment="RIGHT">
+                        <Label prefWidth="200.0" text="%key.time" textAlignment="RIGHT">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -105,11 +112,14 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <JFXDatePicker fx:id="datepicker" prefHeight="25.0" prefWidth="173.0">
-                           <padding>
-                              <Insets left="10.0" />
-                           </padding>
-                        </JFXDatePicker>
+                        <AnchorPane>
+                           <children>
+                              <JFXDatePicker fx:id="datepicker" prefHeight="25.0" prefWidth="173.0">
+                                 <padding>
+                                    <Insets left="10.0" />
+                                 </padding>
+                              </JFXDatePicker>
+                           </children></AnchorPane>
                                   <Text fx:id="DateTimeErrorText" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="89.0" />
                      </children>
                   </HBox>
