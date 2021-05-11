@@ -5,6 +5,7 @@ import edu.wpi.teamo.App;
 
 import edu.wpi.teamo.Pages;
 import edu.wpi.teamo.Session;
+import edu.wpi.teamo.database.account.Account;
 import edu.wpi.teamo.database.map.NodeInfo;
 
 import edu.wpi.teamo.database.request.BaseRequest;
@@ -26,6 +27,7 @@ import java.sql.SQLException;
 import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class SR07_Medicine implements Initializable {
 
@@ -39,7 +41,7 @@ public class SR07_Medicine implements Initializable {
     private JFXTextField medAmount;
 
     @FXML
-    private JFXTextField assignee;
+    private JFXComboBox<String> assigneeBox;
 
     @FXML
     private JFXTextField notes;
@@ -99,6 +101,8 @@ public class SR07_Medicine implements Initializable {
 
         validRequest = true;
 
+        initAsigneeBox();
+
         if (Session.getAccount() == null || !Session.getAccount().hasEmployeeAccess()) {
             assignedBox.setVisible(false);
             assignedBox.setManaged(false);
@@ -135,11 +139,24 @@ public class SR07_Medicine implements Initializable {
         assigneeErrorText.setText("");
     }
 
+    private void initAsigneeBox() {
+        Stream<Account> employees = Stream.empty();
+        try {
+            employees = Account.getAll().filter(Account::hasEmployeeAccess);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        employees.forEach(employee -> {
+            assigneeBox.getItems().add(employee.getUsername());
+        });
+    }
+
     @FXML
     private void handleSubmission(ActionEvent e) throws SQLException {
         String medicine = medName.getText();
         String amount = medAmount.getText();
-        String assignName = assignee.getText();
+        String assignName = assigneeBox.getValue();
         String medNotes = notes.getText();
 
 
@@ -172,7 +189,7 @@ public class SR07_Medicine implements Initializable {
             locationErrorText.setText(App.resourceBundle.getString("key.no_room_specified"));
             validRequest = false;
         }
-        if (assignName.equals("")) {
+        if (assignName == null) {
             assignName = "Unassigned";
         }
 
@@ -194,7 +211,6 @@ public class SR07_Medicine implements Initializable {
             System.out.println("request successful");
             medName.setText("");
             medAmount.setText("");
-            assignee.setText("");
             notes.setText("");
 
             JFXDialogLayout content = new JFXDialogLayout();

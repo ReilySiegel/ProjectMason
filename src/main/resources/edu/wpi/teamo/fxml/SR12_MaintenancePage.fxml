@@ -67,15 +67,16 @@
                                     <Insets right="20.0" />
                                  </HBox.margin>
                                       </Text>
-                                      <AnchorPane prefHeight="45.0" prefWidth="435.0">
-                                          <children>
-                                              <JFXTextField fx:id="assignee" focusColor="BLACK" layoutY="1.0" minWidth="300.0" prefHeight="27.0" prefWidth="358.0" promptText="%key.name_of_assignee" unFocusColor="TRANSPARENT" AnchorPane.rightAnchor="77.0" />
-                                              <Text fx:id="assignedErrorText" fill="RED" layoutX="-1.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-                                          </children>
-                                          <HBox.margin>
-                                              <Insets />
-                                          </HBox.margin>
-                                      </AnchorPane>
+                              <VBox>
+                                 <children>
+                                    <JFXComboBox fx:id="assigneeBox" maxWidth="-Infinity" prefWidth="357.0" promptText="%key.assignee_username" />
+                                              <Text fx:id="assignedErrorText" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0">
+                                       <VBox.margin>
+                                          <Insets top="5.0" />
+                                       </VBox.margin>
+                                    </Text>
+                                 </children>
+                              </VBox>
                                   </children>
                                   <VBox.margin>
                                       <Insets bottom="10.0" />

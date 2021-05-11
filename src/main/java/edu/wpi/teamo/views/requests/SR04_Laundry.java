@@ -4,6 +4,7 @@ import com.jfoenix.controls.*;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.Pages;
 import edu.wpi.teamo.Session;
+import edu.wpi.teamo.database.account.Account;
 import edu.wpi.teamo.database.map.NodeInfo;
 import edu.wpi.teamo.database.request.BaseRequest;
 import edu.wpi.teamo.database.request.LaundryRequest;
@@ -28,6 +29,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class SR04_Laundry implements Initializable {
 
@@ -47,7 +49,7 @@ public class SR04_Laundry implements Initializable {
     private JFXCheckBox sheets;
 
     @FXML
-    private JFXTextField assignee;
+    private JFXComboBox<String> assigneeBox;
 
     @FXML
     private JFXTextField notes;
@@ -91,6 +93,8 @@ public class SR04_Laundry implements Initializable {
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
 
+        initAsigneeBox();
+
         if (Session.getAccount() == null || !Session.getAccount().hasEmployeeAccess()) {
             assignedBox.setVisible(false);
             assignedBox.setManaged(false);
@@ -113,6 +117,19 @@ public class SR04_Laundry implements Initializable {
         }
     }
 
+    private void initAsigneeBox() {
+        Stream<Account> employees = Stream.empty();
+        try {
+            employees = Account.getAll().filter(Account::hasEmployeeAccess);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        employees.forEach(employee -> {
+            assigneeBox.getItems().add(employee.getUsername());
+        });
+    }
+
 
     @FXML
     private void clearAssigneeError(KeyEvent e) {
@@ -123,7 +140,7 @@ public class SR04_Laundry implements Initializable {
     private void handleSubmission(ActionEvent e) throws SQLException {
         boolean gownCheck = gown.isSelected();
         boolean sheetCheck = sheets.isSelected();
-        String assignName = assignee.getText();
+        String assignName = assigneeBox.getValue();
         String note = notes.getText();
         String laundryChecked = "";
 
@@ -159,7 +176,7 @@ public class SR04_Laundry implements Initializable {
             roomErrorText.setText(App.resourceBundle.getString("key.no_room_specified"));
             validRequest = false;
         }
-        if (assignName.equals("")) {
+        if (assignName == null) {
             assignName = "Unassigned";
         }
 
@@ -180,7 +197,6 @@ public class SR04_Laundry implements Initializable {
             dateErrorText.setText("");
             System.out.println("request successful");
 
-            assignee.setText("");
             this.notes.setText("");
 
             JFXDialogLayout content = new JFXDialogLayout();
