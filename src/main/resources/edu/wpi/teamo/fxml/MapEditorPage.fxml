@@ -40,7 +40,7 @@
                         <Insets left="30.0" right="30.0" />
                      </VBox.margin>
                      <children>
-                        <Text fx:id="nodeEditorHeadingText" strokeType="OUTSIDE" strokeWidth="0.0" text="key.editing_node" wrappingWidth="263.9999752640724">
+                        <Text fx:id="nodeEditorHeadingText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="key.editing_node" wrappingWidth="263.9999752640724">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -70,7 +70,7 @@
                   </VBox>
                   <VBox fx:id="edgeEditorWindow" prefHeight="200.0" prefWidth="100.0" spacing="10.0" styleClass="murkier-pane">
                      <children>
-                        <Text fx:id="edgeEditorHeadingText" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.editing_edge" wrappingWidth="263.9999752640724">
+                        <Text fx:id="edgeEditorHeadingText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.editing_edge" wrappingWidth="263.9999752640724">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -205,7 +205,7 @@
                                     <Insets left="10.0" right="10.0" />
                                  </HBox.margin>
                               </JFXButton>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.floor" textAlignment="RIGHT" wrappingWidth="52.00001209974289">
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.floor" textAlignment="RIGHT" wrappingWidth="52.00001209974289">
                                  <font>
                                     <Font name="System Bold" size="13.0" />
                                  </font>

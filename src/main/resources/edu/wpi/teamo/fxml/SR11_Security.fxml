@@ -45,7 +45,7 @@
                         </JFXCheckBox>
                               <HBox prefHeight="50.0" prefWidth="907.0">
                                   <children>
-                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.notes" wrappingWidth="150.0">
+                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.notes" wrappingWidth="150.0">
                                           <font>
                                               <Font name="Arial" size="18.0" />
                                           </font>
@@ -65,7 +65,7 @@
                               </HBox>
                               <HBox>
                                   <children>
-                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.locations" wrappingWidth="150.0">
+                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.locations" wrappingWidth="150.0">
                                           <font>
                                               <Font name="Arial" size="18.0" />
                                           </font>
@@ -139,7 +139,7 @@
                   <top>
                       <VBox fx:id="titleBox" alignment="CENTER" BorderPane.alignment="CENTER">
                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.security">
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.security">
                                   <font>
                                       <Font name="Arial" size="36.0" />
                                   </font>
