@@ -34,7 +34,7 @@
                <children>
                   <HBox alignment="TOP_CENTER" prefHeight="39.0" prefWidth="781.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Medicine" textAlignment="CENTER" wrappingWidth="254.13671875">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="Medicine" textAlignment="CENTER" wrappingWidth="254.13671875">
                            <font>
                               <Font size="29.0" />
                            </font>
@@ -46,7 +46,7 @@
                   </HBox>
                   <HBox alignment="TOP_CENTER">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.medicine" textAlignment="RIGHT" wrappingWidth="181.0">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.medicine" textAlignment="RIGHT" wrappingWidth="181.0">
                            <font>
                               <Font name="Arial" size="18.0" />
                            </font>
@@ -71,7 +71,7 @@
                   </HBox>
                   <HBox fx:id="assignedBox" alignment="TOP_CENTER">
                      <children>
-                        <Text fx:id="assignedLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.assignee_name" textAlignment="RIGHT" wrappingWidth="170.0">
+                        <Text fx:id="assignedLabel" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.assignee_name" textAlignment="RIGHT" wrappingWidth="170.0">
                            <font>
                               <Font name="Arial" size="18.0" />
                            </font>
@@ -96,7 +96,7 @@
                   </HBox>
                   <HBox alignment="TOP_CENTER">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.date" textAlignment="RIGHT" wrappingWidth="251.0">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.date" textAlignment="RIGHT" wrappingWidth="251.0">
                            <font>
                               <Font name="Arial" size="18.0" />
                            </font>
@@ -121,7 +121,7 @@
                   </HBox>
                   <HBox alignment="TOP_CENTER">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.time" textAlignment="RIGHT" wrappingWidth="268.0">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.time" textAlignment="RIGHT" wrappingWidth="268.0">
                            <font>
                               <Font name="Arial" size="18.0" />
                            </font>
@@ -146,7 +146,7 @@
                   </HBox>
                   <HBox alignment="TOP_CENTER">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.amount" textAlignment="RIGHT" wrappingWidth="176.0">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.amount" textAlignment="RIGHT" wrappingWidth="176.0">
                            <font>
                               <Font name="Arial" size="18.0" />
                            </font>
@@ -171,7 +171,7 @@
                   </HBox>
                   <HBox alignment="TOP_CENTER">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.notes" textAlignment="RIGHT" wrappingWidth="182.0">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.notes" textAlignment="RIGHT" wrappingWidth="182.0">
                            <font>
                               <Font name="Arial" size="18.0" />
                            </font>
@@ -195,7 +195,7 @@
                   </HBox>
                   <HBox alignment="TOP_CENTER" prefHeight="35.0" prefWidth="766.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.locations" textAlignment="RIGHT" wrappingWidth="155.0">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.locations" textAlignment="RIGHT" wrappingWidth="155.0">
                            <font>
                               <Font name="Arial" size="18.0" />
                            </font>

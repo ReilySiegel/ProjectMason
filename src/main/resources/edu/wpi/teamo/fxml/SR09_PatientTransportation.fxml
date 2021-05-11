@@ -28,7 +28,7 @@
                             <children>
                                 <AnchorPane prefHeight="85.0" prefWidth="702.0">
                                     <children>
-                                      <Text layoutX="116.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.assignee_name">
+                                      <Text layoutX="116.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.assignee_name">
                                           <font>
                                               <Font name="Arial" size="18.0" />
                                           </font>
@@ -51,7 +51,7 @@
 
                                 <AnchorPane prefHeight="25.0" prefWidth="577.0">
                      <children>
-                        <Text layoutX="115.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.destination_pat">
+                        <Text layoutX="115.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.destination_pat">
                            <font>
                               <Font name="Arial" size="18.0" />
                            </font>
@@ -61,7 +61,7 @@
                           </AnchorPane>
                   <AnchorPane prefHeight="26.0" prefWidth="577.0">
                      <children>
-                        <Text layoutX="115.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.transportation_mode">
+                        <Text layoutX="115.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.transportation_mode">
                            <font>
                               <Font name="Arial" size="18.0" />
                            </font>
@@ -71,13 +71,13 @@
                   </AnchorPane>
                   <AnchorPane prefHeight="26.0" prefWidth="577.0">
                      <children>
-                        <Text layoutX="115.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.transportation_date">
+                        <Text layoutX="115.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.transportation_date">
                            <font>
                               <Font name="Arial" size="18.0" />
                            </font>
                         </Text>
                         <JFXDatePicker layoutX="298.0" layoutY="18.0" />
-                        <Text layoutX="513.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.transportation_time">
+                        <Text layoutX="513.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.transportation_time">
                            <font>
                               <Font name="Arial" size="18.0" />
                            </font>
@@ -90,7 +90,7 @@
                                 <AnchorPane prefHeight="46.0" prefWidth="700.0">
                                     <children>
                                         <JFXTextField fx:id="notes" focusColor="BLACK" layoutX="297.0" layoutY="10.0" prefHeight="25.0" prefWidth="277.0" promptText="%key.notes" unFocusColor="BLACK" />
-                                      <Text layoutX="118.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.notes">
+                                      <Text layoutX="118.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.notes">
                                           <font>
                                               <Font name="Arial" size="18.0" />
                                           </font>
@@ -105,7 +105,7 @@
                         </HBox>
                   <HBox VBox.vgrow="ALWAYS">
                      <children>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.room" wrappingWidth="81.0263671875">
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.room" wrappingWidth="81.0263671875">
                                     <font>
                                         <Font name="Arial" size="18.0" />
                                     </font>
@@ -183,7 +183,7 @@
             <top>
                 <VBox alignment="CENTER" prefHeight="74.0" prefWidth="743.0" BorderPane.alignment="CENTER">
                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.patient_transportation">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.patient_transportation">
                             <font>
                                 <Font name="Arial" size="36.0" />
                             </font>

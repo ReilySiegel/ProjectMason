@@ -2,6 +2,12 @@
     src: url('../../fonts/Roboto-Regular.ttf');
 }
 
+.root {
+    -fx-dark-text-color: white !important;
+    -fx-mid-text-color: white !important;
+    -fx-light-text-color: white !important;
+}
+
 .pane {
     -fx-background-color: rgba(62, 62, 62, 0.5) !important;
     -fx-border-color: rgba(95, 95, 95, 0.9) !important;
@@ -201,6 +207,7 @@
 
 .text {
     -fx-text-fill: white !important;
+    -fx-text-background-color: white !important;
 }
 
 .annoyingText {
