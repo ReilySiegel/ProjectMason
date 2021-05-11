@@ -141,7 +141,7 @@
 
 .date-picker-popup .left-button,
 .date-picker-popup .right-button  {
-    --jfx-default-color: #4793e9; !important
+    --jfx-default-color: #4793e9 !important;
 }
 
 .date-picker-popup .left-button .jfx-svg-glyph,
