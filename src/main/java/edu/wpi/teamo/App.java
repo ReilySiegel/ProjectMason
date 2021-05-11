@@ -160,7 +160,6 @@ public class App extends Application {
       App.getPrimaryStage().getScene().setRoot(root);
       App.getPrimaryStage().getScene().getStylesheets().clear();
       App.getPrimaryStage().getScene().getStylesheets().add(getCSSPath(Session.getAccount().getTheme()));
-      System.out.println(getCSSPath(Session.getAccount().getTheme()));
     } catch (IOException ex) {
       ex.printStackTrace();
     }
