@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="parentNode" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@CSS/MainPage.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.pathfindingpage.PathfindingPage">
+<AnchorPane fx:id="parentNode" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.pathfindingpage.PathfindingPage">
    <children>
       <StackPane fx:id="parentStackPane" alignment="TOP_LEFT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -41,7 +41,7 @@
                         <Insets bottom="10.0" left="30.0" right="30.0" top="10.0" />
                      </GridPane.margin>
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.algo_switch" textAlignment="RIGHT" wrappingWidth="156.13671875">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.algo_switch" textAlignment="RIGHT" wrappingWidth="156.13671875">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -52,6 +52,33 @@
                         <JFXComboBox fx:id="algoSwitcher" focusColor="#405aa800" prefHeight="39.0" prefWidth="130.0" styleClass="pane" unFocusColor="#4d4d4d00">
                            <HBox.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </HBox.margin></JFXComboBox>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="55.0" prefWidth="231.0" styleClass="pane" GridPane.halignment="LEFT">
+                     <GridPane.margin>
+                        <Insets bottom="10.0" left="30.0" right="160.0" top="10.0" />
+                     </GridPane.margin>
+                     <children>
+                        <JFXButton fx:id="helpButton" buttonType="RAISED" text="?" textFill="WHITE">
+                           <font>
+                              <Font name="Century" size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </JFXButton>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.floor" textAlignment="RIGHT" wrappingWidth="103.99999612569809">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Text>
+                        <JFXComboBox fx:id="floorComboBox" focusColor="#405aa800" prefWidth="75.0" styleClass="pane" unFocusColor="#4d4d4d00">
+                           <HBox.margin>
+                              <Insets right="10.0" />
                            </HBox.margin></JFXComboBox>
                      </children>
                   </HBox>
@@ -113,7 +140,7 @@
                                  <children>
                                     <HBox alignment="CENTER_LEFT" prefHeight="49.0" prefWidth="410.0" spacing="10.0">
                                        <children>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.start_location" wrappingWidth="120.0" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.start_location" wrappingWidth="120.0" />
                                           <JFXTextField fx:id="startSearchBar" prefHeight="27.0" prefWidth="162.0" promptText="%key.start_location" HBox.hgrow="ALWAYS" />
                                        </children>
                                        <padding>
@@ -126,7 +153,7 @@
                                              <children>
                                                 <HBox alignment="CENTER_LEFT" prefHeight="34.0" prefWidth="297.0" spacing="10.0">
                                                    <children>
-                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.filter_by_type" textAlignment="RIGHT" wrappingWidth="106.13671875">
+                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.filter_by_type" textAlignment="RIGHT" wrappingWidth="106.13671875">
                                                          <font>
                                                             <Font size="9.0" />
                                                          </font>
@@ -151,7 +178,7 @@
                                     </HBox>
                                     <HBox alignment="CENTER_LEFT" prefHeight="53.0" prefWidth="410.0" spacing="10.0">
                                        <children>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.end_location" wrappingWidth="120.0" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.end_location" wrappingWidth="120.0" />
                                           <JFXTextField fx:id="endSearchBar" prefHeight="27.0" prefWidth="140.0" promptText="%key.end_location" HBox.hgrow="ALWAYS" />
                                        </children>
                                        <padding>
@@ -170,7 +197,7 @@
                                                       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                                    </padding>
                                                    <children>
-                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.filter_by_type" textAlignment="RIGHT" wrappingWidth="106.13671875">
+                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.filter_by_type" textAlignment="RIGHT" wrappingWidth="106.13671875">
                                                          <font>
                                                             <Font size="9.0" />
                                                          </font>

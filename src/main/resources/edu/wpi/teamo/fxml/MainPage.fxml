@@ -136,7 +136,7 @@
                            <children>
                               <HBox alignment="CENTER" prefHeight="45.0" prefWidth="183.0" spacing="20.0" styleClass="pane" stylesheets="@CSS/MainPage.css">
                                  <children>
-                                    <Text fx:id="usernameLabel" strokeType="OUTSIDE" strokeWidth="0.0" text="Guest" textAlignment="CENTER" wrappingWidth="83.13671875">
+                                    <Text fx:id="usernameLabel" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="Guest" textAlignment="CENTER" wrappingWidth="83.13671875">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
