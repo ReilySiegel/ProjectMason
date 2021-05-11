@@ -151,6 +151,9 @@ public class RequestDisplay {
         if (!openRequestViews.contains(m.getID())) {
             retractSRBox(expand, editBox, extendedInfoBox);
         }
+        else {
+            expandSRBox(expand, editBox, extendedInfoBox);
+        }
 
         sRBox.getStyleClass().add("requestBox");
         return sRBox;
