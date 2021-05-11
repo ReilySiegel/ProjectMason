@@ -151,10 +151,6 @@ public class Settings implements Initializable {
             App.switchLocale("ja", "JP", LocaleType.ja_JP);
         }
 
-        else if (langBox.getValue().equals(App.resourceBundle.getString("key.japanese"))) {
-            App.switchLocale("ja", "JP", LocaleType.ja_JP, false);
-        }
-
         App.switchPage(Pages.MAIN);
 
     }
