@@ -1,6 +1,8 @@
 package edu.wpi.teamo.views;
 
 import edu.wpi.teamo.App;
+import edu.wpi.teamo.Session;
+import edu.wpi.teamo.Theme;
 import edu.wpi.teamo.database.map.EdgeInfo;
 import edu.wpi.teamo.database.map.NodeInfo;
 import javafx.animation.PathTransition;
@@ -9,6 +11,8 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.input.MouseEvent;
 import edu.wpi.teamo.algos.AlgoNode;
+
+import java.util.HashMap;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -43,12 +47,8 @@ public class Map {
     static public final double maxScale = 10;
     static public final double minScale = 0.5;
 
-    static Image groundFloorImage = null;
-    static Image secondFloorImage = null;
-    static Image firstFloorImage = null;
-    static Image thirdFloorImage = null;
-    static Image L1FloorImage = null;
-    static Image L2FloorImage = null;
+    static HashMap<String, Image> lightMap = new HashMap<>();
+    static HashMap<String, Image> darkMap  = new HashMap<>();
 
     public static final String floorL2Key = "L2";
     public static final String floorL1Key = "L1";
@@ -474,35 +474,15 @@ public class Map {
     public void switchFloorImage(String floor){
         if (imagesLoaded) {
             Image imageToSet = null;
-            switch (floor) {
-                case floorL1Key:
-                    imageToSet = L1FloorImage;
-                    break;
-                case floorL2Key:
-                    imageToSet = L2FloorImage;
-                    break;
-                case floorGKey:
-                    imageToSet = groundFloorImage;
-                    break;
-                case floor1Key:
-                    imageToSet = firstFloorImage;
-                    break;
-                case floor2Key:
-                    imageToSet = secondFloorImage;
-                    break;
-                case floor3Key:
-                    imageToSet = thirdFloorImage;
-                    break;
+
+            if (Session.isLoggedIn() && Session.getAccount().getTheme() == Theme.DARK) {
+                imageToSet = darkMap.get(floor);
+            }
+            else {
+                imageToSet = lightMap.get(floor);
             }
 
             if (imageToSet != null) {
-
-//                ImageView imageView = new ImageView(imageToSet);
-//                imageView.setPreserveRatio(false);
-//                imageView.setFitWidth(nodePane.getWidth());
-//                imageView.setFitHeight(nodePane.getHeight());
-//                imageToSet = imageView.snapshot(null, null);
-
                 BackgroundSize brs = new BackgroundSize(100, 100, true, true, true, false);
                 BackgroundImage bri = new BackgroundImage(imageToSet, null, null, null, brs);
                 nodePane.setBackground(new Background(bri));
@@ -510,7 +490,6 @@ public class Map {
             else {
                 throw new Error("imageToSet not set!");
             }
-
 
         }
         else {
@@ -521,17 +500,20 @@ public class Map {
     static public void loadImages() {
         try {
 
-            L2FloorImage = new Image("/edu/wpi/teamo/images/00_thelowerlevel2.png");
 
-            L1FloorImage = new Image("/edu/wpi/teamo/images/00_thelowerlevel1.png");
+            lightMap.put(floorL2Key, new Image("/edu/wpi/teamo/images/map/light/00_thelowerlevel2.png"));
+            lightMap.put(floorL1Key, new Image("/edu/wpi/teamo/images/map/light/00_thelowerlevel1.png"));
+            lightMap.put(floorGKey, new Image("/edu/wpi/teamo/images/map/light/00_thegroundfloor.png"));
+            lightMap.put(floor1Key, new Image("/edu/wpi/teamo/images/map/light/01_thefirstfloor.png"));
+            lightMap.put(floor2Key, new Image("/edu/wpi/teamo/images/map/light/02_thesecondfloor.png"));
+            lightMap.put(floor3Key, new Image("/edu/wpi/teamo/images/map/light/03_thethirdfloor.png"));
 
-            groundFloorImage = new Image("/edu/wpi/teamo/images/00_thegroundfloor.png");
-
-            firstFloorImage = new Image("/edu/wpi/teamo/images/01_thefirstfloor.png");
-
-            secondFloorImage = new Image("/edu/wpi/teamo/images/02_thesecondfloor.png");
-
-            thirdFloorImage = new Image("/edu/wpi/teamo/images/03_thethirdfloor.png");
+            darkMap.put(floorL2Key, new Image("/edu/wpi/teamo/images/map/dark/00_thelowerlevel2.png"));
+            darkMap.put(floorL1Key, new Image("/edu/wpi/teamo/images/map/dark/00_thelowerlevel1.png"));
+            darkMap.put(floorGKey,  new Image("/edu/wpi/teamo/images/map/dark/00_thegroundfloor.png"));
+            darkMap.put(floor1Key,  new Image("/edu/wpi/teamo/images/map/dark/01_thefirstfloor.png"));
+            darkMap.put(floor2Key,  new Image("/edu/wpi/teamo/images/map/dark/02_thesecondfloor.png"));
+            darkMap.put(floor3Key,  new Image("/edu/wpi/teamo/images/map/dark/03_thethirdfloor.png"));
 
             imagesLoaded = true;
 
