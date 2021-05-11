@@ -261,59 +261,9 @@ public class MapEditorPage extends SubPageController implements Initializable{
     }
 
     private void handleTroubleshootButton(ActionEvent actionEvent) {
-        List<String> newInvalidNodeIDs = new LinkedList<>();
-        List<String> oldInvalidNodeIDs = queryAllNodes().filter(node -> !node.isValid())
-                                                            .map(NodeInfo::getNodeID)
-                                                            .collect(Collectors.toList());
-
-        List<AlgoNode> isolatedNodes     = findIsolatedNodes();
-        List<NodeInfo> invalidFloorNodes = findInvalidFloorNodes().collect(Collectors.toList());
-        List<NodeInfo> outOfBoundsNodes  = findOutOfBoundsNodes().collect(Collectors.toList());
-
-        Consumer<String> addIfNotThere = (string) -> {
-            if (!newInvalidNodeIDs.contains(string)) newInvalidNodeIDs.add(string);
-        };
-        isolatedNodes.forEach    (node -> addIfNotThere.accept(node.getID()));
-        invalidFloorNodes.forEach(node -> addIfNotThere.accept(node.getNodeID()));
-        outOfBoundsNodes.forEach (node -> addIfNotThere.accept(node.getNodeID()));
-
-        newInvalidNodeIDs.forEach(id -> setNodeValidity(id, false));
-
-        for (String id : oldInvalidNodeIDs) {
-            if (!newInvalidNodeIDs.contains(id)) {
-                setNodeValidity(id, true);
-            }
-        }
-
+        MapTroubleshooter.troubleshootNodes(queryAllNodes());
+        MapTroubleshooter.troubleshootEdges(queryAllEdges(), queryAllNodes());
         update();
-    }
-
-    private Stream<NodeInfo> findOutOfBoundsNodes() {
-        Stream<NodeInfo> nodes = queryAllNodes();
-        return nodes.filter(node -> !edu.wpi.teamo.views.Map.isWithinMapBounds(node.getXPos(), node.getYPos()));
-    }
-
-    private Stream<NodeInfo> findInvalidFloorNodes() {
-        Stream<NodeInfo> nodes = queryAllNodes();
-        List<String> validFloors = Arrays.asList(Map.floorKeys);
-        return nodes.filter(node -> !validFloors.contains(node.getFloor()));
-    }
-
-    private List<AlgoNode> findIsolatedNodes() {
-        try {
-            return (new DFSManager(App.mapService)).getIsolatedNodes();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return new LinkedList<>();
-        }
-    }
-
-    private void setNodeValidity(String id, boolean valid) {
-        try {
-            App.mapService.setNodeValid(id, valid);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
     }
 
     private void handleTableTypeSwitch(Event event) {
