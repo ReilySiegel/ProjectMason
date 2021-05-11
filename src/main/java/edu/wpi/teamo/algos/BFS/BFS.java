@@ -1,5 +1,6 @@
-package edu.wpi.teamo.algos;
+package edu.wpi.teamo.algos.BFS;
 
+import edu.wpi.teamo.algos.AlgoNode;
 import edu.wpi.teamo.database.map.Edge;
 
 import java.util.LinkedList;

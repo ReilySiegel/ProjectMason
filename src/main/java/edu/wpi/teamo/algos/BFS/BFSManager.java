@@ -1,19 +1,17 @@
-package edu.wpi.teamo.algos;
+package edu.wpi.teamo.algos.BFS;
 
-import edu.wpi.teamo.database.map.Edge;
-import edu.wpi.teamo.database.map.EdgeInfo;
+import edu.wpi.teamo.algos.AlgoManagerI;
+import edu.wpi.teamo.algos.AlgoNode;
+import edu.wpi.teamo.algos.BFS.BFS;
 import edu.wpi.teamo.database.map.IMapService;
-import edu.wpi.teamo.database.map.NodeInfo;
 
 import java.sql.SQLException;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Extends to AlgoManagerI(superclass) to avoid duplicate codes
  */
-public class BFSManager extends AlgoManagerI{
+public class BFSManager extends AlgoManagerI {
     public BFSManager(IMapService service){
         super(service);
     }

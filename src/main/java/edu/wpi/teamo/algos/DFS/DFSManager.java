@@ -1,19 +1,17 @@
-package edu.wpi.teamo.algos;
+package edu.wpi.teamo.algos.DFS;
 
-import edu.wpi.teamo.database.map.Edge;
-import edu.wpi.teamo.database.map.EdgeInfo;
+import edu.wpi.teamo.algos.AlgoManagerI;
+import edu.wpi.teamo.algos.AlgoNode;
+import edu.wpi.teamo.algos.DFS.DFS;
 import edu.wpi.teamo.database.map.IMapService;
-import edu.wpi.teamo.database.map.NodeInfo;
 
 import java.sql.SQLException;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Extends to AlgoManagerI(superclass) to avoid duplicate codes
  */
-public class DFSManager extends AlgoManagerI{
+public class DFSManager extends AlgoManagerI {
     public DFSManager(IMapService service){
         super(service);
     }

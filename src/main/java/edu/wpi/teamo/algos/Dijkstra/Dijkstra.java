@@ -1,10 +1,11 @@
-package edu.wpi.teamo.algos;
+package edu.wpi.teamo.algos.Dijkstra;
 
+import edu.wpi.teamo.algos.AlgoNode;
 import edu.wpi.teamo.database.map.Edge;
 
 import java.util.*;
 
-public class AStar {
+public class Dijkstra{
 
     private String startID;
     private String endID;
@@ -12,22 +13,15 @@ public class AStar {
 
 
 
-    public AStar(LinkedList<AlgoNode> nodes, String startNodeID, String endNodeID) {
+    public Dijkstra(LinkedList<AlgoNode> nodes, String startNodeID, String endNodeID) {
         this.startID = startNodeID;
         this.endID = endNodeID;
         this.allTheNodes = nodes;
-
-    }
-
-
-
-    public void setAllTheNodes(LinkedList<AlgoNode> all){
-        allTheNodes = all;
     }
 
 
     /**
-     * The ultimate A* pathfinding function that prints out the list in the order of Start --- End
+     * The Dijkstra's pathfinding function that prints out the list in the order of Start --- End
      * @param startingNode (starting position)
      * @param endNode (destination)
      * @return a LinkedList of the path between the starting and ending nodes
@@ -43,11 +37,10 @@ public class AStar {
 
 
     /**
-     * The core of A*, setting all the gCost, hCost and direction of the path
+     * The core of Dijkstra's, setting all the gCost, hCost and direction of the path
      */
     private void findPathPreGame() {
         AlgoNode starting = stringToNode(startID);
-        AlgoNode ending = stringToNode(endID);
 
         // list of nodes that are open to be evaluated
         LinkedList<AlgoNode> openNodes = new LinkedList<>();
@@ -57,8 +50,6 @@ public class AStar {
 
         // adding the starting node to the openNodes list
         openNodes.add(starting);
-
-        //HashMap<String, AlgoNode> Nodes = allNodes;
 
         // looping
         while(!openNodes.isEmpty()){
@@ -80,16 +71,14 @@ public class AStar {
 
             for (AlgoNode neighbor: adjacenciesToNodes(currentNode) ){ //adjacencies has to list of  nodes
 
-                // we need to discuss about the conditions that make a node "walkable" - all our nodes are walkable
                 //skip to the next neighbor
                 if (visitedNodes.contains(neighbor))
                     continue;
 
-                int newMovementCostToNeighbor = currentNode.get_gCost() + getDistance(currentNode,neighbor  );
+                int newMovementCostToNeighbor = currentNode.get_gCost();
 
                 if (newMovementCostToNeighbor < neighbor.get_gCost() || !openNodes.contains(neighbor)){
                     neighbor.set_gCost(newMovementCostToNeighbor);
-                    neighbor.set_hCost(getDistance(neighbor,ending));
                     neighbor.setParent(currentNode);
 
                     if (!openNodes.contains(neighbor)) openNodes.add(neighbor);
@@ -176,22 +165,9 @@ public class AStar {
         return path;
     }
 
-    /**
-     * Get distance between two nodes using distance formula
-     * @param nodeA (starting AlgoNode)
-     * @param nodeB (target AlgoNode)
-     * @return The distance between the two nodes
-     */
-    private int getDistance(AlgoNode nodeA, AlgoNode nodeB){
-        int nodeAXCoordinate = nodeA.getX();
-        int nodeAYCoordinate = nodeA.getY();
-        int nodeBXCoordinate = nodeB.getX();
-        int nodeBYCoordinate = nodeB.getY();
 
-        int xDifference = nodeBXCoordinate - nodeAXCoordinate;
-        int yDifference = nodeBYCoordinate - nodeAYCoordinate;
 
-        return (int)Math.sqrt(xDifference*xDifference + yDifference*yDifference);
+    public void setAllTheNodes(LinkedList<AlgoNode> all){
+        allTheNodes = all;
     }
-
 }

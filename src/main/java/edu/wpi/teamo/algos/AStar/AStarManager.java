@@ -1,9 +1,11 @@
-package edu.wpi.teamo.algos;
+package edu.wpi.teamo.algos.AStar;
 
+import edu.wpi.teamo.algos.AStar.AStar;
+import edu.wpi.teamo.algos.AlgoManagerI;
+import edu.wpi.teamo.algos.AlgoNode;
 import edu.wpi.teamo.database.map.*;
 import java.sql.SQLException;
 import java.util.*;
-import java.util.stream.*;
 
 /**
  * Extends to AlgoManagerI(superclass) to avoid duplicate codes

@@ -1,4 +1,6 @@
-package edu.wpi.teamo.algos;
+package edu.wpi.teamo.algos.DFS;
+
+import edu.wpi.teamo.algos.AlgoNode;
 
 import java.util.Hashtable;
 import java.util.LinkedList;
