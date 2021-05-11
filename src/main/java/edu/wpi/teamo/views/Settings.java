@@ -82,12 +82,14 @@ public class Settings implements Initializable {
         themeSelect.getItems().add("Theme 2");
         themeSelect.getItems().add("Dark");
         themeSelect.getItems().add("Holiday");
+        themeSelect.getItems().add("Wong");
         themeSelect.getSelectionModel().selectFirst();
     }
 
     private void fillLangBox() {
         langBox.getItems().add(App.resourceBundle.getString("key.english"));
         langBox.getItems().add(App.resourceBundle.getString("key.spanish"));
+        langBox.getItems().add(App.resourceBundle.getString("key.japanese"));
         langBox.getSelectionModel().selectFirst();
     }
 
@@ -116,27 +118,37 @@ public class Settings implements Initializable {
 
     @FXML
     private void handleConfirm(ActionEvent e) {
-
-        switch (themeSelect.getValue()) {
-            case "Theme 1":
-                Session.getAccount().setTheme(Theme.BLUE_SKY);
-                break;
-            case "Theme 2":
-                Session.getAccount().setTheme(Theme.CLOUDS);
-                break;
-            case "Holiday":
-                Session.getAccount().setTheme(Theme.HOLIDAY);
-                break;
-            case "Dark":
-                Session.getAccount().setTheme(Theme.DARK);
-                break;
+        try {
+            switch (themeSelect.getValue()) {
+                case "Theme 1":
+                    Session.getAccount().setTheme(Theme.BLUE_SKY);
+                    break;
+                case "Theme 2":
+                    Session.getAccount().setTheme(Theme.CLOUDS);
+                    break;
+                case "Holiday":
+                    Session.getAccount().setTheme(Theme.HOLIDAY);
+                    break;
+                case "Dark":
+                    Session.getAccount().setTheme(Theme.DARK);
+                    break;
+                case "Wong":
+                    Session.getAccount().setTheme(Theme.WONG);
+                    break;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
 
         if(langBox.getValue().equals(App.resourceBundle.getString("key.english"))) {
-            App.switchLocale("en", "US", LocaleType.en_US, false);
+            App.switchLocale("en", "US", LocaleType.en_US);
         }
         else if (langBox.getValue().equals(App.resourceBundle.getString("key.spanish"))) {
-            App.switchLocale("es", "ES", LocaleType.es_ES, false);
+            App.switchLocale("es", "ES", LocaleType.es_ES);
+        }
+
+        else if (langBox.getValue().equals(App.resourceBundle.getString("key.japanese"))) {
+            App.switchLocale("ja", "JP", LocaleType.ja_JP);
         }
 
         App.switchPage(Pages.MAIN);

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXListView?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -11,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="648.0" prefWidth="1000.0" stylesheets="@CSS/MainPage.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.ProfileInformationPage">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="648.0" prefWidth="1000.0" stylesheets="@CSS/MainPage.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.profilepage.ProfileInformationPage">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="935.0" minWidth="0.0" prefWidth="0.0" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="998.0" minWidth="10.0" prefWidth="998.0" />
@@ -27,11 +29,18 @@
          <children>
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <ImageView fx:id="profilePicture" fitHeight="181.0" fitWidth="215.0" pickOnBounds="true" preserveRatio="true">
+                  <HBox alignment="CENTER">
                      <VBox.margin>
                         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                      </VBox.margin>
-                  </ImageView>
+                     <children>
+                        <ImageView fx:id="profilePicture" fitHeight="148.0" fitWidth="164.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/Icons/generic-user.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </HBox>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.profile_information" wrappingWidth="226.6708984375">
                      <font>
                         <Font name="Arial" size="20.0" />
@@ -68,14 +77,26 @@
             </VBox>
             <VBox prefHeight="538.0" prefWidth="800.0" styleClass="requestDisplayPane">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.submitted_requests">
-                     <font>
-                        <Font name="Arial" size="20.0" />
-                     </font>
+                  <HBox>
                      <VBox.margin>
                         <Insets bottom="15.0" />
                      </VBox.margin>
-                  </Text>
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.submitted_requests">
+                           <font>
+                              <Font name="Arial" size="20.0" />
+                           </font>
+                        </Text>
+                        <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
+                           <children>
+                              <JFXCheckBox fx:id="showCompletedRequestsCheckbox" selected="true" text="%key.show_completed_requests" />
+                           </children>
+                           <padding>
+                              <Insets right="20.0" />
+                           </padding>
+                        </HBox>
+                     </children>
+                  </HBox>
                   <JFXListView fx:id="reqDisplayListView" minHeight="-Infinity" minWidth="-Infinity" prefHeight="431.0" prefWidth="419.0" stylesheets="@CSS/LocationSearch.css" />
                </children>
                <padding>

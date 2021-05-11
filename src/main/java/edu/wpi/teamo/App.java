@@ -84,11 +84,13 @@ public class App extends Application {
     themeMap.put(Theme.CLOUDS, "/edu/wpi/teamo/fxml/CSS/MainPage2.css");
     themeMap.put(Theme.HOLIDAY, "/edu/wpi/teamo/fxml/CSS/holiday.css");
     themeMap.put(Theme.DARK, "/edu/wpi/teamo/fxml/CSS/dark.css");
+    themeMap.put(Theme.WONG, "/edu/wpi/teamo/fxml/CSS/wong.css");
 
     bgMap.put(Theme.BLUE_SKY, "/edu/wpi/teamo/images/sky2.png");
     bgMap.put(Theme.CLOUDS, "/edu/wpi/teamo/images/clouds.jpg");
     bgMap.put(Theme.HOLIDAY, "/edu/wpi/teamo/images/snow.jpg");
     bgMap.put(Theme.DARK, "/edu/wpi/teamo/images/night.jpg");
+    bgMap.put(Theme.WONG, "/edu/wpi/teamo/images/hospitalbgfade.png");
 
 
 
@@ -184,9 +186,8 @@ public class App extends Application {
    * @param lang language code (lower case)
    * @param country country code (upper case)
    * @param type Selected locale type
-   * @param isDebug extra parameter for determining if the function call is for a test
    */
-  public static void switchLocale(String lang, String country, LocaleType type, boolean isDebug) {
+  public static void switchLocale(String lang, String country, LocaleType type) {
     Locale locale = new Locale(lang, country);
     try {
       resourceBundle = ResourceBundle.getBundle(localesPath + lang + "_" + country, locale);
@@ -196,8 +197,6 @@ public class App extends Application {
       resourceBundle = ResourceBundle.getBundle(localesPath + "en_US", locale);
       selectedLocale = LocaleType.en_US;
     }
-    //Update main page
-    //if(!isDebug) switchPage(Pages.MAIN);
   }
 
   @Override

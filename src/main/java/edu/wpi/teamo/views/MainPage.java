@@ -122,21 +122,6 @@ public class MainPage implements Initializable {
 
         imageView.setImage(new Image(App.getImagePath(Session.getAccount().getTheme())));
 
-        //commented out because right now these guys need the primary scene which is not yet set if this is the first page being loaded
-//        try {
-//            mapEditorPage = FXMLLoader.load(getClass().getResource("/edu/wpi/teamo/fxml/MapEditorPage.fxml"),
-//                    App.resourceBundle);
-//            pathfindingPage = FXMLLoader.load(getClass().getResource("/edu/wpi/teamo/fxml/PathfindingPage.fxml"),
-//                    App.resourceBundle);
-//            backgroundPane.getChildren().addAll(mapEditorPage,pathfindingPage);
-//
-//            pathfindingPage.setVisible(false);
-//            pathfindingPage.setMouseTransparent(true);
-//            mapEditorPage.setVisible(false);
-//            mapEditorPage.setMouseTransparent(true);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
     }
 
     private void handleAccountManagerButton(ActionEvent actionEvent) {
@@ -213,7 +198,12 @@ public class MainPage implements Initializable {
 
     public void setProfile(){
         hidePages();
-        SubPageContainer.switchPage(Pages.PROFILE);
+        if (Session.isLoggedIn()) {
+            SubPageContainer.switchPage(Pages.PROFILE);
+        }
+        else {
+            App.showError("You must log in to use this feature", parentStackPane);
+        }
     }
 
     public void setAbout() {
@@ -328,6 +318,7 @@ public class MainPage implements Initializable {
         catch (Exception exception){
             exception.printStackTrace();
         }
+        App.switchPage(Pages.MAIN);
         setAdminButtonVisibility(false);
         setStaffButtonVisibility(false);
         updateAccountWindow();

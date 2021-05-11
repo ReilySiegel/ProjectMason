@@ -8,20 +8,14 @@ import edu.wpi.teamo.views.emailSender;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.MenuItem;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.control.Label;
-import javafx.event.EventHandler;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import javafx.event.ActionEvent;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Stream;
-import javafx.scene.control.*;
 import javafx.scene.text.Text;
 import javafx.scene.text.Font;
 import com.jfoenix.controls.*;
@@ -33,13 +27,12 @@ import javax.mail.MessagingException;
 
 public class RequestDisplay {
 
-    HashMap<String, JFXCheckBox> typeCheckBoxes;
-    JFXListView<VBox> reqList;
+    protected HashMap<String, JFXCheckBox> typeCheckBoxes;
+    protected JFXListView<VBox> reqList;
     JFXCheckBox showComplete;
     JFXTimePicker timePicker;
     JFXDatePicker datePicker;
     JFXCheckBox filterTime;
-    String user;
 
     public static final String emergencyEntranceKey = App.resourceBundle.getString("key.emergency_entrance");
     public static final String normalEntranceKey = App.resourceBundle.getString("key.normal_entrance");
@@ -52,8 +45,7 @@ public class RequestDisplay {
                           JFXCheckBox showCompleted,
                           JFXTimePicker timePicker,
                           JFXDatePicker datePicker,
-                          JFXCheckBox filterTime,
-                          String user) {
+                          JFXCheckBox filterTime) {
         this.openRequestViews = new LinkedList<>();
         this.typeCheckBoxes = typeCheckboxes;
         this.showComplete = showCompleted;
@@ -61,7 +53,11 @@ public class RequestDisplay {
         this.datePicker = datePicker;
         this.reqList = reqDisplayListView;
         this.filterTime = filterTime;
-        this.user = user;
+    }
+
+    public RequestDisplay(JFXListView<VBox> reqDisplayListView) {
+        this.openRequestViews = new LinkedList<>();
+        this.reqList = reqDisplayListView;
     }
 
     public void update() {
@@ -91,7 +87,7 @@ public class RequestDisplay {
             if (typeCheckBoxes.get("Maintenance").isSelected())    maintRequests.forEach(r -> displaySRIfPassFilter(r, App.resourceBundle.getString("key.main_sr")));
             if (typeCheckBoxes.get("Transportation").isSelected()) transRequests.forEach(r -> displaySRIfPassFilter(r, App.resourceBundle.getString("key.transportation_request")));
             if (typeCheckBoxes.get("Religious").isSelected())      religRequests.forEach(r -> displaySRIfPassFilter(r, App.resourceBundle.getString("key.rel_sr")));
-            if (typeCheckBoxes.get("COVID Survey").isSelected())   covidRequests.forEach(r -> addCovidSurveyIfPassFilter(r, user));
+            if (typeCheckBoxes.get("COVID Survey").isSelected())   covidRequests.forEach(r -> addCovidSurveyIfPassFilter(r));
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -100,7 +96,7 @@ public class RequestDisplay {
 
     }
 
-    private void displaySRIfPassFilter(ExtendedBaseRequest m, String type) {
+    protected void displaySRIfPassFilter(ExtendedBaseRequest m, String type) {
         boolean passFilter = true;
 
         if (!showComplete.isSelected() && m.isComplete()) {
@@ -114,12 +110,6 @@ public class RequestDisplay {
             }
         }
 
-        if (user != null && !user.isEmpty()) {
-            if (!m.getAssigned().equals(user)) {
-                passFilter = false;
-            }
-        }
-
         if (passFilter) {
             VBox srBox = makeSRBox(m, type);
             reqList.getItems().add(srBox);
@@ -127,7 +117,7 @@ public class RequestDisplay {
 
     }
 
-    public VBox makeSRBox(ExtendedBaseRequest m, String type) {
+    protected VBox makeSRBox(ExtendedBaseRequest m, String type) {
         VBox sRBox = new VBox();
         sRBox.setSpacing(10);
         sRBox.setAlignment(Pos.CENTER_LEFT);
@@ -403,23 +393,19 @@ public class RequestDisplay {
     }
 
 
-    public void addCovidSurveyIfPassFilter(COVIDSurveyRequest c, String user) {
+    protected void addCovidSurveyIfPassFilter(COVIDSurveyRequest c) {
         boolean passFilter = true;
 
         if (!showComplete.isSelected() && c.getIsComplete()) passFilter = false;
 
-        if (user != null && !user.isEmpty()) {
-            if (!user.equals(c.getUsername())) passFilter = false;
-        }
-
         if (passFilter) {
-            VBox mContainer = makeCovidSurveyBox(c, user);
+            VBox mContainer = makeCovidSurveyBox(c);
             reqList.getItems().add(mContainer);
             System.out.println(c.getTimestamp());
         }
     }
 
-    public VBox makeCovidSurveyBox(COVIDSurveyRequest c, String user) {
+    protected VBox makeCovidSurveyBox(COVIDSurveyRequest c) {
         VBox sB = new VBox();
         sB.setStyle("-fx-padding: 10px; -fx-background-color: #e5e5e5; -fx-effect: dropshadow(gaussian, rgba(170, 170, 170, 0.3), 10, 0.5, 0.0, 0.0)");
         sB.setSpacing(7);
@@ -434,7 +420,7 @@ public class RequestDisplay {
         HBox headerBox = makeCovidSurveyHeaderBox(c, expand);
         sB.getChildren().add(headerBox);
 
-        HBox actionBox = makeCovidSurveyActionBox(c, user);
+        HBox actionBox = makeCovidSurveyActionBox(c);
         sB.getChildren().add(actionBox);
 
         expand.setOnAction(event -> {
@@ -504,7 +490,7 @@ public class RequestDisplay {
         return headerBox;
     }
 
-    private HBox makeCovidSurveyActionBox(COVIDSurveyRequest c, String user) {
+    private HBox makeCovidSurveyActionBox(COVIDSurveyRequest c) {
         HBox actionBox = new HBox();
         actionBox.setSpacing(10);
 

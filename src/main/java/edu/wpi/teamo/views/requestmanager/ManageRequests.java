@@ -63,8 +63,7 @@ public class ManageRequests implements Initializable {
                                             showCompleted,
                                             timePicker,
                                             datePicker,
-                                            filterTime,
-                                            null);
+                                            filterTime);
 
         for (JFXCheckBox box : typeCheckboxes.values()) {
             box.setOnAction(event -> requestDisplay.update());
