@@ -23,7 +23,7 @@ import java.util.ResourceBundle;
 
 public class Settings implements Initializable {
 
-    JFXComboBox<Label> themeSelect;
+    JFXComboBox<String> themeSelect;
 
     @FXML
     HBox themeBox;
@@ -75,13 +75,13 @@ public class Settings implements Initializable {
 
         }
 
-        themeSelect = new JFXComboBox<Label>();
+        themeSelect = new JFXComboBox<String>();
         themeBox.getChildren().add(themeSelect);
 
-        themeSelect.getItems().add(new Label("Theme 1"));
-        themeSelect.getItems().add(new Label("Theme 2"));
-        themeSelect.getItems().add(new Label("Dark"));
-        themeSelect.getItems().add(new Label("Holiday"));
+        themeSelect.getItems().add("Theme 1");
+        themeSelect.getItems().add("Theme 2");
+        themeSelect.getItems().add("Dark");
+        themeSelect.getItems().add("Holiday");
         themeSelect.getSelectionModel().selectFirst();
     }
 
@@ -117,7 +117,7 @@ public class Settings implements Initializable {
     @FXML
     private void handleConfirm(ActionEvent e) {
 
-        switch (themeSelect.getValue().getText()) {
+        switch (themeSelect.getValue()) {
             case "Theme 1":
                 Session.getAccount().setTheme(Theme.BLUE_SKY);
                 break;
