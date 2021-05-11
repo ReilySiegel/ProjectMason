@@ -185,12 +185,23 @@ public class SR04_Laundry implements Initializable {
 
             JFXDialogLayout content = new JFXDialogLayout();
             content.setHeading(new Text(App.resourceBundle.getString("key.laundry_request_submitted")));
-            content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
-                    App.resourceBundle.getString("key.laundry_checked") + laundryChecked + "\n" +
-                    App.resourceBundle.getString("key.room_semicolon") + String.join(", ", locationIDs) + "\n" +
-                    App.resourceBundle.getString("key.persons_assigned_semicolon") + assignName + "\n" +
-                    App.resourceBundle.getString("key.time") + ": " +  curDate.toString() + "\n" +
-                    App.resourceBundle.getString("key.notes") + ": " + note));
+
+            if(!Session.getAccount().hasEmployeeAccess()){
+                content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
+                        App.resourceBundle.getString("key.laundry_checked") + laundryChecked + "\n" +
+                        App.resourceBundle.getString("key.room_semicolon") + String.join(", ", locationIDs) + "\n" +
+                        App.resourceBundle.getString("key.time") + ": " +  curDate.toString() + "\n" +
+                        App.resourceBundle.getString("key.notes") + ": " + note));
+            }
+            else{
+                content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
+                        App.resourceBundle.getString("key.laundry_checked") + laundryChecked + "\n" +
+                        App.resourceBundle.getString("key.room_semicolon") + String.join(", ", locationIDs) + "\n" +
+                        App.resourceBundle.getString("key.persons_assigned_semicolon") + assignName + "\n" +
+                        App.resourceBundle.getString("key.time") + ": " +  curDate.toString() + "\n" +
+                        App.resourceBundle.getString("key.notes") + ": " + note));
+            }
+
             JFXDialog popup = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 
             JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));

@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import edu.wpi.teamo.database.request.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.control.Label;
@@ -151,6 +152,7 @@ public class RequestDisplay {
             retractSRBox(expand, editBox, extendedInfoBox);
         }
 
+        sRBox.getStyleClass().add("requestBox");
         return sRBox;
     }
 
@@ -168,6 +170,7 @@ public class RequestDisplay {
 
         //text displaying type of request
         Text typeText = new Text(type);
+        typeText.getStyleClass().add("annoyingText");
         typeText.setFont(new Font(20));
         HBox typeBox = new HBox(typeText);
         typeBox.setMinWidth(200);
@@ -182,11 +185,13 @@ public class RequestDisplay {
         //time
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy, " + "H:m:s");
         Text dueText = new Text(App.resourceBundle.getString("key.due_semicolon") + m.getDue().format(formatter));
+        dueText.getStyleClass().add("annoyingText");
         hb.getChildren().add(dueText);
 
         //status (is complete)
         Text statusText = m.isComplete() ? new Text(App.resourceBundle.getString("key.complete"))
                                          : new Text(App.resourceBundle.getString("key.in_progress"));
+        statusText.getStyleClass().add("annoyingText");
         hb.getChildren().add(statusText);
 
         hb.setMargin(statusText, new Insets(0, 10, 0, 0));
@@ -359,6 +364,10 @@ public class RequestDisplay {
         }
         eIBox.getChildren().add(new Text(App.resourceBundle.getString("key.details_semicolon") + m.getDetails()));
         eIBox.getChildren().add(new Text(App.resourceBundle.getString("key.ID_semicolon") + m.getID()));
+
+        for (Node n : eIBox.getChildren()) {
+            n.getStyleClass().add("annoyingText");
+        }
         return eIBox;
     }
 

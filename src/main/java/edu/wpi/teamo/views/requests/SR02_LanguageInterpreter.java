@@ -201,12 +201,22 @@ public class SR02_LanguageInterpreter implements Initializable {
 
             JFXDialogLayout content = new JFXDialogLayout();
             content.setHeading(new Text(App.resourceBundle.getString("key.language_request_submitted")));
-            content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
-                    App.resourceBundle.getString("key.language_semicolon") +  selectedLanguage+ "\n" +
-                    App.resourceBundle.getString("key.job_type_semicolon") + selectedJob + "\n" +
-                    App.resourceBundle.getString("key.room_semicolon") + String.join(", ", locationIDs) + "\n" +
-                    App.resourceBundle.getString("key.persons_assigned_semicolon") + assigned + "\n" +
-                    App.resourceBundle.getString("key.selected_time_semicolon") + curDate));
+           if(!Session.getAccount().hasEmployeeAccess()) {
+               content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
+                       App.resourceBundle.getString("key.language_semicolon") +  selectedLanguage+ "\n" +
+                       App.resourceBundle.getString("key.job_type_semicolon") + selectedJob + "\n" +
+                       App.resourceBundle.getString("key.room_semicolon") + String.join(", ", locationIDs) + "\n" +
+                       App.resourceBundle.getString("key.selected_time_semicolon") + curDate));
+           }
+           else{
+               content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
+                       App.resourceBundle.getString("key.language_semicolon") +  selectedLanguage+ "\n" +
+                       App.resourceBundle.getString("key.job_type_semicolon") + selectedJob + "\n" +
+                       App.resourceBundle.getString("key.room_semicolon") + String.join(", ", locationIDs) + "\n" +
+                       App.resourceBundle.getString("key.persons_assigned_semicolon") + assigned + "\n" +
+                       App.resourceBundle.getString("key.selected_time_semicolon") + curDate));
+           }
+
             JFXDialog popup = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 
             JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));

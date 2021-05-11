@@ -82,10 +82,12 @@ public class App extends Application {
     themeMap.put(Theme.BLUE_SKY, "/edu/wpi/teamo/fxml/CSS/MainPage.css");
     themeMap.put(Theme.CLOUDS, "/edu/wpi/teamo/fxml/CSS/MainPage2.css");
     themeMap.put(Theme.HOLIDAY, "/edu/wpi/teamo/fxml/CSS/holiday.css");
+    themeMap.put(Theme.DARK, "/edu/wpi/teamo/fxml/CSS/dark.css");
 
     bgMap.put(Theme.BLUE_SKY, "/edu/wpi/teamo/images/sky2.png");
     bgMap.put(Theme.CLOUDS, "/edu/wpi/teamo/images/clouds.jpg");
     bgMap.put(Theme.HOLIDAY, "/edu/wpi/teamo/images/snow.jpg");
+    bgMap.put(Theme.DARK, "/edu/wpi/teamo/images/night.jpg");
 
 
 

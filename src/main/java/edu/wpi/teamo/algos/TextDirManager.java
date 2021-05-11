@@ -66,7 +66,6 @@ public class TextDirManager {
             if(!pathToParse.get(i + 1).getFloor().equals(pathToParse.get(i).getFloor())){
                 directions.add(App.resourceBundle.getString("key.floor_switch_1") + pathToParse.get(i + 1).getFloor() + " " + App.resourceBundle.getString("key.floor_switch_2") + pathToParse.get(i + 1).getLongName() + ".");
                 lastQuadrant = getQuadrant(pathToParse.get(i), pathToParse.get(i + 1));
-                System.out.println("Quadrant: "+ lastQuadrant.getKey()+ " Angle: " + lastQuadrant.getValue());
                 continue;
             }
 
@@ -75,13 +74,10 @@ public class TextDirManager {
                 directions.add(App.resourceBundle.getString("key.proceed") + dist+ " " + unit + App.resourceBundle.getString("key.towards") + pathToParse.get(i + 1).getLongName() + ".");
                 //Find next quadrant
                 lastQuadrant = getQuadrant(pathToParse.get(i), pathToParse.get(i + 1));
-                System.out.println("Quadrant: "+ lastQuadrant.getKey()+ " Angle: " + lastQuadrant.getValue());
                 continue;
             }
 
             Pair<Integer,Double> currentQuadrant = getQuadrant(pathToParse.get(i), pathToParse.get(i + 1));
-            System.out.println("Quadrant: "+ currentQuadrant.getKey()+ " Angle: " + currentQuadrant.getValue());
-
             //Determine if next node is intermediate, omit from directions if it is
             if(!pathToParse.get(i + 1).getLongName().toLowerCase().contains("intermediate"))
                 nextNode = " " + App.resourceBundle.getString("key.to_2") + pathToParse.get(i + 1).getLongName() + ".";
@@ -95,7 +91,7 @@ public class TextDirManager {
                 }
                 case 1:{
                     //Slight turns
-                    if(Math.abs(lastQuadrant.getValue() - currentQuadrant.getValue()) <= 0.2 && lastQuadrant.getKey().equals(1)){
+                    if(Math.abs(lastQuadrant.getValue() - currentQuadrant.getValue()) <= 0.2 && (currentQuadrant.getKey().equals(1) || currentQuadrant.getKey().equals(4) || currentQuadrant.getKey().equals(2))){
                         if(Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) > 0 && currentQuadrant.getKey() == 1)
                             directions.add(App.resourceBundle.getString("key.proceed") + dist+ " " + unit + App.resourceBundle.getString("key.slight_left_turn") + nextNode);
                         else if(Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) < 0 && currentQuadrant.getKey() == 1)
@@ -122,7 +118,7 @@ public class TextDirManager {
                 }
                 case 2:{
                     //Slight turns
-                    if((Math.abs(lastQuadrant.getValue() - currentQuadrant.getValue()) <= 0.2 || Math.abs(Math.abs(lastQuadrant.getValue()) - (Math.PI / 2)) <= 0.2) && lastQuadrant.getKey().equals(2)){
+                    if((Math.abs(lastQuadrant.getValue() - currentQuadrant.getValue()) <= 0.2 || Math.abs(Math.abs(lastQuadrant.getValue()) - (Math.PI / 2)) <= 0.2) && (currentQuadrant.getKey().equals(2) || currentQuadrant.getKey().equals(3) || currentQuadrant.getKey().equals(1))){
                         if(Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) < 0 && currentQuadrant.getKey() == 2)
                             directions.add(App.resourceBundle.getString("key.proceed") + dist+ " " + unit + App.resourceBundle.getString("key.slight_left_turn") + nextNode);
                         else if(Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) > 0 && currentQuadrant.getKey() == 2)
@@ -150,7 +146,7 @@ public class TextDirManager {
                 }
                 case 3:{
                     //Slight turns
-                    if(Math.abs(lastQuadrant.getValue() - currentQuadrant.getValue()) <= 0.2 && lastQuadrant.getKey().equals(3)){
+                    if(Math.abs(lastQuadrant.getValue() - currentQuadrant.getValue()) <= 0.2 && (currentQuadrant.getKey().equals(3) || currentQuadrant.getKey().equals(4) || currentQuadrant.getKey().equals(2))){
                         if(Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) > 0 && currentQuadrant.getKey() == 3)
                             directions.add(App.resourceBundle.getString("key.proceed") + dist+ " " + unit + App.resourceBundle.getString("key.slight_left_turn") + nextNode);
                         else if(Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) < 0 && currentQuadrant.getKey() == 3)
@@ -178,7 +174,7 @@ public class TextDirManager {
                 }
                 case 4:{
                     //Slight turns
-                    if((Math.abs(lastQuadrant.getValue() - currentQuadrant.getValue()) <= 0.2 || Math.abs(Math.abs(lastQuadrant.getValue()) - (Math.PI / 2)) <= 0.2) && lastQuadrant.getKey().equals(4)){
+                    if((Math.abs(lastQuadrant.getValue() - currentQuadrant.getValue()) <= 0.2 || Math.abs(Math.abs(lastQuadrant.getValue()) - (Math.PI / 2)) <= 0.2) && (currentQuadrant.getKey().equals(4) || currentQuadrant.getKey().equals(3) || currentQuadrant.getKey().equals(1))){
                         if(Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) < 0 && currentQuadrant.getKey() == 4)
                             directions.add(App.resourceBundle.getString("key.proceed") + dist+ " " + unit + App.resourceBundle.getString("key.slight_left_turn") + nextNode);
                         else if(Math.abs(lastQuadrant.getValue()) - Math.abs(currentQuadrant.getValue()) > 0 && currentQuadrant.getKey() == 4)
@@ -335,7 +331,6 @@ public class TextDirManager {
      * @return a pair consisting of the quadrant enumeration and angle in radians
      */
     public static Pair<Integer, Double> getQuadrant(AlgoNode current, AlgoNode next) {
-        System.out.println("Current LongName: "+current.getLongName() + "Next LongName: "+next.getLongName() +" Current X: " +current.getX() + " Next X: "+next.getX()+" Current Y: "+current.getY()+" Next Y: "+next.getY());
         double oppAdj = (double) (next.getY() - current.getY()) / (double) (next.getX() - current.getX());
         double angle = Math.atan(oppAdj);
         //Round Angle to zero if near boundary
