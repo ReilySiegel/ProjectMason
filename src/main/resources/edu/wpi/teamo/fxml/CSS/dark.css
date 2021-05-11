@@ -213,3 +213,9 @@
 .annoyingText {
     -fx-fill: white !important;
 }
+
+.pane-button {
+    -fx-background-color: rgba(120, 120, 120, 0.5) !important;
+    -fx-border-color: rgba(95, 95, 95, 0.9) !important;
+    -fx-border-width: 0.5;
+}

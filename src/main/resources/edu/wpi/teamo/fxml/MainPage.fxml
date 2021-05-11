@@ -112,12 +112,6 @@
                                     <Font size="18.0" />
                                  </font>
                               </JFXButton>
-                              <JFXButton buttonType="RAISED" onAction="#setSettings" prefHeight="40.0" prefWidth="120.0" text="%key.settings">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </JFXButton>
-                              <JFXButton buttonType="RAISED" onAction="#setProfile" prefHeight="40.0" prefWidth="120.0" text="%key.profile" />
                               <JFXButton buttonType="RAISED" onAction="#setCredits" prefHeight="40.0" prefWidth="120.0" text="%key.credits" />
                               <JFXButton buttonType="RAISED" onAction="#setCovidInfo" prefHeight="40.0" prefWidth="120.0" text="%key.covidinfo" />
                            </children>
@@ -132,6 +126,18 @@
                   </VBox>
                   <HBox alignment="CENTER" pickOnBounds="false" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="4">
                      <children>
+                        <JFXButton buttonType="RAISED" maxWidth="45.0" onAction="#setProfile" prefHeight="45.0" prefWidth="45.0" styleClass="pane-button">
+                           <graphic>
+                              <ImageView fitHeight="29.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/profile.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </JFXButton>
                         <VBox alignment="CENTER" pickOnBounds="false" prefHeight="72.0" prefWidth="202.0">
                            <children>
                               <HBox alignment="CENTER" prefHeight="45.0" prefWidth="183.0" spacing="20.0" styleClass="pane" stylesheets="@CSS/MainPage.css">
@@ -146,6 +152,22 @@
                               </HBox>
                            </children>
                         </VBox>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="154.0" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.vgrow="NEVER">
+                     <children>
+                        <JFXButton buttonType="RAISED" maxWidth="40.0" onAction="#setSettings" prefHeight="40.0" prefWidth="40.0" styleClass="pane-button">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="55.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/gear.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
                      </children>
                   </HBox>
                </children>
