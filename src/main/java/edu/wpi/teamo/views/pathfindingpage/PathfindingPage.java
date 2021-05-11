@@ -248,6 +248,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
         algoSwitcher.getItems().add(Context.bfsCode);
         algoSwitcher.getItems().add(Context.bestFirstCode);
         algoSwitcher.getItems().add(Context.DijkstraCode);
+        algoSwitcher.getItems().add(Context.GreedyDFSCode);
 
         /*if (App.context.getAlgoManager().getClass() == DFSManager.class) {
             algoSwitcher.setValue(Context.dfsCode);
@@ -263,6 +264,9 @@ public class PathfindingPage extends SubPageController implements Initializable 
         }
         else if (App.context.getAlgoManager().getClass() == DijkstraManager.class) {
             algoSwitcher.setValue(Context.DijkstraCode);
+        }
+        else if (App.context.getAlgoManager().getClass() == GreedyDFSManager.class){
+            algoSwitcher.setValue(Context.GreedyDFSCode);
         }
     }
 
