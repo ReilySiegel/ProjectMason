@@ -1,11 +1,20 @@
 package edu.wpi.teamo.views.pathfindingpage;
 
 import com.jfoenix.controls.*;
+import edu.wpi.teamo.App;
 import edu.wpi.teamo.database.map.NodeInfo;
 import edu.wpi.teamo.utils.itemsifters.LocationSearcher;
+import edu.wpi.teamo.utils.itemsifters.SingleLocationSearcher;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,12 +22,18 @@ public class PathSelectionControls {
 
     private static final String allTypesKey = "All";
 
-    private final LocationSearcher locationSearcher;
-    private final JFXButton chooseStartButton;
-    private final JFXButton chooseEndButton;
-    JFXComboBox<String> nodeTypeFilterBox;
-    private final JFXTextField searchBar;
-    private final VBox searchWindow;
+    private final JFXButton findPathButton;
+    private final SingleLocationSearcher startLocationSearcher;
+    private final SingleLocationSearcher endLocationSearcher;
+    JFXComboBox<String> startTypeFilterBox;
+    JFXComboBox<String> endTypeFilterBox;
+    JFXListView<Label> endSearchList;
+    JFXListView<Label> startSearchList;
+    private final JFXTextField startSearchBar;
+    private final JFXTextField endSearchBar;
+    private final HBox startSearchWindow;
+    private final HBox endSearchWindow;
+    private final VBox planningWindow;
 
     enum SelectionState {
         CHOOSING_START,
@@ -30,139 +45,232 @@ public class PathSelectionControls {
     Runnable onSelectStart;
     Runnable onSelectEnd;
     Runnable onChoosing;
+    Runnable onFindPath;
+    Runnable onPlanNewPath;
 
     private NodeInfo selectedStartNode = null;
     private NodeInfo selectedEndNode = null;
 
-    public PathSelectionControls(JFXButton chooseStartButton,
-                                 JFXButton chooseEndButton,
-                                 VBox searchWindow,
-                                 JFXTextField searchBar,
-                                 JFXListView<JFXCheckBox> searchResultsView,
-                                 JFXComboBox<String> nodeTypeFilterBox,
-                                 Runnable onSelectStart,
-                                 Runnable onSelectEnd,
-                                 Runnable onChoosing) {
+    public PathSelectionControls(HBox endSearchWindow,
+                                 HBox startSearchWindow,
+                                 JFXTextField endSearchBar,
+                                 JFXTextField startSearchBar,
+                                 JFXListView<Label> endSearchList,
+                                 JFXListView<Label> startSearchList,
+                                 JFXComboBox<String> endTypeFilterBox,
+                                 JFXComboBox<String> startTypeFilterBox,
+                                 JFXButton findPathButton,
+                                 VBox planningWindow,
+                                 Runnable handleSelectedStart,
+                                 Runnable handleSelectedEnd,
+                                 Runnable handleChoosing,
+                                 Runnable onFindPath,
+                                 Runnable onPlanNewPath) {
 
-        this.chooseStartButton = chooseStartButton;
-        this.nodeTypeFilterBox = nodeTypeFilterBox;
-        this.chooseEndButton = chooseEndButton;
-        this.onSelectStart = onSelectStart;
-        this.searchWindow = searchWindow;
-        this.onSelectEnd = onSelectEnd;
-        this.onChoosing = onChoosing;
-        this.searchBar = searchBar;
+        this.findPathButton     = findPathButton;
+        this.endSearchWindow    = endSearchWindow;
+        this.startSearchWindow  = startSearchWindow;
+        this.endSearchBar       = endSearchBar;
+        this.startSearchBar     = startSearchBar;
+        this.endSearchList      = endSearchList;
+        this.startSearchList    = startSearchList;
+        this.endTypeFilterBox   = endTypeFilterBox;
+        this.startTypeFilterBox = startTypeFilterBox;
+        this.onSelectStart      = handleSelectedStart;
+        this.onSelectEnd        = handleSelectedEnd;
+        this.onChoosing         = handleChoosing;
+        this.onFindPath         = onFindPath;
+        this.onPlanNewPath      = onPlanNewPath;
+        this.planningWindow     = planningWindow;
 
-        chooseStartButton.setOnAction(this::handleChooseStartButton);
-        chooseEndButton.setOnAction(this::handleChooseEndButton);
-        nodeTypeFilterBox.setOnAction(this::handleSwitchTypeFilter);
+        startTypeFilterBox.setOnAction(this::handleSwitchTypeFilter);
+        endTypeFilterBox.setOnAction(this::handleSwitchTypeFilter);
+        findPathButton.setOnAction(this::handleFindPath);
 
-        this.locationSearcher = new LocationSearcher(searchBar, searchResultsView);
-        locationSearcher.setOnCheckNode(this::onClickNode);
-        locationSearcher.addHardFilter((node) -> {
-            String typeFilter = nodeTypeFilterBox.getValue();
+        startSearchBar.setOnMouseClicked(event -> switchToChoosingStart());
+        endSearchBar.setOnMouseClicked(event -> switchToChoosingEnd());
+
+        this.startLocationSearcher = new SingleLocationSearcher(startSearchBar, startSearchList);
+        this.endLocationSearcher = new SingleLocationSearcher(endSearchBar, endSearchList);
+        initSearchers();
+
+        startLocationSearcher.addHardFilter((node) -> {
+            String typeFilter = startTypeFilterBox.getValue();
             return    typeFilter == null
                    || typeFilter.equals(allTypesKey)
                    || typeFilter.equals(node.getNodeType());
         });
 
-        reset();
+        endLocationSearcher.addHardFilter((node) -> {
+            String typeFilter = endTypeFilterBox.getValue();
+            return    typeFilter == null
+                    || typeFilter.equals(allTypesKey)
+                    || typeFilter.equals(node.getNodeType());
+        });
+
+        switchToIdle();
+        hide();
+    }
+
+    private void handleFindPath(ActionEvent actionEvent) {
+        if (!planningWindow.isVisible()) {
+            onPlanNewPath.run();
+            show();
+        }
+        else if (validateSelections()) {
+            switchToIdle();
+            onFindPath.run();
+            hide();
+        }
+    }
+
+    private boolean validateSelections() {
+        boolean valid = true;
+        if (selectedStartNode == null) {
+            valid = false;
+        }
+        if (selectedEndNode == null) {
+            valid = false;
+        }
+        return valid;
     }
 
     private void handleSwitchTypeFilter(ActionEvent actionEvent) {
-        locationSearcher.update();
+        startLocationSearcher.update();
+        endLocationSearcher.update();
     }
 
     public void onClickNode(NodeInfo node) {
         switch (state) {
             case CHOOSING_START:
-                selectStartNode(node);
-                switchToIdle();
+                chooseStartNode(node);
                 break;
             case CHOOSING_END:
-                selectEndNode(node);
-                switchToIdle();
+                chooseEndNode(node);
                 break;
             case IDLE:
                 break;
         }
     }
 
-    private void handleChooseStartButton(ActionEvent e) {
-        switch(state) {
-            case CHOOSING_START:
-                switchToIdle();
-                break;
-            default:
-                switchToChoosingStart();
-                break;
-        }
+    private void chooseStartNode(NodeInfo node) {
+        selectStartNode(node);
+        closeStartSearchWindow();
+        switchToIdle();
     }
 
-    private void handleChooseEndButton(ActionEvent e) {
-        switch(state) {
-            case CHOOSING_END:
-                switchToIdle();
-                break;
-            default:
-                switchToChoosingEnd();
-                break;
-        }
+    private void chooseEndNode(NodeInfo node) {
+        selectEndNode(node);
+        closeEndSearchWindow();
+        switchToIdle();
     }
 
     private void switchToIdle() {
-        chooseStartButton.setDisable(false);
-        chooseEndButton.setDisable(false);
-        closeSearchWindow();
+        closeStartSearchWindow();
+        closeEndSearchWindow();
         state = SelectionState.IDLE;
     }
 
     private void switchToChoosingStart() {
         state = SelectionState.CHOOSING_START;
-        chooseStartButton.setDisable(true);
-        chooseEndButton.setDisable(false);
-        openSearchWindow();
+        openStartSearchWindow();
+        closeEndSearchWindow();
         onChoosing.run();
     }
 
     private void switchToChoosingEnd() {
         state = SelectionState.CHOOSING_END;
-        chooseStartButton.setDisable(false);
-        chooseEndButton.setDisable(true);
-        openSearchWindow();
+        closeStartSearchWindow();
+        openEndSearchWindow();
         onChoosing.run();
     }
 
     private void selectStartNode(NodeInfo startNode) {
-        chooseStartButton.setText(startNode.getShortName());
+        startSearchBar.setPromptText(startNode.getLongName());
+        startSearchBar.setText("");
         selectedStartNode = startNode;
         onSelectStart.run();
     }
 
     private void selectEndNode(NodeInfo endNode) {
-        chooseEndButton.setText(endNode.getShortName());
+        endSearchBar.setPromptText(endNode.getLongName());
+        endSearchBar.setText("");
         selectedEndNode = endNode;
         onSelectEnd.run();
     }
 
     public void reset() {
+        selectedStartNode = null;
+        selectedEndNode = null;
+        startSearchBar.setPromptText("Search location...");
+        endSearchBar.setPromptText("Search location...");
         switchToIdle();
     }
 
-    public void openSearchWindow() {
-        if (!nodeTypeFilterBox.getItems().contains(allTypesKey)) {
-            nodeTypeFilterBox.getItems().add(allTypesKey);
-        }
-        nodeTypeFilterBox.setValue(allTypesKey);
-
-        searchBar.clear();
-        locationSearcher.update();
-        searchWindow.setVisible(true);
+    private void hide() {
+        findPathButton.setText(App.resourceBundle.getString("key.find_path"));
+        closeStartSearchWindow();
+        closeEndSearchWindow();
+        planningWindow.setVisible(false);
+        planningWindow.setMouseTransparent(true);
+        reset();
     }
 
-    public void closeSearchWindow() {
-        locationSearcher.clearSelectedLocations();
-        searchWindow.setVisible(false);
+    private void show() {
+        findPathButton.setText(App.resourceBundle.getString("key.compute_path"));
+        planningWindow.setMouseTransparent(false);
+        planningWindow.setVisible(true);
+        switchToIdle();
+    }
+
+    public void openStartSearchWindow() {
+        startSearchWindow.setVisible(true);
+        startSearchWindow.setManaged(true);
+    }
+
+    public void initSearchers() {
+        startLocationSearcher.setOnClickNode(this::chooseStartNode);
+        endLocationSearcher.setOnClickNode(this::chooseEndNode);
+        this.startLocationSearcher.update();
+        this.endLocationSearcher.update();
+
+        if (!endTypeFilterBox.getItems().contains(allTypesKey)) {
+            endTypeFilterBox.getItems().add(allTypesKey);
+        }
+        endTypeFilterBox.setValue(allTypesKey);
+
+        if (!startTypeFilterBox.getItems().contains(allTypesKey)) {
+            startTypeFilterBox.getItems().add(allTypesKey);
+        }
+        startTypeFilterBox.setValue(allTypesKey);
+
+        startSearchBar.focusedProperty().addListener(event -> {
+            if (startSearchBar.focusedProperty().getValue()) {
+                switchToChoosingStart();
+            }
+        });
+
+        endSearchBar.focusedProperty().addListener(event -> {
+            if (endSearchBar.focusedProperty().getValue()) {
+                switchToChoosingEnd();
+            }
+        });
+
+    }
+
+    public void openEndSearchWindow() {
+        endSearchWindow.setVisible(true);
+        endSearchWindow.setManaged(true);
+    }
+
+    public void closeStartSearchWindow() {
+        startSearchWindow.setVisible(false);
+        startSearchWindow.setManaged(false);
+    }
+
+    public void closeEndSearchWindow() {
+        endSearchWindow.setVisible(false);
+        endSearchWindow.setManaged(false);
     }
 
     public NodeInfo getSelectedStartNode() {
@@ -184,9 +292,15 @@ public class PathSelectionControls {
         nodes.forEach(node -> {
             if (!types.contains(node.getNodeType())) types.add(node.getNodeType());
         });
-        nodeTypeFilterBox.getItems().setAll(types);
-        nodeTypeFilterBox.setValue(allTypesKey);
+        startTypeFilterBox.getItems().setAll(types);
+        endTypeFilterBox.getItems().setAll(types);
 
-        locationSearcher.setLocations(nodes);
+        startTypeFilterBox.setValue(allTypesKey);
+        endTypeFilterBox.setValue(allTypesKey);
+
+        startLocationSearcher.setLocations(nodes);
+        endLocationSearcher.setLocations(nodes);
     }
+
+
 }

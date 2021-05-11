@@ -1,5 +1,6 @@
 package edu.wpi.teamo.views.requests;
 
+import edu.wpi.teamo.Session;
 import edu.wpi.teamo.database.map.NodeInfo;
 import edu.wpi.teamo.database.request.BaseRequest;
 import edu.wpi.teamo.database.request.SecurityRequest;
@@ -114,7 +115,7 @@ public class SR11_Security implements Initializable {
                                                                     locationIDs.stream(),
                                                                     "",
                                                                     false,
-                                                                    dateTime)
+                                                                    dateTime, Session.getAccount().getUsername())
                                                     );
             try {
                 sr.update();

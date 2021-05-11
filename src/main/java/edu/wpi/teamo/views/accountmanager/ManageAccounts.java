@@ -70,6 +70,9 @@ public class ManageAccounts implements Initializable {
     JFXTextField lastNameBox;
 
     @FXML
+    JFXTextField emailBox;
+
+    @FXML
     JFXComboBox<String> roleBox;
 
     private boolean correctPassword;
@@ -97,7 +100,8 @@ public class ManageAccounts implements Initializable {
     @FXML
     private void updateAccountTable() {
 
-        JFXTreeTableColumn<Account, String> acctUsers = new JFXTreeTableColumn<>("Username");
+        JFXTreeTableColumn<Account, String> acctUsers = new JFXTreeTableColumn<>(
+                App.resourceBundle.getString("key.username"));
         acctUsers.setPrefWidth(200);
         acctUsers.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Account, String>, ObservableValue<String>>() {
             @Override
@@ -107,7 +111,9 @@ public class ManageAccounts implements Initializable {
             }
         });
 
-        JFXTreeTableColumn<Account, String> acctFirst = new JFXTreeTableColumn<>("First Name");
+        JFXTreeTableColumn<Account, String> acctFirst = new JFXTreeTableColumn<>(
+                App.resourceBundle.getString("key.first_name")
+        );
         acctFirst.setPrefWidth(200);
         acctFirst.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Account, String>, ObservableValue<String>>() {
             @Override
@@ -116,7 +122,9 @@ public class ManageAccounts implements Initializable {
                 return strProp;
             }
         });
-        JFXTreeTableColumn<Account, String> acctLast = new JFXTreeTableColumn<>("Last Name");
+        JFXTreeTableColumn<Account, String> acctLast = new JFXTreeTableColumn<>(
+                App.resourceBundle.getString("key.last_name")
+        );
         acctLast.setPrefWidth(150);
         acctLast.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Account, String>, ObservableValue<String>>() {
             @Override
@@ -126,7 +134,9 @@ public class ManageAccounts implements Initializable {
             }
         });
 
-        JFXTreeTableColumn<Account, String> acctRole = new JFXTreeTableColumn<>("Role");
+        JFXTreeTableColumn<Account, String> acctRole = new JFXTreeTableColumn<>(
+                App.resourceBundle.getString("key.role")
+        );
         acctRole.setPrefWidth(200);
         acctRole.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Account, String>, ObservableValue<String>>() {
             @Override
@@ -137,7 +147,9 @@ public class ManageAccounts implements Initializable {
         });
 
 
-        JFXTreeTableColumn<Account, Boolean> acctAdmin = new JFXTreeTableColumn<>("Admin");
+        JFXTreeTableColumn<Account, Boolean> acctAdmin = new JFXTreeTableColumn<>(
+                App.resourceBundle.getString("key.admin")
+        );
         acctAdmin.setPrefWidth(150);
         //acctAdmin.setCellFactory(CheckBoxTreeTableCell.forTreeTableColumn(acctAdmin));
         acctAdmin.setCellValueFactory(param -> {
@@ -148,7 +160,9 @@ public class ManageAccounts implements Initializable {
             }
         });
 
-        JFXTreeTableColumn<Account, String> acctCleared = new JFXTreeTableColumn<>("Entry Status");
+        JFXTreeTableColumn<Account, String> acctCleared = new JFXTreeTableColumn<>(
+                App.resourceBundle.getString("key.entry")
+        );
         acctCleared.setPrefWidth(100);
         acctCleared.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Account, String>, ObservableValue<String>>() {
             @Override
@@ -156,6 +170,18 @@ public class ManageAccounts implements Initializable {
                 StringProperty strProp;
                 if (param.getValue().getValue().clearedPastEntry()) strProp = new SimpleStringProperty("Cleared Past Entry");
                 else strProp = new SimpleStringProperty("Pending");
+                return strProp;
+            }
+        });
+
+        JFXTreeTableColumn<Account, String> acctEmail = new JFXTreeTableColumn<>(
+                App.resourceBundle.getString("key.email")
+        );
+        acctEmail.setPrefWidth(300);
+        acctEmail.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<Account, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(TreeTableColumn.CellDataFeatures<Account, String> param) {
+                StringProperty strProp = new SimpleStringProperty(param.getValue().getValue().getEmail());
                 return strProp;
             }
         });
@@ -230,6 +256,21 @@ public class ManageAccounts implements Initializable {
                 }
             });
 
+            //Enable editing email via doubleclick and enter
+            acctEmail.setCellFactory(TextFieldTreeTableCell.forTreeTableColumn());
+            acctEmail.setOnEditCommit(new EventHandler<TreeTableColumn.CellEditEvent<Account, String>>() {
+                @Override
+                public void handle(TreeTableColumn.CellEditEvent<Account, String> event) {
+                    TreeItem<Account> currentAccount = acctTree.getTreeItem(event.getTreeTablePosition().getRow());
+                    try {
+                        String email = event.getNewValue();
+                        currentAccount.getValue().setEmail(email);
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+                }
+            });
+
         }
 
         ObservableList<Account> accountList = FXCollections.observableArrayList();
@@ -242,7 +283,7 @@ public class ManageAccounts implements Initializable {
 
 
         final TreeItem<Account> root = new RecursiveTreeItem<Account>(accountList, RecursiveTreeObject::getChildren);
-        acctTree.getColumns().setAll(acctUsers, acctFirst, acctLast, acctRole, acctAdmin, acctCleared);
+        acctTree.getColumns().setAll(acctUsers, acctFirst, acctLast, acctRole, acctCleared, acctEmail, acctAdmin);
         acctTree.setRoot(root);
         acctTree.setShowRoot(false);
 
@@ -257,16 +298,17 @@ public class ManageAccounts implements Initializable {
         String first = firstNameBox.getText();
         String last  = lastNameBox.getText();
         String role = roleBox.getValue();
+        String email = emailBox.getText();
 
 
         if(user.equals("") || pass.equals("") ||
-        first.equals("") || last.equals("") || role == null){
+        first.equals("") || last.equals("") || role == null || email.equals("")){
             handleError();
         }
         else{
             try{
                 new Account(user, pass, false,
-                        first, last, role).update();
+                        first, last, role,email).update();
                 this.updateAccountTable();
             }
             catch(SQLException e){
@@ -302,62 +344,6 @@ public class ManageAccounts implements Initializable {
             //System.out.println("You aren't an admin, how did you get here?");
         }
     }
-
-    /*
-
-    Verifies the password of the admin before allowing promotion of others to admin status
-    removed because it is redundant on an admin-only page
-    private void handleVerify() {
-
-        if(!correctPassword) {
-            JFXDialogLayout content = new JFXDialogLayout();
-            content.setHeading(new Text(App.resourceBundle.getString("key.enter_password")));
-            JFXPasswordField passwordField = new JFXPasswordField();
-
-            VBox vb = new VBox();
-            vb.setPadding(new Insets(10, 0, 0, 10));
-            vb.setSpacing(10);
-            final Label message = new Label("");
-            vb.getChildren().setAll(passwordField, message);
-
-            content.setBody(vb);
-            JFXDialog passwordWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
-
-
-            JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
-            closeButton.setStyle("-fx-background-color: #ba1b26; -fx-text-fill: #000000");
-            closeButton.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    passwordWindow.close();
-                }
-            });
-
-            JFXButton submitButton = new JFXButton(App.resourceBundle.getString("key.submit"));
-            submitButton.setStyle("-fx-background-color: rgb(44,147,71); -fx-text-fill: #000000");
-            submitButton.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    if (passwordField.getText().equals(Session.getAccount().getPasswordHash())) {
-                        message.setText("Thank you");
-                        message.setTextFill(Color.rgb(21, 117, 84));
-                        correctPassword = true;
-                        updateAccess();
-                        passwordWindow.close();
-                    } else {
-                        message.setText("Password Incorrect");
-                        message.setTextFill(Color.rgb(210, 39, 30));
-                    }
-                }
-            });
-
-            content.setActions(closeButton, submitButton);
-            passwordWindow.show();
-        }
-        else{
-            updateAccess();
-        }
-    } */
 
     private void handleError() {
 

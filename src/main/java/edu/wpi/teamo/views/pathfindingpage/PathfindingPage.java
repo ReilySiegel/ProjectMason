@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
@@ -44,13 +45,25 @@ public class PathfindingPage extends SubPageController implements Initializable 
     private StackPane parentStackPane;
 
     @FXML
-    JFXButton chooseStartButton;
+    private VBox planningWindow;
 
     @FXML
-    JFXButton chooseEndButton;
+    private JFXComboBox<String> startTypeFilterBox;
+    @FXML
+    private HBox startSearchWindow;
+    @FXML
+    private JFXTextField startSearchBar;
+    @FXML
+    private JFXListView<Label> startSearchList;
 
     @FXML
-    private JFXComboBox<String> nodeTypeFilterBox;
+    private JFXComboBox<String> endTypeFilterBox;
+    @FXML
+    private HBox endSearchWindow;
+    @FXML
+    private JFXTextField endSearchBar;
+    @FXML
+    private JFXListView<Label> endSearchList;
 
     @FXML
     JFXButton findPathButton;
@@ -59,22 +72,13 @@ public class PathfindingPage extends SubPageController implements Initializable 
     private AnchorPane pathPane;
 
     @FXML
-    private VBox searchWindow;
-
-    @FXML
-    private JFXTextField searchBar;
-
-    @FXML
-    private JFXListView<JFXCheckBox> searchResultsView;
-
-    @FXML
     private HBox algoSwitchWindow;
 
     @FXML
     private JFXComboBox<String> algoSwitcher;
 
     @FXML
-    private VBox textualWindow;
+    private VBox pathDisplayControlWindow;
 
     @FXML
     private JFXListView<HBox> textualDirView;
@@ -85,7 +89,13 @@ public class PathfindingPage extends SubPageController implements Initializable 
     LinkedList<AlgoNode> calculatedPath = null;
 
     @FXML
-    private JFXButton selectParkingSpotButton;
+    private JFXButton saveNewParkingSpotButton;
+
+    @FXML
+    private JFXButton selectSavedParkingSpotButton;
+
+    @FXML
+    private HBox parkingWindow;
 
     @FXML
     private JFXButton forwardStepButton;
@@ -115,22 +125,28 @@ public class PathfindingPage extends SubPageController implements Initializable 
     public void initialize(URL location, ResourceBundle resources) {
         gridPane.setPickOnBounds(false);
 
-        pathSelection = new PathSelectionControls(chooseStartButton,
-                                          chooseEndButton,
-                                          searchWindow,
-                                          searchBar,
-                                          searchResultsView,
-                                          nodeTypeFilterBox,
-                                          this::handleSelectedStart,
-                                          this::handleSelectedEnd,
-                                          this::handleChoosing);
+        pathSelection = new PathSelectionControls(endSearchWindow,
+                                                  startSearchWindow,
+                                                  endSearchBar,
+                                                  startSearchBar,
+                                                  endSearchList,
+                                                  startSearchList,
+                                                  endTypeFilterBox,
+                                                  startTypeFilterBox,
+                                                  findPathButton,
+                                                  planningWindow,
+                                                  this::handleSelectedStart,
+                                                  this::handleSelectedEnd,
+                                                  this::handleChoosing,
+                                                  this::handleFindPath,
+                                                  this::handlePlanNewPath);
 
-        TextualDirections textualDirections = new TextualDirections(textualWindow,
-                                                                    textualDirView,
+        TextualDirections textualDirections = new TextualDirections(textualDirView,
                                                                     textualUnitsBtn,
                                                                     currentDirectionDisplay);
 
-        pathDisplayControls = new PathDisplayControls(forwardStepButton,
+        pathDisplayControls = new PathDisplayControls(pathDisplayControlWindow,
+                                                      forwardStepButton,
                                                       backwardStepButton,
                                                       textualDirections,
                                                       pathStepHBox,
@@ -142,9 +158,9 @@ public class PathfindingPage extends SubPageController implements Initializable 
         initFloorSwitcher();
         initAlgoSwitcher();
 
-        selectParkingSpotButton.setOnAction(this::handleSelectParkingSpot);
+        selectSavedParkingSpotButton.setOnAction(this::handleSelectParkingSpot);
+        saveNewParkingSpotButton.setOnAction(this::handleSaveNewParkingSpot);
         floorComboBox.setOnAction(this::handleFloorSwitch);
-        findPathButton.setOnAction(this::handleFindPath);
         algoSwitcher.setOnAction(this::handleAlgoSwitch);
         helpButton.setOnAction(this::handleHelpButton);
 
@@ -157,6 +173,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
         pathDisplayControls.hide();
         map = new Map(pathPane);
         map.setOnDrawNode(this::onDrawNode);
+
         update();
         map.hideNodes();
     }
@@ -168,14 +185,20 @@ public class PathfindingPage extends SubPageController implements Initializable 
 
     private void handleSelectedStart() {
         map.hideNodes();
+        if (map.getEndingNodeCircle() != null) map.getEndingNodeCircle().setVisible(true);
+        if (map.getStartingNodeCircle() != null) map.getStartingNodeCircle().setVisible(true);
     }
 
     private void handleSelectedEnd() {
         map.hideNodes();
+        if (map.getEndingNodeCircle() != null) map.getEndingNodeCircle().setVisible(true);
+        if (map.getStartingNodeCircle() != null) map.getStartingNodeCircle().setVisible(true);
     }
 
     private void handleChoosing() {
         map.showNodes();
+        if (map.getEndingNodeCircle() != null) map.getEndingNodeCircle().setVisible(false);
+        if (map.getStartingNodeCircle() != null) map.getStartingNodeCircle().setVisible(false);
     }
 
     private void handleSelectParkingSpot(ActionEvent actionEvent) {
@@ -187,18 +210,20 @@ public class PathfindingPage extends SubPageController implements Initializable 
                     onClickNode(node);
                 }
             }
-            else if (selectingParkingSpot) {
-                selectingParkingSpot = false;
-            }
-            else {
-                selectingParkingSpot = true;
-                showParkingSpots();
-            }
         }
         catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
+    private void handleSaveNewParkingSpot(ActionEvent actionEvent) {
+        if (selectingParkingSpot) {
+            selectingParkingSpot = false;
+        }
+        else {
+            selectingParkingSpot = true;
+            showParkingSpots();
+        }
     }
 
     private void handleAlgoSwitch(ActionEvent actionEvent) {
@@ -298,8 +323,8 @@ public class PathfindingPage extends SubPageController implements Initializable 
     }
 
     private void setSelectParkingSpotButtonVisibility(boolean visible) {
-        selectParkingSpotButton.setVisible(visible);
-        selectParkingSpotButton.setManaged(visible);
+        parkingWindow.setManaged(visible);
+        parkingWindow.setVisible(visible);
     }
 
     void onRightClickNode(MouseEvent e, Circle circle, NodeInfo node){
@@ -334,10 +359,14 @@ public class PathfindingPage extends SubPageController implements Initializable 
         }
     }
 
-    private void handleFindPath(ActionEvent e) {
+    private void handlePlanNewPath() {
+        pathDisplayControls.hide();
+    }
+
+    private void handleFindPath() {
         NodeInfo startNode = pathSelection.getSelectedStartNode();
         NodeInfo endNode = pathSelection.getSelectedEndNode();
-
+        map.hideNodes();
         if (startNode != null && endNode != null) {
             findPath(startNode.getNodeID(), endNode.getNodeID());
         }

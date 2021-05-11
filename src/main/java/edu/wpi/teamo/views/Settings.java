@@ -37,6 +37,9 @@ public class Settings implements Initializable {
 
         themeSelect.getItems().add(new Label("Theme 1"));
         themeSelect.getItems().add(new Label("Theme 2"));
+        themeSelect.getItems().add(new Label("Dark"));
+        themeSelect.getItems().add(new Label("Holiday"));
+        themeSelect.getSelectionModel().selectFirst();
     }
 
     private void fillLangBox() {
@@ -56,6 +59,12 @@ public class Settings implements Initializable {
                 break;
             case "Theme 2":
                 Session.getAccount().setTheme(Theme.CLOUDS);
+                break;
+            case "Holiday":
+                Session.getAccount().setTheme(Theme.HOLIDAY);
+                break;
+            case "Dark":
+                Session.getAccount().setTheme(Theme.DARK);
                 break;
         }
 

@@ -1,0 +1,201 @@
+@font-face {
+    src: url('../../fonts/Roboto-Regular.ttf');
+}
+
+.pane {
+    -fx-background-color: rgba(62, 62, 62, 0.5) !important;
+    -fx-border-color: rgba(95, 95, 95, 0.9) !important;
+    -fx-border-width: 0.5;
+    -fx-effect: dropshadow(gaussian, rgba(100, 100, 100, 0.3), 10, 0.5, 0.0, 0.0);
+    -fx-text-fill: white !important;
+}
+
+.thickerPane {
+    -fx-background-color: rgba(62, 62, 62, 0.8) !important;
+    -fx-border-color: rgba(95, 95, 95, 0.9) !important;
+    -fx-border-width: 0.5;
+    -fx-effect: dropshadow(gaussian, rgba(100, 100, 100, 0.3), 10, 0.5, 0.0, 0.0);
+}
+
+.murkier-pane {
+    -fx-background-color: rgba(62, 62, 62, 0.8) !important;
+    -fx-border-color: rgba(95, 95, 95, 0.9) !important;
+    -fx-border-width: 0.5;
+    -fx-effect: dropshadow(gaussian, rgba(100, 100, 100, 0.3), 10, 0.5, 0.0, 0.0);
+}
+
+.button {
+    -fx-background-color: rgb(93, 93, 93) !important;
+    -fx-font-size: 12;
+    -fx-font-family: "Roboto Regular";
+    -fx-font-weight: normal;
+    -fx-text-fill: #fff !important;
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
+    margin: 15px 15px 15px 15px;
+    /*-fx-border-color: #000000;*/
+    /*-fx-border-width: 2;*/
+}
+
+.inputs {
+    -fx-background-color: rgba(255, 255, 255, 0.3);
+    -fx-border-color: rgba(255, 255, 255, 0.9);
+    -fx-border-width: 0.5;
+    -fx-effect: dropshadow(gaussian, rgba(100, 100, 100, 0.3), 10, 0.5, 0.0, 0.0);
+}
+
+.button .submit-button {
+    -fx-background-color: rgb(62, 234, 105);
+}
+
+
+.text-field {
+    /*-fx-background-color: #88C0D0;*/
+    -fx-border-color: #777777;
+    -fx-border-width: 0.5;
+}
+
+.requestDisplayPane {
+    -fx-background-color: rgba(103, 103, 103, 0.7) !important;
+    -fx-font-size: 9;
+}
+
+.filterPane {
+    -fx-background-color: rgba(71, 71, 71, 0.7) !important;
+}
+
+.requestBox {
+    -fx-background-color: #3e3e3e !important;
+    -fx-fill: #fff;
+    -fx-effect: dropshadow(gaussian, rgba(80, 80, 80, 1), 10, 0.5, 0.0, 0.0) !important;
+}
+
+.requestDisplayWrapper {
+    -fx-border-color: rgba(255, 255, 255, 0.9);
+    -fx-border-width: 0.5;
+    -fx-effect: dropshadow(gaussian, rgba(100, 100, 100, 0.3), 10, 0.5, 0.0, 0.0);
+}
+
+.jfx-dialog-overlay-pane > StackPane {
+    -fx-background-color: rgba(91, 91, 91, 0.8) !important;
+    -fx-border-color: rgba(136, 136, 136, 0.9) !important;
+    -fx-border-width: 0.5;
+    -fx-effect: dropshadow(gaussian, rgba(100, 100, 100, 0.3), 10, 0.5, 0.0, 0.0);
+    -fx-font-family: "Roboto Regular";
+    -fx-font-size: 18;
+    -fx-text-fill: white !important;
+}
+
+.jfx-dialog-layout > .jfx-layout-actions .jfx-button {
+    -fx-pref-height: 30;
+    -fx-pref-width: 100;
+    -fx-padding: 8;
+}
+
+.jfx-dialog-layout > .text {
+    -fx-text-fill: white !important;
+}
+
+.jfx-check-box{
+    -jfx-checked-color: #001856 !important;
+    -fx-text-fill: white !important;
+}
+
+
+
+.tree-table-view{
+    -fx-font: 12px "Roboto Regular";
+    -fx-font-size: 12;
+    -fx-background-color: rgba(79, 79, 79, 0.7) !important;
+    -fx-border-color: rgba(79, 79, 79, 0.7) !important;
+}
+
+.tree-table-row-cell {
+    -fx-font: 12px "Roboto Regular";
+    -fx-background: rgba(255, 255, 255, 0);
+    -fx-border-color: rgba(255, 255, 255, 0) !important;
+    -fx-text-fill: white !important;
+}
+
+
+.jfx-date-picker{
+    -jfx-default-color: #a5efff;
+}
+
+.jfx-time-picker{
+    -jfx-default-color: #a5efff;
+}
+
+.date-picker-popup .left-button,
+.date-picker-popup .right-button  {
+    -fx-background-color: #a5efff;
+}
+
+.date-picker-popup .left-button .jfx-svg-glyph,
+.date-picker-popup .right-button .jfx-svg-glyph {
+    -fx-background-color: #ffffff;
+}
+
+.headerText {
+    -fx-font-size: 34;
+    -fx-font-family: "Roboto Regular";
+}
+
+.button-small {
+    -fx-pref-height: 30;
+    -fx-pref-width: 60;
+}
+
+.combo-box-popup .list-view .list-cell {
+    -fx-background-color: #303030;
+}
+
+.jfx-combo-box{
+    -jfx-focus-color: #000000;
+}
+
+.jfx-combo-box .cell:selected {
+    -fx-text-fill: white;
+}
+
+.combo-box-popup .list-view .list-cell:hover {
+    -fx-text-fill: white;
+    -fx-background-color: #a5efff;
+}
+
+.jfx-text-field{
+    -jfx-focus-color: #000000;
+    -fx-text-fill: #eee;
+    -fx-highlight-fill: #eee;
+    -fx-highlight-text-fill: #eee;
+    -fx-prompt-text-fill: #ccc;
+}
+
+.jfx-password-field{
+    -jfx-focus-color: #000000;
+    -fx-text-fill: #eee;
+    -fx-highlight-fill: #eee;
+    -fx-highlight-text-fill: #eee;
+    -fx-prompt-text-fill: #ccc;
+}
+
+.help-button {
+    -fx-min-height: 50;
+    -fx-min-width: 50;
+    -fx-border-radius: 25;
+    -fx-background-radius: 25;
+    -fx-font-size: 20;
+    -fx-font-family: Roboto Regular;
+}
+
+.label {
+    -fx-text-fill: white !important;
+}
+
+.text {
+    -fx-text-fill: white !important;
+}
+
+.annoyingText {
+    -fx-fill: white !important;
+}

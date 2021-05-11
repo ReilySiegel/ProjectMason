@@ -1,9 +1,6 @@
 package edu.wpi.teamo.views;
 
-import com.jfoenix.controls.JFXCheckBox;
-import com.jfoenix.controls.JFXDatePicker;
-import com.jfoenix.controls.JFXListView;
-import com.jfoenix.controls.JFXTimePicker;
+import com.jfoenix.controls.*;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.Session;
 import edu.wpi.teamo.views.requestmanager.RequestDisplay;
@@ -49,6 +46,8 @@ public class ProfileInformationPage implements Initializable {
 
     RequestDisplay requestDisplay;
 
+    HashMap<String, JFXCheckBox> typeCheckboxes;
+
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -59,6 +58,5 @@ public class ProfileInformationPage implements Initializable {
         requestDisplay = new RequestDisplay(reqDisplayListView, false, LocalDateTime.MAX,Session.getAccount().getUsername());
 
     }
-
 
 }

@@ -81,9 +81,13 @@ public class App extends Application {
 
     themeMap.put(Theme.BLUE_SKY, "/edu/wpi/teamo/fxml/CSS/MainPage.css");
     themeMap.put(Theme.CLOUDS, "/edu/wpi/teamo/fxml/CSS/MainPage2.css");
+    themeMap.put(Theme.HOLIDAY, "/edu/wpi/teamo/fxml/CSS/holiday.css");
+    themeMap.put(Theme.DARK, "/edu/wpi/teamo/fxml/CSS/dark.css");
 
     bgMap.put(Theme.BLUE_SKY, "/edu/wpi/teamo/images/sky2.png");
     bgMap.put(Theme.CLOUDS, "/edu/wpi/teamo/images/clouds.jpg");
+    bgMap.put(Theme.HOLIDAY, "/edu/wpi/teamo/images/snow.jpg");
+    bgMap.put(Theme.DARK, "/edu/wpi/teamo/images/night.jpg");
 
 
 
@@ -104,11 +108,12 @@ public class App extends Application {
       FoodRequest.initTable();
       COVIDSurveyRequest.initTable();
       TransportationRequest.initTable();
-      new Account("admin", "admin", true, "Wilson", "Wong", "admin").update();
-      new Account("patient", "patient", false, "Nestor", "Lopez", "patient").update();
-      new Account("staff", "staff", false, "Reily", "Siegel", "employee").update();
-      new Account("guest", "guest", false, "guest", "guest", "guest").update();
+      new Account("admin", "admin", true, "Wilson", "Wong", "admin", "genericemail@gmail.com").update();
+      new Account("patient", "patient", false, "Nestor", "Lopez", "patient","genericemail@gmail.com").update();
+      new Account("staff", "staff", false, "Reily", "Siegel", "employee","genericemail@gmail.com").update();
+      new Account("guest", "guest", false, "guest", "guest", "guest","genericemail@gmail.com").update();
       Session.login("guest", "guest");
+
       System.out.println("Database Services Initialized");
     } catch (SQLException e) {
       System.out.println("ERROR: FAILED TO INIT DATABASE SERVICES");

@@ -19,6 +19,7 @@ import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -116,6 +117,7 @@ public class SR08_Religious implements Initializable {
         String serviceName = service.getText();
         String assigned = assigneeName.getText();
         String details = notes.getText();
+        String figure = religiousFigure.getText();
 
         List<NodeInfo> locations = locationSearcher.getSelectedLocations();
         List<String> locationIDs = locationSearcher.getSelectedLocationIDs();
@@ -126,7 +128,7 @@ public class SR08_Religious implements Initializable {
                                                       serviceName + ", " + details,
                                                       locationIDs.stream(),
                                                       assigned,
-                                                      false
+                                                      false, LocalDateTime.now(), Session.getAccount().getUsername()
                                                       );
 
             new ReligiousRequest(service.getText(),
@@ -138,20 +140,37 @@ public class SR08_Religious implements Initializable {
 
             resetFields();
 
-            receiptPopup(serviceName, locationIDs, assigned, details);
+            receiptPopup(serviceName, locationIDs, assigned, details, figure);
         }
     }
 
-    private void receiptPopup(String serviceName, List<String> locationIDs, String assigned, String details) {
+    private void receiptPopup(String serviceName, List<String> locationIDs, String assigned, String details, String figure) {
+
+        if(figure.equals("")){
+            figure = "None";
+        }
+
         JFXDialogLayout content = new JFXDialogLayout();
         content.setHeading(new Text(App.resourceBundle.getString("key.religious_request_submitted")));
-        content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
-                App.resourceBundle.getString("key.type_of_service") + serviceName + "\n" +
-                App.resourceBundle.getString("key.persons_assigned_semicolon") + assigned + "\n" +
-                App.resourceBundle.getString("key.additional_notes")+ details + "\n" +
-                App.resourceBundle.getString("key.room_semicolon") + String.join(", ", locationIDs) + "\n" +
-                App.resourceBundle.getString("key.religious_figure_semicolon") + religiousFigure.getText() + "\n" +
-                App.resourceBundle.getString("key.last_rights_semicolon") + lastRites.isSelected()));
+
+        if(!Session.getAccount().hasEmployeeAccess()){
+            content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
+                    App.resourceBundle.getString("key.type_of_service") + serviceName + "\n" +
+                    App.resourceBundle.getString("key.additional_notes")+ details + "\n" +
+                    App.resourceBundle.getString("key.room_semicolon") + String.join(", ", locationIDs) + "\n" +
+                    App.resourceBundle.getString("key.religious_figure_semicolon") + figure + "\n" +
+                    App.resourceBundle.getString("key.last_rights_semicolon") + lastRites.isSelected()));
+        }
+        else{
+            content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
+                    App.resourceBundle.getString("key.type_of_service") + serviceName + "\n" +
+                    App.resourceBundle.getString("key.persons_assigned_semicolon") + assigned + "\n" +
+                    App.resourceBundle.getString("key.additional_notes")+ details + "\n" +
+                    App.resourceBundle.getString("key.room_semicolon") + String.join(", ", locationIDs) + "\n" +
+                    App.resourceBundle.getString("key.religious_figure_semicolon") + figure + "\n" +
+                    App.resourceBundle.getString("key.last_rights_semicolon") + lastRites.isSelected()));
+        }
+
         JFXDialog popup = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 
         JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));

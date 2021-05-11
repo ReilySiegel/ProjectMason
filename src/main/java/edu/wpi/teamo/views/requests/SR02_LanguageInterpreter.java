@@ -37,6 +37,9 @@ public class SR02_LanguageInterpreter implements Initializable {
     @FXML
     private Text assigneeErrorText;
 
+    @FXML
+    private Text DateTimeErrorText;
+
     private boolean validRequest;
 
     @FXML
@@ -166,15 +169,17 @@ public class SR02_LanguageInterpreter implements Initializable {
             roomErrorText.setText(App.resourceBundle.getString("key.no_room_specified"));
             validRequest = false;
         }
-        if (assigned.equals("")) {
-            assigned = "Unassigned";
-        }
+
+        assigned = "Unassigned";
+
         if(timepicker.getValue() == null){
             validRequest = false;
+            DateTimeErrorText.setText(App.resourceBundle.getString("key.missing_date/time"));
         }
 
         if(datepicker.getValue() == null){
             validRequest = false;
+            DateTimeErrorText.setText(App.resourceBundle.getString("key.missing_date/time"));
         }
 
        if (validRequest) {
@@ -183,25 +188,35 @@ public class SR02_LanguageInterpreter implements Initializable {
            LocalDateTime curDate = datepicker.getValue().atTime(curTime);
 
            BaseRequest baseRequest = new BaseRequest(UUID.randomUUID().toString(), details, locationIDs.stream(),
-                  assigned, false, curDate);
+                  assigned, false, curDate, Session.getAccount().getUsername());
 
             new InterpreterRequest(selectedLanguage, selectedJob, baseRequest).update();
             langErrorText.setText("");
             jobErrorText.setText("");
             roomErrorText.setText("");
-            assigneeErrorText.setText("");
+            ///assigneeErrorText.setText("");
             notes.setText("");
             System.out.println("request successful");
             assignee.setText("");
 
             JFXDialogLayout content = new JFXDialogLayout();
             content.setHeading(new Text(App.resourceBundle.getString("key.language_request_submitted")));
-            content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
-                    App.resourceBundle.getString("key.language_semicolon") +  selectedLanguage+ "\n" +
-                    App.resourceBundle.getString("key.job_type_semicolon") + selectedJob + "\n" +
-                    App.resourceBundle.getString("key.room_semicolon") + String.join(", ", locationIDs) + "\n" +
-                    App.resourceBundle.getString("key.persons_assigned_semicolon") + assigned + "\n" +
-                    App.resourceBundle.getString("key.selected_time_semicolon") + curDate));
+           if(!Session.getAccount().hasEmployeeAccess()) {
+               content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
+                       App.resourceBundle.getString("key.language_semicolon") +  selectedLanguage+ "\n" +
+                       App.resourceBundle.getString("key.job_type_semicolon") + selectedJob + "\n" +
+                       App.resourceBundle.getString("key.room_semicolon") + String.join(", ", locationIDs) + "\n" +
+                       App.resourceBundle.getString("key.selected_time_semicolon") + curDate));
+           }
+           else{
+               content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
+                       App.resourceBundle.getString("key.language_semicolon") +  selectedLanguage+ "\n" +
+                       App.resourceBundle.getString("key.job_type_semicolon") + selectedJob + "\n" +
+                       App.resourceBundle.getString("key.room_semicolon") + String.join(", ", locationIDs) + "\n" +
+                       App.resourceBundle.getString("key.persons_assigned_semicolon") + assigned + "\n" +
+                       App.resourceBundle.getString("key.selected_time_semicolon") + curDate));
+           }
+
             JFXDialog popup = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 
             JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
