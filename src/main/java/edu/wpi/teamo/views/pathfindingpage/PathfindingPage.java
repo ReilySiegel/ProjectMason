@@ -123,6 +123,8 @@ public class PathfindingPage extends SubPageController implements Initializable 
 
 
 
+
+
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
         gridPane.setPickOnBounds(false);
