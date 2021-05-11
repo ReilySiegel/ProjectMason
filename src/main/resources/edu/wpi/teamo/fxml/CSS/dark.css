@@ -130,6 +130,10 @@
     -fx-text-fill: white !important;
 }
 
+.tree-table-view .column-header, .table-view .filler {
+    -fx-border-width: 0, 0;
+}
+
 
 .jfx-date-picker{
     -jfx-default-color: #4793e9 !important;
