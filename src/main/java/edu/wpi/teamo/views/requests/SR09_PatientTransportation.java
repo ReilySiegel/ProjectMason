@@ -5,6 +5,7 @@ import com.jfoenix.controls.*;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.Pages;
 import edu.wpi.teamo.Session;
+import edu.wpi.teamo.database.account.Account;
 import edu.wpi.teamo.database.map.NodeInfo;
 import edu.wpi.teamo.database.request.*;
 import edu.wpi.teamo.views.SubPageContainer;
@@ -27,13 +28,14 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class SR09_PatientTransportation implements Initializable{
     @FXML
     private StackPane stackPane;
 
     @FXML
-    private JFXTextField assignee;
+    private JFXComboBox<String> assigneeBox;
 
     @FXML
     private JFXTextField notes;
@@ -76,6 +78,8 @@ public class SR09_PatientTransportation implements Initializable{
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
 
+        initAsigneeBox();
+
         backButton.setOnAction(actionEvent -> SubPageContainer.switchPage(Pages.SERVICEREQUEST));
         emergencyCheckbox.getStyleClass().add("check-box");
         locationSearcher = new LocationSearcher(room, roomList);
@@ -97,15 +101,32 @@ public class SR09_PatientTransportation implements Initializable{
         }
     }
 
+    private void initAsigneeBox() {
+        Stream<Account> employees = Stream.empty();
+        try {
+            employees = Account.getAll().filter(Account::hasEmployeeAccess);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        employees.forEach(employee -> {
+            assigneeBox.getItems().add(employee.getUsername());
+        });
+    }
+
 
     @FXML
     private void handleSubmission(ActionEvent e) throws SQLException {
         String destination = patientDestination.getText();
-        String assigned = assignee.getText();
+        String assigned = assigneeBox.getValue();
         String details = notes.getText();
 
         List<NodeInfo> locations = locationSearcher.getSelectedLocations();
         List<String> locationIDs = locationSearcher.getSelectedLocationIDs();
+
+        if(assigned == null){
+            assigned = "Unassigned";
+        }
 
         if (validateRequest()) {
 
@@ -169,7 +190,6 @@ public class SR09_PatientTransportation implements Initializable{
     public void resetFields() {
         locationSearcher.clearSelectedLocations();
         patientDestination.setText("");
-        assignee.setText("");
         notes.setText("");
     }
 
