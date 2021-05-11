@@ -1,6 +1,7 @@
 package edu.wpi.teamo.database;
 
 import edu.wpi.teamo.Session;
+import edu.wpi.teamo.Theme;
 import edu.wpi.teamo.database.account.Account;
 import edu.wpi.teamo.database.map.Edge;
 import edu.wpi.teamo.database.map.Node;
@@ -11,6 +12,7 @@ import java.sql.*;
 
 public class Database {
     Connection conn;
+    private static String version = "0";
     private static Database db;
 
     static {
@@ -22,7 +24,7 @@ public class Database {
     }
 
     private static String defaultFilePath () {
-        return Paths.get(System.getProperty("user.home"), ".oxblood", "db").toString();
+        return Paths.get(System.getProperty("user.home"), ".oxblood", "db" + version).toString();
     }
 
     private Database () throws Exception {
@@ -51,9 +53,9 @@ public class Database {
         FoodRequest.initTable();
         COVIDSurveyRequest.initTable();
         TransportationRequest.initTable();
-        new Account("admin", "admin", true, "Wilson", "Wong", "admin", "example@example.com", false, true ,true).update();
+        new Account("admin", "admin", true, "Wilson", "Wong", "admin", "example@example.com", false, true ,true, Theme.BLUE_SKY).update();
         new Account("patient", "patient", false, "Nestor", "Lopez", "patient", "example@example.com").update();
-        new Account("staff", "staff", false, "Reily", "Siegel", "employee", "example@example.com", false, true, true).update();
+        new Account("staff", "staff", false, "Reily", "Siegel", "employee", "example@example.com", false, true, true, Theme.BLUE_SKY).update();
         new Account("guest", "guest", false, "guest", "guest", "guest", "example@example.com").update();
         try {
             Session.login("guest", "guest");

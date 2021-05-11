@@ -9,6 +9,7 @@ import edu.wpi.teamo.database.request.COVIDSurveyRequest;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -61,14 +62,14 @@ public class CovidSurveyPage implements Initializable {
 
     public void handleSubmit(javafx.event.ActionEvent actionEvent) throws SQLException, MessagingException {
         JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text(App.resourceBundle.getString("key.thanks_for_submitting_response")));
+        content.setHeading(new Label(App.resourceBundle.getString("key.thanks_for_submitting_response")));
 
         boolean mayBeSick = Q1.isSelected() || Q2.isSelected() || Q3.isSelected() || Q4.isSelected() || Q5.isSelected();
 
         if(Session.isLoggedIn()){
             new COVIDSurveyRequest(Session.getAccount().getUsername(), mayBeSick).update();
         }
-        content.setBody(new Text(App.resourceBundle.getString("key.survey_await_response")));
+        content.setBody(new Label(App.resourceBundle.getString("key.survey_await_response")));
 
         JFXDialog errorWindow = new JFXDialog(parentStackPane, content, JFXDialog.DialogTransition.TOP);
 
