@@ -25,11 +25,18 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class PathfindingPage extends SubPageController implements Initializable {
-    // new fields for Exercise Mode
+
+    @FXML
+    private Label promptText;
+
     @FXML
     private JFXButton helpForExercise;
+
     @FXML
     private JFXToggleButton exerciseMode;
+
+    @FXML
+    private JFXToggleButton handicapSwitch;
 
     @FXML
     private JFXButton helpButton;
@@ -221,6 +228,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
         if (map.getStartingNodeCircle() != null) map.getStartingNodeCircle().setVisible(true);
         if (map.getEndingNodeCircle() != null) map.getEndingNodeCircle().setVisible(true);
         if (map.getIndexCircle() != null) map.getIndexCircle().setVisible(true);
+        clearPrompt();
     }
 
     private void handleSelectedEnd() {
@@ -228,6 +236,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
         if (map.getStartingNodeCircle() != null) map.getStartingNodeCircle().setVisible(true);
         if (map.getEndingNodeCircle() != null) map.getEndingNodeCircle().setVisible(true);
         if (map.getIndexCircle() != null) map.getIndexCircle().setVisible(true);
+        clearPrompt();
     }
 
     private void handleChoosing() {
@@ -235,6 +244,10 @@ public class PathfindingPage extends SubPageController implements Initializable 
         if (map.getStartingNodeCircle() != null) map.getStartingNodeCircle().setVisible(false);
         if (map.getEndingNodeCircle() != null) map.getEndingNodeCircle().setVisible(false);
         if (map.getIndexCircle() != null) map.getIndexCircle().setVisible(false);
+        String chooseKey = pathSelection.getState() == PathSelectionControls.SelectionState.CHOOSING_START
+                           ? "key.select_path_start_node_prompt"
+                           : "key.select_path_end_node_prompt";
+        setPrompt(App.resourceBundle.getString(chooseKey));
     }
 
     private void onPickParkingSpot(NodeInfo parkingSpot) {
@@ -260,7 +273,9 @@ public class PathfindingPage extends SubPageController implements Initializable 
     }
 
     private void initAlgoSwitcher() {
-        algoSwitchWindow.setVisible(Session.isLoggedIn() && Session.getAccount().isAdmin());
+        boolean visible = Session.isLoggedIn() && Session.getAccount().isAdmin();
+        algoSwitchWindow.setVisible(visible);
+        algoSwitchWindow.setManaged(visible);
 
         algoSwitcher.getItems().add(Context.aStarCode);
        // algoSwitcher.getItems().add(Context.dfsCode);
@@ -416,6 +431,14 @@ public class PathfindingPage extends SubPageController implements Initializable 
 
         content.setActions(closeButton);
         errorWindow.show();
+    }
+
+    private void setPrompt(String string) {
+        promptText.setText(string);
+    }
+
+    private void clearPrompt() {
+        promptText.setText("");
     }
 
 }
