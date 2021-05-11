@@ -6,9 +6,9 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane stylesheets="@CSS/about.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.CreditsPage">
+<StackPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.CreditsPage">
    <children>
-      <JFXScrollPane fx:id="scrollPane" styleClass="main-header" stylesheets="@CSS/about.css" />
+      <JFXScrollPane fx:id="scrollPane" styleClass="main-header" />
       <VBox fx:id="vbox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
          <StackPane.margin>
             <Insets />
@@ -17,32 +17,32 @@
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </padding>
          <children>
-            <Label text="%key.software_used">
+            <Label styleClass="label-about" text="%key.software_used">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
             </Label>
-            <Label text="%key.list_of_software">
+            <Label styleClass="label-about" text="%key.list_of_software">
                <VBox.margin>
                   <Insets top="3.0" />
                </VBox.margin>
             </Label>
-            <Label text="%key.resources_and_APIs">
+            <Label styleClass="label-about" text="%key.resources_and_APIs">
                <VBox.margin>
                   <Insets top="20.0" />
                </VBox.margin>
             </Label>
-            <Label text="%key.list_of_resources_APIs">
+            <Label styleClass="label-about" text="%key.list_of_resources_APIs">
                <VBox.margin>
                   <Insets top="3.0" />
                </VBox.margin>
             </Label>
-            <Label text="%key.images">
+            <Label styleClass="label-about" text="%key.images">
                <VBox.margin>
                   <Insets top="20.0" />
                </VBox.margin>
             </Label>
-            <Label text="%key.list_of_images">
+            <Label styleClass="label-about" text="%key.list_of_images">
                <VBox.margin>
                   <Insets top="3.0" />
                </VBox.margin>

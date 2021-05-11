@@ -7,17 +7,17 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane stylesheets="@CSS/about.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.AboutPage">
+<StackPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.AboutPage">
    <children>
-      <JFXScrollPane fx:id="scrollPane" styleClass="main-header" stylesheets="@CSS/about.css" />
+      <JFXScrollPane fx:id="scrollPane" styleClass="main-header" />
       <VBox fx:id="vbox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
          <children>
-            <Label text="%key.about_this_application" VBox.vgrow="ALWAYS">
+            <Label styleClass="label-about" text="%key.about_this_application" VBox.vgrow="ALWAYS">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label text="%key.application_collaboration" VBox.vgrow="ALWAYS">
+            <Label styleClass="label-about" text="%key.application_collaboration" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets top="3.0" />
                </VBox.margin>
@@ -25,7 +25,7 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label text="%key.created_by" VBox.vgrow="ALWAYS">
+            <Label styleClass="label-about" text="%key.created_by" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets top="20.0" />
                </VBox.margin>
@@ -33,11 +33,11 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label text="%key.team" VBox.vgrow="ALWAYS">
+            <Label styleClass="label-about" text="%key.team" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets top="3.0" />
                </VBox.margin></Label>
-            <Label text="%key.application_purpose" VBox.vgrow="ALWAYS">
+            <Label styleClass="label-about" text="%key.application_purpose" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets top="20.0" />
                </VBox.margin>
@@ -45,12 +45,12 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label text="%key.purpose_explained" VBox.vgrow="ALWAYS">
+            <Label styleClass="label-about" text="%key.purpose_explained" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets top="3.0" />
                </VBox.margin>
             </Label>
-            <Label text="%key.aboutBandW" VBox.vgrow="ALWAYS">
+            <Label styleClass="label-about" text="%key.aboutBandW" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets top="20.0" />
                </VBox.margin>
@@ -58,21 +58,21 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label text="%key.about_text_BandW1" VBox.vgrow="ALWAYS">
+            <Label styleClass="label-about" text="%key.about_text_BandW1" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets top="3.0" />
                </VBox.margin></Label>
-            <Label text="%key.about_text_BandW2" VBox.vgrow="ALWAYS">
+            <Label styleClass="label-about" text="%key.about_text_BandW2" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
             </Label>
-            <Label text="%key.about_text_BandW3" VBox.vgrow="ALWAYS">
+            <Label styleClass="label-about" text="%key.about_text_BandW3" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
             </Label>
-            <Label text="%key.mass_general_brigham" VBox.vgrow="ALWAYS">
+            <Label styleClass="label-about" text="%key.mass_general_brigham" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets top="20.0" />
                </VBox.margin>
@@ -80,17 +80,17 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label text="%key.mass_general_text1" VBox.vgrow="ALWAYS">
+            <Label styleClass="label-about" text="%key.mass_general_text1" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets top="3.0" />
                </VBox.margin>
             </Label>
-            <Label text="%key.mass_general_text2" VBox.vgrow="ALWAYS">
+            <Label styleClass="label-about" text="%key.mass_general_text2" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
             </Label>
-            <Label text="%key.legal">
+            <Label styleClass="label-about" text="%key.legal">
                <font>
                   <Font size="18.0" />
                </font>
@@ -98,7 +98,7 @@
                   <Insets top="20.0" />
                </VBox.margin>
             </Label>
-            <Label text="%key.legal_statement" />
+            <Label styleClass="label-about" text="%key.legal_statement" />
          </children>
          <StackPane.margin>
             <Insets />
