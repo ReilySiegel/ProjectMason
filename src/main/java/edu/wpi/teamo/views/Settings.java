@@ -50,8 +50,6 @@ public class Settings implements Initializable {
 
     @FXML
     private void handleConfirm(ActionEvent e) {
-        String theme1 = App.class.getResource("/edu/wpi/teamo/fxml/css/MainPage.css").toExternalForm();
-        String theme2 = App.class.getResource("/edu/wpi/teamo/fxml/css/MainPage2.css").toExternalForm();
 
         switch (themeSelect.getValue().getText()) {
             case "Theme 1":

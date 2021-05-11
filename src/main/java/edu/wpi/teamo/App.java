@@ -108,7 +108,8 @@ public class App extends Application {
       FoodRequest.initTable();
       COVIDSurveyRequest.initTable();
       TransportationRequest.initTable();
-      new Account("admin", "admin", true, "Wilson", "Wong", "admin", "genericemail@gmail.com").update();
+      new Account("admin", "admin", true,
+              "Wilson", "Wong", "admin", "genericemail@gmail.com", false, true, true).update();
       new Account("patient", "patient", false, "Nestor", "Lopez", "patient","genericemail@gmail.com").update();
       new Account("staff", "staff", false, "Reily", "Siegel", "employee","genericemail@gmail.com").update();
       new Account("guest", "guest", false, "guest", "guest", "guest","genericemail@gmail.com").update();
