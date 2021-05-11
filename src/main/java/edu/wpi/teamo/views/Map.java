@@ -3,6 +3,7 @@ package edu.wpi.teamo.views;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.database.map.EdgeInfo;
 import edu.wpi.teamo.database.map.NodeInfo;
+import javafx.animation.PathTransition;
 import javafx.animation.TranslateTransition;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
@@ -22,6 +23,7 @@ import javafx.scene.shape.Line;
 import java.util.LinkedList;
 
 import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Polyline;
 import javafx.util.Duration;
 import javafx.util.Pair;
 import java.util.List;
@@ -73,6 +75,7 @@ public class Map {
     private Paint startNodeColor = Color.DARKGREEN;
     private Paint endNodeColor = Color.DARKRED;
     private Paint lineColor = Color.RED;
+    private Paint arrowColor = Color.BLUE;
 
     public double defaultStrokeWidth = 5;
     public double defaultRadius = 5;
@@ -116,6 +119,7 @@ public class Map {
 
     public void drawPath(LinkedList<AlgoNode> path, String floor, int index) {
         lines = new LinkedList<>();
+        Polyline polyline = new Polyline();
         for (int i = 0; i < (path.size() - 1); i++) {
             Paint lineColor = path.get(i).getFloor().equals(floor) ? sameFloorPathColor : otherFloorPathColor;
 
@@ -127,10 +131,12 @@ public class Map {
             Line line;
             if (index == i) {
                 line = createLine(firstX, firstY, secondX, secondY, null, Color.BLUE);
-                createTriangle(firstX, firstY, secondX, secondY, 6, Color.BLUE);
+                //createTriangle(firstX, firstY, secondX, secondY, 6, Color.BLUE);
+                polyline.getPoints().addAll(firstX, firstY, secondX, secondY);
             } else {
                 line = createLine(firstX, firstY, secondX, secondY, null, lineColor);
-                createTriangle(firstX, firstY, secondX, secondY, 4, lineColor);
+                //createTriangle(firstX, firstY, secondX, secondY, 4, lineColor);
+                polyline.getPoints().addAll(firstX, firstY, secondX, secondY);
             }
             nodePane.getChildren().add(line);
             lines.add(line);
@@ -150,6 +156,8 @@ public class Map {
 
             }
         }
+
+        animateTriangle(polyline);
         scaleMap(0);
     }
 
@@ -300,6 +308,19 @@ public class Map {
             return null;
         }
 
+    }
+
+    private void animateTriangle(Polyline path){
+
+        PathTransition pathTransition = new PathTransition();
+        Polygon triangle = drawTriangle(0, 0, 6.0, 2.1, arrowColor);
+        pathTransition.setNode(triangle);
+        pathTransition.setDuration(Duration.seconds(5));
+        pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
+        pathTransition.setPath(path);
+        pathTransition.setCycleCount(PathTransition.INDEFINITE);
+        nodePane.getChildren().add(triangle);
+        pathTransition.play();
     }
 
 

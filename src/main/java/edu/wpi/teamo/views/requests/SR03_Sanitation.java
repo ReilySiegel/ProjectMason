@@ -208,13 +208,25 @@ public class SR03_Sanitation implements Initializable {
 
             JFXDialogLayout content = new JFXDialogLayout();
             content.setHeading(new Text(App.resourceBundle.getString("key.sanitation_request_submitted")));
-            content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
-                    App.resourceBundle.getString("key.type_of_sanitation") + ": " +  serviceName + "\n" +
-                    App.resourceBundle.getString("key.room_semicolon") + String.join(", ", locationIDs) + "\n" +
-                    App.resourceBundle.getString("key.persons_assigned_semicolon") + assigned + "\n" +
-                    App.resourceBundle.getString("key.time") + ": " + curDate.toString() + "\n" +
-                    recurMsg + "\n" +
-                    App.resourceBundle.getString("key.additional_notes") + details));
+
+            if(!Session.getAccount().hasEmployeeAccess()){
+                content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
+                        App.resourceBundle.getString("key.type_of_sanitation") + serviceName + "\n" +
+                        App.resourceBundle.getString("key.room_semicolon") + String.join(", ", locationIDs) + "\n" +
+                        App.resourceBundle.getString("key.time") + ": " + curDate.toString() + "\n" +
+                        recurMsg + "\n" +
+                        App.resourceBundle.getString("key.additional_notes") + details));
+            }
+            else{
+                content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
+                        App.resourceBundle.getString("key.type_of_sanitation") + ": " +  serviceName + "\n" +
+                        App.resourceBundle.getString("key.room_semicolon") + String.join(", ", locationIDs) + "\n" +
+                        App.resourceBundle.getString("key.persons_assigned_semicolon") + assigned + "\n" +
+                        App.resourceBundle.getString("key.time") + ": " + curDate.toString() + "\n" +
+                        recurMsg + "\n" +
+                        App.resourceBundle.getString("key.additional_notes") + details));
+            }
+
             JFXDialog popup = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 
             JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
