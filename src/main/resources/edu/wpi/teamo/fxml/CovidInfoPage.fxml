@@ -27,7 +27,7 @@
                               <Insets bottom="15.0" />
                            </VBox.margin>
                         </ImageView>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.wash_hands">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.wash_hands">
                            <VBox.margin>
                               <Insets bottom="20.0" />
                            </VBox.margin>
@@ -40,7 +40,7 @@
                               <Insets bottom="15.0" />
                            </VBox.margin>
                         </ImageView>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.cover_mouth" textAlignment="CENTER" wrappingWidth="230.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.cover_mouth" textAlignment="CENTER" wrappingWidth="230.0" />
                      </children>
                   </VBox>
                   <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="250.0">
@@ -53,7 +53,7 @@
                               <Insets bottom="15.0" />
                            </VBox.margin>
                         </ImageView>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.contact_face">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.contact_face">
                            <VBox.margin>
                               <Insets bottom="20.0" />
                            </VBox.margin>
@@ -66,7 +66,7 @@
                               <Insets bottom="15.0" />
                            </VBox.margin>
                         </ImageView>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.isolated_symptoms" textAlignment="CENTER" wrappingWidth="230.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.isolated_symptoms" textAlignment="CENTER" wrappingWidth="230.0" />
                      </children>
                   </VBox>
                   <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="250.0">
@@ -79,7 +79,7 @@
                               <Insets bottom="15.0" />
                            </VBox.margin>
                         </ImageView>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.clean_surface">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.clean_surface">
                            <VBox.margin>
                               <Insets bottom="20.0" />
                            </VBox.margin>
@@ -92,7 +92,7 @@
                               <Insets bottom="15.0" />
                            </VBox.margin>
                         </ImageView>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.covid_community" textAlignment="CENTER" wrappingWidth="230.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.covid_community" textAlignment="CENTER" wrappingWidth="230.0" />
                      </children>
                   </VBox>
                </children>
@@ -102,7 +102,7 @@
             </HBox>
             <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.more_covid_info" wrappingWidth="690.0" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.more_covid_info" wrappingWidth="690.0" />
                </children>
                <VBox.margin>
                   <Insets top="30.0" />

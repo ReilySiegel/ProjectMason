@@ -19,6 +19,7 @@ import java.sql.SQLException;
 import java.io.IOException;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -205,8 +206,8 @@ public class App extends Application {
 
   public static void showError(String message, StackPane stackPane) {
     JFXDialogLayout content = new JFXDialogLayout();
-    content.setHeading(new Text(App.resourceBundle.getString("key.error")));
-    content.setBody(new Text(message));
+    content.setHeading(new Label(App.resourceBundle.getString("key.error")));
+    content.setBody(new Label(message));
     JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
     JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
 //    closeButton.setStyle("-fx-background-color: rgb(128,232,255)");

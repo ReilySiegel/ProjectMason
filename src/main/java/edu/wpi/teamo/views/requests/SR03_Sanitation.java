@@ -18,6 +18,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -228,10 +229,10 @@ public class SR03_Sanitation implements Initializable {
             notes.setText("");
 
             JFXDialogLayout content = new JFXDialogLayout();
-            content.setHeading(new Text(App.resourceBundle.getString("key.sanitation_request_submitted")));
+            content.setHeading(new Label(App.resourceBundle.getString("key.sanitation_request_submitted")));
 
             if(!Session.getAccount().hasEmployeeAccess()){
-                content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
+                content.setBody(new Label(App.resourceBundle.getString("key.request_submitted_with") +
                         App.resourceBundle.getString("key.type_of_sanitation") + serviceName + "\n" +
                         App.resourceBundle.getString("key.room_semicolon") + String.join(", ", locationIDs) + "\n" +
                         App.resourceBundle.getString("key.time") + ": " + curDate.toString() + "\n" +
@@ -239,7 +240,7 @@ public class SR03_Sanitation implements Initializable {
                         App.resourceBundle.getString("key.additional_notes") + details));
             }
             else{
-                content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
+                content.setBody(new Label(App.resourceBundle.getString("key.request_submitted_with") +
                         App.resourceBundle.getString("key.type_of_sanitation") + ": " +  serviceName + "\n" +
                         App.resourceBundle.getString("key.room_semicolon") + String.join(", ", locationIDs) + "\n" +
                         App.resourceBundle.getString("key.persons_assigned_semicolon") + assigned + "\n" +
@@ -276,8 +277,8 @@ public class SR03_Sanitation implements Initializable {
     private void handleHelp(ActionEvent e) {
 
         JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text(App.resourceBundle.getString("key.help_sanitation")));
-        content.setBody(new Text(App.resourceBundle.getString("key.sanitation_type_help") +
+        content.setHeading(new Label(App.resourceBundle.getString("key.help_sanitation")));
+        content.setBody(new Label(App.resourceBundle.getString("key.sanitation_type_help") +
                 App.resourceBundle.getString("key.room_help") +
                 App.resourceBundle.getString("key.assignee_help")));
         JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);

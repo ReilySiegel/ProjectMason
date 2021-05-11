@@ -12,6 +12,7 @@ import edu.wpi.teamo.utils.itemsifters.LocationSearcher;
 import edu.wpi.teamo.views.SubPageContainer;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
+import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
@@ -126,8 +127,8 @@ public class SR12_MaintenancePage implements Initializable {
     @FXML
     private void submitBtnOnClick(ActionEvent actionEvent) {
         JFXDialogLayout submissionContent = new JFXDialogLayout();
-        submissionContent.setHeading(new Text(resources.getString("key.confirm_request_submission")));
-        submissionContent.setBody(new Text(resources.getString("key.maintenance_help")));
+        submissionContent.setHeading(new Label(resources.getString("key.confirm_request_submission")));
+        submissionContent.setBody(new Label(resources.getString("key.maintenance_help")));
         JFXDialog confirmWindow = new JFXDialog(stackPane, submissionContent, JFXDialog.DialogTransition.TOP);
         JFXButton closeButton = new JFXButton(resources.getString("key.close"));
         JFXButton submitButton = new JFXButton(resources.getString("key.submit"));
@@ -145,8 +146,8 @@ public class SR12_MaintenancePage implements Initializable {
 
     private void promptSuccess(String sr_type, String assignee, LocalDateTime time, List<String> selectedNodes) {
         JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text(resources.getString("key.confirm_success_title")));
-        content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
+        content.setHeading(new Label(resources.getString("key.confirm_success_title")));
+        content.setBody(new Label(App.resourceBundle.getString("key.request_submitted_with") +
                 App.resourceBundle.getString("key.type_semicolon") + sr_type + "\n" +
                 App.resourceBundle.getString("key.location_generic") + String.join(", ", selectedNodes) + "\n" +
                 App.resourceBundle.getString("key.persons_assigned_semicolon")  + assignee + "\n" +
@@ -200,8 +201,8 @@ public class SR12_MaintenancePage implements Initializable {
 
     private void promptSQLError() {
         JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text(resources.getString("key.sqlerror")));
-        content.setBody(new Text(resources.getString("key.sql_error_details")));
+        content.setHeading(new Label(resources.getString("key.sqlerror")));
+        content.setBody(new Label(resources.getString("key.sql_error_details")));
         JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
         JFXButton closeButton = new JFXButton(resources.getString("key.close"));
         closeButton.setOnAction(event -> errorWindow.close());
@@ -220,8 +221,8 @@ public class SR12_MaintenancePage implements Initializable {
 
     private void promptError() {
         JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text(resources.getString("key.error")));
-        content.setBody(new Text(resources.getString("key.maintenance_error")));
+        content.setHeading(new Label(resources.getString("key.error")));
+        content.setBody(new Label(resources.getString("key.maintenance_error")));
         JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
         JFXButton closeButton = new JFXButton(resources.getString("key.close"));
         closeButton.setOnAction(event -> errorWindow.close());
@@ -232,8 +233,8 @@ public class SR12_MaintenancePage implements Initializable {
     @FXML
     private void helpBtnOnClick(ActionEvent actionEvent) {
         JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text(resources.getString("key.help")));
-        content.setBody(new Text(resources.getString("key.maintenance_help")));
+        content.setHeading(new Label(resources.getString("key.help")));
+        content.setBody(new Label(resources.getString("key.maintenance_help")));
         JFXDialog helpWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
         JFXButton closeButton = new JFXButton(resources.getString("key.close"));
         closeButton.setOnAction(event -> helpWindow.close());

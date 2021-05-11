@@ -14,6 +14,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
@@ -149,15 +150,15 @@ public class SR05_Gift implements Initializable {
             giftTrackingID.setText("");
 
             JFXDialogLayout content = new JFXDialogLayout();
-            content.setHeading(new Text(App.resourceBundle.getString("key.medicine_request_submitted")));
+            content.setHeading(new Label(App.resourceBundle.getString("key.medicine_request_submitted")));
             if(!Session.getAccount().hasEmployeeAccess()){
-                content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
+                content.setBody(new Label(App.resourceBundle.getString("key.request_submitted_with") +
                         App.resourceBundle.getString("key.deliver_to_semicolon")  + deliverToText + "\n" +
                         App.resourceBundle.getString("key.tracking_id_semicolon")  + trackingIDText + "\n" +
                         App.resourceBundle.getString("key.room_semicolon")  + String.join(", ", locationIDs)));
             }
             else{
-                content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
+                content.setBody(new Label(App.resourceBundle.getString("key.request_submitted_with") +
                         App.resourceBundle.getString("key.deliver_to_semicolon")  + deliverToText + "\n" +
                         App.resourceBundle.getString("key.tracking_id_semicolon")  + trackingIDText + "\n" +
                         App.resourceBundle.getString("key.room_semicolon")  + String.join(", ", locationIDs) + "\n" +
@@ -192,8 +193,8 @@ public class SR05_Gift implements Initializable {
     private void handleHelp(ActionEvent e) {
 
         JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text(App.resourceBundle.getString("key.help_gift_request")));
-        content.setBody(new Text(App.resourceBundle.getString("key.gift_tracking_id_help") + '\n' +
+        content.setHeading(new Label(App.resourceBundle.getString("key.help_gift_request")));
+        content.setBody(new Label(App.resourceBundle.getString("key.gift_tracking_id_help") + '\n' +
                 App.resourceBundle.getString("key.amount_help") +
                 App.resourceBundle.getString("key.room_help") +
                 App.resourceBundle.getString("key.assignee_help")));
