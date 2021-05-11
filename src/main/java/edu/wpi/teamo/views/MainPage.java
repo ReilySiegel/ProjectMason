@@ -198,7 +198,12 @@ public class MainPage implements Initializable {
 
     public void setProfile(){
         hidePages();
-        SubPageContainer.switchPage(Pages.PROFILE);
+        if (Session.isLoggedIn()) {
+            SubPageContainer.switchPage(Pages.PROFILE);
+        }
+        else {
+            App.showError("You must log in to use this feature", parentStackPane);
+        }
     }
 
     public void setAbout() {

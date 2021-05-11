@@ -1,4 +1,4 @@
-package edu.wpi.teamo.views;
+package edu.wpi.teamo.views.profilepage;
 
 import com.jfoenix.controls.*;
 import edu.wpi.teamo.App;
@@ -43,6 +43,9 @@ public class ProfileInformationPage implements Initializable {
     private JFXCheckBox filterTime;
 
     @FXML
+    private JFXCheckBox showCompletedRequestsCheckbox;
+
+    @FXML
     private Text usernameLabel;
 
     @FXML
@@ -67,5 +70,7 @@ public class ProfileInformationPage implements Initializable {
         firstNameLabel.setText(App.resourceBundle.getString("key.firstname_semicolon") + Session.getAccount().getFirstName());
         lastNameLabel.setText(App.resourceBundle.getString("key.lastname_semicolon") + Session.getAccount().getLastName());
 
+        ProfileRequestDisplay requestDisplay = new ProfileRequestDisplay(reqDisplayListView, showCompletedRequestsCheckbox);
+        requestDisplay.update();
     }
 }

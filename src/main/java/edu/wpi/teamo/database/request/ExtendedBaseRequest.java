@@ -66,4 +66,11 @@ public abstract class ExtendedBaseRequest<T> extends RecursiveTreeObject<T> {
     public LocalDateTime getTimestamp() {
         return base.getTimestamp();
     }
+
+
+    public String getRequesterUsername() {
+        return base.getRequesterUsername();
+    }
+
+    public abstract void delete() throws SQLException;
 }
