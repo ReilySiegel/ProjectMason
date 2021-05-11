@@ -4,6 +4,7 @@ import edu.wpi.teamo.Session;
 import edu.wpi.teamo.database.account.Account;
 import java.time.format.DateTimeFormatter;
 import edu.wpi.teamo.database.request.*;
+import edu.wpi.teamo.views.emailSender;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -27,6 +28,8 @@ import com.jfoenix.controls.*;
 import java.sql.SQLException;
 import java.util.HashMap;
 import edu.wpi.teamo.App;
+
+import javax.mail.MessagingException;
 
 public class RequestDisplay {
 
@@ -233,7 +236,13 @@ public class RequestDisplay {
     private void handleChangeComplete(JFXCheckBox checkBox, ExtendedBaseRequest request) {
         try {
             request.setComplete(checkBox.isSelected());
-        } catch (SQLException throwables) {
+            if (! request.getUser().equals("guest")) {
+                emailSender.sendSRReceiptMail(Account.getByUsername(request.getUser()).getEmail(), request.getID(),"completed");
+            }
+            else {
+                System.out.println("How did you get here?");
+            }
+        } catch (SQLException | MessagingException throwables) {
             throwables.printStackTrace();
         }
         update();
@@ -577,7 +586,16 @@ public class RequestDisplay {
     private void handleChangeCovidSurveyComplete(JFXCheckBox checkBox, COVIDSurveyRequest request) {
         try {
             request.setComplete(checkBox.isSelected());
-        } catch (SQLException throwables) {
+            if (!request.getUsername().equals("guest")) {
+                if (Account.getByUsername(request.getUsername()).getUseEmergencyEntrance())
+                    emailSender.sendCovidReceiptMail(Account.getByUsername(request.getUsername()).getEmail(), "covid");
+                else if (!Account.getByUsername(request.getUsername()).getUseEmergencyEntrance())
+                    emailSender.sendCovidReceiptMail(Account.getByUsername(request.getUsername()).getEmail(), "approved");
+                else {
+                    System.out.println("How did you get here?");
+                }
+            }
+        } catch (SQLException | MessagingException throwables) {
             throwables.printStackTrace();
         }
         update();

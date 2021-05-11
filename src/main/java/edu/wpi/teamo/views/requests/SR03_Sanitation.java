@@ -11,6 +11,7 @@ import edu.wpi.teamo.database.request.SanitationRequest;
 import edu.wpi.teamo.views.LocaleType;
 import edu.wpi.teamo.views.SubPageContainer;
 import edu.wpi.teamo.utils.itemsifters.LocationSearcher;
+import edu.wpi.teamo.views.emailSender;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -22,6 +23,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
+import javax.mail.MessagingException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -163,7 +165,7 @@ public class SR03_Sanitation implements Initializable {
     }
 
     @FXML
-    private void handleSubmission(ActionEvent e) throws SQLException {
+    private void handleSubmission(ActionEvent e) throws SQLException, MessagingException {
         String serviceName = service.getText();
         String assigned = assigneeBox.getValue();
         String details = notes.getText();
@@ -212,12 +214,15 @@ public class SR03_Sanitation implements Initializable {
 
             LocalTime curTime = timePicker.getValue();
             LocalDateTime curDate = datePicker.getValue().atTime(curTime);
+            String randomUU = UUID.randomUUID().toString();
 
-            BaseRequest baseRequest = new BaseRequest(UUID.randomUUID().toString(), serviceName + ", " + details, locationIDs.stream(),
+            BaseRequest baseRequest = new BaseRequest(randomUU, serviceName + ", " + details, locationIDs.stream(),
                     assigned, false, curDate, Session.getAccount().getUsername());
 
             new SanitationRequest(recurring, baseRequest).update();
             System.out.println("Sanitation request submitted");
+
+            emailSender.sendSRReceiptMail(Session.getAccount().getEmail(),randomUU,"submitted");
 
             service.setText("");
             notes.setText("");
