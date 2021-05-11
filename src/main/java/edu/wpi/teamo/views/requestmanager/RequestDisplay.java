@@ -1,5 +1,6 @@
 package edu.wpi.teamo.views.requestmanager;
 
+import edu.wpi.teamo.Session;
 import edu.wpi.teamo.database.account.Account;
 import java.time.format.DateTimeFormatter;
 import edu.wpi.teamo.database.request.*;
@@ -558,8 +559,15 @@ public class RequestDisplay {
 
         boolean useEmergencyEntrance = newEntryStatusString.equals(emergencyEntranceKey);
         try {
-            Account.getByUsername(c.getUsername()).setUseEmergencyEntrance(useEmergencyEntrance);
-            Account.getByUsername(c.getUsername()).setTakenSurvey(true);
+            Account account;
+            if (Session.isLoggedIn() && Session.getAccount().getUsername().equals(c.getUsername())) {
+                //this will ensure that the app is updated right away if this account is signed in
+                account = Session.getAccount();
+            } else {
+                account = Account.getByUsername(c.getUsername());
+            }
+            account.setUseEmergencyEntrance(useEmergencyEntrance);
+            account.setTakenSurvey(true);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
