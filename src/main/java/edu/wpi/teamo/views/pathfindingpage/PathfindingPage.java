@@ -122,6 +122,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
     edu.wpi.teamo.views.Map map;
 
 
+
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
         gridPane.setPickOnBounds(false);
