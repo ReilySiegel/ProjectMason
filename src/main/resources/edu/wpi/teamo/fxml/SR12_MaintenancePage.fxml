@@ -38,7 +38,7 @@
                           <children>
                               <HBox fx:id="hBox" prefHeight="46.0" prefWidth="883.0">
                                   <children>
-                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.mainten_service" textAlignment="RIGHT" wrappingWidth="190.0">
+                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.mainten_service" textAlignment="RIGHT" wrappingWidth="190.0">
                                           <font>
                                               <Font name="Arial" size="18.0" />
                                           </font>
@@ -59,7 +59,7 @@
                               </HBox>
                               <HBox prefHeight="50.0" prefWidth="200.0">
                                   <children>
-                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.assignee_name" textAlignment="RIGHT" wrappingWidth="190.0">
+                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.assignee_name" textAlignment="RIGHT" wrappingWidth="190.0">
                                           <font>
                                               <Font name="Arial" size="18.0" />
                                           </font>
@@ -84,7 +84,7 @@
                               </HBox>
                               <HBox prefHeight="50.0" prefWidth="200.0">
                                   <children>
-                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.notes" textAlignment="RIGHT" wrappingWidth="190.0">
+                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.notes" textAlignment="RIGHT" wrappingWidth="190.0">
                                           <font>
                                               <Font name="Arial" size="18.0" />
                                           </font>
@@ -104,7 +104,7 @@
                               </HBox>
                               <HBox prefHeight="45.0" prefWidth="893.0" VBox.vgrow="ALWAYS">
                                   <children>
-                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.room" textAlignment="RIGHT" wrappingWidth="190.0">
+                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.room" textAlignment="RIGHT" wrappingWidth="190.0">
                                           <font>
                                               <Font name="Arial" size="18.0" />
                                           </font>
@@ -179,7 +179,7 @@
                   <top>
                       <VBox alignment="CENTER" prefHeight="110.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                           <children>
-                              <Text fill="#030303" strokeType="OUTSIDE" strokeWidth="0.0" text="%key.maintenance_request">
+                              <Text fill="#030303" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.maintenance_request">
                                   <font>
                                       <Font name="Arial" size="36.0" />
                                   </font>

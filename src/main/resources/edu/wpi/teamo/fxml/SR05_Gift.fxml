@@ -21,7 +21,7 @@
                     <children>
                   <HBox>
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.giftDeliverTo" textAlignment="RIGHT" wrappingWidth="190.0">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.giftDeliverTo" textAlignment="RIGHT" wrappingWidth="190.0">
                            <font>
                               <Font name="Arial" size="18.0" />
                            </font>
@@ -43,7 +43,7 @@
                   </HBox>
                         <HBox fx:id="assignedBox">
                             <children>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.assignee_name" textAlignment="RIGHT" wrappingWidth="190.0">
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.assignee_name" textAlignment="RIGHT" wrappingWidth="190.0">
                                     <font>
                                         <Font name="Arial" size="18.0" />
                                     </font>
@@ -59,7 +59,7 @@
                         </HBox>
                         <HBox>
                             <children>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.notes" textAlignment="RIGHT" wrappingWidth="190.0">
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.notes" textAlignment="RIGHT" wrappingWidth="190.0">
                                     <font>
                                         <Font name="Arial" size="18.0" />
                                     </font>
@@ -76,7 +76,7 @@
                         </HBox>
                   <HBox>
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.giftTrackingID" textAlignment="RIGHT" wrappingWidth="190.0">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.giftTrackingID" textAlignment="RIGHT" wrappingWidth="190.0">
                            <font>
                               <Font name="Arial" size="18.0" />
                            </font>
@@ -98,7 +98,7 @@
                   </HBox>
                   <HBox VBox.vgrow="ALWAYS">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.room" textAlignment="RIGHT" wrappingWidth="190.0">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.room" textAlignment="RIGHT" wrappingWidth="190.0">
                            <font>
                               <Font name="Arial" size="18.0" />
                            </font>
@@ -178,7 +178,7 @@
             <top>
                 <VBox alignment="CENTER" BorderPane.alignment="CENTER">
                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.gift_service_request">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.gift_service_request">
                             <font>
                                 <Font name="Arial" size="36.0" />
                             </font>
