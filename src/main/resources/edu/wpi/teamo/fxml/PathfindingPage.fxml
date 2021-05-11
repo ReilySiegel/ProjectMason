@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="parentNode" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.pathfindingpage.PathfindingPage">
+<AnchorPane fx:id="parentNode" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@CSS/MainPage.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.pathfindingpage.PathfindingPage">
    <children>
       <StackPane fx:id="parentStackPane" alignment="TOP_LEFT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -32,8 +32,8 @@
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints maxHeight="441.3333435058594" minHeight="122.00000762939453" prefHeight="122.00000762939453" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="957.9999923706055" minHeight="233.0" prefHeight="824.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="957.9999923706055" minHeight="21.6666259765625" prefHeight="133.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="957.9999923706055" minHeight="233.0" prefHeight="767.6666259765625" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="957.9999923706055" minHeight="21.6666259765625" prefHeight="189.3333740234375" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
                   <HBox fx:id="algoSwitchWindow" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="55.0" prefWidth="405.0" styleClass="pane" GridPane.columnIndex="1">
@@ -55,36 +55,9 @@
                            </HBox.margin></JFXComboBox>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="55.0" prefWidth="231.0" styleClass="pane" GridPane.halignment="LEFT">
-                     <GridPane.margin>
-                        <Insets bottom="10.0" left="30.0" right="160.0" top="10.0" />
-                     </GridPane.margin>
-                     <children>
-                        <JFXButton fx:id="helpButton" buttonType="RAISED" text="?" textFill="WHITE">
-                           <font>
-                              <Font name="Century" size="18.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
-                        </JFXButton>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.floor" textAlignment="RIGHT" wrappingWidth="103.99999612569809">
-                           <font>
-                              <Font size="20.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets right="10.0" />
-                           </HBox.margin>
-                        </Text>
-                        <JFXComboBox fx:id="floorComboBox" focusColor="#405aa800" prefWidth="75.0" styleClass="pane" unFocusColor="#4d4d4d00">
-                           <HBox.margin>
-                              <Insets right="10.0" />
-                           </HBox.margin></JFXComboBox>
-                     </children>
-                  </HBox>
                   <StackPane pickOnBounds="false" GridPane.columnIndex="2" GridPane.rowIndex="1">
                      <children>
-                        <VBox fx:id="pathDisplayControlWindow" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="527.0" prefWidth="614.0" styleClass="murkier-pane" visible="false">
+                        <VBox fx:id="pathDisplayControlWindow" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="527.0" prefWidth="614.0" styleClass="murkier-pane">
                            <children>
                               <HBox alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="296.0">
                                  <children>
@@ -125,15 +98,15 @@
                               </HBox>
                            </children>
                            <StackPane.margin>
-                              <Insets bottom="90.0" left="50.0" right="50.0" top="30.0" />
+                              <Insets bottom="10.0" left="50.0" right="50.0" top="30.0" />
                            </StackPane.margin>
                            <padding>
-                              <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+                              <Insets left="40.0" right="40.0" />
                            </padding>
                         </VBox>
-                        <VBox fx:id="planningWindow" alignment="BOTTOM_CENTER" pickOnBounds="false">
+                        <VBox fx:id="planningWindow" alignment="BOTTOM_CENTER" pickOnBounds="false" visible="false">
                            <StackPane.margin>
-                              <Insets bottom="90.0" left="50.0" right="50.0" top="30.0" />
+                              <Insets bottom="10.0" left="50.0" right="50.0" top="30.0" />
                            </StackPane.margin>
                            <children>
                               <VBox alignment="BOTTOM_CENTER" styleClass="murkier-pane" VBox.vgrow="NEVER">
@@ -214,51 +187,17 @@
                                           </VBox>
                                        </children>
                                     </HBox>
-                                    <HBox fx:id="parkingWindow" alignment="CENTER" prefHeight="67.0" prefWidth="612.0" spacing="30.0">
-                                       <children>
-                                          <JFXButton fx:id="saveNewParkingSpotButton" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="38.0" prefWidth="156.0" text="%key.assignParking" wrapText="true" />
-                                          <JFXButton fx:id="selectSavedParkingSpotButton" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="38.0" prefWidth="156.0" text="%key.select_parking_spot" wrapText="true" />
-                                       </children>
-                                    </HBox>
                                  </children>
                               </VBox>
                            </children>
                         </VBox>
-                        <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="55.0" prefWidth="614.0" styleClass="pane" StackPane.alignment="BOTTOM_CENTER">
-                           <children>
-                              <JFXButton fx:id="helpButton" buttonType="RAISED" text="?" textFill="WHITE">
-                                 <font>
-                                    <Font name="Century" size="18.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets left="10.0" />
-                                 </HBox.margin>
-                              </JFXButton>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.floor" textAlignment="RIGHT" wrappingWidth="103.99999612569809">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets right="10.0" />
-                                 </HBox.margin>
-                              </Text>
-                              <JFXComboBox fx:id="floorComboBox" focusColor="#405aa800" prefWidth="75.0" styleClass="pane" unFocusColor="#4d4d4d00">
-                                 <HBox.margin>
-                                    <Insets right="10.0" />
-                                 </HBox.margin>
-                              </JFXComboBox>
-                           </children>
-                           <StackPane.margin>
-                              <Insets bottom="10.0" />
-                           </StackPane.margin>
-                        </HBox>
                      </children>
                   </StackPane>
                   <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
                      <children>
-                        <VBox alignment="CENTER" prefHeight="112.0" prefWidth="674.0" styleClass="pane">
+                        <VBox alignment="CENTER" prefHeight="91.0" prefWidth="614.0" styleClass="murkier-pane">
                            <VBox.margin>
-                              <Insets bottom="50.0" left="50.0" right="50.0" />
+                              <Insets bottom="10.0" left="50.0" right="50.0" />
                            </VBox.margin>
                            <children>
                               <JFXButton fx:id="findPathButton" buttonType="RAISED" prefHeight="50.0" prefWidth="401.0" styleClass="find-path-button" stylesheets="@CSS/PathfindingPage.css" text="%key.find_path">
@@ -268,6 +207,47 @@
                               </JFXButton>
                            </children>
                         </VBox>
+                        <HBox alignment="CENTER_RIGHT">
+                           <VBox.margin>
+                              <Insets bottom="15.0" />
+                           </VBox.margin>
+                           <children>
+                              <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="55.0" prefWidth="626.0" styleClass="murkier-pane">
+                                 <children>
+                                    <JFXButton fx:id="helpButton" buttonType="RAISED" text="?" textFill="WHITE">
+                                       <font>
+                                          <Font name="Century" size="18.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                    </JFXButton>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.floor" textAlignment="RIGHT" wrappingWidth="103.99999612569809">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets right="10.0" />
+                                       </HBox.margin>
+                                    </Text>
+                                    <JFXComboBox fx:id="floorComboBox" focusColor="#405aa800" prefHeight="27.0" prefWidth="111.0" styleClass="pane" unFocusColor="#4d4d4d00">
+                                       <HBox.margin>
+                                          <Insets right="10.0" />
+                                       </HBox.margin>
+                                    </JFXComboBox>
+                                    <HBox fx:id="parkingWindow" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="325.0" spacing="10.0">
+                                       <children>
+                                          <JFXButton fx:id="saveNewParkingSpotButton" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="38.0" prefWidth="150.0" text="%key.assignParking" wrapText="true" />
+                                          <JFXButton fx:id="selectSavedParkingSpotButton" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="38.0" prefWidth="150.0" text="%key.select_parking_spot" wrapText="true" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </HBox>
+                           </children>
+                           <padding>
+                              <Insets left="50.0" right="50.0" />
+                           </padding>
+                        </HBox>
                      </children>
                   </VBox>
                </children>

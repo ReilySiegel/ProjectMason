@@ -383,8 +383,8 @@ public class MapEditorPage extends SubPageController implements Initializable{
         List<EdgeInfo> edgeList = queryAllEdges().collect(Collectors.toList());
 
         map.clearShapes();
-        map.drawEdges(nodeList, edgeList, selectedFloor);
-        map.drawNodes(nodeList, selectedFloor);
+        map.drawEdges(nodeList, edgeList, selectedFloor, "map-editor-edge");
+        map.drawNodes(nodeList, selectedFloor, "map-editor-node");
     }
 
     void onFloorSwitch(ActionEvent event) {

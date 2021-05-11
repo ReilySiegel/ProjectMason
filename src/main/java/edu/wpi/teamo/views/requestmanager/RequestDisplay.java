@@ -1,5 +1,6 @@
 package edu.wpi.teamo.views.requestmanager;
 
+import edu.wpi.teamo.Session;
 import edu.wpi.teamo.database.account.Account;
 import java.time.format.DateTimeFormatter;
 import edu.wpi.teamo.database.request.*;
@@ -37,6 +38,8 @@ public class RequestDisplay {
     JFXCheckBox filterTime;
     String user;
 
+    public static final String emergencyEntranceKey = App.resourceBundle.getString("key.emergency_entrance");
+    public static final String normalEntranceKey = App.resourceBundle.getString("key.normal_entrance");
     private static double sRInfoBoxLeftMargin = 50;
 
     private List<String> openRequestViews;
@@ -85,7 +88,7 @@ public class RequestDisplay {
             if (typeCheckBoxes.get("Maintenance").isSelected())    maintRequests.forEach(r -> displaySRIfPassFilter(r, App.resourceBundle.getString("key.main_sr")));
             if (typeCheckBoxes.get("Transportation").isSelected()) transRequests.forEach(r -> displaySRIfPassFilter(r, App.resourceBundle.getString("key.transportation_request")));
             if (typeCheckBoxes.get("Religious").isSelected())      religRequests.forEach(r -> displaySRIfPassFilter(r, App.resourceBundle.getString("key.rel_sr")));
-            if (typeCheckBoxes.get("COVID Survey").isSelected())   covidRequests.forEach(r -> makeSurveyBox(r, user));
+            if (typeCheckBoxes.get("COVID Survey").isSelected())   covidRequests.forEach(r -> addCovidSurveyIfPassFilter(r, user));
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -150,6 +153,9 @@ public class RequestDisplay {
         });
         if (!openRequestViews.contains(m.getID())) {
             retractSRBox(expand, editBox, extendedInfoBox);
+        }
+        else {
+            expandSRBox(expand, editBox, extendedInfoBox);
         }
 
         sRBox.getStyleClass().add("requestBox");
@@ -373,7 +379,7 @@ public class RequestDisplay {
 
     private void expandSRBox(JFXButton expand, HBox editBox, VBox extendedInfoBox) {
         editBox.setVisible(true);
-        editBox.setVisible(true);
+        editBox.setManaged(true);
         extendedInfoBox.setVisible(true);
         extendedInfoBox.setManaged(true);
         expand.setText("-");
@@ -381,135 +387,200 @@ public class RequestDisplay {
 
     private void retractSRBox(JFXButton expand, HBox editBox, VBox extendedInfoBox) {
         editBox.setVisible(false);
-        editBox.setVisible(false);
+        editBox.setManaged(false);
         extendedInfoBox.setVisible(false);
         extendedInfoBox.setManaged(false);
         expand.setText("+");
     }
 
-    public void makeSurveyBox(COVIDSurveyRequest c, String user) {
+
+    public void addCovidSurveyIfPassFilter(COVIDSurveyRequest c, String user) {
         boolean passFilter = true;
 
         if (!showComplete.isSelected() && c.getIsComplete()) passFilter = false;
+
         if (user != null && !user.isEmpty()) {
             if (!user.equals(c.getUsername())) passFilter = false;
         }
 
         if (passFilter) {
-            JFXButton expand = new JFXButton("+");
-            expand.setMinWidth(30);
-            expand.setPrefWidth(30);
-            expand.setMinHeight(30);
-            expand.setPrefHeight(30);
-
-            Text typeText = new Text(App.resourceBundle.getString("key.COVID_survey_requests"));
-            typeText.setFont(new Font(20));
-
-            HBox typeBox = new HBox(typeText);
-            typeBox.setMinWidth(200);
-
-            //assigned person display
-            Text userText = new Text(App.resourceBundle.getString("key.user_semicolon") + c.getUsername());
-            HBox userBox = new HBox(userText);
-            userBox.setMinWidth(100);
-            userBox.setPrefWidth(100);
-            userBox.setMaxWidth(100);
-
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy, " + "H:m:s");
-            Text timeText = new Text(App.resourceBundle.getString("key.submitted_at_semicolon") + c.getTimestamp().format(formatter));
-            timeText.setWrappingWidth(130);
-            HBox dateBox = new HBox(timeText);
-            dateBox.setMinWidth(100);
-            dateBox.setPrefWidth(100);
-            dateBox.setMaxWidth(100);
-
-            Text emergencyEntrance = new Text();
-
-            if (c.getUseEmergencyEntrance())
-                emergencyEntrance.setText(App.resourceBundle.getString("key.entrance_emergency"));
-            else emergencyEntrance.setText(App.resourceBundle.getString("key.entrance_normal"));
-            emergencyEntrance.setWrappingWidth(120);
-
-            HBox entranceBox = new HBox(emergencyEntrance);
-            entranceBox.setMinWidth(130);
-            entranceBox.setPrefWidth(130);
-            entranceBox.setMaxWidth(130);
-
-            Text statusText = new Text();
-            if (c.getIsComplete()) statusText.setText("Complete");
-            else statusText.setText("In progress");
-
-            JFXButton viewContextMenu = new JFXButton("...");
-            viewContextMenu.setStyle("-fx-border-radius: 5; -fx-background-radius: 5");
-            expand.setStyle("-fx-border-radius: 5; -fx-background-radius: 5");
-
-            ContextMenu contextMenu = new ContextMenu();
-
-            MenuItem approveItem = new MenuItem("Cleared for Entry");
-            approveItem.setOnAction(event -> {
-                try {
-                    COVIDSurveyRequest.getByID(c.getId()).setComplete(true);
-                    Account.getByUsername(c.getUsername()).setUseEmergencyEntrance(false);
-                    Account.getByUsername(c.getUsername()).setTakenSurvey(true);
-                    update();
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
-                }
-            });
-
-            MenuItem rejectItem = new MenuItem("Possibly Sick");
-            rejectItem.setOnAction(event -> {
-                try {
-                    COVIDSurveyRequest.getByID(c.getId()).setComplete(true);
-                    Account.getByUsername(c.getUsername()).setUseEmergencyEntrance(true);
-                    Account.getByUsername(c.getUsername()).setTakenSurvey(true);
-
-                    update();
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
-                }
-            });
-
-            contextMenu.getItems().add(approveItem);
-            contextMenu.getItems().add(rejectItem);
-
-            viewContextMenu.setOnMousePressed(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    contextMenu.show(viewContextMenu, event.getScreenX(), event.getScreenY());
-                }
-            });
-
-            HBox mbox;
-            if (user != null && !user.isEmpty()) {
-                mbox = new HBox(expand, typeBox, userBox, dateBox, entranceBox, statusText, viewContextMenu);
-            } else {
-                mbox = new HBox(expand, typeBox, userBox, dateBox, entranceBox, statusText);
-            }
-
-            mbox.setSpacing(10);
-
-            VBox mContainer = new VBox(mbox);
-            mContainer.setStyle("-fx-padding: 10px; -fx-background-color: #e5e5e5; -fx-effect: dropshadow(gaussian, rgba(170, 170, 170, 0.3), 10, 0.5, 0.0, 0.0)");
-            mContainer.setSpacing(7);
-
-            expand.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    if (expand.getText().equals("+")) {
-                        mContainer.getChildren().add(new Text(App.resourceBundle.getString("key.ID_semicolon") + c.getId()));
-                        expand.setText("-");
-                    } else {
-                        mContainer.getChildren().clear();
-                        mContainer.getChildren().add(mbox);
-                        expand.setText("+");
-                    }
-                }
-            });
-
+            VBox mContainer = makeCovidSurveyBox(c, user);
             reqList.getItems().add(mContainer);
             System.out.println(c.getTimestamp());
         }
+    }
+
+    public VBox makeCovidSurveyBox(COVIDSurveyRequest c, String user) {
+        VBox sB = new VBox();
+        sB.setStyle("-fx-padding: 10px; -fx-background-color: #e5e5e5; -fx-effect: dropshadow(gaussian, rgba(170, 170, 170, 0.3), 10, 0.5, 0.0, 0.0)");
+        sB.setSpacing(7);
+
+        JFXButton expand = new JFXButton("+");
+        expand.setMinWidth(30);
+        expand.setPrefWidth(30);
+        expand.setMinHeight(30);
+        expand.setPrefHeight(30);
+        expand.setStyle("-fx-border-radius: 5; -fx-background-radius: 5");
+
+        HBox headerBox = makeCovidSurveyHeaderBox(c, expand);
+        sB.getChildren().add(headerBox);
+
+        HBox actionBox = makeCovidSurveyActionBox(c, user);
+        sB.getChildren().add(actionBox);
+
+        expand.setOnAction(event -> {
+            if (actionBox.isVisible()) {
+                openRequestViews.remove(c.getId());
+                retractSurveyBox(expand, actionBox);
+            } else {
+                openRequestViews.add(c.getId());
+                expandSurveyBox(expand, actionBox);
+            }
+        });
+        if (!openRequestViews.contains(c.getId())) {
+            retractSurveyBox(expand, actionBox);
+        }
+        else {
+            expandSurveyBox(expand, actionBox);
+        }
+
+        return sB;
+    }
+
+    private void expandSurveyBox(JFXButton expand, HBox actionBox) {
+        actionBox.setVisible(true);
+        actionBox.setManaged(true);
+        expand.setText("-");
+    }
+
+    private void retractSurveyBox(JFXButton expand, HBox actionBox) {
+        actionBox.setVisible(false);
+        actionBox.setManaged(false);
+        expand.setText("+");
+    }
+
+    private HBox makeCovidSurveyHeaderBox(COVIDSurveyRequest c, JFXButton expandButton) {
+        HBox headerBox = new HBox();
+        headerBox.getChildren().add(expandButton);
+        headerBox.setSpacing(10);
+
+        Text typeText = new Text(App.resourceBundle.getString("key.COVID_survey_requests"));
+        typeText.setFont(new Font(20));
+        HBox typeBox = new HBox(typeText);
+        typeBox.setMinWidth(200);
+        headerBox.getChildren().add(typeBox);
+
+        //assigned person display
+        Text userText = new Text(App.resourceBundle.getString("key.user_semicolon") + c.getUsername());
+        HBox userBox = new HBox(userText);
+        userBox.setMinWidth(100);
+        userBox.setPrefWidth(100);
+        userBox.setMaxWidth(100);
+        headerBox.getChildren().add(userBox);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy, " + "H:m:s");
+        Text timeText = new Text(App.resourceBundle.getString("key.submitted_at_semicolon") + c.getTimestamp().format(formatter));
+        timeText.setWrappingWidth(130);
+        HBox dateBox = new HBox(timeText);
+        dateBox.setMinWidth(100);
+        dateBox.setPrefWidth(100);
+        dateBox.setMaxWidth(100);
+        headerBox.getChildren().add(dateBox);
+
+        Text statusText = new Text();
+        if (c.getIsComplete()) statusText.setText("Complete");
+        else statusText.setText("In progress");
+        headerBox.getChildren().add(statusText);
+
+        return headerBox;
+    }
+
+    private HBox makeCovidSurveyActionBox(COVIDSurveyRequest c, String user) {
+        HBox actionBox = new HBox();
+        actionBox.setSpacing(10);
+
+        Text emergencyEntrance = new Text(App.resourceBundle.getString(c.getUseEmergencyEntrance()
+                                                                       ? "key.recommended_emergency"
+                                                                       : "key.recommended_normal"));
+        emergencyEntrance.setWrappingWidth(120);
+        HBox entranceBox = new HBox(emergencyEntrance);
+        entranceBox.setMinWidth(130);
+        entranceBox.setPrefWidth(130);
+        entranceBox.setMaxWidth(130);
+        actionBox.getChildren().add(emergencyEntrance);
+
+        JFXButton applyButton = new JFXButton(App.resourceBundle.getString("key.apply"));
+        applyButton.setStyle("-fx-border-radius: 5; -fx-background-radius: 5");
+        applyButton.setVisible(false);
+
+        JFXComboBox<String> entranceComboBox = new JFXComboBox<>();
+        entranceComboBox.getItems().add(normalEntranceKey);
+        entranceComboBox.getItems().add(emergencyEntranceKey);
+        entranceComboBox.setValue(getUserEmergencyEntranceStatus(c) ? emergencyEntranceKey : normalEntranceKey);
+        entranceComboBox.setOnAction(event -> applyButton.setVisible(true));
+        actionBox.getChildren().add(entranceComboBox);
+
+        applyButton.setOnAction(event -> handleChangeEntryStatus(entranceComboBox, c));
+        actionBox.getChildren().add(applyButton);
+
+        JFXCheckBox completedBox = new JFXCheckBox();
+        completedBox.setText(App.resourceBundle.getString("key.complete"));
+        completedBox.setSelected(c.getIsComplete());
+        completedBox.setOnAction(event -> handleChangeCovidSurveyComplete(completedBox, c));
+        actionBox.getChildren().add(completedBox);
+
+        return actionBox;
+    }
+
+    private boolean getUserEmergencyEntranceStatus(COVIDSurveyRequest c) {
+        Account account = null;
+        try {
+            account = Account.getByUsername(c.getUsername());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        if (account != null) {
+            return account.getUseEmergencyEntrance();
+        }
+        else {
+            System.out.println("Cannot retrieve covid survey submitter's account");
+            return true;
+        }
+
+    }
+
+    private void handleChangeEntryStatus(JFXComboBox<String> entranceComboBox, COVIDSurveyRequest c) {
+        String newEntryStatusString = entranceComboBox.getValue();
+        if (!newEntryStatusString.equals(normalEntranceKey) && !newEntryStatusString.equals(emergencyEntranceKey)) {
+            System.out.println("random value in covid approval combobox??");
+            return;
+        }
+
+        boolean useEmergencyEntrance = newEntryStatusString.equals(emergencyEntranceKey);
+        try {
+            Account account;
+            if (Session.isLoggedIn() && Session.getAccount().getUsername().equals(c.getUsername())) {
+                //this will ensure that the app is updated right away if this account is signed in
+                account = Session.getAccount();
+            } else {
+                account = Account.getByUsername(c.getUsername());
+            }
+            account.setUseEmergencyEntrance(useEmergencyEntrance);
+            account.setTakenSurvey(true);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        update();
+    }
+
+    private void handleChangeCovidSurveyComplete(JFXCheckBox checkBox, COVIDSurveyRequest request) {
+        try {
+            request.setComplete(checkBox.isSelected());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        update();
     }
 
 }

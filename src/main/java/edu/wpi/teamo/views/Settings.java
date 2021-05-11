@@ -2,9 +2,11 @@ package edu.wpi.teamo.views;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXTextField;
 import edu.wpi.teamo.App;
-import edu.wpi.teamo.Pages;
 import edu.wpi.teamo.Session;
+import edu.wpi.teamo.database.Database;
+import edu.wpi.teamo.Pages;
 import edu.wpi.teamo.Theme;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -16,6 +18,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class Settings implements Initializable {
@@ -29,8 +32,48 @@ public class Settings implements Initializable {
     private JFXComboBox<String> langBox;
 
     @FXML
+    private JFXTextField hostName;
+
+    @FXML
+    private JFXTextField databaseName;
+
+    @FXML
+    private JFXButton linkButton;
+
+    @FXML
+    private JFXButton embeddedButton;
+
+    @FXML
+    private Label connectrDBLabel;
+
+    @FXML
+    private Label hostnameLabel;
+
+    @FXML
+    private Label dbLabel;
+
+    @FXML
     public void initialize(URL location, ResourceBundle resources) {
+        linkButton.setOnAction(event -> linkServerDatabase());
+        embeddedButton.setOnAction(event -> switchToEmbedded());
         fillLangBox();
+        if (Session.getAccount() == null || !Session.getAccount().isAdmin()) {
+            linkButton.setVisible(false);
+            linkButton.setManaged(false);
+            embeddedButton.setVisible(false);
+            embeddedButton.setManaged(false);
+            databaseName.setVisible(false);
+            databaseName.setManaged(false);
+            hostName.setVisible(false);
+            hostName.setManaged(false);
+            connectrDBLabel.setVisible(false);
+            connectrDBLabel.setManaged(false);
+            hostnameLabel.setVisible(false);
+            hostnameLabel.setManaged(false);
+            dbLabel.setVisible(false);
+            dbLabel.setManaged(false);
+
+        }
 
         themeSelect = new JFXComboBox<Label>();
         themeBox.getChildren().add(themeSelect);
@@ -47,6 +90,29 @@ public class Settings implements Initializable {
         langBox.getItems().add(App.resourceBundle.getString("key.spanish"));
         langBox.getSelectionModel().selectFirst();
     }
+
+    private void linkServerDatabase(){
+        String host = hostName.getText();
+        String database = databaseName.getText();
+        try{
+            Database.setRemoteDB(host, database);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        App.switchPage(Pages.MAIN);
+    }
+
+    private void switchToEmbedded(){
+        try{
+            Database.setEmbeddedDB();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        App.switchPage(Pages.MAIN);
+    }
+
 
     @FXML
     private void handleConfirm(ActionEvent e) {

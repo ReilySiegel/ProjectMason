@@ -10,9 +10,7 @@ import edu.wpi.teamo.views.SubPageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -22,7 +20,6 @@ import javafx.scene.text.Text;
 import javafx.util.Pair;
 
 import java.net.URL;
-import java.security.InvalidParameterException;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -113,11 +110,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
 
     PathDisplayControls pathDisplayControls;
 
-    public List<Circle> parkingSpots;
-
-    String parkingSpotID = null;
-
-    boolean selectingParkingSpot = false;
+    ParkingSpotControls parkingSpotControls;
 
     edu.wpi.teamo.views.Map map;
 
@@ -153,13 +146,21 @@ public class PathfindingPage extends SubPageController implements Initializable 
                                                       floorComboBox,
                                                       this::handleStep);
 
-        setSelectParkingSpotButtonVisibility(Session.isLoggedIn());
+        parkingSpotControls = new ParkingSpotControls(selectSavedParkingSpotButton,
+                                                      saveNewParkingSpotButton,
+                                                      parkingWindow,
+                                                      parentStackPane,
+                                                      this::onPickParkingSpot);
+
+        if (Session.isLoggedIn()) {
+            parkingSpotControls.show();
+        } else {
+            parkingSpotControls.hide();
+        }
 
         initFloorSwitcher();
         initAlgoSwitcher();
 
-        selectSavedParkingSpotButton.setOnAction(this::handleSelectParkingSpot);
-        saveNewParkingSpotButton.setOnAction(this::handleSaveNewParkingSpot);
         floorComboBox.setOnAction(this::handleFloorSwitch);
         algoSwitcher.setOnAction(this::handleAlgoSwitch);
         helpButton.setOnAction(this::handleHelpButton);
@@ -185,45 +186,27 @@ public class PathfindingPage extends SubPageController implements Initializable 
 
     private void handleSelectedStart() {
         map.hideNodes();
-        if (map.getEndingNodeCircle() != null) map.getEndingNodeCircle().setVisible(true);
         if (map.getStartingNodeCircle() != null) map.getStartingNodeCircle().setVisible(true);
+        if (map.getEndingNodeCircle() != null) map.getEndingNodeCircle().setVisible(true);
+        if (map.getIndexCircle() != null) map.getIndexCircle().setVisible(true);
     }
 
     private void handleSelectedEnd() {
         map.hideNodes();
-        if (map.getEndingNodeCircle() != null) map.getEndingNodeCircle().setVisible(true);
         if (map.getStartingNodeCircle() != null) map.getStartingNodeCircle().setVisible(true);
+        if (map.getEndingNodeCircle() != null) map.getEndingNodeCircle().setVisible(true);
+        if (map.getIndexCircle() != null) map.getIndexCircle().setVisible(true);
     }
 
     private void handleChoosing() {
         map.showNodes();
-        if (map.getEndingNodeCircle() != null) map.getEndingNodeCircle().setVisible(false);
         if (map.getStartingNodeCircle() != null) map.getStartingNodeCircle().setVisible(false);
+        if (map.getEndingNodeCircle() != null) map.getEndingNodeCircle().setVisible(false);
+        if (map.getIndexCircle() != null) map.getIndexCircle().setVisible(false);
     }
 
-    private void handleSelectParkingSpot(ActionEvent actionEvent) {
-        try {
-            if (pathSelection.getState() != PathSelectionControls.SelectionState.IDLE) {
-                if (Session.isLoggedIn() && Session.getAccount().getParkingSpot() != null) {
-                    String id = Session.getAccount().getParkingSpot();
-                    NodeInfo node = App.mapService.getNode(id);
-                    onClickNode(node);
-                }
-            }
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void handleSaveNewParkingSpot(ActionEvent actionEvent) {
-        if (selectingParkingSpot) {
-            selectingParkingSpot = false;
-        }
-        else {
-            selectingParkingSpot = true;
-            showParkingSpots();
-        }
+    private void onPickParkingSpot(NodeInfo parkingSpot) {
+        onClickNode(parkingSpot);
     }
 
     private void handleAlgoSwitch(ActionEvent actionEvent) {
@@ -270,9 +253,11 @@ public class PathfindingPage extends SubPageController implements Initializable 
         Circle circle = p.getKey();
         NodeInfo node = p.getValue();
 
-        if (parkingSpotID != null && node.getNodeID().equals(parkingSpotID)) {
-            circle.setRadius(circle.getRadius() * 3);
-            circle.setFill(Color.BLACK);
+        if (parkingSpotControls.hasParkingSpot()) {
+            if (node.getNodeID().equals(parkingSpotControls.getSavedParkingSpotID())) {
+                circle.setRadius(circle.getRadius() * 3);
+                circle.setFill(Color.BLACK);
+            }
         }
 
         circle.setOnMouseEntered(event -> {
@@ -287,76 +272,17 @@ public class PathfindingPage extends SubPageController implements Initializable 
 
         circle.setOnMousePressed((MouseEvent e) -> {
             onClickNode(node);
-            onRightClickNode(e, circle, node);
             e.consume();
         });
 
-        if (parkingSpots != null && node.getNodeType().equals("PARK")) {
-            parkingSpots.add(circle);
+        if (node.getNodeType().equals("PARK")) {
+            parkingSpotControls.addParkingSpotCircle(circle);
         }
     }
 
-    public void showParkingSpots() {
-        for (Circle circle : parkingSpots) {
-            circle.setVisible(true);
-        }
-    }
-
-    //    Consumer<NodeInfo> onClickNode = (NodeInfo node) -> System.out.println("Node " + node.getNodeID() + "was clicked");
     void onClickNode(NodeInfo node) {
         pathSelection.onClickNode(node);
-        if (selectingParkingSpot) {
-            try {
-                if (Session.isLoggedIn()) {
-                    Session.getAccount().setParkingSpot(node);
-                    update();
-                }
-                else {
-                    App.showError(App.resourceBundle.getString("key.log_in_to_use_this_feature"), parentStackPane);
-                }
-            }
-            catch (InvalidParameterException e) {
-                App.showError(App.resourceBundle.getString("key.parking_spot_error"), parentStackPane);
-            }
-            selectingParkingSpot = false;
-        }
-    }
-
-    private void setSelectParkingSpotButtonVisibility(boolean visible) {
-        parkingWindow.setManaged(visible);
-        parkingWindow.setVisible(visible);
-    }
-
-    void onRightClickNode(MouseEvent e, Circle circle, NodeInfo node){
-        if(e.isSecondaryButtonDown()){
-            nodeContextMenu(e, circle, node);
-        }
-    }
-
-    void nodeContextMenu( MouseEvent e, Circle circle, NodeInfo node){
-        ContextMenu menu = new ContextMenu();
-
-        MenuItem assignParkingNode = new MenuItem(App.resourceBundle.getString("key.assignParking"));
-        assignParkingNode.setOnAction(event -> handleAssignParkingSpot(circle, node));
-
-        menu.getItems().add(assignParkingNode);
-        menu.show(pathPane.getScene().getWindow(), e.getScreenX(), e.getScreenY());
-
-    }
-
-    private void handleAssignParkingSpot(Circle circle, NodeInfo node){
-        try {
-            if (Session.isLoggedIn()) {
-                Session.getAccount().setParkingSpot(node);
-                update();
-            }
-            else {
-                App.showError(App.resourceBundle.getString("key.log_in_to_use_this_feature"), parentStackPane);
-            }
-        }
-        catch (InvalidParameterException e) {
-            App.showError(App.resourceBundle.getString("key.parking_spot_error"), parentStackPane);
-        }
+        parkingSpotControls.onClickNode(node);
     }
 
     private void handlePlanNewPath() {
@@ -391,15 +317,13 @@ public class PathfindingPage extends SubPageController implements Initializable 
     }
 
     void update() {
-        parkingSpots = new LinkedList<>();
-
-        parkingSpotID = getSavedParkingSpot();
+        parkingSpotControls.clearParkingSpotCircles();
 
         List<NodeInfo> nodes = getAllNodes();
 
         /* redraw map nodes */
         map.clearShapes();
-        map.drawNodes(nodes, floorComboBox.getValue());
+        map.drawNodes(nodes, floorComboBox.getValue(), "pathfinder-node");
         if (pathSelection.getState() == PathSelectionControls.SelectionState.IDLE) {
             map.hideNodes();
         }
@@ -412,18 +336,20 @@ public class PathfindingPage extends SubPageController implements Initializable 
         pathSelection.setLocations(nodes);
     }
 
-    private static String getSavedParkingSpot() {
-        String parkingSpotID = null;
-        if (Session.isLoggedIn() && Session.getAccount() != null) {
-            parkingSpotID = Session.getAccount().getParkingSpot();
-        }
-        return parkingSpotID;
-    }
-
-    private LinkedList<NodeInfo> getAllNodes() {
-        LinkedList<NodeInfo> nodes = new LinkedList<>();
+    private List<NodeInfo> getAllNodes() {
+        List<NodeInfo> nodes = new LinkedList<>();
         try {
             nodes = App.mapService.getAllNodes().collect(Collectors.toCollection(LinkedList::new));
+            boolean mightBeSick = true;
+            if (Session.isLoggedIn()) {
+                mightBeSick = Session.getAccount().getUseEmergencyEntrance();
+            }
+
+            String entranceToFilterOut = mightBeSick ? App.normalEntrance : App.emergencyEntrance;
+            nodes = nodes.stream()
+                    .filter(node -> !node.getNodeID().equals(entranceToFilterOut))
+                    .collect(Collectors.toList());
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
