@@ -480,7 +480,7 @@ public class RequestDisplay {
             });
 
             HBox mbox;
-            if (user.isEmpty()) {
+            if (user != null && !user.isEmpty()) {
                 mbox = new HBox(expand, typeBox, userBox, dateBox, entranceBox, statusText, viewContextMenu);
             } else {
                 mbox = new HBox(expand, typeBox, userBox, dateBox, entranceBox, statusText);
