@@ -345,6 +345,12 @@ public class ManageAccounts implements Initializable {
         }
     }
 
+    @FXML
+    private void clearEntry() throws SQLException {
+        acctTree.getSelectionModel().getSelectedItem().getValue().setIsClearedPastEntry(true);
+        updateAccountTable();
+    }
+
     private void handleError() {
 
         JFXDialogLayout content = new JFXDialogLayout();

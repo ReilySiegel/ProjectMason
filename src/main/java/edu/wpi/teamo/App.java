@@ -131,6 +131,7 @@ public class App extends Application {
       Parent root = FXMLLoader.load(getClass().getResource("fxml/MainPage.fxml"), resourceBundle);
       Scene scene = new Scene(root);
       primaryStage.setScene(scene);
+      primaryStage.setMaximized(true);
       primaryStage.show();
     } catch (IOException e) {
       e.printStackTrace();
