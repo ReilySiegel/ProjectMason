@@ -4,6 +4,7 @@ import com.jfoenix.controls.*;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.Pages;
 import edu.wpi.teamo.Session;
+import edu.wpi.teamo.database.account.Account;
 import edu.wpi.teamo.database.map.NodeInfo;
 import edu.wpi.teamo.database.request.BaseRequest;
 import edu.wpi.teamo.database.request.GiftRequest;
@@ -26,6 +27,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class SR05_Gift implements Initializable {
 
@@ -39,7 +41,7 @@ public class SR05_Gift implements Initializable {
     private JFXTextField giftDeliverTo;
 
     @FXML
-    private JFXTextField assignee;
+    private JFXComboBox<String> assigneeBox;
 
     @FXML
     private JFXTextField notes;
@@ -66,6 +68,8 @@ public class SR05_Gift implements Initializable {
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
 
+        initAsigneeBox();
+
         if (Session.getAccount() == null || !Session.getAccount().hasEmployeeAccess()) {
             assignedBox.setVisible(false);
             assignedBox.setManaged(false);
@@ -87,12 +91,25 @@ public class SR05_Gift implements Initializable {
         }
     }
 
+    private void initAsigneeBox() {
+        Stream<Account> employees = Stream.empty();
+        try {
+            employees = Account.getAll().filter(Account::hasEmployeeAccess);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        employees.forEach(employee -> {
+            assigneeBox.getItems().add(employee.getUsername());
+        });
+    }
+
 
     @FXML
     private void handleSubmission(ActionEvent e) throws SQLException {
         String deliverToText = giftDeliverTo.getText();
         String trackingIDText = giftTrackingID.getText();
-        String assignName = assignee.getText();
+        String assignName = assigneeBox.getValue();
 
         List<NodeInfo> locations = locationSearcher.getSelectedLocations();
         List<String>   locationIDs = locationSearcher.getSelectedLocationIDs();
@@ -109,7 +126,7 @@ public class SR05_Gift implements Initializable {
             idErrorText.setText(App.resourceBundle.getString("key.ID_error"));
             validRequest = false;
         }
-        if (assignName.equals("")) {
+        if (assignName == null) {
             assignName = "Unassigned";
         }
         if(locations.size() == 0){
@@ -130,7 +147,6 @@ public class SR05_Gift implements Initializable {
             idErrorText.setText("");
             roomErrorText.setText("");
             giftTrackingID.setText("");
-            assignee.setText("");
 
             JFXDialogLayout content = new JFXDialogLayout();
             content.setHeading(new Text(App.resourceBundle.getString("key.medicine_request_submitted")));
