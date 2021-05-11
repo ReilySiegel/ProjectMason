@@ -308,7 +308,6 @@
                   </VBox>
                </children>
             </GridPane>
-            <JFXButton fx:id="clearPathButton" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="38.0" prefWidth="150.0" text="Clear Path" wrapText="true" />
          </children>
       </StackPane>
    </children>

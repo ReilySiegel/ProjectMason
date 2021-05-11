@@ -534,6 +534,10 @@ public class Map {
         }}
     }
 
+    public void centerMap(){
+        centerOnMapCoords( mapWidth/2, mapHeight/2);
+    }
+
     public void centerOnMapCoords(int x, int y) {
         /* convert to nodePane coords */
         double pX = mapToPaneX(x);

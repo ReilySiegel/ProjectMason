@@ -31,9 +31,6 @@ import java.util.stream.Collectors;
 public class PathfindingPage extends SubPageController implements Initializable {
 
     @FXML
-    private JFXButton clearPathButton;
-
-    @FXML
     private Label promptText;
 
     @FXML
@@ -187,7 +184,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
         floorComboBox.setOnAction(this::handleFloorSwitch);
         algoSwitcher.setOnAction(this::handleAlgoSwitch);
         helpButton.setOnAction(this::handleHelpButton);
-        clearPathButton.setOnAction(this::handleClearPath);
+        //clearPathButton.setOnAction(this::handleClearPath);
 
         App.getPrimaryStage().getScene().setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ESCAPE) {
@@ -349,15 +346,19 @@ public class PathfindingPage extends SubPageController implements Initializable 
     }
 
     private void handlePlanNewPath() {
+        clearPath();
+        map.centerMap();
         pathDisplayControls.hide();
     }
 
 
     // clear the path
-    void handleClearPath(ActionEvent e){
+    void clearPath(){
         LinkedList<AlgoNode> path = new LinkedList<>();
         pathDisplayControls.setDisplayedPath(path);
-        calculatedPath.clear();
+        if(calculatedPath != null) {
+            calculatedPath.clear();
+        }
         update();
     }
 
