@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXListView?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
@@ -108,7 +109,7 @@
                                  <children>
                                     <VBox layoutY="2.0" AnchorPane.rightAnchor="0.0">
                                        <children>
-                                          <JFXTextField fx:id="service" focusColor="BLACK" minWidth="300.0" prefHeight="25.0" prefWidth="349.0" promptText="%key.name_of_service" unFocusColor="BLACK">
+                                          <JFXTextField fx:id="service" focusColor="BLACK" maxWidth="-Infinity" minWidth="300.0" prefHeight="25.0" prefWidth="422.0" promptText="%key.name_of_service" unFocusColor="BLACK">
                                              <padding>
                                                 <Insets bottom="5.0" />
                                              </padding>
@@ -136,15 +137,16 @@
                                     <Insets right="20.0" />
                                  </HBox.margin>
                               </Text>
-                              <AnchorPane prefHeight="50.0" prefWidth="277.0">
+                              <VBox>
                                  <children>
-                                    <JFXTextField fx:id="assigneeName" focusColor="BLACK" layoutY="1.0" minWidth="270.0" prefHeight="25.0" prefWidth="270.0" promptText="%key.name_of_assignee" unFocusColor="BLACK" AnchorPane.rightAnchor="7.0" />
-                                    <Text fx:id="assignedErrorText" fill="RED" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                                    <JFXComboBox fx:id="assigneeBox" maxWidth="-Infinity" prefWidth="422.0" promptText="%key.assignee_username" />
+                                    <Text fx:id="assignedErrorText" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0">
+                                       <VBox.margin>
+                                          <Insets top="5.0" />
+                                       </VBox.margin>
+                                    </Text>
                                  </children>
-                                 <HBox.margin>
-                                    <Insets />
-                                 </HBox.margin>
-                              </AnchorPane>
+                              </VBox>
                            </children>
                            <VBox.margin>
                               <Insets />
@@ -162,7 +164,7 @@
                               </Text>
                               <AnchorPane prefHeight="50.0" prefWidth="203.0">
                                  <children>
-                                    <JFXTextField fx:id="notes" focusColor="BLACK" layoutX="269.0" layoutY="2.0" minWidth="234.0" prefHeight="25.0" prefWidth="234.0" promptText="%key.notes" unFocusColor="BLACK" AnchorPane.rightAnchor="0.0" />
+                                    <JFXTextField fx:id="notes" focusColor="BLACK" layoutX="269.0" layoutY="2.0" maxWidth="-Infinity" minWidth="234.0" prefHeight="25.0" prefWidth="422.0" promptText="%key.notes" unFocusColor="BLACK" AnchorPane.rightAnchor="0.0" />
                                  </children>
                                  <HBox.margin>
                                     <Insets />
@@ -185,7 +187,7 @@
                               </Text>
                               <AnchorPane prefHeight="50.0" prefWidth="204.0">
                                  <children>
-                                    <JFXTextField fx:id="religiousFigure" focusColor="BLACK" layoutX="529.0" layoutY="2.0" minWidth="212.0" prefHeight="25.0" prefWidth="253.0" promptText="%key.religious_figure" unFocusColor="BLACK" AnchorPane.rightAnchor="0.0" />
+                                    <JFXTextField fx:id="religiousFigure" focusColor="BLACK" layoutX="529.0" layoutY="2.0" maxWidth="-Infinity" minWidth="212.0" prefHeight="25.0" prefWidth="422.0" promptText="%key.religious_figure" unFocusColor="BLACK" AnchorPane.rightAnchor="0.0" />
                                  </children>
                                  <HBox.margin>
                                     <Insets />
