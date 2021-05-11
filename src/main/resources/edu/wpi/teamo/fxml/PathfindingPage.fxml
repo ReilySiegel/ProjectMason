@@ -55,38 +55,11 @@
                            </HBox.margin></JFXComboBox>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="55.0" prefWidth="231.0" styleClass="pane" GridPane.halignment="LEFT">
-                     <GridPane.margin>
-                        <Insets bottom="10.0" left="30.0" right="160.0" top="10.0" />
-                     </GridPane.margin>
-                     <children>
-                        <JFXButton fx:id="helpButton" buttonType="RAISED" text="?" textFill="WHITE">
-                           <font>
-                              <Font name="Century" size="18.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
-                        </JFXButton>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.floor" textAlignment="RIGHT" wrappingWidth="103.99999612569809">
-                           <font>
-                              <Font size="20.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets right="10.0" />
-                           </HBox.margin>
-                        </Text>
-                        <JFXComboBox fx:id="floorComboBox" focusColor="#405aa800" prefWidth="75.0" styleClass="pane" unFocusColor="#4d4d4d00">
-                           <HBox.margin>
-                              <Insets right="10.0" />
-                           </HBox.margin></JFXComboBox>
-                     </children>
-                  </HBox>
                   <StackPane pickOnBounds="false" GridPane.columnIndex="2" GridPane.rowIndex="1">
                      <children>
-                        <VBox fx:id="pathDisplayControlWindow" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" prefHeight="527.0" prefWidth="317.0" styleClass="murkier-pane" visible="false">
+                        <VBox fx:id="pathDisplayControlWindow" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="527.0" prefWidth="614.0" styleClass="murkier-pane" visible="false">
                            <children>
-                              <HBox alignment="CENTER" prefHeight="52.0" prefWidth="296.0">
+                              <HBox alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="296.0">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.textual_directions" textAlignment="CENTER" wrappingWidth="311.45263671875">
                                        <font>
@@ -100,7 +73,7 @@
                                     </JFXButton>
                                  </children>
                               </HBox>
-                              <HBox fx:id="currentDirectionDisplay" prefHeight="82.0" prefWidth="332.0">
+                              <HBox fx:id="currentDirectionDisplay" maxWidth="-Infinity" prefHeight="82.0" prefWidth="532.0">
                                  <VBox.margin>
                                     <Insets />
                                  </VBox.margin>
@@ -125,7 +98,7 @@
                               </HBox>
                            </children>
                            <StackPane.margin>
-                              <Insets bottom="30.0" left="50.0" right="50.0" top="30.0" />
+                              <Insets bottom="90.0" left="50.0" right="50.0" top="30.0" />
                            </StackPane.margin>
                            <padding>
                               <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
@@ -133,7 +106,7 @@
                         </VBox>
                         <VBox fx:id="planningWindow" alignment="BOTTOM_CENTER" pickOnBounds="false">
                            <StackPane.margin>
-                              <Insets bottom="30.0" left="50.0" right="50.0" top="30.0" />
+                              <Insets bottom="90.0" left="50.0" right="50.0" top="30.0" />
                            </StackPane.margin>
                            <children>
                               <VBox alignment="BOTTOM_CENTER" styleClass="murkier-pane" VBox.vgrow="NEVER">
@@ -224,6 +197,34 @@
                               </VBox>
                            </children>
                         </VBox>
+                        <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="55.0" prefWidth="614.0" styleClass="pane" StackPane.alignment="BOTTOM_CENTER">
+                           <children>
+                              <JFXButton fx:id="helpButton" buttonType="RAISED" text="?" textFill="WHITE">
+                                 <font>
+                                    <Font name="Century" size="18.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                              </JFXButton>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.floor" textAlignment="RIGHT" wrappingWidth="103.99999612569809">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="10.0" />
+                                 </HBox.margin>
+                              </Text>
+                              <JFXComboBox fx:id="floorComboBox" focusColor="#405aa800" prefWidth="75.0" styleClass="pane" unFocusColor="#4d4d4d00">
+                                 <HBox.margin>
+                                    <Insets right="10.0" />
+                                 </HBox.margin>
+                              </JFXComboBox>
+                           </children>
+                           <StackPane.margin>
+                              <Insets bottom="10.0" />
+                           </StackPane.margin>
+                        </HBox>
                      </children>
                   </StackPane>
                   <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
