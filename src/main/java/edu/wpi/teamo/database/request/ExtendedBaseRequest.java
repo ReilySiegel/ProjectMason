@@ -58,6 +58,11 @@ public abstract class ExtendedBaseRequest<T> extends RecursiveTreeObject<T> {
         base.setDue(due);
     }
 
+    public String getUser() {
+        return base.getRequesterUsername();
+    }
+
+
     public LocalDateTime getTimestamp() {
         return base.getTimestamp();
     }
