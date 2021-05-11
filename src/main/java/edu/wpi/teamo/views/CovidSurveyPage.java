@@ -74,7 +74,9 @@ public class CovidSurveyPage implements Initializable {
 
         JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
         closeButton.setOnAction(event -> App.switchPage(Pages.MAIN));
-        emailSender.sendCovidReceiptMail(Session.getAccount().getEmail(), "submitted");
+        if (!Session.getAccount().getRole().equals("guest")) {
+            emailSender.sendCovidReceiptMail(Session.getAccount().getEmail(), "submitted");
+        }
         content.setActions(closeButton);
         errorWindow.show();
     }

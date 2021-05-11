@@ -463,6 +463,7 @@ public class RequestDisplay {
                     COVIDSurveyRequest.getByID(c.getId()).setComplete(true);
                     Account.getByUsername(c.getUsername()).setUseEmergencyEntrance(true);
                     Account.getByUsername(c.getUsername()).setTakenSurvey(true);
+
                     update();
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
