@@ -559,6 +559,7 @@ public class RequestDisplay {
         boolean useEmergencyEntrance = newEntryStatusString.equals(emergencyEntranceKey);
         try {
             Account.getByUsername(c.getUsername()).setUseEmergencyEntrance(useEmergencyEntrance);
+            Account.getByUsername(c.getUsername()).setTakenSurvey(true);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

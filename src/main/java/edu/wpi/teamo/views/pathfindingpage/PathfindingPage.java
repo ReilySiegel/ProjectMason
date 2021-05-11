@@ -420,10 +420,20 @@ public class PathfindingPage extends SubPageController implements Initializable 
         return parkingSpotID;
     }
 
-    private LinkedList<NodeInfo> getAllNodes() {
-        LinkedList<NodeInfo> nodes = new LinkedList<>();
+    private List<NodeInfo> getAllNodes() {
+        List<NodeInfo> nodes = new LinkedList<>();
         try {
             nodes = App.mapService.getAllNodes().collect(Collectors.toCollection(LinkedList::new));
+            boolean mightBeSick = true;
+            if (Session.isLoggedIn()) {
+                mightBeSick = Session.getAccount().getUseEmergencyEntrance();
+            }
+
+            String entranceToFilterOut = mightBeSick ? App.normalEntrance : App.emergencyEntrance;
+            nodes = nodes.stream()
+                    .filter(node -> !node.getNodeID().equals(entranceToFilterOut))
+                    .collect(Collectors.toList());
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
