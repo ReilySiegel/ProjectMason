@@ -75,14 +75,6 @@
                                     <Insets />
                                  </VBox.margin>
                               </JFXButton>
-                              <JFXButton fx:id="aboutButton" buttonType="RAISED" prefHeight="40.0" prefWidth="120.0" text="%key.about">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                              </JFXButton>
                               <JFXButton fx:id="mapEditorButton" buttonType="RAISED" prefHeight="40.0" prefWidth="120.0" text="%key.map_editor">
                                  <font>
                                     <Font size="18.0" />
@@ -112,8 +104,16 @@
                                     <Font size="18.0" />
                                  </font>
                               </JFXButton>
-                              <JFXButton buttonType="RAISED" onAction="#setCredits" prefHeight="40.0" prefWidth="120.0" text="%key.credits" />
                               <JFXButton buttonType="RAISED" onAction="#setCovidInfo" prefHeight="40.0" prefWidth="120.0" text="%key.covidinfo" />
+                              <JFXButton fx:id="aboutButton" buttonType="RAISED" prefHeight="40.0" prefWidth="120.0" text="%key.about">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </JFXButton>
+                              <JFXButton buttonType="RAISED" onAction="#setCredits" prefHeight="40.0" prefWidth="120.0" text="%key.credits" />
                            </children>
                            <VBox.margin>
                               <Insets />
