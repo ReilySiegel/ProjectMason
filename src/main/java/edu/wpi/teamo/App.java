@@ -184,9 +184,8 @@ public class App extends Application {
    * @param lang language code (lower case)
    * @param country country code (upper case)
    * @param type Selected locale type
-   * @param isDebug extra parameter for determining if the function call is for a test
    */
-  public static void switchLocale(String lang, String country, LocaleType type, boolean isDebug) {
+  public static void switchLocale(String lang, String country, LocaleType type) {
     Locale locale = new Locale(lang, country);
     try {
       resourceBundle = ResourceBundle.getBundle(localesPath + lang + "_" + country, locale);
@@ -196,8 +195,6 @@ public class App extends Application {
       resourceBundle = ResourceBundle.getBundle(localesPath + "en_US", locale);
       selectedLocale = LocaleType.en_US;
     }
-    //Update main page
-    //if(!isDebug) switchPage(Pages.MAIN);
   }
 
   @Override

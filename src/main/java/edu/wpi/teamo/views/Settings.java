@@ -137,14 +137,14 @@ public class Settings implements Initializable {
         }
 
         if(langBox.getValue().equals(App.resourceBundle.getString("key.english"))) {
-            App.switchLocale("en", "US", LocaleType.en_US, false);
+            App.switchLocale("en", "US", LocaleType.en_US);
         }
         else if (langBox.getValue().equals(App.resourceBundle.getString("key.spanish"))) {
-            App.switchLocale("es", "ES", LocaleType.es_ES, false);
+            App.switchLocale("es", "ES", LocaleType.es_ES);
         }
 
         else if (langBox.getValue().equals(App.resourceBundle.getString("key.japanese"))) {
-            App.switchLocale("ja", "JP", LocaleType.ja_JP, false);
+            App.switchLocale("ja", "JP", LocaleType.ja_JP);
         }
 
         App.switchPage(Pages.MAIN);

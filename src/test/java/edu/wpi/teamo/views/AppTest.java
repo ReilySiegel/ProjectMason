@@ -48,7 +48,7 @@ public class AppTest extends FxRobot {
    */
   @Test
   public void testArbitraryLanguageSwitch() {
-    App.switchLocale("es", "ES", LocaleType.es_ES, true);
+    App.switchLocale("es", "ES", LocaleType.es_ES);
     assertEquals(App.selectedLocale, LocaleType.es_ES);
   }
 
@@ -57,7 +57,7 @@ public class AppTest extends FxRobot {
    */
   @Test
   public void testLanguageSwitchBack() {
-    App.switchLocale("en", "US", LocaleType.en_US, true);
+    App.switchLocale("en", "US", LocaleType.en_US);
     assertEquals(App.selectedLocale, LocaleType.en_US);
   }
   /**
@@ -65,7 +65,7 @@ public class AppTest extends FxRobot {
    */
   @Test
   public void testMalformedLanguageSwitch() {
-    App.switchLocale("null", "null", LocaleType.es_ES, true);
+    App.switchLocale("null", "null", LocaleType.es_ES);
     assertEquals(App.selectedLocale, LocaleType.en_US);
   }
 
