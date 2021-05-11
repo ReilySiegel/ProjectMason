@@ -40,7 +40,10 @@ dependencies {
 
             "org.apache.commons:commons-csv:1.8"
     )
-    compile 'io.github.typhon0:AnimateFX:1.2.2'
+    compile (
+            'io.github.typhon0:AnimateFX:1.2.2',
+            group: 'com.sun.mail', name: 'javax.mail', version: '1.6.2'
+    )
 //These are test dependencies. These are only used for running verification tasks via Gradle.
     testCompile(
             "org.testfx:testfx-core:4.0.16-alpha",

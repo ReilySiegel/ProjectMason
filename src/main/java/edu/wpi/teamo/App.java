@@ -138,8 +138,8 @@ public class App extends Application {
   @Override
   public void start(Stage primaryStage) {
     App.primaryStage = primaryStage;
-    Locale defaultLocale = new Locale("en","US");
-    resourceBundle = ResourceBundle.getBundle(localesPath + "en_US", defaultLocale);
+    Locale defaultLocale = new Locale("ja","JP");
+    resourceBundle = ResourceBundle.getBundle(localesPath + "ja_JP", defaultLocale);
     selectedLocale = LocaleType.en_US;
     try {
       Parent root = FXMLLoader.load(getClass().getResource("fxml/MainPage.fxml"), resourceBundle);
