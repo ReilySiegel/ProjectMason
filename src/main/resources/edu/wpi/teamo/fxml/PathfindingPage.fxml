@@ -6,6 +6,7 @@
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -27,9 +28,9 @@
             </AnchorPane>
             <GridPane fx:id="gridPane" prefHeight="1080.0" prefWidth="1920.0">
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="712.0" minWidth="111.0" prefWidth="420.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="726.333251953125" minWidth="0.0" prefWidth="643.6666259765625" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="1242.3333740234375" minWidth="188.0" prefWidth="642.3333740234375" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="712.0" minWidth="111.0" percentWidth="33.0" prefWidth="420.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="853.0" minWidth="0.0" prefWidth="849.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="1242.3333740234375" minWidth="188.0" percentWidth="33.0" prefWidth="580.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints maxHeight="441.3333435058594" minHeight="122.00000762939453" prefHeight="122.00000762939453" vgrow="SOMETIMES" />
@@ -37,29 +38,9 @@
                   <RowConstraints maxHeight="957.9999923706055" minHeight="21.6666259765625" prefHeight="189.3333740234375" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <HBox fx:id="algoSwitchWindow" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="55.0" prefWidth="405.0" styleClass="pane" GridPane.columnIndex="1">
-                     <GridPane.margin>
-                        <Insets bottom="10.0" left="30.0" right="30.0" top="10.0" />
-                     </GridPane.margin>
-                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.algo_switch" textAlignment="RIGHT" wrappingWidth="156.13671875">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets right="10.0" />
-                           </HBox.margin>
-                        </Text>
-                        <JFXComboBox fx:id="algoSwitcher" focusColor="#405aa800" prefHeight="39.0" prefWidth="130.0" styleClass="pane" unFocusColor="#4d4d4d00">
-                           <HBox.margin>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                           </HBox.margin>
-                        </JFXComboBox>
-                     </children>
-                  </HBox>
                   <StackPane pickOnBounds="false" GridPane.columnIndex="2" GridPane.rowIndex="1">
                      <children>
-                        <VBox fx:id="pathDisplayControlWindow" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="527.0" prefWidth="614.0" styleClass="murkier-pane">
+                        <VBox fx:id="pathDisplayControlWindow" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="527.0" prefWidth="614.0" styleClass="murkier-pane" visible="false">
                            <children>
                               <HBox alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="296.0">
                                  <children>
@@ -106,7 +87,7 @@
                               <Insets left="40.0" right="40.0" />
                            </padding>
                         </VBox>
-                        <VBox fx:id="planningWindow" alignment="BOTTOM_CENTER" pickOnBounds="false" visible="false">
+                        <VBox fx:id="planningWindow" alignment="BOTTOM_CENTER" pickOnBounds="false">
                            <StackPane.margin>
                               <Insets bottom="10.0" left="50.0" right="50.0" top="30.0" />
                            </StackPane.margin>
@@ -189,6 +170,65 @@
                                           </VBox>
                                        </children>
                                     </HBox>
+                                    <HBox fx:id="algoSwitchWindow" alignment="CENTER_RIGHT" prefHeight="45.0" prefWidth="612.0">
+                                       <children>
+                                          <HBox alignment="CENTER_LEFT" prefHeight="70.0" prefWidth="250.0" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <JFXButton fx:id="helpForExercise" buttonType="RAISED" text="?" textFill="WHITE">
+                                                   <font>
+                                                      <Font name="Century" size="18.0" />
+                                                   </font>
+                                                   <HBox.margin>
+                                                      <Insets />
+                                                   </HBox.margin>
+                                                </JFXButton>
+                                                <VBox alignment="CENTER">
+                                                   <HBox.margin>
+                                                      <Insets />
+                                                   </HBox.margin>
+                                                   <children>
+                                                      <JFXToggleButton fx:id="exerciseMode" prefHeight="23.0" prefWidth="190.0" size="5.0" text="%key.exercise_mode">
+                                                         <font>
+                                                            <Font size="13.0" />
+                                                         </font>
+                                                      </JFXToggleButton>
+                                                      <JFXToggleButton fx:id="handicapSwitch" prefHeight="0.0" prefWidth="190.0" size="5.0" text="%key.handicap_mode">
+                                                         <font>
+                                                            <Font size="13.0" />
+                                                         </font>
+                                                      </JFXToggleButton>
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                             <HBox.margin>
+                                                <Insets />
+                                             </HBox.margin>
+                                             <padding>
+                                                <Insets left="10.0" />
+                                             </padding>
+                                          </HBox>
+                                          <HBox fx:id="algoSwitchWindow" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="47.0" prefWidth="341.0">
+                                             <children>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.algo_switch" textAlignment="RIGHT" wrappingWidth="156.13671875">
+                                                   <font>
+                                                      <Font size="18.0" />
+                                                   </font>
+                                                   <HBox.margin>
+                                                      <Insets right="10.0" />
+                                                   </HBox.margin>
+                                                </Text>
+                                                <JFXComboBox fx:id="algoSwitcher" focusColor="#405aa800" prefHeight="39.0" prefWidth="130.0" styleClass="pane" unFocusColor="#4d4d4d00">
+                                                   <HBox.margin>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </HBox.margin>
+                                                </JFXComboBox>
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="5.0" />
+                                       </padding>
+                                    </HBox>
                                  </children>
                               </VBox>
                            </children>
@@ -202,26 +242,6 @@
                               <Insets bottom="10.0" left="50.0" right="50.0" />
                            </VBox.margin>
                            <children>
-                              <HBox prefHeight="100.0" prefWidth="612.0">
-                                 <children>
-                                    <JFXToggleButton fx:id="exerciseMode" text="%key.exercise_mode">
-                                       <HBox.margin>
-                                          <Insets left="230.0" />
-                                       </HBox.margin>
-                                       <font>
-                                          <Font size="13.0" />
-                                       </font>
-                                    </JFXToggleButton>
-                                    <JFXButton fx:id="helpForExercise" buttonType="RAISED" text="?" textFill="WHITE">
-                                       <font>
-                                          <Font name="Century" size="18.0" />
-                                       </font>
-                                       <HBox.margin>
-                                          <Insets left="15.0" top="18.0" />
-                                       </HBox.margin>
-                                    </JFXButton>
-                                 </children>
-                              </HBox>
                               <JFXButton fx:id="findPathButton" buttonType="RAISED" prefHeight="50.0" prefWidth="401.0" styleClass="find-path-button" stylesheets="@CSS/PathfindingPage.css" text="%key.find_path">
                                  <font>
                                     <Font name="Century" size="21.0" />
@@ -273,6 +293,14 @@
                               <Insets left="50.0" right="50.0" />
                            </padding>
                         </HBox>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" GridPane.columnIndex="1">
+                     <children>
+                        <Label fx:id="promptText" alignment="CENTER" textAlignment="CENTER" VBox.vgrow="ALWAYS">
+                           <font>
+                              <Font size="25.0" />
+                           </font></Label>
                      </children>
                   </VBox>
                </children>

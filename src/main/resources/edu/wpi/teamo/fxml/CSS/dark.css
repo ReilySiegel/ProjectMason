@@ -132,11 +132,11 @@
 
 
 .jfx-date-picker{
-    -jfx-default-color: #4793e9; !important
+    -jfx-default-color: #4793e9 !important;
 }
 
 .jfx-time-picker{
-    -jfx-default-color: #4793e9; !important
+    -jfx-default-color: #4793e9 !important;
 }
 
 .date-picker-popup .left-button,

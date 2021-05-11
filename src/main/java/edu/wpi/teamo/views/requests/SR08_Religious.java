@@ -4,6 +4,7 @@ import com.jfoenix.controls.*;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.Pages;
 import edu.wpi.teamo.Session;
+import edu.wpi.teamo.database.account.Account;
 import edu.wpi.teamo.database.map.NodeInfo;
 import edu.wpi.teamo.database.request.BaseRequest;
 import edu.wpi.teamo.database.request.ReligiousRequest;
@@ -25,6 +26,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 public class SR08_Religious implements Initializable {
@@ -35,7 +37,7 @@ public class SR08_Religious implements Initializable {
     private JFXTextField service;
 
     @FXML
-    private JFXTextField assigneeName;
+    private JFXComboBox<String> assigneeBox;
 
     @FXML
     private JFXTextField notes;
@@ -86,6 +88,8 @@ public class SR08_Religious implements Initializable {
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
 
+        initAsigneeBox();
+
         if (Session.getAccount() == null || !Session.getAccount().hasEmployeeAccess()) {
             assignedBox.setVisible(false);
             assignedBox.setManaged(false);
@@ -112,15 +116,32 @@ public class SR08_Religious implements Initializable {
         }
     }
 
+    private void initAsigneeBox() {
+        Stream<Account> employees = Stream.empty();
+        try {
+            employees = Account.getAll().filter(Account::hasEmployeeAccess);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        employees.forEach(employee -> {
+            assigneeBox.getItems().add(employee.getUsername());
+        });
+    }
+
     @FXML
     private void handleSubmission(ActionEvent e) throws SQLException {
         String serviceName = service.getText();
-        String assigned = assigneeName.getText();
+        String assigned = assigneeBox.getValue();
         String details = notes.getText();
         String figure = religiousFigure.getText();
 
         List<NodeInfo> locations = locationSearcher.getSelectedLocations();
         List<String> locationIDs = locationSearcher.getSelectedLocationIDs();
+
+        if(assigned == null){
+            assigned = "Unassigned";
+        }
 
         if (validateRequest()) {
 
@@ -223,7 +244,6 @@ public class SR08_Religious implements Initializable {
     public void resetFields() {
         locationSearcher.clearSelectedLocations();
         service.setText("");
-        assigneeName.setText("");
         religiousFigure.setText("");
         notes.setText("");
         typeErrorText.setText("");

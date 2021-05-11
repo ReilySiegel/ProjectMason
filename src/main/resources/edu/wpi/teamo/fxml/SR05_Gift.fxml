@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXListView?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
@@ -50,7 +51,7 @@
                               <Insets right="20.0" />
                            </HBox.margin>
                                 </Text>
-                                  <JFXTextField fx:id="assignee" focusColor="BLACK" prefWidth="300.0" promptText="%key.name_of_assignee" unFocusColor="BLACK" />
+                        <JFXComboBox fx:id="assigneeBox" maxWidth="-Infinity" prefWidth="300.0" promptText="%key.assignee_username" />
                             </children>
                             <VBox.margin>
                                 <Insets bottom="10.0" />

@@ -30,6 +30,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class SR03_Sanitation implements Initializable {
 
@@ -49,7 +50,7 @@ public class SR03_Sanitation implements Initializable {
     private HBox bottomHbox;
 
     @FXML
-    private JFXTextField assignee;
+    private JFXComboBox<String> assigneeBox;
 
     @FXML
     private JFXButton backButton;
@@ -103,6 +104,8 @@ public class SR03_Sanitation implements Initializable {
 
         backButton.setOnAction(actionEvent -> SubPageContainer.switchPage(Pages.SERVICEREQUEST));
 
+        initAsigneeBox();
+
         topVbox.getStyleClass().add("vbox");
         bottomHbox.getStyleClass().add("vbox");
         midVbox.getStyleClass().add("text-area");
@@ -148,10 +151,23 @@ public class SR03_Sanitation implements Initializable {
         }
     }
 
+    private void initAsigneeBox() {
+        Stream<Account> employees = Stream.empty();
+        try {
+            employees = Account.getAll().filter(Account::hasEmployeeAccess);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        employees.forEach(employee -> {
+            assigneeBox.getItems().add(employee.getUsername());
+        });
+    }
+
     @FXML
     private void handleSubmission(ActionEvent e) throws SQLException, MessagingException {
         String serviceName = service.getText();
-        String assigned = assignee.getText();
+        String assigned = assigneeBox.getValue();
         String details = notes.getText();
 
         List<NodeInfo>          locations = locationSearcher.getSelectedLocations();
@@ -182,7 +198,7 @@ public class SR03_Sanitation implements Initializable {
             validRequest = false;
         }
 
-        if (assigned.equals("")) {
+        if (assigned == null) {
             assigned = "Unassigned";
         }
 
@@ -209,7 +225,6 @@ public class SR03_Sanitation implements Initializable {
             emailSender.sendSRReceiptMail(Session.getAccount().getEmail(),randomUU,"submitted");
 
             service.setText("");
-            assignee.setText("");
             notes.setText("");
 
             JFXDialogLayout content = new JFXDialogLayout();
