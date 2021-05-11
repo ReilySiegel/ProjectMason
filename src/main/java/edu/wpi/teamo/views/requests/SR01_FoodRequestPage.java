@@ -14,6 +14,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
@@ -167,8 +168,8 @@ public class SR01_FoodRequestPage implements Initializable {
 
 
             JFXDialogLayout content = new JFXDialogLayout();
-            content.setHeading(new Text(App.resourceBundle.getString("key.food_request_submitted")));
-            content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
+            content.setHeading(new Label(App.resourceBundle.getString("key.food_request_submitted")));
+            content.setBody(new Label(App.resourceBundle.getString("key.request_submitted_with") +
                     App.resourceBundle.getString("key.patient_name_semicolon") + patientName + "\n" +
                     App.resourceBundle.getString("key.appetizer_semicolon") + appetizer + "\n" +
                     App.resourceBundle.getString("key.entree_semicolon") + entree + "\n" +
@@ -216,8 +217,8 @@ public class SR01_FoodRequestPage implements Initializable {
     private void handleHelp(ActionEvent e) {
 
         JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text(App.resourceBundle.getString("key.FoodDeliveryHelp")));
-        content.setBody(new Text(
+        content.setHeading(new Label(App.resourceBundle.getString("key.FoodDeliveryHelp")));
+        content.setBody(new Label(
                 App.resourceBundle.getString("key.menuHelp")));
         JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 

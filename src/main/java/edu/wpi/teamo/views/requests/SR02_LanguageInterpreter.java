@@ -16,6 +16,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -219,16 +220,16 @@ public class SR02_LanguageInterpreter implements Initializable {
             System.out.println("request successful");
 
             JFXDialogLayout content = new JFXDialogLayout();
-            content.setHeading(new Text(App.resourceBundle.getString("key.language_request_submitted")));
+            content.setHeading(new Label(App.resourceBundle.getString("key.language_request_submitted")));
            if(!Session.getAccount().hasEmployeeAccess()) {
-               content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
+               content.setBody(new Label(App.resourceBundle.getString("key.request_submitted_with") +
                        App.resourceBundle.getString("key.language_semicolon") +  selectedLanguage+ "\n" +
                        App.resourceBundle.getString("key.job_type_semicolon") + selectedJob + "\n" +
                        App.resourceBundle.getString("key.room_semicolon") + String.join(", ", locationIDs) + "\n" +
                        App.resourceBundle.getString("key.selected_time_semicolon") + curDate));
            }
            else{
-               content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
+               content.setBody(new Label(App.resourceBundle.getString("key.request_submitted_with") +
                        App.resourceBundle.getString("key.language_semicolon") +  selectedLanguage+ "\n" +
                        App.resourceBundle.getString("key.job_type_semicolon") + selectedJob + "\n" +
                        App.resourceBundle.getString("key.room_semicolon") + String.join(", ", locationIDs) + "\n" +
@@ -264,8 +265,8 @@ public class SR02_LanguageInterpreter implements Initializable {
     private void handleHelp(ActionEvent e) {
 
         JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text(App.resourceBundle.getString("key.help_interpreter_request")));
-        content.setBody(new Text(App.resourceBundle.getString("key.help_language") +
+        content.setHeading(new Label(App.resourceBundle.getString("key.help_interpreter_request")));
+        content.setBody(new Label(App.resourceBundle.getString("key.help_language") +
                 App.resourceBundle.getString("key.help_lang_job_type") +
                 App.resourceBundle.getString("key.room_help") +
                 App.resourceBundle.getString("key.assignee_help")+

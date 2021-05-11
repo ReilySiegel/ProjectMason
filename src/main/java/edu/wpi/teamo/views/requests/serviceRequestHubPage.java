@@ -179,8 +179,8 @@ public class serviceRequestHubPage implements Initializable {
 
     private void handleHelp(ActionEvent e) {
         JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text(App.resourceBundle.getString("key.help_service_requests")));
-        content.setBody(new Text(App.resourceBundle.getString("key.help_finding_a_service") +
+        content.setHeading(new Label(App.resourceBundle.getString("key.help_service_requests")));
+        content.setBody(new Label(App.resourceBundle.getString("key.help_finding_a_service") +
                 App.resourceBundle.getString("key.help_selecting_a_service") +
                 App.resourceBundle.getString("key.help_service_back")));
         JFXDialog errorWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);

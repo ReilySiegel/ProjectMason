@@ -171,8 +171,8 @@ public class SR11_Security implements Initializable {
     private void handleHelp() {
 
         JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text(App.resourceBundle.getString("key.help_security_request")));
-        content.setBody(new Text(App.resourceBundle.getString("key.emergency_help") +
+        content.setHeading(new Label(App.resourceBundle.getString("key.help_security_request")));
+        content.setBody(new Label(App.resourceBundle.getString("key.emergency_help") +
                 App.resourceBundle.getString("key.notes_help") +
                 App.resourceBundle.getString("key.locations_help1") +
                 App.resourceBundle.getString("key.locations_help2")));
@@ -187,8 +187,8 @@ public class SR11_Security implements Initializable {
 
     private void receiptDialog(boolean emergency, List<NodeInfo> locations, String details) {
         JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text(App.resourceBundle.getString("key.security_request_submitted")));
-        content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
+        content.setHeading(new Label(App.resourceBundle.getString("key.security_request_submitted")));
+        content.setBody(new Label(App.resourceBundle.getString("key.request_submitted_with") +
                 App.resourceBundle.getString("key.emergency_semicolon") +
                 (emergency?App.resourceBundle.getString("key.yes"):App.resourceBundle.getString("key.no")) + "\n" +
                 App.resourceBundle.getString("key.locations_semicolon") +

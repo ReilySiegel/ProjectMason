@@ -205,8 +205,8 @@ public class PathfindingPage extends SubPageController implements Initializable 
 
     private void handleExerciseHelpButton(ActionEvent e){
         JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text(App.resourceBundle.getString("key.help")));
-        content.setBody(new Text(App.resourceBundle.getString("key.exercise_help")));
+        content.setHeading(new Label(App.resourceBundle.getString("key.help")));
+        content.setBody(new Label(App.resourceBundle.getString("key.exercise_help")));
         JFXDialog errorWindow = new JFXDialog(parentStackPane, content, JFXDialog.DialogTransition.TOP);
 
         JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
@@ -421,8 +421,8 @@ public class PathfindingPage extends SubPageController implements Initializable 
 
     private void handleHelpButton(ActionEvent e){
         JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text(App.resourceBundle.getString("key.help")));
-        content.setBody(new Text(App.resourceBundle.getString("key.pathfinding_help")));
+        content.setHeading(new Label(App.resourceBundle.getString("key.help")));
+        content.setBody(new Label(App.resourceBundle.getString("key.pathfinding_help")));
         JFXDialog errorWindow = new JFXDialog(parentStackPane, content, JFXDialog.DialogTransition.TOP);
 
         JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));

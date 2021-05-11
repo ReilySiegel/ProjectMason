@@ -267,7 +267,7 @@
                                           <Insets left="10.0" />
                                        </HBox.margin>
                                     </JFXButton>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.floor" textAlignment="RIGHT" wrappingWidth="103.99999612569809">
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.floor" textAlignment="RIGHT" wrappingWidth="103.99999612569809">
                                        <font>
                                           <Font size="20.0" />
                                        </font>

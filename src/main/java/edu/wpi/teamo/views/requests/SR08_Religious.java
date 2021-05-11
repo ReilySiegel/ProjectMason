@@ -12,6 +12,7 @@ import edu.wpi.teamo.utils.itemsifters.LocationSearcher;
 import edu.wpi.teamo.views.SubPageContainer;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.fxml.FXML;
@@ -172,10 +173,10 @@ public class SR08_Religious implements Initializable {
         }
 
         JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text(App.resourceBundle.getString("key.religious_request_submitted")));
+        content.setHeading(new Label(App.resourceBundle.getString("key.religious_request_submitted")));
 
         if(!Session.getAccount().hasEmployeeAccess()){
-            content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
+            content.setBody(new Label(App.resourceBundle.getString("key.request_submitted_with") +
                     App.resourceBundle.getString("key.type_of_service") + serviceName + "\n" +
                     App.resourceBundle.getString("key.additional_notes")+ details + "\n" +
                     App.resourceBundle.getString("key.room_semicolon") + String.join(", ", locationIDs) + "\n" +
@@ -183,7 +184,7 @@ public class SR08_Religious implements Initializable {
                     App.resourceBundle.getString("key.last_rights_semicolon") + lastRites.isSelected()));
         }
         else{
-            content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
+            content.setBody(new Label(App.resourceBundle.getString("key.request_submitted_with") +
                     App.resourceBundle.getString("key.type_of_service") + serviceName + "\n" +
                     App.resourceBundle.getString("key.persons_assigned_semicolon") + assigned + "\n" +
                     App.resourceBundle.getString("key.additional_notes")+ details + "\n" +
@@ -230,8 +231,8 @@ public class SR08_Religious implements Initializable {
 
     public void handleHelpPress(ActionEvent e){
         JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text(App.resourceBundle.getString("key.help")));
-        content.setBody(new Text(App.resourceBundle.getString("key.religion_help")));
+        content.setHeading(new Label(App.resourceBundle.getString("key.help")));
+        content.setBody(new Label(App.resourceBundle.getString("key.religion_help")));
         JFXDialog helpWindow = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 
         JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));

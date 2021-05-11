@@ -18,6 +18,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -220,8 +221,8 @@ public class SR07_Medicine implements Initializable {
             notes.setText("");
 
             JFXDialogLayout content = new JFXDialogLayout();
-            content.setHeading(new Text(App.resourceBundle.getString("key.medicine_request_submitted")));
-            content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
+            content.setHeading(new Label(App.resourceBundle.getString("key.medicine_request_submitted")));
+            content.setBody(new Label(App.resourceBundle.getString("key.request_submitted_with") +
                     App.resourceBundle.getString("key.type_semicolon") + medicine + "\n" +
                     App.resourceBundle.getString("key.amount_semicolon")  + amount + "\n" +
                     App.resourceBundle.getString("key.room_semicolon") + String.join(", ", locationIDs) + "\n" +
@@ -256,8 +257,8 @@ public class SR07_Medicine implements Initializable {
     private void handleHelp(ActionEvent e) {
 
         JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text(App.resourceBundle.getString("key.help_medicine_request")));
-        content.setBody(new Text(App.resourceBundle.getString("key.medicine_name_help") +
+        content.setHeading(new Label(App.resourceBundle.getString("key.help_medicine_request")));
+        content.setBody(new Label(App.resourceBundle.getString("key.medicine_name_help") +
                 App.resourceBundle.getString("key.amount_help") +
                 App.resourceBundle.getString("key.room_help") +
                 App.resourceBundle.getString("key.assignee_help")));
