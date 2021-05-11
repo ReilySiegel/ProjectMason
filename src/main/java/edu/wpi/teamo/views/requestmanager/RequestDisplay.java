@@ -36,7 +36,7 @@ public class RequestDisplay {
 
     public static final String emergencyEntranceKey = App.resourceBundle.getString("key.emergency_entrance");
     public static final String normalEntranceKey = App.resourceBundle.getString("key.normal_entrance");
-    private static double sRInfoBoxLeftMargin = 50;
+    private static double sRInfoBoxLeftMargin = 40;
 
     private List<String> openRequestViews;
 
@@ -121,7 +121,7 @@ public class RequestDisplay {
         VBox sRBox = new VBox();
         sRBox.setSpacing(10);
         sRBox.setAlignment(Pos.CENTER_LEFT);
-        sRBox.setStyle("-fx-padding: 10px; -fx-background-color: #e5e5e5; -fx-effect: dropshadow(gaussian, rgba(170, 170, 170, 0.3), 10, 0.5, 0.0, 0.0)");
+        sRBox.setStyle("-fx-padding: 15px; -fx-background-color: #e5e5e5; -fx-effect: dropshadow(gaussian, rgba(170, 170, 170, 0.3), 10, 0.5, 0.0, 0.0)");
 
         //make expand button
         JFXButton expand = new JFXButton("+");
@@ -193,9 +193,7 @@ public class RequestDisplay {
         statusText.getStyleClass().add("annoyingText");
         hb.getChildren().add(statusText);
 
-        hb.setMargin(statusText, new Insets(0, 10, 0, 0));
-
-        hb.setSpacing(30);
+        hb.setSpacing(10);
         return hb;
     }
 
@@ -367,6 +365,7 @@ public class RequestDisplay {
                     throwables.printStackTrace();
                 }
         }
+        eIBox.getChildren().add(new Text(App.resourceBundle.getString("key.user_semicolon") + m.getRequesterUsername()));
         eIBox.getChildren().add(new Text(App.resourceBundle.getString("key.details_semicolon") + m.getDetails()));
         eIBox.getChildren().add(new Text(App.resourceBundle.getString("key.ID_semicolon") + m.getID()));
 
@@ -407,7 +406,7 @@ public class RequestDisplay {
 
     protected VBox makeCovidSurveyBox(COVIDSurveyRequest c) {
         VBox sB = new VBox();
-        sB.setStyle("-fx-padding: 10px; -fx-background-color: #e5e5e5; -fx-effect: dropshadow(gaussian, rgba(170, 170, 170, 0.3), 10, 0.5, 0.0, 0.0)");
+        sB.setStyle("-fx-padding: 15px; -fx-background-color: #e5e5e5; -fx-effect: dropshadow(gaussian, rgba(170, 170, 170, 0.3), 10, 0.5, 0.0, 0.0)");
         sB.setSpacing(7);
 
         JFXButton expand = new JFXButton("+");
@@ -465,6 +464,12 @@ public class RequestDisplay {
         typeBox.setMinWidth(200);
         headerBox.getChildren().add(typeBox);
 
+        HBox spacer = new HBox();
+        headerBox.getChildren().add(spacer);
+
+        spacer.setMinWidth(100);
+        headerBox.setHgrow(spacer, Priority.ALWAYS);
+
         //assigned person display
         Text userText = new Text(App.resourceBundle.getString("key.user_semicolon") + c.getUsername());
         HBox userBox = new HBox(userText);
@@ -493,6 +498,7 @@ public class RequestDisplay {
     private HBox makeCovidSurveyActionBox(COVIDSurveyRequest c) {
         HBox actionBox = new HBox();
         actionBox.setSpacing(10);
+        VBox.setMargin(actionBox, new Insets(0, 0, 0, sRInfoBoxLeftMargin));
 
         Text emergencyEntrance = new Text(App.resourceBundle.getString(c.getUseEmergencyEntrance()
                                                                        ? "key.recommended_emergency"
