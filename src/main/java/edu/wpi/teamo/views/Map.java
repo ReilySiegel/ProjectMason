@@ -17,7 +17,6 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.shape.Circle;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import java.util.LinkedList;
@@ -69,20 +68,15 @@ public class Map {
     private boolean dragging = false;
     private double scale = 1;
 
-    private Paint otherFloorPathColor = Color.GRAY;
-    private Paint sameFloorPathColor = Color.RED;
-    private Paint circleColor = Color.BLUE;
-    private Paint startNodeColor = Color.DARKGREEN;
-    private Paint endNodeColor = Color.DARKRED;
-    private Paint lineColor = Color.RED;
-    private Paint arrowColor = Color.BLUE;
-
-    public double defaultStrokeWidth = 5;
     public double defaultRadius = 5;
+    public double defaultEdgeStrokeWidth = 5;
+    public double defaultNodeStrokeWidth = 1;
     public double startingEndingRadius = 10;
+    public double indexCircleRadius = 7;
 
     private Circle startingNodeCircle;
     private Circle endingNodeCircle;
+    private Circle indexCircle;
 
     public List<Circle> circles;
     public List<Line> lines;
@@ -121,35 +115,47 @@ public class Map {
         lines = new LinkedList<>();
         Polyline polyline = new Polyline();
         for (int i = 0; i < (path.size() - 1); i++) {
-            Paint lineColor = path.get(i).getFloor().equals(floor) ? sameFloorPathColor : otherFloorPathColor;
 
             double firstX = mapToPaneX(path.get(i).getX());
             double firstY = mapToPaneY(path.get(i).getY());
             double secondX = mapToPaneX(path.get(i + 1).getX());
             double secondY = mapToPaneY(path.get(i + 1).getY());
 
-            Line line;
-            if (index == i) {
-                line = createLine(firstX, firstY, secondX, secondY, null, Color.BLUE);
-                //createTriangle(firstX, firstY, secondX, secondY, 6, Color.BLUE);
-                polyline.getPoints().addAll(firstX, firstY, secondX, secondY);
-            } else {
-                line = createLine(firstX, firstY, secondX, secondY, null, lineColor);
-                //createTriangle(firstX, firstY, secondX, secondY, 4, lineColor);
+            boolean sameFloorAsIndex = path.get(i).getFloor().equals(path.get(index).getFloor())
+                                       && path.get(i + 1).getFloor().equals(path.get(index).getFloor());
+            String style = sameFloorAsIndex ? "path-same-floor" : "path-diff-floor";
+
+            Line line = createLine(firstX, firstY, secondX, secondY, null, style);
+            if (line != null) line.setMouseTransparent(true);
+
+            if (i >= index && sameFloorAsIndex) {
                 polyline.getPoints().addAll(firstX, firstY, secondX, secondY);
             }
+
             nodePane.getChildren().add(line);
             lines.add(line);
 
+            if (index == i) {
+                indexCircle = new Circle(firstX, firstY, indexCircleRadius);
+                indexCircle.getStyleClass().setAll("path-highlight");
+                nodePane.getChildren().add(indexCircle);
+            }
+
+            if (indexCircle != null) {
+                indexCircle.toFront();
+            }
+
             /* draw a circle at the start and end of the path */
             if (i == 0) {
-                Circle circle = new Circle(firstX, firstY, defaultRadius * 20, startNodeColor);
+                Circle circle = new Circle(firstX, firstY, startingEndingRadius);
+                circle.getStyleClass().setAll("path-start");
                 circle.setMouseTransparent(true);
                 nodePane.getChildren().add(circle);
                 startingNodeCircle = circle;
 
             } else if (i == path.size() - 2) {
-                Circle circle = new Circle(secondX, secondY, defaultRadius * 100, endNodeColor);
+                Circle circle = new Circle(secondX, secondY, startingEndingRadius);
+                circle.getStyleClass().setAll("path-end");
                 circle.setMouseTransparent(true);
                 nodePane.getChildren().add(circle);
                 endingNodeCircle = circle;
@@ -161,23 +167,23 @@ public class Map {
         scaleMap(0);
     }
 
-    public void drawNodes(List<NodeInfo> allNodes, String floor) {
+    public void drawNodes(List<NodeInfo> allNodes, String floor, String styleClass) {
         List<NodeInfo> floorNodes = filterFloor(allNodes, floor);
 
         switchFloorImage(floor);
 
-        addCircles(floorNodes);
+        addCircles(floorNodes, styleClass);
 
         scaleMap(0);
     }
 
 
-    public void drawEdges(List<NodeInfo> allNodes, List<EdgeInfo> edges, String floor) {
+    public void drawEdges(List<NodeInfo> allNodes, List<EdgeInfo> edges, String floor, String styleClass) {
         List<NodeInfo> floorNodes = filterFloor(allNodes, floor);
 
         switchFloorImage(floor);
 
-        addLines(edges, floorNodes);
+        addLines(edges, floorNodes, styleClass);
 
         scaleMap(0);
     }
@@ -186,7 +192,7 @@ public class Map {
         nodePane.getChildren().removeAll(nodePane.getChildren());
     }
 
-    private void addLines(List<EdgeInfo> edges, List<NodeInfo> nodes) {
+    private void addLines(List<EdgeInfo> edges, List<NodeInfo> nodes, String styleClass) {
         lines = new LinkedList<>();
 
         for (EdgeInfo edge : edges) {
@@ -198,7 +204,7 @@ public class Map {
                 double tfStartY = mapToPaneY(startNode.getYPos());
                 double tfEndX = mapToPaneX(endNode.getXPos());
                 double tfEndY = mapToPaneY(endNode.getYPos());
-                Line line = createLine(tfStartX, tfStartY, tfEndX, tfEndY, edge, lineColor);
+                Line line = createLine(tfStartX, tfStartY, tfEndX, tfEndY, edge, styleClass);
                 if (line != null) {
                     nodePane.getChildren().add(line);
                     lines.add(line);
@@ -208,10 +214,9 @@ public class Map {
 
     }
 
-    private Line createLine(double StartX, double StartY, double EndX, double EndY, EdgeInfo edge, Paint lineColor) {
+    private Line createLine(double StartX, double StartY, double EndX, double EndY, EdgeInfo edge, String styleClass) {
         Line line = new Line(StartX, StartY, EndX, EndY);
-        line.setStroke(lineColor);
-        line.setStrokeWidth(defaultStrokeWidth);
+        line.getStyleClass().setAll(styleClass);
 
         if (onDrawEdge != null) {
             onDrawEdge.accept(new Pair<>(line, edge));
@@ -224,12 +229,12 @@ public class Map {
         }
     }
 
-    private void addCircles(List<NodeInfo> nodes) {
+    private void addCircles(List<NodeInfo> nodes, String styleClass) {
         circles = new LinkedList<>();
         for (NodeInfo node : nodes) {
             double transformedX = mapToPaneX(node.getXPos());
             double transformedY = mapToPaneY(node.getYPos());
-            Circle circle = createCircle(transformedX, transformedY, node);
+            Circle circle = createCircle(transformedX, transformedY, node, styleClass);
             if (circle != null) {
                 nodePane.getChildren().add(circle);
                 circles.add(circle);
@@ -237,22 +242,9 @@ public class Map {
         }
     }
 
-    private Circle createCircle(double x, double y, double radius, NodeInfo node) {
-        Circle circle = new Circle(x, y, radius, circleColor);
-
-        if (onDrawNode != null) {
-            onDrawNode.accept(new Pair<>(circle, node));
-        }
-
-        if (isWithinPaneBounds(x, y)) {
-            return circle;
-        } else {
-            return null;
-        }
-    }
-
-    private Circle createCircle(double x, double y, NodeInfo node) {
-        Circle circle = new Circle(x, y, defaultRadius, circleColor);
+    private Circle createCircle(double x, double y, NodeInfo node, String styleClass) {
+        Circle circle = new Circle(x, y, defaultRadius);
+        circle.getStyleClass().setAll(styleClass);
 
         if (onDrawNode != null) {
             onDrawNode.accept(new Pair<>(circle, node));
@@ -276,14 +268,14 @@ public class Map {
         transX = halfX + beginx;
         transY = halfY + beginy;
         //dist_tri_center = 3;
-        Polygon tri = drawTriangle(transX, transY, size, rads, lineColor);
+        Polygon tri = drawTriangle(transX, transY, size, rads, "path-arrow");
 
         if (distance > 15) {
             nodePane.getChildren().add(tri);
         }
     }
 
-    public Polygon drawTriangle(double x, double y, double size, double radians, Paint color) {
+    public Polygon drawTriangle(double x, double y, double size, double radians, String styleClass) {
         double firstX, firstY, secondX, secondY, thirdX, thirdY;
         double[] corn = new double[6];
         firstX = x + size * Math.cos(radians);
@@ -299,8 +291,7 @@ public class Map {
         corn[4] = thirdX;
         corn[5] = thirdY;
         Polygon p = new Polygon(corn);
-        p.setStroke(color);
-        p.setFill(color);
+        p.getStyleClass().setAll(styleClass);
 
         if (isWithinPaneBounds(x, y) && isWithinPaneBounds(x, y)) {
             return p;
@@ -311,9 +302,9 @@ public class Map {
     }
 
     private void animateTriangle(Polyline path){
-
         PathTransition pathTransition = new PathTransition();
-        Polygon triangle = drawTriangle(0, 0, 6.0, 2.1, arrowColor);
+        Polygon triangle = drawTriangle(0, 0, 5.0, 2.1, "path-arrow");
+        triangle.getStyleClass().setAll("path-arrow");
         pathTransition.setNode(triangle);
         pathTransition.setDuration(Duration.seconds(5));
         pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
@@ -439,13 +430,15 @@ public class Map {
             for (javafx.scene.Node thing : nodePane.getChildren()) {
                 if (thing.getClass() == Circle.class) {
                     ((Circle) thing).setRadius(defaultRadius / scale);
+                    ((Circle) thing).setStrokeWidth(defaultNodeStrokeWidth / scale);
                 } else if (thing.getClass() == Line.class) {
-                    ((Line) thing).setStrokeWidth(defaultStrokeWidth / scale);
+                    ((Line) thing).setStrokeWidth(defaultEdgeStrokeWidth / scale);
                 }
             }
-            if (startingNodeCircle != null && endingNodeCircle != null) {
+            if (startingNodeCircle != null && endingNodeCircle != null && indexCircle != null) {
                 startingNodeCircle.setRadius(startingEndingRadius / scale);
                 endingNodeCircle.setRadius(startingEndingRadius / scale);
+                indexCircle.setRadius(indexCircleRadius / scale);
             }
 
             /* must translate based on how much the current point moved from the scale */
@@ -559,38 +552,6 @@ public class Map {
         }}
     }
 
-    public Paint getOtherFloorPathColor() {
-        return otherFloorPathColor;
-    }
-
-    public void setOtherFloorPathColor(Paint otherFloorPathColor) {
-        this.otherFloorPathColor = otherFloorPathColor;
-    }
-
-    public Paint getSameFloorPathColor() {
-        return sameFloorPathColor;
-    }
-
-    public void setSameFloorPathColor(Paint sameFloorPathColor) {
-        this.sameFloorPathColor = sameFloorPathColor;
-    }
-
-    public Paint getCircleColor() {
-        return circleColor;
-    }
-
-    public void setCircleColor(Paint circleColor) {
-        this.circleColor = circleColor;
-    }
-
-    public Paint getLineColor() {
-        return lineColor;
-    }
-
-    public void setLineColor(Paint lineColor) {
-        this.lineColor = lineColor;
-    }
-
     public void centerOnMapCoords(int x, int y) {
         /* convert to nodePane coords */
         double pX = mapToPaneX(x);
@@ -622,5 +583,9 @@ public class Map {
 
     public Circle getStartingNodeCircle() {
         return startingNodeCircle;
+    }
+
+    public Circle getIndexCircle() {
+        return indexCircle;
     }
 }

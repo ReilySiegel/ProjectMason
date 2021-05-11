@@ -10,9 +10,7 @@ import edu.wpi.teamo.views.SubPageController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -22,7 +20,6 @@ import javafx.scene.text.Text;
 import javafx.util.Pair;
 
 import java.net.URL;
-import java.security.InvalidParameterException;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -189,20 +186,23 @@ public class PathfindingPage extends SubPageController implements Initializable 
 
     private void handleSelectedStart() {
         map.hideNodes();
-        if (map.getEndingNodeCircle() != null) map.getEndingNodeCircle().setVisible(true);
         if (map.getStartingNodeCircle() != null) map.getStartingNodeCircle().setVisible(true);
+        if (map.getEndingNodeCircle() != null) map.getEndingNodeCircle().setVisible(true);
+        if (map.getIndexCircle() != null) map.getIndexCircle().setVisible(true);
     }
 
     private void handleSelectedEnd() {
         map.hideNodes();
-        if (map.getEndingNodeCircle() != null) map.getEndingNodeCircle().setVisible(true);
         if (map.getStartingNodeCircle() != null) map.getStartingNodeCircle().setVisible(true);
+        if (map.getEndingNodeCircle() != null) map.getEndingNodeCircle().setVisible(true);
+        if (map.getIndexCircle() != null) map.getIndexCircle().setVisible(true);
     }
 
     private void handleChoosing() {
         map.showNodes();
-        if (map.getEndingNodeCircle() != null) map.getEndingNodeCircle().setVisible(false);
         if (map.getStartingNodeCircle() != null) map.getStartingNodeCircle().setVisible(false);
+        if (map.getEndingNodeCircle() != null) map.getEndingNodeCircle().setVisible(false);
+        if (map.getIndexCircle() != null) map.getIndexCircle().setVisible(false);
     }
 
     private void onPickParkingSpot(NodeInfo parkingSpot) {
@@ -323,7 +323,7 @@ public class PathfindingPage extends SubPageController implements Initializable 
 
         /* redraw map nodes */
         map.clearShapes();
-        map.drawNodes(nodes, floorComboBox.getValue());
+        map.drawNodes(nodes, floorComboBox.getValue(), "pathfinder-node");
         if (pathSelection.getState() == PathSelectionControls.SelectionState.IDLE) {
             map.hideNodes();
         }

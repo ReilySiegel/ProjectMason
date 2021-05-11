@@ -2,6 +2,51 @@
     src: url('../../fonts/Roboto-Regular.ttf');
 }
 
+.map-editor-node {
+    -fx-fill: rgba(216, 248, 255, 1);
+    -fx-stroke: rgba(0, 0, 0, 1);
+}
+
+.map-editor-edge {
+    -fx-fill: rgba(0, 0, 0, 0.7);
+    -fx-stroke: rgba(0, 0, 0, 0.7);
+}
+
+.pathfinder-node {
+    -fx-fill: rgba(15, 221, 255, 0.7);
+    -fx-stroke: rgba(0, 0, 0, 1);
+}
+
+.path-same-floor {
+    -fx-fill: rgb(145, 243, 255);
+    -fx-stroke: rgb(122, 233, 255);
+}
+
+.path-diff-floor {
+    -fx-fill: rgba(126, 126, 126, 0.7);
+    -fx-stroke: rgba(129, 129, 129, 0.7);
+}
+
+.path-highlight {
+    -fx-fill: rgb(0, 30, 255);
+    -fx-stroke: rgb(0, 55, 255);
+}
+
+.path-arrow {
+    -fx-fill: rgb(0, 30, 255);
+    -fx-stroke: rgb(0, 55, 255);
+}
+
+.path-start {
+    -fx-fill: rgba(0, 0, 0, 1);
+    -fx-stroke: rgba(0, 0, 0, 1);
+}
+
+.path-end {
+    -fx-fill: rgba(255, 255, 255, 1);
+    -fx-stroke: rgb(0, 0, 0);
+}
+
 .pane {
     -fx-background-color: rgba(255, 255, 255, 0.45);
     -fx-border-color: rgba(255, 255, 255, 0.9);
