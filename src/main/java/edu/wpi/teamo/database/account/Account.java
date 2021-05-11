@@ -35,7 +35,7 @@ public class Account extends RecursiveTreeObject<Account> {
                     String lastName,
                     String role,
                     String email) {
-        this(username,passwordHash,isAdmin,firstName,lastName,role,email,true,false,false);
+        this(username,passwordHash,isAdmin,firstName,lastName,role,email,true,false,false, Theme.BLUE_SKY);
     }
 
     public Account (String username,
@@ -47,7 +47,8 @@ public class Account extends RecursiveTreeObject<Account> {
                     String email,
                     boolean useEmergencyEntrance,
                     boolean takenSurvey,
-                    boolean clearedPastEntry) {
+                    boolean clearedPastEntry,
+                    Theme theme) {
         this.username = username;
         this.passwordHash = passwordHash;
         this.isAdmin =         isAdmin;
@@ -58,7 +59,7 @@ public class Account extends RecursiveTreeObject<Account> {
         this.useEmergencyEntrance = useEmergencyEntrance;
         this.takenSurvey = takenSurvey;
         this.clearedPastEntry = clearedPastEntry;
-        this.theme = Theme.BLUE_SKY;
+        this.theme = theme;
     }
 
     public static void initTable() throws SQLException {
@@ -72,6 +73,7 @@ public class Account extends RecursiveTreeObject<Account> {
                                  "firstName varchar(255)",
                                  "lastName varchar(255)",
                                  "role varchar(255)",
+                                 "theme varchar(255)",
                                  "email varchar(255))");
         Database.processUpdate(sql);
     }
@@ -87,9 +89,10 @@ public class Account extends RecursiveTreeObject<Account> {
                             rs.getString("lastName"),
                             rs.getString("role"),
                             rs.getString("email"),
-                rs.getBoolean("useEmergencyEntrance"),
-                rs.getBoolean("takenSurvey"),
-                rs.getBoolean("clearedPastEntry"));
+                            rs.getBoolean("useEmergencyEntrance"),
+                            rs.getBoolean("takenSurvey"),
+                            rs.getBoolean("clearedPastEntry"),
+                            Theme.valueOf(rs.getString("theme")));
     }
     public static Stream<Account> getAll() throws SQLException {
         ResultSet rs = Database.processQuery("SELECT * FROM Account");
@@ -102,9 +105,10 @@ public class Account extends RecursiveTreeObject<Account> {
                                   rs.getString("lastName"),
                                   rs.getString("role"),
                                   rs.getString("email"),
-                    rs.getBoolean("useEmergencyEntrance"),
-                    rs.getBoolean("takenSurvey"),
-                    rs.getBoolean("clearedPastEntry")));
+                                  rs.getBoolean("useEmergencyEntrance"),
+                                  rs.getBoolean("takenSurvey"),
+                                  rs.getBoolean("clearedPastEntry"),
+                                  Theme.valueOf(rs.getString("theme"))));
         return reqs.stream();
     }
 
@@ -113,8 +117,8 @@ public class Account extends RecursiveTreeObject<Account> {
         try {
             String sql = String.join (" ",
                                       "INSERT INTO Account ",
-                                      "(username, passwordHash, isAdmin, firstName, lastName, role, email, useEmergencyEntrance, takenSurvey, clearedPastEntry)",
-                                      "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                                      "(username, passwordHash, isAdmin, firstName, lastName, role, email, useEmergencyEntrance, takenSurvey, clearedPastEntry, theme)",
+                                      "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             PreparedStatement pstmt = Database.prepareStatement(sql);
             pstmt.setString(1, this.username);
             pstmt.setString(2, this.passwordHash);
@@ -126,13 +130,14 @@ public class Account extends RecursiveTreeObject<Account> {
             pstmt.setBoolean(8, this.useEmergencyEntrance);
             pstmt.setBoolean(9, this.takenSurvey);
             pstmt.setBoolean(10,this.clearedPastEntry);
+            pstmt.setString(11,this.theme.toString());
             pstmt.execute();
         } catch (SQLException e) {
             // Item with this ID already exists in the DB, try insert.
             String sql = String.join (" ",
                                       "UPDATE Account SET",
                                       "username = ?, passwordHash = ?, isAdmin = ?, firstName = ?,",
-                                      "lastName = ?, role = ?, email = ?, useEmergencyEntrance = ?, takenSurvey = ?, clearedPastEntry = ? WHERE username = ?");
+                                      "lastName = ?, role = ?, email = ?, useEmergencyEntrance = ?, takenSurvey = ?, clearedPastEntry = ?, theme = ? WHERE username = ?");
             PreparedStatement pstmt = Database.prepareStatement(sql);
             pstmt.setString(1, this.username);
             pstmt.setString(2, this.passwordHash);
@@ -140,11 +145,12 @@ public class Account extends RecursiveTreeObject<Account> {
             pstmt.setString(4, this.firstName);
             pstmt.setString(5, this.lastName);
             pstmt.setString(6, this.role);
-            pstmt.setString(7,this.email);
+            pstmt.setString(7, this.email);
             pstmt.setBoolean(8, this.useEmergencyEntrance);
             pstmt.setBoolean(9, this.takenSurvey);
-            pstmt.setBoolean(10,this.clearedPastEntry);
-            pstmt.setString(11, this.username);
+            pstmt.setBoolean(10, this.clearedPastEntry);
+            pstmt.setString(11, this.theme.toString());
+            pstmt.setString(12, this.username);
             pstmt.execute();
         }
     }
@@ -262,8 +268,9 @@ public class Account extends RecursiveTreeObject<Account> {
         return theme;
     }
 
-    public void setTheme(Theme theme) {
+    public void setTheme(Theme theme) throws SQLException {
         this.theme = theme;
+        this.update();
     }
 
 }

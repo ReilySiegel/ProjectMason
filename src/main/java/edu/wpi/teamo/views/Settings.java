@@ -116,20 +116,23 @@ public class Settings implements Initializable {
 
     @FXML
     private void handleConfirm(ActionEvent e) {
-
-        switch (themeSelect.getValue()) {
-            case "Theme 1":
-                Session.getAccount().setTheme(Theme.BLUE_SKY);
+        try {
+            switch (themeSelect.getValue()) {
+                case "Theme 1":
+                    Session.getAccount().setTheme(Theme.BLUE_SKY);
+                    break;
+                case "Theme 2":
+                    Session.getAccount().setTheme(Theme.CLOUDS);
+                    break;
+                case "Holiday":
+                    Session.getAccount().setTheme(Theme.HOLIDAY);
+                    break;
+                case "Dark":
+                    Session.getAccount().setTheme(Theme.DARK);
                 break;
-            case "Theme 2":
-                Session.getAccount().setTheme(Theme.CLOUDS);
-                break;
-            case "Holiday":
-                Session.getAccount().setTheme(Theme.HOLIDAY);
-                break;
-            case "Dark":
-                Session.getAccount().setTheme(Theme.DARK);
-                break;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
 
         if(langBox.getValue().equals(App.resourceBundle.getString("key.english"))) {
