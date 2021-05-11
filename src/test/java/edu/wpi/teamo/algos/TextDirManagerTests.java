@@ -13,11 +13,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TextDirManagerTests {
 
-    /*
-     * TODO
-     * Disabled tests again for advanced textual directions
-     */
-
     /**
      * Basic test for textual directions
      * @throws SQLException If there is a database error
@@ -52,15 +47,12 @@ public class TextDirManagerTests {
         LinkedList<AlgoNode> pathP10_P5 = asm.getPath("oPARK01001","oPARK00501");
         App.switchLocale("en", "US", LocaleType.en_US, true);
         List<String> textualPath = TextDirManager.getTextualDirections(pathP10_P5, true);
-        /*
-        assertEquals("Proceed 19.37 meter(s) towards Floor1RightParking8",textualPath.get(0));
-        assertEquals("Proceed 2.81 meter(s) rightwards to Floor1RightParking7",textualPath.get(1));
-        assertEquals("Proceed 20.2 meter(s) leftwards to Floor1RightParking4",textualPath.get(2));
-        assertEquals("Proceed 5.87 meter(s) leftwards to Floor1RightParking6",textualPath.get(3));
-        assertEquals("Proceed 2.55 meter(s) backwards to Floor1RightParking5",textualPath.get(4));
+        assertEquals("Proceed 19.0 meter(s) towards Floor1RightParking8.",textualPath.get(0));
+        assertEquals("Proceed 3.0 meter(s) rightwards to Floor1RightParking7.",textualPath.get(1));
+        assertEquals("Proceed 20.0 meter(s) backwards and to the left to Floor1RightParking4.",textualPath.get(2));
+        assertEquals("Proceed 6.0 meter(s) leftwards to Floor1RightParking6.",textualPath.get(3));
+        assertEquals("Proceed 3.0 meter(s) backwards to Floor1RightParking5.",textualPath.get(4));
         assertEquals("You have arrived at your destination.",textualPath.get(5));
-
-         */
     }
 
     /**
@@ -89,15 +81,12 @@ public class TextDirManagerTests {
         LinkedList<AlgoNode> pathP1_P6 = asm.getPath("oPARK00101","oPARK00601");
         App.switchLocale("en", "US", LocaleType.en_US, true);
         List<String> textualPath = TextDirManager.getTextualDirections(pathP1_P6, true);
-        /*
-        assertEquals("Proceed 3.06 meter(s) towards Floor1RightParking2",textualPath.get(0));
-        assertEquals("Proceed 0.89 meter(s) leftwards to Floor1RightParking3",textualPath.get(1));
-        assertEquals("Proceed 6.63 meter(s) rightwards to Floor1RightParking4",textualPath.get(2));
-        assertEquals("Proceed 0.89 meter(s) rightwards to Floor1RightParking5",textualPath.get(3));
-        assertEquals("Proceed 0.77 meter(s) forward to Floor1RightParking6",textualPath.get(4));
+        assertEquals("Proceed 3.0 meter(s) towards Floor1RightParking2.",textualPath.get(0));
+        assertEquals("Proceed 1.0 meter(s) leftwards to Floor1RightParking3.",textualPath.get(1));
+        assertEquals("Proceed 7.0 meter(s) rightwards to Floor1RightParking4.",textualPath.get(2));
+        assertEquals("Proceed 1.0 meter(s) rightwards to Floor1RightParking5.",textualPath.get(3));
+        assertEquals("Proceed 1.0 meter(s) forward to Floor1RightParking6.",textualPath.get(4));
         assertEquals("You have arrived at your destination.",textualPath.get(5));
-
-         */
     }
 
     /**
@@ -114,7 +103,7 @@ public class TextDirManagerTests {
         LinkedList<AlgoNode> pathP1_P1 = asm.getPath("oPARK00101","oPARK00101");
         App.switchLocale("en", "US", LocaleType.en_US, true);
         List<String> textualPath = TextDirManager.getTextualDirections(pathP1_P1,true);
-        //assertEquals("You have arrived at your destination.",textualPath.get(0));
+        assertEquals("You have arrived at your destination.",textualPath.get(0));
     }
 
     /**
@@ -142,14 +131,12 @@ public class TextDirManagerTests {
         LinkedList<AlgoNode> pathP1_P6 = asm.getPath("oPARK00101","oPARK00601");
         App.switchLocale("en", "US", LocaleType.en_US, true);
         List<String> textualPath = TextDirManager.getTextualDirections(pathP1_P6,true);
-        /*
-        assertEquals("Proceed 1.8 meter(s) towards Floor1RightParking2",textualPath.get(0));
-        assertEquals("Proceed 0.9 meter(s) backwards to Floor1RightParking3",textualPath.get(1));
-        assertEquals("Proceed 3.61 meter(s) leftwards to Floor1RightParking4",textualPath.get(2));
-        assertEquals("Proceed 1.8 meter(s) rightwards to Floor1RightParking5",textualPath.get(3));
-        assertEquals("Proceed 1.8 meter(s) leftwards to Floor1RightParking6",textualPath.get(4));
+        assertEquals("Proceed 2.0 meter(s) towards Floor1RightParking2.",textualPath.get(0));
+        assertEquals("Proceed 1.0 meter(s) backwards to Floor1RightParking3.",textualPath.get(1));
+        assertEquals("Proceed 4.0 meter(s) leftwards to Floor1RightParking4.",textualPath.get(2));
+        assertEquals("Proceed 2.0 meter(s) rightwards to Floor1RightParking5.",textualPath.get(3));
+        assertEquals("Proceed 2.0 meter(s) leftwards to Floor1RightParking6.",textualPath.get(4));
         assertEquals("You have arrived at your destination.",textualPath.get(5));
-         */
     }
 
     /**
@@ -177,14 +164,12 @@ public class TextDirManagerTests {
         LinkedList<AlgoNode> pathP1_P6 = asm.getPath("oPARK00101","oPARK00601");
         App.switchLocale("en", "US", LocaleType.en_US, true);
         List<String> textualPath = TextDirManager.getTextualDirections(pathP1_P6, true);
-        /*
-        assertEquals("Proceed 1.28 meter(s) towards Floor1RightParking2",textualPath.get(0));
-        assertEquals("Proceed 1.28 meter(s) leftwards to Floor1RightParking3",textualPath.get(1));
-        assertEquals("Proceed 1.28 meter(s) rightwards to Floor1RightParking4",textualPath.get(2));
-        assertEquals("Proceed 1.3 meter(s) rightwards to Floor1RightParking5",textualPath.get(3));
-        assertEquals("Proceed 1.28 meter(s) leftwards to Floor1RightParking6",textualPath.get(4));
+        assertEquals("Proceed 1.0 meter(s) towards Floor1RightParking2.",textualPath.get(0));
+        assertEquals("Proceed 1.0 meter(s) leftwards to Floor1RightParking3.",textualPath.get(1));
+        assertEquals("Proceed 1.0 meter(s) rightwards to Floor1RightParking4.",textualPath.get(2));
+        assertEquals("Proceed 1.0 meter(s) rightwards to Floor1RightParking5.",textualPath.get(3));
+        assertEquals("Proceed 1.0 meter(s) leftwards to Floor1RightParking6.",textualPath.get(4));
         assertEquals("You have arrived at your destination.",textualPath.get(5));
-        */
     }
 
     /**
@@ -267,7 +252,7 @@ public class TextDirManagerTests {
         Pair<Integer, Double> q14 = TextDirManager.getQuadrant(pathP1_P16.get(1),pathP1_P16.get(2));
         Pair<Integer, Double> q15 = TextDirManager.getQuadrant(pathP1_P17.get(1),pathP1_P17.get(2));
         Pair<Integer, Double> q16 = TextDirManager.getQuadrant(pathP1_P18.get(1),pathP1_P18.get(2));
-/*
+
         assertEquals(q1.getKey(), 5);
         assertEquals(q2.getKey(), 5);
         assertEquals(q3.getKey(), 1);
@@ -284,7 +269,6 @@ public class TextDirManagerTests {
         assertEquals(q14.getKey(), 8);
         assertEquals(q15.getKey(), 4);
         assertEquals(q16.getKey(), 5);
-        */
     }
 
     /**
@@ -308,12 +292,10 @@ public class TextDirManagerTests {
         LinkedList<AlgoNode> pathP1_P4 = asm.getPath("oPARK00101","oPARK00401");
         App.switchLocale("en", "US", LocaleType.en_US, true);
         List<String> textualDirections = TextDirManager.getTextualDirections(pathP1_P4, true);
-        /*
-        assertEquals("Proceed 1.27 meter(s) towards Floor1RightParking2",textualDirections.get(0));
-        assertEquals("Proceed to floor F2 and head to Floor1RightParking3",textualDirections.get(1));
-        assertEquals("Proceed 1.28 meter(s) forward to Floor1RightParking4",textualDirections.get(2));
+        assertEquals("Proceed 1.0 meter(s) towards Floor1RightParking2.",textualDirections.get(0));
+        assertEquals("Proceed to floor F2 and head to Floor1RightParking3.",textualDirections.get(1));
+        assertEquals("Proceed 1.0 meter(s) forward to Floor1RightParking4.",textualDirections.get(2));
         assertEquals("You have arrived at your destination.",textualDirections.get(3));
-*/
     }
 
     /**

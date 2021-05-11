@@ -16,7 +16,7 @@ public class SessionTest {
     public void testSession() throws Exception, SQLException {
         Database.setTesting("testSession");
         Account.initTable();
-        new Account("test", "pass", false, "Test", "User", "test").update();
+        new Account("test", "pass", false, "Test", "User", "test","test").update();
         Session.login("test", "pass");
         assertEquals(true, Session.isLoggedIn());
         assertThrows(Exception.class, () -> Session.login("test", "notPass"));

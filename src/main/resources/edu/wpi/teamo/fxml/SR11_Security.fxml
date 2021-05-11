@@ -103,7 +103,7 @@
                               <Insets />
                            </HBox.margin>
                            <children>
-                                    <JFXButton fx:id="helpButton" buttonType="RAISED" prefHeight="50.0" prefWidth="50.0" style="-fx-border-radius: 25; -fx-background-radius: 25;" text="?" textFill="WHITE">
+                                    <JFXButton fx:id="helpButton" buttonType="RAISED" prefHeight="50.0" prefWidth="50.0" styleClass="help-button" text="?" textFill="WHITE">
                                         <font>
                                             <Font name="Arial Bold" size="24.0" />
                                         </font>

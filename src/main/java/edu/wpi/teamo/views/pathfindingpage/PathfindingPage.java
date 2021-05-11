@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
@@ -36,7 +37,6 @@ public class PathfindingPage extends SubPageController implements Initializable 
 
     @FXML
     private JFXComboBox<String> floorComboBox;
-    String floor;
 
     @FXML
     private AnchorPane parentNode;
@@ -48,13 +48,25 @@ public class PathfindingPage extends SubPageController implements Initializable 
     private StackPane parentStackPane;
 
     @FXML
-    JFXButton chooseStartButton;
+    private VBox planningWindow;
 
     @FXML
-    JFXButton chooseEndButton;
+    private JFXComboBox<String> startTypeFilterBox;
+    @FXML
+    private HBox startSearchWindow;
+    @FXML
+    private JFXTextField startSearchBar;
+    @FXML
+    private JFXListView<Label> startSearchList;
 
     @FXML
-    private JFXComboBox<String> nodeTypeFilterBox;
+    private JFXComboBox<String> endTypeFilterBox;
+    @FXML
+    private HBox endSearchWindow;
+    @FXML
+    private JFXTextField endSearchBar;
+    @FXML
+    private JFXListView<Label> endSearchList;
 
     @FXML
     JFXButton findPathButton;
@@ -63,22 +75,13 @@ public class PathfindingPage extends SubPageController implements Initializable 
     private AnchorPane pathPane;
 
     @FXML
-    private VBox searchWindow;
-
-    @FXML
-    private JFXTextField searchBar;
-
-    @FXML
-    private JFXListView<JFXCheckBox> searchResultsView;
-
-    @FXML
     private HBox algoSwitchWindow;
 
     @FXML
     private JFXComboBox<String> algoSwitcher;
 
     @FXML
-    private VBox textualWindow;
+    private VBox pathDisplayControlWindow;
 
     @FXML
     private JFXListView<HBox> textualDirView;
@@ -89,13 +92,19 @@ public class PathfindingPage extends SubPageController implements Initializable 
     LinkedList<AlgoNode> calculatedPath = null;
 
     @FXML
-    private JFXButton selectParkingSpotButton;
+    private JFXButton saveNewParkingSpotButton;
 
     @FXML
-    private JFXButton directForward;
+    private JFXButton selectSavedParkingSpotButton;
 
     @FXML
-    private JFXButton directBack;
+    private HBox parkingWindow;
+
+    @FXML
+    private JFXButton forwardStepButton;
+
+    @FXML
+    private JFXButton backwardStepButton;
 
     @FXML
     private HBox pathStepHBox;
@@ -103,20 +112,17 @@ public class PathfindingPage extends SubPageController implements Initializable 
     @FXML
     private HBox currentDirectionDisplay;
 
+
     @FXML
     private JFXToggleButton exerciseMode;
 
 
     PathSelection pathSelection;
 
-    TextualDirections textualDirections;
+
+    PathDisplayControls pathDisplayControls;
 
     public List<Circle> parkingSpots;
-
-    int directionIterator = 0;
-    int directionMax = 0;
-    int directionMin = 0;
-    AlgoNode lastNode = null;
 
     String parkingSpotID = null;
 
@@ -124,102 +130,117 @@ public class PathfindingPage extends SubPageController implements Initializable 
 
     edu.wpi.teamo.views.Map map;
 
-
-
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
         exerciseMode.setSelected(false);
         gridPane.setPickOnBounds(false);
 
-        pathSelection = new PathSelection(chooseStartButton,
-                                          chooseEndButton,
-                                          searchWindow,
-                                          searchBar,
-                                          searchResultsView,
-                                          nodeTypeFilterBox,
-                                          this::handleSelectedStart,
-                                          this::handleSelectedEnd,
-                                          this::handleChoosing);
+        pathSelection = new PathSelectionControls(endSearchWindow,
+                                                  startSearchWindow,
+                                                  endSearchBar,
+                                                  startSearchBar,
+                                                  endSearchList,
+                                                  startSearchList,
+                                                  endTypeFilterBox,
+                                                  startTypeFilterBox,
+                                                  findPathButton,
+                                                  planningWindow,
+                                                  this::handleSelectedStart,
+                                                  this::handleSelectedEnd,
+                                                  this::handleChoosing,
+                                                  this::handleFindPath,
+                                                  this::handlePlanNewPath);
 
-        textualDirections = new TextualDirections(textualWindow,
-                                                  textualDirView,
-                                                  textualUnitsBtn,
-                                                  currentDirectionDisplay);
+        TextualDirections textualDirections = new TextualDirections(textualDirView,
+                                                                    textualUnitsBtn,
+                                                                    currentDirectionDisplay);
 
+        pathDisplayControls = new PathDisplayControls(pathDisplayControlWindow,
+                                                      forwardStepButton,
+                                                      backwardStepButton,
+                                                      textualDirections,
+                                                      pathStepHBox,
+                                                      floorComboBox,
+                                                      this::handleStep);
 
         setSelectParkingSpotButtonVisibility(Session.isLoggedIn());
 
         initFloorSwitcher();
         initAlgoSwitcher();
 
-        textualDirections.hide();
-
-        selectParkingSpotButton.setOnAction(this::handleSelectParkingSpot);
+        selectSavedParkingSpotButton.setOnAction(this::handleSelectParkingSpot);
+        saveNewParkingSpotButton.setOnAction(this::handleSaveNewParkingSpot);
         floorComboBox.setOnAction(this::handleFloorSwitch);
-        findPathButton.setOnAction(this::handleFindPath);
         algoSwitcher.setOnAction(this::handleAlgoSwitch);
         helpButton.setOnAction(this::handleHelpButton);
+
         helpForExercise.setOnAction(this::handleExerciseHelpButton);
         directBack.setOnAction(this::handleStepBack);
         directForward.setOnAction(this::handleStepForward);
         textualUnitsBtn.setOnAction(this::handleUnitSwitch);
         exerciseMode.setOnAction(this::handleExerciseMode);
 
+
         App.getPrimaryStage().getScene().setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ESCAPE) {
-                textualWindow.setVisible(false);
+                pathDisplayControls.hide();
                 pathSelection.reset();
             }
         });
-        setPathStepButtonVisibility(false);
-        map = new edu.wpi.teamo.views.Map(pathPane);
+        pathDisplayControls.hide();
+        map = new Map(pathPane);
         map.setOnDrawNode(this::onDrawNode);
+
         update();
         map.hideNodes();
     }
 
+    private void handleStep() {
+        update();
+        focusMapOnNode(pathDisplayControls.getNodeInFocus());
+    }
+
     private void handleSelectedStart() {
         map.hideNodes();
+        if (map.getEndingNodeCircle() != null) map.getEndingNodeCircle().setVisible(true);
+        if (map.getStartingNodeCircle() != null) map.getStartingNodeCircle().setVisible(true);
     }
 
     private void handleSelectedEnd() {
         map.hideNodes();
+        if (map.getEndingNodeCircle() != null) map.getEndingNodeCircle().setVisible(true);
+        if (map.getStartingNodeCircle() != null) map.getStartingNodeCircle().setVisible(true);
     }
 
     private void handleChoosing() {
         map.showNodes();
-    }
-
-    private void setPathStepButtonVisibility(boolean visible) {
-        directForward.setVisible(visible);
-        directForward.setManaged(visible);
-        directBack.setVisible(visible);
-        directBack.setManaged(visible);
-        pathStepHBox.setVisible(visible);
-        pathStepHBox.setManaged(visible);
+        if (map.getEndingNodeCircle() != null) map.getEndingNodeCircle().setVisible(false);
+        if (map.getStartingNodeCircle() != null) map.getStartingNodeCircle().setVisible(false);
     }
 
     private void handleSelectParkingSpot(ActionEvent actionEvent) {
         try {
-            if (pathSelection.getState() != PathSelection.SelectionState.IDLE) {
+            if (pathSelection.getState() != PathSelectionControls.SelectionState.IDLE) {
                 if (Session.isLoggedIn() && Session.getAccount().getParkingSpot() != null) {
                     String id = Session.getAccount().getParkingSpot();
                     NodeInfo node = App.mapService.getNode(id);
                     onClickNode(node);
                 }
             }
-            else if (selectingParkingSpot) {
-                selectingParkingSpot = false;
-            }
-            else {
-                selectingParkingSpot = true;
-                showParkingSpots();
-            }
         }
         catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
+    private void handleSaveNewParkingSpot(ActionEvent actionEvent) {
+        if (selectingParkingSpot) {
+            selectingParkingSpot = false;
+        }
+        else {
+            selectingParkingSpot = true;
+            showParkingSpots();
+        }
     }
 
     private void handleAlgoSwitch(ActionEvent actionEvent) {
@@ -237,7 +258,6 @@ public class PathfindingPage extends SubPageController implements Initializable 
         floorComboBox.getItems().add(edu.wpi.teamo.views.Map.floor2Key);
         floorComboBox.getItems().add(edu.wpi.teamo.views.Map.floor3Key);
         floorComboBox.setValue(edu.wpi.teamo.views.Map.floor1Key);
-        floor = Map.floor1Key;
     }
 
     private void initAlgoSwitcher() {
@@ -305,7 +325,6 @@ public class PathfindingPage extends SubPageController implements Initializable 
         if (parkingSpots != null && node.getNodeType().equals("PARK")) {
             parkingSpots.add(circle);
         }
-
     }
 
     public void showParkingSpots() {
@@ -335,8 +354,8 @@ public class PathfindingPage extends SubPageController implements Initializable 
     }
 
     private void setSelectParkingSpotButtonVisibility(boolean visible) {
-        selectParkingSpotButton.setVisible(visible);
-        selectParkingSpotButton.setManaged(visible);
+        parkingWindow.setManaged(visible);
+        parkingWindow.setVisible(visible);
     }
 
     void onRightClickNode(MouseEvent e, Circle circle, NodeInfo node){
@@ -344,7 +363,6 @@ public class PathfindingPage extends SubPageController implements Initializable 
             nodeContextMenu(e, circle, node);
         }
     }
-
 
     void nodeContextMenu( MouseEvent e, Circle circle, NodeInfo node){
         ContextMenu menu = new ContextMenu();
@@ -355,40 +373,6 @@ public class PathfindingPage extends SubPageController implements Initializable 
         menu.getItems().add(assignParkingNode);
         menu.show(pathPane.getScene().getWindow(), e.getScreenX(), e.getScreenY());
 
-    }
-
-    public void handleStepForward(ActionEvent e)
-    {
-        //lastNode = calculatedPath.get(directionIterator);
-        if(directionIterator<directionMax-1) {
-            stepDirection(true);
-        }
-    }
-
-    public void handleStepBack(ActionEvent e)
-    {
-        //lastNode = calculatedPath.get(directionIterator);
-        if(directionIterator>directionMin) {
-            stepDirection(false);
-        }
-    }
-    private void stepDirection(boolean forward)
-    {
-        if (forward)
-        {
-            directionIterator++;
-        }
-        else {
-            directionIterator--;
-        }
-
-        floor = calculatedPath.get(directionIterator).getFloor();
-
-        textualDirections.update(directionIterator, floor);
-
-        focusMapOnNode(calculatedPath.get(directionIterator));
-
-        update();
     }
 
     private void handleAssignParkingSpot(Circle circle, NodeInfo node){
@@ -406,14 +390,19 @@ public class PathfindingPage extends SubPageController implements Initializable 
         }
     }
 
-    private void handleFindPath(ActionEvent e) {
+    private void handlePlanNewPath() {
+        pathDisplayControls.hide();
+    }
+
+    private void handleFindPath() {
         NodeInfo startNode = pathSelection.getSelectedStartNode();
         NodeInfo endNode = pathSelection.getSelectedEndNode();
-
+        map.hideNodes();
         if (startNode != null && endNode != null) {
             findPath(startNode.getNodeID(), endNode.getNodeID());
         }
     }
+
 
     @FXML
     private void handleHelpButton(ActionEvent e){
@@ -451,12 +440,13 @@ public class PathfindingPage extends SubPageController implements Initializable 
         textualDirections.toggleUnit(calculatedPath, directionIterator, floor);
     }
 
+
     void findPath(String startID, String endID) {
         LinkedList<AlgoNode> path = new LinkedList<>();
         try {
             path = App.context.getPath(startID, endID);
             if (path != null && path.size() > 0) {
-                floor = path.get(0).getFloor();
+                floorComboBox.setValue(path.get(0).getFloor());
                 focusMapOnNode(path.get(0));
                 calculatedPath = path;
             }
@@ -464,17 +454,59 @@ public class PathfindingPage extends SubPageController implements Initializable 
             System.out.println("No path calculated");
         }
 
-        textualDirections.loadDirections(path);
-        textualDirections.update(0, floor);
-        textualDirections.show();
-
-        directionIterator = 0;
-        directionMax = calculatedPath.size();
-        setPathStepButtonVisibility(true);
-        stepDirection(true);
-        stepDirection(false);
-
+        pathDisplayControls.setDisplayedPath(path);
+        pathDisplayControls.show();
         update();
+    }
+
+    void update() {
+        parkingSpots = new LinkedList<>();
+
+        parkingSpotID = getSavedParkingSpot();
+
+        List<NodeInfo> nodes = getAllNodes();
+
+        /* redraw map nodes */
+        map.clearShapes();
+        map.drawNodes(nodes, floorComboBox.getValue());
+        if (pathSelection.getState() == PathSelectionControls.SelectionState.IDLE) {
+            map.hideNodes();
+        }
+
+        /* redraw path */
+        if (calculatedPath != null) {
+            map.drawPath(calculatedPath, floorComboBox.getValue(), pathDisplayControls.getDirectionIterator());
+        }
+
+        pathSelection.setLocations(nodes);
+    }
+
+    private static String getSavedParkingSpot() {
+        String parkingSpotID = null;
+        if (Session.isLoggedIn() && Session.getAccount() != null) {
+            parkingSpotID = Session.getAccount().getParkingSpot();
+        }
+        return parkingSpotID;
+    }
+
+    private List<NodeInfo> getAllNodes() {
+        List<NodeInfo> nodes = new LinkedList<>();
+        try {
+            nodes = App.mapService.getAllNodes().collect(Collectors.toCollection(LinkedList::new));
+            boolean mightBeSick = true;
+            if (Session.isLoggedIn()) {
+                mightBeSick = Session.getAccount().getUseEmergencyEntrance();
+            }
+
+            String entranceToFilterOut = mightBeSick ? App.normalEntrance : App.emergencyEntrance;
+            nodes = nodes.stream()
+                    .filter(node -> !node.getNodeID().equals(entranceToFilterOut))
+                    .collect(Collectors.toList());
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return nodes;
     }
 
     void focusMapOnNode(AlgoNode node) {
@@ -482,43 +514,21 @@ public class PathfindingPage extends SubPageController implements Initializable 
     }
 
     void handleFloorSwitch(ActionEvent e) {
-        floor =  floorComboBox.getValue();
         update();
     }
 
-    void update() {
-        parkingSpots = new LinkedList<>();
+    private void handleHelpButton(ActionEvent e){
+        JFXDialogLayout content = new JFXDialogLayout();
+        content.setHeading(new Text(App.resourceBundle.getString("key.help")));
+        content.setBody(new Text(App.resourceBundle.getString("key.pathfinding_help")));
+        JFXDialog errorWindow = new JFXDialog(parentStackPane, content, JFXDialog.DialogTransition.TOP);
 
-        if (Session.isLoggedIn() && Session.getAccount() != null) {
-            parkingSpotID = Session.getAccount().getParkingSpot();
-        }
+        JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));
+        closeButton.setOnAction(event -> errorWindow.close());
+        closeButton.setStyle("-jfx-button-type: RAISED");
 
-        LinkedList<NodeInfo> nodes = new LinkedList<>();
-        try {
-            nodes = App.mapService.getAllNodes().collect(Collectors.toCollection(LinkedList::new));
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        map.clearShapes();
-        map.drawNodes(nodes, floor);
-        displayPath(calculatedPath);
-
-        pathSelection.setLocations(nodes);
-        floorComboBox.setValue(floor);
-
-        if (pathSelection.getState() == PathSelection.SelectionState.IDLE) {
-            map.hideNodes();
-        }
+        content.setActions(closeButton);
+        errorWindow.show();
     }
 
-    public void displayPath(LinkedList<AlgoNode> path) {
-        if (path != null) {
-            map.drawPath(path, floor,directionIterator);
-            StringBuilder text = new StringBuilder("Directions:\n");
-            for (AlgoNode node : path) {
-                text.append(node.getLongName()).append("\n");
-            }
-        }
-    }
 }

@@ -24,10 +24,9 @@
 }
 
 .button {
-    -fx-background-color: rgb(216, 248, 255);
+    -fx-background-color: #ece8f6 !important;
     -fx-font-size: 12;
     -fx-font-family: "Roboto Regular";
-    -fx-font-weight: normal;
     -fx-text-fill: #000000;
     -fx-border-radius: 0;
     -fx-background-radius: 0;
@@ -133,35 +132,17 @@
 }
 
 .combo-box-popup .list-view .list-cell {
-    -fx-background-color: #f6f6f6;
+    -fx-background-color: #fff;
 }
 
 .jfx-combo-box{
-    -jfx-focus-color: #000000;
-}
-
-.jfx-combo-box .cell:selected {
-    -fx-text-fill: #150f0f;
-}
-
-.combo-box-popup .list-view .list-cell:hover {
-    -fx-text-fill: #150f0f;
-    -fx-background-color: #a5efff;
+    -jfx-focus-color: #a5efff;
 }
 
 .jfx-text-field{
-    -jfx-focus-color: #000000;
+    -jfx-focus-color: #a5efff;
 }
 
 .jfx-password-field{
-    -jfx-focus-color: #000000;
-}
-
-.help-button {
-    -fx-min-height: 50;
-    -fx-min-width: 50;
-    -fx-border-radius: 25;
-    -fx-background-radius: 25;
-    -fx-font-size: 20;
-    -fx-font-family: Roboto Regular;
+    -jfx-focus-color: #a5efff;
 }

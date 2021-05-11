@@ -19,6 +19,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
@@ -118,6 +119,8 @@ public class MainPage implements Initializable {
                 initialFocus.setValue(false);
             }
         });
+
+        imageView.setImage(new Image(App.getImagePath(Session.getAccount().getTheme())));
 
         //commented out because right now these guys need the primary scene which is not yet set if this is the first page being loaded
 //        try {

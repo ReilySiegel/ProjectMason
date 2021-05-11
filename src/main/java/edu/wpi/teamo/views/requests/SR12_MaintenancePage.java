@@ -3,6 +3,7 @@ package edu.wpi.teamo.views.requests;
 import com.jfoenix.controls.*;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.Pages;
+import edu.wpi.teamo.Session;
 import edu.wpi.teamo.database.map.NodeInfo;
 import edu.wpi.teamo.database.request.BaseRequest;
 import edu.wpi.teamo.database.request.MaintenanceRequest;
@@ -163,7 +164,7 @@ public class SR12_MaintenancePage implements Initializable {
             List<String> selectedNodes = ls.getSelectedLocationIDs();
             LocalDateTime localDateTime = LocalDateTime.now();
             MaintenanceRequest MR = new MaintenanceRequest(str_type, new BaseRequest(
-               UUID.randomUUID().toString(), sub_notes, selectedNodes.stream(), sub_assignee, false, localDateTime));
+               UUID.randomUUID().toString(), sub_notes, selectedNodes.stream(), sub_assignee, false, localDateTime, Session.getAccount().getUsername()));
             try{
                 MR.update();
                 promptSuccess(str_type,localDateTime,selectedNodes);
@@ -195,7 +196,7 @@ public class SR12_MaintenancePage implements Initializable {
     }
 
     private void validateFields() {
-        validRequest = type != SR12Type.NULL && !notes.textProperty().getValue().equals("") &&
+        validRequest = type != SR12Type.NULL &&
                 !assignee.textProperty().getValue().equals("") && ls.getSelectedLocations().size() != 0;
     }
 

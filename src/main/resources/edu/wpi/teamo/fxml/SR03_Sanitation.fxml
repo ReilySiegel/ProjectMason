@@ -19,7 +19,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane fx:id="stackPane" stylesheets="@CSS/MainPage.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.requests.SR03_Sanitation">
+<StackPane fx:id="stackPane" maxHeight="-Infinity" maxWidth="-Infinity" stylesheets="@CSS/MainPage.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamo.views.requests.SR03_Sanitation">
    <children>
       <GridPane prefHeight="576.0" prefWidth="768.0">
         <columnConstraints>
@@ -47,7 +47,7 @@
                                           <Text fx:id="typeErrorText" fill="#cd0000" strokeType="OUTSIDE" strokeWidth="0.0" />
                                        </children>
                                     </VBox>
-                                    <Label prefHeight="21.0" prefWidth="83.0" text="%key.mainten_service">
+                                    <Label text="%key.mainten_service">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -210,7 +210,7 @@
                               <Insets />
                            </HBox.margin>
                            <children>
-                              <JFXButton buttonType="RAISED" onAction="#handleHelp" prefHeight="40.0" prefWidth="40.0" style="-fx-border-radius: 25; -fx-background-radius: 25;" styleClass="help-button" text="?" textFill="WHITE">
+                              <JFXButton buttonType="RAISED" onAction="#handleHelp" prefHeight="40.0" prefWidth="40.0" styleClass="help-button" text="?" textFill="WHITE">
                                  <font>
                                     <Font name="Arial Bold" size="24.0" />
                                  </font>

@@ -19,9 +19,12 @@ import java.sql.SQLException;
 import java.io.IOException;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
 import java.util.*;
 
 import static edu.wpi.teamo.views.Map.loadImages;
@@ -30,6 +33,8 @@ import static edu.wpi.teamo.views.Map.loadImages;
 public class App extends Application {
 
   private static final EnumMap<Pages, String> pagePaths = new EnumMap<>(Pages.class);
+  private static final EnumMap<Theme, String> themeMap = new EnumMap<>(Theme.class);
+  private static final EnumMap<Theme, String> bgMap = new EnumMap<>(Theme.class);
   public static IRequestService requestService = null;
   public static IStrategyPathfinding IStrategyPathfinding = null;
   public static IMapService mapService = null;
@@ -44,6 +49,9 @@ public class App extends Application {
 
   public static final String normalEntrance = "FEXIT00201";
   public static final String emergencyEntrance = "FEXIT00301";
+
+  private static String theme1Url = App.class.getResource("/edu/wpi/teamo/fxml/CSS/MainPage.css").toExternalForm();
+  private static String theme2Url = App.class.getResource("/edu/wpi/teamo/fxml/CSS/MainPage2.css").toExternalForm();
 
   @Override
   public void init() throws SQLException {
@@ -71,6 +79,19 @@ public class App extends Application {
     pagePaths.put(Pages.CREDITS, "/edu/wpi/teamo/fxml/CreditsPage.fxml");
     pagePaths.put(Pages.INFO, "/edu/wpi/teamo/fxml/CovidInfoPage.fxml");
 
+    themeMap.put(Theme.BLUE_SKY, "/edu/wpi/teamo/fxml/CSS/MainPage.css");
+    themeMap.put(Theme.CLOUDS, "/edu/wpi/teamo/fxml/CSS/MainPage2.css");
+    themeMap.put(Theme.HOLIDAY, "/edu/wpi/teamo/fxml/CSS/holiday.css");
+    themeMap.put(Theme.DARK, "/edu/wpi/teamo/fxml/CSS/dark.css");
+
+    bgMap.put(Theme.BLUE_SKY, "/edu/wpi/teamo/images/sky2.png");
+    bgMap.put(Theme.CLOUDS, "/edu/wpi/teamo/images/clouds.jpg");
+    bgMap.put(Theme.HOLIDAY, "/edu/wpi/teamo/images/snow.jpg");
+    bgMap.put(Theme.DARK, "/edu/wpi/teamo/images/night.jpg");
+
+
+
+
     System.out.println("Starting Up");
 
     /* instantiate the database services, set to static variables that can be accessed from the handlers */
@@ -87,11 +108,13 @@ public class App extends Application {
       FoodRequest.initTable();
       COVIDSurveyRequest.initTable();
       TransportationRequest.initTable();
-      new Account("admin", "admin", true, "Wilson", "Wong", "admin").update();
-      new Account("patient", "patient", false, "Nestor", "Lopez", "patient").update();
-      new Account("staff", "staff", false, "Reily", "Siegel", "employee").update();
-      new Account("guest", "guest", false, "guest", "guest", "guest").update();
+      new Account("admin", "admin", true,
+              "Wilson", "Wong", "admin", "genericemail@gmail.com", false, true, true).update();
+      new Account("patient", "patient", false, "Nestor", "Lopez", "patient","genericemail@gmail.com").update();
+      new Account("staff", "staff", false, "Reily", "Siegel", "employee","genericemail@gmail.com").update();
+      new Account("guest", "guest", false, "guest", "guest", "guest","genericemail@gmail.com").update();
       Session.login("guest", "guest");
+
       System.out.println("Database Services Initialized");
     } catch (SQLException e) {
       System.out.println("ERROR: FAILED TO INIT DATABASE SERVICES");
@@ -146,14 +169,28 @@ public class App extends Application {
     try {
       Parent root = FXMLLoader.load(App.class.getResource(pagePath),resourceBundle);
       App.getPrimaryStage().getScene().setRoot(root);
+      App.getPrimaryStage().getScene().getStylesheets().clear();
+      App.getPrimaryStage().getScene().getStylesheets().add(getCSSPath(Session.getAccount().getTheme()));
+      System.out.println(getCSSPath(Session.getAccount().getTheme()));
     } catch (IOException ex) {
       ex.printStackTrace();
     }
   }
 
+  public static void switchTheme(Scene root, String theme) {
+
+    root.getStylesheets().clear();
+    root.getStylesheets().add(theme);
+
+  }
+
   public static String getPagePath(Pages page) {
     return pagePaths.get(page);
   }
+
+  public static String getCSSPath(Theme theme) { return themeMap.get(theme); }
+
+  public static String getImagePath(Theme theme) { return bgMap.get(theme); }
 
   /**
    * Switch between different languages, falls back to en_US if lang or country parameters are malformed
@@ -173,7 +210,7 @@ public class App extends Application {
       selectedLocale = LocaleType.en_US;
     }
     //Update main page
-    if(!isDebug) switchPage(Pages.MAIN);
+    //if(!isDebug) switchPage(Pages.MAIN);
   }
 
   @Override

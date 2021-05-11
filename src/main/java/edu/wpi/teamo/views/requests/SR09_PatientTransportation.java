@@ -4,6 +4,7 @@ package edu.wpi.teamo.views.requests;
 import com.jfoenix.controls.*;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.Pages;
+import edu.wpi.teamo.Session;
 import edu.wpi.teamo.database.map.NodeInfo;
 import edu.wpi.teamo.database.request.*;
 import edu.wpi.teamo.views.SubPageContainer;
@@ -18,6 +19,7 @@ import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 
 import java.util.List;
@@ -49,6 +51,10 @@ public class SR09_PatientTransportation implements Initializable{
     @FXML
     private JFXTextField patientDestination;
 
+
+    @FXML
+    private JFXComboBox<String> transportationMode;
+
     @FXML
     private Text typeErrorText;
 
@@ -73,6 +79,11 @@ public class SR09_PatientTransportation implements Initializable{
         backButton.setOnAction(actionEvent -> SubPageContainer.switchPage(Pages.SERVICEREQUEST));
         emergencyCheckbox.getStyleClass().add("check-box");
         locationSearcher = new LocationSearcher(room, roomList);
+        transportationMode.getItems().add("Helicopter");
+        transportationMode.getItems().add("Train");
+        transportationMode.getItems().add("Car");
+        transportationMode.getItems().add("Plane");
+
         updateLocations();
 
     }
@@ -102,8 +113,8 @@ public class SR09_PatientTransportation implements Initializable{
                     details,
                     locationIDs.stream(),
                     assigned,
-                    false
-            );
+                    false, LocalDateTime.now(), Session.getAccount().getUsername());
+
 
             new TransportationRequest(
                     destination,

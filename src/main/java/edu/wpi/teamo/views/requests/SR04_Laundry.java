@@ -22,6 +22,7 @@ import javafx.scene.text.Text;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -58,10 +59,19 @@ public class SR04_Laundry implements Initializable {
     private Text roomErrorText;
 
     @FXML
+    private Text dateErrorText;
+
+    @FXML
+    private Text timeErrorText;
+
+    @FXML
     private JFXButton backButton;
 
     @FXML
-    private MenuButton locationBox;
+    private JFXDatePicker datePicker;
+
+    @FXML
+    private  JFXTimePicker timePicker;
 
     @FXML
     private JFXTextField locationSearchBox;
@@ -136,6 +146,15 @@ public class SR04_Laundry implements Initializable {
         }
 
 
+        if(timePicker.getValue() == null){
+            timeErrorText.setText(App.resourceBundle.getString("key.no_time_specified"));
+            validRequest = false;
+        }
+
+        if(datePicker.getValue() == null){
+            dateErrorText.setText(App.resourceBundle.getString("key.no_date_specified"));
+            validRequest = false;
+        }
         if (locations.size() == 0) {
             roomErrorText.setText(App.resourceBundle.getString("key.no_room_specified"));
             validRequest = false;
@@ -145,14 +164,20 @@ public class SR04_Laundry implements Initializable {
         }
 
         if (validRequest) {
-            LocalDateTime now = LocalDateTime.now();
-            BaseRequest br = new BaseRequest(UUID.randomUUID().toString(), note, locationIDs.stream(), assignName, false, now);
+
+            LocalTime curTime = timePicker.getValue();
+            LocalDateTime curDate = datePicker.getValue().atTime(curTime);
+            BaseRequest br =
+                    new BaseRequest(UUID.randomUUID().toString(), note, locationIDs.stream(),
+                            assignName, false, curDate, Session.getAccount().getUsername());
             new LaundryRequest(gownCheck, sheetCheck, br).update();
 
 
             assigneeErrorText.setText("");
             roomErrorText.setText("");
             checkError.setText("");
+            timeErrorText.setText("");
+            dateErrorText.setText("");
             System.out.println("request successful");
 
             assignee.setText("");
@@ -160,11 +185,23 @@ public class SR04_Laundry implements Initializable {
 
             JFXDialogLayout content = new JFXDialogLayout();
             content.setHeading(new Text(App.resourceBundle.getString("key.laundry_request_submitted")));
-            content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
-                    App.resourceBundle.getString("key.laundry_checked") + laundryChecked + "\n" +
-                    App.resourceBundle.getString("key.room_semicolon") + String.join(", ", locationIDs) + "\n" +
-                    App.resourceBundle.getString("key.persons_assigned_semicolon") + assignName + "\n" +
-                    App.resourceBundle.getString("key.notes") + ": " + note));
+
+            if(!Session.getAccount().hasEmployeeAccess()){
+                content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
+                        App.resourceBundle.getString("key.laundry_checked") + laundryChecked + "\n" +
+                        App.resourceBundle.getString("key.room_semicolon") + String.join(", ", locationIDs) + "\n" +
+                        App.resourceBundle.getString("key.time") + ": " +  curDate.toString() + "\n" +
+                        App.resourceBundle.getString("key.notes") + ": " + note));
+            }
+            else{
+                content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
+                        App.resourceBundle.getString("key.laundry_checked") + laundryChecked + "\n" +
+                        App.resourceBundle.getString("key.room_semicolon") + String.join(", ", locationIDs) + "\n" +
+                        App.resourceBundle.getString("key.persons_assigned_semicolon") + assignName + "\n" +
+                        App.resourceBundle.getString("key.time") + ": " +  curDate.toString() + "\n" +
+                        App.resourceBundle.getString("key.notes") + ": " + note));
+            }
+
             JFXDialog popup = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 
             JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));

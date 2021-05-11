@@ -1,22 +1,21 @@
 package edu.wpi.teamo.views.pathfindingpage;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXListView;
-import edu.wpi.teamo.App;
-import edu.wpi.teamo.algos.AlgoNode;
-import edu.wpi.teamo.algos.TextDirManager;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
+import javafx.geometry.Pos;
 import javafx.scene.layout.BackgroundFill;
+import edu.wpi.teamo.algos.TextDirManager;
+import com.jfoenix.controls.JFXListView;
+import com.jfoenix.controls.JFXButton;
+import javafx.scene.layout.Background;
+import javafx.scene.image.ImageView;
+import edu.wpi.teamo.algos.AlgoNode;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.HashMap;
+import edu.wpi.teamo.App;
 import java.util.List;
 
 public class TextualDirections {
@@ -24,17 +23,15 @@ public class TextualDirections {
     private JFXListView<HBox> textualDirView;
     private HBox currentDirectionDisplay;
     private JFXButton textualUnitsBtn;
-    private VBox textualWindow;
 
     private HashMap<String, List<HBox>> directionHBoxesByFloor;
     private List<HBox> allDirectionHBoxes;
     private boolean metric = true;
 
-    public TextualDirections(VBox textualWindow, JFXListView<HBox> textualDirView, JFXButton textualUnitsBtn, HBox currentDirectionDisplay) {
+    public TextualDirections(JFXListView<HBox> textualDirView, JFXButton textualUnitsBtn, HBox currentDirectionDisplay) {
         this.currentDirectionDisplay = currentDirectionDisplay;
         this.textualUnitsBtn = textualUnitsBtn;
         this.textualDirView = textualDirView;
-        this.textualWindow = textualWindow;
     }
 
     public void update(int iterator, String floor) {
@@ -78,7 +75,7 @@ public class TextualDirections {
         }
     }
 
-    public void toggleUnit(LinkedList<AlgoNode> calculatedPath, int directionIterator, String floor) {
+    public void toggleUnit(List<AlgoNode> calculatedPath, int directionIterator, String floor) {
         metric = !metric;
         if (metric) textualUnitsBtn.setText(App.resourceBundle.getString("key.units_metric"));
         else textualUnitsBtn.setText(App.resourceBundle.getString("key.units_us"));
@@ -109,6 +106,7 @@ public class TextualDirections {
         else if(s.getText().toLowerCase().contains(App.resourceBundle.getString("key.back_left_turn"))) icon.setRotate(270);
         else if(s.getText().toLowerCase().contains(App.resourceBundle.getString("key.backwards"))) icon.setRotate(180);
         currentDirectionDisplay.getChildren().setAll(icon,s);
+        currentDirectionDisplay.setAlignment(Pos.CENTER_LEFT);
     }
 
     private HBox createHBoxFromDirection(String direction) {
@@ -151,6 +149,21 @@ public class TextualDirections {
             icon.setFitWidth(20);
             icon.setFitHeight(20);
         }
+        else if(direction.contains(App.resourceBundle.getString("key.floor_switch_1"))){
+            icon = new ImageView(new Image("edu/wpi/teamo/images/Icons/floorswitch2.png"));
+            icon.setFitWidth(20);
+            icon.setFitHeight(20);
+        }
+        else if(direction.contains(App.resourceBundle.getString("key.destination_arrival"))){
+            icon = new ImageView(new Image("edu/wpi/teamo/images/Icons/checkmark2.png"));
+            icon.setFitWidth(20);
+            icon.setFitHeight(20);
+        }
+        else if(direction.contains(App.resourceBundle.getString("key.no_path_exists")) || direction.contains(App.resourceBundle.getString("key.no_path_provided"))){
+            icon = new ImageView(new Image("edu/wpi/teamo/images/Icons/nopath2.png"));
+            icon.setFitWidth(20);
+            icon.setFitHeight(20);
+        }
         else{
             icon = new ImageView(new Image("edu/wpi/teamo/images/Icons/icons8-up-arrow-96.png"));
             icon.setFitWidth(20);
@@ -159,12 +172,7 @@ public class TextualDirections {
         return new HBox(icon, new Text(direction));
     }
 
-    public void show() {
-        textualWindow.setVisible(true);
+    public JFXButton getTextualUnitsBtn() {
+        return textualUnitsBtn;
     }
-
-    public void hide() {
-        textualWindow.setVisible(false);
-    }
-
 }

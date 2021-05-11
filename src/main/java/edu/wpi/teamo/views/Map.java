@@ -3,14 +3,11 @@ package edu.wpi.teamo.views;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.database.map.EdgeInfo;
 import edu.wpi.teamo.database.map.NodeInfo;
-import com.jfoenix.controls.JFXTextArea;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.input.MouseButton;
+import javafx.animation.PathTransition;
+import javafx.animation.TranslateTransition;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
-import java.io.FileNotFoundException;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.image.ImageView;
 import edu.wpi.teamo.algos.AlgoNode;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -26,10 +23,12 @@ import javafx.scene.shape.Line;
 import java.util.LinkedList;
 
 import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Polyline;
+import javafx.util.Duration;
 import javafx.util.Pair;
 import java.util.List;
 
-public class Map  {
+public class Map {
 
     private Consumer<Pair<Circle, NodeInfo>> onDrawNode = null;
     private Consumer<Pair<Line, EdgeInfo>> onDrawEdge = null;
@@ -58,7 +57,7 @@ public class Map  {
     public static final String floor1Key = "1";
     public static final String floor2Key = "2";
     public static final String floor3Key = "3";
-    public static final String[] floorKeys = { floorL2Key, floorL1Key, floorGKey, floor1Key, floor2Key, floor3Key };
+    public static final String[] floorKeys = {floorL2Key, floorL1Key, floorGKey, floor1Key, floor2Key, floor3Key};
 
     private final AnchorPane nodePane;
 
@@ -73,10 +72,17 @@ public class Map  {
     private Paint otherFloorPathColor = Color.GRAY;
     private Paint sameFloorPathColor = Color.RED;
     private Paint circleColor = Color.BLUE;
+    private Paint startNodeColor = Color.DARKGREEN;
+    private Paint endNodeColor = Color.DARKRED;
     private Paint lineColor = Color.RED;
+    private Paint arrowColor = Color.BLUE;
 
     public double defaultStrokeWidth = 5;
     public double defaultRadius = 5;
+    public double startingEndingRadius = 10;
+
+    private Circle startingNodeCircle;
+    private Circle endingNodeCircle;
 
     public List<Circle> circles;
     public List<Line> lines;
@@ -88,7 +94,7 @@ public class Map  {
         nodePane.setOnMouseReleased((MouseEvent e) -> resetInitialDragData());
         nodePane.setOnScroll((ScrollEvent e) -> scaleMap(e.getDeltaY()));
 
-        double middleOfPageMinusHalfPaneWidth  = (App.getPrimaryStage().getScene().getWidth()  / 2) - (paneWidth  / 2);
+        double middleOfPageMinusHalfPaneWidth = (App.getPrimaryStage().getScene().getWidth() / 2) - (paneWidth / 2);
         double middleOfPageMinusHalfPaneHeight = (App.getPrimaryStage().getScene().getHeight() / 2) - (paneHeight / 2);
 
         setMapTranslate(middleOfPageMinusHalfPaneWidth, middleOfPageMinusHalfPaneHeight);
@@ -111,38 +117,47 @@ public class Map  {
         nodePane.setMaxWidth(x);
     }
 
-    public void drawPath(LinkedList<AlgoNode> path, String floor,int index) {
+    public void drawPath(LinkedList<AlgoNode> path, String floor, int index) {
         lines = new LinkedList<>();
-        for(int i = 0;  i < (path.size() - 1); i++) {
+        Polyline polyline = new Polyline();
+        for (int i = 0; i < (path.size() - 1); i++) {
             Paint lineColor = path.get(i).getFloor().equals(floor) ? sameFloorPathColor : otherFloorPathColor;
 
-            double firstX  = mapToPaneX(path.get(i).getX());
-            double firstY  = mapToPaneY(path.get(i).getY());
+            double firstX = mapToPaneX(path.get(i).getX());
+            double firstY = mapToPaneY(path.get(i).getY());
             double secondX = mapToPaneX(path.get(i + 1).getX());
             double secondY = mapToPaneY(path.get(i + 1).getY());
 
             Line line;
-            if(index  == i)
-            {
-                line = createLine(firstX, firstY, secondX, secondY, null,Color.BLUE);
-                createTriangle(firstX,firstY,secondX,secondY,6,Color.BLUE);
-            }
-            else{
+            if (index == i) {
+                line = createLine(firstX, firstY, secondX, secondY, null, Color.BLUE);
+                //createTriangle(firstX, firstY, secondX, secondY, 6, Color.BLUE);
+                polyline.getPoints().addAll(firstX, firstY, secondX, secondY);
+            } else {
                 line = createLine(firstX, firstY, secondX, secondY, null, lineColor);
-                createTriangle(firstX,firstY,secondX,secondY,4,lineColor);
+                //createTriangle(firstX, firstY, secondX, secondY, 4, lineColor);
+                polyline.getPoints().addAll(firstX, firstY, secondX, secondY);
             }
             nodePane.getChildren().add(line);
             lines.add(line);
 
+            /* draw a circle at the start and end of the path */
             if (i == 0) {
-                nodePane.getChildren().add(new Circle(firstX, firstY, defaultRadius * 2, circleColor));
-            }
-            else if (i == path.size() - 2) {
-                nodePane.getChildren().add(new Circle(secondX, secondY, defaultRadius * 2, circleColor));
-            }
+                Circle circle = new Circle(firstX, firstY, defaultRadius * 20, startNodeColor);
+                circle.setMouseTransparent(true);
+                nodePane.getChildren().add(circle);
+                startingNodeCircle = circle;
 
+            } else if (i == path.size() - 2) {
+                Circle circle = new Circle(secondX, secondY, defaultRadius * 100, endNodeColor);
+                circle.setMouseTransparent(true);
+                nodePane.getChildren().add(circle);
+                endingNodeCircle = circle;
+
+            }
         }
 
+        animateTriangle(polyline);
         scaleMap(0);
     }
 
@@ -204,8 +219,7 @@ public class Map  {
 
         if (isWithinPaneBounds(StartX, StartY) && isWithinPaneBounds(EndX, EndY)) {
             return line;
-        }
-        else {
+        } else {
             return null;
         }
     }
@@ -223,6 +237,20 @@ public class Map  {
         }
     }
 
+    private Circle createCircle(double x, double y, double radius, NodeInfo node) {
+        Circle circle = new Circle(x, y, radius, circleColor);
+
+        if (onDrawNode != null) {
+            onDrawNode.accept(new Pair<>(circle, node));
+        }
+
+        if (isWithinPaneBounds(x, y)) {
+            return circle;
+        } else {
+            return null;
+        }
+    }
+
     private Circle createCircle(double x, double y, NodeInfo node) {
         Circle circle = new Circle(x, y, defaultRadius, circleColor);
 
@@ -232,44 +260,38 @@ public class Map  {
 
         if (isWithinPaneBounds(x, y)) {
             return circle;
-        }
-        else {
+        } else {
             return null;
         }
     }
-    public void createTriangle(double beginx, double beginy, double endx, double endy,double size, Paint lineColor )
-    {
-        double from, to, transX , transY, dist_tri_center;
 
-        double halfX= (endx-beginx)/2;
-        double halfY = (endy-beginy)/2;
-        double rads = Math.atan2((endy-beginy),(endx -beginx));
-        double distance = Math.sqrt(Math.pow((endx-beginx),2)+Math.pow(endy-beginy,2));
+    public void createTriangle(double beginx, double beginy, double endx, double endy, double size, Paint lineColor) {
+        double from, to, transX, transY, dist_tri_center;
 
-        transX = halfX+beginx;
-        transY= halfY+beginy;
+        double halfX = (endx - beginx) / 2;
+        double halfY = (endy - beginy) / 2;
+        double rads = Math.atan2((endy - beginy), (endx - beginx));
+        double distance = Math.sqrt(Math.pow((endx - beginx), 2) + Math.pow(endy - beginy, 2));
+
+        transX = halfX + beginx;
+        transY = halfY + beginy;
         //dist_tri_center = 3;
-        Polygon tri = drawTriangle(transX, transY,size,rads,lineColor);
+        Polygon tri = drawTriangle(transX, transY, size, rads, lineColor);
 
-        if(distance > 15)
-        {
+        if (distance > 15) {
             nodePane.getChildren().add(tri);
         }
-
-
-
     }
 
-    public Polygon drawTriangle(double x, double y, double size, double radians, Paint color)
-    {
-        double firstX,firstY,secondX,secondY,thirdX,thirdY;
+    public Polygon drawTriangle(double x, double y, double size, double radians, Paint color) {
+        double firstX, firstY, secondX, secondY, thirdX, thirdY;
         double[] corn = new double[6];
-        firstX  =x +size *Math.cos(radians);
-        firstY = y+size*Math.sin(radians);
-        secondX = x+size*Math.cos(radians+2*Math.PI/3);
-        secondY = y+size*Math.sin(radians+2*Math.PI/3);
-        thirdX = x+size*Math.cos(radians+4*Math.PI/3);
-        thirdY = y+size*Math.sin(radians+4*Math.PI/3);
+        firstX = x + size * Math.cos(radians);
+        firstY = y + size * Math.sin(radians);
+        secondX = x + size * Math.cos(radians + 2 * Math.PI / 3);
+        secondY = y + size * Math.sin(radians + 2 * Math.PI / 3);
+        thirdX = x + size * Math.cos(radians + 4 * Math.PI / 3);
+        thirdY = y + size * Math.sin(radians + 4 * Math.PI / 3);
         corn[0] = firstX;
         corn[1] = firstY;
         corn[2] = secondX;
@@ -280,13 +302,25 @@ public class Map  {
         p.setStroke(color);
         p.setFill(color);
 
-        if (isWithinPaneBounds(x, y) && isWithinPaneBounds(x,y)) {
+        if (isWithinPaneBounds(x, y) && isWithinPaneBounds(x, y)) {
             return p;
-        }
-        else {
+        } else {
             return null;
         }
 
+    }
+
+    private void animateTriangle(Polyline path){
+
+        PathTransition pathTransition = new PathTransition();
+        Polygon triangle = drawTriangle(0, 0, 6.0, 2.1, arrowColor);
+        pathTransition.setNode(triangle);
+        pathTransition.setDuration(Duration.seconds(5));
+        pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
+        pathTransition.setPath(path);
+        pathTransition.setCycleCount(PathTransition.INDEFINITE);
+        nodePane.getChildren().add(triangle);
+        pathTransition.play();
     }
 
 
@@ -299,18 +333,18 @@ public class Map  {
 
     public static boolean isWithinMapBounds(int x, int y) {
         boolean inBounds = true;
-        if (x < 0 || x > mapWidth)  inBounds = false;
+        if (x < 0 || x > mapWidth) inBounds = false;
         if (y < 0 || y > mapHeight) inBounds = false;
         return inBounds;
     }
 
     /**
-     *  filter only the nodes belonging to this floor
+     * filter only the nodes belonging to this floor
      **/
     private static List<NodeInfo> filterFloor(List<NodeInfo> nodes, String floor) {
         return nodes.stream()
-               .filter((NodeInfo node) -> node.getFloor().equals(floor))
-               .collect(Collectors.toList());
+                .filter((NodeInfo node) -> node.getFloor().equals(floor))
+                .collect(Collectors.toList());
     }
 
     private static NodeInfo findNode(String id, List<NodeInfo> nodes) {
@@ -375,9 +409,16 @@ public class Map  {
         }
     }
 
-    public void setMapTranslate(double x,double y) {
+    public void setMapTranslate(double x, double y) {
         nodePane.setTranslateX(x);
         nodePane.setTranslateY(y);
+    }
+
+    public void smoothTranslate(double x, double y, double millis) {
+        TranslateTransition translateTransition = new TranslateTransition(Duration.millis(millis), nodePane);
+        translateTransition.setToX(x);
+        translateTransition.setToY(y);
+        translateTransition.play();
     }
 
     public void scaleMap(double scroll) {
@@ -387,11 +428,9 @@ public class Map  {
 
         if (scale > maxScale) {
             scale = maxScale;
-        }
-        else if (scale < minScale) {
+        } else if (scale < minScale) {
             scale = minScale;
-        }
-        else {
+        } else {
 
             /* scale the views from the center */
             nodePane.setScaleX(scale);
@@ -404,7 +443,10 @@ public class Map  {
                     ((Line) thing).setStrokeWidth(defaultStrokeWidth / scale);
                 }
             }
-
+            if (startingNodeCircle != null && endingNodeCircle != null) {
+                startingNodeCircle.setRadius(startingEndingRadius / scale);
+                endingNodeCircle.setRadius(startingEndingRadius / scale);
+            }
 
             /* must translate based on how much the current point moved from the scale */
             nodePane.setTranslateX(nodePane.getTranslateX() + (nodePane.getTranslateX() / scale) * dS);
@@ -571,6 +613,14 @@ public class Map  {
         tY = tY - pY;
 
         /* translate */
-        setMapTranslate(tX, tY);
+        smoothTranslate(tX, tY, 500);
+    }
+
+    public Circle getEndingNodeCircle() {
+        return endingNodeCircle;
+    }
+
+    public Circle getStartingNodeCircle() {
+        return startingNodeCircle;
     }
 }

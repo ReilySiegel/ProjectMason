@@ -8,10 +8,12 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import edu.wpi.teamo.Session;
 import edu.wpi.teamo.database.Database;
 
 public class BaseRequest {
     private String id;
+    private String requesterUsername;
     private ArrayList<String> locations;
     private String assigned;
     private boolean complete;
@@ -24,10 +26,14 @@ public class BaseRequest {
     }
 
     public BaseRequest(String id, String details, Stream<String> locations, String assigned, boolean complete, LocalDateTime due) {
-        this (id, details, locations, assigned, complete, due, LocalDateTime.now());
+        this (id, details, locations, assigned, complete, due, LocalDateTime.now(),"");
     }
 
-    public BaseRequest(String id, String details, Stream<String> locations, String assigned, boolean complete, LocalDateTime due, LocalDateTime timestamp) {
+    public BaseRequest(String id, String details, Stream<String> locations, String assigned, boolean complete, LocalDateTime due, String requesterUsername) {
+        this (id, details, locations, assigned, complete, due, LocalDateTime.now(), requesterUsername);
+    }
+
+    public BaseRequest(String id, String details, Stream<String> locations, String assigned, boolean complete, LocalDateTime due, LocalDateTime timestamp, String requesterUsername) {
         this.id = id;
         this.details = details;
         this.locations = locations.collect(Collectors.toCollection(ArrayList::new));
@@ -35,6 +41,7 @@ public class BaseRequest {
         this.complete = complete;
         this.due = due;
         this.timestamp = timestamp;
+        this.requesterUsername = requesterUsername;
     }
 
     public static void initTable() throws SQLException {
@@ -45,7 +52,8 @@ public class BaseRequest {
                                            "timestamp varchar(35)",
                                          "due varchar(35)",
                                            "assigned varchar(255)",
-                                           "locations varchar(255))"));
+                                           "locations varchar(255)",
+                                            "requesterUsername varchar(255))"));
     }
 
     public static BaseRequest getByID(String id) throws SQLException {
@@ -58,16 +66,17 @@ public class BaseRequest {
                                rs.getString("assigned"),
                                rs.getBoolean("complete"),
                                LocalDateTime.parse(rs.getString("due")),
-                               LocalDateTime.parse(rs.getString("timestamp")));
+                               LocalDateTime.parse(rs.getString("timestamp")),
+                               rs.getString("requesterUsername"));
     }
 
     void update() throws SQLException {
         try {
             String sql = String.join(" ",
                                      "INSERT INTO BaseRequest",
-                                     "(id, details, locations, assigned, complete, due, timestamp)",
+                                     "(id, details, locations, assigned, complete, due, timestamp, requesterUsername)",
                                      "VALUES",
-                                     "(?, ?, ?, ?, ?, ?, ?)");
+                                     "(?, ?, ?, ?, ?, ?, ?, ?)");
             PreparedStatement pstmt = Database.prepareStatement(sql);
             pstmt.setString(1, this.id);
             pstmt.setString(2, this.details);
@@ -76,11 +85,12 @@ public class BaseRequest {
             pstmt.setBoolean(5, this.complete);
             pstmt.setString(6, this.due.toString());
             pstmt.setString(7, this.due.toString());
+            pstmt.setString(8, this.requesterUsername);
             pstmt.execute();
         } catch (SQLException e) {
             String sql = String.join(" ",
                                      "UPDATE BaseRequest SET",
-                                     "id = ?, details = ?, locations = ?, assigned = ?, complete = ?, due = ?, timestamp = ?",
+                                     "id = ?, details = ?, locations = ?, assigned = ?, complete = ?, due = ?, timestamp = ?, requesterUsername = ?",
                                      "WHERE id = ?");
 
             PreparedStatement pstmt = Database.prepareStatement(sql);
@@ -91,7 +101,8 @@ public class BaseRequest {
             pstmt.setBoolean(5, this.complete);
             pstmt.setString(6, this.due.toString());
             pstmt.setString(7, this.due.toString());
-            pstmt.setString(8, this.id);
+            pstmt.setString(8, this.requesterUsername);
+            pstmt.setString(9, this.id);
             pstmt.execute();
         }
     }
@@ -157,4 +168,11 @@ public class BaseRequest {
     public LocalDateTime getTimestamp() {
         return timestamp;
     }
+
+    public void setRequesterUsername(String requesterUsername) throws SQLException {
+        this.requesterUsername = requesterUsername;
+        this.update();
+    }
+
+    public String getRequesterUsername() { return requesterUsername; }
 }

@@ -3,32 +3,33 @@
 }
 
 .pane {
-    -fx-background-color: rgba(255, 255, 255, 0.45);
-    -fx-border-color: rgba(255, 255, 255, 0.9);
+    -fx-background-color: rgba(62, 62, 62, 0.5) !important;
+    -fx-border-color: rgba(95, 95, 95, 0.9) !important;
     -fx-border-width: 0.5;
     -fx-effect: dropshadow(gaussian, rgba(100, 100, 100, 0.3), 10, 0.5, 0.0, 0.0);
+    -fx-text-fill: white !important;
 }
 
 .thickerPane {
-    -fx-background-color: rgba(255, 255, 255, 0.6);
-    -fx-border-color: rgba(255, 255, 255, 0.9);
+    -fx-background-color: rgba(62, 62, 62, 0.8) !important;
+    -fx-border-color: rgba(95, 95, 95, 0.9) !important;
     -fx-border-width: 0.5;
     -fx-effect: dropshadow(gaussian, rgba(100, 100, 100, 0.3), 10, 0.5, 0.0, 0.0);
 }
 
 .murkier-pane {
-    -fx-background-color: rgba(255, 255, 255, 0.6);
-    -fx-border-color: rgba(255, 255, 255, 0.9);
+    -fx-background-color: rgba(62, 62, 62, 0.8) !important;
+    -fx-border-color: rgba(95, 95, 95, 0.9) !important;
     -fx-border-width: 0.5;
     -fx-effect: dropshadow(gaussian, rgba(100, 100, 100, 0.3), 10, 0.5, 0.0, 0.0);
 }
 
 .button {
-    -fx-background-color: rgb(216, 248, 255);
+    -fx-background-color: rgb(93, 93, 93) !important;
     -fx-font-size: 12;
     -fx-font-family: "Roboto Regular";
     -fx-font-weight: normal;
-    -fx-text-fill: #000000;
+    -fx-text-fill: #fff !important;
     -fx-border-radius: 0;
     -fx-background-radius: 0;
     margin: 15px 15px 15px 15px;
@@ -55,12 +56,18 @@
 }
 
 .requestDisplayPane {
-    -fx-background-color: rgba(255, 255, 255, 0.7);
+    -fx-background-color: rgba(103, 103, 103, 0.7) !important;
     -fx-font-size: 9;
 }
 
 .filterPane {
-    -fx-background-color: rgba(235, 235, 235, 0.7);
+    -fx-background-color: rgba(71, 71, 71, 0.7) !important;
+}
+
+.requestBox {
+    -fx-background-color: #3e3e3e !important;
+    -fx-fill: #fff;
+    -fx-effect: dropshadow(gaussian, rgba(80, 80, 80, 1), 10, 0.5, 0.0, 0.0) !important;
 }
 
 .requestDisplayWrapper {
@@ -70,12 +77,13 @@
 }
 
 .jfx-dialog-overlay-pane > StackPane {
-    -fx-background-color: rgba(255, 255, 255, 0.8);
-    -fx-border-color: rgba(255, 255, 255, 0.9);
+    -fx-background-color: rgba(91, 91, 91, 0.8) !important;
+    -fx-border-color: rgba(136, 136, 136, 0.9) !important;
     -fx-border-width: 0.5;
     -fx-effect: dropshadow(gaussian, rgba(100, 100, 100, 0.3), 10, 0.5, 0.0, 0.0);
     -fx-font-family: "Roboto Regular";
     -fx-font-size: 18;
+    -fx-text-fill: white !important;
 }
 
 .jfx-dialog-layout > .jfx-layout-actions .jfx-button {
@@ -84,8 +92,13 @@
     -fx-padding: 8;
 }
 
+.jfx-dialog-layout > .text {
+    -fx-text-fill: white !important;
+}
+
 .jfx-check-box{
-    -jfx-checked-color: #a5efff;
+    -jfx-checked-color: #001856 !important;
+    -fx-text-fill: white !important;
 }
 
 
@@ -93,14 +106,15 @@
 .tree-table-view{
     -fx-font: 12px "Roboto Regular";
     -fx-font-size: 12;
-    -fx-background-color: rgba(255, 255, 255, 0.7);
-    -fx-border-color: rgba(255, 255, 255, 0.7);
+    -fx-background-color: rgba(79, 79, 79, 0.7) !important;
+    -fx-border-color: rgba(79, 79, 79, 0.7) !important;
 }
 
 .tree-table-row-cell {
     -fx-font: 12px "Roboto Regular";
     -fx-background: rgba(255, 255, 255, 0);
-    -fx-border-color: rgba(255, 255, 255, 0.7);
+    -fx-border-color: rgba(255, 255, 255, 0) !important;
+    -fx-text-fill: white !important;
 }
 
 
@@ -133,7 +147,7 @@
 }
 
 .combo-box-popup .list-view .list-cell {
-    -fx-background-color: #f6f6f6;
+    -fx-background-color: #303030;
 }
 
 .jfx-combo-box{
@@ -141,20 +155,28 @@
 }
 
 .jfx-combo-box .cell:selected {
-    -fx-text-fill: #150f0f;
+    -fx-text-fill: white;
 }
 
 .combo-box-popup .list-view .list-cell:hover {
-    -fx-text-fill: #150f0f;
+    -fx-text-fill: white;
     -fx-background-color: #a5efff;
 }
 
 .jfx-text-field{
     -jfx-focus-color: #000000;
+    -fx-text-fill: #eee;
+    -fx-highlight-fill: #eee;
+    -fx-highlight-text-fill: #eee;
+    -fx-prompt-text-fill: #ccc;
 }
 
 .jfx-password-field{
     -jfx-focus-color: #000000;
+    -fx-text-fill: #eee;
+    -fx-highlight-fill: #eee;
+    -fx-highlight-text-fill: #eee;
+    -fx-prompt-text-fill: #ccc;
 }
 
 .help-button {
@@ -164,4 +186,16 @@
     -fx-background-radius: 25;
     -fx-font-size: 20;
     -fx-font-family: Roboto Regular;
+}
+
+.label {
+    -fx-text-fill: white !important;
+}
+
+.text {
+    -fx-text-fill: white !important;
+}
+
+.annoyingText {
+    -fx-fill: white !important;
 }

@@ -3,35 +3,36 @@
 }
 
 .pane {
-    -fx-background-color: rgba(255, 255, 255, 0.45);
+    -fx-background-color: rgba(234, 255, 239, 0.45);
     -fx-border-color: rgba(255, 255, 255, 0.9);
     -fx-border-width: 0.5;
     -fx-effect: dropshadow(gaussian, rgba(100, 100, 100, 0.3), 10, 0.5, 0.0, 0.0);
 }
 
 .thickerPane {
-    -fx-background-color: rgba(255, 255, 255, 0.6);
+    -fx-background-color: rgba(255, 222, 222, 0.6);
     -fx-border-color: rgba(255, 255, 255, 0.9);
     -fx-border-width: 0.5;
     -fx-effect: dropshadow(gaussian, rgba(100, 100, 100, 0.3), 10, 0.5, 0.0, 0.0);
 }
 
 .murkier-pane {
-    -fx-background-color: rgba(255, 255, 255, 0.6);
+    -fx-background-color: rgba(255, 222, 222, 0.6);
     -fx-border-color: rgba(255, 255, 255, 0.9);
     -fx-border-width: 0.5;
     -fx-effect: dropshadow(gaussian, rgba(100, 100, 100, 0.3), 10, 0.5, 0.0, 0.0);
 }
 
 .button {
-    -fx-background-color: rgb(216, 248, 255);
+    -fx-background-color: rgb(231, 255, 231) !important;
     -fx-font-size: 12;
     -fx-font-family: "Roboto Regular";
     -fx-font-weight: normal;
-    -fx-text-fill: #000000;
+    -fx-text-fill: #000;
     -fx-border-radius: 0;
     -fx-background-radius: 0;
     margin: 15px 15px 15px 15px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 0) !important;
     /*-fx-border-color: #000000;*/
     /*-fx-border-width: 2;*/
 }
@@ -85,7 +86,7 @@
 }
 
 .jfx-check-box{
-    -jfx-checked-color: #a5efff;
+    -jfx-checked-color: #ff6f6f !important;
 }
 
 
@@ -105,16 +106,16 @@
 
 
 .jfx-date-picker{
-    -jfx-default-color: #a5efff;
+    -jfx-default-color: #ff7474 !important;
 }
 
 .jfx-time-picker{
-    -jfx-default-color: #a5efff;
+    -jfx-default-color: #ff7474 !important;
 }
 
 .date-picker-popup .left-button,
 .date-picker-popup .right-button  {
-    -fx-background-color: #a5efff;
+    -fx-background-color: #ff7474 !important;
 }
 
 .date-picker-popup .left-button .jfx-svg-glyph,
@@ -146,7 +147,7 @@
 
 .combo-box-popup .list-view .list-cell:hover {
     -fx-text-fill: #150f0f;
-    -fx-background-color: #a5efff;
+    -fx-background-color: #aeffa5 !important;
 }
 
 .jfx-text-field{

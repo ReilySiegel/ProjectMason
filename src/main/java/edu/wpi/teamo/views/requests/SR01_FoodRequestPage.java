@@ -3,6 +3,7 @@ package edu.wpi.teamo.views.requests;
 import com.jfoenix.controls.*;
 import edu.wpi.teamo.App;
 import edu.wpi.teamo.Pages;
+import edu.wpi.teamo.Session;
 import edu.wpi.teamo.database.map.NodeInfo;
 import edu.wpi.teamo.database.request.BaseRequest;
 import edu.wpi.teamo.database.request.FoodRequest;
@@ -142,7 +143,7 @@ public class SR01_FoodRequestPage implements Initializable {
 
             LocalTime curTime = deliveryTime.getValue();
             LocalDateTime curDate = deliveryDate.getValue().atTime(curTime);
-            BaseRequest br = new BaseRequest(UUID.randomUUID().toString(), "", locationIDs.stream(), "", false, curDate);
+            BaseRequest br = new BaseRequest(UUID.randomUUID().toString(), "", locationIDs.stream(), "", false, curDate, Session.getAccount().getUsername());
             FoodRequest fr = new FoodRequest(appetizer, entree, dessert, dR, br);
 
             try {
@@ -169,11 +170,12 @@ public class SR01_FoodRequestPage implements Initializable {
             content.setHeading(new Text(App.resourceBundle.getString("key.food_request_submitted")));
             content.setBody(new Text(App.resourceBundle.getString("key.request_submitted_with") +
                     App.resourceBundle.getString("key.patient_name_semicolon") + patientName + "\n" +
-                    App.resourceBundle.getString("key.appetizer_semicolon")  + appetizer + "\n" +
-                    App.resourceBundle.getString("key.entree_semicolon")  + entree + "\n" +
-                    App.resourceBundle.getString("key.dessert_semicolon")  + dessert + "\n" +
+                    App.resourceBundle.getString("key.appetizer_semicolon") + appetizer + "\n" +
+                    App.resourceBundle.getString("key.entree_semicolon") + entree + "\n" +
+                    App.resourceBundle.getString("key.dessert_semicolon") + dessert + "\n" +
                     App.resourceBundle.getString("key.room_semicolon") + String.join(", ", locationIDs) + "\n" +
-                    App.resourceBundle.getString("key.time") + ": " +  curDate.toString()));
+                    App.resourceBundle.getString("key.time") + ": " + curDate.toString()));
+
             JFXDialog popup = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.TOP);
 
             JFXButton closeButton = new JFXButton(App.resourceBundle.getString("key.close"));

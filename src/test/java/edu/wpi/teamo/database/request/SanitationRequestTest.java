@@ -31,7 +31,7 @@ public class SanitationRequestTest {
         BaseRequest.initTable();
         String[] loc = {"loc"};
         LocalDateTime t = LocalDateTime.now();
-        BaseRequest b = new BaseRequest("id", "det", Stream.of(loc), "me", false, t, t);
+        BaseRequest b = new BaseRequest("id", "det", Stream.of(loc), "me", false, t, t,"user");
         SanitationRequest s = new SanitationRequest(false, b);
         s.update();
         assertEquals("id", SanitationRequest.getByID("id").getID());

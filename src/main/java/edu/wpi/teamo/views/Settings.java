@@ -1,16 +1,29 @@
 package edu.wpi.teamo.views;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import edu.wpi.teamo.App;
+import edu.wpi.teamo.Pages;
+import edu.wpi.teamo.Session;
+import edu.wpi.teamo.Theme;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class Settings implements Initializable {
 
+    JFXComboBox<Label> themeSelect;
+
+    @FXML
+    HBox themeBox;
 
     @FXML
     private JFXComboBox<String> langBox;
@@ -18,6 +31,15 @@ public class Settings implements Initializable {
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
         fillLangBox();
+
+        themeSelect = new JFXComboBox<Label>();
+        themeBox.getChildren().add(themeSelect);
+
+        themeSelect.getItems().add(new Label("Theme 1"));
+        themeSelect.getItems().add(new Label("Theme 2"));
+        themeSelect.getItems().add(new Label("Dark"));
+        themeSelect.getItems().add(new Label("Holiday"));
+        themeSelect.getSelectionModel().selectFirst();
     }
 
     private void fillLangBox() {
@@ -28,11 +50,31 @@ public class Settings implements Initializable {
 
     @FXML
     private void handleConfirm(ActionEvent e) {
+
+        switch (themeSelect.getValue().getText()) {
+            case "Theme 1":
+                Session.getAccount().setTheme(Theme.BLUE_SKY);
+                break;
+            case "Theme 2":
+                Session.getAccount().setTheme(Theme.CLOUDS);
+                break;
+            case "Holiday":
+                Session.getAccount().setTheme(Theme.HOLIDAY);
+                break;
+            case "Dark":
+                Session.getAccount().setTheme(Theme.DARK);
+                break;
+        }
+
         if(langBox.getValue().equals(App.resourceBundle.getString("key.english"))) {
             App.switchLocale("en", "US", LocaleType.en_US, false);
         }
         else if (langBox.getValue().equals(App.resourceBundle.getString("key.spanish"))) {
             App.switchLocale("es", "ES", LocaleType.es_ES, false);
         }
+
+        App.switchPage(Pages.MAIN);
+
     }
+
 }

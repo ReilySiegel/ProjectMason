@@ -2,8 +2,10 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXListView?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXTimePicker?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -33,21 +35,58 @@
          <children>
           <BorderPane styleClass="pane" GridPane.columnIndex="1" GridPane.rowIndex="1">
               <center>
-                  <VBox fillWidth="false" prefHeight="345.0" prefWidth="708.0" spacing="10.0" BorderPane.alignment="TOP_CENTER">
+                  <VBox fillWidth="false" prefHeight="345.0" spacing="10.0" BorderPane.alignment="TOP_CENTER">
                       <children>
-                          <HBox fx:id="assignedBox" prefHeight="45.0" prefWidth="652.0">
+                        <HBox prefHeight="45.0" prefWidth="507.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.laundry_type" textAlignment="RIGHT" wrappingWidth="190.0">
+                                 <font>
+                                    <Font name="Arial" size="18.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="20.0" />
+                                 </HBox.margin>
+                              </Text>
+                              <VBox>
+                                 <children>
+                                    <JFXCheckBox fx:id="sheets" text="Sheets">
+                                       <font>
+                                          <Font name="Arial" size="18.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </VBox.margin>
+                                    </JFXCheckBox>
+                                    <JFXCheckBox fx:id="gown" text="Gown">
+                                       <font>
+                                          <Font name="Arial" size="18.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </VBox.margin>
+                                    </JFXCheckBox>
+                                 </children>
+                              </VBox>
+                              <Text fx:id="checkError" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </Text>
+                           </children>
+                        </HBox>
+                          <HBox fx:id="assignedBox" prefHeight="45.0">
                               <children>
                                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.assignee_name" textAlignment="RIGHT" wrappingWidth="190.0">
                                       <font>
                                           <Font name="Arial" size="18.0" />
                                       </font>
                                  <HBox.margin>
-                                    <Insets right="20.0" />
+                                    <Insets right="15.0" />
                                  </HBox.margin>
                                   </Text>
                                   <AnchorPane>
                                       <children>
-                                          <JFXTextField fx:id="assignee" focusColor="WHITE" prefHeight="25.0" prefWidth="200.0" promptText="%key.name_of_assignee" unFocusColor="BLACK" />
+                                          <JFXTextField fx:id="assignee" focusColor="WHITE" prefHeight="25.0" prefWidth="396.0" promptText="%key.name_of_assignee" unFocusColor="BLACK" />
                                           <Text fx:id="assigneeErrorText" fill="RED" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                                       </children>
                                       <HBox.margin>
@@ -59,6 +98,52 @@
                                   <Insets bottom="10.0" />
                               </VBox.margin>
                           </HBox>
+                        <HBox alignment="TOP_CENTER">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.date" textAlignment="RIGHT" wrappingWidth="190.0">
+                                 <font>
+                                    <Font name="Arial" size="18.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="15.0" />
+                                 </HBox.margin>
+                              </Text>
+                              <VBox prefHeight="50.0" prefWidth="415.0">
+                                 <children>
+                                    <JFXDatePicker fx:id="datePicker" maxWidth="-Infinity" prefWidth="396.0" promptText="%key.enter_date" />
+                                    <Text fx:id="dateErrorText" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0">
+                                       <VBox.margin>
+                                          <Insets top="5.0" />
+                                       </VBox.margin></Text>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <HBox alignment="TOP_CENTER">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.time" textAlignment="RIGHT" wrappingWidth="190.0">
+                                 <font>
+                                    <Font name="Arial" size="18.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="15.0" />
+                                 </HBox.margin>
+                              </Text>
+                              <AnchorPane prefHeight="50.0" prefWidth="479.0">
+                                 <children>
+                                    <VBox layoutX="81.0" prefHeight="50.0" prefWidth="479.0" AnchorPane.rightAnchor="0.0">
+                                       <children>
+                                          <JFXTimePicker fx:id="timePicker" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="27.0" prefWidth="396.0" promptText="%key.enter_time" />
+                                          <Text fx:id="timeErrorText" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0">
+                                             <VBox.margin>
+                                                <Insets top="5.0" />
+                                             </VBox.margin></Text>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </HBox>
                           <HBox>
                               <children>
                                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.notes" textAlignment="RIGHT" wrappingWidth="190.0">
@@ -66,46 +151,12 @@
                                           <Font name="Arial" size="18.0" />
                                       </font>
                                  <HBox.margin>
-                                    <Insets right="20.0" />
+                                    <Insets right="15.0" />
                                  </HBox.margin>
                                   </Text>
-                                  <AnchorPane>
-                                      <children>
-                                          <JFXTextField fx:id="notes" focusColor="WHITE" prefHeight="25.0" prefWidth="200.0" promptText="%key.notes" unFocusColor="BLACK" />
-                                      </children>
-                                      <HBox.margin>
-                                          <Insets />
-                                      </HBox.margin>
-                                  </AnchorPane>
+                                    <JFXTextField fx:id="notes" focusColor="WHITE" prefHeight="25.0" prefWidth="396.0" promptText="%key.notes" unFocusColor="BLACK" />
                               </children>
                           </HBox>
-                        <HBox prefHeight="45.0" prefWidth="507.0">
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.laundry_type" textAlignment="RIGHT" wrappingWidth="190.0">
-                                 <font>
-                                    <Font name="Arial" size="18.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets right="20.0" />
-                                 </HBox.margin>
-                              </Text>
-                              <AnchorPane>
-                                 <children>
-                                    <JFXCheckBox fx:id="sheets" layoutX="21.0" text="Sheets">
-                                       <font>
-                                          <Font name="Arial" size="18.0" />
-                                       </font>
-                                    </JFXCheckBox>
-                                    <JFXCheckBox fx:id="gown" layoutX="124.0" text="Gown">
-                                       <font>
-                                          <Font name="Arial" size="18.0" />
-                                       </font>
-                                    </JFXCheckBox>
-                                    <Text fx:id="checkError" fill="RED" layoutX="3.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-                                 </children>
-                              </AnchorPane>
-                           </children>
-                        </HBox>
                           <HBox maxWidth="-Infinity" prefWidth="652.0" VBox.vgrow="ALWAYS">
                               <children>
                                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.room" textAlignment="RIGHT" wrappingWidth="190.0">
@@ -113,12 +164,12 @@
                                           <Font name="Arial" size="18.0" />
                                       </font>
                                       <HBox.margin>
-                                          <Insets right="20.0" />
+                                          <Insets right="15.0" />
                                       </HBox.margin>
                                   </Text>
                               <VBox>
                                  <children>
-                                    <JFXTextField fx:id="locationSearchBox" maxWidth="-Infinity" prefWidth="200.0" promptText="%key.room" />
+                                    <JFXTextField fx:id="locationSearchBox" maxWidth="-Infinity" prefWidth="396.0" promptText="%key.room" />
                                           <Text fx:id="roomErrorText" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0">
                                        <VBox.margin>
                                           <Insets bottom="5.0" top="5.0" />
@@ -146,7 +197,7 @@
                       <children>
                         <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="541.0">
                            <children>
-                                <JFXButton buttonType="RAISED" onAction="#handleHelp" style="-fx-border-radius: 25; -fx-background-radius: 25;" text="?" textFill="WHITE">
+                                <JFXButton buttonType="RAISED" onAction="#handleHelp" styleClass="help-button" text="?" textFill="WHITE">
                                     <font>
                                         <Font name="Arial Bold" size="24.0" />
                                     </font>
