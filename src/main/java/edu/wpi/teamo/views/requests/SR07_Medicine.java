@@ -13,6 +13,7 @@ import edu.wpi.teamo.database.request.MedicineRequest;
 import edu.wpi.teamo.utils.itemsifters.LocationSearcher;
 import edu.wpi.teamo.views.LocaleType;
 import edu.wpi.teamo.views.SubPageContainer;
+import edu.wpi.teamo.views.emailSender;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -21,6 +22,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+
+import javax.mail.MessagingException;
 import java.time.LocalDateTime;
 import java.net.URL;
 import java.sql.SQLException;
@@ -153,7 +156,7 @@ public class SR07_Medicine implements Initializable {
     }
 
     @FXML
-    private void handleSubmission(ActionEvent e) throws SQLException {
+    private void handleSubmission(ActionEvent e) throws SQLException, MessagingException {
         String medicine = medName.getText();
         String amount = medAmount.getText();
         String assignName = assigneeBox.getValue();
@@ -197,9 +200,12 @@ public class SR07_Medicine implements Initializable {
 
             LocalTime curTime = timePicker.getValue();
             LocalDateTime curDate = datePicker.getValue().atTime(curTime);
+            String randomUU = UUID.randomUUID().toString();
 
-            BaseRequest br = new BaseRequest(UUID.randomUUID().toString(), medNotes, locationIDs.stream(), assignName, false, curDate, Session.getAccount().getUsername());
+            BaseRequest br = new BaseRequest(randomUU, medNotes, locationIDs.stream(), assignName, false, curDate, Session.getAccount().getUsername());
             new MedicineRequest(medicine, amount, br).update();
+
+            emailSender.sendSRReceiptMail(Session.getAccount().getEmail(),randomUU,"submitted");
 
             timeErrorText.setText("");
             dateErrorText.setText("");
