@@ -24,17 +24,17 @@ public class emailSender {
             }
         });
 
-        Message message = prepareMessage(mailSession, myEmailAcc);
+        Message message = prepareMessage(mailSession, myEmailAcc, to);
 
         Transport.send(message);
 
     }
 
-    public static Message prepareMessage(javax.mail.Session mailSession, String myEmailAcc) {
+    public static Message prepareMessage(javax.mail.Session mailSession, String myEmailAcc, String to) {
         try {
             Message message = new MimeMessage(mailSession);
             message.setFrom(new InternetAddress(myEmailAcc));
-            message.setRecipient(Message.RecipientType.TO, new InternetAddress("masonpowell45@gmail.com"));
+            message.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
             message.setSubject("Covid Survey");
             message.setText("You have submitted a covid survey, please wait to be approved!");
             return message;
