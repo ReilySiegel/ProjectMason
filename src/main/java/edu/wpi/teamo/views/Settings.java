@@ -57,6 +57,21 @@ public class Settings implements Initializable {
         linkButton.setOnAction(event -> linkServerDatabase());
         embeddedButton.setOnAction(event -> switchToEmbedded());
         fillLangBox();
+        int selection = 0;
+        System.out.println(App.selectedLocale.name());
+        switch (App.selectedLocale.name()) {
+            case "en_US":
+                selection = 0;
+                break;
+            case "es_ES":
+                selection = 1;
+                break;
+            case "ja_JP":
+                selection = 2;
+                break;
+        }
+        langBox.getSelectionModel().select(selection);
+
         if (Session.getAccount() == null || !Session.getAccount().isAdmin()) {
             linkButton.setVisible(false);
             linkButton.setManaged(false);
@@ -83,7 +98,27 @@ public class Settings implements Initializable {
         themeSelect.getItems().add("Dark");
         themeSelect.getItems().add("Holiday");
         themeSelect.getItems().add("Wong");
-        themeSelect.getSelectionModel().selectFirst();
+
+        int tSelection = 0;
+        switch (Session.getAccount().getTheme().name()) {
+            case "BLUE_SKY":
+                tSelection = 0;
+                break;
+            case "CLOUDS":
+                tSelection = 1;
+                break;
+            case "DARK":
+                tSelection = 2;
+                break;
+            case "HOLIDAY":
+                tSelection = 3;
+                break;
+            case "WONG":
+                tSelection = 4;
+                break;
+        }
+
+        themeSelect.getSelectionModel().select(tSelection);
     }
 
     private void fillLangBox() {
