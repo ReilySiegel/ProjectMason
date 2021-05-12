@@ -16,11 +16,10 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 
@@ -329,6 +328,45 @@ public class MainPage implements Initializable {
         SubPageContainer.getInstance().hide();
         backgroundPane.getChildren().clear();
         backgroundPane.setVisible(false);
+    }
+
+    static class Delta { double x, y; }
+    // make a node movable by dragging it around with the mouse.
+    private void enableDrag(final VBox pane) {
+        final Delta dragDelta = new Delta();
+        pane.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override public void handle(MouseEvent mouseEvent) {
+                // record a delta distance for the drag and drop operation.
+                dragDelta.x = pane.getTranslateX() - mouseEvent.getX();
+                dragDelta.y = pane.getTranslateY() - mouseEvent.getY();
+                pane.getScene().setCursor(Cursor.MOVE);
+            }
+        });
+        pane.setOnMouseReleased(new EventHandler<MouseEvent>() {
+            @Override public void handle(MouseEvent mouseEvent) {
+                pane.getScene().setCursor(Cursor.HAND);
+            }
+        });
+        pane.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override public void handle(MouseEvent mouseEvent) {
+                pane.setTranslateX(mouseEvent.getX() + dragDelta.x);
+                pane.setTranslateY(mouseEvent.getY() + dragDelta.y);
+            }
+        });
+        pane.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override public void handle(MouseEvent mouseEvent) {
+                if (!mouseEvent.isPrimaryButtonDown()) {
+                    pane.getScene().setCursor(Cursor.HAND);
+                }
+            }
+        });
+        pane.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override public void handle(MouseEvent mouseEvent) {
+                if (!mouseEvent.isPrimaryButtonDown()) {
+                    pane.getScene().setCursor(Cursor.DEFAULT);
+                }
+            }
+        });
     }
 
 }
