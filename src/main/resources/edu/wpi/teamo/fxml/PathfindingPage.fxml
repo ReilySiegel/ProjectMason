@@ -278,7 +278,10 @@
                                     <HBox fx:id="parkingWindow" alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="325.0" spacing="10.0">
                                        <children>
                                           <JFXButton fx:id="saveNewParkingSpotButton" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="38.0" prefWidth="150.0" text="%key.assignParking" wrapText="true" />
-                                          <JFXButton fx:id="selectSavedParkingSpotButton" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="38.0" prefWidth="150.0" text="%key.select_parking_spot" wrapText="true" />
+                                          <JFXButton fx:id="selectSavedParkingSpotButton" buttonType="RAISED" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="38.0" prefWidth="150.0" text="%key.select_parking_spot" wrapText="true">
+                                             <HBox.margin>
+                                                <Insets right="10.0" />
+                                             </HBox.margin></JFXButton>
                                        </children>
                                     </HBox>
                                  </children>
