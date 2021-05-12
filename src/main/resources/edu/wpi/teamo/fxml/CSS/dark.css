@@ -363,3 +363,8 @@
     -fx-border-color: rgba(95, 95, 95, 0.9) !important;
     -fx-border-width: 0.5;
 }
+
+.context-menu {
+    -fx-background-color: #333;
+    -fx-text-fill: white;
+}
