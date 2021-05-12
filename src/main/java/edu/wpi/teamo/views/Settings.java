@@ -125,6 +125,8 @@ public class Settings implements Initializable {
         langBox.getItems().add(App.resourceBundle.getString("key.english"));
         langBox.getItems().add(App.resourceBundle.getString("key.spanish"));
         langBox.getItems().add(App.resourceBundle.getString("key.japanese"));
+        langBox.getItems().add(App.resourceBundle.getString("key.chinese"));
+        langBox.getItems().add(App.resourceBundle.getString("key.russian"));
         langBox.getSelectionModel().selectFirst();
     }
 
@@ -184,6 +186,14 @@ public class Settings implements Initializable {
 
         else if (langBox.getValue().equals(App.resourceBundle.getString("key.japanese"))) {
             App.switchLocale("ja", "JP", LocaleType.ja_JP);
+        }
+
+        else if (langBox.getValue().equals(App.resourceBundle.getString("key.chinese"))) {
+            App.switchLocale("zh", "CN", LocaleType.zh_CN);
+        }
+
+        else if (langBox.getValue().equals(App.resourceBundle.getString("key.russian"))) {
+            App.switchLocale("ru", "RU", LocaleType.ru_RU);
         }
 
         App.switchPage(Pages.MAIN);

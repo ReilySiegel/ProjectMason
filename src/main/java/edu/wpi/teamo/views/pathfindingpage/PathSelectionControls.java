@@ -200,10 +200,6 @@ public class PathSelectionControls {
     }
 
     public void reset() {
-        selectedStartNode = null;
-        selectedEndNode = null;
-        startSearchBar.setPromptText("Search location...");
-        endSearchBar.setPromptText("Search location...");
         switchToIdle();
     }
 

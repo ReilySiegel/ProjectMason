@@ -192,14 +192,6 @@
                                                             <Font size="13.0" />
                                                          </font>
                                                       </JFXToggleButton>
-                                                      <JFXToggleButton fx:id="handicapSwitch" prefHeight="35.0" prefWidth="198.0" size="5.0" text="%key.handicap_mode">
-                                                         <font>
-                                                            <Font size="13.0" />
-                                                         </font>
-                                                         <VBox.margin>
-                                                            <Insets />
-                                                         </VBox.margin>
-                                                      </JFXToggleButton>
                                                    </children>
                                                 </VBox>
                                              </children>

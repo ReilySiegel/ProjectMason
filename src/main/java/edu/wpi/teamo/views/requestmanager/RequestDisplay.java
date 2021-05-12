@@ -527,7 +527,7 @@ public class RequestDisplay {
         JFXCheckBox completedBox = new JFXCheckBox();
         completedBox.setText(App.resourceBundle.getString("key.complete"));
         completedBox.setSelected(c.getIsComplete());
-        completedBox.setOnAction(event -> handleChangeCovidSurveyComplete(completedBox, c));
+        completedBox.setOnAction(event -> handleChangeCovidSurveyComplete(entranceComboBox, completedBox, c));
         actionBox.getChildren().add(completedBox);
 
         return actionBox;
@@ -575,8 +575,10 @@ public class RequestDisplay {
         update();
     }
 
-    private void handleChangeCovidSurveyComplete(JFXCheckBox checkBox, COVIDSurveyRequest request) {
+    private void handleChangeCovidSurveyComplete(JFXComboBox<String> entranceComboBox,
+                                                 JFXCheckBox checkBox, COVIDSurveyRequest request) {
         try {
+            handleChangeEntryStatus(entranceComboBox, request);
             request.setComplete(checkBox.isSelected());
             if (!request.getUsername().equals("guest")) {
                 if (Account.getByUsername(request.getUsername()).getUseEmergencyEntrance())

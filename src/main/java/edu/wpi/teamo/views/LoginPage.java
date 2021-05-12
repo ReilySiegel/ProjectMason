@@ -6,13 +6,17 @@ import edu.wpi.teamo.Session;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
+import java.net.URL;
 import java.util.Objects;
+import java.util.ResourceBundle;
 
-public class LoginPage extends SubPageController{
+public class LoginPage extends SubPageController implements Initializable {
     @FXML
     JFXTextField username;
     @FXML
@@ -24,6 +28,10 @@ public class LoginPage extends SubPageController{
 
     @FXML
     void checkPasswordUsernameCombo(ActionEvent e){
+        verifyCredentials();
+    }
+
+    private void verifyCredentials() {
         String usernameString = username.getText();
         String passwordString = password.getText();
 
@@ -82,5 +90,15 @@ public class LoginPage extends SubPageController{
         } catch (Exception exception) {
             System.out.println("Error");
         }
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        App.getPrimaryStage().getScene().setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.ENTER) {
+                App.getPrimaryStage().getScene().setOnKeyPressed(event -> {});
+                verifyCredentials();
+            }
+        });
     }
 }

@@ -72,7 +72,7 @@
                         <Insets bottom="15.0" />
                      </VBox.margin>
                   </JFXTimePicker>
-                  <JFXButton fx:id="applyFilterButton" prefHeight="40.0" prefWidth="70.0" style="-fx-border-radius: 0; -fx-background-radius: 0;" text="%key.apply">
+                  <JFXButton fx:id="applyFilterButton" prefHeight="25.0" prefWidth="140.0" style="-fx-border-radius: 0; -fx-background-radius: 0;" text="%key.apply">
                      <font>
                         <Font name="Arial" size="15.0" />
                      </font>

@@ -40,9 +40,6 @@ public class PathfindingPage extends SubPageController implements Initializable 
     private JFXToggleButton exerciseMode;
 
     @FXML
-    private JFXToggleButton handicapSwitch;
-
-    @FXML
     private JFXButton helpButton;
 
     @FXML
