@@ -320,7 +320,9 @@ public class Map {
         pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
         pathTransition.setPath(path);
         pathTransition.setCycleCount(PathTransition.INDEFINITE);
-        nodePane.getChildren().add(triangle);
+        if(path.getPoints().size() > 0){
+            nodePane.getChildren().add(triangle);
+        }
         pathTransition.play();
     }
 
