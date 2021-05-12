@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -52,14 +53,13 @@ public class LoginPage extends SubPageController implements Initializable {
             password.clear();
 
             JFXDialogLayout content = new JFXDialogLayout();
-            content.setHeading(new Text(App.resourceBundle.getString("key.error")));
-            content.setBody(new Text(App.resourceBundle.getString("key.Invalid_Combo")));
+            content.setHeading(new Label(App.resourceBundle.getString("key.error")));
+            content.setBody(new Label(App.resourceBundle.getString("key.Invalid_Combo")));
             JFXDialog errorWindow = new JFXDialog(loginStack,
                     content,
                     JFXDialog.DialogTransition.TOP);
 
             JFXButton closeButton = new JFXButton("Close");
-            closeButton.setStyle("-fx-background-color: #F40F19");
             closeButton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
