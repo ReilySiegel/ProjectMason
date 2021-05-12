@@ -44,7 +44,7 @@
                            <children>
                               <HBox alignment="CENTER_LEFT" prefHeight="52.0" prefWidth="296.0">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%key.textual_directions" textAlignment="CENTER" wrappingWidth="311.45263671875">
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="annoyingText" text="%key.textual_directions" textAlignment="CENTER" wrappingWidth="311.45263671875">
                                        <font>
                                           <Font size="17.0" />
                                        </font>

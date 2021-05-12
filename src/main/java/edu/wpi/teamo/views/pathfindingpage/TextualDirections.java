@@ -1,6 +1,7 @@
 package edu.wpi.teamo.views.pathfindingpage;
 
 import javafx.geometry.Pos;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BackgroundFill;
 import edu.wpi.teamo.algos.TextDirManager;
 import com.jfoenix.controls.JFXListView;
@@ -101,7 +102,7 @@ public class TextualDirections {
         ImageView icon = new ImageView(((ImageView) currentHBOX.getChildren().get(0)).getImage());
         icon.setFitWidth(40);
         icon.setFitHeight(40);
-        Text s = new Text(((Text) currentHBOX.getChildren().get(1)).getText());
+        Label s = new Label(((Label) currentHBOX.getChildren().get(1)).getText());
         if(s.getText().toLowerCase().contains(App.resourceBundle.getString("key.back_right_turn"))) icon.setRotate(90);
         else if(s.getText().toLowerCase().contains(App.resourceBundle.getString("key.back_left_turn"))) icon.setRotate(270);
         else if(s.getText().toLowerCase().contains(App.resourceBundle.getString("key.backwards"))) icon.setRotate(180);
@@ -169,7 +170,7 @@ public class TextualDirections {
             icon.setFitWidth(20);
             icon.setFitHeight(20);
         }
-        return new HBox(icon, new Text(direction));
+        return new HBox(icon, new Label(direction));
     }
 
     public JFXButton getTextualUnitsBtn() {
