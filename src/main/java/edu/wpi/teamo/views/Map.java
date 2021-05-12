@@ -114,6 +114,11 @@ public class Map {
     public void drawPath(LinkedList<AlgoNode> path, String floor, int index) {
         lines = new LinkedList<>();
         Polyline polyline = new Polyline();
+
+        /* this boolean becomes true when we first change floors after moving past the index */
+        /* while it is false, we add points to the triangles path */
+        boolean floorHasChanged = false;
+
         for (int i = 0; i < (path.size() - 1); i++) {
 
             double firstX = mapToPaneX(path.get(i).getX());
@@ -128,8 +133,13 @@ public class Map {
             Line line = createLine(firstX, firstY, secondX, secondY, null, style);
             if (line != null) line.setMouseTransparent(true);
 
-            if (i >= index && sameFloorAsIndex) {
-                polyline.getPoints().addAll(firstX, firstY, secondX, secondY);
+            if (i >= index) {
+                if (!sameFloorAsIndex) floorHasChanged = true;
+
+                if (!floorHasChanged) {
+                    polyline.getPoints().addAll(firstX, firstY, secondX, secondY);
+                }
+
             }
 
             nodePane.getChildren().add(line);
