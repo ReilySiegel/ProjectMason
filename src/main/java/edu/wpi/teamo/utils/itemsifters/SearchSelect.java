@@ -12,7 +12,7 @@ public class SearchSelect<T, Cell> {
     private boolean enabled = true;
 
     private final ItemSifter<T> itemSifter;
-    private final SelectionListDisplay<T, Cell> display;
+    protected final SelectionListDisplay<T, Cell> display;
     private final JFXTextField searchBar;
 
     public interface Matcher<T> extends ItemSearch.TextMatcher<T> {
