@@ -69,6 +69,12 @@ public class Settings implements Initializable {
             case "ja_JP":
                 selection = 2;
                 break;
+            case "ch_CN":
+                selection = 3;
+                break;
+            case "ru_RU":
+                selection = 4;
+                break;
         }
         langBox.getSelectionModel().select(selection);
 
@@ -95,7 +101,7 @@ public class Settings implements Initializable {
 
         themeSelect.getItems().add("Theme 1");
         themeSelect.getItems().add("Theme 2");
-        themeSelect.getItems().add("Dark");
+        themeSelect.getItems().add("Night");
         themeSelect.getItems().add("Holiday");
         themeSelect.getItems().add("Wong");
 
@@ -166,7 +172,7 @@ public class Settings implements Initializable {
                 case "Holiday":
                     Session.getAccount().setTheme(Theme.HOLIDAY);
                     break;
-                case "Dark":
+                case "Night":
                     Session.getAccount().setTheme(Theme.DARK);
                     break;
                 case "Wong":
