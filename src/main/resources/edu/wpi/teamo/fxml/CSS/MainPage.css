@@ -3,7 +3,7 @@
 }
 
 .map-editor-node {
-    -fx-fill: rgba(216, 248, 255, 1);
+    -fx-fill: rgba(15, 221, 255, 0.7);
     -fx-stroke: rgba(0, 0, 0, 1);
 }
 
@@ -219,7 +219,7 @@
 }
 
 .scroll-bar:vertical > .track-background, .scroll-bar:horizontal > .track-background {
-    -fx-background-color: #F1F1F1;
+    -fx-background-color: transparent;
     -fx-background-insets: 0.0;
 }
 
