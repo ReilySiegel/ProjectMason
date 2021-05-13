@@ -581,15 +581,18 @@ public class RequestDisplay {
             handleChangeEntryStatus(entranceComboBox, request);
             request.setComplete(checkBox.isSelected());
             if (!request.getUsername().equals("guest")) {
-                if (Account.getByUsername(request.getUsername()).getUseEmergencyEntrance())
-                    emailSender.sendCovidReceiptMail(Account.getByUsername(request.getUsername()).getEmail(), "covid");
-                else if (!Account.getByUsername(request.getUsername()).getUseEmergencyEntrance())
-                    emailSender.sendCovidReceiptMail(Account.getByUsername(request.getUsername()).getEmail(), "approved");
-                else {
-                    System.out.println("How did you get here?");
-                }
+
+                Account account = Account.getByUsername(request.getUsername());
+                String approvalKey = account.getUseEmergencyEntrance() ? "covid"
+                                                                       : "approved";
+                new Thread(() -> {
+                    try {
+                        emailSender.sendCovidReceiptMail(account.getEmail(), approvalKey);
+                    } catch (MessagingException ignored) { }
+                }).start();
+
             }
-        } catch (SQLException | MessagingException throwables) {
+        } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         update();
