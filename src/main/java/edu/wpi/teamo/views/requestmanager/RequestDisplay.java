@@ -225,12 +225,16 @@ public class RequestDisplay {
         try {
             request.setComplete(checkBox.isSelected());
             if (! request.getUser().equals("guest")) {
-                emailSender.sendSRReceiptMail(Account.getByUsername(request.getUser()).getEmail(), request.getID(),"completed");
+                new Thread(() -> {
+                    try {
+                        emailSender.sendSRReceiptMail(Account.getByUsername(request.getUser()).getEmail(), request.getID(),"completed");
+                    } catch (MessagingException | SQLException ignored) { }
+                }).start();
             }
             else {
                 System.out.println("How did you get here?");
             }
-        } catch (SQLException | MessagingException throwables) {
+        } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         update();
