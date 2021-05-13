@@ -223,7 +223,11 @@ public class SR03_Sanitation implements Initializable {
             new SanitationRequest(recurring, baseRequest).update();
             System.out.println("Sanitation request submitted");
 
-            emailSender.sendSRReceiptMail(Session.getAccount().getEmail(),randomUU,"submitted");
+            new Thread(() -> {
+                try {
+                    emailSender.sendSRReceiptMail(Session.getAccount().getEmail(),randomUU,"submitted");
+                } catch (MessagingException ignored) { }
+            }).start();
 
             service.setText("");
             notes.setText("");

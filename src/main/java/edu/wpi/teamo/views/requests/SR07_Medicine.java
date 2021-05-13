@@ -206,7 +206,11 @@ public class SR07_Medicine implements Initializable {
             BaseRequest br = new BaseRequest(randomUU, medNotes, locationIDs.stream(), assignName, false, curDate, Session.getAccount().getUsername());
             new MedicineRequest(medicine, amount, br).update();
 
-            emailSender.sendSRReceiptMail(Session.getAccount().getEmail(),randomUU,"submitted");
+            new Thread(() -> {
+                try {
+                    emailSender.sendSRReceiptMail(Session.getAccount().getEmail(),randomUU,"submitted");
+                } catch (MessagingException ignored) { }
+            }).start();
 
             timeErrorText.setText("");
             dateErrorText.setText("");
